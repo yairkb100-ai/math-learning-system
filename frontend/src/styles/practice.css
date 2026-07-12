@@ -1,0 +1,174 @@
+/* Practice center — additive classes only (prefix .practice-*).
+   Reuses tokens & shared classes from index.css; never redefines them. */
+
+.practice-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.practice-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 150px;
+}
+
+.practice-field label {
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.practice-select {
+  padding: 9px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.practice-select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+/* live stats strip */
+.practice-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.practice-stats .stat-card {
+  padding: 16px 12px;
+}
+
+/* question card */
+.practice-question-card {
+  margin-bottom: 16px;
+}
+
+.practice-q-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.practice-q-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.practice-progress-label {
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.practice-timer {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--accent-2);
+}
+
+.practice-question-text {
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.6;
+  margin: 0 0 16px;
+}
+
+/* option buttons (built on shared .option) */
+.practice-option {
+  width: 100%;
+  text-align: start;
+  background: var(--surface-2);
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.practice-option.is-selected {
+  border-color: var(--accent);
+  background: var(--surface);
+  box-shadow: 0 0 0 2px var(--accent-2) inset;
+}
+
+.practice-option.is-correct {
+  border-color: var(--ok);
+  background: var(--ok-bg);
+  color: var(--ok);
+}
+
+.practice-option.is-wrong {
+  border-color: var(--no);
+  background: var(--no-bg);
+  color: var(--no);
+}
+
+.practice-option:disabled {
+  cursor: default;
+}
+
+.practice-option-marker {
+  font-weight: 700;
+  min-width: 1.4em;
+  text-align: center;
+}
+
+.practice-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+/* achievement toast */
+.practice-toast {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  border-radius: var(--radius);
+  background: var(--ok-bg);
+  color: var(--ok);
+  font-weight: 600;
+  border: 1px solid var(--ok);
+  animation: practice-pop 0.3s ease;
+}
+
+.practice-toast .practice-toast-icon {
+  font-size: 1.5rem;
+}
+
+@keyframes practice-pop {
+  from { transform: translateY(-6px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* empty / idle states */
+.practice-empty {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.practice-empty-icon {
+  font-size: 2.6rem;
+  margin-bottom: 12px;
+}
+
+/* per-topic breakdown chips inside stats */
+.practice-verdict-explain {
+  margin-top: 6px;
+  line-height: 1.5;
+}

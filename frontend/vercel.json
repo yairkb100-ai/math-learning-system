@@ -1,0 +1,7 @@
+{
+  "$comment": "Replace RAILWAY_BACKEND_HOST below with the real Railway backend host once the backend is deployed (e.g. math-learning-production.up.railway.app). The /api rewrite proxies API + file calls to the backend; the catch-all sends every other path to index.html so SPA routes work on refresh.",
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "https://RAILWAY_BACKEND_HOST/api/:path*" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}

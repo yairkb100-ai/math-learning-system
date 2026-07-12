@@ -1,0 +1,96 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MathCourse",
+  "type": "object",
+  "required": ["course"],
+  "properties": {
+    "course": {
+      "type": "object",
+      "required": ["metadata", "learning_objectives", "chapters"],
+      "properties": {
+        "metadata": {
+          "type": "object",
+          "required": ["title", "description", "level", "chapters", "language"],
+          "properties": {
+            "title": { "type": "string" },
+            "description": { "type": "string" },
+            "level": { "enum": ["Beginner", "Intermediate", "Advanced"] },
+            "chapters": { "type": "integer", "minimum": 3, "maximum": 10 },
+            "language": { "enum": ["Hebrew", "English"] },
+            "estimated_hours": { "type": "number" },
+            "word_count": { "type": "integer" },
+            "include": {
+              "type": "array",
+              "items": { "enum": ["diagrams", "code-examples", "case-studies", "resources"] }
+            }
+          }
+        },
+        "learning_objectives": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 2
+        },
+        "chapters": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 10,
+          "items": {
+            "type": "object",
+            "required": ["number", "title", "content", "examples", "exercises", "quiz"],
+            "properties": {
+              "number": { "type": "integer" },
+              "title": { "type": "string" },
+              "learning_objectives": { "type": "array", "items": { "type": "string" } },
+              "content": { "type": "string" },
+              "examples": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["title", "type", "content"],
+                  "properties": {
+                    "title": { "type": "string" },
+                    "type": { "enum": ["text", "diagram", "code"] },
+                    "content": { "type": "string" },
+                    "language": { "type": "string" }
+                  }
+                }
+              },
+              "exercises": {
+                "type": "array",
+                "minItems": 3,
+                "maxItems": 5,
+                "items": {
+                  "type": "object",
+                  "required": ["number", "description", "difficulty", "solution"],
+                  "properties": {
+                    "number": { "type": "integer" },
+                    "title": { "type": "string" },
+                    "description": { "type": "string" },
+                    "difficulty": { "enum": ["easy", "medium", "hard"] },
+                    "solution": { "type": "string" }
+                  }
+                }
+              },
+              "quiz": {
+                "type": "array",
+                "minItems": 5,
+                "maxItems": 5,
+                "items": {
+                  "type": "object",
+                  "required": ["number", "question", "type", "correct_answer"],
+                  "properties": {
+                    "number": { "type": "integer" },
+                    "question": { "type": "string" },
+                    "type": { "enum": ["multiple-choice", "true-false", "open"] },
+                    "options": { "type": "array", "items": { "type": "string" } },
+                    "correct_answer": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

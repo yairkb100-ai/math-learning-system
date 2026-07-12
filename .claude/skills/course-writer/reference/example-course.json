@@ -1,0 +1,103 @@
+{
+  "course": {
+    "metadata": {
+      "title": "משוואות ריבועיות — מבוא",
+      "description": "לומדת מבוא לפתרון משוואות ריבועיות בשיטת הנוסחה ופירוק לגורמים.",
+      "level": "Intermediate",
+      "chapters": 3,
+      "language": "Hebrew",
+      "estimated_hours": 3,
+      "word_count": 210,
+      "include": ["code-examples"]
+    },
+    "learning_objectives": [
+      "לזהות משוואה ריבועית ולכתוב אותה בצורה הכללית",
+      "לפתור משוואה ריבועית בשלוש שיטות",
+      "להשתמש בדיסקרימיננט כדי לקבוע את מספר הפתרונות"
+    ],
+    "chapters": [
+      {
+        "number": 1,
+        "title": "מבוא למשוואות ריבועיות",
+        "learning_objectives": [
+          "להגדיר משוואה ריבועית",
+          "לזהות את המקדמים a, b, c"
+        ],
+        "content": "משוואה ריבועית היא משוואה מהצורה הכללית $ax^2 + bx + c = 0$ כאשר $a \\neq 0$. המקדם $a$ נקרא המקדם המוביל, $b$ המקדם הליניארי ו-$c$ האיבר החופשי. הגרף של הפונקציה $y = ax^2 + bx + c$ הוא פרבולה, ופתרונות המשוואה הם נקודות החיתוך של הפרבולה עם ציר ה-x. בפרק זה נכיר את הצורה הכללית ונלמד לזהות את המקדמים.",
+        "examples": [
+          {
+            "title": "דוגמה 1: זיהוי מקדמים",
+            "type": "text",
+            "content": "במשוואה $x^2 - 5x + 6 = 0$ המקדמים הם $a=1$, $b=-5$, $c=6$."
+          },
+          {
+            "title": "דוגמה 2: חישוב שורשים ב-Python",
+            "type": "code",
+            "language": "python",
+            "content": "import numpy as np\na, b, c = 1, -5, 6\nroots = np.roots([a, b, c])\nprint(roots)  # [3. 2.]"
+          }
+        ],
+        "exercises": [
+          {
+            "number": 1,
+            "title": "זיהוי מקדמים",
+            "description": "כתוב את המקדמים a, b, c של המשוואה $2x^2 + 3x - 5 = 0$.",
+            "difficulty": "easy",
+            "solution": "a=2, b=3, c=-5"
+          },
+          {
+            "number": 2,
+            "title": "פתרון בפירוק",
+            "description": "פתור בפירוק לגורמים: $x^2 - 5x + 6 = 0$.",
+            "difficulty": "medium",
+            "solution": "(x-2)(x-3)=0, ולכן x=2 או x=3"
+          },
+          {
+            "number": 3,
+            "title": "פתרון בנוסחה",
+            "description": "פתור בעזרת נוסחת השורשים: $x^2 + 2x - 3 = 0$.",
+            "difficulty": "medium",
+            "solution": "x = (-2 ± sqrt(4+12))/2 = (-2 ± 4)/2, ולכן x=1 או x=-3"
+          }
+        ],
+        "quiz": [
+          {
+            "number": 1,
+            "question": "מהי הצורה הכללית של משוואה ריבועית?",
+            "type": "multiple-choice",
+            "options": ["ax+b=0", "ax^2+bx+c=0", "ax^3+bx^2+c=0", "a/x+b=0"],
+            "correct_answer": "ax^2+bx+c=0"
+          },
+          {
+            "number": 2,
+            "question": "מהו התנאי ההכרחי כדי שמשוואה תהיה ריבועית?",
+            "type": "multiple-choice",
+            "options": ["a=0", "a≠0", "b≠0", "c≠0"],
+            "correct_answer": "a≠0"
+          },
+          {
+            "number": 3,
+            "question": "כמה פתרונות ממשיים יש למשוואה כאשר הדיסקרימיננט חיובי?",
+            "type": "multiple-choice",
+            "options": ["0", "1", "2", "אינסוף"],
+            "correct_answer": "2"
+          },
+          {
+            "number": 4,
+            "question": "הגרף של פונקציה ריבועית הוא פרבולה.",
+            "type": "true-false",
+            "options": ["נכון", "לא נכון"],
+            "correct_answer": "נכון"
+          },
+          {
+            "number": 5,
+            "question": "מהם השורשים של $x^2 - 5x + 6 = 0$?",
+            "type": "multiple-choice",
+            "options": ["1 ו-6", "2 ו-3", "-2 ו--3", "0 ו-5"],
+            "correct_answer": "2 ו-3"
+          }
+        ]
+      }
+    ]
+  }
+}

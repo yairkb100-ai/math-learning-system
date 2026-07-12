@@ -1,0 +1,158 @@
+/* ==========================================================================
+   Analytics dashboard — NEW classes only (prefixed .analytics-).
+   Reuses .card / .page-head / .section-title / .stats-grid / .muted from
+   index.css. RTL, Hebrew.
+   ========================================================================== */
+
+/* Responsive 2-column grid of chart cards. */
+.analytics-charts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 18px;
+}
+@media (max-width: 720px) {
+  .analytics-charts {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* A chart card: title on top, chart fills the rest. */
+.analytics-chart-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.analytics-chart-card.wide {
+  grid-column: 1 / -1;
+}
+.analytics-chart-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--text);
+}
+.analytics-chart-sub {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin: 0 0 6px;
+}
+
+/* Recharts renders LTR internally; keep numeric axes readable in RTL page. */
+.analytics-chart-card .recharts-wrapper {
+  direction: ltr;
+}
+.analytics-chart-card text {
+  fill: var(--muted);
+  font-size: 0.78rem;
+}
+
+/* Custom tooltip box (Recharts default styling overridden for the theme). */
+.analytics-tooltip {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 12px;
+  box-shadow: var(--shadow);
+  font-size: 0.85rem;
+  direction: rtl;
+  text-align: right;
+}
+.analytics-tooltip .tt-label {
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: var(--text);
+}
+.analytics-tooltip .tt-row {
+  color: var(--muted);
+}
+.analytics-tooltip .tt-row b {
+  color: var(--text);
+}
+
+/* Topic strength / weakness lists. */
+.analytics-topics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+@media (max-width: 720px) {
+  .analytics-topics {
+    grid-template-columns: 1fr;
+  }
+}
+.analytics-topic-list {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.analytics-topic-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.analytics-topic-name {
+  flex: 1;
+  font-weight: 600;
+}
+.analytics-topic-meta {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+.analytics-topic-pct {
+  font-weight: 700;
+  min-width: 52px;
+  text-align: left;
+}
+.analytics-topic-pct.good {
+  color: var(--ok);
+}
+.analytics-topic-pct.bad {
+  color: var(--no);
+}
+
+/* Thin accuracy bar inside a topic row. */
+.analytics-bar {
+  flex: 0 0 90px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--border);
+  overflow: hidden;
+}
+.analytics-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+}
+
+/* Empty state (new user, no attempts). */
+.analytics-empty {
+  text-align: center;
+  padding: 44px 24px;
+}
+.analytics-empty-icon {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+.analytics-empty h2 {
+  margin: 0 0 8px;
+  font-size: 1.4rem;
+}
+.analytics-empty p {
+  color: var(--muted);
+  margin: 0 0 20px;
+}
+
+/* Section spacing tweak so charts sit under the stat tiles cleanly. */
+.analytics-section-title {
+  font-size: 1.35rem;
+  margin: 26px 0 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
