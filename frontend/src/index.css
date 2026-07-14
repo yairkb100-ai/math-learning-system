@@ -31,7 +31,13 @@ body,
 }
 
 body {
-  background: var(--bg);
+  background-color: var(--bg);
+  /* רקע מתמטי עדין: דפוס סמלים שקוף מעל גרדיאנט רך */
+  background-image:
+    linear-gradient(180deg, rgba(31, 111, 139, 0.05) 0%, rgba(245, 247, 247, 0) 340px),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260' viewBox='0 0 260 260'%3E%3Cg fill='none' stroke='%231f6f8b' stroke-width='2' opacity='0.055'%3E%3Ccircle cx='36' cy='40' r='16'/%3E%3Cpath d='M36 24v32M20 40h32'/%3E%3Cpath d='M118 22l14 26h-28z'/%3E%3Crect x='196' y='26' width='28' height='28' rx='4'/%3E%3Cpath d='M60 122h28M74 108v28'/%3E%3Cpath d='M150 112l20 20m0-20l-20 20'/%3E%3Cpath d='M218 118h26m-26 12h26'/%3E%3Ccircle cx='30' cy='206' r='3' fill='%231f6f8b'/%3E%3Cpath d='M16 206h28'/%3E%3Ccircle cx='30' cy='222' r='3' fill='%231f6f8b'/%3E%3C/g%3E%3Cg fill='%231f6f8b' opacity='0.06' font-family='Georgia, serif' font-size='30'%3E%3Ctext x='92' y='218'%3E%CF%80%3C/text%3E%3Ctext x='158' y='192'%3E%C2%BD%3C/text%3E%3Ctext x='210' y='230'%3E%C2%BE%3C/text%3E%3Ctext x='128' y='76'%3E%C3%B7%3C/text%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: no-repeat, repeat;
+  background-attachment: fixed, fixed;
   color: var(--text);
   font-family: 'Assistant', 'Heebo', 'Segoe UI', system-ui, -apple-system, Arial,
     sans-serif;
