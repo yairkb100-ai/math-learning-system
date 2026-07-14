@@ -99,9 +99,19 @@ def upsert_course(db, data):
     # Idempotent upsert: replace an existing course only when its content
     # changed — a delete cascades to chapters and wipes student progress.
     existing = db.query(Course).filter(Course.slug == slug).first()
+    relink_files = []
     if existing is not None:
         if _course_unchanged(existing, course_obj, metadata):
             return slug, "unchanged"
+        # FileAssets reference the course by FK. On Postgres a plain course
+        # delete violates that FK and crashes the seed (and the deploy).
+        # Detach them first and re-link to the replacement course below.
+        relink_files = (
+            db.query(FileAsset).filter(FileAsset.course_id == existing.id).all()
+        )
+        for f in relink_files:
+            f.course_id = None
+        db.flush()
         db.delete(existing)
         db.flush()
 
@@ -160,6 +170,9 @@ def upsert_course(db, data):
         course.chapters.append(chapter)
 
     db.add(course)
+    db.flush()
+    for f in relink_files:
+        f.course_id = course.id
     return slug, "loaded"
 
 
