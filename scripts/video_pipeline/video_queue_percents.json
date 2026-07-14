@@ -52,5 +52,30 @@
   "output": "סרטון-פרק-6-אחוזים-מעל-100.mp4",
   "status": "staged",
   "course": "grade6-percents"
+ },
+ "g6-ch12": {
+  "notebook_id": "7f44c2cf-040f-4653-bfd8-78856b088cac",
+  "source_id": "b0eeef47-80c0-4fdd-904b-63b304b248f0",
+  "number": 12,
+  "topic": "חיבור וחיסור מספרים עשרוניים",
+  "output": "סרטון-פרק-12-חיבור-וחיסור-עשרוניים.mp4",
+  "status": "staged"
+ },
+ "g6-ch13": {
+  "notebook_id": "757c549f-8e7d-430b-8f17-f09cbe6adaa3",
+  "source_id": "5117c4a1-05c9-4661-bf4c-8783fcfde96c",
+  "number": 13,
+  "topic": "השלמה וחקר של סדרות שברים",
+  "output": "סרטון-פרק-13-סדרות-של-שברים.mp4",
+  "status": "staged"
+ },
+ "pct-ch07": {
+  "notebook_id": "a8a26e63-402d-47b8-9bef-fa73c159860a",
+  "source_id": "5392bfb9-6d5f-4fa8-92a7-6cbba06acf44",
+  "number": 7,
+  "topic": "משימות חקר — שברים, עשרוניים ואחוזים",
+  "output": "סרטון-פרק-7-משימות-חקר.mp4",
+  "status": "staged",
+  "course": "grade6-percents"
  }
 }
