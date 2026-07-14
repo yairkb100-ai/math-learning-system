@@ -153,7 +153,7 @@ def build_worksheet(ch, assets, meta):
 <div class="sheet">
   <header>
     <h1>דף עבודה — פרק {meta['number']}: {meta['short_title']}</h1>
-    <div class="sub">{meta['subtitle']} · שברים פשוטים · כיתה ה'</div>
+    <div class="sub">{meta['subtitle']}</div>
     <div class="namebar"><span>שם: </span><span>כיתה: </span><span>תאריך: </span></div>
   </header>
   {f'<div class="note-box" style="background:#eef3fe; border-inline-start:4px solid #2f6fed; padding:10px 14px; border-radius:6px; font-size:14px; margin:18px 0">{macros(assets["worksheet_note"])}</div>' if assets.get('worksheet_note') else ''}
@@ -169,7 +169,7 @@ def build_worksheet(ch, assets, meta):
   {answers}
   <div class="credit">{CR}</div>
 </div>"""
-    return page(f"דף עבודה — {meta['short_title']} (כיתה ה')",
+    return page(f"דף עבודה — {meta['short_title']}",
                 css('#2f6fed', '#14306b', '#eef3fe'), body)
 
 
@@ -194,7 +194,7 @@ def build_bank(ch, assets, meta):
 <div class="sheet">
   <header>
     <h1>מאגר שאלות — פרק {meta['number']}: {meta['short_title']}</h1>
-    <div class="sub">{n} שאלות · {meta['subtitle']} · כיתה ה' · דף פתרונות בעמוד האחרון</div>
+    <div class="sub">{n} שאלות · {meta['subtitle']} · דף פתרונות בעמוד האחרון</div>
     <div class="namebar"><span>שם: </span><span>כיתה: </span><span>תאריך: </span></div>
   </header>
   {''.join(secs)}
@@ -209,7 +209,7 @@ def build_bank(ch, assets, meta):
   {answers}
   <div class="credit">{CR}</div>
 </div>"""
-    return page(f"מאגר שאלות — {meta['short_title']} (כיתה ה')",
+    return page(f"מאגר שאלות — {meta['short_title']}",
                 css('#7a3fd1', '#4a1f8a', '#f3edfc'), body)
 
 
@@ -266,7 +266,7 @@ def build_practice(ch, meta):
 """
     body = f"""
 <h1 class="pt">תרגול: {meta['short_title']}</h1>
-<p class="lead">פרק {meta['number']} · שברים פשוטים · כיתה ה'</p>
+<p class="lead">פרק {meta['number']} · {meta['subtitle']}</p>
 
 <div class="card">
   <h2>✏️ תרגילים</h2>

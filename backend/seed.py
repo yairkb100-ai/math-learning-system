@@ -42,6 +42,7 @@ from app.models import (  # noqa: E402
     LearningObjective,
     PracticeQuestion,
     QuizQuestion,
+    Section,
     SubscriptionPlan,
     User,
 )
@@ -309,6 +310,44 @@ def ensure_exams(db):
     print(f"  + Created {len(_EXAMS)} exams")
 
 
+def ensure_sections(db):
+    """Create curriculum sections (חלקים) and attach courses to them.
+
+    Keyed idempotently by Section.slug; course membership is (re)applied on
+    every seed run so production picks it up without admin action.
+    """
+    sections = [
+        {
+            "slug": "fractions",
+            "title": "שברים",
+            "description": "עולם השברים: מהיסודות בכיתה ה׳ ועד כפל וחילוק שברים ומספרים עשרוניים בכיתה ו׳",
+            "order": 1,
+            "course_slugs": ["grade5-simple-fractions", "grade6-fractions-decimals"],
+        },
+    ]
+    for spec in sections:
+        section = db.query(Section).filter(Section.slug == spec["slug"]).first()
+        if section is None:
+            section = Section(
+                slug=spec["slug"],
+                title=spec["title"],
+                description=spec["description"],
+                order=spec["order"],
+            )
+            db.add(section)
+            db.commit()
+            db.refresh(section)
+            print(f'  + Created section "{spec["title"]}"')
+        for cslug in spec["course_slugs"]:
+            course = db.query(Course).filter(Course.slug == cslug).first()
+            if course is None:
+                print(f'  ! section {spec["slug"]}: course {cslug} not found — skipped')
+            elif course.section_id != section.id:
+                course.section_id = section.id
+                print(f'  + Attached {cslug} to section "{spec["title"]}"')
+    db.commit()
+
+
 def ensure_course_assets(db):
     """Register downloadable course files from ``courses/assets/<slug>/``.
 
@@ -442,6 +481,7 @@ def main():
             else:
                 print(f"  + Loaded {os.path.basename(path)} (slug: {slug})")
 
+        ensure_sections(db)
         ensure_course_assets(db)
     finally:
         db.close()

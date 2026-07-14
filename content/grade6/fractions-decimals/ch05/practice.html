@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>תרגול אינטראקטיבי — כפל וחילוק עשרוניים ב-10, 100 ו-1,000</title>
+<style>
+  @page { size: A4; margin: 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: #1a2233;
+         line-height: 1.7; margin: 0; padding: 20px; background: #f4f6fa; }
+  .sheet { background: #fff; max-width: 820px; margin: 0 auto 24px;
+           padding: 30px 36px; border-radius: 10px;
+           box-shadow: 0 2px 14px rgba(0,0,0,.09); }
+  header { border-bottom: 3px solid #2f6fed; padding-bottom: 12px; margin-bottom: 20px; }
+  h1 { margin: 0 0 4px; font-size: 24px; color: #14306b; }
+  .sub { color: #5b6780; font-size: 14px; }
+  .namebar { display: flex; gap: 26px; margin-top: 12px; font-size: 14px; }
+  .namebar span { flex: 1; border-bottom: 1px dotted #8894ab; padding-bottom: 3px; }
+  h2.q, h2.sec { font-size: 17px; margin: 24px 0 10px; color: #14306b;
+    background: #eef3fe; padding: 7px 12px; border-radius: 6px;
+    border-inline-start: 5px solid #2f6fed; }
+  .tag { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px;
+         margin-inline-start: 8px; vertical-align: middle; }
+  .easy { background: #dff5e3; color: #1c6b32; }
+  .med  { background: #fdf0d5; color: #8a5b06; }
+  .hard { background: #fadbdb; color: #8f2222; }
+  ol.items { margin: 6px 0; padding-inline-start: 22px; }
+  ol.items > li { margin-bottom: 13px; }
+  .fr { display: inline-flex; flex-direction: column; align-items: center;
+        vertical-align: middle; margin: 0 3px; font-size: .95em; line-height: 1.15; }
+  .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
+  .fr i { font-style: normal; padding: 0 4px; }
+  .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
+  .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
+  .fig { text-align: center; font-size: 13px; color: #5b6780; }
+  .lines div { border-bottom: 1px dotted #aab3c4; height: 24px; }
+  .numline { margin: 10px 0; }
+  .pagebreak { page-break-before: always; }
+  .key { background: #fffdf3; }
+  .key h1 { color: #8a5b06; }
+  .key header { border-bottom-color: #e0a800; }
+  .key .ans { background:#fff; border:1px solid #eadfb8; border-radius:6px;
+              padding:10px 14px; margin-bottom:10px; font-size:14.5px; }
+  .key .ans strong { color:#8a5b06; }
+  .credit { text-align:center; font-size: 12px; color: #8894ab; margin-top: 18px;
+            border-top: 1px solid #eef1f6; padding-top: 8px; }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .sheet { box-shadow: none; margin: 0; border-radius: 0; padding: 0; max-width: none; }
+    .noprint { display: none; }
+  }
+  .noprint { text-align:center; margin: 10px 0 20px; }
+  .noprint button { background: #2f6fed; color:#fff; border:0; padding:10px 26px;
+                    border-radius:6px; font-size:15px; cursor:pointer; font-family:inherit; }
+
+  .card { background: #fff; border-radius: 12px; padding: 22px 24px; margin: 0 auto 20px;
+          max-width: 780px; box-shadow: 0 2px 12px rgba(20,48,107,.08); }
+  .card h2 { font-size: 19px; color: #14306b; margin: 0 0 4px; }
+  .hint { color: #77839b; font-size: 14px; margin: 0 0 16px; }
+  .ex { border: 1px solid #e6eaf2; border-radius: 9px; padding: 14px 16px; margin-bottom: 12px; }
+  .ex-h { display: flex; align-items: center; gap: 9px; margin-bottom: 6px; }
+  .ex-h strong { color: #14306b; }
+  .reveal { margin-top: 9px; background: #fff; border: 1.5px solid #2f6fed; color: #2f6fed;
+            border-radius: 6px; padding: 6px 16px; cursor: pointer; font: inherit; font-size: 14px; }
+  .reveal:hover { background: #2f6fed; color: #fff; }
+  .sol { display: none; margin-top: 10px; background:#f3f8f4; border-inline-start:4px solid #34a853;
+         padding: 11px 14px; border-radius: 6px; font-size: 15px; }
+  .sol.show { display: block; }
+  .q { margin-bottom: 22px; padding-bottom: 18px; border-bottom: 1px solid #eef1f6; }
+  .qtext { font-weight: 600; margin-bottom: 10px; }
+  .opts { display: grid; gap: 8px; }
+  .opt { text-align: start; background: #f6f8fc; border: 2px solid #e2e8f2; border-radius: 8px;
+         padding: 10px 14px; cursor: pointer; font: inherit; color: inherit; }
+  .opt:hover:not(:disabled) { border-color: #2f6fed; background: #eef3fe; }
+  .opt.correct { background: #e4f6e9; border-color: #34a853; }
+  .opt.wrong { background: #fdecea; border-color: #d93025; }
+  .opt:disabled { cursor: default; }
+  .score { text-align:center; font-size:17px; font-weight:700; color:#14306b; margin-top:8px; }
+  h1.pt { max-width: 780px; margin: 0 auto 4px; color:#14306b; }
+  p.lead { max-width: 780px; margin: 0 auto 26px; color:#5b6780; }
+</style>
+</head>
+<body>
+
+<h1 class="pt">תרגול: כפל וחילוק עשרוניים ב-10, 100 ו-1,000</h1>
+<p class="lead">פרק 5 · הזזת הנקודה העשרונית ימינה ושמאלה, והמרות מידה</p>
+
+<div class="card">
+  <h2>✏️ תרגילים</h2>
+  <p class="hint">נסו לפתור לבד, ורק אחר כך גלו את הפתרון.</p>
+  
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 1: כפל — הנקודה ימינה</strong>
+      <span class="tag easy">קל</span></div>
+    <div>חשבו:<br><br>א. <span class="eq">5.3 × 10</span><br>ב. <span class="eq">0.47 × 100</span><br>ג. <span class="eq">2.15 × 1{,}000</span><br>ד. <span class="eq">0.06 × 10</span></div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. <span class="eq">5.3 × 10 = 53</span><br>ב. <span class="eq">0.47 × 100 = 47</span><br>ג. <span class="eq">2.15 × 1{,}000 = 2{,}150</span><br>ד. <span class="eq">0.06 × 10 = 0.6</span></div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 2: חילוק — הנקודה שמאלה</strong>
+      <span class="tag easy">קל</span></div>
+    <div>חשבו:<br><br>א. <span class="eq">84 ÷ 10</span><br>ב. <span class="eq">3.9 ÷ 10</span><br>ג. <span class="eq">520 ÷ 100</span><br>ד. <span class="eq">6 ÷ 1{,}000</span></div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. <span class="eq">84 ÷ 10 = 8.4</span><br>ב. <span class="eq">3.9 ÷ 10 = 0.39</span><br>ג. <span class="eq">520 ÷ 100 = 5.2</span><br>ד. <span class="eq">6 ÷ 1{,}000 = 0.006</span></div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 3: מצאו את המספר החסר</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>השלימו:<br><br>א. <span class="eq">7.2 × \square = 720</span><br>ב. <span class="eq">\square ÷ 100 = 0.35</span><br>ג. <span class="eq">0.048 × 1{,}000 = \square</span></div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. מ-7.2 ל-720 הנקודה זזה שני צעדים ימינה → <span class="eq">\square = 100</span><br>ב. הנקודה זזה שני צעדים שמאלה והגיעה ל-0.35, אז המקור: <span class="eq">0.35 × 100 = 35</span> → <span class="eq">\square = 35</span><br>ג. שלושה צעדים ימינה: <span class="eq">0.048 × 1{,}000 = 48</span></div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 4: המרות מידה</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>המירו:<br><br>א. 3.7 שקלים לאגורות<br>ב. 425 ס"מ למטרים<br>ג. 0.8 ק"ג לגרמים<br>ד. 6,500 מטר לקילומטרים</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. <span class="eq">3.7 × 100 = 370</span> אגורות<br>ב. <span class="eq">425 ÷ 100 = 4.25</span> מטרים<br>ג. <span class="eq">0.8 × 1{,}000 = 800</span> גרם<br>ד. <span class="eq">6{,}500 ÷ 1{,}000 = 6.5</span> ק"מ</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 5: אתגר: שרשרת פעולות</strong>
+      <span class="tag hard">מאתגר</span></div>
+    <div>מתחילים במספר 4.5, כופלים ב-100, מחלקים ב-10, כופלים ב-1,000 ומחלקים ב-100. מה קיבלנו? האם אפשר היה להגיע לתשובה בפעולה אחת בלבד? איזו?</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">צעד-צעד:<br><span class="eq">4.5 × 100 = 450</span><br><span class="eq">450 ÷ 10 = 45</span><br><span class="eq">45 × 1{,}000 = 45{,}000</span><br><span class="eq">45{,}000 ÷ 100 = 450</span><br><br><b>בפעולה אחת:</b> סך הכול הנקודה זזה <span class="eq">+2 - 1 + 3 - 2 = +2</span> צעדים ימינה, כלומר בסך הכול כפל ב-100: <span class="eq">4.5 × 100 = 450</span> ✓</div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>🎯 מבחנון</h2>
+  <p class="hint">בחרו תשובה — ותקבלו משוב מיד.</p>
+  <div id="quiz"></div>
+  <div class="score" id="score"></div>
+</div>
+
+<div class="credit" style="max-width:780px; margin:0 auto">© כל הזכויות שמורות ליאיר כהנא</div>
+
+<script>
+const quiz = [{"q": "כמה זה <span class=\"eq\">2.37 × 10</span>?", "o": ["23.7", "2.370", "237", "0.237"], "a": 0}, {"q": "כמה זה <span class=\"eq\">0.5 × 100</span>?", "o": ["50", "5", "500", "0.005"], "a": 0}, {"q": "כמה זה <span class=\"eq\">45.6 ÷ 10</span>?", "o": ["4.56", "456", "0.456", "45.06"], "a": 0}, {"q": "כמה זה <span class=\"eq\">3 ÷ 100</span>?", "o": ["0.03", "0.3", "0.003", "30"], "a": 0}, {"q": "נכון או לא נכון: כשכופלים מספר עשרוני ב-10, הנקודה העשרונית \"זזה\" צעד אחד ימינה.", "o": ["נכון", "לא נכון"], "a": 0}];
+let answered = 0, correct = 0;
+document.getElementById('quiz').innerHTML = quiz.map((q, i) => `
+  <div class="q">
+    <div class="qtext">${i + 1}. ${q.q}</div>
+    <div class="opts">${q.o.map((o, j) =>
+      `<button class="opt" data-q="${i}" data-o="${j}">${o}</button>`).join('')}</div>
+  </div>`).join('');
+document.querySelectorAll('.opt').forEach(btn => {
+  btn.onclick = () => {
+    const qi = +btn.dataset.q, oi = +btn.dataset.o, q = quiz[qi];
+    const group = btn.parentElement.querySelectorAll('.opt');
+    group.forEach(b => b.disabled = true);
+    group[q.a].classList.add('correct');
+    if (oi !== q.a) btn.classList.add('wrong'); else correct++;
+    if (++answered === quiz.length) {
+      document.getElementById('score').textContent =
+        `סיימתם! ${correct} מתוך ${quiz.length} נכונות ` +
+        (correct === quiz.length ? '🏆 מושלם!' : correct >= quiz.length - 2 ? '👍 יפה מאוד!' : '💪 שווה לחזור על הפרק');
+    }
+  };
+});
+</script>
+</body>
+</html>

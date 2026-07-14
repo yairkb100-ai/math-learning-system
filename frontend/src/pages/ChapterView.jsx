@@ -7,6 +7,13 @@ import Quiz from '../components/Quiz.jsx'
 
 const t = (rtl, he, en) => (rtl ? he : en)
 
+// Chapter number encoded in a file name ("פרק-7", "פרק-11"), or null.
+// Exact numeric match — plain includes('פרק-1') would also catch פרק-10/11.
+function fileChapterNumber(name) {
+  const m = String(name || '').match(/פרק-(\d+)/)
+  return m ? Number(m[1]) : null
+}
+
 // Split chapter content on "## " headings, one step per section. A leading
 // section without a heading becomes the opening step.
 function splitContent(content) {
@@ -120,7 +127,7 @@ export default function ChapterView() {
         // banks) are offered as downloads on the finish step.
         const mine = (files || []).filter(
           (f) =>
-            (f.original_name || '').includes(`פרק-${number}`) &&
+            fileChapterNumber(f.original_name) === Number(number) &&
             f.kind !== 'homework'
         )
         setVideoFile(mine.find((f) => /\.mp4$/i.test(f.original_name)) || null)
@@ -388,7 +395,7 @@ function HomeworkBox({ courseId, chapterNumber, rtl }) {
           (Array.isArray(data) ? data : []).filter(
             (f) =>
               f.kind === 'homework' &&
-              (f.original_name || '').includes(`פרק-${chapterNumber}`)
+              fileChapterNumber(f.original_name) === Number(chapterNumber)
           )
         )
       )
