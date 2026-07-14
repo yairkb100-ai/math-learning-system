@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
 import { InlineMathText } from '../components/MathText.jsx'
+import FileManager from '../components/FileManager.jsx'
 
 export default function CourseView() {
   const { id } = useParams()
@@ -83,11 +84,18 @@ export default function CourseView() {
             >
               <span className="chapter-num">{ch.number}</span>
               <span className="chapter-title">{ch.title}</span>
-              <span className="chapter-go">{isRtl ? '←' : '→'}</span>
+              <span className="chapter-go chapter-start-btn">
+                {isRtl ? 'התחל' : 'Start'}
+              </span>
             </Link>
           </li>
         ))}
       </ol>
+
+      <FileManager
+        courseId={Number(id)}
+        title={isRtl ? 'קבצים להורדה' : 'Downloads'}
+      />
     </section>
   )
 }

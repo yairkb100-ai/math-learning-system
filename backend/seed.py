@@ -9,9 +9,12 @@ Run from the project root:  ``py backend/seed.py``
 
 import glob
 import json
+import mimetypes
 import os
 import re
+import shutil
 import sys
+import uuid
 
 # Ensure ``backend/`` is on sys.path so ``from app...`` imports work regardless
 # of the current working directory (the script may be run from the repo root).
@@ -35,6 +38,7 @@ from app.models import (  # noqa: E402
     Exam,
     Example,
     Exercise,
+    FileAsset,
     LearningObjective,
     PracticeQuestion,
     QuizQuestion,
@@ -305,6 +309,60 @@ def ensure_exams(db):
     print(f"  + Created {len(_EXAMS)} exams")
 
 
+def ensure_course_assets(db):
+    """Register downloadable course files from ``courses/assets/<slug>/``.
+
+    Any file placed under courses/assets/<course-slug>/ is copied into
+    UPLOAD_DIR and registered as a FileAsset attached to that course, keyed
+    idempotently by (course_id, original_name). This lets deployments ship
+    worksheets/videos through git — the seed run on the server registers them.
+    """
+    assets_root = os.path.join(COURSES_DIR, "assets")
+    if not os.path.isdir(assets_root):
+        return
+
+    from app.routers.files import UPLOAD_DIR
+
+    admin = db.query(User).filter(User.username == "admin").first()
+    added = 0
+    for slug in sorted(os.listdir(assets_root)):
+        slug_dir = os.path.join(assets_root, slug)
+        if not os.path.isdir(slug_dir):
+            continue
+        course = db.query(Course).filter(Course.slug == slug).first()
+        if course is None:
+            print(f"  ! assets/{slug}: no course with this slug — skipped")
+            continue
+        for name in sorted(os.listdir(slug_dir)):
+            src = os.path.join(slug_dir, name)
+            if not os.path.isfile(src):
+                continue
+            exists = (
+                db.query(FileAsset)
+                .filter(FileAsset.course_id == course.id, FileAsset.original_name == name)
+                .first()
+            )
+            if exists:
+                continue
+            os.makedirs(UPLOAD_DIR, exist_ok=True)
+            stored = uuid.uuid4().hex + os.path.splitext(name)[1]
+            shutil.copyfile(src, os.path.join(UPLOAD_DIR, stored))
+            db.add(
+                FileAsset(
+                    uploader_id=admin.id if admin else None,
+                    course_id=course.id,
+                    original_name=name,
+                    stored_name=stored,
+                    content_type=mimetypes.guess_type(name)[0] or "application/octet-stream",
+                    size=os.path.getsize(src),
+                )
+            )
+            added += 1
+    db.commit()
+    if added:
+        print(f"  + Registered {added} course asset file(s) from courses/assets/")
+
+
 def run_light_migrations():
     """Add columns that ``create_all`` won't add to pre-existing tables (SQLite).
 
@@ -364,6 +422,8 @@ def main():
                 print(f"  = Unchanged {os.path.basename(path)} (slug: {slug}) — skipped")
             else:
                 print(f"  + Loaded {os.path.basename(path)} (slug: {slug})")
+
+        ensure_course_assets(db)
     finally:
         db.close()
 

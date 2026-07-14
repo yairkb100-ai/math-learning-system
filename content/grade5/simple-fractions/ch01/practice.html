@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>תרגול אינטראקטיבי — מהו שבר?</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Segoe UI", Arial, sans-serif; margin: 0; padding: 24px 16px 60px;
+    background: linear-gradient(180deg,#eef3fb 0,#f7f9fc 320px);
+    color: #1a2233; line-height: 1.65;
+  }
+  .wrap { max-width: 780px; margin: 0 auto; }
+  h1 { color: #14306b; font-size: 27px; margin: 0 0 4px; }
+  .lead { color: #5b6780; margin: 0 0 26px; }
+  .card {
+    background: #fff; border-radius: 12px; padding: 22px 24px; margin-bottom: 20px;
+    box-shadow: 0 2px 12px rgba(20,48,107,.08);
+  }
+  .card h2 { font-size: 19px; color: #14306b; margin: 0 0 4px; }
+  .card .hint { color: #77839b; font-size: 14px; margin: 0 0 16px; }
+  .fr { display: inline-flex; flex-direction: column; align-items: center;
+        vertical-align: middle; margin: 0 4px; line-height: 1.15; }
+  .fr b { border-bottom: 2px solid currentColor; padding: 0 5px; font-weight: 600; }
+  .fr i { font-style: normal; padding: 0 5px; }
+  /* ביטוי חשבוני בתוך טקסט עברי — תמיד משמאל לימין */
+  .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+
+  /* ---- activity 1: shading ---- */
+  .stage { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+  .parts { display: flex; gap: 4px; }
+  .part {
+    width: 46px; height: 76px; border: 2px solid #14306b; border-radius: 4px;
+    background: #fff; cursor: pointer; transition: background .15s, transform .1s;
+  }
+  .part:hover { transform: translateY(-3px); }
+  .part.on { background: #f6a623; }
+  .readout { font-size: 17px; }
+  .readout .big { font-size: 22px; font-weight: 700; color: #14306b; }
+  .ctrl { display: flex; align-items: center; gap: 10px; margin-top: 16px; font-size: 15px; }
+  .ctrl input { flex: 1; max-width: 240px; accent-color: #2f6fed; }
+  .verdict { margin-top: 14px; font-weight: 700; min-height: 24px; }
+  .ok { color: #1c7a3a; }
+  .no { color: #c0392b; }
+  .task { background:#eef3fe; border-inline-start:4px solid #2f6fed; padding:9px 13px;
+          border-radius:6px; font-size:15px; margin-bottom:14px; }
+
+  /* ---- quiz ---- */
+  .q { margin-bottom: 22px; padding-bottom: 18px; border-bottom: 1px solid #eef1f6; }
+  .q:last-child { border: 0; margin-bottom: 0; padding-bottom: 0; }
+  .qtext { font-weight: 600; margin-bottom: 10px; }
+  .opts { display: grid; gap: 8px; }
+  .opt {
+    text-align: start; background: #f6f8fc; border: 2px solid #e2e8f2; border-radius: 8px;
+    padding: 10px 14px; cursor: pointer; font: inherit; color: inherit; transition: .12s;
+  }
+  .opt:hover:not(:disabled) { border-color: #2f6fed; background: #eef3fe; }
+  .opt:disabled { cursor: default; }
+  .opt.correct { background: #e4f6e9; border-color: #34a853; }
+  .opt.wrong { background: #fdecea; border-color: #d93025; }
+  .fb { margin-top: 9px; font-size: 14.5px; display: none; padding: 9px 13px;
+        border-radius: 6px; background: #f6f8fc; }
+  .fb.show { display: block; }
+
+  /* ---- exercises w/ reveal ---- */
+  .ex { border: 1px solid #e6eaf2; border-radius: 9px; padding: 14px 16px; margin-bottom: 12px; }
+  .ex-h { display: flex; align-items: center; gap: 9px; margin-bottom: 6px; }
+  .ex-h strong { color: #14306b; }
+  .tag { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px; }
+  .easy { background:#dff5e3; color:#1c6b32; } .med { background:#fdf0d5; color:#8a5b06; }
+  .hard { background:#fadbdb; color:#8f2222; }
+  .reveal {
+    margin-top: 9px; background: #fff; border: 1.5px solid #2f6fed; color: #2f6fed;
+    border-radius: 6px; padding: 6px 16px; cursor: pointer; font: inherit; font-size: 14px;
+  }
+  .reveal:hover { background: #2f6fed; color: #fff; }
+  .sol { display: none; margin-top: 10px; background:#f3f8f4; border-inline-start:4px solid #34a853;
+         padding: 11px 14px; border-radius: 6px; font-size: 15px; white-space: pre-line; }
+  .sol.show { display: block; }
+  .score { text-align:center; font-size:17px; font-weight:700; color:#14306b; margin-top:8px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>תרגול: מהו שבר?</h1>
+  <p class="lead">פרק 1 · שברים פשוטים · כיתה ה'</p>
+
+  <!-- ========= INTERACTIVE 1 ========= -->
+  <div class="card">
+    <h2>🎨 מעבדת השברים</h2>
+    <p class="hint">גררו את המחוון כדי לקבוע לכמה חלקים לחלק את השלם (זה המכנה), ולחצו על חלקים כדי לצבוע אותם (זה המונה).</p>
+    <div class="task" id="task">המשימה: צבעו <span class="fr"><b id="tn">3</b><i id="td">4</i></span></div>
+    <div class="stage">
+      <div class="parts" id="parts"></div>
+      <div class="readout">
+        צבעתם: <span class="big"><span class="fr"><b id="rn">0</b><i id="rd">4</i></span></span><br>
+        <span style="color:#77839b;font-size:14px">מונה = כמה צבעתם · מכנה = לכמה חילקתם</span>
+      </div>
+    </div>
+    <div class="ctrl">
+      <label for="den">לכמה חלקים לחלק?</label>
+      <input type="range" id="den" min="2" max="12" value="4">
+      <strong id="denv">4</strong>
+    </div>
+    <div class="verdict" id="verdict"></div>
+    <button class="reveal" id="newtask">משימה חדשה ↻</button>
+  </div>
+
+  <!-- ========= EXERCISES ========= -->
+  <div class="card">
+    <h2>✏️ תרגילים</h2>
+    <p class="hint">נסו לפתור לבד, ורק אחר כך גלו את הפתרון.</p>
+    <div id="exercises"></div>
+  </div>
+
+  <!-- ========= QUIZ ========= -->
+  <div class="card">
+    <h2>🎯 מבחנון</h2>
+    <p class="hint">5 שאלות. בחרו תשובה — ותקבלו משוב מיד.</p>
+    <div id="quiz"></div>
+    <div class="score" id="score"></div>
+  </div>
+
+<div style="text-align:center; color:#8894ab; font-size:12.5px; margin-top:10px">© כל הזכויות שמורות ליאיר כהנא</div>
+</div>
+
+<script>
+/* =============== מעבדת השברים =============== */
+const partsEl = document.getElementById('parts');
+const denEl = document.getElementById('den');
+let den = 4, shaded = 0;
+let goalN = 3, goalD = 4;
+
+function build() {
+  den = +denEl.value;
+  document.getElementById('denv').textContent = den;
+  shaded = 0;
+  partsEl.innerHTML = '';
+  const w = Math.max(20, Math.floor(300 / den));
+  for (let i = 0; i < den; i++) {
+    const p = document.createElement('div');
+    p.className = 'part';
+    p.style.width = w + 'px';
+    p.onclick = () => { p.classList.toggle('on'); update(); };
+    partsEl.appendChild(p);
+  }
+  update();
+}
+function update() {
+  shaded = partsEl.querySelectorAll('.part.on').length;
+  document.getElementById('rn').textContent = shaded;
+  document.getElementById('rd').textContent = den;
+  const v = document.getElementById('verdict');
+  if (den === goalD && shaded === goalN) {
+    v.textContent = '✅ מצוין! בדיוק ' + goalN + '/' + goalD + '. שימו לב: המכנה הוא מספר החלקים, המונה הוא כמה צבעתם.';
+    v.className = 'verdict ok';
+  } else if (den !== goalD && shaded > 0) {
+    v.textContent = '⚠️ המכנה צריך להיות ' + goalD + ' — כלומר לחלק את השלם ל‑' + goalD + ' חלקים שווים.';
+    v.className = 'verdict no';
+  } else { v.textContent = ''; v.className = 'verdict'; }
+}
+function newTask() {
+  goalD = Math.floor(Math.random() * 9) + 3;      // 3..11
+  goalN = Math.floor(Math.random() * (goalD - 1)) + 1;
+  document.getElementById('tn').textContent = goalN;
+  document.getElementById('td').textContent = goalD;
+  build();
+}
+denEl.oninput = build;
+document.getElementById('newtask').onclick = newTask;
+build();
+
+/* =============== תרגילים =============== */
+const F = (n, d) => `<span class="fr"><b>${n}</b><i>${d}</i></span>`;
+const exercises = [
+  { t: 'זיהוי מונה ומכנה', d: 'easy',
+    q: `לכל שבר כתבו מהו המונה, מהו המכנה, ומה השבר אומר במילים: א. ${F(2,5)} ב. ${F(7,10)} ג. ${F(1,100)}`,
+    s: `א. ${F(2,5)} — מונה 2, מכנה 5. חילקנו שלם ל‑5 חלקים שווים ולקחנו 2 מהם.
+ב. ${F(7,10)} — מונה 7, מכנה 10. חילקנו ל‑10 חלקים שווים ולקחנו 7.
+ג. ${F(1,100)} — מונה 1, מכנה 100. חילקנו ל‑100 חלקים שווים ולקחנו חלק אחד.` },
+
+  { t: 'כתיבת שבר ממצב מילולי', d: 'easy',
+    q: `א. בכיתה 30 תלמידים, מתוכם 13 בנים — איזה שבר מהכיתה הם הבנים?
+ב. ביממה 24 שעות, אורי ישן 8 — איזה שבר מהיממה?
+ג. בשקית 12 סוכריות, אכלנו 5 — איזה שבר <b>נשאר</b>?`,
+    s: `א. השלם הוא הכיתה → מכנה 30; הבנים → מונה 13. התשובה: ${F(13,30)}
+ב. השלם הוא היממה → מכנה 24; ישן 8 → מונה 8. התשובה: ${F(8,24)}
+ג. שימו לב — שואלים מה נשאר! <span class="eq">12 − 5 = 7</span>. התשובה: ${F(7,12)}` },
+
+  { t: 'מי גדול יותר?', d: 'med',
+    q: `קבעו איזה גדול יותר והסבירו במילים: א. ${F(1,4)} או ${F(1,7)} ב. ${F(1,10)} או ${F(1,3)} ג. ${F(3,8)} או ${F(5,8)}`,
+    s: `א. ${F(1,4)} גדול יותר — חילקנו את אותו שלם לפחות חלקים, ולכן כל חלק גדול יותר.
+ב. ${F(1,3)} גדול יותר — מאותו נימוק בדיוק.
+ג. ${F(5,8)} גדול יותר — כאן המכנה זהה, כלומר החלקים בדיוק באותו גודל; פשוט לקחנו 5 חלקים במקום 3.` },
+
+  { t: 'השלמה לשלם', d: 'med',
+    q: `א. פיצה חולקה ל‑6 ואכלנו ${F(4,6)} — איזה שבר נשאר?
+ב. איזה שבר להוסיף ל‑${F(3,10)} כדי לקבל שלם?
+ג. רשמו שלושה שברים שונים ששווים ל‑1.`,
+    s: `א. שלם = ${F(6,6)}. נשאר: <span class="eq">${F(6,6)} − ${F(4,6)} = ${F(2,6)}</span>
+ב. שלם = ${F(10,10)}. חסר: <span class="eq">${F(10,10)} − ${F(3,10)} = ${F(7,10)}</span>
+ג. כל שבר שהמונה בו שווה למכנה, למשל ${F(2,2)} , ${F(5,5)} , ${F(9,9)} — כולם שווים ל‑1.` },
+
+  { t: 'חשיבה הפוכה', d: 'hard',
+    q: `א. יעל: "אכלתי ${F(1,4)} מהעוגה, וזה 2 חתיכות" — לכמה חתיכות חולקה כל העוגה?
+ב. דני קיבל ${F(1,5)} משקית גולות, וזה 6 גולות — כמה גולות היו בשקית?
+ג. מדוע לא ייתכן שבר שהמכנה שלו 0?`,
+    s: `א. רבע אחד = 2 חתיכות, ובעוגה יש 4 רבעים → <span class="eq">4 × 2 = 8</span> חתיכות.
+ב. חמישית אחת = 6 גולות, ויש 5 חמישיות → <span class="eq">5 × 6 = 30</span> גולות.
+ג. המכנה אומר לכמה חלקים חילקנו את השלם. אי אפשר לחלק דבר ל‑0 חלקים — זו פעולה חסרת משמעות. לכן המכנה חייב להיות גדול מ‑0.` }
+];
+const dNames = { easy: 'קל', med: 'בינוני', hard: 'מאתגר' };
+document.getElementById('exercises').innerHTML = exercises.map((e, i) => `
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל ${i + 1}: ${e.t}</strong><span class="tag ${e.d}">${dNames[e.d]}</span></div>
+    <div>${e.q}</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">${e.s}</div>
+  </div>`).join('');
+
+/* =============== מבחנון =============== */
+const quiz = [
+  { q: `בשבר ${F(3,7)} — מה תפקידו של המספר 7?`,
+    o: ['הוא אומר כמה חלקים לקחנו', 'הוא אומר לכמה חלקים שווים חולק השלם',
+        'הוא אומר כמה חלקים נשארו', 'הוא אומר בכמה שלמים מדובר'],
+    a: 1, f: '7 הוא המכנה — הוא תמיד אומר לכמה חלקים שווים חילקנו את השלם.' },
+  { q: 'איזה מהשברים הבאים הוא <b>הגדול</b> ביותר?',
+    o: [F(1,9), F(1,4), F(1,6), F(1,12)], a: 1,
+    f: 'ככל שהמכנה קטן יותר — החלק גדול יותר. 4 הוא המכנה הקטן ביותר כאן, ולכן ¼ הוא הגדול.' },
+  { q: 'מלבן חולק ל‑3 חלקים: אחד גדול ושניים קטנים. האם החלק הגדול הוא בהכרח שליש?',
+    o: ['נכון', 'לא נכון'], a: 1,
+    f: 'לא נכון! יש אמנם 3 חלקים, אבל הם אינם שווים. שבר קיים רק כשהחלקים שווים בדיוק.' },
+  { q: `כמה שווה ${F(6,6)}?`, o: ['0', '6', '1', '12'], a: 2,
+    f: 'כשהמונה שווה למכנה, לקחנו את כל החלקים — כלומר שלם אחד.' },
+  { q: 'בכיתה 28 תלמידים, 15 מהם הגיעו לטיול. איזה שבר מהכיתה הגיע?',
+    o: [F(15,28), F(28,15), F(13,28), F(15,13)], a: 0,
+    f: 'השלם הוא הכיתה כולה (28) ולכן זה המכנה. מי שהגיע (15) הוא המונה.' }
+];
+let answered = 0, correct = 0;
+document.getElementById('quiz').innerHTML = quiz.map((q, i) => `
+  <div class="q">
+    <div class="qtext">${i + 1}. ${q.q}</div>
+    <div class="opts">${q.o.map((o, j) =>
+      `<button class="opt" data-q="${i}" data-o="${j}">${o}</button>`).join('')}</div>
+    <div class="fb" id="fb${i}"></div>
+  </div>`).join('');
+
+document.querySelectorAll('.opt').forEach(btn => {
+  btn.onclick = () => {
+    const qi = +btn.dataset.q, oi = +btn.dataset.o, q = quiz[qi];
+    const group = btn.parentElement.querySelectorAll('.opt');
+    group.forEach(b => b.disabled = true);
+    group[q.a].classList.add('correct');
+    if (oi !== q.a) btn.classList.add('wrong'); else correct++;
+    const fb = document.getElementById('fb' + qi);
+    fb.innerHTML = (oi === q.a ? '✅ נכון! ' : '❌ לא מדויק. ') + q.f;
+    fb.classList.add('show');
+    if (++answered === quiz.length) {
+      document.getElementById('score').textContent =
+        `סיימתם! ${correct} מתוך ${quiz.length} נכונות ` +
+        (correct === 5 ? '🏆 מושלם!' : correct >= 3 ? '👍 יפה מאוד!' : '💪 שווה לחזור על הפרק');
+    }
+  };
+});
+</script>
+</body>
+</html>

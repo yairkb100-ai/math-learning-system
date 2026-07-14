@@ -1301,3 +1301,147 @@ h4.prose-h {
 .code-block[dir='ltr'] {
   text-align: left;
 }
+
+/* ===== step-by-step chapter navigation ===== */
+.step-bar {
+  padding: 14px 18px;
+  margin-bottom: 16px;
+}
+.step-count {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.step-icon { font-size: 20px; }
+.step-label {
+  color: var(--muted, #6b7a90);
+  font-weight: 400;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.step-track {
+  height: 10px;
+  background: #e6ecf2;
+  border-radius: 999px;
+  overflow: hidden;
+}
+.step-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  border-radius: 999px;
+  transition: width .35s ease;
+}
+.step-card { animation: stepIn .25s ease; }
+@keyframes stepIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+.step-title { margin-top: 0; color: var(--accent); }
+.step-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 18px;
+  margin-top: 16px;
+  position: sticky;
+  bottom: 10px;
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--accent);
+}
+.step-dots {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.step-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+.step-dot.done { background: var(--accent-2); border-color: var(--accent-2); }
+.step-dot.active {
+  background: var(--accent);
+  transform: scale(1.35);
+}
+.step-finish { text-align: center; }
+.finish-emoji { font-size: 44px; margin-bottom: 4px; }
+
+/* ===== fraction illustrations ===== */
+.art-row {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-end;
+  margin: 18px 0;
+}
+.art-fig { margin: 0; text-align: center; }
+.art-caption {
+  font-size: 13.5px;
+  color: var(--muted, #6b7a90);
+  margin-top: 6px;
+  max-width: 200px;
+}
+.step-section {
+  margin-top: 26px;
+  padding-top: 22px;
+  border-top: 2px dashed #e2e8f2;
+}
+
+/* ===== site footer / copyright ===== */
+.site-footer {
+  text-align: center;
+  color: var(--muted, #6b7a90);
+  font-size: 13px;
+  padding: 26px 12px 18px;
+  margin-top: 32px;
+  border-top: 1px solid #e6ecf2;
+}
+
+/* ===== start buttons ===== */
+.btn-start {
+  display: inline-block;
+  margin-top: 16px;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 12px 34px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(31, 111, 139, .35);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.btn-start:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(31, 111, 139, .45);
+}
+.chapter-start-btn {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--accent);
+  border-radius: 999px;
+  padding: 5px 18px;
+}
+.chapter-row:hover .chapter-start-btn { background: var(--accent-2); }
+
+/* ===== chapter video ===== */
+.chapter-video {
+  width: 100%;
+  max-height: 460px;
+  border-radius: 10px;
+  background: #000;
+  display: block;
+  margin: 0 auto;
+}

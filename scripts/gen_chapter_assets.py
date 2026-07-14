@@ -1,0 +1,329 @@
+# -*- coding: utf-8 -*-
+"""Generate worksheet.html, question-bank.html and practice.html for a grade-5
+chapter directory from its assets.json + chapter.json.
+
+Usage:  py scripts/gen_chapter_assets.py content/grade5/simple-fractions/ch02
+
+assets.json structure (all HTML strings may use the macros below):
+  {
+    "worksheet_note": "...",
+    "worksheet": [{"title": "...", "tag": "easy|med|hard",
+                    "body": "<li>...</li>", "lines": 3}],
+    "worksheet_answers": ["...", ...],
+    "bank_sections": [{"title": "...", "icon": "...",
+                        "items": ["<li body>", ...]}],
+    "bank_answers": ["...", ...]
+  }
+
+Macros:
+  [[3/5]]      -> stacked fraction span
+  [[eq: ... ]] -> LTR-isolated inline math run
+  [[blank]]    -> answer blank
+  [[lines:N]]  -> N dotted answer lines
+"""
+
+import json
+import re
+import sys
+from pathlib import Path
+
+CR = '© כל הזכויות שמורות ליאיר כהנא'
+
+
+def macros(s):
+    s = re.sub(r'\[\[(\d+)/(\d+)\]\]',
+               r'<span class="fr"><b>\1</b><i>\2</i></span>', s)
+    s = re.sub(r'\[\[eq:([^\]]*)\]\]',
+               r'<span class="eq">\1</span>', s)
+    s = s.replace('[[blank]]', '<span class="blank"></span>')
+    s = re.sub(r'\[\[lines:(\d)\]\]',
+               lambda m: '<div class="lines">' + '<div></div>' * int(m.group(1)) + '</div>',
+               s)
+    return s
+
+
+# LaTeX-ish course text -> plain HTML for practice.html (no KaTeX there).
+def tex2html(s):
+    s = str(s)
+    s = re.sub(r'\$\\frac\{(\d+)\}\{(\d+)\}\$',
+               r'<span class="fr"><b>\1</b><i>\2</i></span>', s)
+    # inline math with operators -> LTR span, stripped of TeX commands
+    def conv(m):
+        inner = m.group(1)
+        inner = inner.replace('\\times', '×').replace('\\div', '÷')
+        inner = inner.replace('\\cdot', '·').replace('\\quad', ' ').replace('\\qquad', '  ')
+        inner = re.sub(r'\\frac\{(\d+)\}\{(\d+)\}', r'\1/\2', inner)
+        inner = inner.replace('>', '&gt;').replace('<', '&lt;')
+        return f'<span class="eq">{inner}</span>'
+    s = re.sub(r'\$\$?([^$]+)\$\$?', conv, s)
+    s = re.sub(r'\*\*([^*]+)\*\*', r'<b>\1</b>', s)
+    s = re.sub(r'\{\{[^}]*\}\}', '', s)  # strip art tokens
+    s = s.replace('\n', '<br>')
+    return s
+
+
+BASE_CSS = """
+  @page { size: A4; margin: 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: #1a2233;
+         line-height: 1.7; margin: 0; padding: 20px; background: #f4f6fa; }
+  .sheet { background: #fff; max-width: 820px; margin: 0 auto 24px;
+           padding: 30px 36px; border-radius: 10px;
+           box-shadow: 0 2px 14px rgba(0,0,0,.09); }
+  header { border-bottom: 3px solid ACCENT; padding-bottom: 12px; margin-bottom: 20px; }
+  h1 { margin: 0 0 4px; font-size: 24px; color: DARK; }
+  .sub { color: #5b6780; font-size: 14px; }
+  .namebar { display: flex; gap: 26px; margin-top: 12px; font-size: 14px; }
+  .namebar span { flex: 1; border-bottom: 1px dotted #8894ab; padding-bottom: 3px; }
+  h2.q, h2.sec { font-size: 17px; margin: 24px 0 10px; color: DARK;
+    background: TINT; padding: 7px 12px; border-radius: 6px;
+    border-inline-start: 5px solid ACCENT; }
+  .tag { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px;
+         margin-inline-start: 8px; vertical-align: middle; }
+  .easy { background: #dff5e3; color: #1c6b32; }
+  .med  { background: #fdf0d5; color: #8a5b06; }
+  .hard { background: #fadbdb; color: #8f2222; }
+  ol.items { margin: 6px 0; padding-inline-start: 22px; }
+  ol.items > li { margin-bottom: 13px; }
+  .fr { display: inline-flex; flex-direction: column; align-items: center;
+        vertical-align: middle; margin: 0 3px; font-size: .95em; line-height: 1.15; }
+  .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
+  .fr i { font-style: normal; padding: 0 4px; }
+  .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid DARK; height: 1em; }
+  .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
+  .fig { text-align: center; font-size: 13px; color: #5b6780; }
+  .lines div { border-bottom: 1px dotted #aab3c4; height: 24px; }
+  .numline { margin: 10px 0; }
+  .pagebreak { page-break-before: always; }
+  .key { background: #fffdf3; }
+  .key h1 { color: #8a5b06; }
+  .key header { border-bottom-color: #e0a800; }
+  .key .ans { background:#fff; border:1px solid #eadfb8; border-radius:6px;
+              padding:10px 14px; margin-bottom:10px; font-size:14.5px; }
+  .key .ans strong { color:#8a5b06; }
+  .credit { text-align:center; font-size: 12px; color: #8894ab; margin-top: 18px;
+            border-top: 1px solid #eef1f6; padding-top: 8px; }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .sheet { box-shadow: none; margin: 0; border-radius: 0; padding: 0; max-width: none; }
+    .noprint { display: none; }
+  }
+  .noprint { text-align:center; margin: 10px 0 20px; }
+  .noprint button { background: ACCENT; color:#fff; border:0; padding:10px 26px;
+                    border-radius:6px; font-size:15px; cursor:pointer; font-family:inherit; }
+"""
+
+
+def css(accent, dark, tint):
+    return (BASE_CSS.replace('ACCENT', accent).replace('DARK', dark)
+            .replace('TINT', tint))
+
+
+def page(title, style, body):
+    return f"""<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>{title}</title>
+<style>{style}</style>
+</head>
+<body>
+{body}
+</body>
+</html>
+"""
+
+
+def build_worksheet(ch, assets, meta):
+    tags = {'easy': 'קל', 'med': 'בינוני', 'hard': 'מאתגר'}
+    qs = []
+    for i, q in enumerate(assets['worksheet'], 1):
+        lines = '<div class="lines">' + '<div></div>' * q.get('lines', 0) + '</div>' if q.get('lines') else ''
+        qs.append(f"""
+  <h2 class="q">שאלה {i} — {q['title']} <span class="tag {q['tag']}">{tags[q['tag']]}</span></h2>
+  {macros(q['body'])}
+  {lines}""")
+    answers = '\n'.join(
+        f'<div class="ans"><strong>שאלה {i}.</strong> {macros(a)}</div>'
+        for i, a in enumerate(assets['worksheet_answers'], 1))
+    body = f"""
+<div class="noprint"><button onclick="window.print()">🖨️ הדפסה / שמירה כ‑PDF</button></div>
+
+<div class="sheet">
+  <header>
+    <h1>דף עבודה — פרק {meta['number']}: {meta['short_title']}</h1>
+    <div class="sub">{meta['subtitle']} · שברים פשוטים · כיתה ה'</div>
+    <div class="namebar"><span>שם: </span><span>כיתה: </span><span>תאריך: </span></div>
+  </header>
+  {f'<div class="note-box" style="background:#eef3fe; border-inline-start:4px solid #2f6fed; padding:10px 14px; border-radius:6px; font-size:14px; margin:18px 0">{macros(assets["worksheet_note"])}</div>' if assets.get('worksheet_note') else ''}
+  {''.join(qs)}
+  <div class="credit">{CR}</div>
+</div>
+
+<div class="sheet key pagebreak">
+  <header>
+    <h1>🔑 דף פתרונות למורה — פרק {meta['number']}: {meta['short_title']}</h1>
+    <div class="sub">לא לחלוקה לתלמידים</div>
+  </header>
+  {answers}
+  <div class="credit">{CR}</div>
+</div>"""
+    return page(f"דף עבודה — {meta['short_title']} (כיתה ה')",
+                css('#2f6fed', '#14306b', '#eef3fe'), body)
+
+
+def build_bank(ch, assets, meta):
+    secs = []
+    n = 0
+    for sec in assets['bank_sections']:
+        items = '\n'.join(f'<li>{macros(it)}</li>' for it in sec['items'])
+        start = n + 1
+        n += len(sec['items'])
+        secs.append(f"""
+  <h2 class="sec">{sec['title']} (שאלות {start}–{n})</h2>
+  <ol class="items" start="{start}">
+{items}
+  </ol>""")
+    answers = '\n'.join(
+        f'<div class="ans"><strong>{i}.</strong> {macros(a)}</div>'
+        for i, a in enumerate(assets['bank_answers'], 1))
+    body = f"""
+<div class="noprint"><button onclick="window.print()">🖨️ הדפסה / שמירה כ‑PDF</button></div>
+
+<div class="sheet">
+  <header>
+    <h1>מאגר שאלות — פרק {meta['number']}: {meta['short_title']}</h1>
+    <div class="sub">{n} שאלות · {meta['subtitle']} · כיתה ה' · דף פתרונות בעמוד האחרון</div>
+    <div class="namebar"><span>שם: </span><span>כיתה: </span><span>תאריך: </span></div>
+  </header>
+  {''.join(secs)}
+  <div class="credit">מאגר שאלות מקורי · {CR}</div>
+</div>
+
+<div class="sheet key pagebreak">
+  <header>
+    <h1>🔑 פתרונות מלאים — מאגר שאלות פרק {meta['number']}</h1>
+    <div class="sub">למורה / להורה / לבדיקה עצמית</div>
+  </header>
+  {answers}
+  <div class="credit">{CR}</div>
+</div>"""
+    return page(f"מאגר שאלות — {meta['short_title']} (כיתה ה')",
+                css('#7a3fd1', '#4a1f8a', '#f3edfc'), body)
+
+
+def build_practice(ch, meta):
+    tags = {'easy': 'קל', 'medium': 'בינוני', 'hard': 'מאתגר'}
+    ex_html = []
+    for i, ex in enumerate(ch['exercises'], 1):
+        ex_html.append(f"""
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל {i}: {ex.get('title', '')}</strong>
+      <span class="tag {ex['difficulty'] if ex['difficulty'] != 'medium' else 'med'}">{tags[ex['difficulty']]}</span></div>
+    <div>{tex2html(ex['description'])}</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">{tex2html(ex['solution'])}</div>
+  </div>""")
+    quiz_data = []
+    for q in ch['quiz']:
+        opts = q.get('options') or []
+        if q['type'] == 'open' or not opts:
+            continue
+        correct = opts.index(q['correct_answer']) if q['correct_answer'] in opts else 0
+        quiz_data.append({
+            'q': tex2html(q['question']),
+            'o': [tex2html(o) for o in opts],
+            'a': correct,
+        })
+    quiz_json = json.dumps(quiz_data, ensure_ascii=False)
+    style = css('#2f6fed', '#14306b', '#eef3fe') + """
+  .card { background: #fff; border-radius: 12px; padding: 22px 24px; margin: 0 auto 20px;
+          max-width: 780px; box-shadow: 0 2px 12px rgba(20,48,107,.08); }
+  .card h2 { font-size: 19px; color: #14306b; margin: 0 0 4px; }
+  .hint { color: #77839b; font-size: 14px; margin: 0 0 16px; }
+  .ex { border: 1px solid #e6eaf2; border-radius: 9px; padding: 14px 16px; margin-bottom: 12px; }
+  .ex-h { display: flex; align-items: center; gap: 9px; margin-bottom: 6px; }
+  .ex-h strong { color: #14306b; }
+  .reveal { margin-top: 9px; background: #fff; border: 1.5px solid #2f6fed; color: #2f6fed;
+            border-radius: 6px; padding: 6px 16px; cursor: pointer; font: inherit; font-size: 14px; }
+  .reveal:hover { background: #2f6fed; color: #fff; }
+  .sol { display: none; margin-top: 10px; background:#f3f8f4; border-inline-start:4px solid #34a853;
+         padding: 11px 14px; border-radius: 6px; font-size: 15px; }
+  .sol.show { display: block; }
+  .q { margin-bottom: 22px; padding-bottom: 18px; border-bottom: 1px solid #eef1f6; }
+  .qtext { font-weight: 600; margin-bottom: 10px; }
+  .opts { display: grid; gap: 8px; }
+  .opt { text-align: start; background: #f6f8fc; border: 2px solid #e2e8f2; border-radius: 8px;
+         padding: 10px 14px; cursor: pointer; font: inherit; color: inherit; }
+  .opt:hover:not(:disabled) { border-color: #2f6fed; background: #eef3fe; }
+  .opt.correct { background: #e4f6e9; border-color: #34a853; }
+  .opt.wrong { background: #fdecea; border-color: #d93025; }
+  .opt:disabled { cursor: default; }
+  .score { text-align:center; font-size:17px; font-weight:700; color:#14306b; margin-top:8px; }
+  h1.pt { max-width: 780px; margin: 0 auto 4px; color:#14306b; }
+  p.lead { max-width: 780px; margin: 0 auto 26px; color:#5b6780; }
+"""
+    body = f"""
+<h1 class="pt">תרגול: {meta['short_title']}</h1>
+<p class="lead">פרק {meta['number']} · שברים פשוטים · כיתה ה'</p>
+
+<div class="card">
+  <h2>✏️ תרגילים</h2>
+  <p class="hint">נסו לפתור לבד, ורק אחר כך גלו את הפתרון.</p>
+  {''.join(ex_html)}
+</div>
+
+<div class="card">
+  <h2>🎯 מבחנון</h2>
+  <p class="hint">בחרו תשובה — ותקבלו משוב מיד.</p>
+  <div id="quiz"></div>
+  <div class="score" id="score"></div>
+</div>
+
+<div class="credit" style="max-width:780px; margin:0 auto">{CR}</div>
+
+<script>
+const quiz = {quiz_json};
+let answered = 0, correct = 0;
+document.getElementById('quiz').innerHTML = quiz.map((q, i) => `
+  <div class="q">
+    <div class="qtext">${{i + 1}}. ${{q.q}}</div>
+    <div class="opts">${{q.o.map((o, j) =>
+      `<button class="opt" data-q="${{i}}" data-o="${{j}}">${{o}}</button>`).join('')}}</div>
+  </div>`).join('');
+document.querySelectorAll('.opt').forEach(btn => {{
+  btn.onclick = () => {{
+    const qi = +btn.dataset.q, oi = +btn.dataset.o, q = quiz[qi];
+    const group = btn.parentElement.querySelectorAll('.opt');
+    group.forEach(b => b.disabled = true);
+    group[q.a].classList.add('correct');
+    if (oi !== q.a) btn.classList.add('wrong'); else correct++;
+    if (++answered === quiz.length) {{
+      document.getElementById('score').textContent =
+        `סיימתם! ${{correct}} מתוך ${{quiz.length}} נכונות ` +
+        (correct === quiz.length ? '🏆 מושלם!' : correct >= quiz.length - 2 ? '👍 יפה מאוד!' : '💪 שווה לחזור על הפרק');
+    }}
+  }};
+}});
+</script>"""
+    return page(f"תרגול אינטראקטיבי — {meta['short_title']}", style, body)
+
+
+def main(chdir):
+    chdir = Path(chdir)
+    ch = json.loads((chdir / 'chapter.json').read_text(encoding='utf-8'))
+    assets = json.loads((chdir / 'assets.json').read_text(encoding='utf-8'))
+    meta = {
+        'number': ch['number'],
+        'short_title': assets.get('short_title', ch['title']),
+        'subtitle': assets.get('subtitle', ch['title']),
+    }
+    (chdir / 'worksheet.html').write_text(build_worksheet(ch, assets, meta), encoding='utf-8')
+    (chdir / 'question-bank.html').write_text(build_bank(ch, assets, meta), encoding='utf-8')
+    (chdir / 'practice.html').write_text(build_practice(ch, meta), encoding='utf-8')
+    print(f'generated 3 html files in {chdir}')
+
+
+if __name__ == '__main__':
+    main(sys.argv[1])

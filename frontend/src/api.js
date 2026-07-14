@@ -97,9 +97,24 @@ async function downloadRequest(path, filename) {
   URL.revokeObjectURL(url)
 }
 
+// Authed media fetch — returns an object URL for inline playback (e.g. <video>).
+// Caller is responsible for URL.revokeObjectURL when done.
+async function mediaObjectUrl(path) {
+  const token = getToken()
+  const headers = {}
+  if (token) headers['Authorization'] = `Bearer ${token}`
+  const res = await fetch(BASE + path, { headers })
+  if (!res.ok) throw new Error(`${res.status} ${res.statusText}`)
+  const blob = await res.blob()
+  return URL.createObjectURL(blob)
+}
+
 export const api = {
   // Health
   health: () => request('/health'),
+
+  // Inline media (video/audio players)
+  fileObjectUrl: (fileId) => mediaObjectUrl(`/files/${fileId}/download`),
 
   // Auth
   login: (username, password) =>

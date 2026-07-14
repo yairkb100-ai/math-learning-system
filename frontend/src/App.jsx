@@ -196,7 +196,7 @@ function AppRoutes() {
       </main>
 
       <footer className="footer" dir="rtl">
-        <span>לומדת מתמטיקה · /api → :8000</span>
+        <span>לומדת מתמטיקה · © כל הזכויות שמורות ליאיר כהנא</span>
       </footer>
     </div>
   )

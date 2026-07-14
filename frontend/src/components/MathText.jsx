@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import katex from 'katex'
+import FractionArt from './FractionArt.jsx'
 
 // Lightweight Markdown + LaTeX renderer for course content.
 // Handles: ## / ### headings, **bold**, bullet/numbered lists, tables,
@@ -60,6 +61,28 @@ export function InlineMathText({ text }) {
   return <>{renderInline(String(text || ''), 'im')}</>
 }
 
+// ---- illustrations: {{kind:n/d|caption}} ----------------------------------
+// A line made only of art tokens becomes a row of friendly SVG figures.
+const ART_TOKEN = /\{\{([a-z-]+)(?::(\d+)\/(\d+))?(?:\|([^}]*))?\}\}/g
+
+function parseArtLine(line) {
+  const items = []
+  let rest = line
+  let m
+  ART_TOKEN.lastIndex = 0
+  while ((m = ART_TOKEN.exec(line)) !== null) {
+    items.push({
+      kind: m[1],
+      n: m[2] != null ? Number(m[2]) : undefined,
+      d: m[3] != null ? Number(m[3]) : undefined,
+      caption: m[4] || null,
+    })
+    rest = rest.replace(m[0], '')
+  }
+  if (items.length === 0 || rest.trim() !== '') return null
+  return items
+}
+
 // ---- block-level parsing --------------------------------------------------
 function isTableRow(line) {
   return /^\s*\|.*\|\s*$/.test(line)
@@ -98,6 +121,15 @@ export default function MathText({ text, className }) {
                 <li key={`${key}-${j}`}>{renderInline(it, `${key}-${j}`)}</li>
               ))}
             </ol>
+          )
+        }
+        if (block.type === 'art') {
+          return (
+            <div key={key} className="art-row">
+              {block.items.map((it, j) => (
+                <FractionArt key={j} {...it} />
+              ))}
+            </div>
           )
         }
         if (block.type === 'table') {
@@ -150,6 +182,15 @@ function parseBlocks(text) {
 
     if (!trimmed) {
       flushPara()
+      i++
+      continue
+    }
+
+    // illustration row: {{pizza:3/4|caption}} {{bar:1/2}}
+    const art = parseArtLine(trimmed)
+    if (art) {
+      flushPara()
+      blocks.push({ type: 'art', items: art })
       i++
       continue
     }

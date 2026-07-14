@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useMemo, useState, useCallback } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
@@ -6,6 +6,85 @@ import MathText from '../components/MathText.jsx'
 import Quiz from '../components/Quiz.jsx'
 
 const t = (rtl, he, en) => (rtl ? he : en)
+
+// Split chapter content on "## " headings, one step per section. A leading
+// section without a heading becomes the opening step.
+function splitContent(content) {
+  const text = String(content || '').trim()
+  if (!text) return []
+  const parts = text.split(/\n(?=##\s)/)
+  return parts
+    .map((part) => {
+      const m = part.match(/^##\s+(.*)\n?/)
+      if (m) {
+        return { title: m[1].trim(), body: part.slice(m[0].length).trim() }
+      }
+      return { title: null, body: part.trim() }
+    })
+    .filter((s) => s.body || s.title)
+}
+
+function chunk(arr, size) {
+  const out = []
+  for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size))
+  return out
+}
+
+function buildSteps(chapter, rtl, videoFile) {
+  const steps = []
+  // Explainer video (uploaded as a course file named "…פרק-N….mp4") opens
+  // the chapter when available.
+  if (videoFile) {
+    steps.push({
+      kind: 'video',
+      icon: '🎬',
+      label: t(rtl, 'סרטון הסברה', 'Video'),
+      file: videoFile,
+    })
+  }
+  // Content: two sections per step keeps screens rich but not endless.
+  chunk(splitContent(chapter.content), 2).forEach((group, i) => {
+    steps.push({
+      kind: 'content',
+      icon: '📖',
+      label:
+        group[0].title || (i === 0 ? t(rtl, 'פתיחה', 'Introduction') : ''),
+      sections: group,
+      first: i === 0,
+    })
+  })
+  const examples = chapter.examples || []
+  if (examples.length > 0) {
+    steps.push({
+      kind: 'examples',
+      icon: '💡',
+      label: t(rtl, 'דוגמאות', 'Examples'),
+      examples,
+    })
+  }
+  const exercises = chapter.exercises || []
+  chunk(exercises, 3).forEach((group, i, all) => {
+    steps.push({
+      kind: 'exercises',
+      icon: '✏️',
+      label:
+        all.length > 1
+          ? `${t(rtl, 'תרגילים', 'Exercises')} (${i + 1}/${all.length})`
+          : t(rtl, 'תרגילים', 'Exercises'),
+      exercises: group,
+    })
+  })
+  if ((chapter.quiz || []).length > 0) {
+    steps.push({
+      kind: 'quiz',
+      icon: '🎯',
+      label: t(rtl, 'בוחן סיכום', 'Quiz'),
+      quiz: chapter.quiz,
+    })
+  }
+  steps.push({ kind: 'finish', icon: '🏁', label: t(rtl, 'סיום הפרק', 'Finish') })
+  return steps
+}
 
 export default function ChapterView() {
   const { id, number } = useParams()
@@ -16,6 +95,8 @@ export default function ChapterView() {
   const [marking, setMarking] = useState(false)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [step, setStep] = useState(0)
+  const [videoFile, setVideoFile] = useState(null)
 
   const load = useCallback(() => {
     setLoading(true)
@@ -24,14 +105,22 @@ export default function ChapterView() {
       api.getChapter(id, number),
       api.getCourse(id),
       api.getProgress(id).catch(() => null),
+      api.listFiles(id).catch(() => []),
     ])
-      .then(([chData, courseData, progData]) => {
+      .then(([chData, courseData, progData, files]) => {
         const ch = chData?.chapter ?? chData
         setChapter(ch)
         const course = courseData?.course ?? courseData
         if (course?.metadata?.language) setLanguage(course.metadata.language)
         setChaptersCount((course?.chapters || []).length)
         setProgress(progData)
+        const video = (files || []).find(
+          (f) =>
+            /\.mp4$/i.test(f.original_name || '') &&
+            (f.original_name || '').includes(`פרק-${number}`)
+        )
+        setVideoFile(video || null)
+        setStep(0)
       })
       .catch(setError)
       .finally(() => setLoading(false))
@@ -41,18 +130,28 @@ export default function ChapterView() {
     load()
   }, [load])
 
+  const rtl = language === 'Hebrew'
+  const steps = useMemo(
+    () => (chapter ? buildSteps(chapter, rtl, videoFile) : []),
+    [chapter, rtl, videoFile]
+  )
+
+  // Scroll back to the top of the step when navigating.
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [step])
+
   if (loading) return <Loading label="טוען פרק…" />
   if (error) return <ErrorBox error={error} onRetry={load} />
-  if (!chapter) return null
+  if (!chapter || steps.length === 0) return null
 
-  const rtl = language === 'Hebrew'
-  const examples = chapter.examples || []
-  const exercises = chapter.exercises || []
-  const quiz = chapter.quiz || []
   const completed = !!progress?.chapters?.find(
     (c) => c.chapter_id === chapter.id
   )?.completed
   const nextNumber = Number(number) < chaptersCount ? Number(number) + 1 : null
+  const current = steps[Math.min(step, steps.length - 1)]
+  const isLast = step >= steps.length - 1
+  const pct = Math.round((step / (steps.length - 1)) * 100)
 
   const markComplete = async () => {
     setMarking(true)
@@ -82,64 +181,187 @@ export default function ChapterView() {
         <h1>{chapter.title}</h1>
       </header>
 
-      <article className="chapter-content card">
-        <MathText text={chapter.content} className="prose" />
-      </article>
+      <div className="step-bar card">
+        <div className="step-count">
+          <span className="step-icon">{current.icon}</span>
+          <span>
+            {t(rtl, 'צעד', 'Step')} {step + 1} {t(rtl, 'מתוך', 'of')}{' '}
+            {steps.length}
+          </span>
+          <span className="step-label">· {current.label}</span>
+        </div>
+        <div className="step-track">
+          <div className="step-fill" style={{ width: `${pct}%` }} />
+        </div>
+      </div>
 
-      {examples.length > 0 && (
-        <section className="block">
-          <h2 className="section-title">{t(rtl, 'דוגמאות', 'Examples')}</h2>
-          {examples.map((ex, i) => (
-            <Example key={i} example={ex} />
-          ))}
-        </section>
-      )}
+      <StepBody
+        key={step}
+        step={current}
+        chapter={chapter}
+        courseId={id}
+        chapterNumber={number}
+        rtl={rtl}
+        completed={completed}
+        marking={marking}
+        markComplete={markComplete}
+        nextNumber={nextNumber}
+      />
 
-      {exercises.length > 0 && (
-        <section className="block">
-          <h2 className="section-title">{t(rtl, 'תרגילים', 'Exercises')}</h2>
-          {exercises.map((ex) => (
-            <Exercise
-              key={ex.number}
-              exercise={ex}
-              courseId={id}
-              chapterNumber={number}
-              rtl={rtl}
+      <div className="card step-nav">
+        <button
+          className="btn btn-ghost"
+          onClick={() => setStep((s) => Math.max(0, s - 1))}
+          disabled={step === 0}
+        >
+          {t(rtl, '→ הקודם', '← Back')}
+        </button>
+        <span className="step-dots">
+          {steps.map((s, i) => (
+            <button
+              key={i}
+              className={
+                'step-dot' +
+                (i === step ? ' active' : '') +
+                (i < step ? ' done' : '')
+              }
+              title={s.label}
+              onClick={() => setStep(i)}
             />
           ))}
-        </section>
-      )}
-
-      {quiz.length > 0 && (
-        <section className="block">
-          <h2 className="section-title">{t(rtl, 'בוחן', 'Quiz')}</h2>
-          <Quiz
-            questions={quiz}
-            chapterId={chapter.id}
-            rtl={rtl}
-          />
-        </section>
-      )}
-
-      <div className="card chapter-footer">
-        {completed ? (
-          <p className="status-ok chapter-done">
-            ✓ {t(rtl, 'הפרק הושלם', 'Chapter completed')}
-          </p>
-        ) : (
-          <button className="btn" onClick={markComplete} disabled={marking}>
-            {marking
-              ? t(rtl, 'שומר…', 'Saving…')
-              : t(rtl, 'סמן פרק כהושלם', 'Mark chapter complete')}
+        </span>
+        {!isLast ? (
+          <button className="btn" onClick={() => setStep((s) => s + 1)}>
+            {t(rtl, 'הבא ←', 'Next →')}
           </button>
-        )}
-        {nextNumber && (
-          <Link to={`/courses/${id}/chapters/${nextNumber}`} className="btn">
-            {t(rtl, 'לפרק הבא ←', 'Next chapter →')}
-          </Link>
+        ) : (
+          <span />
         )}
       </div>
     </section>
+  )
+}
+
+function StepBody({
+  step,
+  chapter,
+  courseId,
+  chapterNumber,
+  rtl,
+  completed,
+  marking,
+  markComplete,
+  nextNumber,
+}) {
+  if (step.kind === 'video') {
+    return (
+      <div className="card step-card video-step">
+        <h2 className="step-title">
+          🎬 {t(rtl, 'צפו בסרטון ההסברה', 'Watch the explainer video')}
+        </h2>
+        <VideoPlayer fileId={step.file.id} rtl={rtl} />
+      </div>
+    )
+  }
+  if (step.kind === 'content') {
+    return (
+      <article className="chapter-content card step-card">
+        {step.sections.map((sec, i) => (
+          <div key={i} className={i > 0 ? 'step-section' : ''}>
+            {sec.title && <h2 className="step-title">{sec.title}</h2>}
+            <MathText text={sec.body} className="prose" />
+          </div>
+        ))}
+      </article>
+    )
+  }
+  if (step.kind === 'examples') {
+    return (
+      <div className="step-card">
+        {step.examples.map((ex, i) => (
+          <Example key={i} example={ex} />
+        ))}
+      </div>
+    )
+  }
+  if (step.kind === 'exercises') {
+    return (
+      <div className="step-card">
+        {step.exercises.map((ex) => (
+          <Exercise
+            key={ex.number}
+            exercise={ex}
+            courseId={courseId}
+            chapterNumber={chapterNumber}
+            rtl={rtl}
+          />
+        ))}
+      </div>
+    )
+  }
+  if (step.kind === 'quiz') {
+    return (
+      <section className="block step-card">
+        <h2 className="section-title">{t(rtl, 'בוחן', 'Quiz')}</h2>
+        <Quiz questions={step.quiz} chapterId={chapter.id} rtl={rtl} />
+      </section>
+    )
+  }
+  // finish
+  return (
+    <div className="card chapter-footer step-card step-finish">
+      <div className="finish-emoji">🎉</div>
+      <h2>{t(rtl, 'כל הכבוד! סיימתם את הפרק', 'Great job! Chapter finished')}</h2>
+      {completed ? (
+        <p className="status-ok chapter-done">
+          ✓ {t(rtl, 'הפרק הושלם', 'Chapter completed')}
+        </p>
+      ) : (
+        <button className="btn" onClick={markComplete} disabled={marking}>
+          {marking
+            ? t(rtl, 'שומר…', 'Saving…')
+            : t(rtl, 'סמן פרק כהושלם', 'Mark chapter complete')}
+        </button>
+      )}
+      {nextNumber && (
+        <Link
+          to={`/courses/${courseId}/chapters/${nextNumber}`}
+          className="btn"
+        >
+          {t(rtl, 'לפרק הבא ←', 'Next chapter →')}
+        </Link>
+      )}
+    </div>
+  )
+}
+
+function VideoPlayer({ fileId, rtl }) {
+  const [src, setSrc] = useState(null)
+  const [err, setErr] = useState(null)
+
+  useEffect(() => {
+    let url = null
+    let alive = true
+    api
+      .fileObjectUrl(fileId)
+      .then((u) => {
+        url = u
+        if (alive) setSrc(u)
+        else URL.revokeObjectURL(u)
+      })
+      .catch((e) => alive && setErr(e))
+    return () => {
+      alive = false
+      if (url) URL.revokeObjectURL(url)
+    }
+  }, [fileId])
+
+  if (err) return <p className="inline-error">⚠️ {String(err.message || err)}</p>
+  if (!src) return <Loading label={rtl ? 'טוען סרטון…' : 'Loading video…'} />
+  return (
+    <video className="chapter-video" src={src} controls playsInline>
+      {rtl ? 'הדפדפן לא תומך בניגון וידאו' : 'Video not supported'}
+    </video>
   )
 }
 

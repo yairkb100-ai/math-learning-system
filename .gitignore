@@ -24,3 +24,12 @@ dist/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Local working copies (canonical copies live in courses/assets/)
+content/**/video.mp4
+uploads/
+backend/app/uploads/
+backend/uploads/
+
+# Curriculum scans (copyrighted source material)
+source-material/
