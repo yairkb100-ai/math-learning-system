@@ -1,0 +1,56 @@
+{
+ "pct-ch01": {
+  "notebook_id": "8caf6b31-0c4f-4943-9b89-557545d59bcb",
+  "source_id": "7496eb1b-9375-4b6a-8b6b-b469b1c393a2",
+  "number": 1,
+  "topic": "מהו אחוז? הקשר לשבר ולעשרוני",
+  "output": "סרטון-פרק-1-מהו-אחוז.mp4",
+  "status": "staged",
+  "course": "grade6-percents"
+ },
+ "pct-ch02": {
+  "notebook_id": "ae7f4e86-d32d-48e1-88d2-92eaeb6034e5",
+  "source_id": "5470a20a-2309-47cc-9bba-207de0fca546",
+  "number": 2,
+  "topic": "חישוב אחוז מכמות",
+  "output": "סרטון-פרק-2-חישוב-אחוז-מכמות.mp4",
+  "status": "staged",
+  "course": "grade6-percents"
+ },
+ "pct-ch03": {
+  "notebook_id": "18b0cf58-f002-403e-845b-0452fa21fa93",
+  "source_id": "086e9d05-ec16-4d40-a351-60ea2ce8e67d",
+  "number": 3,
+  "topic": "מציאת האחוז",
+  "output": "סרטון-פרק-3-מציאת-האחוז.mp4",
+  "status": "staged",
+  "course": "grade6-percents"
+ },
+ "pct-ch04": {
+  "notebook_id": "6c61db88-8d1b-458d-9558-d2b71c667746",
+  "source_id": "dac0b19a-3313-425b-97d0-f7e20074c6e5",
+  "number": 4,
+  "topic": "מציאת הכמות היסודית לפי אחוז",
+  "output": "סרטון-פרק-4-מציאת-הכמות-היסודית.mp4",
+  "status": "staged",
+  "course": "grade6-percents"
+ },
+ "pct-ch05": {
+  "notebook_id": "14311853-d865-401f-9902-2c894016d7b4",
+  "source_id": "211b76c0-9944-4114-bbe5-bdccf0cc1c33",
+  "number": 5,
+  "topic": "הנחה, התייקרות ומע\"מ",
+  "output": "סרטון-פרק-5-הנחה-התייקרות-ומעמ.mp4",
+  "status": "staged",
+  "course": "grade6-percents"
+ },
+ "pct-ch06": {
+  "notebook_id": "0c72be8a-dcf2-42f3-946d-c5fa4406413b",
+  "source_id": "829d8177-b8c0-49da-a982-a50f5306a76b",
+  "number": 6,
+  "topic": "אחוזים מעל 100 ובעיות רב-שלביות",
+  "output": "סרטון-פרק-6-אחוזים-מעל-100.mp4",
+  "status": "staged",
+  "course": "grade6-percents"
+ }
+}

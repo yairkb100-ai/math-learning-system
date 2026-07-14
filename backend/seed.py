@@ -324,6 +324,13 @@ def ensure_sections(db):
             "order": 1,
             "course_slugs": ["grade5-simple-fractions", "grade6-fractions-decimals"],
         },
+        {
+            "slug": "percents",
+            "title": "אחוזים",
+            "description": "עולם האחוזים: מהמושג והקשר לשברים ועשרוניים, דרך חישובי אחוז מכמות ומציאת השלם, ועד הנחות, התייקרויות ומע\"מ",
+            "order": 2,
+            "course_slugs": ["grade6-percents"],
+        },
     ]
     for spec in sections:
         section = db.query(Section).filter(Section.slug == spec["slug"]).first()
