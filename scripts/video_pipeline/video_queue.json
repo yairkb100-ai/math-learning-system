@@ -1,0 +1,112 @@
+{
+ "g5-ch04": {
+  "notebook_id": "00c2c4c9-2d6a-43f0-a584-f833bd137955",
+  "number": 4,
+  "output": "סרטון-פרק-4-צמצום-והרחבה.mp4",
+  "topic": "צמצום והרחבה",
+  "status": "done",
+  "grade": 5,
+  "artifact_id": "5c1fa8e3-3f90-4bb7-a260-69ebe120917a",
+  "submitted_at": 1784042529.374552
+ },
+ "g5-ch05": {
+  "notebook_id": "05fdfe0e-587a-41a2-a1a9-06172875453c",
+  "number": 5,
+  "output": "סרטון-פרק-5-חיבור-וחיסור-שברים.mp4",
+  "topic": "חיבור וחיסור שברים",
+  "status": "done",
+  "grade": 5,
+  "artifact_id": "bdb97c17-30c9-4918-83f3-260962d40c08",
+  "submitted_at": 1784042535.745732
+ },
+ "g6-ch01": {
+  "notebook_id": "403e9ad5-6af9-4263-a636-7fab4daafc4b",
+  "source_id": "60f34f27-e095-4f55-b4c9-dc7d378eb7c8",
+  "number": 1,
+  "topic": "שבר כמנת חילוק",
+  "output": "סרטון-פרק-1-שבר-כמנת-חילוק.mp4",
+  "status": "done",
+  "artifact_id": "ea31c1f4-6cf6-4f41-92ea-f7478bcea54d",
+  "submitted_at": 1784042542.294822
+ },
+ "g6-ch02": {
+  "notebook_id": "5677a913-c9d3-4e2f-970b-3373d168b9c7",
+  "source_id": "6714f73c-1e71-41b4-a8bb-fd4f8454fde2",
+  "number": 2,
+  "topic": "שברים ועשרוניים על ישר המספרים וצפיפות",
+  "output": "סרטון-פרק-2-שברים-ועשרוניים-על-ישר-המספרים.mp4",
+  "status": "staged"
+ },
+ "g6-ch03": {
+  "notebook_id": "d2f6b70f-f5f9-4f5a-8014-5daf2ff9fb3b",
+  "source_id": "36e8a2b0-5d5a-47bf-abf5-2d6ff1fc87ba",
+  "number": 3,
+  "topic": "כפל שלם בשבר ובמספר מעורב",
+  "output": "סרטון-פרק-3-כפל-שלם-בשבר.mp4",
+  "status": "staged"
+ },
+ "g6-ch04": {
+  "notebook_id": "8c9aa17b-aebc-404c-97dd-622dc3789e1a",
+  "source_id": "3c9ede19-b423-45fc-a9ae-3a192e2bcf61",
+  "number": 4,
+  "topic": "כפל שבר בשבר",
+  "output": "סרטון-פרק-4-כפל-שבר-בשבר.mp4",
+  "status": "staged"
+ },
+ "g6-ch05": {
+  "notebook_id": "558fc680-dc30-4f9a-8ff3-163bdb8f498e",
+  "source_id": "2d1edaf9-1fc3-42fd-957e-20cba2721295",
+  "number": 5,
+  "topic": "כפל וחילוק עשרוניים ב-10, 100 ו-1000",
+  "output": "סרטון-פרק-5-כפל-וחילוק-עשרוניים-ב-10-100.mp4",
+  "status": "staged"
+ },
+ "g6-ch06": {
+  "notebook_id": "66267ca8-9f71-4c88-80ce-d0bf64832242",
+  "source_id": "adcfab12-f02b-45c3-9539-c4b126c75a7f",
+  "number": 6,
+  "topic": "כפל מספרים עשרוניים",
+  "output": "סרטון-פרק-6-כפל-עשרוניים.mp4",
+  "status": "staged"
+ },
+ "g6-ch07": {
+  "notebook_id": "0b1b37a3-20f6-400a-ab8c-e3bec4c0c2ed",
+  "source_id": "6d29a21f-ee31-47a7-abb3-e93c643cfb2c",
+  "number": 7,
+  "topic": "חילוק מספרים עשרוניים",
+  "output": "סרטון-פרק-7-חילוק-עשרוניים.mp4",
+  "status": "staged"
+ },
+ "g6-ch08": {
+  "notebook_id": "ebd387c9-4336-4a28-a607-7205181c3f84",
+  "source_id": "167949ab-465c-4315-9448-251381d1e599",
+  "number": 8,
+  "topic": "חלק של כמות — מציאת ערך החלק",
+  "output": "סרטון-פרק-8-חלק-של-כמות.mp4",
+  "status": "staged"
+ },
+ "g6-ch09": {
+  "notebook_id": "c658198e-05ea-4419-b11f-296add61cebd",
+  "source_id": "ec91b815-40d6-4720-afae-35b8ef4105e5",
+  "number": 9,
+  "topic": "חלק של כמות — מציאת הכמות היסודית",
+  "output": "סרטון-פרק-9-מציאת-הכמות-היסודית.mp4",
+  "status": "staged"
+ },
+ "g6-ch10": {
+  "notebook_id": "f9c01f61-ff51-423b-b5fc-6e38d8e38475",
+  "source_id": "b860a61b-0bc4-45ed-a7f8-044117e93335",
+  "number": 10,
+  "topic": "חילוק שברים פשוטים",
+  "output": "סרטון-פרק-10-חילוק-שברים.mp4",
+  "status": "staged"
+ },
+ "g6-ch11": {
+  "notebook_id": "3576207c-4cfc-4899-937d-01827dc24b99",
+  "source_id": "72e05a30-fce9-4293-8976-1335a503cd8e",
+  "number": 11,
+  "topic": "שבר עשרוני מחזורי",
+  "output": "סרטון-פרק-11-שבר-עשרוני-מחזורי.mp4",
+  "status": "staged"
+ }
+}
