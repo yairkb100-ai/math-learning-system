@@ -325,6 +325,7 @@ def ensure_course_assets(db):
 
     admin = db.query(User).filter(User.username == "admin").first()
     added = 0
+    restored = 0
     for slug in sorted(os.listdir(assets_root)):
         slug_dir = os.path.join(assets_root, slug)
         if not os.path.isdir(slug_dir):
@@ -343,6 +344,13 @@ def ensure_course_assets(db):
                 .first()
             )
             if exists:
+                # The DB row survives redeploys (Postgres) but the container
+                # disk does not — restore the file from git if it is missing.
+                dest = os.path.join(UPLOAD_DIR, exists.stored_name)
+                if not os.path.exists(dest):
+                    os.makedirs(UPLOAD_DIR, exist_ok=True)
+                    shutil.copyfile(src, dest)
+                    restored += 1
                 continue
             os.makedirs(UPLOAD_DIR, exist_ok=True)
             stored = uuid.uuid4().hex + os.path.splitext(name)[1]
@@ -361,6 +369,8 @@ def ensure_course_assets(db):
     db.commit()
     if added:
         print(f"  + Registered {added} course asset file(s) from courses/assets/")
+    if restored:
+        print(f"  + Restored {restored} missing asset file(s) to the upload dir")
 
 
 def run_light_migrations():
