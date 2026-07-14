@@ -15,7 +15,7 @@
             "title": { "type": "string" },
             "description": { "type": "string" },
             "level": { "enum": ["Beginner", "Intermediate", "Advanced"] },
-            "chapters": { "type": "integer", "minimum": 3, "maximum": 12 },
+            "chapters": { "type": "integer", "minimum": 3, "maximum": 15 },
             "language": { "enum": ["Hebrew", "English"] },
             "estimated_hours": { "type": "number" },
             "word_count": { "type": "integer" },
@@ -33,7 +33,7 @@
         "chapters": {
           "type": "array",
           "minItems": 3,
-          "maxItems": 12,
+          "maxItems": 15,
           "items": {
             "type": "object",
             "required": ["number", "title", "content", "examples", "exercises", "quiz"],

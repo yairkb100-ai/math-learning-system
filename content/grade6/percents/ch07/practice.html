@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>תרגול אינטראקטיבי — משימות חקר — שברים, עשרוניים ואחוזים</title>
+<style>
+  @page { size: A4; margin: 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: #1a2233;
+         line-height: 1.7; margin: 0; padding: 20px; background: #f4f6fa; }
+  .sheet { background: #fff; max-width: 820px; margin: 0 auto 24px;
+           padding: 30px 36px; border-radius: 10px;
+           box-shadow: 0 2px 14px rgba(0,0,0,.09); }
+  header { border-bottom: 3px solid #2f6fed; padding-bottom: 12px; margin-bottom: 20px; }
+  h1 { margin: 0 0 4px; font-size: 24px; color: #14306b; }
+  .sub { color: #5b6780; font-size: 14px; }
+  .namebar { display: flex; gap: 26px; margin-top: 12px; font-size: 14px; }
+  .namebar span { flex: 1; border-bottom: 1px dotted #8894ab; padding-bottom: 3px; }
+  h2.q, h2.sec { font-size: 17px; margin: 24px 0 10px; color: #14306b;
+    background: #eef3fe; padding: 7px 12px; border-radius: 6px;
+    border-inline-start: 5px solid #2f6fed; }
+  .tag { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px;
+         margin-inline-start: 8px; vertical-align: middle; }
+  .easy { background: #dff5e3; color: #1c6b32; }
+  .med  { background: #fdf0d5; color: #8a5b06; }
+  .hard { background: #fadbdb; color: #8f2222; }
+  ol.items { margin: 6px 0; padding-inline-start: 22px; }
+  ol.items > li { margin-bottom: 13px; }
+  .fr { display: inline-flex; flex-direction: column; align-items: center;
+        vertical-align: middle; margin: 0 3px; font-size: .95em; line-height: 1.15; }
+  .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
+  .fr i { font-style: normal; padding: 0 4px; }
+  .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
+  .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
+  .fig { text-align: center; font-size: 13px; color: #5b6780; }
+  .lines div { border-bottom: 1px dotted #aab3c4; height: 24px; }
+  .numline { margin: 10px 0; }
+  .pagebreak { page-break-before: always; }
+  .key { background: #fffdf3; }
+  .key h1 { color: #8a5b06; }
+  .key header { border-bottom-color: #e0a800; }
+  .key .ans { background:#fff; border:1px solid #eadfb8; border-radius:6px;
+              padding:10px 14px; margin-bottom:10px; font-size:14.5px; }
+  .key .ans strong { color:#8a5b06; }
+  .credit { text-align:center; font-size: 12px; color: #8894ab; margin-top: 18px;
+            border-top: 1px solid #eef1f6; padding-top: 8px; }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .sheet { box-shadow: none; margin: 0; border-radius: 0; padding: 0; max-width: none; }
+    .noprint { display: none; }
+  }
+  .noprint { text-align:center; margin: 10px 0 20px; }
+  .noprint button { background: #2f6fed; color:#fff; border:0; padding:10px 26px;
+                    border-radius:6px; font-size:15px; cursor:pointer; font-family:inherit; }
+
+  .card { background: #fff; border-radius: 12px; padding: 22px 24px; margin: 0 auto 20px;
+          max-width: 780px; box-shadow: 0 2px 12px rgba(20,48,107,.08); }
+  .card h2 { font-size: 19px; color: #14306b; margin: 0 0 4px; }
+  .hint { color: #77839b; font-size: 14px; margin: 0 0 16px; }
+  .ex { border: 1px solid #e6eaf2; border-radius: 9px; padding: 14px 16px; margin-bottom: 12px; }
+  .ex-h { display: flex; align-items: center; gap: 9px; margin-bottom: 6px; }
+  .ex-h strong { color: #14306b; }
+  .reveal { margin-top: 9px; background: #fff; border: 1.5px solid #2f6fed; color: #2f6fed;
+            border-radius: 6px; padding: 6px 16px; cursor: pointer; font: inherit; font-size: 14px; }
+  .reveal:hover { background: #2f6fed; color: #fff; }
+  .sol { display: none; margin-top: 10px; background:#f3f8f4; border-inline-start:4px solid #34a853;
+         padding: 11px 14px; border-radius: 6px; font-size: 15px; }
+  .sol.show { display: block; }
+  .q { margin-bottom: 22px; padding-bottom: 18px; border-bottom: 1px solid #eef1f6; }
+  .qtext { font-weight: 600; margin-bottom: 10px; }
+  .opts { display: grid; gap: 8px; }
+  .opt { text-align: start; background: #f6f8fc; border: 2px solid #e2e8f2; border-radius: 8px;
+         padding: 10px 14px; cursor: pointer; font: inherit; color: inherit; }
+  .opt:hover:not(:disabled) { border-color: #2f6fed; background: #eef3fe; }
+  .opt.correct { background: #e4f6e9; border-color: #34a853; }
+  .opt.wrong { background: #fdecea; border-color: #d93025; }
+  .opt:disabled { cursor: default; }
+  .score { text-align:center; font-size:17px; font-weight:700; color:#14306b; margin-top:8px; }
+  h1.pt { max-width: 780px; margin: 0 auto 4px; color:#14306b; }
+  p.lead { max-width: 780px; margin: 0 auto 26px; color:#5b6780; }
+</style>
+</head>
+<body>
+
+<h1 class="pt">תרגול: משימות חקר — שברים, עשרוניים ואחוזים</h1>
+<p class="lead">פרק 7 · חקירות משלבות: ייצוגים, טענות, והחלטות מנומקות</p>
+
+<div class="card">
+  <h2>✏️ תרגילים</h2>
+  <p class="hint">נסו לפתור לבד, ורק אחר כך גלו את הפתרון.</p>
+  
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 1: חקר: בחירת הייצוג הנוח</strong>
+      <span class="tag easy">קל</span></div>
+    <div>פתרו כל סעיף בייצוג הנוח לו ביותר (שבר / עשרוני / אחוז), וכתבו למה בחרתם בו:<br><br>א. 50% של 86<br>ב. <span class="eq">1/4 + 0.35</span><br>ג. מי גדול: <span class="fr"><b>7</b><i>10</i></span> או 68%?</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. שבר: חצי של 86 = 43.<br>ב. עשרוני: <span class="eq">0.25 + 0.35 = 0.6</span>.<br>ג. אחוזים: <span class="eq">7/10 = 70\% &gt; 68\%</span>.<br><br>(כל בחירה סבירה אחרת נכונה גם — אם מגיעים לאותה תשובה!)</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 2: חקר: החוק ההפוך</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>א. חשבו את שני הביטויים: 12% של 50, וגם 50% של 12.<br>ב. חשבו: 4% של 75, וגם 75% של 4.<br>ג. נסחו את התגלית במשפט, והשתמשו בה כדי לחשב בקלות: 92% של 25.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. שניהם 6.<br>ב. שניהם 3.<br>ג. התגלית: <span class="eq">a\%</span> של <span class="eq">b</span> = <span class="eq">b\%</span> של <span class="eq">a</span> (שניהם <span class="eq">\frac{a × b}{100}</span>). ולכן 92% של 25 = 25% של 92 = רבע של 92 = <b>23</b>.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 3: חקר: אמת או הפרכה?</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>לכל טענה — בדקו עם דוגמאות והחליטו: נכונה תמיד (נמקו) או לא (הביאו דוגמה נגדית):<br><br>א. "10% של מספר ועוד 10% ממנו שווים ל-20% ממנו."<br>ב. "הוספת 20% ואז הורדת 20% מחזירות למחיר ההתחלתי."</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. <b>נכונה תמיד</b>: שתי פעימות של 10% מאותו מספר הן <span class="eq">10/100 + 10/100 = 20/100</span> ממנו. (שימו לב ההבדל מהנחה-על-הנחה: כאן שני האחוזים מחושבים מאותו שלם!)<br>ב. <b>הופרכה</b>: עם 100 ₪ — עלייה ל-120, ירידה של 24 (20% מ-120) → 96 ₪, לא 100.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 4: חקר: טבלת שלוש השפות</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>השלימו את הטבלה כך שבכל שורה יהיו שלושה ייצוגים של אותו מספר, וסדרו את השורות מהקטן לגדול:<br><br>| שבר | עשרוני | אחוז |<br>|---|---|---|<br>| <span class="fr"><b>3</b><i>4</i></span> | ? | ? |<br>| ? | 0.4 | ? |<br>| ? | ? | 55% |</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">| שבר | עשרוני | אחוז |<br>|---|---|---|<br>| <span class="fr"><b>3</b><i>4</i></span> | 0.75 | 75% |<br>| <span class="fr"><b>2</b><i>5</i></span> | 0.4 | 40% |<br>| <span class="fr"><b>11</b><i>20</i></span> | 0.55 | 55% |<br><br>מהקטן לגדול: <span class="eq">0.4 &lt; 0.55 &lt; 0.75</span>, כלומר השורה השנייה, השלישית, ואז הראשונה.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 5: אתגר חקר: המבצע המסתורי</strong>
+      <span class="tag hard">מאתגר</span></div>
+    <div>בחנות שני מסלולי מבצע לבחירה על קנייה של 200 ₪:<br>- מסלול א': הנחה של <span class="fr"><b>1</b><i>4</i></span> מהסכום.<br>- מסלול ב': הנחה של 20%, ואז עוד 5% הנחה מהסכום שנותר.<br>חקרו: איזה מסלול משתלם יותר? האם התוצאה הייתה משתנה עם סכום קנייה אחר? נמקו.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol"><b>מסלול א':</b> <span class="fr"><b>1</b><i>4</i></span> של 200 = 50 ⟵ משלמים <b>150 ₪</b>.<br><br><b>מסלול ב':</b> אחרי 20%: <span class="eq">0.8 × 200 = 160</span>; אחרי עוד 5%: <span class="eq">0.95 × 160 = 152</span> ⟵ משלמים <b>152 ₪</b>.<br><br><b>מסלול א' משתלם יותר</b> (ההפרש 2 ₪).<br><br>עם כל סכום אחר התוצאה זהה ביחסה: מסלול א' משאיר 75% מהמחיר, ומסלול ב' משאיר <span class="eq">0.8 × 0.95 = 0.76 = 76\%</span>. 75% < 76% — ולכן מסלול א' תמיד זול יותר, בכל סכום.</div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>🎯 מבחנון</h2>
+  <p class="hint">בחרו תשובה — ותקבלו משוב מיד.</p>
+  <div id="quiz"></div>
+  <div class="score" id="score"></div>
+</div>
+
+<div class="credit" style="max-width:780px; margin:0 auto">© כל הזכויות שמורות ליאיר כהנא</div>
+
+<script>
+const quiz = [{"q": "מי הגדול מבין השלושה: <span class=\"fr\"><b>3</b><i>4</i></span>, &nbsp;0.7, &nbsp;72%?", "o": ["<span class=\"fr\"><b>3</b><i>4</i></span>", "0.7", "72%", "כולם שווים"], "a": 0}, {"q": "בעזרת חוק ההיפוך, 36% של 25 שווה בדיוק ל־:", "o": ["25% של 36, כלומר 9", "36% של 100, כלומר 36", "25% של 25", "אי אפשר להפוך אחוזים"], "a": 0}, {"q": "איזה זוג מייצג את אותו מספר?", "o": ["<span class=\"fr\"><b>2</b><i>5</i></span> ו-40%", "<span class=\"fr\"><b>2</b><i>5</i></span> ו-25%", "0.4 ו-4%", "<span class=\"fr\"><b>1</b><i>5</i></span> ו-50%"], "a": 0}, {"q": "כדי להפריך טענה מתמטית כללית, מספיק:", "o": ["דוגמה נגדית אחת", "לפחות עשר דוגמאות נגדיות", "להראות שהיא לא יפה", "אי אפשר להפריך טענות"], "a": 0}, {"q": "נכון או לא נכון: כל חלק אפשר לייצג גם כשבר, גם כמספר עשרוני וגם כאחוז.", "o": ["נכון", "לא נכון"], "a": 0}];
+let answered = 0, correct = 0;
+document.getElementById('quiz').innerHTML = quiz.map((q, i) => `
+  <div class="q">
+    <div class="qtext">${i + 1}. ${q.q}</div>
+    <div class="opts">${q.o.map((o, j) =>
+      `<button class="opt" data-q="${i}" data-o="${j}">${o}</button>`).join('')}</div>
+  </div>`).join('');
+document.querySelectorAll('.opt').forEach(btn => {
+  btn.onclick = () => {
+    const qi = +btn.dataset.q, oi = +btn.dataset.o, q = quiz[qi];
+    const group = btn.parentElement.querySelectorAll('.opt');
+    group.forEach(b => b.disabled = true);
+    group[q.a].classList.add('correct');
+    if (oi !== q.a) btn.classList.add('wrong'); else correct++;
+    if (++answered === quiz.length) {
+      document.getElementById('score').textContent =
+        `סיימתם! ${correct} מתוך ${quiz.length} נכונות ` +
+        (correct === quiz.length ? '🏆 מושלם!' : correct >= quiz.length - 2 ? '👍 יפה מאוד!' : '💪 שווה לחזור על הפרק');
+    }
+  };
+});
+</script>
+</body>
+</html>
