@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, useCallback } from 'react'
+import { useEffect, useMemo, useState, useCallback, useRef } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
@@ -97,6 +97,7 @@ export default function ChapterView() {
   const [error, setError] = useState(null)
   const [step, setStep] = useState(0)
   const [videoFile, setVideoFile] = useState(null)
+  const [chapterFiles, setChapterFiles] = useState([])
 
   const load = useCallback(() => {
     setLoading(true)
@@ -114,12 +115,16 @@ export default function ChapterView() {
         if (course?.metadata?.language) setLanguage(course.metadata.language)
         setChaptersCount((course?.chapters || []).length)
         setProgress(progData)
-        const video = (files || []).find(
+        // Files whose name carries "פרק-N" belong to this chapter: the .mp4
+        // becomes the opening video step, the rest (worksheets, question
+        // banks) are offered as downloads on the finish step.
+        const mine = (files || []).filter(
           (f) =>
-            /\.mp4$/i.test(f.original_name || '') &&
-            (f.original_name || '').includes(`פרק-${number}`)
+            (f.original_name || '').includes(`פרק-${number}`) &&
+            f.kind !== 'homework'
         )
-        setVideoFile(video || null)
+        setVideoFile(mine.find((f) => /\.mp4$/i.test(f.original_name)) || null)
+        setChapterFiles(mine.filter((f) => !/\.mp4$/i.test(f.original_name)))
         setStep(0)
       })
       .catch(setError)
@@ -206,6 +211,7 @@ export default function ChapterView() {
         marking={marking}
         markComplete={markComplete}
         nextNumber={nextNumber}
+        chapterFiles={chapterFiles}
       />
 
       <div className="card step-nav">
@@ -252,12 +258,13 @@ function StepBody({
   marking,
   markComplete,
   nextNumber,
+  chapterFiles,
 }) {
   if (step.kind === 'video') {
     return (
       <div className="card step-card video-step">
         <h2 className="step-title">
-          🎬 {t(rtl, 'צפו בסרטון ההסברה', 'Watch the explainer video')}
+          🎬 {t(rtl, 'סרטון הסברה', 'Explainer video')}: {chapter.title}
         </h2>
         <VideoPlayer fileId={step.file.id} rtl={rtl} />
       </div>
@@ -309,27 +316,175 @@ function StepBody({
   }
   // finish
   return (
-    <div className="card chapter-footer step-card step-finish">
-      <div className="finish-emoji">🎉</div>
-      <h2>{t(rtl, 'כל הכבוד! סיימתם את הפרק', 'Great job! Chapter finished')}</h2>
-      {completed ? (
-        <p className="status-ok chapter-done">
-          ✓ {t(rtl, 'הפרק הושלם', 'Chapter completed')}
+    <div className="step-card">
+      <div className="card chapter-footer step-finish">
+        <div className="finish-emoji">🎉</div>
+        <h2>
+          {t(rtl, 'כל הכבוד! סיימתם את הפרק', 'Great job! Chapter finished')}
+        </h2>
+        {completed ? (
+          <p className="status-ok chapter-done">
+            ✓ {t(rtl, 'הפרק הושלם', 'Chapter completed')}
+          </p>
+        ) : (
+          <button className="btn" onClick={markComplete} disabled={marking}>
+            {marking
+              ? t(rtl, 'שומר…', 'Saving…')
+              : t(rtl, 'סמן פרק כהושלם', 'Mark chapter complete')}
+          </button>
+        )}
+        {nextNumber && (
+          <Link
+            to={`/courses/${courseId}/chapters/${nextNumber}`}
+            className="btn"
+          >
+            {t(rtl, 'לפרק הבא ←', 'Next chapter →')}
+          </Link>
+        )}
+      </div>
+
+      {(chapterFiles || []).length > 0 && (
+        <div className="card">
+          <h3>{t(rtl, '📎 דפי עבודה וחומרים להורדה', '📎 Worksheets & downloads')}</h3>
+          <ul className="file-list">
+            {chapterFiles.map((f) => (
+              <li key={f.id} className="file-row">
+                <span className="file-icon">📄</span>
+                <span className="file-name">{f.original_name}</span>
+                <span className="file-actions">
+                  <button
+                    className="btn-sm"
+                    onClick={() => api.downloadFile(f.id, f.original_name)}
+                  >
+                    {t(rtl, 'הורדה', 'Download')}
+                  </button>
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <HomeworkBox courseId={courseId} chapterNumber={chapterNumber} rtl={rtl} />
+    </div>
+  )
+}
+
+// Student homework submissions for this chapter. Uploads are stored with a
+// "פרק-N" filename prefix so they stay attached to the chapter; the backend
+// forces kind="homework" for students and keeps each student's submissions
+// private (admin sees all of them).
+function HomeworkBox({ courseId, chapterNumber, rtl }) {
+  const [files, setFiles] = useState([])
+  const [uploading, setUploading] = useState(false)
+  const [err, setErr] = useState(null)
+  const inputRef = useRef(null)
+
+  const load = useCallback(() => {
+    api
+      .listFiles(courseId)
+      .then((data) =>
+        setFiles(
+          (Array.isArray(data) ? data : []).filter(
+            (f) =>
+              f.kind === 'homework' &&
+              (f.original_name || '').includes(`פרק-${chapterNumber}`)
+          )
+        )
+      )
+      .catch(setErr)
+  }, [courseId, chapterNumber])
+
+  useEffect(() => {
+    load()
+  }, [load])
+
+  async function handleUpload(e) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setUploading(true)
+    setErr(null)
+    try {
+      await api.uploadFile(
+        file,
+        courseId,
+        'homework',
+        `פרק-${chapterNumber} - הגשה - ${file.name}`
+      )
+      if (inputRef.current) inputRef.current.value = ''
+      load()
+    } catch (e2) {
+      setErr(e2)
+    } finally {
+      setUploading(false)
+    }
+  }
+
+  async function handleDelete(f) {
+    if (!confirm(t(rtl, `למחוק את ההגשה "${f.original_name}"?`, `Delete "${f.original_name}"?`)))
+      return
+    try {
+      await api.deleteFile(f.id)
+      load()
+    } catch (e2) {
+      setErr(e2)
+    }
+  }
+
+  return (
+    <div className="card file-manager">
+      <div className="file-manager-head">
+        <h3>{t(rtl, '📤 הגשת שיעורי בית', '📤 Submit homework')}</h3>
+        <label className="btn btn-cta file-upload-btn">
+          {uploading
+            ? t(rtl, 'מעלה…', 'Uploading…')
+            : t(rtl, '⬆ העלה הגשה', '⬆ Upload')}
+          <input
+            ref={inputRef}
+            type="file"
+            onChange={handleUpload}
+            disabled={uploading}
+            hidden
+          />
+        </label>
+      </div>
+      {err && <p className="inline-error">⚠️ {String(err.message || err)}</p>}
+      {files.length === 0 ? (
+        <p className="muted empty-msg">
+          {t(
+            rtl,
+            'פתרתם את התרגילים על דף? צלמו או סרקו והעלו את הפתרון לכאן.',
+            'Solved the exercises on paper? Scan or photograph and upload here.'
+          )}
         </p>
       ) : (
-        <button className="btn" onClick={markComplete} disabled={marking}>
-          {marking
-            ? t(rtl, 'שומר…', 'Saving…')
-            : t(rtl, 'סמן פרק כהושלם', 'Mark chapter complete')}
-        </button>
-      )}
-      {nextNumber && (
-        <Link
-          to={`/courses/${courseId}/chapters/${nextNumber}`}
-          className="btn"
-        >
-          {t(rtl, 'לפרק הבא ←', 'Next chapter →')}
-        </Link>
+        <ul className="file-list">
+          {files.map((f) => (
+            <li key={f.id} className="file-row">
+              <span className="file-icon">📝</span>
+              <span className="file-name">
+                {f.original_name}
+                {f.uploader_name && (
+                  <span className="muted"> · {f.uploader_name}</span>
+                )}
+              </span>
+              <span className="file-actions">
+                <button
+                  className="btn-sm"
+                  onClick={() => api.downloadFile(f.id, f.original_name)}
+                >
+                  {t(rtl, 'הורדה', 'Download')}
+                </button>
+                <button
+                  className="btn-sm btn-danger"
+                  onClick={() => handleDelete(f)}
+                >
+                  {t(rtl, 'מחק', 'Delete')}
+                </button>
+              </span>
+            </li>
+          ))}
+        </ul>
       )}
     </div>
   )

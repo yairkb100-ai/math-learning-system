@@ -244,10 +244,16 @@ class FileAsset(Base):
     stored_name = Column(String, nullable=False)  # unique name on disk
     content_type = Column(String, nullable=True)
     size = Column(Integer, nullable=True)
+    # "resource" = course material (admin-uploaded); "homework" = student submission
+    kind = Column(String, nullable=False, default="resource", server_default="resource")
     uploaded_at = Column(DateTime, default=datetime.utcnow)
 
     uploader = relationship("User", foreign_keys=[uploader_id])
     course = relationship("Course")
+
+    @property
+    def uploader_name(self) -> str | None:
+        return self.uploader.full_name if self.uploader else None
 
 
 # ---------------------------------------------------------------------------

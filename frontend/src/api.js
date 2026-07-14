@@ -214,10 +214,14 @@ export const api = {
   // Files
   listFiles: (courseId) =>
     request(`/files${courseId != null ? `?course_id=${courseId}` : ''}`),
-  uploadFile: (file, courseId) => {
+  uploadFile: (file, courseId, kind = 'resource', asName = null) => {
     const fd = new FormData()
-    fd.append('file', file)
+    // asName overrides the stored filename (e.g. prefixing "פרק-N" so the
+    // file is associated with a specific chapter).
+    if (asName) fd.append('file', file, asName)
+    else fd.append('file', file)
     if (courseId != null) fd.append('course_id', courseId)
+    fd.append('kind', kind)
     return uploadRequest('/files', fd)
   },
   downloadFile: (id, filename) => downloadRequest(`/files/${id}/download`, filename),

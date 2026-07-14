@@ -353,10 +353,12 @@ class FileAssetOut(BaseModel):
 
     id: int
     uploader_id: int
+    uploader_name: Optional[str] = None
     course_id: Optional[int] = None
     original_name: str
     content_type: Optional[str] = None
     size: Optional[int] = None
+    kind: str = "resource"
     uploaded_at: datetime
 
 

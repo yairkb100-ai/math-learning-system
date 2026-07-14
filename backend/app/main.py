@@ -63,6 +63,16 @@ def on_startup() -> None:
                 conn.execute(
                     text("ALTER TABLE courses ADD COLUMN section_id INTEGER")
                 )
+    if "file_assets" in inspector.get_table_names():
+        cols = {c["name"] for c in inspector.get_columns("file_assets")}
+        if "kind" not in cols:
+            with engine.begin() as conn:
+                conn.execute(
+                    text(
+                        "ALTER TABLE file_assets ADD COLUMN kind VARCHAR "
+                        "NOT NULL DEFAULT 'resource'"
+                    )
+                )
 
 
 app.include_router(courses.router)

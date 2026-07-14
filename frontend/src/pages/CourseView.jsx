@@ -3,7 +3,6 @@ import { useParams, Link } from 'react-router-dom'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
 import { InlineMathText } from '../components/MathText.jsx'
-import FileManager from '../components/FileManager.jsx'
 
 export default function CourseView() {
   const { id } = useParams()
@@ -91,11 +90,6 @@ export default function CourseView() {
           </li>
         ))}
       </ol>
-
-      <FileManager
-        courseId={Number(id)}
-        title={isRtl ? 'קבצים להורדה' : 'Downloads'}
-      />
     </section>
   )
 }

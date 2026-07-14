@@ -31,9 +31,16 @@ from app.schemas import FileAssetOut  # noqa: E402
 def upload_file(
     file: UploadFile = File(...),
     course_id: int | None = Form(None),
+    kind: str = Form("resource"),
     db: Session = Depends(get_db),
     current_user: models.User = Depends(get_current_user),
 ) -> FileAssetOut:
+    # Students may upload ONLY homework submissions; course resources are
+    # admin-only.
+    if current_user.role != "admin":
+        kind = "homework"
+    if kind not in ("resource", "homework"):
+        kind = "resource"
     _ensure_upload_dir()
     ext = os.path.splitext(file.filename or "")[1]
     stored_name = uuid.uuid4().hex + ext
@@ -48,6 +55,7 @@ def upload_file(
         stored_name=stored_name,
         content_type=file.content_type,
         size=len(contents),
+        kind=kind,
     )
     db.add(asset)
     db.commit()
@@ -64,6 +72,13 @@ def list_files(
     query = db.query(models.FileAsset)
     if course_id is not None:
         query = query.filter(models.FileAsset.course_id == course_id)
+    # Students see course resources plus their own homework submissions;
+    # other students' homework stays private. Admin sees everything.
+    if current_user.role != "admin":
+        query = query.filter(
+            (models.FileAsset.kind == "resource")
+            | (models.FileAsset.uploader_id == current_user.id)
+        )
     return query.order_by(models.FileAsset.uploaded_at.desc()).all()
 
 
@@ -76,6 +91,12 @@ def download_file(
     asset = db.query(models.FileAsset).filter(models.FileAsset.id == file_id).first()
     if not asset:
         raise HTTPException(status_code=404, detail="הקובץ לא נמצא")
+    if (
+        asset.kind == "homework"
+        and current_user.role != "admin"
+        and asset.uploader_id != current_user.id
+    ):
+        raise HTTPException(status_code=403, detail="אין הרשאה לקובץ זה")
     path = os.path.join(UPLOAD_DIR, asset.stored_name)
     if not os.path.exists(path):
         raise HTTPException(status_code=404, detail="הקובץ לא נמצא")

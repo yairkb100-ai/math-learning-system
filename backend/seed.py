@@ -380,6 +380,15 @@ def run_light_migrations():
                 conn.execute(text("ALTER TABLE courses ADD COLUMN section_id INTEGER"))
             print("  ~ Migrated: added courses.section_id")
 
+    if "file_assets" in inspector.get_table_names():
+        cols = {c["name"] for c in inspector.get_columns("file_assets")}
+        if "kind" not in cols:
+            with engine.begin() as conn:
+                conn.execute(
+                    text("ALTER TABLE file_assets ADD COLUMN kind VARCHAR NOT NULL DEFAULT 'resource'")
+                )
+            print("  ~ Migrated: added file_assets.kind")
+
 
 def main():
     # Create tables if they do not yet exist, then patch older tables in place.
