@@ -35,7 +35,9 @@
   "number": 2,
   "topic": "שברים ועשרוניים על ישר המספרים וצפיפות",
   "output": "סרטון-פרק-2-שברים-ועשרוניים-על-ישר-המספרים.mp4",
-  "status": "staged"
+  "status": "done",
+  "artifact_id": "e41b2516-7a2e-43cc-a1e1-a1cf3bd3a460",
+  "submitted_at": 1784136377.858656
  },
  "g6-ch03": {
   "notebook_id": "d2f6b70f-f5f9-4f5a-8014-5daf2ff9fb3b",
@@ -43,7 +45,9 @@
   "number": 3,
   "topic": "כפל שלם בשבר ובמספר מעורב",
   "output": "סרטון-פרק-3-כפל-שלם-בשבר.mp4",
-  "status": "staged"
+  "status": "done",
+  "artifact_id": "90262513-00f7-4f89-9b98-0c8734565708",
+  "submitted_at": 1784136383.512663
  },
  "g6-ch04": {
   "notebook_id": "8c9aa17b-aebc-404c-97dd-622dc3789e1a",
@@ -51,7 +55,9 @@
   "number": 4,
   "topic": "כפל שבר בשבר",
   "output": "סרטון-פרק-4-כפל-שבר-בשבר.mp4",
-  "status": "staged"
+  "status": "done",
+  "artifact_id": "9a6f8d60-fdcc-40a4-9222-e5bf6f187fff",
+  "submitted_at": 1784136390.4636583
  },
  "g6-ch05": {
   "notebook_id": "558fc680-dc30-4f9a-8ff3-163bdb8f498e",
