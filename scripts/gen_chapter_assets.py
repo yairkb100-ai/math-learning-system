@@ -293,10 +293,11 @@ def build_bank(ch, assets, meta):
                 css('#7a3fd1', '#4a1f8a', '#f3edfc'), body)
 
 
-def build_practice(ch, meta):
+def build_practice(ch, assets, meta):
     tags = {'easy': 'קל', 'medium': 'בינוני', 'hard': 'מאתגר'}
     ex_html = []
-    for i, ex in enumerate(ch['exercises'], 1):
+    all_exercises = list(ch['exercises']) + list(assets.get('extra_exercises', []))
+    for i, ex in enumerate(all_exercises, 1):
         ex_html.append(f"""
   <div class="ex">
     <div class="ex-h"><strong>תרגיל {i}: {ex.get('title', '')}</strong>
@@ -401,7 +402,7 @@ def main(chdir):
     }
     (chdir / 'worksheet.html').write_text(build_worksheet(ch, assets, meta), encoding='utf-8')
     (chdir / 'question-bank.html').write_text(build_bank(ch, assets, meta), encoding='utf-8')
-    (chdir / 'practice.html').write_text(build_practice(ch, meta), encoding='utf-8')
+    (chdir / 'practice.html').write_text(build_practice(ch, assets, meta), encoding='utf-8')
     print(f'generated 3 html files in {chdir}')
 
 

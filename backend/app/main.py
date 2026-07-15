@@ -73,6 +73,13 @@ def on_startup() -> None:
                         "NOT NULL DEFAULT 'resource'"
                     )
                 )
+    if "messages" in inspector.get_table_names():
+        cols = {c["name"] for c in inspector.get_columns("messages")}
+        if "file_id" not in cols:
+            with engine.begin() as conn:
+                conn.execute(
+                    text("ALTER TABLE messages ADD COLUMN file_id INTEGER")
+                )
 
 
 app.include_router(courses.router)

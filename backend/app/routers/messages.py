@@ -39,7 +39,12 @@ def list_conversations(
             other_id, {"last_body": "", "last_at": None, "unread": 0}
         )
         if entry["last_at"] is None or msg.created_at >= entry["last_at"]:
-            entry["last_body"] = msg.body or ("📎 " + (msg.attachment.original_name if msg.attachment else "קובץ"))
+            if msg.body:
+                entry["last_body"] = msg.body
+            elif msg.attachment:
+                entry["last_body"] = "📎 " + msg.attachment.original_name
+            else:
+                entry["last_body"] = ""
             entry["last_at"] = msg.created_at
         if msg.recipient_id == me and msg.sender_id == other_id and msg.read_at is None:
             entry["unread"] += 1
