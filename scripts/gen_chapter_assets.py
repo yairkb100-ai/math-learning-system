@@ -30,7 +30,37 @@ from pathlib import Path
 CR = '© כל הזכויות שמורות ליאיר כהנא'
 
 
+# One math token: an [[eq:...]] island (which may embed [[a/b]] fractions) or a
+# bare [[a/b]] fraction.
+_TOKEN = r'\[\[eq:(?:[^\[\]]|\[\[\d+/\d+\]\])*\]\]|\[\[\d+/\d+\]\]'
+_RUN = re.compile(r'(?:' + _TOKEN + r')(?:[ \t]*(?:' + _TOKEN + r'))+')
+
+
+def _merge_math_runs(s):
+    """Coalesce runs of 2+ adjacent math tokens (separated only by spaces) into a
+    single [[eq:...]] island.
+
+    Inside RTL Hebrew text, sibling LTR spans get visually reordered — an
+    exercise authored as ``[[eq:2 ×]] [[1/3]]`` renders with the operator glued
+    to the wrong operand. Merging the run into one island (``[[eq:2 × [[1/3]]]]``)
+    makes it one LTR unit that reads in source order. A comma, an operator
+    written OUTSIDE a token, Hebrew, [[blank]] or [[lines:N]] all break a run, so
+    number lists and fill-in blanks are left untouched. Idempotent: an already
+    merged single-island expression is one token and never re-wrapped.
+    """
+    def repl(m):
+        parts = re.findall(_TOKEN, m.group(0))
+        inner = []
+        for p in parts:
+            me = re.match(r'\[\[eq:(.*)\]\]$', p, re.S)
+            inner.append(me.group(1).strip() if me else p)
+        return '[[eq:' + ' '.join(inner) + ']]'
+
+    return _RUN.sub(repl, s)
+
+
 def macros(s):
+    s = _merge_math_runs(s)
     s = re.sub(r'\[\[(\d+)/(\d+)\]\]',
                r'<span class="fr"><b>\1</b><i>\2</i></span>', s)
     s = re.sub(r'\[\[eq:([^\]]*)\]\]',
@@ -42,18 +72,68 @@ def macros(s):
     return s
 
 
+def _find_frac_span(s, start):
+    """Locate the next \\frac{A}{B} at/after `start`, respecting nested braces.
+    Returns (whole_start, num_start, num_end, den_start, den_end, whole_end) or
+    None if there's no (well-formed) \\frac from `start` onward."""
+    idx = s.find('\\frac{', start)
+    if idx == -1:
+        return None
+
+    def _scan_group(i):
+        # s[i] is the opening '{'; returns index just past the matching '}'.
+        depth = 1
+        i += 1
+        while i < len(s) and depth:
+            if s[i] == '{':
+                depth += 1
+            elif s[i] == '}':
+                depth -= 1
+            i += 1
+        return i if depth == 0 else None
+
+    num_start = idx + len('\\frac{') - 1  # index of numerator's '{'
+    num_close = _scan_group(num_start)
+    if num_close is None or num_close >= len(s) or s[num_close] != '{':
+        return None
+    den_close = _scan_group(num_close)
+    if den_close is None:
+        return None
+    return idx, num_start + 1, num_close - 1, num_close + 1, den_close - 1, den_close
+
+
+def _convert_fracs(s):
+    """Recursively turn every \\frac{A}{B} (A/B may contain further nested
+    \\frac{}) into a stacked <span class="fr"> fraction, for ANY numerator/
+    denominator content — digits, variables, sums, ×/÷ expressions, etc.
+    (A digit-only fast path used to be the only case handled; real course
+    content also writes \\frac{a}{b}, \\frac{4 \\div 4}{8 \\div 4}, etc.)"""
+    out = []
+    i = 0
+    while True:
+        span = _find_frac_span(s, i)
+        if span is None:
+            out.append(s[i:])
+            break
+        whole_start, num_start, num_end, den_start, den_end, whole_end = span
+        out.append(s[i:whole_start])
+        num = _convert_fracs(s[num_start:num_end])
+        den = _convert_fracs(s[den_start:den_end])
+        out.append(f'<span class="fr"><b>{num}</b><i>{den}</i></span>')
+        i = whole_end
+    return ''.join(out)
+
+
 # LaTeX-ish course text -> plain HTML for practice.html (no KaTeX there).
 def tex2html(s):
     s = str(s)
-    s = re.sub(r'\$\\frac\{(\d+)\}\{(\d+)\}\$',
-               r'<span class="fr"><b>\1</b><i>\2</i></span>', s)
     # inline math with operators -> LTR span, stripped of TeX commands
     def conv(m):
         inner = m.group(1)
         inner = inner.replace('\\times', '×').replace('\\div', '÷')
         inner = inner.replace('\\cdot', '·').replace('\\quad', ' ').replace('\\qquad', '  ')
-        inner = re.sub(r'\\frac\{(\d+)\}\{(\d+)\}', r'\1/\2', inner)
         inner = inner.replace('>', '&gt;').replace('<', '&lt;')
+        inner = _convert_fracs(inner)
         return f'<span class="eq">{inner}</span>'
     s = re.sub(r'\$\$?([^$]+)\$\$?', conv, s)
     s = re.sub(r'\*\*([^*]+)\*\*', r'<b>\1</b>', s)

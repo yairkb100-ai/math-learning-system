@@ -405,10 +405,16 @@ def ensure_course_assets(db):
             if exists:
                 # The DB row survives redeploys (Postgres) but the container
                 # disk does not — restore the file from git if it is missing.
+                # Also refresh when the git copy changed (e.g. regenerated PDF),
+                # detected by a size mismatch, so content edits propagate even
+                # on a persistent upload disk.
                 dest = os.path.join(UPLOAD_DIR, exists.stored_name)
-                if not os.path.exists(dest):
+                src_size = os.path.getsize(src)
+                if not os.path.exists(dest) or os.path.getsize(dest) != src_size:
                     os.makedirs(UPLOAD_DIR, exist_ok=True)
                     shutil.copyfile(src, dest)
+                    if exists.size != src_size:
+                        exists.size = src_size
                     restored += 1
                 continue
             os.makedirs(UPLOAD_DIR, exist_ok=True)
@@ -457,6 +463,13 @@ def run_light_migrations():
                     text("ALTER TABLE file_assets ADD COLUMN kind VARCHAR NOT NULL DEFAULT 'resource'")
                 )
             print("  ~ Migrated: added file_assets.kind")
+
+    if "messages" in inspector.get_table_names():
+        cols = {c["name"] for c in inspector.get_columns("messages")}
+        if "file_id" not in cols:
+            with engine.begin() as conn:
+                conn.execute(text("ALTER TABLE messages ADD COLUMN file_id INTEGER"))
+            print("  ~ Migrated: added messages.file_id")
 
 
 def main():

@@ -316,35 +316,6 @@ class CourseSectionAssign(BaseModel):
 
 
 # ---------------------------------------------------------------------------
-# Messaging
-# ---------------------------------------------------------------------------
-
-class MessageCreate(BaseModel):
-    recipient_id: int
-    body: str
-
-
-class MessageOut(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-
-    id: int
-    sender_id: int
-    recipient_id: int
-    body: str
-    created_at: datetime
-    read_at: Optional[datetime] = None
-
-
-class ConversationSummary(BaseModel):
-    user_id: int
-    full_name: str
-    username: str
-    last_body: str
-    last_at: datetime
-    unread: int
-
-
-# ---------------------------------------------------------------------------
 # Files
 # ---------------------------------------------------------------------------
 
@@ -360,6 +331,38 @@ class FileAssetOut(BaseModel):
     size: Optional[int] = None
     kind: str = "resource"
     uploaded_at: datetime
+
+
+# ---------------------------------------------------------------------------
+# Messaging
+# ---------------------------------------------------------------------------
+
+class MessageCreate(BaseModel):
+    recipient_id: int
+    body: str = ""
+    file_id: Optional[int] = None
+
+
+class MessageOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    sender_id: int
+    recipient_id: int
+    body: str
+    file_id: Optional[int] = None
+    attachment: Optional[FileAssetOut] = None
+    created_at: datetime
+    read_at: Optional[datetime] = None
+
+
+class ConversationSummary(BaseModel):
+    user_id: int
+    full_name: str
+    username: str
+    last_body: str
+    last_at: datetime
+    unread: int
 
 
 # ---------------------------------------------------------------------------

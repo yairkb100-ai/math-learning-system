@@ -1291,6 +1291,74 @@ h4.prose-h {
   outline: none;
   border-color: var(--accent);
 }
+.chat-attach-btn {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  cursor: pointer;
+  font-size: 1.1rem;
+}
+.chat-attach-btn:hover {
+  background: var(--surface-3, var(--surface-2));
+}
+.chat-pending-file {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 16px;
+  padding: 6px 10px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.85rem;
+}
+.chat-pending-file-remove {
+  margin-inline-start: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.chat-attachment-image {
+  max-width: 220px;
+  max-height: 220px;
+  border-radius: 10px;
+  display: block;
+}
+.chat-attachment-image-link {
+  display: inline-block;
+}
+.chat-attachment-loading {
+  font-size: 0.85rem;
+  padding: 6px 0;
+}
+.chat-attachment-file {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: inherit;
+  width: 100%;
+  text-align: start;
+}
+.chat-bubble.theirs .chat-attachment-file {
+  background: var(--surface);
+}
+.chat-attachment-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 160px;
+}
 
 /* ---------- RTL ---------- */
 [dir='rtl'] .code-block,

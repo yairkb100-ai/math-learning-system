@@ -203,10 +203,10 @@ export const api = {
   // Messaging
   listConversations: () => request('/messages/conversations'),
   getThread: (userId) => request(`/messages/thread/${userId}`),
-  sendMessage: (recipientId, body) =>
+  sendMessage: (recipientId, body, fileId = null) =>
     request('/messages', {
       method: 'POST',
-      body: JSON.stringify({ recipient_id: recipientId, body }),
+      body: JSON.stringify({ recipient_id: recipientId, body, file_id: fileId }),
     }),
   unreadCount: () => request('/messages/unread_count'),
   listStaff: () => request('/messages/staff'),

@@ -13,7 +13,7 @@ function renderInline(text, keyPrefix) {
   let k = 0
 
   // Split on display math first so $$…$$ stays intact.
-  const displayParts = String(text).split(/(\$\$[^$]*\$\$)/g)
+  const displayParts = stripUnknownArtTokens(String(text)).split(/(\$\$[^$]*\$\$)/g)
   displayParts.forEach((part) => {
     if (part.startsWith('$$') && part.endsWith('$$') && part.length >= 4) {
       nodes.push(renderMath(part.slice(2, -2), true, `${keyPrefix}-${k++}`, part))
@@ -61,9 +61,15 @@ export function InlineMathText({ text }) {
   return <>{renderInline(String(text || ''), 'im')}</>
 }
 
-// ---- illustrations: {{kind:n/d|caption}} ----------------------------------
+// ---- illustrations: {{kind:param|caption}} ---------------------------------
 // A line made only of art tokens becomes a row of friendly SVG figures.
-const ART_TOKEN = /\{\{([a-z-]+)(?::(\d+)\/(\d+))?(?:\|([^}]*))?\}\}/g
+// `param` is kind-specific: most kinds use "n/d" (a fraction), some use a bare
+// number, and a few (grid, rect) use their own "RxC/n" / "WxH" grammar — see
+// FractionArt.jsx for how each kind interprets it.
+const ART_TOKEN = /\{\{([a-z-]+)(?::([^|}]+))?(?:\|([^}]*))?\}\}/g
+// Anything left over that still *looks* like an unparsed art token — used to
+// avoid leaking raw "{{...}}" syntax into the page when authoring goes wrong.
+const ART_TOKEN_SHAPED = /\{\{[a-z-]+(?::[^|}]+)?(?:\|[^}]*)?\}\}/
 
 function parseArtLine(line) {
   const items = []
@@ -71,16 +77,31 @@ function parseArtLine(line) {
   let m
   ART_TOKEN.lastIndex = 0
   while ((m = ART_TOKEN.exec(line)) !== null) {
-    items.push({
-      kind: m[1],
-      n: m[2] != null ? Number(m[2]) : undefined,
-      d: m[3] != null ? Number(m[3]) : undefined,
-      caption: m[4] || null,
-    })
+    const param = m[2]
+    let n, d
+    if (param != null) {
+      const frac = param.match(/^(\d+(?:\.\d+)?)\/(\d+(?:\.\d+)?)$/)
+      if (frac) {
+        n = Number(frac[1])
+        d = Number(frac[2])
+      } else if (/^\d+(?:\.\d+)?$/.test(param)) {
+        d = Number(param)
+      }
+    }
+    items.push({ kind: m[1], n, d, param, caption: m[4] || null })
     rest = rest.replace(m[0], '')
   }
   if (items.length === 0 || rest.trim() !== '') return null
   return items
+}
+
+// Strip any leftover "{{...}}"-shaped text a paragraph might contain (e.g. an
+// authoring typo that didn't parse as a standalone art line) instead of
+// showing broken raw syntax to the reader.
+function stripUnknownArtTokens(text) {
+  if (!ART_TOKEN_SHAPED.test(text)) return text
+  console.warn('[MathText] dropping unrecognized art token(s) in:', text)
+  return text.replace(new RegExp(ART_TOKEN_SHAPED, 'g'), '').replace(/\s{2,}/g, ' ').trim()
 }
 
 // ---- block-level parsing --------------------------------------------------

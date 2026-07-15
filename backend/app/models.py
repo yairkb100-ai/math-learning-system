@@ -223,11 +223,13 @@ class Message(Base):
     sender_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     recipient_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     body = Column(Text, nullable=False)
+    file_id = Column(Integer, ForeignKey("file_assets.id"), nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow, index=True)
     read_at = Column(DateTime, nullable=True)
 
     sender = relationship("User", foreign_keys=[sender_id])
     recipient = relationship("User", foreign_keys=[recipient_id])
+    attachment = relationship("FileAsset")
 
 
 # ---------------------------------------------------------------------------

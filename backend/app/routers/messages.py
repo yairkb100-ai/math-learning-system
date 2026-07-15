@@ -39,7 +39,7 @@ def list_conversations(
             other_id, {"last_body": "", "last_at": None, "unread": 0}
         )
         if entry["last_at"] is None or msg.created_at >= entry["last_at"]:
-            entry["last_body"] = msg.body
+            entry["last_body"] = msg.body or ("📎 " + (msg.attachment.original_name if msg.attachment else "קובץ"))
             entry["last_at"] = msg.created_at
         if msg.recipient_id == me and msg.sender_id == other_id and msg.read_at is None:
             entry["unread"] += 1
@@ -105,10 +105,21 @@ def send_message(
     )
     if not recipient:
         raise HTTPException(status_code=404, detail="הנמען לא נמצא")
+    if not payload.body.strip() and not payload.file_id:
+        raise HTTPException(status_code=400, detail="הודעה ריקה")
+    if payload.file_id is not None:
+        asset = (
+            db.query(models.FileAsset)
+            .filter(models.FileAsset.id == payload.file_id)
+            .first()
+        )
+        if not asset or asset.uploader_id != current_user.id:
+            raise HTTPException(status_code=404, detail="הקובץ לא נמצא")
     message = models.Message(
         sender_id=current_user.id,
         recipient_id=payload.recipient_id,
         body=payload.body,
+        file_id=payload.file_id,
     )
     db.add(message)
     db.commit()

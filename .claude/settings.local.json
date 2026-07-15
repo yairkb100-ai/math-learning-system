@@ -82,7 +82,10 @@
       "Bash(node -e \"console.log\\('recharts', require\\('./package.json'\\).dependencies.recharts\\)\")",
       "Bash(C:/Users/yairk/AppData/Local/Programs/Python/Python312/python.exe -m py_compile backend/app/routers/practice.py)",
       "Bash(C:/Users/yairk/AppData/Local/Programs/Python/Python312/python.exe -m py_compile backend/app/routers/analytics.py)",
-      "Bash(C:/Users/yairk/AppData/Local/Programs/Python/Python312/python.exe -m py_compile backend/app/routers/exams.py)"
+      "Bash(C:/Users/yairk/AppData/Local/Programs/Python/Python312/python.exe -m py_compile backend/app/routers/exams.py)",
+      "Bash(python3 -c ' *)",
+      "Bash(node -e ' *)",
+      "Bash(grep -vE ':[0-9]+/[0-9]+$')"
     ]
   }
 }

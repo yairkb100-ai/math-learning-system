@@ -3,6 +3,55 @@ import { useAuth } from '../context/AuthContext.jsx'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
 
+function formatSize(bytes) {
+  if (!bytes) return ''
+  if (bytes < 1024) return `${bytes} B`
+  if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} KB`
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
+}
+
+function Attachment({ file }) {
+  const isImage = (file.content_type || '').startsWith('image/')
+  const [imgUrl, setImgUrl] = useState(null)
+
+  useEffect(() => {
+    if (!isImage) return
+    let url = null
+    let cancelled = false
+    api.fileObjectUrl(file.id).then((u) => {
+      if (cancelled) return
+      url = u
+      setImgUrl(u)
+    })
+    return () => {
+      cancelled = true
+      if (url) URL.revokeObjectURL(url)
+    }
+  }, [file.id, isImage])
+
+  if (isImage) {
+    return imgUrl ? (
+      <a href={imgUrl} target="_blank" rel="noreferrer" className="chat-attachment-image-link">
+        <img src={imgUrl} alt={file.original_name} className="chat-attachment-image" />
+      </a>
+    ) : (
+      <div className="chat-attachment-loading muted">טוען תמונה…</div>
+    )
+  }
+
+  return (
+    <button
+      type="button"
+      className="chat-attachment-file"
+      onClick={() => api.downloadFile(file.id, file.original_name)}
+    >
+      <span className="chat-attachment-icon">📎</span>
+      <span className="chat-attachment-name">{file.original_name}</span>
+      <span className="chat-attachment-size muted">{formatSize(file.size)}</span>
+    </button>
+  )
+}
+
 export default function Messages() {
   const { user } = useAuth()
   const isAdmin = user?.role === 'admin'
@@ -12,10 +61,12 @@ export default function Messages() {
   const [active, setActive] = useState(null) // { user_id, full_name }
   const [thread, setThread] = useState([])
   const [draft, setDraft] = useState('')
+  const [pendingFile, setPendingFile] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [sending, setSending] = useState(false)
   const threadEnd = useRef(null)
+  const fileInputRef = useRef(null)
 
   const loadConversations = useCallback(() => {
     return api.listConversations().then((data) => {
@@ -55,13 +106,25 @@ export default function Messages() {
     threadEnd.current?.scrollIntoView({ behavior: 'smooth' })
   }, [thread])
 
+  function pickFile(e) {
+    const f = e.target.files?.[0]
+    if (f) setPendingFile(f)
+    e.target.value = ''
+  }
+
   async function send(e) {
     e.preventDefault()
-    if (!draft.trim() || !active) return
+    if ((!draft.trim() && !pendingFile) || !active) return
     setSending(true)
     try {
-      await api.sendMessage(active.user_id, draft.trim())
+      let fileId = null
+      if (pendingFile) {
+        const uploaded = await api.uploadFile(pendingFile, null, 'message')
+        fileId = uploaded.id
+      }
+      await api.sendMessage(active.user_id, draft.trim(), fileId)
       setDraft('')
+      setPendingFile(null)
       const msgs = await api.getThread(active.user_id)
       setThread(Array.isArray(msgs) ? msgs : [])
       loadConversations()
@@ -147,7 +210,8 @@ export default function Messages() {
                       (m.sender_id === user.id ? 'mine' : 'theirs')
                     }
                   >
-                    <div className="chat-bubble-body">{m.body}</div>
+                    {m.attachment && <Attachment file={m.attachment} />}
+                    {m.body && <div className="chat-bubble-body">{m.body}</div>}
                     <div className="chat-bubble-time">
                       {new Date(m.created_at).toLocaleString('he-IL', {
                         day: '2-digit',
@@ -160,14 +224,43 @@ export default function Messages() {
                 ))}
                 <div ref={threadEnd} />
               </div>
+              {pendingFile && (
+                <div className="chat-pending-file">
+                  <span className="chat-attachment-icon">📎</span>
+                  <span className="chat-attachment-name">{pendingFile.name}</span>
+                  <button
+                    type="button"
+                    className="chat-pending-file-remove"
+                    onClick={() => setPendingFile(null)}
+                    aria-label="הסר קובץ"
+                  >
+                    ✕
+                  </button>
+                </div>
+              )}
               <form className="chat-compose" onSubmit={send}>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  onChange={pickFile}
+                  style={{ display: 'none' }}
+                />
+                <button
+                  type="button"
+                  className="chat-attach-btn"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={sending}
+                  title="צרף קובץ או תמונה"
+                >
+                  📎
+                </button>
                 <input
                   value={draft}
                   onChange={(e) => setDraft(e.target.value)}
                   placeholder="כתבו הודעה…"
                   disabled={sending}
                 />
-                <button className="btn" disabled={sending || !draft.trim()}>
+                <button className="btn" disabled={sending || (!draft.trim() && !pendingFile)}>
                   שלח
                 </button>
               </form>

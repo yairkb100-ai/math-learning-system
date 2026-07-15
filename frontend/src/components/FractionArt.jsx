@@ -209,6 +209,61 @@ function NumberLine({ n, d }) {
   )
 }
 
+// Row-major shaded grid, e.g. {{grid:10x10/30}} -> 10x10 cells, first 30 shaded.
+function Grid({ param }) {
+  const m = String(param || '').match(/^(\d+)x(\d+)(?:\/(\d+))?$/)
+  const cols = m ? Number(m[1]) : 4
+  const rows = m ? Number(m[2]) : 4
+  const shaded = m && m[3] != null ? Number(m[3]) : 0
+  const s = 22
+  const cells = []
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const i = r * cols + c
+      cells.push(
+        <rect
+          key={i}
+          x={c * s + 1}
+          y={r * s + 1}
+          width={s - 2}
+          height={s - 2}
+          fill={i < shaded ? FILL : '#fff'}
+          stroke={NAVY}
+          strokeWidth="1.5"
+        />
+      )
+    }
+  }
+  return (
+    <svg width={cols * s + 2} height={rows * s + 2} viewBox={`0 0 ${cols * s + 2} ${rows * s + 2}`}>
+      {cells}
+    </svg>
+  )
+}
+
+// Labeled rectangle for area/measurement problems, e.g. {{rect:3.5x4.2}}.
+function Rect({ param }) {
+  const m = String(param || '').match(/^([\d.]+)x([\d.]+)$/)
+  const w = m ? Number(m[1]) : 1
+  const h = m ? Number(m[2]) : 1
+  const maxW = 180
+  const maxH = 110
+  const scale = Math.min(maxW / w, maxH / h)
+  const rw = w * scale
+  const rh = h * scale
+  const pad = 26
+  const W = rw + pad * 2
+  const H = rh + pad * 2
+  return (
+    <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`}>
+      <rect x={pad} y={pad} width={rw} height={rh} fill={FILL} stroke={NAVY} strokeWidth="2" rx="3" />
+      <text x={pad + rw / 2} y={pad - 8} textAnchor="middle" fontSize="13" fill={NAVY} fontWeight="700">{w}</text>
+      <text x={pad - 8} y={pad + rh / 2} textAnchor="middle" fontSize="13" fill={NAVY} fontWeight="700"
+        transform={`rotate(-90 ${pad - 8} ${pad + rh / 2})`}>{h}</text>
+    </svg>
+  )
+}
+
 const KINDS = {
   pizza: Pizza,
   circle: CirclePlain,
@@ -216,15 +271,17 @@ const KINDS = {
   'bar-unequal': BarUnequal,
   chocolate: Chocolate,
   numberline: NumberLine,
+  grid: Grid,
+  rect: Rect,
 }
 
-export default function FractionArt({ kind, n = 1, d = 4, caption }) {
+export default function FractionArt({ kind, n = 1, d = 4, param, caption }) {
   const Art = KINDS[kind]
   if (!Art) return null
   return (
     <figure className="art-fig">
       <div dir="ltr">
-        <Art n={n} d={d} />
+        <Art n={n} d={d} param={param} />
       </div>
       {caption && <figcaption className="art-caption">{caption}</figcaption>}
     </figure>
