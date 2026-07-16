@@ -805,6 +805,16 @@ h4.prose-h {
   padding: 11px;
   font-size: 1rem;
 }
+.auth-switch {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--muted, #667);
+}
+.auth-switch a {
+  color: var(--accent);
+  font-weight: 600;
+}
 
 /* ---------- admin stats ---------- */
 .stats-grid {

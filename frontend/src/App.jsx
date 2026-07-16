@@ -4,6 +4,7 @@ import PrivateRoute from './components/PrivateRoute.jsx'
 import Navbar from './components/Navbar.jsx'
 
 import LoginPage from './pages/LoginPage.jsx'
+import RegisterPage from './pages/RegisterPage.jsx'
 import CourseList from './pages/CourseList.jsx'
 import CourseView from './pages/CourseView.jsx'
 import ChapterView from './pages/ChapterView.jsx'
@@ -40,6 +41,7 @@ function AppRoutes() {
         <Routes>
           {/* Public */}
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
 
           {/* Student */}
           <Route

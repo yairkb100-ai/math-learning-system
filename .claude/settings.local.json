@@ -110,7 +110,32 @@
       "Bash(grep -o '\\\\\\\\\\\\\\\\_' content/grade7/algebra/ch05/*.html)",
       "Bash(grep -l '\\\\\\\\\\\\\\\\_' content/grade7/algebra/ch*/assets.json)",
       "Bash(git commit -m 'Add grade7 algebra course: 13 chapters, PDFs, section, video staging *)",
-      "Bash('/c/Program Files/Google/Chrome/Application/chrome.exe' --headless --disable-gpu '--screenshot=C:\\\\Users\\\\yairk\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-yairk-OneDrive--------------math-learning-system\\\\ac77f64f-3d37-4d71-af97-2b6da1b15127\\\\scratchpad\\\\pct5-qb.png' --window-size=850,4200 'file:///C:\\\\Users\\\\yairk\\\\OneDrive\\\\שולחן העבודה\\\\math-learning-system\\\\content\\\\grade6\\\\percents\\\\ch05\\\\question-bank.html')"
+      "Bash('/c/Program Files/Google/Chrome/Application/chrome.exe' --headless --disable-gpu '--screenshot=C:\\\\Users\\\\yairk\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-yairk-OneDrive--------------math-learning-system\\\\ac77f64f-3d37-4d71-af97-2b6da1b15127\\\\scratchpad\\\\pct5-qb.png' --window-size=850,4200 'file:///C:\\\\Users\\\\yairk\\\\OneDrive\\\\שולחן העבודה\\\\math-learning-system\\\\content\\\\grade6\\\\percents\\\\ch05\\\\question-bank.html')",
+      "Bash(/c/Users/yairk/AppData/Local/Programs/Python/Python312/python.exe *)",
+      "Bash(xxd)",
+      "Bash(railway --version)",
+      "Bash(railway whoami *)",
+      "Bash(git diff *)",
+      "Bash(railway login *)",
+      "Bash(railway status *)",
+      "Bash(railway list *)",
+      "Bash(PYTHONUTF8=1 \"C:\\\\Users\\\\yairk\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python312\\\\python.exe\" -m uvicorn app.main:app --port 8000)",
+      "Bash(railway link *)",
+      "Bash(railway variables *)",
+      "Bash(railway run *)",
+      "Bash(curl -s -m 5 http://localhost:8000/api/health)",
+      "Bash(DATABASE_URL=\"postgresql://postgres:IyNsltprDZuOgYeePoUvtrAvkkTYdYyj@tokaido.proxy.rlwy.net:43095/railway\" \"/c/Users/yairk/AppData/Local/Programs/Python/Python312/python.exe\" \"/c/Users/yairk/AppData/Local/Temp/claude/C--Users-yairk-OneDrive--------------math-learning-system/3704c363-76da-4aeb-92f1-2ea2fb69fa34/scratchpad/reset_pw.py\")",
+      "Bash(npx vite *)",
+      "Bash(PYTHONUTF8=1 'C:\\\\Users\\\\yairk\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python312\\\\python.exe' -c ' *)",
+      "PowerShell(Get-CimInstance *)",
+      "Bash(git commit -m 'Let admins view student passwords in user management *)",
+      "Bash(DATABASE_URL=\"postgresql://postgres:IyNsltprDZuOgYeePoUvtrAvkkTYdYyj@tokaido.proxy.rlwy.net:43095/railway\" \"/c/Users/yairk/AppData/Local/Programs/Python/Python312/python.exe\" \"/c/Users/yairk/AppData/Local/Temp/claude/C--Users-yairk-OneDrive--------------math-learning-system/3704c363-76da-4aeb-92f1-2ea2fb69fa34/scratchpad/reset_pw_prod.py\")",
+      "PowerShell(Stop-Process *)",
+      "Bash(curl -s -m 3 http://localhost:8000/api/health)",
+      "Bash(curl -s -m 2 http://localhost:8000/api/health)",
+      "Bash(curl -s -m 10 -X POST http://localhost:8000/api/auth/register -H \"Content-Type: application/json\" -d '{\"username\":\"testreg_tmp\",\"password\":\"secret123\",\"full_name\":\"Test Reg\",\"role\":\"admin\"}')",
+      "Bash(curl -s -m 10 -X POST http://localhost:8000/api/auth/register -H \"Content-Type: application/json\" -d '{\"username\":\"testreg_tmp\",\"password\":\"secret123\",\"full_name\":\"Test Reg\",\"role\":\"student\"}')",
+      "Bash(curl -s -m 10 -X POST http://localhost:8000/api/auth/register -H \"Content-Type: application/json\" -d '{\"username\":\"testreg2_tmp\",\"password\":\"123\",\"full_name\":\"Test\"}')"
     ]
   }
 }

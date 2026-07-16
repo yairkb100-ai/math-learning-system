@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import api from '../api.js'
 
@@ -69,6 +69,10 @@ export default function LoginPage() {
             {loading ? 'מתחבר...' : 'כניסה'}
           </button>
         </form>
+
+        <p className="auth-switch">
+          אין לך חשבון? <Link to="/register">הרשמה</Link>
+        </p>
       </div>
     </div>
   )
