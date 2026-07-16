@@ -344,6 +344,13 @@ def ensure_sections(db):
             "order": 2,
             "course_slugs": ["grade6-percents"],
         },
+        {
+            "slug": "algebra",
+            "title": "אלגברה",
+            "description": "עולם האלגברה: ממשתנים וביטויים אלגבריים, דרך פתיחת סוגריים והוצאת גורם משותף, ועד משוואות, אי-שוויונות, בעיות מילוליות, מערכות משוואות ומבוא לפונקציות",
+            "order": 3,
+            "course_slugs": ["grade7-algebra"],
+        },
     ]
     for spec in sections:
         section = db.query(Section).filter(Section.slug == spec["slug"]).first()

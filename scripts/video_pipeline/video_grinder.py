@@ -62,6 +62,11 @@ def nlm(*args, timeout=1900):
 
 def targets(entry):
     num = entry["number"]
+    if entry.get("course") == "grade7-algebra":
+        return (
+            ROOT / "courses/assets/grade7-algebra" / entry["output"],
+            ROOT / f"content/grade7/algebra/ch{num:02d}/video.mp4",
+        )
     if entry.get("course") == "grade6-percents":
         return (
             ROOT / "courses/assets/grade6-percents" / entry["output"],

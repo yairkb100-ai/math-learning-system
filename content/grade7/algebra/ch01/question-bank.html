@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>מאגר שאלות — משתנים וביטויים אלגבריים</title>
+<style>
+  @page { size: A4; margin: 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: #1a2233;
+         line-height: 1.7; margin: 0; padding: 20px; background: #f4f6fa; }
+  .sheet { background: #fff; max-width: 820px; margin: 0 auto 24px;
+           padding: 30px 36px; border-radius: 10px;
+           box-shadow: 0 2px 14px rgba(0,0,0,.09); }
+  header { border-bottom: 3px solid #7a3fd1; padding-bottom: 12px; margin-bottom: 20px; }
+  h1 { margin: 0 0 4px; font-size: 24px; color: #4a1f8a; }
+  .sub { color: #5b6780; font-size: 14px; }
+  .namebar { display: flex; gap: 26px; margin-top: 12px; font-size: 14px; }
+  .namebar span { flex: 1; border-bottom: 1px dotted #8894ab; padding-bottom: 3px; }
+  h2.q, h2.sec { font-size: 17px; margin: 24px 0 10px; color: #4a1f8a;
+    background: #f3edfc; padding: 7px 12px; border-radius: 6px;
+    border-inline-start: 5px solid #7a3fd1; }
+  .tag { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px;
+         margin-inline-start: 8px; vertical-align: middle; }
+  .easy { background: #dff5e3; color: #1c6b32; }
+  .med  { background: #fdf0d5; color: #8a5b06; }
+  .hard { background: #fadbdb; color: #8f2222; }
+  ol.items { margin: 6px 0; padding-inline-start: 22px; }
+  ol.items > li { margin-bottom: 13px; }
+  .fr { display: inline-flex; flex-direction: column; align-items: center;
+        vertical-align: middle; margin: 0 3px; font-size: .95em; line-height: 1.15; }
+  .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
+  .fr i { font-style: normal; padding: 0 4px; }
+  .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #4a1f8a; height: 1em; }
+  .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
+  .fig { text-align: center; font-size: 13px; color: #5b6780; }
+  .lines div { border-bottom: 1px dotted #aab3c4; height: 24px; }
+  .numline { margin: 10px 0; }
+  .pagebreak { page-break-before: always; }
+  .key { background: #fffdf3; }
+  .key h1 { color: #8a5b06; }
+  .key header { border-bottom-color: #e0a800; }
+  .key .ans { background:#fff; border:1px solid #eadfb8; border-radius:6px;
+              padding:10px 14px; margin-bottom:10px; font-size:14.5px; }
+  .key .ans strong { color:#8a5b06; }
+  .credit { text-align:center; font-size: 12px; color: #8894ab; margin-top: 18px;
+            border-top: 1px solid #eef1f6; padding-top: 8px; }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .sheet { box-shadow: none; margin: 0; border-radius: 0; padding: 0; max-width: none; }
+    .noprint { display: none; }
+  }
+  .noprint { text-align:center; margin: 10px 0 20px; }
+  .noprint button { background: #7a3fd1; color:#fff; border:0; padding:10px 26px;
+                    border-radius:6px; font-size:15px; cursor:pointer; font-family:inherit; }
+</style>
+</head>
+<body>
+
+<div class="noprint"><button onclick="window.print()">🖨️ הדפסה / שמירה כ‑PDF</button></div>
+
+<div class="sheet">
+  <header>
+    <h1>מאגר שאלות — פרק 1: משתנים וביטויים אלגבריים</h1>
+    <div class="sub">19 שאלות · מניסוח מילולי לביטוי אלגברי, וכתיבת ביטוי שמייצג קשר בין שני גדלים · דף פתרונות בעמוד האחרון</div>
+    <div class="namebar"><span>שם: </span><span>כיתה: </span><span>תאריך: </span></div>
+  </header>
+  
+  <h2 class="sec">מדור א' — מניסוח לביטוי 1️⃣ (שאלות 1–4)</h2>
+  <ol class="items" start="1">
+<li>מספר גדול ב-9 מ-x. כתבו ביטוי.</li>
+<li>מספר קטן ב-6 מ-n. כתבו ביטוי.</li>
+<li>פי 7 מהמספר a. כתבו ביטוי.</li>
+<li>שליש מהמספר y. כתבו ביטוי.</li>
+  </ol>
+  <h2 class="sec">מדור ב' — לקרוא ביטוי 🔤 (שאלות 5–8)</h2>
+  <ol class="items" start="5">
+<li>מה מייצג הביטוי <span class="eq">k+5</span> במילים?</li>
+<li>מה מייצג הביטוי <span class="eq">4m</span> במילים?</li>
+<li>מה מייצג הביטוי <span class="eq">t-8</span> במילים?</li>
+<li>מה מייצג הביטוי <span class="eq">w/5</span> במילים?</li>
+  </ol>
+  <h2 class="sec">מדור ג' — מהחיים 💰 (שאלות 9–12)</h2>
+  <ol class="items" start="9">
+<li>מחברת עולה <span class="eq">c</span> שקלים. כתבו ביטוי לעלות 7 מחברות.</li>
+<li>לתמר <span class="eq">m</span> שקלים בקופה. קיבלה עוד 20 ₪. כתבו ביטוי לסכום החדש.</li>
+<li>כרטיס אוטובוס עולה <span class="eq">b</span> שקלים. כתבו ביטוי לעלות של קבוצה בת 9 נוסעים.</li>
+<li>מנוי חודשי לחדר כושר עולה <span class="eq">x</span> שקלים, ובנוסף דמי הרשמה חד-פעמיים של 50 ₪. כתבו ביטוי לתשלום בחודש הראשון.</li>
+  </ol>
+  <h2 class="sec">מדור ד' — קשר בין שני גדלים 🔗 (שאלות 13–15)</h2>
+  <ol class="items" start="13">
+<li>לרותם <span class="eq">s</span> שקדים, וללירון יש כפול ממנה. כתבו ביטוי למספר השקדים של לירון.</li>
+<li>גובהו של עומר <span class="eq">h</span> ס"מ, ואחיו הגדול גבוה ב-20 ס"מ ממנו. כתבו ביטוי לגובה האח הגדול.</li>
+<li>בכיתה יש <span class="eq">p</span> תלמידים, ובכל שבוע מצטרפים 2 תלמידים חדשים. כתבו ביטוי למספר התלמידים בעוד שבוע.</li>
+  </ol>
+  <h2 class="sec">מדור ה' — אתגרים 🏆 (שאלות 16–19)</h2>
+  <ol class="items" start="16">
+<li>לגדי <span class="eq">n</span> קלפים. לנועה יש כפול מגדי, פחות 4 קלפים. כתבו ביטוי למספר הקלפים של נועה.</li>
+<li>מחיר ספר הוא <span class="eq">x</span> שקלים, ובמבצע הוא זול ב-15 ₪. כתבו ביטוי לתשלום עבור 3 ספרים במבצע.</li>
+<li>נכון או לא נכון: <span class="eq">x+x+x</span> שווה ל-<span class="eq">3x</span>.</li>
+<li>נכון או לא נכון: <span class="eq">a+b</span> שווה תמיד ל-<span class="eq">b+a</span>.</li>
+  </ol>
+  <div class="credit">מאגר שאלות מקורי · © כל הזכויות שמורות ליאיר כהנא</div>
+</div>
+
+<div class="sheet key pagebreak">
+  <header>
+    <h1>🔑 פתרונות מלאים — מאגר שאלות פרק 1</h1>
+    <div class="sub">למורה / להורה / לבדיקה עצמית</div>
+  </header>
+  <div class="ans"><strong>1.</strong> <span class="eq">x+9</span></div>
+<div class="ans"><strong>2.</strong> <span class="eq">n-6</span></div>
+<div class="ans"><strong>3.</strong> <span class="eq">7a</span></div>
+<div class="ans"><strong>4.</strong> <span class="eq">y/3</span></div>
+<div class="ans"><strong>5.</strong> מספר גדול ב-5 מ-k</div>
+<div class="ans"><strong>6.</strong> פי 4 מהמספר m</div>
+<div class="ans"><strong>7.</strong> מספר קטן ב-8 מ-t</div>
+<div class="ans"><strong>8.</strong> חמישית מהמספר w</div>
+<div class="ans"><strong>9.</strong> <span class="eq">7c</span></div>
+<div class="ans"><strong>10.</strong> <span class="eq">m+20</span></div>
+<div class="ans"><strong>11.</strong> <span class="eq">9b</span></div>
+<div class="ans"><strong>12.</strong> <span class="eq">x+50</span></div>
+<div class="ans"><strong>13.</strong> <span class="eq">2s</span></div>
+<div class="ans"><strong>14.</strong> <span class="eq">h+20</span></div>
+<div class="ans"><strong>15.</strong> <span class="eq">p+2</span></div>
+<div class="ans"><strong>16.</strong> <span class="eq">2n-4</span></div>
+<div class="ans"><strong>17.</strong> <span class="eq">3(x-15)</span></div>
+<div class="ans"><strong>18.</strong> נכון</div>
+<div class="ans"><strong>19.</strong> נכון</div>
+  <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
+</div>
+</body>
+</html>

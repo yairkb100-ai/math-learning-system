@@ -165,5 +165,122 @@
   "status": "staged",
   "course": "grade6-percents",
   "grade": null
+ },
+ "g7-ch01": {
+  "notebook_id": "2f8fca51-93ad-4279-958e-6a88e2574b01",
+  "source_id": "a4d7ec64-2a9c-44df-8c7c-a00ac8501c85",
+  "number": 1,
+  "topic": "משתנים וייצוג תופעות מספריות בביטוי אלגברי",
+  "output": "סרטון-פרק-1-משתנים-וביטויים-אלגבריים.mp4",
+  "status": "staged",
+  "course": "grade7-algebra"
+ },
+ "g7-ch02": {
+  "notebook_id": "325c6f54-c3ff-4434-8af4-05b9e31de011",
+  "source_id": "bea55824-c414-46dc-a4b4-b58d20383025",
+  "number": 2,
+  "topic": "הצבת מספרים בביטוי אלגברי וחישוב ערכו",
+  "output": "סרטון-פרק-2-הצבה-וחישוב-ערך-ביטוי.mp4",
+  "status": "staged",
+  "course": "grade7-algebra"
+ },
+ "g7-ch03": {
+  "notebook_id": "f17af3fb-7205-4b9a-959e-b0f6d7c857b1",
+  "source_id": "ee29c290-7627-451b-a3d1-6b513f37c925",
+  "number": 3,
+  "topic": "איברים דומים וכינוס איברים דומים",
+  "output": "סרטון-פרק-3-איברים-דומים-וכינוסם.mp4",
+  "status": "staged",
+  "course": "grade7-algebra"
+ },
+ "g7-ch04": {
+  "notebook_id": "63f02bfc-ab12-49bc-b33f-32d8379c3c3b",
+  "source_id": "63564ab2-1502-4845-ac75-181d8a4a6266",
+  "number": 4,
+  "topic": "פתיחת סוגריים בביטוי אלגברי",
+  "output": "סרטון-פרק-4-פתיחת-סוגריים.mp4",
+  "status": "staged",
+  "course": "grade7-algebra"
+ },
+ "g7-ch05": {
+  "notebook_id": "c6813c3c-5bfa-4324-948a-bc86accb5d6f",
+  "source_id": "5078bf3c-3990-43a3-8908-e724dea8fd2c",
+  "number": 5,
+  "topic": "הוצאת גורם משותף מחוץ לסוגריים",
+  "output": "סרטון-פרק-5-הוצאת-גורם-משותף.mp4",
+  "status": "staged",
+  "course": "grade7-algebra"
+ },
+ "g7-ch06": {
+  "notebook_id": "c4900ad1-a8cb-4551-a59b-5ef1dbfa7887",
+  "source_id": "8a4242c2-487f-4def-a4f7-95ca8839b9a4",
+  "number": 6,
+  "topic": "מהי משוואה? מושג הפתרון ובדיקתו",
+  "output": "סרטון-פרק-6-מהי-משוואה-ובדיקת-פתרון.mp4",
+  "status": "staged",
+  "course": "grade7-algebra"
+ },
+ "g7-ch07": {
+  "notebook_id": "838558e7-f47d-4818-802d-82946b795438",
+  "source_id": "c289d58b-84e5-46c2-8fd9-41331d15cf41",
+  "number": 7,
+  "topic": "פתרון משוואות ממעלה ראשונה בנעלם אחד",
+  "output": "סרטון-פרק-7-פתרון-משוואות-ממעלה-ראשונה.mp4",
+  "status": "staged",
+  "course": "grade7-algebra"
+ },
+ "g7-ch08": {
+  "notebook_id": "a17ca959-a24f-4fbf-b983-0cb78e4050be",
+  "source_id": "826d2d79-6a77-488e-a825-53459c044096",
+  "number": 8,
+  "topic": "משוואות עם סוגריים ועם שברים",
+  "output": "סרטון-פרק-8-משוואות-עם-סוגריים-ושברים.mp4",
+  "status": "staged",
+  "course": "grade7-algebra"
+ },
+ "g7-ch09": {
+  "notebook_id": "772ca182-e6b3-43d2-b495-0d8ebe10100e",
+  "source_id": "f5a587c6-d8c7-4449-9047-d3987edc34dc",
+  "number": 9,
+  "topic": "פתרון בעיות מילוליות בעזרת משוואות",
+  "output": "סרטון-פרק-9-בעיות-מילוליות-במשוואות.mp4",
+  "status": "staged",
+  "course": "grade7-algebra"
+ },
+ "g7-ch10": {
+  "notebook_id": "9baf3f43-059e-4e14-9281-ad4cb0e84f1a",
+  "source_id": "97593423-285a-46dc-9fb2-b5451bf9956a",
+  "number": 10,
+  "topic": "אי-שוויונות ממעלה ראשונה ופתרונם",
+  "output": "סרטון-פרק-10-אי-שוויונות-ממעלה-ראשונה.mp4",
+  "status": "staged",
+  "course": "grade7-algebra"
+ },
+ "g7-ch11": {
+  "notebook_id": "d6b687d1-17e9-4650-87cd-81b5c06c20c4",
+  "source_id": "9024bf34-1cae-4191-868b-60217f3bdbd0",
+  "number": 11,
+  "topic": "מערכת שתי משוואות בשני נעלמים",
+  "output": "סרטון-פרק-11-מערכת-שתי-משוואות.mp4",
+  "status": "staged",
+  "course": "grade7-algebra"
+ },
+ "g7-ch12": {
+  "notebook_id": "fc454e6d-aadf-4a5e-8143-b4162bfe684c",
+  "source_id": "a1bac8fb-dda3-4594-963f-d6d51729d913",
+  "number": 12,
+  "topic": "מבוא לפונקציות ולגרף בעל שני צירים",
+  "output": "סרטון-פרק-12-מבוא-לפונקציות-ולמערכת-צירים.mp4",
+  "status": "staged",
+  "course": "grade7-algebra"
+ },
+ "g7-ch13": {
+  "notebook_id": "6cb38f68-1640-451e-8376-5ddc63d7e47c",
+  "source_id": "a4ed7ce7-c6f7-4397-a946-d1678ab3622e",
+  "number": 13,
+  "topic": "הפונקציה הקווית y=mx+n ומשמעות השיפוע וההזזה",
+  "output": "סרטון-פרק-13-הפונקציה-הקווית-y-mx-n.mp4",
+  "status": "staged",
+  "course": "grade7-algebra"
  }
 }

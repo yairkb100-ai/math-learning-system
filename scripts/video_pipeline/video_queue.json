@@ -193,5 +193,122 @@
   "output": "סרטון-פרק-7-משימות-חקר.mp4",
   "status": "staged",
   "course": "grade6-percents"
+ },
+ "g7-ch01": {
+  "notebook_id": "7c450421-fea5-4c32-a0ed-da9ad9f012eb",
+  "source_id": "c579d6ed-f2ea-45eb-a1d1-d3f5fe0dc261",
+  "number": 1,
+  "topic": "משתנים וייצוג תופעות מספריות בביטוי אלגברי",
+  "output": "סרטון-פרק-1-משתנים-וביטויים-אלגבריים.mp4",
+  "status": "staged",
+  "course": "grade7-algebra"
+ },
+ "g7-ch02": {
+  "notebook_id": "0d192a34-5b68-475d-af5f-8d0ab3a4ad66",
+  "source_id": "695d8ce3-d869-4eb7-9f8c-158f95d2a0e0",
+  "number": 2,
+  "topic": "הצבת מספרים בביטוי אלגברי וחישוב ערכו",
+  "output": "סרטון-פרק-2-הצבה-וחישוב-ערך-ביטוי.mp4",
+  "status": "staged",
+  "course": "grade7-algebra"
+ },
+ "g7-ch03": {
+  "notebook_id": "36f54106-5b9a-4099-b366-1c2d5af83653",
+  "source_id": "cddef18b-b1bd-4824-94f2-f4c0886ee880",
+  "number": 3,
+  "topic": "איברים דומים וכינוס איברים דומים",
+  "output": "סרטון-פרק-3-איברים-דומים-וכינוסם.mp4",
+  "status": "staged",
+  "course": "grade7-algebra"
+ },
+ "g7-ch04": {
+  "notebook_id": "4a989ba4-ed7e-4581-931d-3edf656624a6",
+  "number": 4,
+  "topic": "פתיחת סוגריים בביטוי אלגברי",
+  "output": "סרטון-פרק-4-פתיחת-סוגריים.mp4",
+  "status": "staged",
+  "course": "grade7-algebra",
+  "source_id": "a2123f43-6803-4dd0-9a8d-d0374af94d48"
+ },
+ "g7-ch05": {
+  "notebook_id": "cb9388bd-5be1-4050-be79-8a0725eddb50",
+  "source_id": "e39cd465-f30b-4141-a6b3-c4a75bbbbcd1",
+  "number": 5,
+  "topic": "הוצאת גורם משותף מחוץ לסוגריים",
+  "output": "סרטון-פרק-5-הוצאת-גורם-משותף.mp4",
+  "status": "staged",
+  "course": "grade7-algebra"
+ },
+ "g7-ch06": {
+  "notebook_id": "ea3b3c35-495f-42c0-b2e0-91f2297d7003",
+  "source_id": "8b8fa71f-6c1d-4191-a730-d7f40a06b0d7",
+  "number": 6,
+  "topic": "מהי משוואה? מושג הפתרון ובדיקתו",
+  "output": "סרטון-פרק-6-מהי-משוואה-ובדיקת-פתרון.mp4",
+  "status": "staged",
+  "course": "grade7-algebra"
+ },
+ "g7-ch07": {
+  "notebook_id": "8db0f98a-2286-4194-abbc-c4ad3e382735",
+  "source_id": "e9bce215-ccbb-4975-a88c-caf0d84b31c1",
+  "number": 7,
+  "topic": "פתרון משוואות ממעלה ראשונה בנעלם אחד",
+  "output": "סרטון-פרק-7-פתרון-משוואות-ממעלה-ראשונה.mp4",
+  "status": "staged",
+  "course": "grade7-algebra"
+ },
+ "g7-ch08": {
+  "notebook_id": "36bfad6e-ead9-4e12-af15-350d5870ae1d",
+  "source_id": "ae88d55b-9c54-496d-8a0d-1debaef1f8bc",
+  "number": 8,
+  "topic": "משוואות עם סוגריים ועם שברים",
+  "output": "סרטון-פרק-8-משוואות-עם-סוגריים-ושברים.mp4",
+  "status": "staged",
+  "course": "grade7-algebra"
+ },
+ "g7-ch09": {
+  "notebook_id": "3cc60f9d-0d0c-45dc-a740-28c3bb3a5b5e",
+  "source_id": "33a2bac0-e0c5-457b-b2e8-122d427052f7",
+  "number": 9,
+  "topic": "פתרון בעיות מילוליות בעזרת משוואות",
+  "output": "סרטון-פרק-9-בעיות-מילוליות-במשוואות.mp4",
+  "status": "staged",
+  "course": "grade7-algebra"
+ },
+ "g7-ch10": {
+  "notebook_id": "06246612-3ffe-40a6-a818-9832c2b85bd2",
+  "source_id": "a7ccb37b-984c-4c6b-9203-5fd6d4d96bad",
+  "number": 10,
+  "topic": "אי-שוויונות ממעלה ראשונה ופתרונם",
+  "output": "סרטון-פרק-10-אי-שוויונות-ממעלה-ראשונה.mp4",
+  "status": "staged",
+  "course": "grade7-algebra"
+ },
+ "g7-ch11": {
+  "notebook_id": "e2cabbb7-871c-4dc0-93ab-c267699938c0",
+  "source_id": "061630a6-3172-474c-ba80-ef021fdef080",
+  "number": 11,
+  "topic": "מערכת שתי משוואות בשני נעלמים",
+  "output": "סרטון-פרק-11-מערכת-שתי-משוואות.mp4",
+  "status": "staged",
+  "course": "grade7-algebra"
+ },
+ "g7-ch12": {
+  "notebook_id": "a8e94092-1181-4fea-b91f-de51b9dd5182",
+  "source_id": "5799276d-27dc-4a98-a3eb-5fc728f1056c",
+  "number": 12,
+  "topic": "מבוא לפונקציות ולגרף בעל שני צירים",
+  "output": "סרטון-פרק-12-מבוא-לפונקציות-ולמערכת-צירים.mp4",
+  "status": "staged",
+  "course": "grade7-algebra"
+ },
+ "g7-ch13": {
+  "notebook_id": "e2a42f16-509e-4cf1-b8ab-f077d414ec50",
+  "source_id": "b1402e78-85e8-45a2-af5a-d9e72bebedee",
+  "number": 13,
+  "topic": "הפונקציה הקווית y=mx+n ומשמעות השיפוע וההזזה",
+  "output": "סרטון-פרק-13-הפונקציה-הקווית-y-mx-n.mp4",
+  "status": "staged",
+  "course": "grade7-algebra"
  }
 }
