@@ -85,7 +85,32 @@
       "Bash(C:/Users/yairk/AppData/Local/Programs/Python/Python312/python.exe -m py_compile backend/app/routers/exams.py)",
       "Bash(python3 -c ' *)",
       "Bash(node -e ' *)",
-      "Bash(grep -vE ':[0-9]+/[0-9]+$')"
+      "Bash(grep -vE ':[0-9]+/[0-9]+$')",
+      "Bash(python -c \"import json; d=json.load\\(open\\('content/grade6/fractions-decimals/ch12/assets.json', encoding='utf-8'\\)\\); print\\('OK'\\); print\\('worksheet:', len\\(d['worksheet']\\), 'ans:', len\\(d['worksheet_answers']\\)\\); print\\('bank items:', sum\\(len\\(s['items']\\) for s in d['bank_sections']\\), 'bank_answers:', len\\(d['bank_answers']\\)\\); print\\('extra:', len\\(d['extra_exercises']\\)\\)\")",
+      "Bash(python -c ' *)",
+      "Bash(PYTHONIOENCODING=utf-8 python -c ' *)",
+      "Bash(PYTHONUTF8=1 python *)",
+      "Bash(notebooklm auth *)",
+      "Bash(notebooklm -p account2 auth check --test --json)",
+      "Bash(python -c \"import json; d=json.load\\(open\\('video_queue.json',encoding='utf-8'\\)\\); print\\({k:v['status'] for k,v in d.items\\(\\)}\\)\")",
+      "Read(//c/Program Files/Google/Chrome/Application/**)",
+      "Read(//c/Program Files \\\\\\(x86\\\\\\)/Google/Chrome/Application/**)",
+      "Bash(PYTHONUTF8=1 notebooklm -p account2 artifact list -n 8e95154b-e3d1-48ab-93d1-122449cffce5 --json)",
+      "Bash(PYTHONUTF8=1 \"C:\\\\Users\\\\yairk\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python312\\\\python.exe\" backend/seed.py)",
+      "Bash(git add *)",
+      "Bash(git status *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash('/c/Program Files/Google/Chrome/Application/chrome.exe' --headless --disable-gpu '--screenshot=C:\\\\Users\\\\yairk\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-yairk-OneDrive--------------math-learning-system\\\\ac77f64f-3d37-4d71-af97-2b6da1b15127\\\\scratchpad\\\\ch01-ws.png' --window-size=850,3500 'file:///C:\\\\Users\\\\yairk\\\\OneDrive\\\\שולחן העבודה\\\\math-learning-system\\\\content\\\\grade7\\\\algebra\\\\ch01\\\\worksheet.html')",
+      "Bash('/c/Program Files/Google/Chrome/Application/chrome.exe' --headless --disable-gpu '--screenshot=C:\\\\Users\\\\yairk\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-yairk-OneDrive--------------math-learning-system\\\\ac77f64f-3d37-4d71-af97-2b6da1b15127\\\\scratchpad\\\\ch07-qb.png' --window-size=850,3500 'file:///C:\\\\Users\\\\yairk\\\\OneDrive\\\\שולחן העבודה\\\\math-learning-system\\\\content\\\\grade7\\\\algebra\\\\ch07\\\\question-bank.html')",
+      "Bash('/c/Program Files/Google/Chrome/Application/chrome.exe' --headless --disable-gpu '--screenshot=C:\\\\Users\\\\yairk\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-yairk-OneDrive--------------math-learning-system\\\\ac77f64f-3d37-4d71-af97-2b6da1b15127\\\\scratchpad\\\\ch13-ws.png' --window-size=850,3500 'file:///C:\\\\Users\\\\yairk\\\\OneDrive\\\\שולחן העבודה\\\\math-learning-system\\\\content\\\\grade7\\\\algebra\\\\ch13\\\\worksheet.html')",
+      "Bash(PYTHONUTF8=1 \"C:\\\\Users\\\\yairk\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python312\\\\python.exe\" seed.py)",
+      "Bash(grep -o '\\\\$[a-z0-9+\\(\\)=\\\\\\\\-]*\\\\$' content/grade7/algebra/ch*/worksheet.html content/grade7/algebra/ch*/question-bank.html)",
+      "Bash(grep -o '6\\(.\\\\{0,12\\\\}' content/grade7/algebra/ch05/worksheet.html)",
+      "Bash(grep -o '\\\\\\\\\\\\\\\\_' content/grade7/algebra/ch05/*.html)",
+      "Bash(grep -l '\\\\\\\\\\\\\\\\_' content/grade7/algebra/ch*/assets.json)",
+      "Bash(git commit -m 'Add grade7 algebra course: 13 chapters, PDFs, section, video staging *)",
+      "Bash('/c/Program Files/Google/Chrome/Application/chrome.exe' --headless --disable-gpu '--screenshot=C:\\\\Users\\\\yairk\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-yairk-OneDrive--------------math-learning-system\\\\ac77f64f-3d37-4d71-af97-2b6da1b15127\\\\scratchpad\\\\pct5-qb.png' --window-size=850,4200 'file:///C:\\\\Users\\\\yairk\\\\OneDrive\\\\שולחן העבודה\\\\math-learning-system\\\\content\\\\grade6\\\\percents\\\\ch05\\\\question-bank.html')"
     ]
   }
 }
