@@ -2,9 +2,15 @@
 """One bounded pass over the video queue: submit generations where possible,
 poll pending artifacts, download completed videos into place.
 
-Run repeatedly until queue empty. State: video_queue.json next to this file.
-Statuses: staged -> generating -> done (or blocked on rate limit, stays staged).
+Run repeatedly until queue empty. State: video_queue.json next to this file
+(or the file given by --queue). Statuses: staged -> generating -> done (or
+blocked on rate limit, stays staged).
+
+Usage: python video_grinder.py [--queue video_queue_account2.json] [--profile account2]
+--profile routes every notebooklm call through that CLI profile (separate
+Google account / separate daily quota).
 """
+import argparse
 import io
 import json
 import shutil
@@ -16,18 +22,32 @@ from pathlib import Path
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
 
 ROOT = Path(r"C:\Users\yairk\OneDrive\שולחן העבודה\math-learning-system")
-QUEUE = Path(__file__).parent / "video_queue.json"
+
+ap = argparse.ArgumentParser()
+ap.add_argument("--queue", default="video_queue.json")
+ap.add_argument("--profile", default=None)
+ARGS = ap.parse_args()
+QUEUE = Path(__file__).parent / ARGS.queue
 
 PROMPT = (
-    "סרטון הסברה בעברית מלאה (קריינות בעברית!) על {topic}. "
-    "שפה פשוטה, חמה ובגובה העיניים, קצב רגוע, דוגמאות חזותיות, אורך 6-7 דקות. "
+    "סרטון הסברה מקצועי בעברית מלאה (קריינות בעברית!) על {topic}, ברמת הפקה של "
+    "מורה מנוסה ולא של קריינות מכנית. קול גברי נעים ורך (לא גברי קשה). "
+    "הכי חשוב: דיבור רהוט, טבעי וזורם — שנשמע כמו אדם אמיתי שמסביר, לא מכונה. "
+    "אינטונציה חיה, הטעמות ומקצבים משתנים כמו בשיחה אמיתית, לא מונוטוני. "
+    "שפה פשוטה, חמה ובגובה העיניים, קצב רגוע. "
+    "מלווה לכל אורכו באיורים, תרשימים ודוגמאות חזותיות להמחשה של כל רעיון. "
+    "אורך 7-11 דקות. "
     "אין להזכיר כיתה, גיל או שכבת לימוד. עקוב אחרי מבנה חומר המקור."
 )
 
 
 def nlm(*args, timeout=1900):
+    cmd = ["notebooklm"]
+    if ARGS.profile:
+        cmd += ["-p", ARGS.profile]
+    cmd += list(args)
     r = subprocess.run(
-        ["notebooklm", *args], capture_output=True, text=True,
+        cmd, capture_output=True, text=True,
         encoding="utf-8", timeout=timeout,
     )
     out = (r.stdout or "") + (r.stderr or "")

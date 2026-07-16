@@ -1,0 +1,169 @@
+{
+ "g6-ch05": {
+  "notebook_id": "10e3b507-cf66-49a9-be3d-e6d9f77b9f21",
+  "source_id": "7606700e-066b-45c2-bde8-a7811741ac48",
+  "number": 5,
+  "topic": "כפל וחילוק עשרוניים ב-10, 100 ו-1000",
+  "output": "סרטון-פרק-5-כפל-וחילוק-עשרוניים-ב-10-100.mp4",
+  "status": "done",
+  "course": null,
+  "grade": null,
+  "artifact_id": "cce1e879-6522-4fb4-ab83-c006b1c04da6",
+  "submitted_at": 1784152747.0784607
+ },
+ "g6-ch06": {
+  "notebook_id": "1615e927-f97e-4a4a-b018-55a87ad85db4",
+  "source_id": "a6f2ae07-b22c-4143-bf8a-56799569ac5b",
+  "number": 6,
+  "topic": "כפל מספרים עשרוניים",
+  "output": "סרטון-פרק-6-כפל-עשרוניים.mp4",
+  "status": "done",
+  "course": null,
+  "grade": null,
+  "artifact_id": "704997fc-71b0-4ba6-aa5e-e3302cdc8155",
+  "submitted_at": 1784152753.8911884
+ },
+ "g6-ch07": {
+  "notebook_id": "8e95154b-e3d1-48ab-93d1-122449cffce5",
+  "source_id": "16e15983-9043-4793-b79c-5822740fd5bc",
+  "number": 7,
+  "topic": "חילוק מספרים עשרוניים",
+  "output": "סרטון-פרק-7-חילוק-עשרוניים.mp4",
+  "status": "staged",
+  "course": null,
+  "grade": null,
+  "submitted_at": 1784152761.6749008
+ },
+ "g6-ch08": {
+  "notebook_id": "ee17f0d6-8037-40b5-a960-5fd72e6d07a9",
+  "source_id": "d8d2bcc9-f885-4ecd-9de6-495962ee8dc6",
+  "number": 8,
+  "topic": "חלק של כמות — מציאת ערך החלק",
+  "output": "סרטון-פרק-8-חלק-של-כמות.mp4",
+  "status": "done",
+  "course": null,
+  "grade": null,
+  "artifact_id": "a22db2b3-003e-4e70-9e81-f841432326ef",
+  "submitted_at": 1784153643.148348
+ },
+ "g6-ch09": {
+  "notebook_id": "c13df8e5-7afe-47d7-998e-9d9f787dd856",
+  "source_id": "6115270c-28cd-45fb-90a2-977d2dd226f1",
+  "number": 9,
+  "topic": "חלק של כמות — מציאת הכמות היסודית",
+  "output": "סרטון-פרק-9-מציאת-הכמות-היסודית.mp4",
+  "status": "staged",
+  "course": null,
+  "grade": null
+ },
+ "g6-ch10": {
+  "notebook_id": "879da632-1828-45ea-a1e9-c744f3588c16",
+  "source_id": "b0aa60ff-987c-4d4c-a232-181b58346517",
+  "number": 10,
+  "topic": "חילוק שברים פשוטים",
+  "output": "סרטון-פרק-10-חילוק-שברים.mp4",
+  "status": "staged",
+  "course": null,
+  "grade": null
+ },
+ "g6-ch11": {
+  "notebook_id": "7797328e-f1f4-41fb-8027-9de9dff37f9b",
+  "source_id": "ee56a54b-d254-4e68-a31b-5793f121143d",
+  "number": 11,
+  "topic": "שבר עשרוני מחזורי",
+  "output": "סרטון-פרק-11-שבר-עשרוני-מחזורי.mp4",
+  "status": "staged",
+  "course": null,
+  "grade": null
+ },
+ "pct-ch01": {
+  "notebook_id": "a684989b-ede9-43f1-b944-35e5c8f8bd52",
+  "source_id": "baa852e3-84c6-43ef-91d8-99d8492e0141",
+  "number": 1,
+  "topic": "מהו אחוז? הקשר לשבר ולעשרוני",
+  "output": "סרטון-פרק-1-מהו-אחוז.mp4",
+  "status": "staged",
+  "course": "grade6-percents",
+  "grade": null
+ },
+ "pct-ch02": {
+  "notebook_id": "70871aa9-aa46-45b6-91fc-11e72b81a2cc",
+  "source_id": "c1ff2ccf-2c6d-47d8-b8df-4c160d69fce9",
+  "number": 2,
+  "topic": "חישוב אחוז מכמות",
+  "output": "סרטון-פרק-2-חישוב-אחוז-מכמות.mp4",
+  "status": "staged",
+  "course": "grade6-percents",
+  "grade": null
+ },
+ "pct-ch03": {
+  "notebook_id": "30f9e7be-79e9-49fa-a93f-8ff4879f9dfe",
+  "source_id": "a0ddc671-2dd6-4927-a55f-c75ef5f6a782",
+  "number": 3,
+  "topic": "מציאת האחוז",
+  "output": "סרטון-פרק-3-מציאת-האחוז.mp4",
+  "status": "staged",
+  "course": "grade6-percents",
+  "grade": null
+ },
+ "pct-ch04": {
+  "notebook_id": "6a3dce0d-ae2e-4c18-877c-ab5d7ffd988b",
+  "source_id": "4052eca1-1350-430f-8431-6d0980bab7c0",
+  "number": 4,
+  "topic": "מציאת הכמות היסודית לפי אחוז",
+  "output": "סרטון-פרק-4-מציאת-הכמות-היסודית.mp4",
+  "status": "staged",
+  "course": "grade6-percents",
+  "grade": null
+ },
+ "pct-ch05": {
+  "notebook_id": "2c37c828-026e-4565-8408-987e34d0bb39",
+  "source_id": "61c3930c-3600-4cdf-a992-a40f7304e862",
+  "number": 5,
+  "topic": "הנחה, התייקרות ומע\"מ",
+  "output": "סרטון-פרק-5-הנחה-התייקרות-ומעמ.mp4",
+  "status": "staged",
+  "course": "grade6-percents",
+  "grade": null
+ },
+ "pct-ch06": {
+  "notebook_id": "ed6ad921-52e7-4757-883d-d61c33cf4d90",
+  "source_id": "368b7368-70b0-4fd5-a09c-05f0e79d6859",
+  "number": 6,
+  "topic": "אחוזים מעל 100 ובעיות רב-שלביות",
+  "output": "סרטון-פרק-6-אחוזים-מעל-100.mp4",
+  "status": "staged",
+  "course": "grade6-percents",
+  "grade": null
+ },
+ "g6-ch12": {
+  "notebook_id": "67d5d468-a44d-4d2b-bbad-d8baf33b7ef2",
+  "source_id": "60c59a52-260a-4ca0-9b93-840f7882b681",
+  "number": 12,
+  "topic": "חיבור וחיסור מספרים עשרוניים",
+  "output": "סרטון-פרק-12-חיבור-וחיסור-עשרוניים.mp4",
+  "status": "staged",
+  "course": null,
+  "grade": null
+ },
+ "g6-ch13": {
+  "notebook_id": "0370f757-cf0b-41e2-abce-525c2bad21ae",
+  "source_id": "1b631c3a-3ee4-481c-bc91-a69ef8fa3149",
+  "number": 13,
+  "topic": "השלמה וחקר של סדרות שברים",
+  "output": "סרטון-פרק-13-סדרות-של-שברים.mp4",
+  "status": "staged",
+  "course": null,
+  "grade": null
+ },
+ "pct-ch07": {
+  "notebook_id": "07b67bb8-e8f1-4d22-89ac-62d95e1cdcb7",
+  "source_id": "95994381-5ec3-4d9f-8ed8-1580066f9ea6",
+  "number": 7,
+  "topic": "משימות חקר — שברים, עשרוניים ואחוזים",
+  "output": "סרטון-פרק-7-משימות-חקר.mp4",
+  "status": "staged",
+  "course": "grade6-percents",
+  "grade": null
+ }
+}
