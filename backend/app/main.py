@@ -80,6 +80,13 @@ def on_startup() -> None:
                 conn.execute(
                     text("ALTER TABLE messages ADD COLUMN file_id INTEGER")
                 )
+    if "users" in inspector.get_table_names():
+        cols = {c["name"] for c in inspector.get_columns("users")}
+        if "password_plain" not in cols:
+            with engine.begin() as conn:
+                conn.execute(
+                    text("ALTER TABLE users ADD COLUMN password_plain VARCHAR")
+                )
 
 
 app.include_router(courses.router)

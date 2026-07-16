@@ -29,6 +29,9 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String, unique=True, nullable=False, index=True)
     password_hash = Column(String, nullable=False)
+    # Plaintext copy shown to admins in user management (family/classroom
+    # deployment). Backfilled on login for accounts created before the column.
+    password_plain = Column(String, nullable=True)
     full_name = Column(String, nullable=False)
     role = Column(String, nullable=False, default="student")  # student | admin
     is_active = Column(Boolean, default=True, nullable=False)

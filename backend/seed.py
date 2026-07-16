@@ -507,6 +507,13 @@ def run_light_migrations():
                 conn.execute(text("ALTER TABLE messages ADD COLUMN file_id INTEGER"))
             print("  ~ Migrated: added messages.file_id")
 
+    if "users" in inspector.get_table_names():
+        cols = {c["name"] for c in inspector.get_columns("users")}
+        if "password_plain" not in cols:
+            with engine.begin() as conn:
+                conn.execute(text("ALTER TABLE users ADD COLUMN password_plain VARCHAR"))
+            print("  ~ Migrated: added users.password_plain")
+
 
 def main():
     # Create tables if they do not yet exist, then patch older tables in place.

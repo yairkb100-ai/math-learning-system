@@ -33,6 +33,12 @@ class UserOut(BaseModel):
     created_at: datetime
 
 
+class AdminUserOut(UserOut):
+    """User as seen by admins — includes the stored plaintext password."""
+
+    password_plain: Optional[str] = None
+
+
 class UserUpdate(BaseModel):
     full_name: Optional[str] = None
     role: Optional[str] = None

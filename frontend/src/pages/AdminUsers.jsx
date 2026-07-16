@@ -9,6 +9,11 @@ export default function AdminUsers() {
   const [showForm, setShowForm] = useState(false)
   const [form, setForm] = useState({ username: '', password: '', full_name: '', role: 'student' })
   const [saving, setSaving] = useState(false)
+  const [revealed, setRevealed] = useState({})
+
+  function toggleReveal(id) {
+    setRevealed((r) => ({ ...r, [id]: !r[id] }))
+  }
 
   const load = useCallback(() => {
     setLoading(true)
@@ -137,6 +142,7 @@ export default function AdminUsers() {
             <tr>
               <th>שם מלא</th>
               <th>שם משתמש</th>
+              <th>סיסמה</th>
               <th>תפקיד</th>
               <th>סטטוס</th>
               <th>תאריך הצטרפות</th>
@@ -148,6 +154,21 @@ export default function AdminUsers() {
               <tr key={u.id}>
                 <td>{u.full_name}</td>
                 <td className="mono">{u.username}</td>
+                <td className="mono">
+                  {u.password_plain ? (
+                    <span
+                      onClick={() => toggleReveal(u.id)}
+                      title={revealed[u.id] ? 'הסתר' : 'הצג סיסמה'}
+                      style={{ cursor: 'pointer', userSelect: 'none' }}
+                    >
+                      {revealed[u.id] ? u.password_plain : '••••••'} {revealed[u.id] ? '🙈' : '👁️'}
+                    </span>
+                  ) : (
+                    <span className="muted" title="הסיסמה תופיע אחרי ההתחברות הבאה של המשתמש">
+                      —
+                    </span>
+                  )}
+                </td>
                 <td>
                   <span className={`role-badge role-${u.role}`}>
                     {u.role === 'admin' ? 'מנהל' : 'תלמיד'}
