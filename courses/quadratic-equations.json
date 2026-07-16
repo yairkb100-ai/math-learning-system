@@ -51,7 +51,7 @@
             "title": "דוגמה 4: זיהוי מקדמים ב-Python",
             "type": "code",
             "language": "python",
-            "content": "# מזהים את המקדמים וממצים את השורשים באמצעות numpy\nimport numpy as np\n\n# המשוואה x^2 - 5x + 6 = 0\na, b, c = 1, -5, 6\nprint(f\"a={a}, b={b}, c={c}\")\n\nroots = np.roots([a, b, c])\nprint(\"roots:\", roots)  # [3. 2.]"
+            "content": "# מזהים את המקדמים ומוצאים את השורשים באמצעות numpy\nimport numpy as np\n\n# המשוואה x^2 - 5x + 6 = 0\na, b, c = 1, -5, 6\nprint(f\"a={a}, b={b}, c={c}\")\n\nroots = np.roots([a, b, c])\nprint(\"roots:\", roots)  # [3. 2.]"
           }
         ],
         "exercises": [

@@ -81,6 +81,35 @@ def _course_unchanged(existing, course_obj, metadata):
         db_ch = db_chapters.get(ch.get("number"))
         if db_ch is None or db_ch.title != ch.get("title", "") or db_ch.content != ch.get("content", ""):
             return False
+        db_examples = [
+            (e.title, e.type, e.content, e.language) for e in db_ch.examples
+        ]
+        json_examples = [
+            (e.get("title", ""), e.get("type", "text"), e.get("content", ""), e.get("language"))
+            for e in ch.get("examples", []) or []
+        ]
+        if db_examples != json_examples:
+            return False
+        db_exercises = [
+            (x.number, x.title, x.description, x.difficulty, x.solution)
+            for x in db_ch.exercises
+        ]
+        json_exercises = [
+            (x.get("number"), x.get("title"), x.get("description", ""), x.get("difficulty", ""), x.get("solution", ""))
+            for x in ch.get("exercises", []) or []
+        ]
+        if db_exercises != json_exercises:
+            return False
+        db_quiz = [
+            (q.number, q.question, q.type, q.options, q.correct_answer)
+            for q in db_ch.quiz
+        ]
+        json_quiz = [
+            (q.get("number"), q.get("question", ""), q.get("type", ""), q.get("options"), q.get("correct_answer", ""))
+            for q in ch.get("quiz", []) or []
+        ]
+        if db_quiz != json_quiz:
+            return False
     return True
 
 
