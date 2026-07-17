@@ -135,7 +135,29 @@
       "Bash(curl -s -m 2 http://localhost:8000/api/health)",
       "Bash(curl -s -m 10 -X POST http://localhost:8000/api/auth/register -H \"Content-Type: application/json\" -d '{\"username\":\"testreg_tmp\",\"password\":\"secret123\",\"full_name\":\"Test Reg\",\"role\":\"admin\"}')",
       "Bash(curl -s -m 10 -X POST http://localhost:8000/api/auth/register -H \"Content-Type: application/json\" -d '{\"username\":\"testreg_tmp\",\"password\":\"secret123\",\"full_name\":\"Test Reg\",\"role\":\"student\"}')",
-      "Bash(curl -s -m 10 -X POST http://localhost:8000/api/auth/register -H \"Content-Type: application/json\" -d '{\"username\":\"testreg2_tmp\",\"password\":\"123\",\"full_name\":\"Test\"}')"
+      "Bash(curl -s -m 10 -X POST http://localhost:8000/api/auth/register -H \"Content-Type: application/json\" -d '{\"username\":\"testreg2_tmp\",\"password\":\"123\",\"full_name\":\"Test\"}')",
+      "Bash(disown)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:5173/)",
+      "Bash(notebooklm login *)",
+      "Bash(notebooklm -p account2 auth logout)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:8000/api/health)",
+      "Bash(curl -s -m 10 https://math-learning-system-production-af53.up.railway.app/api/health)",
+      "Bash(curl -s -m 10 -X POST https://math-learning-system-production-af53.up.railway.app/api/auth/login -H \"Content-Type: application/json\" -d '{\"username\":\"eliavda1\",\"password\":\"__wrong_password_probe__\"}')",
+      "Bash(curl -s -m 10 -X POST https://math-learning-system-production-af53.up.railway.app/api/auth/login -H \"Content-Type: application/json\" -d '{\"username\":\"eliavda1\",\"password\":\"123456\"}')",
+      "PowerShell(git fetch *)",
+      "Bash(python -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('default:', d['status']\\)\")",
+      "Bash(python -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('account2:', d['status']\\)\")",
+      "Bash(curl -s -m 10 https://math-learning-system-production-af53.up.railway.app/api/courses/10)",
+      "PowerShell(railway variables *)",
+      "PowerShell(railway *)",
+      "Bash(python -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('default:', d['status'], d['checks']\\)\")",
+      "Bash(python -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('account2:', d['status'], d['checks']\\)\")",
+      "Read(//c/Users/yairk/.notebooklm/**)",
+      "Read(//c/Users/yairk/.notebooklm/profiles/**)",
+      "Read(//c/Users/yairk/.notebooklm/profiles/default/**)",
+      "PowerShell(railway deployment *)",
+      "Bash(npx --prefix frontend vite build --logLevel error)",
+      "PowerShell(vercel *)"
     ]
   }
 }

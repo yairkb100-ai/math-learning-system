@@ -59,6 +59,17 @@ export default function AdminUsers() {
     }
   }
 
+  async function handleResetPassword(user) {
+    const newPassword = prompt(`סיסמה חדשה עבור ${user.full_name}:`)
+    if (!newPassword) return
+    try {
+      await api.adminUpdateUser(user.id, { password: newPassword })
+      load()
+    } catch (err) {
+      alert(err.message)
+    }
+  }
+
   async function handleReset(user) {
     if (
       !confirm(
@@ -192,6 +203,9 @@ export default function AdminUsers() {
                       אפס נתונים
                     </button>
                   )}
+                  <button className="btn-sm" onClick={() => handleResetPassword(u)}>
+                    אפס סיסמה
+                  </button>
                   <button
                     className="btn-sm btn-danger"
                     onClick={() => handleDelete(u)}
