@@ -12,7 +12,11 @@ async function request(path, options = {}) {
 
   const res = await fetch(BASE + path, { headers, ...options })
 
-  if (res.status === 401) {
+  // A 401 on an authenticated request means the session died (expired/invalid
+  // token) — force back to login. A 401 with no token attached is an anonymous
+  // call (login/register) rejecting bad credentials, not a dead session; let it
+  // fall through to the normal error below so the caller can show it inline.
+  if (res.status === 401 && token) {
     localStorage.clear()
     window.location.href = '/login'
     return
