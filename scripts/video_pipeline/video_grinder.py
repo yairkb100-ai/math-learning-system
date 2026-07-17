@@ -83,13 +83,41 @@ def targets(entry):
     )
 
 
+def busy_elsewhere():
+    """Keys already generating/done in the OTHER account queues, so this
+    account doesn't burn quota duplicating them (first-done-wins is wasteful
+    with 3 accounts). A key is reclaimed if that queue later fails it."""
+    busy = set()
+    for qf in Path(__file__).parent.glob("video_queue*.json"):
+        if qf == QUEUE:
+            continue
+        try:
+            other = json.loads(qf.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        for k, e in other.items():
+            if e.get("status") in ("generating", "done"):
+                busy.add(k)
+    return busy
+
+
 def main():
     queue = json.loads(QUEUE.read_text(encoding="utf-8"))
     rate_limited = False
+    skip = busy_elsewhere()
 
     # Pass 1: submit generation for staged entries (unless rate-limited)
     for key, e in queue.items():
         if e.get("status") != "staged" or rate_limited:
+            continue
+        # Video already downloaded by another account -> nothing to generate.
+        if targets(e)[0].exists():
+            e["status"] = "done"
+            print(f"{key}: already on disk — marked done")
+            QUEUE.write_text(json.dumps(queue, ensure_ascii=False, indent=1), encoding="utf-8")
+            continue
+        if key in skip:
+            print(f"{key}: busy on another account — skipping")
             continue
         res, raw = nlm(
             "generate", "video", PROMPT.format(topic=e["topic"]),

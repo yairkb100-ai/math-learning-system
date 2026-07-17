@@ -1,0 +1,298 @@
+{
+ "g6-ch05": {
+  "notebook_id": "f78b01a1-432c-4451-bd35-1bcaf5b429be",
+  "source_id": "5f009460-659d-46b7-afa9-6cb9cef5f6da",
+  "number": 5,
+  "topic": "כפל וחילוק עשרוניים ב-10, 100 ו-1000",
+  "output": "סרטון-פרק-5-כפל-וחילוק-עשרוניים-ב-10-100.mp4",
+  "status": "done",
+  "course": null,
+  "grade": null,
+  "artifact_id": "e4d05880-f41e-4aaf-b4bf-9d57f25374b1",
+  "submitted_at": 1784273601.2728045
+ },
+ "g6-ch06": {
+  "notebook_id": "3ee8a5b4-426f-4b35-afa9-37402ee5c897",
+  "source_id": "7f020273-81ad-4427-8a7d-e2583c93ff3b",
+  "number": 6,
+  "topic": "כפל מספרים עשרוניים",
+  "output": "סרטון-פרק-6-כפל-עשרוניים.mp4",
+  "status": "done",
+  "course": null,
+  "grade": null,
+  "artifact_id": "881ef03e-fa24-453c-a2d8-e85b764ce5df",
+  "submitted_at": 1784273606.0880296
+ },
+ "g6-ch07": {
+  "notebook_id": "fc95ca50-9228-4373-a70a-f45931bdeee6",
+  "source_id": "f6b5f31f-e93e-4d54-8081-15c4b8535e73",
+  "number": 7,
+  "topic": "חילוק מספרים עשרוניים",
+  "output": "סרטון-פרק-7-חילוק-עשרוניים.mp4",
+  "status": "done",
+  "course": null,
+  "grade": null,
+  "artifact_id": "6d2170f6-0c63-4782-ace9-1d9bfd36ac35",
+  "submitted_at": 1784273610.4315717
+ },
+ "g6-ch08": {
+  "notebook_id": "10372ef5-6c3b-42cd-9c86-a90f134c9615",
+  "source_id": "efc3e1bf-6e93-44db-a134-96615fb10e09",
+  "number": 8,
+  "topic": "חלק של כמות — מציאת ערך החלק",
+  "output": "סרטון-פרק-8-חלק-של-כמות.mp4",
+  "status": "done",
+  "course": null,
+  "grade": null
+ },
+ "g6-ch09": {
+  "notebook_id": "960f990c-d7b2-4f8b-a842-01b9392cded4",
+  "source_id": "ed3e237f-fee2-4639-89ad-9f5cb4273748",
+  "number": 9,
+  "topic": "חלק של כמות — מציאת הכמות היסודית",
+  "output": "סרטון-פרק-9-מציאת-הכמות-היסודית.mp4",
+  "status": "done",
+  "course": null,
+  "grade": null
+ },
+ "g6-ch10": {
+  "notebook_id": "391f41f5-2b88-45d1-b6cb-d94b36cd2ec9",
+  "source_id": "c9cec06d-ff37-4fb2-aa4a-50ae038ae6ad",
+  "number": 10,
+  "topic": "חילוק שברים פשוטים",
+  "output": "סרטון-פרק-10-חילוק-שברים.mp4",
+  "status": "done",
+  "course": null,
+  "grade": null
+ },
+ "g6-ch11": {
+  "notebook_id": "14c3ca30-a1be-4a56-a2dd-a87ddcace901",
+  "source_id": "ab4b21cd-dba3-4736-a106-4fe8e7faaa55",
+  "number": 11,
+  "topic": "שבר עשרוני מחזורי",
+  "output": "סרטון-פרק-11-שבר-עשרוני-מחזורי.mp4",
+  "status": "staged",
+  "course": null,
+  "grade": null
+ },
+ "pct-ch01": {
+  "notebook_id": "3f705f99-2670-4c00-8033-b7cfd3187b27",
+  "source_id": "111bf93e-1b29-41fe-8445-b2c56486bea6",
+  "number": 1,
+  "topic": "מהו אחוז? הקשר לשבר ולעשרוני",
+  "output": "סרטון-פרק-1-מהו-אחוז.mp4",
+  "status": "staged",
+  "course": "grade6-percents",
+  "grade": null
+ },
+ "pct-ch02": {
+  "notebook_id": "3db66466-7880-4f18-86ee-bd8c4b9825ec",
+  "source_id": "86ed019f-6f5f-4bf6-8622-5ce0998cb106",
+  "number": 2,
+  "topic": "חישוב אחוז מכמות",
+  "output": "סרטון-פרק-2-חישוב-אחוז-מכמות.mp4",
+  "status": "staged",
+  "course": "grade6-percents",
+  "grade": null
+ },
+ "pct-ch03": {
+  "notebook_id": "8e11d92b-adf2-4b24-8f77-74d1eb3211b6",
+  "source_id": "bfecaa81-311b-4fbb-8957-ba5ebf2cbd4d",
+  "number": 3,
+  "topic": "מציאת האחוז",
+  "output": "סרטון-פרק-3-מציאת-האחוז.mp4",
+  "status": "staged",
+  "course": "grade6-percents",
+  "grade": null
+ },
+ "pct-ch04": {
+  "notebook_id": "b31d7adb-c569-422a-bece-e8a29fddadcc",
+  "source_id": "9c7f094e-f97b-403b-b583-d49ae1979ac1",
+  "number": 4,
+  "topic": "מציאת הכמות היסודית לפי אחוז",
+  "output": "סרטון-פרק-4-מציאת-הכמות-היסודית.mp4",
+  "status": "staged",
+  "course": "grade6-percents",
+  "grade": null
+ },
+ "pct-ch05": {
+  "notebook_id": "84410a13-efd4-4b31-9cc1-5cfadfd08aa7",
+  "source_id": "0c8ecf81-4d4a-4ff0-b2af-b63af1447e2c",
+  "number": 5,
+  "topic": "הנחה, התייקרות ומע\"מ",
+  "output": "סרטון-פרק-5-הנחה-התייקרות-ומעמ.mp4",
+  "status": "staged",
+  "course": "grade6-percents",
+  "grade": null
+ },
+ "pct-ch06": {
+  "notebook_id": "e082531f-fcba-44e5-8225-ab120f13bc41",
+  "source_id": "a309c3a2-013f-4981-9a97-186469c002f7",
+  "number": 6,
+  "topic": "אחוזים מעל 100 ובעיות רב-שלביות",
+  "output": "סרטון-פרק-6-אחוזים-מעל-100.mp4",
+  "status": "staged",
+  "course": "grade6-percents",
+  "grade": null
+ },
+ "g6-ch12": {
+  "notebook_id": "f2644565-cf22-4bb8-a1a8-49320b836749",
+  "source_id": "6ac75fed-fe2c-4aa0-8b78-58a47365555c",
+  "number": 12,
+  "topic": "חיבור וחיסור מספרים עשרוניים",
+  "output": "סרטון-פרק-12-חיבור-וחיסור-עשרוניים.mp4",
+  "status": "staged",
+  "course": null,
+  "grade": null
+ },
+ "g6-ch13": {
+  "notebook_id": "c89126b8-9436-4882-acc6-6d79c71cba57",
+  "source_id": "767432e5-b555-40c1-a2fd-f3c51b9fd40b",
+  "number": 13,
+  "topic": "השלמה וחקר של סדרות שברים",
+  "output": "סרטון-פרק-13-סדרות-של-שברים.mp4",
+  "status": "staged",
+  "course": null,
+  "grade": null
+ },
+ "pct-ch07": {
+  "notebook_id": "125b74ef-9022-4ee1-a18f-26ffb9c2b7c3",
+  "source_id": "725e80fa-519f-48f2-bd8f-30c88b3457bb",
+  "number": 7,
+  "topic": "משימות חקר — שברים, עשרוניים ואחוזים",
+  "output": "סרטון-פרק-7-משימות-חקר.mp4",
+  "status": "staged",
+  "course": "grade6-percents",
+  "grade": null
+ },
+ "g7-ch01": {
+  "notebook_id": "cb4e81ac-2490-41f7-b099-94d9d36f1f7a",
+  "source_id": "9b197cfc-52eb-4396-bf4a-a912df3ffc8b",
+  "number": 1,
+  "topic": "משתנים וייצוג תופעות מספריות בביטוי אלגברי",
+  "output": "סרטון-פרק-1-משתנים-וביטויים-אלגבריים.mp4",
+  "status": "staged",
+  "course": "grade7-algebra",
+  "grade": null
+ },
+ "g7-ch02": {
+  "notebook_id": "2c9e6c5c-1967-4882-ae84-481a47e5d5bb",
+  "source_id": "197103af-6b5b-4d1b-ac12-c8bae1162ec3",
+  "number": 2,
+  "topic": "הצבת מספרים בביטוי אלגברי וחישוב ערכו",
+  "output": "סרטון-פרק-2-הצבה-וחישוב-ערך-ביטוי.mp4",
+  "status": "staged",
+  "course": "grade7-algebra",
+  "grade": null
+ },
+ "g7-ch03": {
+  "notebook_id": "07b56971-2acc-4f9f-b6f2-77a2acc3d592",
+  "source_id": "2642e8cb-3fd9-4903-9237-f5ebdeaec024",
+  "number": 3,
+  "topic": "איברים דומים וכינוס איברים דומים",
+  "output": "סרטון-פרק-3-איברים-דומים-וכינוסם.mp4",
+  "status": "staged",
+  "course": "grade7-algebra",
+  "grade": null
+ },
+ "g7-ch04": {
+  "notebook_id": "0b14d18a-ef63-40dc-8a1b-d99aa639a74b",
+  "source_id": "90d70025-037c-4298-8291-c7059da42280",
+  "number": 4,
+  "topic": "פתיחת סוגריים בביטוי אלגברי",
+  "output": "סרטון-פרק-4-פתיחת-סוגריים.mp4",
+  "status": "staged",
+  "course": "grade7-algebra",
+  "grade": null
+ },
+ "g7-ch05": {
+  "notebook_id": "e7f19f6e-cbba-4d93-bf37-13f7f62ba45a",
+  "source_id": "2e4107b3-5f4d-4e11-8c12-aa03a05949d6",
+  "number": 5,
+  "topic": "הוצאת גורם משותף מחוץ לסוגריים",
+  "output": "סרטון-פרק-5-הוצאת-גורם-משותף.mp4",
+  "status": "staged",
+  "course": "grade7-algebra",
+  "grade": null
+ },
+ "g7-ch06": {
+  "notebook_id": "87fa9789-9641-4ddb-b57d-dc0e05d99834",
+  "source_id": "7eb7b7fc-ce47-4364-96a2-b43306f1582e",
+  "number": 6,
+  "topic": "מהי משוואה? מושג הפתרון ובדיקתו",
+  "output": "סרטון-פרק-6-מהי-משוואה-ובדיקת-פתרון.mp4",
+  "status": "staged",
+  "course": "grade7-algebra",
+  "grade": null
+ },
+ "g7-ch07": {
+  "notebook_id": "27cdae97-13be-413b-9743-c580f2c258d9",
+  "source_id": "953af7a5-007a-4805-98ae-574296eb6bd0",
+  "number": 7,
+  "topic": "פתרון משוואות ממעלה ראשונה בנעלם אחד",
+  "output": "סרטון-פרק-7-פתרון-משוואות-ממעלה-ראשונה.mp4",
+  "status": "staged",
+  "course": "grade7-algebra",
+  "grade": null
+ },
+ "g7-ch08": {
+  "notebook_id": "dd071e98-414e-4742-b520-0036d03b8eb5",
+  "source_id": "ba7b381f-dd1c-4e60-9df1-9a7838f03415",
+  "number": 8,
+  "topic": "משוואות עם סוגריים ועם שברים",
+  "output": "סרטון-פרק-8-משוואות-עם-סוגריים-ושברים.mp4",
+  "status": "staged",
+  "course": "grade7-algebra",
+  "grade": null
+ },
+ "g7-ch09": {
+  "notebook_id": "cb9090eb-1f21-4b8b-90fd-d79e96f12a80",
+  "source_id": "4f0ca814-be11-4b1a-af66-f2c4b946079d",
+  "number": 9,
+  "topic": "פתרון בעיות מילוליות בעזרת משוואות",
+  "output": "סרטון-פרק-9-בעיות-מילוליות-במשוואות.mp4",
+  "status": "staged",
+  "course": "grade7-algebra",
+  "grade": null
+ },
+ "g7-ch10": {
+  "notebook_id": "ce932984-30a7-4d45-b9e3-819c832a0313",
+  "source_id": "c66e2458-8cd9-48a1-a2f1-fbd9fdb42d84",
+  "number": 10,
+  "topic": "אי-שוויונות ממעלה ראשונה ופתרונם",
+  "output": "סרטון-פרק-10-אי-שוויונות-ממעלה-ראשונה.mp4",
+  "status": "staged",
+  "course": "grade7-algebra",
+  "grade": null
+ },
+ "g7-ch11": {
+  "notebook_id": "c5e8fdc3-0174-4c79-b102-974c40458047",
+  "source_id": "cbdfe83f-93aa-40c6-a21f-86b71afb787f",
+  "number": 11,
+  "topic": "מערכת שתי משוואות בשני נעלמים",
+  "output": "סרטון-פרק-11-מערכת-שתי-משוואות.mp4",
+  "status": "staged",
+  "course": "grade7-algebra",
+  "grade": null
+ },
+ "g7-ch12": {
+  "notebook_id": "1f6597cb-e8db-4d75-957f-b50a5304fec0",
+  "source_id": "023b24c4-5530-4793-af0c-34352edbe441",
+  "number": 12,
+  "topic": "מבוא לפונקציות ולגרף בעל שני צירים",
+  "output": "סרטון-פרק-12-מבוא-לפונקציות-ולמערכת-צירים.mp4",
+  "status": "staged",
+  "course": "grade7-algebra",
+  "grade": null
+ },
+ "g7-ch13": {
+  "notebook_id": "8c60b914-60d2-4906-9f0a-dced2f2d91a6",
+  "source_id": "23d14a47-ced4-43ff-b45f-df9be512a7c9",
+  "number": 13,
+  "topic": "הפונקציה הקווית y=mx+n ומשמעות השיפוע וההזזה",
+  "output": "סרטון-פרק-13-הפונקציה-הקווית-y-mx-n.mp4",
+  "status": "staged",
+  "course": "grade7-algebra",
+  "grade": null
+ }
+}

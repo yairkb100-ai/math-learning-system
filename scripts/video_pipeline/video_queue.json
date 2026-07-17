@@ -65,7 +65,9 @@
   "number": 5,
   "topic": "כפל וחילוק עשרוניים ב-10, 100 ו-1000",
   "output": "סרטון-פרק-5-כפל-וחילוק-עשרוניים-ב-10-100.mp4",
-  "status": "staged"
+  "status": "done",
+  "artifact_id": "24b76ff3-3ecb-4a81-b4a3-788ede5a767b",
+  "submitted_at": 1784272994.8305469
  },
  "g6-ch06": {
   "notebook_id": "66267ca8-9f71-4c88-80ce-d0bf64832242",
@@ -73,7 +75,9 @@
   "number": 6,
   "topic": "כפל מספרים עשרוניים",
   "output": "סרטון-פרק-6-כפל-עשרוניים.mp4",
-  "status": "staged"
+  "status": "done",
+  "artifact_id": "4bb26bbd-7852-468c-8e93-d7914dbcae20",
+  "submitted_at": 1784273000.2994826
  },
  "g6-ch07": {
   "notebook_id": "0b1b37a3-20f6-400a-ab8c-e3bec4c0c2ed",
@@ -81,7 +85,9 @@
   "number": 7,
   "topic": "חילוק מספרים עשרוניים",
   "output": "סרטון-פרק-7-חילוק-עשרוניים.mp4",
-  "status": "staged"
+  "status": "done",
+  "artifact_id": "c3e3b603-30c9-402f-8452-6137eff4b6a6",
+  "submitted_at": 1784273007.2919357
  },
  "g6-ch08": {
   "notebook_id": "ebd387c9-4336-4a28-a607-7205181c3f84",
@@ -89,7 +95,7 @@
   "number": 8,
   "topic": "חלק של כמות — מציאת ערך החלק",
   "output": "סרטון-פרק-8-חלק-של-כמות.mp4",
-  "status": "staged"
+  "status": "done"
  },
  "g6-ch09": {
   "notebook_id": "c658198e-05ea-4419-b11f-296add61cebd",
@@ -97,7 +103,7 @@
   "number": 9,
   "topic": "חלק של כמות — מציאת הכמות היסודית",
   "output": "סרטון-פרק-9-מציאת-הכמות-היסודית.mp4",
-  "status": "staged"
+  "status": "done"
  },
  "g6-ch10": {
   "notebook_id": "f9c01f61-ff51-423b-b5fc-6e38d8e38475",
@@ -105,7 +111,7 @@
   "number": 10,
   "topic": "חילוק שברים פשוטים",
   "output": "סרטון-פרק-10-חילוק-שברים.mp4",
-  "status": "staged"
+  "status": "done"
  },
  "g6-ch11": {
   "notebook_id": "3576207c-4cfc-4899-937d-01827dc24b99",

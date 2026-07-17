@@ -29,10 +29,11 @@
   "number": 7,
   "topic": "חילוק מספרים עשרוניים",
   "output": "סרטון-פרק-7-חילוק-עשרוניים.mp4",
-  "status": "staged",
+  "status": "done",
   "course": null,
   "grade": null,
-  "submitted_at": 1784152761.6749008
+  "submitted_at": 1784272995.722194,
+  "artifact_id": "200bb106-fc58-48f1-914b-9f97e13bb1f7"
  },
  "g6-ch08": {
   "notebook_id": "ee17f0d6-8037-40b5-a960-5fd72e6d07a9",
@@ -52,9 +53,11 @@
   "number": 9,
   "topic": "חלק של כמות — מציאת הכמות היסודית",
   "output": "סרטון-פרק-9-מציאת-הכמות-היסודית.mp4",
-  "status": "staged",
+  "status": "done",
   "course": null,
-  "grade": null
+  "grade": null,
+  "artifact_id": "48649f85-d02c-41fb-b5b4-2c04a87df7ae",
+  "submitted_at": 1784273001.7799222
  },
  "g6-ch10": {
   "notebook_id": "879da632-1828-45ea-a1e9-c744f3588c16",
@@ -62,9 +65,11 @@
   "number": 10,
   "topic": "חילוק שברים פשוטים",
   "output": "סרטון-פרק-10-חילוק-שברים.mp4",
-  "status": "staged",
+  "status": "done",
   "course": null,
-  "grade": null
+  "grade": null,
+  "artifact_id": "33824406-53ec-4aec-b818-3a5eb5a24408",
+  "submitted_at": 1784273008.9885347
  },
  "g6-ch11": {
   "notebook_id": "7797328e-f1f4-41fb-8027-9de9dff37f9b",

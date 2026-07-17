@@ -157,7 +157,14 @@
       "Read(//c/Users/yairk/.notebooklm/profiles/default/**)",
       "PowerShell(railway deployment *)",
       "Bash(npx --prefix frontend vite build --logLevel error)",
-      "PowerShell(vercel *)"
+      "PowerShell(vercel *)",
+      "PowerShell($r = Invoke-WebRequest -Uri \"https://math-learning-system-production-af53.up.railway.app/\" -UseBasicParsing; $r.StatusCode; $r.Content.Substring\\(0, [Math]::Min\\(500, $r.Content.Length\\)\\))",
+      "PowerShell(foreach \\($d in @\\(\"math-learning.vercel.app\",\"math-learning-system.vercel.app\",\"math-learning-system-frontend.vercel.app\"\\)\\) { try { $r = Invoke-WebRequest -Uri \"https://$d/\" -UseBasicParsing -TimeoutSec 15; \"$d -> $\\($r.StatusCode\\) len=$\\($r.Content.Length\\)\" } catch { \"$d -> FAIL $\\($_.Exception.Message.Split\\(\"`n\"\\)[0]\\)\" } })",
+      "Bash(notebooklm -p account3 auth check --test --json)",
+      "PowerShell([Console]::OutputEncoding = [Text.Encoding]::UTF8; $b = \\(Invoke-WebRequest -Uri \"https://rf-learning.vercel.app/assets/index-BGJK1vsM.js\" -UseBasicParsing\\).Content; \"bundle len=$\\($b.Length\\)\"; \"has /register route: \" + \\($b -match '\"/register\"'\\); \"has math slug grade7-algebra: \" + \\($b.Contains\\('grade7-algebra'\\)\\); \"has api/auth: \" + \\($b.Contains\\('/api/auth'\\)\\))",
+      "PowerShell(git log *)",
+      "Bash(curl -s -w \"\\\\nHTTP:%{http_code}\\\\n\" -X POST http://localhost:8000/api/auth/login -H \"Content-Type: application/json\" -d '{\"username\":\"student1\",\"password\":\"wrong-password-xyz\"}')",
+      "Bash(git commit -m 'Add grade6-fractions ch7/9/10 videos; 3-account video pipeline *)"
     ]
   }
 }
