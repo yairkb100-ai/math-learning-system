@@ -374,10 +374,17 @@ def ensure_sections(db):
             "course_slugs": ["grade6-percents"],
         },
         {
+            "slug": "ratio-motion",
+            "title": "יחס, קנה מידה ותנועה",
+            "description": "עולם היחס: השוואת כמויות וחלוקה לפי יחס, קנה מידה במפות ובשרטוטים, ובעיות תנועה והספק — מהירות, זמן, דרך וקצב עבודה",
+            "order": 3,
+            "course_slugs": ["grade6-ratio-rate"],
+        },
+        {
             "slug": "algebra",
             "title": "אלגברה",
             "description": "עולם האלגברה: ממשתנים וביטויים אלגבריים, דרך פתיחת סוגריים והוצאת גורם משותף, ועד משוואות, אי-שוויונות, בעיות מילוליות, מערכות משוואות ומבוא לפונקציות",
-            "order": 3,
+            "order": 4,
             "course_slugs": ["grade7-algebra"],
         },
     ]
@@ -394,6 +401,11 @@ def ensure_sections(db):
             db.commit()
             db.refresh(section)
             print(f'  + Created section "{spec["title"]}"')
+        elif section.order != spec["order"]:
+            # Keep display order in sync when a new section is inserted
+            # between existing ones (e.g. ratio-motion before algebra).
+            section.order = spec["order"]
+            print(f'  ~ Updated order of section "{spec["title"]}" → {spec["order"]}')
         for cslug in spec["course_slugs"]:
             course = db.query(Course).filter(Course.slug == cslug).first()
             if course is None:

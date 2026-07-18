@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>דף עבודה — בעיות הספק</title>
+<style>
+  @page { size: A4; margin: 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: #1a2233;
+         line-height: 1.7; margin: 0; padding: 20px; background: #f4f6fa; }
+  .sheet { background: #fff; max-width: 820px; margin: 0 auto 24px;
+           padding: 30px 36px; border-radius: 10px;
+           box-shadow: 0 2px 14px rgba(0,0,0,.09); }
+  header { border-bottom: 3px solid #2f6fed; padding-bottom: 12px; margin-bottom: 20px; }
+  h1 { margin: 0 0 4px; font-size: 24px; color: #14306b; }
+  .sub { color: #5b6780; font-size: 14px; }
+  .namebar { display: flex; gap: 26px; margin-top: 12px; font-size: 14px; }
+  .namebar span { flex: 1; border-bottom: 1px dotted #8894ab; padding-bottom: 3px; }
+  h2.q, h2.sec { font-size: 17px; margin: 24px 0 10px; color: #14306b;
+    background: #eef3fe; padding: 7px 12px; border-radius: 6px;
+    border-inline-start: 5px solid #2f6fed; }
+  .tag { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px;
+         margin-inline-start: 8px; vertical-align: middle; }
+  .easy { background: #dff5e3; color: #1c6b32; }
+  .med  { background: #fdf0d5; color: #8a5b06; }
+  .hard { background: #fadbdb; color: #8f2222; }
+  ol.items { margin: 6px 0; padding-inline-start: 22px; }
+  ol.items > li { margin-bottom: 13px; }
+  .fr { display: inline-flex; flex-direction: column; align-items: center;
+        vertical-align: middle; margin: 0 3px; font-size: .95em; line-height: 1.15; }
+  .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
+  .fr i { font-style: normal; padding: 0 4px; }
+  .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
+  .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
+  .fig { text-align: center; font-size: 13px; color: #5b6780; }
+  .lines div { border-bottom: 1px dotted #aab3c4; height: 24px; }
+  .numline { margin: 10px 0; }
+  .pagebreak { page-break-before: always; }
+  .key { background: #fffdf3; }
+  .key h1 { color: #8a5b06; }
+  .key header { border-bottom-color: #e0a800; }
+  .key .ans { background:#fff; border:1px solid #eadfb8; border-radius:6px;
+              padding:10px 14px; margin-bottom:10px; font-size:14.5px; }
+  .key .ans strong { color:#8a5b06; }
+  .credit { text-align:center; font-size: 12px; color: #8894ab; margin-top: 18px;
+            border-top: 1px solid #eef1f6; padding-top: 8px; }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .sheet { box-shadow: none; margin: 0; border-radius: 0; padding: 0; max-width: none; }
+    .noprint { display: none; }
+  }
+  .noprint { text-align:center; margin: 10px 0 20px; }
+  .noprint button { background: #2f6fed; color:#fff; border:0; padding:10px 26px;
+                    border-radius:6px; font-size:15px; cursor:pointer; font-family:inherit; }
+</style>
+</head>
+<body>
+
+<div class="noprint"><button onclick="window.print()">🖨️ הדפסה / שמירה כ‑PDF</button></div>
+
+<div class="sheet">
+  <header>
+    <h1>דף עבודה — פרק 4: בעיות הספק</h1>
+    <div class="sub">עבודה = הספק × זמן — וכשעובדים יחד, ההספקים מתחברים</div>
+    <div class="namebar"><span>שם: </span><span>כיתה: </span><span>תאריך: </span></div>
+  </header>
+  <div class="note-box" style="background:#eef3fe; border-inline-start:4px solid #2f6fed; padding:10px 14px; border-radius:6px; font-size:14px; margin:18px 0">הספק הוא כמות העבודה שנעשית ביחידת זמן אחת. עבודה = הספק × זמן, ומכאן: הספק = עבודה ÷ זמן, וזמן = עבודה ÷ הספק — בדיוק כמו בבעיות תנועה. וכשכמה עובדים פועלים יחד: מחברים הספקים, אף פעם לא זמנים!</div>
+  
+  <h2 class="q">שאלה 1 — כמה עבודה תיעשה? <span class="tag easy">קל</span></h2>
+  <p>מדפסת מדפיסה 20 עמודים בדקה. כמה עמודים תדפיס:</p><ol type="a"><li>ב-5 דקות? <span class="blank"></span></li><li>ב-12 דקות? <span class="blank"></span></li><li>בחצי שעה? (זהירות, יחידות!) <span class="blank"></span></li></ol>
+  
+  <h2 class="q">שאלה 2 — מכונת הבקבוקים <span class="tag easy">קל</span></h2>
+  <p>מכונה במפעל ממלאת 40 בקבוקים בדקה. כמה בקבוקים תמלא:</p><ol type="a"><li>ב-6 דקות? <span class="blank"></span></li><li>ב-15 דקות? <span class="blank"></span></li><li>בשעה שלמה? <span class="blank"></span></li></ol>
+  
+  <h2 class="q">שאלה 3 — מציאת ההספק <span class="tag easy">קל</span></h2>
+  <p>מצאו את ההספק (עבודה ÷ זמן):</p><ol type="a"><li>אופה אפה 90 לחמניות ב-3 שעות ⟵ <span class="blank"></span></li><li>מדפסת הדפיסה 120 עמודים ב-6 דקות ⟵ <span class="blank"></span></li><li>פועל הרכיב 56 מוצרים ב-7 שעות ⟵ <span class="blank"></span></li></ol>
+  
+  <h2 class="q">שאלה 4 — מציאת הזמן <span class="tag easy">קל</span></h2>
+  <p>מצאו את הזמן (עבודה ÷ הספק):</p><ol type="a"><li>200 בקבוקים בהספק של 40 בקבוקים בדקה ⟵ <span class="blank"></span></li><li>180 עמודים בהספק של 20 עמודים בדקה ⟵ <span class="blank"></span></li><li>150 לחמניות בהספק של 30 לחמניות בשעה ⟵ <span class="blank"></span></li></ol>
+  
+  <h2 class="q">שאלה 5 — משלימים את הטבלה <span class="tag med">בינוני</span></h2>
+  <p>בכל שורה של טבלת העזר (הספק | זמן | עבודה) חסר נתון אחד. השלימו:</p><ol type="a"><li>הספק: 15 בשעה, זמן: 4 שעות, עבודה: <span class="blank"></span></li><li>הספק: <span class="blank"></span>, זמן: 6 שעות, עבודה: 72</li><li>הספק: 25 בדקה, זמן: <span class="blank"></span>, עבודה: 100</li></ol>
+  
+  <h2 class="q">שאלה 6 — המאפייה של שמעון <span class="tag med">בינוני</span></h2>
+  <p>המכונה של שמעון אפתה 240 לחמניות ב-4 שעות.</p><ol type="a"><li>מה ההספק של המכונה?</li><li>כמה לחמניות תאפה ב-7 שעות?</li><li>כמה זמן יידרש לה לאפות 300 לחמניות?</li></ol>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 7 — שתי מדפסות במשרד <span class="tag med">בינוני</span></h2>
+  <p>מדפסת א' מדפיסה 25 עמודים בדקה, ומדפסת ב' מדפיסה 15 עמודים בדקה.</p><ol type="a"><li>כמה עמודים מדפיסות שתיהן יחד בדקה?</li><li>כמה עמודים ידפיסו יחד ב-10 דקות?</li><li>כמה זמן יידרש לשתיהן יחד להדפיס 320 עמודים?</li></ol>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 8 — מוסיפים פועלים <span class="tag med">בינוני</span></h2>
+  <p>3 פועלים, שכולם עובדים באותו קצב, בונים קיר ב-10 ימים.</p><ol type="a"><li>כמה ימי עבודה של פועל אחד דורש הקיר?</li><li>כמה זמן יידרש ל-5 פועלים?</li></ol>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 9 — המלצרים הזריזים <span class="tag med">בינוני</span></h2>
+  <p>4 מלצרים מסדרים אולם אירועים ב-90 דקות. כמה זמן יידרש ל-6 מלצרים? (כולם מסדרים באותו קצב.) בדקו שהתשובה הגיונית: יותר מלצרים ⟵ פחות זמן.</p>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 10 — איזו מכונה מהירה יותר? <span class="tag med">בינוני</span></h2>
+  <p>מכונה א' מילאה 240 בקבוקים ב-6 דקות. מכונה ב' מילאה 280 בקבוקים ב-7 דקות. איזו מכונה בעלת הספק גדול יותר? חשבו לפני שאתם מנחשים!</p>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 11 — קירות ושבועות <span class="tag med">בינוני</span></h2>
+  <p>צַבָּע צובע 2 קירות ביום.</p><ol type="a"><li>כמה קירות יצבע בשבוע עבודה של 5 ימים?</li><li>כמה ימי עבודה יידרשו לו כדי לצבוע 16 קירות?</li></ol>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 12 — אתגר: צובעים יחד <span class="tag hard">מאתגר</span></h2>
+  <p>דנה צובעת גדר לבדה ב-6 שעות, ויואב צובע את אותה גדר לבדו ב-3 שעות. כמה זמן ייקח לשניהם יחד? רמז: מצאו קודם כמה גדר צובע כל אחד בשעה. (ולמה התשובה חייבת לצאת פחות מ-3 שעות?)</p>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 13 — אתגר: שני ברזים, בריכה אחת <span class="tag hard">מאתגר</span></h2>
+  <p>ברז א' ממלא בריכת ילדים לבדו בשעתיים, וברז ב' ממלא אותה לבדו ב-6 שעות. פותחים את שניהם יחד — כמה זמן עד שהבריכה מלאה?</p>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 14 — אתגר: מי העוזרת המסתורית? <span class="tag hard">מאתגר</span></h2>
+  <p>עידו מקפל את כל עלוני הפרסום לבדו ב-6 שעות. כשנועה עוזרת לו, שניהם מסיימים יחד בשעתיים בלבד. בכמה זמן הייתה נועה מסיימת את כל העלונים לבדה? רמז: מה ההספק המשותף, ומה ההספק של עידו לבדו?</p>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 15 — אתגר: כמה פועלים צריך? <span class="tag hard">מאתגר</span></h2>
+  <p>2 פועלים בונים מחסן ב-6 ימים (כולם עובדים באותו קצב).</p><ol type="a"><li>כמה ימי עבודה דורש המחסן?</li><li>כמה זמן יידרש ל-3 פועלים?</li><li>כמה פועלים דרושים כדי לסיים ב-2 ימים בלבד?</li></ol>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
+</div>
+
+<div class="sheet key pagebreak">
+  <header>
+    <h1>🔑 דף פתרונות למורה — פרק 4: בעיות הספק</h1>
+    <div class="sub">לא לחלוקה לתלמידים</div>
+  </header>
+  <div class="ans"><strong>שאלה 1.</strong> א. 100 עמודים &nbsp; ב. 240 עמודים &nbsp; ג. חצי שעה = 30 דקות ⟵ <span class="eq">20 × 30 = 600</span> עמודים</div>
+<div class="ans"><strong>שאלה 2.</strong> א. 240 &nbsp; ב. 600 &nbsp; ג. שעה = 60 דקות ⟵ <span class="eq">40 × 60 = 2400</span> בקבוקים</div>
+<div class="ans"><strong>שאלה 3.</strong> א. <span class="eq">90 ÷ 3 = 30</span> לחמניות בשעה &nbsp; ב. <span class="eq">120 ÷ 6 = 20</span> עמודים בדקה &nbsp; ג. <span class="eq">56 ÷ 7 = 8</span> מוצרים בשעה</div>
+<div class="ans"><strong>שאלה 4.</strong> א. <span class="eq">200 ÷ 40 = 5</span> דקות &nbsp; ב. <span class="eq">180 ÷ 20 = 9</span> דקות &nbsp; ג. <span class="eq">150 ÷ 30 = 5</span> שעות</div>
+<div class="ans"><strong>שאלה 5.</strong> א. עבודה: <span class="eq">15 × 4 = 60</span> &nbsp; ב. הספק: <span class="eq">72 ÷ 6 = 12</span> בשעה &nbsp; ג. זמן: <span class="eq">100 ÷ 25 = 4</span> דקות</div>
+<div class="ans"><strong>שאלה 6.</strong> א. <span class="eq">240 ÷ 4 = 60</span> לחמניות בשעה &nbsp; ב. <span class="eq">60 × 7 = 420</span> לחמניות &nbsp; ג. <span class="eq">300 ÷ 60 = 5</span> שעות</div>
+<div class="ans"><strong>שאלה 7.</strong> א. <span class="eq">25 + 15 = 40</span> עמודים בדקה &nbsp; ב. <span class="eq">40 × 10 = 400</span> עמודים &nbsp; ג. <span class="eq">320 ÷ 40 = 8</span> דקות</div>
+<div class="ans"><strong>שאלה 8.</strong> א. <span class="eq">3 × 10 = 30</span> ימי עבודה &nbsp; ב. <span class="eq">30 ÷ 5 = 6</span> ימים</div>
+<div class="ans"><strong>שאלה 9.</strong> כמות העבודה: <span class="eq">4 × 90 = 360</span> דקות עבודה של מלצר אחד ⟵ <span class="eq">360 ÷ 6 = 60</span> דקות. ובאמת: 6 מלצרים מהירים מ-4 ✓</div>
+<div class="ans"><strong>שאלה 10.</strong> מכונה א': <span class="eq">240 ÷ 6 = 40</span> בדקה. מכונה ב': <span class="eq">280 ÷ 7 = 40</span> בדקה. הפתעה — ההספקים שווים בדיוק!</div>
+<div class="ans"><strong>שאלה 11.</strong> א. <span class="eq">2 × 5 = 10</span> קירות &nbsp; ב. <span class="eq">16 ÷ 2 = 8</span> ימי עבודה</div>
+<div class="ans"><strong>שאלה 12.</strong> דנה: <span class="fr"><b>1</b><i>6</i></span> גדר בשעה, יואב: <span class="fr"><b>1</b><i>3</i></span> גדר בשעה. יחד: <span class="eq"><span class="fr"><b>1</b><i>6</i></span> + <span class="fr"><b>2</b><i>6</i></span> = <span class="fr"><b>3</b><i>6</i></span> = <span class="fr"><b>1</b><i>2</i></span></span> גדר בשעה ⟵ הגדר כולה ב-2 שעות. פחות מ-3 שעות, כי עזרה רק מקצרת ✓</div>
+<div class="ans"><strong>שאלה 13.</strong> ברז א': <span class="fr"><b>1</b><i>2</i></span> בריכה בשעה, ברז ב': <span class="fr"><b>1</b><i>6</i></span>. יחד: <span class="eq"><span class="fr"><b>1</b><i>2</i></span> + <span class="fr"><b>1</b><i>6</i></span> = <span class="fr"><b>4</b><i>6</i></span> = <span class="fr"><b>2</b><i>3</i></span></span> בריכה בשעה, כלומר <span class="fr"><b>1</b><i>3</i></span> בריכה בכל חצי שעה ⟵ בריכה שלמה בשעה וחצי</div>
+<div class="ans"><strong>שאלה 14.</strong> ההספק המשותף: <span class="fr"><b>1</b><i>2</i></span> מהעבודה בשעה. הספק עידו: <span class="fr"><b>1</b><i>6</i></span>. הספק נועה: <span class="eq"><span class="fr"><b>1</b><i>2</i></span> − <span class="fr"><b>1</b><i>6</i></span> = <span class="fr"><b>2</b><i>6</i></span> = <span class="fr"><b>1</b><i>3</i></span></span> ⟵ נועה לבדה מסיימת ב-3 שעות</div>
+<div class="ans"><strong>שאלה 15.</strong> א. <span class="eq">2 × 6 = 12</span> ימי עבודה &nbsp; ב. <span class="eq">12 ÷ 3 = 4</span> ימים &nbsp; ג. <span class="eq">12 ÷ 2 = 6</span> פועלים</div>
+  <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
+</div>
+</body>
+</html>

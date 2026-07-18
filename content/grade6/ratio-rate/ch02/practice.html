@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>תרגול אינטראקטיבי — קנה מידה</title>
+<style>
+  @page { size: A4; margin: 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: #1a2233;
+         line-height: 1.7; margin: 0; padding: 20px; background: #f4f6fa; }
+  .sheet { background: #fff; max-width: 820px; margin: 0 auto 24px;
+           padding: 30px 36px; border-radius: 10px;
+           box-shadow: 0 2px 14px rgba(0,0,0,.09); }
+  header { border-bottom: 3px solid #2f6fed; padding-bottom: 12px; margin-bottom: 20px; }
+  h1 { margin: 0 0 4px; font-size: 24px; color: #14306b; }
+  .sub { color: #5b6780; font-size: 14px; }
+  .namebar { display: flex; gap: 26px; margin-top: 12px; font-size: 14px; }
+  .namebar span { flex: 1; border-bottom: 1px dotted #8894ab; padding-bottom: 3px; }
+  h2.q, h2.sec { font-size: 17px; margin: 24px 0 10px; color: #14306b;
+    background: #eef3fe; padding: 7px 12px; border-radius: 6px;
+    border-inline-start: 5px solid #2f6fed; }
+  .tag { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px;
+         margin-inline-start: 8px; vertical-align: middle; }
+  .easy { background: #dff5e3; color: #1c6b32; }
+  .med  { background: #fdf0d5; color: #8a5b06; }
+  .hard { background: #fadbdb; color: #8f2222; }
+  ol.items { margin: 6px 0; padding-inline-start: 22px; }
+  ol.items > li { margin-bottom: 13px; }
+  .fr { display: inline-flex; flex-direction: column; align-items: center;
+        vertical-align: middle; margin: 0 3px; font-size: .95em; line-height: 1.15; }
+  .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
+  .fr i { font-style: normal; padding: 0 4px; }
+  .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
+  .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
+  .fig { text-align: center; font-size: 13px; color: #5b6780; }
+  .lines div { border-bottom: 1px dotted #aab3c4; height: 24px; }
+  .numline { margin: 10px 0; }
+  .pagebreak { page-break-before: always; }
+  .key { background: #fffdf3; }
+  .key h1 { color: #8a5b06; }
+  .key header { border-bottom-color: #e0a800; }
+  .key .ans { background:#fff; border:1px solid #eadfb8; border-radius:6px;
+              padding:10px 14px; margin-bottom:10px; font-size:14.5px; }
+  .key .ans strong { color:#8a5b06; }
+  .credit { text-align:center; font-size: 12px; color: #8894ab; margin-top: 18px;
+            border-top: 1px solid #eef1f6; padding-top: 8px; }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .sheet { box-shadow: none; margin: 0; border-radius: 0; padding: 0; max-width: none; }
+    .noprint { display: none; }
+  }
+  .noprint { text-align:center; margin: 10px 0 20px; }
+  .noprint button { background: #2f6fed; color:#fff; border:0; padding:10px 26px;
+                    border-radius:6px; font-size:15px; cursor:pointer; font-family:inherit; }
+
+  .card { background: #fff; border-radius: 12px; padding: 22px 24px; margin: 0 auto 20px;
+          max-width: 780px; box-shadow: 0 2px 12px rgba(20,48,107,.08); }
+  .card h2 { font-size: 19px; color: #14306b; margin: 0 0 4px; }
+  .hint { color: #77839b; font-size: 14px; margin: 0 0 16px; }
+  .ex { border: 1px solid #e6eaf2; border-radius: 9px; padding: 14px 16px; margin-bottom: 12px; }
+  .ex-h { display: flex; align-items: center; gap: 9px; margin-bottom: 6px; }
+  .ex-h strong { color: #14306b; }
+  .reveal { margin-top: 9px; background: #fff; border: 1.5px solid #2f6fed; color: #2f6fed;
+            border-radius: 6px; padding: 6px 16px; cursor: pointer; font: inherit; font-size: 14px; }
+  .reveal:hover { background: #2f6fed; color: #fff; }
+  .sol { display: none; margin-top: 10px; background:#f3f8f4; border-inline-start:4px solid #34a853;
+         padding: 11px 14px; border-radius: 6px; font-size: 15px; }
+  .sol.show { display: block; }
+  .q { margin-bottom: 22px; padding-bottom: 18px; border-bottom: 1px solid #eef1f6; }
+  .qtext { font-weight: 600; margin-bottom: 10px; }
+  .opts { display: grid; gap: 8px; }
+  .opt { text-align: start; background: #f6f8fc; border: 2px solid #e2e8f2; border-radius: 8px;
+         padding: 10px 14px; cursor: pointer; font: inherit; color: inherit; }
+  .opt:hover:not(:disabled) { border-color: #2f6fed; background: #eef3fe; }
+  .opt.correct { background: #e4f6e9; border-color: #34a853; }
+  .opt.wrong { background: #fdecea; border-color: #d93025; }
+  .opt:disabled { cursor: default; }
+  .score { text-align:center; font-size:17px; font-weight:700; color:#14306b; margin-top:8px; }
+  h1.pt { max-width: 780px; margin: 0 auto 4px; color:#14306b; }
+  p.lead { max-width: 780px; margin: 0 auto 26px; color:#5b6780; }
+</style>
+</head>
+<body>
+
+<h1 class="pt">תרגול: קנה מידה</h1>
+<p class="lead">פרק 2 · היחס שמכניס עיר שלמה לדף: מהשרטוט למציאות ובחזרה</p>
+
+<div class="card">
+  <h2>✏️ תרגילים</h2>
+  <p class="hint">נסו לפתור לבד, ורק אחר כך גלו את הפתרון.</p>
+  
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 1: חימום: המרות יחידות</strong>
+      <span class="tag easy">קל</span></div>
+    <div>המירו יחידות:<br><br>א. 300 ס"מ = ? מ'<br>ב. 4.5 מ' = ? ס"מ<br>ג. 2 ק"מ = ? ס"מ<br>ד. 250,000 ס"מ = ? ק"מ</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. <span class="eq">300 ÷ 100 = 3</span> מ'<br>ב. <span class="eq">4.5 × 100 = 450</span> ס"מ<br>ג. <span class="eq">2 × 100{,}000 = 200{,}000</span> ס"מ<br>ד. <span class="eq">250{,}000 ÷ 100{,}000 = 2.5</span> ק"מ</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 2: מהשרטוט למציאות</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>מצאו את האורך במציאות, ותנו את התשובה ביחידה נוחה:<br><br>א. קנה מידה <span class="eq">1:100</span>, בשרטוט 6 ס"מ<br>ב. קנה מידה <span class="eq">1:50{,}000</span>, במפה 3 ס"מ<br>ג. קנה מידה <span class="eq">1:200</span>, בשרטוט 4.5 ס"מ</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. <span class="eq">6 × 100 = 600</span> ס"מ = <b>6 מ'</b><br>ב. <span class="eq">3 × 50{,}000 = 150{,}000</span> ס"מ = <b>1.5 ק"מ</b><br>ג. <span class="eq">4.5 × 200 = 900</span> ס"מ = <b>9 מ'</b></div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 3: מהמציאות לשרטוט</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>מצאו את האורך בשרטוט (בס"מ). זכרו להמיר קודם!<br><br>א. קנה מידה <span class="eq">1:100</span>, קיר שאורכו 5 מ'<br>ב. קנה מידה <span class="eq">1:25{,}000</span>, שביל שאורכו 2 ק"מ<br>ג. קנה מידה <span class="eq">1:500</span>, בניין שגובהו 35 מ'</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. 5 מ' = 500 ס"מ ⟵ <span class="eq">500 ÷ 100 = 5</span> ס"מ<br>ב. 2 ק"מ = 200,000 ס"מ ⟵ <span class="eq">200{,}000 ÷ 25{,}000 = 8</span> ס"מ<br>ג. 35 מ' = 3,500 ס"מ ⟵ <span class="eq">3{,}500 ÷ 500 = 7</span> ס"מ</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 4: מצאו את קנה המידה</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>מצאו את קנה המידה בכל סעיף (שימו לב ליחידות!):<br><br>א. בשרטוט 4 ס"מ, במציאות 2 מ'<br>ב. במפה 5 ס"מ, במציאות 10 ק"מ<br>ג. חיפושית שאורכה 2 ס"מ מצוירת באורך 6 ס"מ</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. 2 מ' = 200 ס"מ ⟵ <span class="eq">4:200 = 1:50</span><br>ב. 10 ק"מ = 1,000,000 ס"מ ⟵ <span class="eq">5:1{,}000{,}000 = 1:200{,}000</span><br>ג. <span class="eq">6:2 = 3:1</span> — קנה מידה מגדיל: הציור גדול פי 3 מהחיפושית</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 5: אתגר: מפת המסלול</strong>
+      <span class="tag hard">מאתגר</span></div>
+    <div>מפת טיולים משורטטת בקנה מידה <span class="eq">1:250{,}000</span>.<br><br>א. אורך המסלול המסומן במפה הוא 8 ס"מ. מה אורכו במציאות בק"מ?<br>ב. התצפית נמצאת במרחק אמיתי של 30 ק"מ מנקודת ההתחלה. מה המרחק ביניהן במפה?<br>ג. בלי לחשב מרחקים אמיתיים מחדש: מה ארוך יותר במציאות — המסלול מסעיף א' או המרחק לתצפית מסעיף ב'? הסבירו.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. <span class="eq">8 × 250{,}000 = 2{,}000{,}000</span> ס"מ = <b>20 ק"מ</b><br>ב. 30 ק"מ = 3,000,000 ס"מ ⟵ <span class="eq">3{,}000{,}000 ÷ 250{,}000 = 12</span> ס"מ<br>ג. המרחק לתצפית (12 ס"מ במפה) ארוך מהמסלול (8 ס"מ). כששני קטעים מדודים <b>באותה מפה</b>, מה שארוך יותר במפה ארוך יותר גם במציאות — ובאמת 30 ק"מ > 20 ק"מ ✓</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 6: המפה הירוקה</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>במפת שבילים בקנה מידה <span class="eq">1:50{,}000</span> נמדדו הקטעים הבאים. מצאו את אורכם במציאות בק"מ:<br><br>א. 4 ס"מ<br>ב. 9 ס"מ<br>ג. 12 ס"מ</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. <span class="eq">4 × 50{,}000 = 200{,}000</span> ס"מ = 2 ק"מ<br>ב. <span class="eq">450{,}000</span> ס"מ = 4.5 ק"מ<br>ג. <span class="eq">600{,}000</span> ס"מ = 6 ק"מ</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 7: מהמציאות למפה</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>מפה משורטטת בקנה מידה <span class="eq">1:20{,}000</span>. מצאו את האורך במפה:<br><br>א. מרחק אמיתי של 1 ק"מ<br>ב. מרחק אמיתי של 3.4 ק"מ</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. <span class="eq">100{,}000 ÷ 20{,}000 = 5</span> ס"מ<br>ב. 3.4 ק"מ = 340,000 ס"מ ⟵ <span class="eq">340{,}000 ÷ 20{,}000 = 17</span> ס"מ</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 8: מצאו את קנה המידה</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>א. בשרטוט 4 ס"מ, במציאות 12 מ'. מה קנה המידה?<br>ב. במפה 3 ס"מ, במציאות 4.5 ק"מ. מה קנה המידה?</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. 12 מ' = 1,200 ס"מ ⟵ <span class="eq">4:1{,}200 = 1:300</span><br>ב. 4.5 ק"מ = 450,000 ס"מ ⟵ <span class="eq">3:450{,}000 = 1:150{,}000</span></div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 9: חדר בתוכנית</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>בתוכנית בקנה מידה <span class="eq">1:75</span>, אורך חדר הוא 6 ס"מ. מה אורכו האמיתי במטרים?</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol"><span class="eq">6 × 75 = 450</span> ס"מ = 4.5 מ'</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 10: השרטוט המוגדל</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>בשרטוט טכני של רכיב זעיר, קנה המידה הוא <span class="eq">8:1</span> ואורך הרכיב בשרטוט 12 ס"מ. מה אורכו האמיתי?</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">בקנה מידה מגדיל מחלקים: <span class="eq">12 ÷ 8 = 1.5</span> ס"מ</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 11: דגם האוטובוס</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>דגם אוטובוס נבנה בקנה מידה <span class="eq">1:40</span>. אורך האוטובוס האמיתי 12 מ'. מה אורך הדגם בס"מ?</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">12 מ' = 1,200 ס"מ ⟵ <span class="eq">1{,}200 ÷ 40 = 30</span> ס"מ</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 12: אתגר: שתי מפות, מרחק אחד גדול</strong>
+      <span class="tag hard">מאתגר</span></div>
+    <div>קטע א' נמדד במפה בקנה מידה <span class="eq">1:400{,}000</span> ואורכו במפה 5 ס"מ. קטע ב' נמדד במפה בקנה מידה <span class="eq">1:100{,}000</span> ואורכו במפה 12 ס"מ. איזה קטע ארוך יותר במציאות?</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">קטע א': <span class="eq">5 × 400{,}000 = 2{,}000{,}000</span> ס"מ = 20 ק"מ<br>קטע ב': <span class="eq">12 × 100{,}000 = 1{,}200{,}000</span> ס"מ = 12 ק"מ<br><br>קטע א' ארוך יותר — למרות שבמפה הוא נראה קצר בהרבה!</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 13: אתגר: מהזוג אל המפה</strong>
+      <span class="tag hard">מאתגר</span></div>
+    <div>במפה מסוימת, 3 ס"מ מייצגים 12 ק"מ.<br><br>א. מה קנה המידה של המפה?<br>ב. מה המרחק במציאות בין שתי נקודות שהמרחק ביניהן במפה 7.5 ס"מ?</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. 12 ק"מ = 1,200,000 ס"מ ⟵ <span class="eq">3:1{,}200{,}000 = 1:400{,}000</span><br>ב. <span class="eq">7.5 × 400{,}000 = 3{,}000{,}000</span> ס"מ = 30 ק"מ</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 14: אתגר: עיר הדגמים</strong>
+      <span class="tag hard">מאתגר</span></div>
+    <div>בפארק דגמים בנוי דגם של מגדל שגובהו האמיתי 150 מ', וגובה הדגם 75 ס"מ.<br><br>א. מה קנה המידה של הפארק?<br>ב. באותו קנה מידה, מה יהיה אורך הדגם של גשר שאורכו האמיתי 340 מ'?</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. 150 מ' = 15,000 ס"מ ⟵ <span class="eq">75:15{,}000 = 1:200</span><br>ב. 340 מ' = 34,000 ס"מ ⟵ <span class="eq">34{,}000 ÷ 200 = 170</span> ס"מ = 1.7 מ'</div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>🎯 מבחנון</h2>
+  <p class="hint">בחרו תשובה — ותקבלו משוב מיד.</p>
+  <div id="quiz"></div>
+  <div class="score" id="score"></div>
+</div>
+
+<div class="credit" style="max-width:780px; margin:0 auto">© כל הזכויות שמורות ליאיר כהנא</div>
+
+<script>
+const quiz = [{"q": "במפה בקנה מידה 1:100, קטע של 1 ס\"מ במפה מייצג במציאות:", "o": ["100 ס\"מ", "1 ס\"מ", "100 ק\"מ", "10 ס\"מ"], "a": 0}, {"q": "כמה סנטימטרים יש בקילומטר אחד?", "o": ["100,000", "1,000", "10,000", "1,000,000"], "a": 0}, {"q": "במפה בקנה מידה 1:50,000 מדדו קטע של 2 ס\"מ. מה המרחק במציאות?", "o": ["1 ק\"מ", "2 ק\"מ", "500 מ'", "10 ק\"מ"], "a": 0}, {"q": "בשרטוט אורך גדר הוא 3 ס\"מ, ובמציאות אורכה 6 מ'. מה קנה המידה של השרטוט?", "o": ["1:200", "1:2", "1:600", "3:6"], "a": 0}, {"q": "נכון או לא נכון: בקנה מידה 5:1 השרטוט גדול פי 5 מהעצם במציאות.", "o": ["נכון", "לא נכון"], "a": 0}];
+let answered = 0, correct = 0;
+document.getElementById('quiz').innerHTML = quiz.map((q, i) => `
+  <div class="q">
+    <div class="qtext">${i + 1}. ${q.q}</div>
+    <div class="opts">${q.o.map((o, j) =>
+      `<button class="opt" data-q="${i}" data-o="${j}">${o}</button>`).join('')}</div>
+  </div>`).join('');
+document.querySelectorAll('.opt').forEach(btn => {
+  btn.onclick = () => {
+    const qi = +btn.dataset.q, oi = +btn.dataset.o, q = quiz[qi];
+    const group = btn.parentElement.querySelectorAll('.opt');
+    group.forEach(b => b.disabled = true);
+    group[q.a].classList.add('correct');
+    if (oi !== q.a) btn.classList.add('wrong'); else correct++;
+    if (++answered === quiz.length) {
+      document.getElementById('score').textContent =
+        `סיימתם! ${correct} מתוך ${quiz.length} נכונות ` +
+        (correct === quiz.length ? '🏆 מושלם!' : correct >= quiz.length - 2 ? '👍 יפה מאוד!' : '💪 שווה לחזור על הפרק');
+    }
+  };
+});
+</script>
+</body>
+</html>

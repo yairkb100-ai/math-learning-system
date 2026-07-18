@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>תרגול אינטראקטיבי — בעיות תנועה</title>
+<style>
+  @page { size: A4; margin: 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: #1a2233;
+         line-height: 1.7; margin: 0; padding: 20px; background: #f4f6fa; }
+  .sheet { background: #fff; max-width: 820px; margin: 0 auto 24px;
+           padding: 30px 36px; border-radius: 10px;
+           box-shadow: 0 2px 14px rgba(0,0,0,.09); }
+  header { border-bottom: 3px solid #2f6fed; padding-bottom: 12px; margin-bottom: 20px; }
+  h1 { margin: 0 0 4px; font-size: 24px; color: #14306b; }
+  .sub { color: #5b6780; font-size: 14px; }
+  .namebar { display: flex; gap: 26px; margin-top: 12px; font-size: 14px; }
+  .namebar span { flex: 1; border-bottom: 1px dotted #8894ab; padding-bottom: 3px; }
+  h2.q, h2.sec { font-size: 17px; margin: 24px 0 10px; color: #14306b;
+    background: #eef3fe; padding: 7px 12px; border-radius: 6px;
+    border-inline-start: 5px solid #2f6fed; }
+  .tag { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px;
+         margin-inline-start: 8px; vertical-align: middle; }
+  .easy { background: #dff5e3; color: #1c6b32; }
+  .med  { background: #fdf0d5; color: #8a5b06; }
+  .hard { background: #fadbdb; color: #8f2222; }
+  ol.items { margin: 6px 0; padding-inline-start: 22px; }
+  ol.items > li { margin-bottom: 13px; }
+  .fr { display: inline-flex; flex-direction: column; align-items: center;
+        vertical-align: middle; margin: 0 3px; font-size: .95em; line-height: 1.15; }
+  .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
+  .fr i { font-style: normal; padding: 0 4px; }
+  .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
+  .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
+  .fig { text-align: center; font-size: 13px; color: #5b6780; }
+  .lines div { border-bottom: 1px dotted #aab3c4; height: 24px; }
+  .numline { margin: 10px 0; }
+  .pagebreak { page-break-before: always; }
+  .key { background: #fffdf3; }
+  .key h1 { color: #8a5b06; }
+  .key header { border-bottom-color: #e0a800; }
+  .key .ans { background:#fff; border:1px solid #eadfb8; border-radius:6px;
+              padding:10px 14px; margin-bottom:10px; font-size:14.5px; }
+  .key .ans strong { color:#8a5b06; }
+  .credit { text-align:center; font-size: 12px; color: #8894ab; margin-top: 18px;
+            border-top: 1px solid #eef1f6; padding-top: 8px; }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .sheet { box-shadow: none; margin: 0; border-radius: 0; padding: 0; max-width: none; }
+    .noprint { display: none; }
+  }
+  .noprint { text-align:center; margin: 10px 0 20px; }
+  .noprint button { background: #2f6fed; color:#fff; border:0; padding:10px 26px;
+                    border-radius:6px; font-size:15px; cursor:pointer; font-family:inherit; }
+
+  .card { background: #fff; border-radius: 12px; padding: 22px 24px; margin: 0 auto 20px;
+          max-width: 780px; box-shadow: 0 2px 12px rgba(20,48,107,.08); }
+  .card h2 { font-size: 19px; color: #14306b; margin: 0 0 4px; }
+  .hint { color: #77839b; font-size: 14px; margin: 0 0 16px; }
+  .ex { border: 1px solid #e6eaf2; border-radius: 9px; padding: 14px 16px; margin-bottom: 12px; }
+  .ex-h { display: flex; align-items: center; gap: 9px; margin-bottom: 6px; }
+  .ex-h strong { color: #14306b; }
+  .reveal { margin-top: 9px; background: #fff; border: 1.5px solid #2f6fed; color: #2f6fed;
+            border-radius: 6px; padding: 6px 16px; cursor: pointer; font: inherit; font-size: 14px; }
+  .reveal:hover { background: #2f6fed; color: #fff; }
+  .sol { display: none; margin-top: 10px; background:#f3f8f4; border-inline-start:4px solid #34a853;
+         padding: 11px 14px; border-radius: 6px; font-size: 15px; }
+  .sol.show { display: block; }
+  .q { margin-bottom: 22px; padding-bottom: 18px; border-bottom: 1px solid #eef1f6; }
+  .qtext { font-weight: 600; margin-bottom: 10px; }
+  .opts { display: grid; gap: 8px; }
+  .opt { text-align: start; background: #f6f8fc; border: 2px solid #e2e8f2; border-radius: 8px;
+         padding: 10px 14px; cursor: pointer; font: inherit; color: inherit; }
+  .opt:hover:not(:disabled) { border-color: #2f6fed; background: #eef3fe; }
+  .opt.correct { background: #e4f6e9; border-color: #34a853; }
+  .opt.wrong { background: #fdecea; border-color: #d93025; }
+  .opt:disabled { cursor: default; }
+  .score { text-align:center; font-size:17px; font-weight:700; color:#14306b; margin-top:8px; }
+  h1.pt { max-width: 780px; margin: 0 auto 4px; color:#14306b; }
+  p.lead { max-width: 780px; margin: 0 auto 26px; color:#5b6780; }
+</style>
+</head>
+<body>
+
+<h1 class="pt">תרגול: בעיות תנועה</h1>
+<p class="lead">פרק 3 · מהירות, זמן ודרך — משולש הקסם והטבלה שעושה סדר</p>
+
+<div class="card">
+  <h2>✏️ תרגילים</h2>
+  <p class="hint">נסו לפתור לבד, ורק אחר כך גלו את הפתרון.</p>
+  
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 1: חימום עם משולש הקסם</strong>
+      <span class="tag easy">קל</span></div>
+    <div>השלימו את החסר:<br><br>א. מכונית נוסעת במהירות 60 קמ"ש במשך 3 שעות. איזו דרך עברה?<br>ב. אופנוע נוסע במהירות 90 קמ"ש במשך חצי שעה. איזו דרך עבר?<br>ג. אוטובוס עבר 240 ק"מ ב-3 שעות. מה מהירותו?<br>ד. כמה זמן דרוש כדי לעבור 30 ק"מ במהירות 60 קמ"ש?</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. <span class="eq">60 × 3 = 180</span> ק"מ<br>ב. <span class="eq">90 × 0.5 = 45</span> ק"מ<br>ג. <span class="eq">240 ÷ 3 = 80</span> קמ"ש<br>ד. <span class="eq">30 ÷ 60 = 0.5</span> — חצי שעה (30 דקות)</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 2: דקות הופכות לשעות</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>המירו את הזמן לשעות וחשבו את הדרך:<br><br>א. רכבת במהירות 90 קמ"ש נוסעת 20 דקות<br>ב. הולך רגל במהירות 6 קמ"ש הולך 45 דקות<br>ג. מכונית במהירות 80 קמ"ש נוסעת רבע שעה</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. 20 דקות = שליש שעה ⟵ <span class="eq">90 ÷ 3 = 30</span> ק"מ<br>ב. 45 דקות = 0.75 שעה ⟵ <span class="eq">6 × 0.75 = 4.5</span> ק"מ<br>ג. רבע שעה = 0.25 שעה ⟵ <span class="eq">80 × 0.25 = 20</span> ק"מ</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 3: נפגשים על הכביש</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>שתי מכוניות יוצאות באותו רגע משתי ערים שהמרחק ביניהן 300 ק"מ, ונוסעות זו לקראת זו: האחת במהירות 70 קמ"ש והשנייה במהירות 80 קמ"ש.<br><br>א. בעוד כמה זמן ייפגשו?<br>ב. באיזה מרחק מהעיר של המכונית הראשונה תתרחש הפגישה?<br>ג. בדקו: האם שתי הדרכים יחד מכסות את כל המרחק?</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. מהירות ההתקרבות <span class="eq">70 + 80 = 150</span> קמ"ש ⟵ <span class="eq">300 ÷ 150 = 2</span> שעות.<br>ב. הראשונה עברה <span class="eq">70 × 2 = 140</span> ק"מ — הפגישה במרחק 140 ק"מ מעירה.<br>ג. השנייה עברה <span class="eq">80 × 2 = 160</span> ק"מ, ובאמת <span class="eq">140 + 160 = 300</span> ✓</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 4: המרדף אחרי מכונית א'</strong>
+      <span class="tag hard">מאתגר</span></div>
+    <div>מכונית א' יצאה מתחנת הדלק ב-7:00 בבוקר במהירות 80 קמ"ש. מכונית ב' יצאה מאותה תחנה, באותו כיוון, ב-8:00 — במהירות 100 קמ"ש.<br><br>א. איזה פער נוצר עד שמכונית ב' יצאה?<br>ב. באיזו שעה תשיג מכונית ב' את מכונית א'?<br>ג. באיזה מרחק מהתחנה זה יקרה? בדקו עם שתי המכוניות.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. בשעה 8:00 מכונית א' כבר עברה <span class="eq">80 × 1 = 80</span> ק"מ — זה הפער.<br>ב. הפער נסגר בקצב <span class="eq">100 - 80 = 20</span> ק"מ לשעה ⟵ <span class="eq">80 ÷ 20 = 4</span> שעות ⟵ ההשגה ב-<b>12:00</b>.<br>ג. מכונית ב': <span class="eq">100 × 4 = 400</span> ק"מ. <b>בדיקה:</b> מכונית א' נסעה 5 שעות: <span class="eq">80 × 5 = 400</span> ✓ — שתיהן באותה נקודה.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 5: אתגר: הלוך ושוב לים</strong>
+      <span class="tag hard">מאתגר</span></div>
+    <div>משפחת כרמי נסעה לים: בדרך הלוך עברו 90 ק"מ במהירות 90 קמ"ש, ובדרך חזרה — בגלל פקקים — נסעו את אותה דרך במהירות 45 קמ"ש בלבד.<br><br>א. כמה זמן נמשכה הנסיעה הלוך? וחזור?<br>ב. מה סך כל הדרך וסך כל הזמן?<br>ג. מה הייתה המהירות הממוצעת בנסיעה כולה? (רמז: היא לא 67.5!)</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. הלוך: <span class="eq">90 ÷ 90 = 1</span> שעה. חזור: <span class="eq">90 ÷ 45 = 2</span> שעות.<br>ב. סך הדרך <span class="eq">90 + 90 = 180</span> ק"מ; סך הזמן <span class="eq">1 + 2 = 3</span> שעות.<br>ג. מהירות ממוצעת = כל הדרך חלקי כל הזמן: <span class="eq">180 ÷ 3 = 60</span> קמ"ש. <b>המלכודת:</b> האמצע בין 90 ל-45 הוא 67.5 — אבל בילינו יותר זמן במהירות האיטית, ולכן הממוצע האמיתי נמוך יותר.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 6: עוד דקות ושברי שעה</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>המירו את הזמן לשעות וחשבו את הדרך:<br><br>א. מכונית במהירות 90 קמ"ש נוסעת 40 דקות<br>ב. מכונית במהירות 60 קמ"ש נוסעת 35 דקות<br>ג. טרקטור במהירות 30 קמ"ש נוסע 20 דקות</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. 40 דקות = שני שלישים של שעה ⟵ <span class="eq">90 × <span class="fr"><b>2</b><i>3</i></span> = 60</span> ק"מ<br>ב. במהירות 60 קמ"ש עוברים ק"מ בכל דקה ⟵ 35 ק"מ<br>ג. 20 דקות = שליש שעה ⟵ <span class="eq">30 ÷ 3 = 10</span> ק"מ</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 7: מהירות מתוך זמן קצר</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>מצאו את המהירות בקמ"ש:<br><br>א. 36 ק"מ ב-45 דקות<br>ב. 20 ק"מ ב-20 דקות</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. 45 דקות = 0.75 שעה ⟵ <span class="eq">36 ÷ 0.75 = 48</span> קמ"ש<br>ב. 20 דקות = שליש שעה ⟵ <span class="eq">20 × 3 = 60</span> קמ"ש</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 8: טבלת עזר לשלושה</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>השלימו את הערך החסר לכל נוסע:<br><br>א. מהירות 55 קמ"ש, זמן 2 שעות, דרך?<br>ב. דרך 75 ק"מ, זמן שעה וחצי, מהירות?<br>ג. דרך 140 ק"מ, מהירות 70 קמ"ש, זמן?</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. <span class="eq">55 × 2 = 110</span> ק"מ<br>ב. <span class="eq">75 ÷ 1.5 = 50</span> קמ"ש<br>ג. <span class="eq">140 ÷ 70 = 2</span> שעות</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 9: מהשעון אל הדרך</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>מכונית יצאה ב-6:45 והגיעה ליעדה ב-9:15, כשהיא נוסעת במהירות 80 קמ"ש. איזו דרך עברה?</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">מ-6:45 עד 9:15 עברו שעתיים וחצי ⟵ <span class="eq">80 × 2.5 = 200</span> ק"מ</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 10: מי הרץ המהיר?</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>רץ א' עבר 3 ק"מ ברבע שעה. רץ ב' עבר 5 ק"מ בחצי שעה. חשבו את מהירות כל אחד בקמ"ש וקבעו מי מהיר יותר.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">רץ א': <span class="eq">3 ÷ 0.25 = 12</span> קמ"ש. רץ ב': <span class="eq">5 ÷ 0.5 = 10</span> קמ"ש.<br><br>רץ א' מהיר יותר.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 11: פגישה על הכביש הישן</strong>
+      <span class="tag hard">מאתגר</span></div>
+    <div>שתי מכוניות יוצאות באותו רגע זו לקראת זו ממרחק 250 ק"מ: האחת במהירות 60 קמ"ש והשנייה במהירות 65 קמ"ש.<br><br>א. בעוד כמה זמן ייפגשו?<br>ב. איזו דרך עברה כל אחת? בדקו את הסכום.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. מהירות ההתקרבות <span class="eq">60 + 65 = 125</span> קמ"ש ⟵ <span class="eq">250 ÷ 125 = 2</span> שעות.<br>ב. <span class="eq">60 × 2 = 120</span> ק"מ ו-<span class="eq">65 × 2 = 130</span> ק"מ, ובאמת <span class="eq">120 + 130 = 250</span> ✓</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 12: הרוכב משיג את המטייל</strong>
+      <span class="tag hard">מאתגר</span></div>
+    <div>מטייל יצא ברגל ב-10:00 במהירות 5 קמ"ש. ב-12:00 יצא בעקבותיו, באותו מסלול, רוכב אופניים במהירות 15 קמ"ש.<br><br>א. איזה פער נוצר עד 12:00?<br>ב. באיזו שעה ישיג הרוכב את המטייל, ובאיזה מרחק מנקודת היציאה?</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. בשעתיים המטייל עבר <span class="eq">5 × 2 = 10</span> ק"מ.<br>ב. הפער נסגר בקצב <span class="eq">15 - 5 = 10</span> קמ"ש ⟵ שעה אחת ⟵ ההשגה ב-13:00, במרחק <span class="eq">15 × 1 = 15</span> ק"מ. <b>בדיקה:</b> המטייל הלך 3 שעות: <span class="eq">5 × 3 = 15</span> ✓</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 13: הלוך ושוב — והממוצע המפתיע</strong>
+      <span class="tag hard">מאתגר</span></div>
+    <div>נסיעה לים: הלוך 60 ק"מ במהירות 60 קמ"ש, וחזרה באותה דרך במהירות 40 קמ"ש.<br><br>א. כמה זמן נמשכה הנסיעה כולה?<br>ב. מה הייתה המהירות הממוצעת?</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. הלוך <span class="eq">60 ÷ 60 = 1</span> שעה; חזור <span class="eq">60 ÷ 40 = 1.5</span> שעות ⟵ סה"כ 2.5 שעות.<br>ב. כל הדרך 120 ק"מ ⟵ <span class="eq">120 ÷ 2.5 = 48</span> קמ"ש (ולא 50 — כי בכיוון האיטי בילינו יותר זמן).</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 14: אתגר: פגישה עם בדיקה כפולה</strong>
+      <span class="tag hard">מאתגר</span></div>
+    <div>שני אופנועים יוצאים באותו רגע זה לקראת זה משתי ערים שהמרחק ביניהן 210 ק"מ, במהירויות 65 ו-75 קמ"ש.<br><br>א. בעוד כמה זמן ייפגשו?<br>ב. באיזה מרחק מהעיר של האופנוע האיטי תהיה הפגישה?</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. מהירות ההתקרבות <span class="eq">65 + 75 = 140</span> קמ"ש ⟵ <span class="eq">210 ÷ 140 = 1.5</span> שעות.<br>ב. האיטי עבר <span class="eq">65 × 1.5 = 97.5</span> ק"מ. <b>בדיקה:</b> המהיר עבר <span class="eq">75 × 1.5 = 112.5</span> ק"מ, ו-<span class="eq">97.5 + 112.5 = 210</span> ✓</div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>🎯 מבחנון</h2>
+  <p class="hint">בחרו תשובה — ותקבלו משוב מיד.</p>
+  <div id="quiz"></div>
+  <div class="score" id="score"></div>
+</div>
+
+<div class="credit" style="max-width:780px; margin:0 auto">© כל הזכויות שמורות ליאיר כהנא</div>
+
+<script>
+const quiz = [{"q": "מכונית נוסעת במהירות 80 קמ\"ש במשך שעתיים. איזו דרך עברה?", "o": ["160 ק\"מ", "40 ק\"מ", "82 ק\"מ", "120 ק\"מ"], "a": 0}, {"q": "רוכב אופניים עבר 45 ק\"מ ב-3 שעות. מה הייתה מהירותו?", "o": ["15 קמ\"ש", "135 קמ\"ש", "42 קמ\"ש", "48 קמ\"ש"], "a": 0}, {"q": "כמה זמן דרוש כדי לעבור 120 ק\"מ במהירות 60 קמ\"ש?", "o": ["2 שעות", "חצי שעה", "3 שעות", "שעה וחצי"], "a": 0}, {"q": "שני רוכבים יוצאים באותו רגע זה לקראת זה ממרחק 50 ק\"מ, האחד במהירות 12 קמ\"ש והשני במהירות 13 קמ\"ש. בעוד כמה זמן ייפגשו?", "o": ["2 שעות", "שעה אחת", "4 שעות", "25 שעות"], "a": 0}, {"q": "נכון או לא נכון: 20 דקות הן 0.2 שעה.", "o": ["נכון", "לא נכון"], "a": 1}];
+let answered = 0, correct = 0;
+document.getElementById('quiz').innerHTML = quiz.map((q, i) => `
+  <div class="q">
+    <div class="qtext">${i + 1}. ${q.q}</div>
+    <div class="opts">${q.o.map((o, j) =>
+      `<button class="opt" data-q="${i}" data-o="${j}">${o}</button>`).join('')}</div>
+  </div>`).join('');
+document.querySelectorAll('.opt').forEach(btn => {
+  btn.onclick = () => {
+    const qi = +btn.dataset.q, oi = +btn.dataset.o, q = quiz[qi];
+    const group = btn.parentElement.querySelectorAll('.opt');
+    group.forEach(b => b.disabled = true);
+    group[q.a].classList.add('correct');
+    if (oi !== q.a) btn.classList.add('wrong'); else correct++;
+    if (++answered === quiz.length) {
+      document.getElementById('score').textContent =
+        `סיימתם! ${correct} מתוך ${quiz.length} נכונות ` +
+        (correct === quiz.length ? '🏆 מושלם!' : correct >= quiz.length - 2 ? '👍 יפה מאוד!' : '💪 שווה לחזור על הפרק');
+    }
+  };
+});
+</script>
+</body>
+</html>

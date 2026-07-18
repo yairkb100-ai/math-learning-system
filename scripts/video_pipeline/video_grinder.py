@@ -72,6 +72,11 @@ def targets(entry):
             ROOT / "courses/assets/grade6-percents" / entry["output"],
             ROOT / f"content/grade6/percents/ch{num:02d}/video.mp4",
         )
+    if entry.get("course") == "grade6-ratio-rate":
+        return (
+            ROOT / "courses/assets/grade6-ratio-rate" / entry["output"],
+            ROOT / f"content/grade6/ratio-rate/ch{num:02d}/video.mp4",
+        )
     if entry.get("grade") == 5:
         return (
             ROOT / "courses/assets/grade5-simple-fractions" / entry["output"],
@@ -125,6 +130,10 @@ def main():
         )
         if res.get("code") == "RATE_LIMITED" or "RATE_LIMITED" in raw:
             print(f"{key}: rate limited — stopping submissions this pass")
+            rate_limited = True
+            continue
+        if "Authentication expired" in raw or "re-authenticate" in raw:
+            print(f"{key}: AUTH EXPIRED — run 'notebooklm login' for this profile; aborting pass")
             rate_limited = True
             continue
         art = (res.get("artifact") or res.get("task") or res)

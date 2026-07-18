@@ -47,6 +47,8 @@ def source_path(entry):
         return ROOT / "content/grade7/algebra" / f"ch{num:02d}" / "source.md"
     if entry.get("course") == "grade6-percents":
         return ROOT / "content/grade6/percents" / f"ch{num:02d}" / "source.md"
+    if entry.get("course") == "grade6-ratio-rate":
+        return ROOT / "content/grade6/ratio-rate" / f"ch{num:02d}" / "source.md"
     if entry.get("grade") == 5:
         return ROOT / "content/grade5/simple-fractions" / f"ch{num:02d}" / "source.md"
     return ROOT / "content/grade6/fractions-decimals" / f"ch{num:02d}" / "source.md"

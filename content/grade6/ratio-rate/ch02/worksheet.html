@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>דף עבודה — קנה מידה</title>
+<style>
+  @page { size: A4; margin: 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: #1a2233;
+         line-height: 1.7; margin: 0; padding: 20px; background: #f4f6fa; }
+  .sheet { background: #fff; max-width: 820px; margin: 0 auto 24px;
+           padding: 30px 36px; border-radius: 10px;
+           box-shadow: 0 2px 14px rgba(0,0,0,.09); }
+  header { border-bottom: 3px solid #2f6fed; padding-bottom: 12px; margin-bottom: 20px; }
+  h1 { margin: 0 0 4px; font-size: 24px; color: #14306b; }
+  .sub { color: #5b6780; font-size: 14px; }
+  .namebar { display: flex; gap: 26px; margin-top: 12px; font-size: 14px; }
+  .namebar span { flex: 1; border-bottom: 1px dotted #8894ab; padding-bottom: 3px; }
+  h2.q, h2.sec { font-size: 17px; margin: 24px 0 10px; color: #14306b;
+    background: #eef3fe; padding: 7px 12px; border-radius: 6px;
+    border-inline-start: 5px solid #2f6fed; }
+  .tag { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px;
+         margin-inline-start: 8px; vertical-align: middle; }
+  .easy { background: #dff5e3; color: #1c6b32; }
+  .med  { background: #fdf0d5; color: #8a5b06; }
+  .hard { background: #fadbdb; color: #8f2222; }
+  ol.items { margin: 6px 0; padding-inline-start: 22px; }
+  ol.items > li { margin-bottom: 13px; }
+  .fr { display: inline-flex; flex-direction: column; align-items: center;
+        vertical-align: middle; margin: 0 3px; font-size: .95em; line-height: 1.15; }
+  .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
+  .fr i { font-style: normal; padding: 0 4px; }
+  .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
+  .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
+  .fig { text-align: center; font-size: 13px; color: #5b6780; }
+  .lines div { border-bottom: 1px dotted #aab3c4; height: 24px; }
+  .numline { margin: 10px 0; }
+  .pagebreak { page-break-before: always; }
+  .key { background: #fffdf3; }
+  .key h1 { color: #8a5b06; }
+  .key header { border-bottom-color: #e0a800; }
+  .key .ans { background:#fff; border:1px solid #eadfb8; border-radius:6px;
+              padding:10px 14px; margin-bottom:10px; font-size:14.5px; }
+  .key .ans strong { color:#8a5b06; }
+  .credit { text-align:center; font-size: 12px; color: #8894ab; margin-top: 18px;
+            border-top: 1px solid #eef1f6; padding-top: 8px; }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .sheet { box-shadow: none; margin: 0; border-radius: 0; padding: 0; max-width: none; }
+    .noprint { display: none; }
+  }
+  .noprint { text-align:center; margin: 10px 0 20px; }
+  .noprint button { background: #2f6fed; color:#fff; border:0; padding:10px 26px;
+                    border-radius:6px; font-size:15px; cursor:pointer; font-family:inherit; }
+</style>
+</head>
+<body>
+
+<div class="noprint"><button onclick="window.print()">🖨️ הדפסה / שמירה כ‑PDF</button></div>
+
+<div class="sheet">
+  <header>
+    <h1>דף עבודה — פרק 2: קנה מידה</h1>
+    <div class="sub">היחס שמכניס עיר שלמה לדף: מהשרטוט למציאות ובחזרה</div>
+    <div class="namebar"><span>שם: </span><span>כיתה: </span><span>תאריך: </span></div>
+  </header>
+  <div class="note-box" style="background:#eef3fe; border-inline-start:4px solid #2f6fed; padding:10px 14px; border-radius:6px; font-size:14px; margin:18px 0">קנה מידה הוא יחס: המספר השמאלי הוא השרטוט, הימני הוא המציאות. מהשרטוט למציאות כופלים, מהמציאות לשרטוט מחלקים, ולמציאת קנה מידה מביאים לאותן יחידות ומצמצמים. ולפני הכול — המרות: 1 מ' = 100 ס"מ, 1 ק"מ = 100,000 ס"מ!</div>
+  
+  <h2 class="q">שאלה 1 — חימום: המרות יחידות <span class="tag easy">קל</span></h2>
+  <p>המירו יחידות:</p><ol type="a"><li>400 ס"מ במטרים ⟵ <span class="blank"></span></li><li>7 מ' בסנטימטרים ⟵ <span class="blank"></span></li><li>3 ק"מ בסנטימטרים ⟵ <span class="blank"></span></li><li>250 ס"מ במטרים ⟵ <span class="blank"></span></li></ol>
+  
+  <h2 class="q">שאלה 2 — קנה מידה 1:100 — מהשרטוט למציאות <span class="tag easy">קל</span></h2>
+  <p>תוכנית משורטטת בקנה מידה 1:100. מצאו את האורך במציאות (במטרים):</p><ol type="a"><li>2 ס"מ בתוכנית ⟵ <span class="blank"></span></li><li>5 ס"מ בתוכנית ⟵ <span class="blank"></span></li><li>3.5 ס"מ בתוכנית ⟵ <span class="blank"></span></li><li>12 ס"מ בתוכנית ⟵ <span class="blank"></span></li></ol>
+  
+  <h2 class="q">שאלה 3 — קנה מידה 1:100 — מהמציאות לשרטוט <span class="tag easy">קל</span></h2>
+  <p>באותה תוכנית (1:100), מצאו את האורך שיש לשרטט (בס"מ):</p><ol type="a"><li>קיר שאורכו 6 מ' ⟵ <span class="blank"></span></li><li>חלון שרוחבו 250 ס"מ ⟵ <span class="blank"></span></li><li>מטבח שאורכו 4 מ' ⟵ <span class="blank"></span></li><li>מסדרון שאורכו 12.5 מ' ⟵ <span class="blank"></span></li></ol>
+  
+  <h2 class="q">שאלה 4 — מקטין או מגדיל? <span class="tag easy">קל</span></h2>
+  <p>לכל קנה מידה כתבו אם השרטוט קטן מהמציאות (מקטין) או גדול ממנה (מגדיל):</p><ol type="a"><li>1:50 ⟵ <span class="blank"></span></li><li>10:1 ⟵ <span class="blank"></span></li><li>1:1,000 ⟵ <span class="blank"></span></li><li>2:1 ⟵ <span class="blank"></span></li></ol>
+  
+  <h2 class="q">שאלה 5 — מפה בקנה מידה 1:50,000 <span class="tag med">בינוני</span></h2>
+  <p>במפת טיולים בקנה מידה 1:50,000 נמדדו המרחקים הבאים. מצאו את המרחק במציאות בק"מ:</p><ol type="a"><li>3 ס"מ ⟵ <span class="blank"></span></li><li>6 ס"מ ⟵ <span class="blank"></span></li><li>10 ס"מ ⟵ <span class="blank"></span></li></ol>
+  
+  <h2 class="q">שאלה 6 — מהמציאות למפה <span class="tag med">בינוני</span></h2>
+  <p>מפה משורטטת בקנה מידה 1:25,000. מצאו את האורך במפה (בס"מ). זכרו להמיר קודם לס"מ!</p><ol type="a"><li>מרחק אמיתי של 1 ק"מ ⟵ <span class="blank"></span></li><li>מרחק אמיתי של 2.5 ק"מ ⟵ <span class="blank"></span></li><li>מרחק אמיתי של 750 מ' ⟵ <span class="blank"></span></li></ol>
+  
+  <h2 class="q">שאלה 7 — מצאו את קנה המידה <span class="tag med">בינוני</span></h2>
+  <p>מצאו את קנה המידה בכל סעיף. מלכודת: קודם מביאים את שתי המדידות לאותה יחידה!</p><ol type="a"><li>בשרטוט 3 ס"מ, במציאות 3 מ' ⟵ <span class="blank"></span></li><li>בשרטוט 5 ס"מ, במציאות 20 מ' ⟵ <span class="blank"></span></li><li>במפה 8 ס"מ, במציאות 2 ק"מ ⟵ <span class="blank"></span></li></ol>
+  
+  <h2 class="q">שאלה 8 — תוכנית הדירה <span class="tag med">בינוני</span></h2>
+  <p>תוכנית דירה משורטטת בקנה מידה 1:50. הסלון בתוכנית הוא מלבן של 8 ס"מ על 6 ס"מ. מהן מידות הסלון במציאות, במטרים?</p>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 9 — מסלול הטיול <span class="tag med">בינוני</span></h2>
+  <p>במפת טיולים בקנה מידה 1:100,000, המרחק מהחניון למעיין הוא 4.5 ס"מ, ומהמעיין לתצפית 6 ס"מ. מה אורך כל המסלול במציאות? רמז: בדקו כמה שווה כל ס"מ במפה כזאת.</p>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 10 — איורים מוגדלים <span class="tag med">בינוני</span></h2>
+  <p>בספר טבע מצוירת נמלה בקנה מידה 10:1, ואורכה באיור 8 ס"מ. באיור אחר מצוירת דבורה בקנה מידה 5:1, ואורכה באיור 6 ס"מ. מה האורך האמיתי של כל אחת מהן?</p>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 11 — האדריכלית מחליטה <span class="tag med">בינוני</span></h2>
+  <p>אדריכלית רוצה לשרטט גינה שאורכה 30 מ', כך שאורכה בדף יהיה בדיוק 6 ס"מ. באיזה קנה מידה עליה לשרטט?</p>
+  <div class="lines"><div></div><div></div></div>
+  <h2 class="q">שאלה 12 — אתגר: שתי מפות <span class="tag hard">מאתגר</span></h2>
+  <p>המרחק בין יישוב א' ליישוב ב' הוא 4 ס"מ במפה בקנה מידה 1:200,000. המרחק בין יישוב ג' ליישוב ד' הוא 10 ס"מ במפה אחרת, בקנה מידה 1:50,000. איזה מרחק גדול יותר במציאות? זהירות — אי אפשר להשוות סנטימטרים משתי מפות שונות!</p>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 13 — אתגר: הדגם בכיכר <span class="tag hard">מאתגר</span></h2>
+  <p>בכיכר העיר מוצג דגם של מגדל שגובהו האמיתי 120 מ'. גובה הדגם 60 ס"מ.</p><ol type="a"><li>מה קנה המידה של הדגם?</li><li>באותו קנה מידה בונים דגם של גשר שאורכו האמיתי 90 מ'. מה יהיה אורך הדגם?</li></ol>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 14 — אתגר: איזה מסלול קצר יותר? <span class="tag hard">מאתגר</span></h2>
+  <p>לאותו יעד מוליכים שני מסלולים. מסלול א' נמדד במפה בקנה מידה 1:100,000 ואורכו במפה 8 ס"מ. על השלט בשטח כתוב שאורך מסלול ב' הוא 7.5 ק"מ. איזה מסלול קצר יותר, ובכמה?</p>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 15 — אתגר: קנה מידה מזוג נתונים <span class="tag hard">מאתגר</span></h2>
+  <p>במפה מסוימת, קטע של 2 ס"מ מייצג מרחק אמיתי של 5 ק"מ.</p><ol type="a"><li>מצאו את קנה המידה של המפה.</li><li>מה המרחק במציאות בין שתי ערים שהמרחק ביניהן במפה הוא 7 ס"מ?</li></ol>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
+</div>
+
+<div class="sheet key pagebreak">
+  <header>
+    <h1>🔑 דף פתרונות למורה — פרק 2: קנה מידה</h1>
+    <div class="sub">לא לחלוקה לתלמידים</div>
+  </header>
+  <div class="ans"><strong>שאלה 1.</strong> א. 4 מ' &nbsp; ב. 700 ס"מ &nbsp; ג. 300,000 ס"מ &nbsp; ד. 2.5 מ'</div>
+<div class="ans"><strong>שאלה 2.</strong> א. 200 ס"מ = 2 מ' &nbsp; ב. 5 מ' &nbsp; ג. 3.5 מ' &nbsp; ד. 12 מ'</div>
+<div class="ans"><strong>שאלה 3.</strong> א. 6 ס"מ &nbsp; ב. 2.5 ס"מ &nbsp; ג. 4 ס"מ &nbsp; ד. 12.5 ס"מ</div>
+<div class="ans"><strong>שאלה 4.</strong> א. מקטין &nbsp; ב. מגדיל &nbsp; ג. מקטין &nbsp; ד. מגדיל</div>
+<div class="ans"><strong>שאלה 5.</strong> א. <span class="eq">3 × 50,000 = 150,000</span> ס"מ = 1.5 ק"מ &nbsp; ב. 300,000 ס"מ = 3 ק"מ &nbsp; ג. 500,000 ס"מ = 5 ק"מ</div>
+<div class="ans"><strong>שאלה 6.</strong> א. 1 ק"מ = 100,000 ס"מ ⟵ <span class="eq">100,000 ÷ 25,000 = 4</span> ס"מ &nbsp; ב. 250,000 ס"מ ⟵ 10 ס"מ &nbsp; ג. 75,000 ס"מ ⟵ 3 ס"מ</div>
+<div class="ans"><strong>שאלה 7.</strong> א. 3 מ' = 300 ס"מ ⟵ <span class="eq">3:300 = 1:100</span> &nbsp; ב. 20 מ' = 2,000 ס"מ ⟵ <span class="eq">5:2,000 = 1:400</span> &nbsp; ג. 2 ק"מ = 200,000 ס"מ ⟵ <span class="eq">8:200,000 = 1:25,000</span></div>
+<div class="ans"><strong>שאלה 8.</strong> אורך: <span class="eq">8 × 50 = 400</span> ס"מ = 4 מ'; רוחב: <span class="eq">6 × 50 = 300</span> ס"מ = 3 מ' ⟵ הסלון 4 מ' על 3 מ'</div>
+<div class="ans"><strong>שאלה 9.</strong> בקנה מידה 1:100,000 כל ס"מ במפה הוא בדיוק 1 ק"מ ⟵ <span class="eq">4.5 + 6 = 10.5</span> ק"מ</div>
+<div class="ans"><strong>שאלה 10.</strong> נמלה: <span class="eq">8 ÷ 10 = 0.8</span> ס"מ; דבורה: <span class="eq">6 ÷ 5 = 1.2</span> ס"מ</div>
+<div class="ans"><strong>שאלה 11.</strong> 30 מ' = 3,000 ס"מ ⟵ <span class="eq">6:3,000 = 1:500</span></div>
+<div class="ans"><strong>שאלה 12.</strong> א'-ב': <span class="eq">4 × 200,000 = 800,000</span> ס"מ = 8 ק"מ; ג'-ד': <span class="eq">10 × 50,000 = 500,000</span> ס"מ = 5 ק"מ ⟵ המרחק א'-ב' גדול יותר</div>
+<div class="ans"><strong>שאלה 13.</strong> א. 120 מ' = 12,000 ס"מ ⟵ <span class="eq">60:12,000 = 1:200</span> &nbsp; ב. 90 מ' = 9,000 ס"מ ⟵ <span class="eq">9,000 ÷ 200 = 45</span> ס"מ</div>
+<div class="ans"><strong>שאלה 14.</strong> מסלול א': 8 ס"מ בקנה מידה 1:100,000 = 8 ק"מ ⟵ מסלול ב' קצר יותר, ב-<span class="eq">8 − 7.5 = 0.5</span> ק"מ</div>
+<div class="ans"><strong>שאלה 15.</strong> א. 5 ק"מ = 500,000 ס"מ ⟵ <span class="eq">2:500,000 = 1:250,000</span> &nbsp; ב. <span class="eq">7 × 250,000 = 1,750,000</span> ס"מ = 17.5 ק"מ</div>
+  <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
+</div>
+</body>
+</html>

@@ -316,5 +316,33 @@
   "output": "סרטון-פרק-13-הפונקציה-הקווית-y-mx-n.mp4",
   "status": "staged",
   "course": "grade7-algebra"
+ },
+ "rr-ch01": {
+  "number": 1,
+  "topic": "מהו יחס",
+  "output": "סרטון-פרק-1-מהו-יחס.mp4",
+  "status": "pending",
+  "course": "grade6-ratio-rate"
+ },
+ "rr-ch02": {
+  "number": 2,
+  "topic": "קנה מידה",
+  "output": "סרטון-פרק-2-קנה-מידה.mp4",
+  "status": "pending",
+  "course": "grade6-ratio-rate"
+ },
+ "rr-ch03": {
+  "number": 3,
+  "topic": "בעיות תנועה - מהירות זמן ודרך",
+  "output": "סרטון-פרק-3-בעיות-תנועה.mp4",
+  "status": "pending",
+  "course": "grade6-ratio-rate"
+ },
+ "rr-ch04": {
+  "number": 4,
+  "topic": "בעיות הספק",
+  "output": "סרטון-פרק-4-בעיות-הספק.mp4",
+  "status": "pending",
+  "course": "grade6-ratio-rate"
  }
 }
