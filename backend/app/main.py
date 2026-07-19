@@ -73,6 +73,11 @@ def on_startup() -> None:
                         "NOT NULL DEFAULT 'resource'"
                     )
                 )
+        if "external_url" not in cols:
+            with engine.begin() as conn:
+                conn.execute(
+                    text("ALTER TABLE file_assets ADD COLUMN external_url VARCHAR")
+                )
     if "messages" in inspector.get_table_names():
         cols = {c["name"] for c in inspector.get_columns("messages")}
         if "file_id" not in cols:

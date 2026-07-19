@@ -4,10 +4,10 @@ import os
 import uuid
 
 from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, RedirectResponse
 from sqlalchemy.orm import Session
 
-from app import models
+from app import bunny, models
 from app.database import get_db
 from app.dependencies import get_current_user
 
@@ -58,13 +58,20 @@ def upload_file(
         kind = "homework"
     if kind not in ("resource", "homework", "message"):
         kind = "resource"
-    _ensure_upload_dir()
     ext = os.path.splitext(file.filename or "")[1]
     stored_name = uuid.uuid4().hex + ext
-    dest = os.path.join(UPLOAD_DIR, stored_name)
     contents = file.file.read()
-    with open(dest, "wb") as f:
-        f.write(contents)
+
+    external_url = None
+    if bunny.is_configured() and bunny.is_video(file.filename or ""):
+        # Videos don't fit on the small Railway disk volume — route them to
+        # Bunny CDN instead of writing to the local upload dir.
+        external_url = bunny.upload_bytes(contents, stored_name)
+    else:
+        _ensure_upload_dir()
+        with open(os.path.join(UPLOAD_DIR, stored_name), "wb") as f:
+            f.write(contents)
+
     asset = models.FileAsset(
         uploader_id=current_user.id,
         course_id=course_id,
@@ -73,6 +80,7 @@ def upload_file(
         content_type=file.content_type,
         size=len(contents),
         kind=kind,
+        external_url=external_url,
     )
     db.add(asset)
     db.commit()
@@ -110,6 +118,8 @@ def download_file(
         raise HTTPException(status_code=404, detail="הקובץ לא נמצא")
     if not _can_access_asset(asset, current_user, db):
         raise HTTPException(status_code=403, detail="אין הרשאה לקובץ זה")
+    if asset.external_url:
+        return RedirectResponse(asset.external_url)
     path = os.path.join(UPLOAD_DIR, asset.stored_name)
     if not os.path.exists(path):
         raise HTTPException(status_code=404, detail="הקובץ לא נמצא")
@@ -134,10 +144,13 @@ def delete_file(
     db.query(models.Message).filter(models.Message.file_id == asset.id).update(
         {"file_id": None}
     )
-    path = os.path.join(UPLOAD_DIR, asset.stored_name)
-    try:
-        os.remove(path)
-    except OSError:
-        pass
+    if asset.external_url:
+        bunny.delete(asset.stored_name)
+    else:
+        path = os.path.join(UPLOAD_DIR, asset.stored_name)
+        try:
+            os.remove(path)
+        except OSError:
+            pass
     db.delete(asset)
     db.commit()

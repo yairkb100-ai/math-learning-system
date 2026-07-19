@@ -428,11 +428,13 @@ def ensure_course_assets(db):
     if not os.path.isdir(assets_root):
         return
 
+    from app import bunny
     from app.routers.files import UPLOAD_DIR
 
     admin = db.query(User).filter(User.username == "admin").first()
     added = 0
     restored = 0
+    migrated = 0
     for slug in sorted(os.listdir(assets_root)):
         slug_dir = os.path.join(assets_root, slug)
         if not os.path.isdir(slug_dir):
@@ -445,19 +447,36 @@ def ensure_course_assets(db):
             src = os.path.join(slug_dir, name)
             if not os.path.isfile(src):
                 continue
+            use_bunny = bunny.is_configured() and bunny.is_video(name)
             exists = (
                 db.query(FileAsset)
                 .filter(FileAsset.course_id == course.id, FileAsset.original_name == name)
                 .first()
             )
             if exists:
+                src_size = os.path.getsize(src)
+                if use_bunny and not exists.external_url:
+                    # Legacy row pointing at local disk — migrate it to Bunny
+                    # so it stops eating the (tiny) Railway volume.
+                    try:
+                        exists.external_url = bunny.upload(src, exists.stored_name)
+                    except Exception as exc:  # noqa: BLE001 — network/HTTP errors
+                        print(f"  ! Failed to migrate {slug}/{name} to Bunny: {exc} — skipped")
+                        continue
+                    exists.size = src_size
+                    dest = os.path.join(UPLOAD_DIR, exists.stored_name)
+                    if os.path.exists(dest):
+                        os.remove(dest)  # free the volume now that Bunny has it
+                    migrated += 1
+                    continue
+                if use_bunny and exists.external_url:
+                    continue  # already on Bunny, nothing to do
                 # The DB row survives redeploys (Postgres) but the container
                 # disk does not — restore the file from git if it is missing.
                 # Also refresh when the git copy changed (e.g. regenerated PDF),
                 # detected by a size mismatch, so content edits propagate even
                 # on a persistent upload disk.
                 dest = os.path.join(UPLOAD_DIR, exists.stored_name)
-                src_size = os.path.getsize(src)
                 if not os.path.exists(dest) or os.path.getsize(dest) != src_size:
                     os.makedirs(UPLOAD_DIR, exist_ok=True)
                     try:
@@ -474,6 +493,29 @@ def ensure_course_assets(db):
                         exists.size = src_size
                     restored += 1
                 continue
+
+            content_type = mimetypes.guess_type(name)[0] or "application/octet-stream"
+            if use_bunny:
+                stored = uuid.uuid4().hex + os.path.splitext(name)[1]
+                try:
+                    external_url = bunny.upload(src, stored)
+                except Exception as exc:  # noqa: BLE001 — network/HTTP errors
+                    print(f"  ! Failed to upload {slug}/{name} to Bunny: {exc} — skipped")
+                    continue
+                db.add(
+                    FileAsset(
+                        uploader_id=admin.id if admin else None,
+                        course_id=course.id,
+                        original_name=name,
+                        stored_name=stored,
+                        content_type=content_type,
+                        size=os.path.getsize(src),
+                        external_url=external_url,
+                    )
+                )
+                added += 1
+                continue
+
             os.makedirs(UPLOAD_DIR, exist_ok=True)
             stored = uuid.uuid4().hex + os.path.splitext(name)[1]
             dest = os.path.join(UPLOAD_DIR, stored)
@@ -490,7 +532,7 @@ def ensure_course_assets(db):
                     course_id=course.id,
                     original_name=name,
                     stored_name=stored,
-                    content_type=mimetypes.guess_type(name)[0] or "application/octet-stream",
+                    content_type=content_type,
                     size=os.path.getsize(src),
                 )
             )
@@ -500,6 +542,8 @@ def ensure_course_assets(db):
         print(f"  + Registered {added} course asset file(s) from courses/assets/")
     if restored:
         print(f"  + Restored {restored} missing asset file(s) to the upload dir")
+    if migrated:
+        print(f"  + Migrated {migrated} video(s) from local disk to Bunny CDN")
 
 
 def run_light_migrations():
@@ -527,6 +571,10 @@ def run_light_migrations():
                     text("ALTER TABLE file_assets ADD COLUMN kind VARCHAR NOT NULL DEFAULT 'resource'")
                 )
             print("  ~ Migrated: added file_assets.kind")
+        if "external_url" not in cols:
+            with engine.begin() as conn:
+                conn.execute(text("ALTER TABLE file_assets ADD COLUMN external_url VARCHAR"))
+            print("  ~ Migrated: added file_assets.external_url")
 
     if "messages" in inspector.get_table_names():
         cols = {c["name"] for c in inspector.get_columns("messages")}
