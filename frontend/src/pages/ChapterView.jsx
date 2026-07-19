@@ -153,13 +153,29 @@ export default function ChapterView() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }, [step])
 
+  const completed = !!progress?.chapters?.find(
+    (c) => c.chapter_id === chapter?.id
+  )?.completed
+
+  // Reaching the finish step means the student actually read through the
+  // chapter — mark it complete automatically instead of relying on the
+  // separate "mark complete" button, which most students never click
+  // (they just move on via "next chapter"), leaving progress unrecorded
+  // even though real progress happened.
+  useEffect(() => {
+    if (!chapter || steps.length === 0 || completed) return
+    if (steps[step]?.kind !== 'finish') return
+    api
+      .markChapterComplete(id, chapter.id)
+      .then(() => api.getProgress(id))
+      .then(setProgress)
+      .catch(() => {}) // silent — the manual button below still works as a fallback
+  }, [step, steps, completed, chapter, id])
+
   if (loading) return <Loading label="טוען פרק…" />
   if (error) return <ErrorBox error={error} onRetry={load} />
   if (!chapter || steps.length === 0) return null
 
-  const completed = !!progress?.chapters?.find(
-    (c) => c.chapter_id === chapter.id
-  )?.completed
   const nextNumber = Number(number) < chaptersCount ? Number(number) + 1 : null
   const current = steps[Math.min(step, steps.length - 1)]
   const isLast = step >= steps.length - 1
