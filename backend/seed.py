@@ -447,7 +447,10 @@ def ensure_course_assets(db):
             src = os.path.join(slug_dir, name)
             if not os.path.isfile(src):
                 continue
-            use_bunny = bunny.is_configured() and bunny.is_video(name)
+            # Everything under courses/assets/ is public course material, so
+            # route it all to Bunny CDN (videos, worksheets, question banks)
+            # instead of the small Railway disk volume.
+            use_bunny = bunny.is_configured()
             exists = (
                 db.query(FileAsset)
                 .filter(FileAsset.course_id == course.id, FileAsset.original_name == name)

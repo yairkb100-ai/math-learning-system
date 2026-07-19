@@ -63,9 +63,11 @@ def upload_file(
     contents = file.file.read()
 
     external_url = None
-    if bunny.is_configured() and bunny.is_video(file.filename or ""):
-        # Videos don't fit on the small Railway disk volume — route them to
-        # Bunny CDN instead of writing to the local upload dir.
+    if bunny.is_configured() and kind == "resource":
+        # Course resources (admin-uploaded) are public to every student
+        # anyway, so route them to Bunny CDN instead of the small Railway
+        # disk volume. Homework/message uploads stay local — private and low
+        # volume.
         external_url = bunny.upload_bytes(contents, stored_name)
     else:
         _ensure_upload_dir()

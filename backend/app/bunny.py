@@ -1,5 +1,6 @@
-"""Minimal client for Bunny.net Storage — used to offload course videos off
-the small Railway disk volume onto Bunny's CDN.
+"""Minimal client for Bunny.net Storage — used to offload course resource
+files (videos, worksheets, question banks) off the small Railway disk volume
+onto Bunny's CDN.
 
 Configured via env vars (set in Railway):
   BUNNY_STORAGE_ZONE      e.g. "math-learning-videos"
@@ -17,15 +18,9 @@ BUNNY_STORAGE_API_KEY = os.environ.get("BUNNY_STORAGE_API_KEY")
 BUNNY_PULL_ZONE_HOST = os.environ.get("BUNNY_PULL_ZONE_HOST")
 BUNNY_STORAGE_REGION = os.environ.get("BUNNY_STORAGE_REGION", "")
 
-VIDEO_EXTENSIONS = {".mp4", ".mov", ".webm", ".m4v"}
-
 
 def is_configured() -> bool:
     return bool(BUNNY_STORAGE_ZONE and BUNNY_STORAGE_API_KEY and BUNNY_PULL_ZONE_HOST)
-
-
-def is_video(filename: str) -> bool:
-    return os.path.splitext(filename)[1].lower() in VIDEO_EXTENSIONS
 
 
 def _storage_host() -> str:
