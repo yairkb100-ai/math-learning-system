@@ -33,3 +33,6 @@ backend/uploads/
 
 # Curriculum scans (copyrighted source material)
 source-material/
+
+# Course videos live only on Bunny CDN (uploaded by the grinder), never git
+courses/assets/**/*.mp4

@@ -71,9 +71,11 @@
   "number": 11,
   "topic": "שבר עשרוני מחזורי",
   "output": "סרטון-פרק-11-שבר-עשרוני-מחזורי.mp4",
-  "status": "staged",
+  "status": "generating",
   "course": null,
-  "grade": null
+  "grade": null,
+  "artifact_id": "54703ffa-204b-4192-812d-56110249a7ab",
+  "submitted_at": 1784449726.0657065
  },
  "pct-ch01": {
   "notebook_id": "3f705f99-2670-4c00-8033-b7cfd3187b27",
@@ -81,9 +83,11 @@
   "number": 1,
   "topic": "מהו אחוז? הקשר לשבר ולעשרוני",
   "output": "סרטון-פרק-1-מהו-אחוז.mp4",
-  "status": "staged",
+  "status": "generating",
   "course": "grade6-percents",
-  "grade": null
+  "grade": null,
+  "artifact_id": "7e6ff705-97b0-478c-9cbd-fc8ea706983b",
+  "submitted_at": 1784449733.1379795
  },
  "pct-ch02": {
   "notebook_id": "3db66466-7880-4f18-86ee-bd8c4b9825ec",
@@ -91,9 +95,11 @@
   "number": 2,
   "topic": "חישוב אחוז מכמות",
   "output": "סרטון-פרק-2-חישוב-אחוז-מכמות.mp4",
-  "status": "staged",
+  "status": "generating",
   "course": "grade6-percents",
-  "grade": null
+  "grade": null,
+  "artifact_id": "42a085b0-8133-4b9b-b099-382b1efb9458",
+  "submitted_at": 1784449740.4879231
  },
  "pct-ch03": {
   "notebook_id": "8e11d92b-adf2-4b24-8f77-74d1eb3211b6",
