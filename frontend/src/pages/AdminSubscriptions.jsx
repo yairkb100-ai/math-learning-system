@@ -12,6 +12,7 @@ export default function AdminSubscriptions() {
   const [error, setError] = useState(null)
   const [form, setForm] = useState({ user_id: '', plan_code: '' })
   const [busy, setBusy] = useState(false)
+  const [onlyInactive, setOnlyInactive] = useState(false) // פילטר: רק מנויים שאינם בתוקף
 
   const load = useCallback(() => {
     setLoading(true)
@@ -52,6 +53,40 @@ export default function AdminSubscriptions() {
     }
   }
 
+  async function extend(sub) {
+    setBusy(true)
+    try {
+      await api.extendSubscription(sub.id, 30)
+      load()
+    } catch (err) {
+      alert(err.message)
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  async function cancel(sub) {
+    if (!confirm(`לבטל את המנוי של ${userName(sub.user_id)}? הגישה לתוכן תיחסם מיידית.`))
+      return
+    setBusy(true)
+    try {
+      await api.cancelSubscription(sub.id)
+      load()
+    } catch (err) {
+      alert(err.message)
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  // תלמידים ללא אף מנוי בתוקף — כדי שהמנהל ידע למי להעניק
+  const activeUserIds = new Set(subs.filter((s) => s.is_active).map((s) => s.user_id))
+  const studentsNoSub = users.filter(
+    (u) => u.role !== 'admin' && !activeUserIds.has(u.id)
+  )
+
+  const visibleSubs = onlyInactive ? subs.filter((s) => !s.is_active) : subs
+
   if (loading) return <Loading label="טוען מנויים…" />
   if (error) return <ErrorBox error={error} onRetry={load} />
 
@@ -60,7 +95,7 @@ export default function AdminSubscriptions() {
       <div className="page-head">
         <h1>מנויים ותשלומים</h1>
         <p className="muted">
-          תשתית מנויים — שיוך תוכניות לתלמידים. חיבור לסליקה בפועל יתווסף בהמשך.
+          ניהול מנויים ידני — הענקה, הארכה וביטול. תלמיד ללא מנוי בתוקף נחסם מהתוכן.
         </p>
       </div>
 
@@ -81,7 +116,10 @@ export default function AdminSubscriptions() {
 
       {/* Assign form */}
       <div className="card form-card">
-        <h3>שיוך מנוי לתלמיד</h3>
+        <h3>הענקת מנוי לתלמיד</h3>
+        <p className="muted" style={{ marginTop: 0 }}>
+          אם לתלמיד כבר יש מנוי בתוקף — ההענקה מאריכה אותו במקום ליצור כפול.
+        </p>
         <form onSubmit={assign} className="inline-form">
           <div className="form-group">
             <label>תלמיד</label>
@@ -114,13 +152,31 @@ export default function AdminSubscriptions() {
             </select>
           </div>
           <button className="btn" disabled={busy}>
-            שייך מנוי
+            הענק מנוי
           </button>
         </form>
       </div>
 
+      {/* Students without an active subscription */}
+      {studentsNoSub.length > 0 && (
+        <div className="card">
+          <h3>תלמידים ללא מנוי בתוקף ({studentsNoSub.length})</h3>
+          <p className="muted">
+            {studentsNoSub.map((u) => `${u.full_name} (${u.username})`).join(' · ')}
+          </p>
+        </div>
+      )}
+
       {/* Subscriptions table */}
       <div className="table-wrap card">
+        <label className="sub-filter">
+          <input
+            type="checkbox"
+            checked={onlyInactive}
+            onChange={(e) => setOnlyInactive(e.target.checked)}
+          />
+          הצג רק מנויים שאינם בתוקף
+        </label>
         <table className="data-table">
           <thead>
             <tr>
@@ -129,16 +185,17 @@ export default function AdminSubscriptions() {
               <th>סטטוס</th>
               <th>התחלה</th>
               <th>תפוגה</th>
+              <th>פעולות</th>
             </tr>
           </thead>
           <tbody>
-            {subs.map((s) => (
+            {visibleSubs.map((s) => (
               <tr key={s.id}>
                 <td>{userName(s.user_id)}</td>
                 <td>{planName(s.plan_code)}</td>
                 <td>
-                  <span className={s.status === 'active' ? 'status-ok' : 'status-off'}>
-                    {statusHe[s.status] || s.status}
+                  <span className={s.is_active ? 'status-ok' : 'status-off'}>
+                    {s.is_active ? 'בתוקף' : statusHe[s.status] || s.status}
                   </span>
                 </td>
                 <td className="muted">
@@ -149,11 +206,33 @@ export default function AdminSubscriptions() {
                     ? new Date(s.expires_at).toLocaleDateString('he-IL')
                     : '—'}
                 </td>
+                <td>
+                  <div className="row-actions">
+                    <button
+                      className="btn-sm"
+                      disabled={busy}
+                      onClick={() => extend(s)}
+                    >
+                      הארך בחודש
+                    </button>
+                    {s.is_active && (
+                      <button
+                        className="btn-sm btn-danger"
+                        disabled={busy}
+                        onClick={() => cancel(s)}
+                      >
+                        בטל מנוי
+                      </button>
+                    )}
+                  </div>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
-        {subs.length === 0 && <p className="muted empty-msg">אין מנויים עדיין.</p>}
+        {visibleSubs.length === 0 && (
+          <p className="muted empty-msg">אין מנויים להצגה.</p>
+        )}
       </div>
     </section>
   )

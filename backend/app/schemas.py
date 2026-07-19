@@ -395,11 +395,17 @@ class SubscriptionOut(BaseModel):
     status: str
     started_at: datetime
     expires_at: Optional[datetime] = None
+    is_active: bool = False
 
 
 class SubscriptionAssign(BaseModel):
     user_id: int
     plan_code: str
+
+
+class SubscriptionExtend(BaseModel):
+    # מספר הימים להארכה; ברירת מחדל 30 (חודש)
+    days: int = 30
 
 
 # ---------------------------------------------------------------------------

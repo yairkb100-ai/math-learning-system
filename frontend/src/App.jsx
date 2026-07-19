@@ -17,6 +17,7 @@ import AdminSections from './pages/AdminSections.jsx'
 import AdminSubscriptions from './pages/AdminSubscriptions.jsx'
 import Messages from './pages/Messages.jsx'
 import FilesPage from './pages/FilesPage.jsx'
+import SubscriptionPage from './pages/SubscriptionPage.jsx'
 import Practice from './pages/Practice.jsx'
 import Analytics from './pages/Analytics.jsx'
 import Exams from './pages/Exams.jsx'
@@ -189,6 +190,14 @@ function AppRoutes() {
             element={
               <PrivateRoute>
                 <FilesPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/subscription"
+            element={
+              <PrivateRoute>
+                <SubscriptionPage />
               </PrivateRoute>
             }
           />

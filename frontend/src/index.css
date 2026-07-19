@@ -1538,3 +1538,30 @@ h4.prose-h {
   display: block;
   margin: 0 auto;
 }
+
+/* ===== מנויים (Subscriptions) ===== */
+/* תיבת הסינון מעל טבלת המנויים */
+.sub-filter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 12px;
+  color: var(--muted, #6a6f73);
+  cursor: pointer;
+  user-select: none;
+}
+
+/* עמוד "המנוי שלי" — כרטיס ממורכז */
+.subscription-card {
+  max-width: 520px;
+  margin: 40px auto;
+  text-align: center;
+}
+.subscription-card .sub-line {
+  font-size: 1.15rem;
+  margin: 16px 0;
+}
+.subscription-card .sub-note {
+  margin-top: 18px;
+  font-size: 1rem;
+}

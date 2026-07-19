@@ -22,6 +22,16 @@ async function request(path, options = {}) {
     return
   }
 
+  // A 402 means the user has no active subscription (server's
+  // require_active_subscription). Send them to the friendly "My subscription"
+  // page instead of surfacing a raw error, unless they're already there.
+  if (res.status === 402) {
+    if (window.location.pathname !== '/subscription') {
+      window.location.href = '/subscription'
+    }
+    throw new Error('402 no_active_subscription')
+  }
+
   if (!res.ok) {
     let detail = ''
     try {
@@ -240,6 +250,13 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ user_id: userId, plan_code: planCode }),
     }),
+  extendSubscription: (subId, days = 30) =>
+    request(`/admin/subscriptions/${subId}/extend`, {
+      method: 'POST',
+      body: JSON.stringify({ days }),
+    }),
+  cancelSubscription: (subId) =>
+    request(`/admin/subscriptions/${subId}/cancel`, { method: 'POST' }),
 
   // Practice (student)
   getPracticeQuestions: ({ subject, difficulty, topic, limit } = {}) => {

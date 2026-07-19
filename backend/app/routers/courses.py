@@ -13,8 +13,9 @@ Endpoints are FROZEN by CONTRACT.md's "REST API" section:
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from app import crud
+from app import crud, models
 from app.database import get_db
+from app.dependencies import require_active_subscription
 from app.models import Chapter, Course
 from app.schemas import (
     ChapterEnvelope,
@@ -88,7 +89,12 @@ def list_courses(db: Session = Depends(get_db)) -> list[CourseSummary]:
 
 
 @router.get("/courses/{course_id}", response_model=CourseEnvelope)
-def get_course(course_id: int, db: Session = Depends(get_db)) -> CourseEnvelope:
+def get_course(
+    course_id: int,
+    db: Session = Depends(get_db),
+    _sub: models.User = Depends(require_active_subscription),
+) -> CourseEnvelope:
+    # צריכת תוכן — דורשת מנוי בתוקף (מנהל פטור). מבנה התגובה לא משתנה (חוזה קפוא).
     course = crud.get_course(db, course_id)
     if course is None:
         raise HTTPException(status_code=404, detail="Course not found")
@@ -99,7 +105,10 @@ def get_course(course_id: int, db: Session = Depends(get_db)) -> CourseEnvelope:
     "/courses/{course_id}/chapters/{number}", response_model=ChapterEnvelope
 )
 def get_chapter(
-    course_id: int, number: int, db: Session = Depends(get_db)
+    course_id: int,
+    number: int,
+    db: Session = Depends(get_db),
+    _sub: models.User = Depends(require_active_subscription),
 ) -> ChapterEnvelope:
     chapter = crud.get_chapter(db, course_id, number)
     if chapter is None:
@@ -117,7 +126,9 @@ def import_course(
 
 @router.post("/quiz/check", response_model=QuizCheckResult)
 def quiz_check(
-    payload: QuizCheckRequest, db: Session = Depends(get_db)
+    payload: QuizCheckRequest,
+    db: Session = Depends(get_db),
+    _sub: models.User = Depends(require_active_subscription),
 ) -> QuizCheckResult:
     result = crud.check_quiz(
         db, payload.chapter_id, payload.question_number, payload.answer
@@ -132,7 +143,11 @@ def quiz_check(
     response_model=SolutionResult,
 )
 def exercise_solution(
-    course_id: int, number: int, n: int, db: Session = Depends(get_db)
+    course_id: int,
+    number: int,
+    n: int,
+    db: Session = Depends(get_db),
+    _sub: models.User = Depends(require_active_subscription),
 ) -> SolutionResult:
     solution = crud.get_exercise_solution(db, course_id, number, n)
     if solution is None:
