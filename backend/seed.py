@@ -546,6 +546,35 @@ def ensure_course_assets(db):
         print(f"  + Migrated {migrated} video(s) from local disk to Bunny CDN")
 
 
+def cleanup_orphaned_uploads(db):
+    """Delete files in UPLOAD_DIR that no FileAsset row references.
+
+    Earlier crashes (disk-full mid-copy) left behind partial-copy files with
+    random UUID names whose DB insert never ran, so nothing ever points at
+    them — they just sit there eating the small Railway volume forever.
+    """
+    from app.routers.files import UPLOAD_DIR
+
+    if not os.path.isdir(UPLOAD_DIR):
+        return
+
+    known = {row[0] for row in db.query(FileAsset.stored_name).all()}
+    removed = 0
+    freed = 0
+    for name in os.listdir(UPLOAD_DIR):
+        path = os.path.join(UPLOAD_DIR, name)
+        if not os.path.isfile(path) or name in known:
+            continue
+        try:
+            freed += os.path.getsize(path)
+            os.remove(path)
+            removed += 1
+        except OSError:
+            pass
+    if removed:
+        print(f"  + Cleaned up {removed} orphaned upload file(s), freed {freed / 1e6:.1f} MB")
+
+
 def run_light_migrations():
     """Add columns that ``create_all`` won't add to pre-existing tables (SQLite).
 
@@ -635,6 +664,7 @@ def main():
 
         ensure_sections(db)
         ensure_course_assets(db)
+        cleanup_orphaned_uploads(db)
     finally:
         db.close()
 
