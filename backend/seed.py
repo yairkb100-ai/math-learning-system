@@ -574,6 +574,9 @@ def cleanup_orphaned_uploads(db):
     if removed:
         print(f"  + Cleaned up {removed} orphaned upload file(s), freed {freed / 1e6:.1f} MB")
 
+    total, used, free = shutil.disk_usage(UPLOAD_DIR)
+    print(f"  = Disk: {used / 1e6:.0f} MB used / {total / 1e6:.0f} MB total ({free / 1e6:.0f} MB free)")
+
 
 def run_light_migrations():
     """Add columns that ``create_all`` won't add to pre-existing tables (SQLite).
