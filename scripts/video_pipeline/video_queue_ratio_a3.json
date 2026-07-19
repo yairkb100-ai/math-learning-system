@@ -1,0 +1,40 @@
+{
+ "rr-ch01": {
+  "notebook_id": "5b9ad115-be98-47c7-931e-29d70c5f8090",
+  "source_id": "7845dfdb-f298-4d65-a416-eaf850f9b007",
+  "number": 1,
+  "topic": "מהו יחס",
+  "output": "סרטון-פרק-1.mp4",
+  "status": "done",
+  "course": "grade6-ratio-rate"
+ },
+ "rr-ch02": {
+  "notebook_id": "e2ee14f0-fb5f-42e5-b91a-75548042a7df",
+  "source_id": "67ed8272-e5b8-4223-8ec1-bf63aa11adea",
+  "number": 2,
+  "topic": "קנה מידה",
+  "output": "סרטון-פרק-2.mp4",
+  "status": "done",
+  "course": "grade6-ratio-rate"
+ },
+ "rr-ch03": {
+  "notebook_id": "38672a1c-980a-4974-b5f1-d5cd96fc1f46",
+  "number": 3,
+  "topic": "בעיות תנועה: מהירות, זמן ודרך",
+  "output": "סרטון-פרק-3.mp4",
+  "status": "done",
+  "course": "grade6-ratio-rate",
+  "source_id": "3de64b4d-5ffc-4278-9b3f-1b0447981644"
+ },
+ "rr-ch04": {
+  "notebook_id": "5aad3472-7e54-452b-a10a-cf0c930e991b",
+  "source_id": "967b31aa-99f8-4cd2-8129-505aa2cdfb8a",
+  "number": 4,
+  "topic": "בעיות הספק",
+  "output": "סרטון-פרק-4.mp4",
+  "status": "done",
+  "course": "grade6-ratio-rate",
+  "artifact_id": "84484d8f-48ee-4d92-8be8-c75f9cce5b74",
+  "submitted_at": 1784444953.861641
+ }
+}

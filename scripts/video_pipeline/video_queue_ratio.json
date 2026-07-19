@@ -1,0 +1,44 @@
+{
+ "rr-ch01": {
+  "notebook_id": "340a1f4d-28c5-4303-bf57-d2c2a8309fe1",
+  "source_id": "5d217bc6-408d-4577-85a0-4c08e3c97ab8",
+  "number": 1,
+  "topic": "מהו יחס",
+  "output": "סרטון-פרק-1.mp4",
+  "status": "done",
+  "course": "grade6-ratio-rate",
+  "artifact_id": "f0fa7607-cfd4-46a3-a9e6-dd229e8986f9",
+  "submitted_at": 1784444568.6313238
+ },
+ "rr-ch02": {
+  "notebook_id": "feefc884-851f-4163-b425-d9093d39faed",
+  "source_id": "7218ecc8-9fd4-4cc5-a492-2e8b90246b65",
+  "number": 2,
+  "topic": "קנה מידה",
+  "output": "סרטון-פרק-2.mp4",
+  "status": "done",
+  "course": "grade6-ratio-rate",
+  "artifact_id": "c4bb93ce-dd08-48e6-80f6-4b6fa9343e19",
+  "submitted_at": 1784444573.8725445
+ },
+ "rr-ch03": {
+  "notebook_id": "2dc8a637-beee-4b39-bd2d-c5eafa556621",
+  "source_id": "6a563cec-dc37-4514-9ae6-f986b48e0644",
+  "number": 3,
+  "topic": "בעיות תנועה: מהירות, זמן ודרך",
+  "output": "סרטון-פרק-3.mp4",
+  "status": "done",
+  "course": "grade6-ratio-rate",
+  "artifact_id": "ce6c31d4-c613-4a65-999d-b6618057fb80",
+  "submitted_at": 1784444578.8658562
+ },
+ "rr-ch04": {
+  "notebook_id": "edec6223-6f6b-4a3b-aa69-98f662a9800a",
+  "source_id": "ed8fc29c-52ce-4d02-8855-fc12785db2c9",
+  "number": 4,
+  "topic": "בעיות הספק",
+  "output": "סרטון-פרק-4.mp4",
+  "status": "done",
+  "course": "grade6-ratio-rate"
+ }
+}
