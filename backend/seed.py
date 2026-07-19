@@ -460,14 +460,30 @@ def ensure_course_assets(db):
                 src_size = os.path.getsize(src)
                 if not os.path.exists(dest) or os.path.getsize(dest) != src_size:
                     os.makedirs(UPLOAD_DIR, exist_ok=True)
-                    shutil.copyfile(src, dest)
+                    try:
+                        shutil.copyfile(src, dest)
+                    except OSError as exc:
+                        # A single asset failing to copy (e.g. disk full) must
+                        # not crash the whole seed run — that would take the
+                        # app down with it (start command is seed.py && uvicorn).
+                        print(f"  ! Failed to restore {slug}/{name}: {exc} — skipped")
+                        if os.path.exists(dest):
+                            os.remove(dest)  # drop partial copy
+                        continue
                     if exists.size != src_size:
                         exists.size = src_size
                     restored += 1
                 continue
             os.makedirs(UPLOAD_DIR, exist_ok=True)
             stored = uuid.uuid4().hex + os.path.splitext(name)[1]
-            shutil.copyfile(src, os.path.join(UPLOAD_DIR, stored))
+            dest = os.path.join(UPLOAD_DIR, stored)
+            try:
+                shutil.copyfile(src, dest)
+            except OSError as exc:
+                print(f"  ! Failed to copy {slug}/{name}: {exc} — skipped")
+                if os.path.exists(dest):
+                    os.remove(dest)  # drop partial copy
+                continue
             db.add(
                 FileAsset(
                     uploader_id=admin.id if admin else None,
