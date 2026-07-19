@@ -2,10 +2,13 @@
 
 import os
 import uuid
+from urllib.parse import quote
 
+import requests
 from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
-from fastapi.responses import FileResponse, RedirectResponse
+from fastapi.responses import FileResponse, StreamingResponse
 from sqlalchemy.orm import Session
+from starlette.background import BackgroundTask
 
 from app import bunny, models
 from app.database import get_db
@@ -121,7 +124,33 @@ def download_file(
     if not _can_access_asset(asset, current_user, db):
         raise HTTPException(status_code=403, detail="אין הרשאה לקובץ זה")
     if asset.external_url:
-        return RedirectResponse(asset.external_url)
+        # Proxy the file from Bunny through our own origin. A plain redirect to
+        # the CDN is unreadable by the browser's fetch() (no CORS headers on
+        # Bunny), which silently breaks in-app downloads and the video player.
+        try:
+            upstream = bunny.open_stream(asset.external_url)
+        except requests.RequestException:
+            raise HTTPException(status_code=502, detail="שגיאה בשליפת הקובץ מהאחסון")
+        media_type = (
+            asset.content_type
+            or upstream.headers.get("Content-Type")
+            or "application/octet-stream"
+        )
+        headers = {
+            # RFC 5987 — encode the original (often Hebrew) filename safely.
+            "Content-Disposition": (
+                f"attachment; filename*=UTF-8''{quote(asset.original_name)}"
+            ),
+        }
+        length = upstream.headers.get("Content-Length")
+        if length:
+            headers["Content-Length"] = length
+        return StreamingResponse(
+            upstream.iter_content(chunk_size=64 * 1024),
+            media_type=media_type,
+            headers=headers,
+            background=BackgroundTask(upstream.close),
+        )
     path = os.path.join(UPLOAD_DIR, asset.stored_name)
     if not os.path.exists(path):
         raise HTTPException(status_code=404, detail="הקובץ לא נמצא")

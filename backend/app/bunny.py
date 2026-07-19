@@ -54,6 +54,20 @@ def upload_bytes(data: bytes, remote_name: str) -> str:
     return _put(remote_name, data)
 
 
+def open_stream(external_url: str) -> "requests.Response":
+    """Open a streaming GET against a public Bunny CDN URL. Caller must consume
+    (iter_content) and close it. Raises requests.RequestException on failure.
+
+    Used to proxy a stored file back to the browser from our own origin — a
+    direct redirect to Bunny is blocked when the browser reads it via fetch()
+    (no CORS headers on the CDN), which breaks in-app downloads and the video
+    player.
+    """
+    resp = requests.get(external_url, stream=True, timeout=300)
+    resp.raise_for_status()
+    return resp
+
+
 def delete(remote_name: str) -> None:
     """Best-effort delete of a file from Bunny Storage."""
     url = f"https://{_storage_host()}/{BUNNY_STORAGE_ZONE}/{remote_name}"
