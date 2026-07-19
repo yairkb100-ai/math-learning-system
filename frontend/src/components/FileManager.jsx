@@ -104,7 +104,9 @@ export default function FileManager({ courseId = null, title = 'קבצים' }) {
               <span className="file-actions">
                 <button
                   className="btn-sm"
-                  onClick={() => api.downloadFile(f.id, f.original_name)}
+                  onClick={() =>
+                    api.downloadFile(f.id, f.original_name, f.external_url)
+                  }
                 >
                   הורדה
                 </button>

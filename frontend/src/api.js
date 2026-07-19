@@ -83,7 +83,18 @@ async function uploadRequest(path, formData) {
 
 // Authed download — fetch with Bearer header, turn the response into a blob,
 // then trigger a browser download via a temporary object URL.
-async function downloadRequest(path, filename) {
+//
+// Files hosted on Bunny CDN (externalUrl set) skip the fetch entirely and
+// open the CDN URL directly. Browsers refuse to auto-follow a redirect to a
+// different origin when the request carries an Authorization header (a
+// deliberate Fetch spec security rule) — trying to fetch() our backend's
+// redirect for these throws "Failed to fetch" instead of reaching Bunny.
+async function downloadRequest(path, filename, externalUrl) {
+  if (externalUrl) {
+    window.open(externalUrl, '_blank', 'noopener')
+    return
+  }
+
   const token = getToken()
   const headers = {}
   if (token) headers['Authorization'] = `Bearer ${token}`
@@ -111,9 +122,14 @@ async function downloadRequest(path, filename) {
   URL.revokeObjectURL(url)
 }
 
-// Authed media fetch — returns an object URL for inline playback (e.g. <video>).
-// Caller is responsible for URL.revokeObjectURL when done.
-async function mediaObjectUrl(path) {
+// Authed media fetch — returns a URL for inline playback (e.g. <video src>).
+// Caller is responsible for URL.revokeObjectURL when done (a no-op for the
+// externalUrl case, which isn't a blob: URL).
+//
+// See downloadRequest above for why externalUrl bypasses fetch() entirely.
+async function mediaObjectUrl(path, externalUrl) {
+  if (externalUrl) return externalUrl
+
   const token = getToken()
   const headers = {}
   if (token) headers['Authorization'] = `Bearer ${token}`
@@ -128,7 +144,8 @@ export const api = {
   health: () => request('/health'),
 
   // Inline media (video/audio players)
-  fileObjectUrl: (fileId) => mediaObjectUrl(`/files/${fileId}/download`),
+  fileObjectUrl: (fileId, externalUrl) =>
+    mediaObjectUrl(`/files/${fileId}/download`, externalUrl),
 
   // Auth
   login: (username, password) =>
@@ -238,7 +255,8 @@ export const api = {
     fd.append('kind', kind)
     return uploadRequest('/files', fd)
   },
-  downloadFile: (id, filename) => downloadRequest(`/files/${id}/download`, filename),
+  downloadFile: (id, filename, externalUrl) =>
+    downloadRequest(`/files/${id}/download`, filename, externalUrl),
   deleteFile: (id) => request(`/files/${id}`, { method: 'DELETE' }),
 
   // Subscriptions / billing

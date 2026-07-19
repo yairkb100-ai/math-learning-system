@@ -273,7 +273,7 @@ function StepBody({
         <h2 className="step-title">
           🎬 {t(rtl, 'סרטון הסברה', 'Explainer video')}: {chapter.title}
         </h2>
-        <VideoPlayer fileId={step.file.id} rtl={rtl} />
+        <VideoPlayer fileId={step.file.id} externalUrl={step.file.external_url} rtl={rtl} />
       </div>
     )
   }
@@ -361,7 +361,9 @@ function StepBody({
                 <span className="file-actions">
                   <button
                     className="btn-sm"
-                    onClick={() => api.downloadFile(f.id, f.original_name)}
+                    onClick={() =>
+                      api.downloadFile(f.id, f.original_name, f.external_url)
+                    }
                   >
                     {t(rtl, 'הורדה', 'Download')}
                   </button>
@@ -497,7 +499,7 @@ function HomeworkBox({ courseId, chapterNumber, rtl }) {
   )
 }
 
-function VideoPlayer({ fileId, rtl }) {
+function VideoPlayer({ fileId, externalUrl, rtl }) {
   const [src, setSrc] = useState(null)
   const [err, setErr] = useState(null)
 
@@ -505,7 +507,7 @@ function VideoPlayer({ fileId, rtl }) {
     let url = null
     let alive = true
     api
-      .fileObjectUrl(fileId)
+      .fileObjectUrl(fileId, externalUrl)
       .then((u) => {
         url = u
         if (alive) setSrc(u)
@@ -516,7 +518,7 @@ function VideoPlayer({ fileId, rtl }) {
       alive = false
       if (url) URL.revokeObjectURL(url)
     }
-  }, [fileId])
+  }, [fileId, externalUrl])
 
   if (err) return <p className="inline-error">⚠️ {String(err.message || err)}</p>
   if (!src) return <Loading label={rtl ? 'טוען סרטון…' : 'Loading video…'} />

@@ -337,6 +337,7 @@ class FileAssetOut(BaseModel):
     size: Optional[int] = None
     kind: str = "resource"
     uploaded_at: datetime
+    external_url: Optional[str] = None
 
 
 # ---------------------------------------------------------------------------
