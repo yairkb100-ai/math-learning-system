@@ -92,6 +92,22 @@ class LoginEvent(Base):
     user = relationship("User")
 
 
+class ChapterView(Base):
+    """Audit log of a student opening a chapter — powers the admin "who viewed
+    what, and when" view. One row is written server-side each time a chapter is
+    fetched, so no client cooperation is needed."""
+
+    __tablename__ = "chapter_views"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
+    chapter_id = Column(Integer, ForeignKey("chapters.id"), nullable=False, index=True)
+    created_at = Column(DateTime, default=datetime.utcnow, index=True)
+
+    user = relationship("User")
+    chapter = relationship("Chapter")
+
+
 class AppSetting(Base):
     """Tiny key/value store for global admin-tunable settings (e.g. the global
     device limit ``max_devices``). Avoids a schema change per new knob."""

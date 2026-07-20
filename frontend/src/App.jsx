@@ -16,6 +16,7 @@ import AdminProgress from './pages/AdminProgress.jsx'
 import AdminSections from './pages/AdminSections.jsx'
 import AdminSubscriptions from './pages/AdminSubscriptions.jsx'
 import AdminDevices from './pages/AdminDevices.jsx'
+import AdminChapterViews from './pages/AdminChapterViews.jsx'
 import Messages from './pages/Messages.jsx'
 import FilesPage from './pages/FilesPage.jsx'
 import SubscriptionPage from './pages/SubscriptionPage.jsx'
@@ -181,6 +182,14 @@ function AppRoutes() {
             element={
               <PrivateRoute adminOnly>
                 <AdminDevices />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/admin/chapter-views"
+            element={
+              <PrivateRoute adminOnly>
+                <AdminChapterViews />
               </PrivateRoute>
             }
           />

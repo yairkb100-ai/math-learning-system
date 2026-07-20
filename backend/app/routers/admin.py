@@ -9,6 +9,7 @@ from app.database import get_db
 from app.dependencies import require_admin
 from app.schemas import (
     AdminUserOut,
+    ChapterViewOut,
     EnrollmentCreate,
     EnrollmentOut,
     StudentCourseProgress,
@@ -203,6 +204,45 @@ def students_progress(
         )
         for s in students
     ]
+
+
+@router.get("/chapter-views", response_model=list[ChapterViewOut])
+def list_chapter_views(
+    user_id: int | None = None,
+    limit: int = 300,
+    db: Session = Depends(get_db),
+    _: models.User = Depends(require_admin),
+) -> list[ChapterViewOut]:
+    """Recent chapter opens (who viewed which chapter, when), newest first.
+    Pass ``user_id`` to see a single student's viewing history."""
+    limit = max(1, min(limit, 2000))
+    query = db.query(models.ChapterView).order_by(
+        models.ChapterView.created_at.desc()
+    )
+    if user_id is not None:
+        query = query.filter(models.ChapterView.user_id == user_id)
+    events = query.limit(limit).all()
+
+    out = []
+    for e in events:
+        u = e.user
+        ch = e.chapter
+        course = ch.course if ch else None
+        out.append(
+            ChapterViewOut(
+                id=e.id,
+                user_id=e.user_id,
+                user_name=u.full_name if u else None,
+                username=u.username if u else None,
+                chapter_id=e.chapter_id,
+                chapter_number=ch.number if ch else None,
+                chapter_title=ch.title if ch else None,
+                course_id=course.id if course else None,
+                course_title=course.title if course else None,
+                created_at=e.created_at,
+            )
+        )
+    return out
 
 
 # ---------------------------------------------------------------------------

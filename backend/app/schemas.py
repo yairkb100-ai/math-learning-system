@@ -105,6 +105,21 @@ class StudentProgressSummary(BaseModel):
     courses: List[StudentCourseProgress]
 
 
+class ChapterViewOut(BaseModel):
+    """One chapter-open event for the admin "who viewed what, when" report."""
+
+    id: int
+    user_id: int
+    user_name: Optional[str] = None
+    username: Optional[str] = None
+    chapter_id: int
+    chapter_number: Optional[int] = None
+    chapter_title: Optional[str] = None
+    course_id: Optional[int] = None
+    course_title: Optional[str] = None
+    created_at: datetime
+
+
 # ---------------------------------------------------------------------------
 # Course list (GET /api/courses)
 # ---------------------------------------------------------------------------

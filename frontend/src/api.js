@@ -304,6 +304,11 @@ export const api = {
   adminDeleteDevice: (id) => request(`/admin/devices/${id}`, { method: 'DELETE' }),
   adminLoginEvents: (limit = 200) =>
     request(`/admin/login-events?limit=${limit}`),
+  adminChapterViews: (userId = null, limit = 300) =>
+    request(
+      `/admin/chapter-views?limit=${limit}` +
+        (userId != null ? `&user_id=${userId}` : ''),
+    ),
   adminGetMaxDevices: () => request('/admin/settings/max-devices'),
   adminSetMaxDevices: (maxDevices) =>
     request('/admin/settings/max-devices', {

@@ -52,6 +52,7 @@ export default function Navbar() {
                 <Link to="/admin/sections" className="nav-link">חלקים וקורסים</Link>
                 <Link to="/admin/users" className="nav-link">ניהול תלמידים</Link>
                 <Link to="/admin/progress" className="nav-link">התקדמות</Link>
+                <Link to="/admin/chapter-views" className="nav-link">צפיות</Link>
                 <Link to="/admin/subscriptions" className="nav-link">מנויים</Link>
                 <Link to="/admin/devices" className="nav-link">מכשירים</Link>
                 <Link to="/files" className="nav-link">קבצים</Link>

@@ -108,11 +108,20 @@ def get_chapter(
     course_id: int,
     number: int,
     db: Session = Depends(get_db),
-    _sub: models.User = Depends(require_active_subscription),
+    current_user: models.User = Depends(require_active_subscription),
 ) -> ChapterEnvelope:
     chapter = crud.get_chapter(db, course_id, number)
     if chapter is None:
         raise HTTPException(status_code=404, detail="Chapter not found")
+    # Log the open for the admin "what did each student view, and when" report.
+    # Students only (admins browse content too); best-effort so a logging hiccup
+    # never blocks reading the chapter.
+    if current_user.role == "student":
+        try:
+            db.add(models.ChapterView(user_id=current_user.id, chapter_id=chapter.id))
+            db.commit()
+        except Exception:
+            db.rollback()
     return ChapterEnvelope(chapter=_chapter_out(chapter))
 
 
