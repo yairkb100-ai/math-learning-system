@@ -245,6 +245,34 @@ def list_chapter_views(
     return out
 
 
+@router.delete("/chapter-views/{view_id}", status_code=204)
+def delete_chapter_view(
+    view_id: int,
+    db: Session = Depends(get_db),
+    _: models.User = Depends(require_admin),
+) -> None:
+    """Delete a single chapter-view log entry."""
+    row = db.get(models.ChapterView, view_id)
+    if row is not None:
+        db.delete(row)
+        db.commit()
+
+
+@router.delete("/chapter-views", status_code=204)
+def clear_chapter_views(
+    user_id: int | None = None,
+    db: Session = Depends(get_db),
+    _: models.User = Depends(require_admin),
+) -> None:
+    """Clear chapter-view logs. Pass ``user_id`` to clear one student's history;
+    omit it to clear the whole log."""
+    query = db.query(models.ChapterView)
+    if user_id is not None:
+        query = query.filter(models.ChapterView.user_id == user_id)
+    query.delete(synchronize_session=False)
+    db.commit()
+
+
 # ---------------------------------------------------------------------------
 # Courses (admin delete)
 # ---------------------------------------------------------------------------

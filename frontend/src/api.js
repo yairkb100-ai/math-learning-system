@@ -309,6 +309,13 @@ export const api = {
       `/admin/chapter-views?limit=${limit}` +
         (userId != null ? `&user_id=${userId}` : ''),
     ),
+  adminDeleteChapterView: (id) =>
+    request(`/admin/chapter-views/${id}`, { method: 'DELETE' }),
+  adminClearChapterViews: (userId = null) =>
+    request(
+      '/admin/chapter-views' + (userId != null ? `?user_id=${userId}` : ''),
+      { method: 'DELETE' },
+    ),
   adminGetMaxDevices: () => request('/admin/settings/max-devices'),
   adminSetMaxDevices: (maxDevices) =>
     request('/admin/settings/max-devices', {

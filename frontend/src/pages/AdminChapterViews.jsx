@@ -10,6 +10,7 @@ export default function AdminChapterViews() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [studentId, setStudentId] = useState('all')
+  const [busy, setBusy] = useState(false)
 
   const load = useCallback(() => {
     setLoading(true)
@@ -41,6 +42,34 @@ export default function AdminChapterViews() {
     [views, studentId],
   )
 
+  const deleteOne = useCallback((id) => {
+    if (!window.confirm('למחוק את רישום הצפייה הזה?')) return
+    setBusy(true)
+    api.adminDeleteChapterView(id)
+      .then(() => setViews((prev) => prev.filter((v) => v.id !== id)))
+      .catch((e) => window.alert('מחיקה נכשלה: ' + (e?.message || e)))
+      .finally(() => setBusy(false))
+  }, [])
+
+  const clearShown = useCallback(() => {
+    const forStudent = studentId !== 'all'
+    const msg = forStudent
+      ? 'למחוק את כל היסטוריית הצפיות של התלמיד הזה?'
+      : 'למחוק את כל רישומי הצפיות של כל התלמידים?'
+    if (!window.confirm(msg)) return
+    setBusy(true)
+    api.adminClearChapterViews(forStudent ? Number(studentId) : null)
+      .then(() =>
+        setViews((prev) =>
+          forStudent
+            ? prev.filter((v) => String(v.user_id) !== String(studentId))
+            : [],
+        ),
+      )
+      .catch((e) => window.alert('מחיקה נכשלה: ' + (e?.message || e)))
+      .finally(() => setBusy(false))
+  }, [studentId])
+
   if (loading) return <Loading label="טוען צפיות תלמידים…" />
   if (error) return <ErrorBox error={error} onRetry={load} />
 
@@ -66,6 +95,16 @@ export default function AdminChapterViews() {
         <span className="muted" style={{ marginInlineStart: '1rem' }}>
           {shown.length} צפיות
         </span>
+        {shown.length > 0 && (
+          <button
+            className="btn-sm btn-danger"
+            style={{ marginInlineStart: '1rem' }}
+            onClick={clearShown}
+            disabled={busy}
+          >
+            {studentId === 'all' ? 'מחק הכל' : 'מחק היסטוריית תלמיד'}
+          </button>
+        )}
       </div>
 
       {shown.length === 0 ? (
@@ -82,6 +121,7 @@ export default function AdminChapterViews() {
                   <th>קורס</th>
                   <th>פרק</th>
                   <th>מתי</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -97,6 +137,16 @@ export default function AdminChapterViews() {
                       {v.created_at
                         ? new Date(v.created_at).toLocaleString('he-IL')
                         : '—'}
+                    </td>
+                    <td>
+                      <button
+                        className="btn-sm btn-danger"
+                        title="מחק רישום"
+                        onClick={() => deleteOne(v.id)}
+                        disabled={busy}
+                      >
+                        🗑
+                      </button>
                     </td>
                   </tr>
                 ))}
