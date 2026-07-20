@@ -126,7 +126,7 @@
   ],
   "bank_sections": [
     {
-      "title": "מדור א' — רואים שברים 👀",
+      "title": "חלק א' — רואים שברים 👀",
       "icon": "👀",
       "items": [
         "כתבו איזה שבר צבוע בכל צורה:\n      <div class=\"shapes\">\n        <div class=\"fig\">\n          <svg width=\"150\" height=\"46\" viewBox=\"0 0 150 46\">\n            <rect x=\"1\" y=\"1\" width=\"148\" height=\"44\" fill=\"#fff\" stroke=\"#4a1f8a\" stroke-width=\"2\"/>\n            <rect x=\"1\" y=\"1\" width=\"29.6\" height=\"44\" fill=\"#b48ce8\"/>\n            <rect x=\"30.6\" y=\"1\" width=\"29.6\" height=\"44\" fill=\"#b48ce8\"/>\n            <g stroke=\"#4a1f8a\" stroke-width=\"2\">\n              <line x1=\"30.6\" y1=\"1\" x2=\"30.6\" y2=\"45\"/><line x1=\"60.2\" y1=\"1\" x2=\"60.2\" y2=\"45\"/>\n              <line x1=\"89.8\" y1=\"1\" x2=\"89.8\" y2=\"45\"/><line x1=\"119.4\" y1=\"1\" x2=\"119.4\" y2=\"45\"/>\n            </g>\n          </svg><div>1א</div>\n        </div>\n        <div class=\"fig\">\n          <svg width=\"100\" height=\"100\" viewBox=\"0 0 100 100\">\n            <circle cx=\"50\" cy=\"50\" r=\"46\" fill=\"#fff\" stroke=\"#4a1f8a\" stroke-width=\"2\"/>\n            <path d=\"M50 50 L50 4 A46 46 0 0 1 96 50 Z\" fill=\"#b48ce8\"/>\n            <path d=\"M50 50 L96 50 A46 46 0 0 1 50 96 Z\" fill=\"#b48ce8\"/>\n            <path d=\"M50 50 L50 96 A46 46 0 0 1 4 50 Z\" fill=\"#b48ce8\"/>\n            <g stroke=\"#4a1f8a\" stroke-width=\"2\">\n              <line x1=\"50\" y1=\"4\" x2=\"50\" y2=\"96\"/><line x1=\"4\" y1=\"50\" x2=\"96\" y2=\"50\"/>\n            </g>\n          </svg><div>1ב</div>\n        </div>\n        <div class=\"fig\">\n          <svg width=\"110\" height=\"76\" viewBox=\"0 0 110 76\">\n            <rect x=\"1\" y=\"1\" width=\"108\" height=\"74\" fill=\"#fff\" stroke=\"#4a1f8a\" stroke-width=\"2\"/>\n            <rect x=\"1\" y=\"1\" width=\"36\" height=\"37\" fill=\"#b48ce8\"/>\n            <rect x=\"73\" y=\"38\" width=\"36\" height=\"37\" fill=\"#b48ce8\"/>\n            <g stroke=\"#4a1f8a\" stroke-width=\"2\">\n              <line x1=\"37\" y1=\"1\" x2=\"37\" y2=\"75\"/><line x1=\"73\" y1=\"1\" x2=\"73\" y2=\"75\"/>\n              <line x1=\"1\" y1=\"38\" x2=\"109\" y2=\"38\"/>\n            </g>\n          </svg><div>1ג</div>\n        </div>\n      </div>",
@@ -137,7 +137,7 @@
       ]
     },
     {
-      "title": "מדור ב' — מונה, מכנה ומה שביניהם ✏️",
+      "title": "חלק ב' — מונה, מכנה ומה שביניהם ✏️",
       "icon": "✏️",
       "items": [
         "השלימו את הטבלה:\n      <table style=\"border-collapse:collapse; margin-top:6px; font-size:14.5px\">\n        <tr>\n          <th style=\"border:1px solid #b48ce8; padding:5px 14px; background:#f3edfc\">השבר</th>\n          <th style=\"border:1px solid #b48ce8; padding:5px 14px; background:#f3edfc\">מונה</th>\n          <th style=\"border:1px solid #b48ce8; padding:5px 14px; background:#f3edfc\">מכנה</th>\n          <th style=\"border:1px solid #b48ce8; padding:5px 14px; background:#f3edfc\">במילים</th>\n        </tr>\n        <tr><td style=\"border:1px solid #b48ce8; padding:5px 14px; text-align:center\">[[4/9]]</td><td style=\"border:1px solid #b48ce8; padding:5px 24px\"></td><td style=\"border:1px solid #b48ce8; padding:5px 24px\"></td><td style=\"border:1px solid #b48ce8; padding:5px 40px\"></td></tr>\n        <tr><td style=\"border:1px solid #b48ce8; padding:5px 14px\"></td><td style=\"border:1px solid #b48ce8; padding:5px 14px; text-align:center\">2</td><td style=\"border:1px solid #b48ce8; padding:5px 14px; text-align:center\">7</td><td style=\"border:1px solid #b48ce8; padding:5px 40px\"></td></tr>\n        <tr><td style=\"border:1px solid #b48ce8; padding:5px 14px\"></td><td style=\"border:1px solid #b48ce8; padding:5px 24px\"></td><td style=\"border:1px solid #b48ce8; padding:5px 24px\"></td><td style=\"border:1px solid #b48ce8; padding:5px 14px\">שש עשיריות</td></tr>\n      </table>",
@@ -147,7 +147,7 @@
       ]
     },
     {
-      "title": "מדור ג' — על ציר המספרים 📏",
+      "title": "חלק ג' — על ציר המספרים 📏",
       "icon": "📏",
       "items": [
         "לפניכם ציר מספרים מ‑0 עד 1 המחולק ל‑4 קטעים שווים. כתבו את השבר המתאים לכל נקודה מסומנת:\n      <div class=\"numline\">\n        <svg width=\"360\" height=\"58\" viewBox=\"0 0 360 58\" direction=\"ltr\">\n          <line x1=\"20\" y1=\"30\" x2=\"340\" y2=\"30\" stroke=\"#1a2233\" stroke-width=\"2\"/>\n          <g stroke=\"#1a2233\" stroke-width=\"2\">\n            <line x1=\"20\" y1=\"22\" x2=\"20\" y2=\"38\"/><line x1=\"100\" y1=\"22\" x2=\"100\" y2=\"38\"/>\n            <line x1=\"180\" y1=\"22\" x2=\"180\" y2=\"38\"/><line x1=\"260\" y1=\"22\" x2=\"260\" y2=\"38\"/>\n            <line x1=\"340\" y1=\"22\" x2=\"340\" y2=\"38\"/>\n          </g>\n          <text x=\"20\" y=\"54\" text-anchor=\"middle\" font-size=\"14\">0</text>\n          <text x=\"340\" y=\"54\" text-anchor=\"middle\" font-size=\"14\">1</text>\n          <circle cx=\"100\" cy=\"30\" r=\"6\" fill=\"#7a3fd1\"/>\n          <text x=\"100\" y=\"14\" text-anchor=\"middle\" font-size=\"13\" fill=\"#7a3fd1\">א</text>\n          <circle cx=\"260\" cy=\"30\" r=\"6\" fill=\"#7a3fd1\"/>\n          <text x=\"260\" y=\"14\" text-anchor=\"middle\" font-size=\"13\" fill=\"#7a3fd1\">ב</text>\n        </svg>\n      </div>",
@@ -156,7 +156,7 @@
       ]
     },
     {
-      "title": "מדור ד' — משווים ומסדרים ⚖️",
+      "title": "חלק ד' — משווים ומסדרים ⚖️",
       "icon": "⚖️",
       "items": [
         "כתבו בין כל זוג שברים את הסימן המתאים (&gt; , &lt; או =):\n      <br>א. [[eq:[[1/5]] ⬜ [[1/9]]]]\n      &nbsp;&nbsp; ב. [[eq:[[4/7]] ⬜ [[6/7]]]]\n      &nbsp;&nbsp; ג. [[eq:[[3/3]] ⬜ [[8/8]]]]",
@@ -166,7 +166,7 @@
       ]
     },
     {
-      "title": "מדור ה' — שאלות מילוליות מהחיים 🧩",
+      "title": "חלק ה' — שאלות מילוליות מהחיים 🧩",
       "icon": "🧩",
       "items": [
         "בכיתה של נועה 28 תלמידים. 15 מהם באו לבית הספר באופניים והשאר ברגל.\n      <br>א. איזה שבר מהכיתה בא באופניים?\n      <br>ב. איזה שבר בא ברגל?",
@@ -176,7 +176,7 @@
       ]
     },
     {
-      "title": "מדור ו' — אתגר נוסף 🔥",
+      "title": "חלק ו' — אתגר נוסף 🔥",
       "icon": "🔥",
       "items": [
         "כיתה עם 36 תלמידים: 19 מהם למדו שחייה השנה. איזה שבר מהכיתה למד שחייה, ואיזה שבר לא למד?",
