@@ -20,6 +20,9 @@ class UserCreate(BaseModel):
 class UserLogin(BaseModel):
     username: str
     password: str
+    # Random id persisted in the browser's localStorage, identifying this
+    # device for the per-account device limit. Absent for legacy clients.
+    device_id: Optional[str] = None
 
 
 class UserOut(BaseModel):
@@ -407,6 +410,46 @@ class SubscriptionAssign(BaseModel):
 class SubscriptionExtend(BaseModel):
     # מספר הימים להארכה; ברירת מחדל 30 (חודש)
     days: int = 30
+
+
+# ---------------------------------------------------------------------------
+# Devices & login audit (admin)
+# ---------------------------------------------------------------------------
+
+class UserDeviceOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    user_id: int
+    user_name: Optional[str] = None
+    username: Optional[str] = None
+    device_id: str
+    label: Optional[str] = None
+    ip: Optional[str] = None
+    login_count: int
+    first_seen: datetime
+    last_seen: datetime
+
+
+class LoginEventOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    user_id: Optional[int] = None
+    username: Optional[str] = None
+    user_name: Optional[str] = None
+    label: Optional[str] = None
+    ip: Optional[str] = None
+    status: str
+    created_at: datetime
+
+
+class MaxDevicesOut(BaseModel):
+    max_devices: int
+
+
+class MaxDevicesUpdate(BaseModel):
+    max_devices: int = Field(ge=0)
 
 
 # ---------------------------------------------------------------------------

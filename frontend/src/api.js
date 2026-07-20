@@ -5,6 +5,29 @@ function getToken() {
   return localStorage.getItem('accessToken')
 }
 
+// A stable per-browser id used to identify this device for the account's
+// device limit. Generated once and persisted; survives logout (we only clear
+// it if the user explicitly wants to "forget" the device — not done here).
+function getDeviceId() {
+  let id = localStorage.getItem('deviceId')
+  if (!id) {
+    id =
+      typeof crypto !== 'undefined' && crypto.randomUUID
+        ? crypto.randomUUID()
+        : 'dev-' + Math.random().toString(36).slice(2) + Date.now().toString(36)
+    localStorage.setItem('deviceId', id)
+  }
+  return id
+}
+
+// Clear the session but KEEP the deviceId — otherwise every logout would mint
+// a fresh device and burn a slot against the account's device limit.
+export function clearSession() {
+  const deviceId = localStorage.getItem('deviceId')
+  localStorage.clear()
+  if (deviceId) localStorage.setItem('deviceId', deviceId)
+}
+
 async function request(path, options = {}) {
   const token = getToken()
   const headers = { 'Content-Type': 'application/json' }
@@ -17,7 +40,7 @@ async function request(path, options = {}) {
   // call (login/register) rejecting bad credentials, not a dead session; let it
   // fall through to the normal error below so the caller can show it inline.
   if (res.status === 401 && token) {
-    localStorage.clear()
+    clearSession()
     window.location.href = '/login'
     return
   }
@@ -61,7 +84,7 @@ async function uploadRequest(path, formData) {
   })
 
   if (res.status === 401) {
-    localStorage.clear()
+    clearSession()
     window.location.href = '/login'
     return
   }
@@ -102,7 +125,7 @@ async function downloadRequest(path, filename, externalUrl) {
   const res = await fetch(BASE + path, { headers })
 
   if (res.status === 401) {
-    localStorage.clear()
+    clearSession()
     window.location.href = '/login'
     return
   }
@@ -151,7 +174,7 @@ export const api = {
   login: (username, password) =>
     request('/auth/login', {
       method: 'POST',
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ username, password, device_id: getDeviceId() }),
     }),
   register: (data) =>
     request('/auth/register', { method: 'POST', body: JSON.stringify(data) }),
@@ -275,6 +298,18 @@ export const api = {
     }),
   cancelSubscription: (subId) =>
     request(`/admin/subscriptions/${subId}/cancel`, { method: 'POST' }),
+
+  // Admin — devices & login audit
+  adminDevices: () => request('/admin/devices'),
+  adminDeleteDevice: (id) => request(`/admin/devices/${id}`, { method: 'DELETE' }),
+  adminLoginEvents: (limit = 200) =>
+    request(`/admin/login-events?limit=${limit}`),
+  adminGetMaxDevices: () => request('/admin/settings/max-devices'),
+  adminSetMaxDevices: (maxDevices) =>
+    request('/admin/settings/max-devices', {
+      method: 'PUT',
+      body: JSON.stringify({ max_devices: maxDevices }),
+    }),
 
   // Practice (student)
   getPracticeQuestions: ({ subject, difficulty, topic, limit } = {}) => {

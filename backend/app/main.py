@@ -22,6 +22,7 @@ from app.routers import (
     messages,
     files,
     subscriptions,
+    devices,
     practice,
     analytics,
     exams,
@@ -103,6 +104,7 @@ app.include_router(admin_content.router)
 app.include_router(messages.router)
 app.include_router(files.router)
 app.include_router(subscriptions.router)
+app.include_router(devices.router)
 app.include_router(practice.router)
 app.include_router(analytics.router)
 app.include_router(exams.router)

@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react'
+import { clearSession } from '../api.js'
 
 const AuthContext = createContext(null)
 
@@ -22,7 +23,7 @@ export function AuthProvider({ children }) {
   }
 
   function logout() {
-    localStorage.clear()
+    clearSession() // keeps deviceId so we don't burn a device slot on re-login
     setUser(null)
   }
 

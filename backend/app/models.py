@@ -49,6 +49,59 @@ class User(Base):
     )
 
 
+class UserDevice(Base):
+    """A distinct device a user has logged in from (identified by a random
+    client-generated ``device_id`` persisted in the browser's localStorage).
+
+    Used to enforce a per-account device limit: a new device beyond the limit
+    is blocked at login. Admins can free a slot by deleting the row.
+    """
+
+    __tablename__ = "user_devices"
+    __table_args__ = (UniqueConstraint("user_id", "device_id"),)
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
+    device_id = Column(String, nullable=False, index=True)
+    label = Column(String, nullable=True)  # friendly "Chrome · Windows" from UA
+    user_agent = Column(String, nullable=True)
+    ip = Column(String, nullable=True)
+    login_count = Column(Integer, nullable=False, default=1)
+    first_seen = Column(DateTime, default=datetime.utcnow)
+    last_seen = Column(DateTime, default=datetime.utcnow, index=True)
+
+    user = relationship("User")
+
+
+class LoginEvent(Base):
+    """Audit trail of every login attempt — powers the admin "who logged in,
+    when, and from where" view. ``status`` is 'ok' or 'blocked'."""
+
+    __tablename__ = "login_events"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=True, index=True)
+    username = Column(String, nullable=True)
+    device_id = Column(String, nullable=True)
+    label = Column(String, nullable=True)
+    ip = Column(String, nullable=True)
+    user_agent = Column(String, nullable=True)
+    status = Column(String, nullable=False, default="ok")  # ok | blocked
+    created_at = Column(DateTime, default=datetime.utcnow, index=True)
+
+    user = relationship("User")
+
+
+class AppSetting(Base):
+    """Tiny key/value store for global admin-tunable settings (e.g. the global
+    device limit ``max_devices``). Avoids a schema change per new knob."""
+
+    __tablename__ = "app_settings"
+
+    key = Column(String, primary_key=True)
+    value = Column(String, nullable=True)
+
+
 class UserCourseEnrollment(Base):
     __tablename__ = "user_course_enrollments"
     __table_args__ = (UniqueConstraint("user_id", "course_id"),)

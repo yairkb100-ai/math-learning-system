@@ -15,6 +15,7 @@ import AdminCourses from './pages/AdminCourses.jsx'
 import AdminProgress from './pages/AdminProgress.jsx'
 import AdminSections from './pages/AdminSections.jsx'
 import AdminSubscriptions from './pages/AdminSubscriptions.jsx'
+import AdminDevices from './pages/AdminDevices.jsx'
 import Messages from './pages/Messages.jsx'
 import FilesPage from './pages/FilesPage.jsx'
 import SubscriptionPage from './pages/SubscriptionPage.jsx'
@@ -175,6 +176,14 @@ function AppRoutes() {
               </PrivateRoute>
             }
           />
+          <Route
+            path="/admin/devices"
+            element={
+              <PrivateRoute adminOnly>
+                <AdminDevices />
+              </PrivateRoute>
+            }
+          />
 
           {/* Shared (any logged-in user) */}
           <Route
@@ -207,7 +216,7 @@ function AppRoutes() {
       </main>
 
       <footer className="footer" dir="rtl">
-        <span>לומדת מתמטיקה · © כל הזכויות שמורות ליאיר כהנא</span>
+        <span>© כל הזכויות שמורות ליאיר כהנא, בניית אתרים ודפי נחיתה 0545953631</span>
       </footer>
     </div>
   )
