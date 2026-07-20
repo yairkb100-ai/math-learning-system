@@ -88,7 +88,7 @@ function parseArtLine(line) {
         d = Number(param)
       }
     }
-    items.push({ kind: m[1], n, d, param, caption: m[4] || null })
+    items.push({ kind: m[1], n, d, param, caption: m[3] || null })
     rest = rest.replace(m[0], '')
   }
   if (items.length === 0 || rest.trim() !== '') return null
