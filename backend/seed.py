@@ -15,6 +15,7 @@ import re
 import shutil
 import sys
 import uuid
+from datetime import datetime, timedelta
 
 # Ensure ``backend/`` is on sys.path so ``from app...`` imports work regardless
 # of the current working directory (the script may be run from the repo root).
@@ -40,6 +41,7 @@ from app.models import (  # noqa: E402
     Exercise,
     FileAsset,
     LearningObjective,
+    LoginEvent,
     PracticeQuestion,
     QuizQuestion,
     Section,
@@ -203,6 +205,26 @@ def upsert_course(db, data):
     for f in relink_files:
         f.course_id = course.id
     return slug, "loaded"
+
+
+def prune_login_events(db, days=60):
+    """Trim the login audit log to the last ``days`` days so it stays bounded.
+
+    Deletes only from ``login_events`` (the append-only "who logged in, when,
+    and from where" trail). It deliberately never touches ``user_devices`` —
+    the per-account device limit is enforced by counting UserDevice rows
+    (see routers/auth.py), NOT login events — so pruning here can never let a
+    student slip past the device limit the admin set.
+    """
+    cutoff = datetime.utcnow() - timedelta(days=days)
+    deleted = (
+        db.query(LoginEvent)
+        .filter(LoginEvent.created_at < cutoff)
+        .delete(synchronize_session=False)
+    )
+    db.commit()
+    if deleted:
+        print(f"  + Pruned {deleted} login event(s) older than {days} days")
 
 
 def ensure_admin(db):
@@ -639,6 +661,7 @@ def main():
         ensure_exams(db)
         ensure_achievements(db)
         print("  + Ensured achievements catalog")
+        prune_login_events(db, days=60)
     finally:
         db.close()
 

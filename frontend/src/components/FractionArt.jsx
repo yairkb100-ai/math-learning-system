@@ -241,6 +241,57 @@ function Grid({ param }) {
   )
 }
 
+// Parabola sketch for quadratic equations, e.g. {{parabola:up/2}}.
+// param = "<up|down>/<0|1|2>": which way it opens and how many times it meets
+// the x-axis (0/1/2 real roots). Shows the geometric meaning of the
+// discriminant: roots are exactly where the curve crosses y=0.
+function Parabola({ param }) {
+  const m = String(param || 'up/2').match(/^(up|down)\/(\d)$/)
+  const dir = m ? m[1] : 'up'
+  const roots = m ? Number(m[2]) : 2
+  const W = 220
+  const H = 150
+  const cx = W / 2 // x-axis origin (visual center)
+  const axisY = H / 2 + 8
+  const up = dir === 'up'
+  // Pick a vertex height (in px from the axis) so the curve meets the axis the
+  // requested number of times: below/above for 2, on it for 1, past it for 0.
+  const vGap = roots === 2 ? 46 : roots === 1 ? 0 : 40
+  const vertexY = up ? axisY + vGap : axisY - vGap
+  // Sample the parabola y = k*(x-cx)^2 + vertexY across the width.
+  const halfW = 92
+  const topY = up ? 18 : H - 18 // where the arms reach
+  const k = (topY - vertexY) / (halfW * halfW)
+  const pts = []
+  for (let i = 0; i <= 40; i++) {
+    const x = cx - halfW + (2 * halfW * i) / 40
+    const y = k * (x - cx) * (x - cx) + vertexY
+    pts.push(`${x.toFixed(1)},${y.toFixed(1)}`)
+  }
+  // Root dots: where the sampled curve crosses the axis.
+  const dots = []
+  if (roots === 1) {
+    dots.push(cx)
+  } else if (roots === 2) {
+    const dx = Math.sqrt((axisY - vertexY) / k)
+    dots.push(cx - dx, cx + dx)
+  }
+  return (
+    <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`}>
+      {/* axes */}
+      <line x1="10" y1={axisY} x2={W - 10} y2={axisY} stroke={NAVY} strokeWidth="1.5" />
+      <line x1={cx} y1="8" x2={cx} y2={H - 8} stroke="#b9c2d8" strokeWidth="1.2" />
+      <text x={W - 8} y={axisY - 5} textAnchor="end" fontSize="11" fill="#8893ad">x</text>
+      {/* parabola */}
+      <polyline points={pts.join(' ')} fill="none" stroke={TOMATO} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      {/* roots */}
+      {dots.map((x, i) => (
+        <circle key={i} cx={x} cy={axisY} r="5.5" fill={NAVY} stroke="#fff" strokeWidth="1.5" />
+      ))}
+    </svg>
+  )
+}
+
 // Labeled rectangle for area/measurement problems, e.g. {{rect:3.5x4.2}}.
 function Rect({ param }) {
   const m = String(param || '').match(/^([\d.]+)x([\d.]+)$/)
@@ -264,6 +315,81 @@ function Rect({ param }) {
   )
 }
 
+// Coordinate line graph, e.g. {{linegraph:0,0;1,60;2,120|מרחק לפי זמן}}.
+// param = semicolon-separated "x,y" points. Auto-scales to the data (origin at
+// 0), draws axes, light gridlines, a colored line and dots — for motion
+// (distance–time), rate/יחס and other "graph" problems.
+function LineGraph({ param }) {
+  const pts = String(param || '')
+    .split(';')
+    .map((p) => p.split(',').map(Number))
+    .filter((p) => p.length === 2 && p.every((v) => Number.isFinite(v)))
+  if (pts.length === 0) return null
+  const maxX = Math.max(1, ...pts.map((p) => p[0]))
+  const maxY = Math.max(1, ...pts.map((p) => p[1]))
+  const W = 240
+  const H = 180
+  const padL = 34
+  const padB = 28
+  const padT = 12
+  const padR = 12
+  const plotW = W - padL - padR
+  const plotH = H - padT - padB
+  const sx = (x) => padL + (plotW * x) / maxX
+  const sy = (y) => H - padB - (plotH * y) / maxY
+  const grid = []
+  for (let i = 0; i <= 4; i++) {
+    const gx = padL + (plotW * i) / 4
+    const gy = padT + (plotH * i) / 4
+    grid.push(<line key={`v${i}`} x1={gx} y1={padT} x2={gx} y2={H - padB} stroke="#e6ebf5" strokeWidth="1" />)
+    grid.push(<line key={`h${i}`} x1={padL} y1={gy} x2={W - padR} y2={gy} stroke="#e6ebf5" strokeWidth="1" />)
+  }
+  const poly = pts.map((p) => `${sx(p[0]).toFixed(1)},${sy(p[1]).toFixed(1)}`).join(' ')
+  return (
+    <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`}>
+      {grid}
+      <line x1={padL} y1={padT} x2={padL} y2={H - padB} stroke={NAVY} strokeWidth="1.8" />
+      <line x1={padL} y1={H - padB} x2={W - padR} y2={H - padB} stroke={NAVY} strokeWidth="1.8" />
+      <text x={padL - 5} y={padT + 4} textAnchor="end" fontSize="10" fill="#8893ad">{maxY}</text>
+      <text x={padL - 5} y={H - padB} textAnchor="end" fontSize="10" fill="#8893ad">0</text>
+      <text x={W - padR} y={H - padB + 14} textAnchor="end" fontSize="10" fill="#8893ad">{maxX}</text>
+      <polyline points={poly} fill="none" stroke={TOMATO} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      {pts.map((p, i) => (
+        <circle key={i} cx={sx(p[0])} cy={sy(p[1])} r="4.5" fill={NAVY} stroke="#fff" strokeWidth="1.5" />
+      ))}
+    </svg>
+  )
+}
+
+// Ratio bar, e.g. {{ratiobar:2:3|כחול לאדום, יחס 2:3}}. One bar split into equal
+// cells colored by group so a ratio a:b (or a:b:c) is visible at a glance.
+function RatioBar({ param }) {
+  const nums = String(param || '')
+    .split(':')
+    .map((v) => parseInt(v, 10))
+    .filter((v) => Number.isFinite(v) && v > 0)
+  if (nums.length < 2) return null
+  const colors = [FILL, TOMATO, '#f7d354', '#8bd17c']
+  const total = nums.reduce((a, b) => a + b, 0)
+  const W = 240
+  const H = 44
+  const s = W / total
+  const cells = []
+  let idx = 0
+  nums.forEach((count, g) => {
+    for (let i = 0; i < count; i++) {
+      cells.push(
+        <rect key={idx} x={idx * s + 1} y={1} width={s - 2} height={H - 2}
+          fill={colors[g % colors.length]} stroke={NAVY} strokeWidth="1.5" rx="3" />
+      )
+      idx++
+    }
+  })
+  return (
+    <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`}>{cells}</svg>
+  )
+}
+
 const KINDS = {
   pizza: Pizza,
   circle: CirclePlain,
@@ -273,6 +399,9 @@ const KINDS = {
   numberline: NumberLine,
   grid: Grid,
   rect: Rect,
+  parabola: Parabola,
+  linegraph: LineGraph,
+  ratiobar: RatioBar,
 }
 
 export default function FractionArt({ kind, n = 1, d = 4, param, caption }) {
