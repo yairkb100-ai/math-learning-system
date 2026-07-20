@@ -71,7 +71,7 @@
   "number": 11,
   "topic": "שבר עשרוני מחזורי",
   "output": "סרטון-פרק-11-שבר-עשרוני-מחזורי.mp4",
-  "status": "generating",
+  "status": "done",
   "course": null,
   "grade": null,
   "artifact_id": "54703ffa-204b-4192-812d-56110249a7ab",
@@ -83,7 +83,7 @@
   "number": 1,
   "topic": "מהו אחוז? הקשר לשבר ולעשרוני",
   "output": "סרטון-פרק-1-מהו-אחוז.mp4",
-  "status": "generating",
+  "status": "done",
   "course": "grade6-percents",
   "grade": null,
   "artifact_id": "7e6ff705-97b0-478c-9cbd-fc8ea706983b",
@@ -95,7 +95,7 @@
   "number": 2,
   "topic": "חישוב אחוז מכמות",
   "output": "סרטון-פרק-2-חישוב-אחוז-מכמות.mp4",
-  "status": "generating",
+  "status": "done",
   "course": "grade6-percents",
   "grade": null,
   "artifact_id": "42a085b0-8133-4b9b-b099-382b1efb9458",
@@ -127,9 +127,11 @@
   "number": 5,
   "topic": "הנחה, התייקרות ומע\"מ",
   "output": "סרטון-פרק-5-הנחה-התייקרות-ומעמ.mp4",
-  "status": "staged",
+  "status": "generating",
   "course": "grade6-percents",
-  "grade": null
+  "grade": null,
+  "artifact_id": "894f4ded-d326-43e6-95fa-c2e2daec7e4d",
+  "submitted_at": 1784537795.928948
  },
  "pct-ch06": {
   "notebook_id": "e082531f-fcba-44e5-8225-ab120f13bc41",
@@ -137,9 +139,11 @@
   "number": 6,
   "topic": "אחוזים מעל 100 ובעיות רב-שלביות",
   "output": "סרטון-פרק-6-אחוזים-מעל-100.mp4",
-  "status": "staged",
+  "status": "generating",
   "course": "grade6-percents",
-  "grade": null
+  "grade": null,
+  "artifact_id": "96a2f40e-1069-4bef-8141-cbdce85c3052",
+  "submitted_at": 1784537801.4673488
  },
  "g6-ch12": {
   "notebook_id": "f2644565-cf22-4bb8-a1a8-49320b836749",
@@ -147,9 +151,11 @@
   "number": 12,
   "topic": "חיבור וחיסור מספרים עשרוניים",
   "output": "סרטון-פרק-12-חיבור-וחיסור-עשרוניים.mp4",
-  "status": "staged",
+  "status": "generating",
   "course": null,
-  "grade": null
+  "grade": null,
+  "artifact_id": "63f954f7-8b80-4342-a5ad-1dcceccd95b0",
+  "submitted_at": 1784537806.3240979
  },
  "g6-ch13": {
   "notebook_id": "c89126b8-9436-4882-acc6-6d79c71cba57",

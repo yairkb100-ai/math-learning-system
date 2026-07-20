@@ -77,7 +77,7 @@
   "number": 11,
   "topic": "שבר עשרוני מחזורי",
   "output": "סרטון-פרק-11-שבר-עשרוני-מחזורי.mp4",
-  "status": "staged",
+  "status": "done",
   "course": null,
   "grade": null
  },
@@ -87,7 +87,7 @@
   "number": 1,
   "topic": "מהו אחוז? הקשר לשבר ולעשרוני",
   "output": "סרטון-פרק-1-מהו-אחוז.mp4",
-  "status": "staged",
+  "status": "done",
   "course": "grade6-percents",
   "grade": null
  },
@@ -97,7 +97,7 @@
   "number": 2,
   "topic": "חישוב אחוז מכמות",
   "output": "סרטון-פרק-2-חישוב-אחוז-מכמות.mp4",
-  "status": "staged",
+  "status": "done",
   "course": "grade6-percents",
   "grade": null
  },
@@ -107,9 +107,11 @@
   "number": 3,
   "topic": "מציאת האחוז",
   "output": "סרטון-פרק-3-מציאת-האחוז.mp4",
-  "status": "staged",
+  "status": "generating",
   "course": "grade6-percents",
-  "grade": null
+  "grade": null,
+  "artifact_id": "fce20ec4-a9b4-4812-a2ce-a647c4e911b5",
+  "submitted_at": 1784537700.8048375
  },
  "pct-ch04": {
   "notebook_id": "6a3dce0d-ae2e-4c18-877c-ab5d7ffd988b",
@@ -117,9 +119,11 @@
   "number": 4,
   "topic": "מציאת הכמות היסודית לפי אחוז",
   "output": "סרטון-פרק-4-מציאת-הכמות-היסודית.mp4",
-  "status": "staged",
+  "status": "generating",
   "course": "grade6-percents",
-  "grade": null
+  "grade": null,
+  "artifact_id": "275a9c64-e0d4-4eb1-8e6b-0f7ac792e3b7",
+  "submitted_at": 1784537708.4035335
  },
  "pct-ch05": {
   "notebook_id": "2c37c828-026e-4565-8408-987e34d0bb39",
@@ -157,9 +161,11 @@
   "number": 13,
   "topic": "השלמה וחקר של סדרות שברים",
   "output": "סרטון-פרק-13-סדרות-של-שברים.mp4",
-  "status": "staged",
+  "status": "generating",
   "course": null,
-  "grade": null
+  "grade": null,
+  "artifact_id": "4bb2e9bf-6580-487d-9435-4b83cf2cf954",
+  "submitted_at": 1784538044.9667242
  },
  "pct-ch07": {
   "notebook_id": "07b67bb8-e8f1-4d22-89ac-62d95e1cdcb7",
