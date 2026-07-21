@@ -26,6 +26,8 @@ import Exams from './pages/Exams.jsx'
 import ExamPlayer from './pages/ExamPlayer.jsx'
 import ExamResults from './pages/ExamResults.jsx'
 import Achievements from './pages/Achievements.jsx'
+import LessonsBooking from './pages/LessonsBooking.jsx'
+import AdminLessons from './pages/AdminLessons.jsx'
 
 export default function App() {
   return (
@@ -193,6 +195,14 @@ function AppRoutes() {
               </PrivateRoute>
             }
           />
+          <Route
+            path="/admin/lessons"
+            element={
+              <PrivateRoute adminOnly>
+                <AdminLessons />
+              </PrivateRoute>
+            }
+          />
 
           {/* Shared (any logged-in user) */}
           <Route
@@ -216,6 +226,14 @@ function AppRoutes() {
             element={
               <PrivateRoute>
                 <SubscriptionPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/lessons"
+            element={
+              <PrivateRoute>
+                <LessonsBooking />
               </PrivateRoute>
             }
           />

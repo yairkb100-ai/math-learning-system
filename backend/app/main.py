@@ -26,6 +26,7 @@ from app.routers import (
     practice,
     analytics,
     exams,
+    lessons,
 )
 from app import achievements
 
@@ -109,3 +110,4 @@ app.include_router(practice.router)
 app.include_router(analytics.router)
 app.include_router(exams.router)
 app.include_router(achievements.router)
+app.include_router(lessons.router)

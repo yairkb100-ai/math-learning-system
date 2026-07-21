@@ -366,6 +366,53 @@ export const api = {
 
   // Achievements
   listAchievements: () => request('/achievements'),
+
+  // Private lessons — student
+  lessonSlots: () => request('/lessons/slots'),
+  requestLesson: (slotId, studentNote = null) =>
+    request('/lessons/requests', {
+      method: 'POST',
+      body: JSON.stringify({ slot_id: slotId, student_note: studentNote }),
+    }),
+  myLessonRequests: () => request('/lessons/my-requests'),
+  cancelLessonRequest: (reqId) =>
+    request(`/lessons/requests/${reqId}/cancel`, { method: 'POST' }),
+
+  // Private lessons — admin
+  adminLessonSlots: () => request('/admin/lessons/slots'),
+  adminCreateLessonSlot: ({ startsAt, durationMin = 45, note = null }) =>
+    request('/admin/lessons/slots', {
+      method: 'POST',
+      body: JSON.stringify({ starts_at: startsAt, duration_min: durationMin, note }),
+    }),
+  adminGenerateLessonSlots: ({ startDate, endDate, weekdays, times, durationMin = 45 }) =>
+    request('/admin/lessons/slots/generate', {
+      method: 'POST',
+      body: JSON.stringify({
+        start_date: startDate,
+        end_date: endDate,
+        weekdays,
+        times,
+        duration_min: durationMin,
+      }),
+    }),
+  adminToggleLessonSlotBlock: (slotId) =>
+    request(`/admin/lessons/slots/${slotId}/block`, { method: 'POST' }),
+  adminDeleteLessonSlot: (slotId) =>
+    request(`/admin/lessons/slots/${slotId}`, { method: 'DELETE' }),
+  adminLessonRequests: (status = null) =>
+    request(`/admin/lessons/requests${status ? `?status=${status}` : ''}`),
+  adminLessonPendingCount: () => request('/admin/lessons/pending-count'),
+  adminApproveLessonRequest: (reqId, adminNote = null) =>
+    request(`/admin/lessons/requests/${reqId}/approve`, {
+      method: 'POST',
+      body: JSON.stringify({ admin_note: adminNote }),
+    }),
+  adminDeclineLessonRequest: (reqId, adminNote = null) =>
+    request(`/admin/lessons/requests/${reqId}/decline`, {
+      method: 'POST',
+      body: JSON.stringify({ admin_note: adminNote }),
+    }),
 }
 
 export default api

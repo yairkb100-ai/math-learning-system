@@ -7,15 +7,23 @@ export default function Navbar() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
   const [unread, setUnread] = useState(0)
+  const [pendingLessons, setPendingLessons] = useState(0)
 
   useEffect(() => {
     if (!user) return
     let alive = true
-    const poll = () =>
+    const poll = () => {
       api
         .unreadCount()
         .then((r) => alive && setUnread(r?.count || 0))
         .catch(() => {})
+      if (user.role === 'admin') {
+        api
+          .adminLessonPendingCount()
+          .then((r) => alive && setPendingLessons(r?.count || 0))
+          .catch(() => {})
+      }
+    }
     poll()
     const id = setInterval(poll, 20000) // refresh every 20s
     return () => {
@@ -55,6 +63,10 @@ export default function Navbar() {
                 <Link to="/admin/chapter-views" className="nav-link">צפיות</Link>
                 <Link to="/admin/subscriptions" className="nav-link">מנויים</Link>
                 <Link to="/admin/devices" className="nav-link">מכשירים</Link>
+                <Link to="/admin/lessons" className="nav-link">
+                  שיעורים פרטיים
+                  {pendingLessons > 0 && <span className="nav-badge">{pendingLessons}</span>}
+                </Link>
                 <Link to="/files" className="nav-link">קבצים</Link>
                 {messagesLink}
               </>
@@ -65,6 +77,7 @@ export default function Navbar() {
                 <Link to="/exams" className="nav-link">מבחנים</Link>
                 <Link to="/analytics" className="nav-link">אנליטיקה</Link>
                 <Link to="/progress" className="nav-link">ההתקדמות שלי</Link>
+                <Link to="/lessons" className="nav-link">שיעורים פרטיים</Link>
                 <Link to="/subscription" className="nav-link">המנוי שלי</Link>
                 {messagesLink}
               </>

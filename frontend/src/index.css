@@ -1565,3 +1565,193 @@ h4.prose-h {
   margin-top: 18px;
   font-size: 1rem;
 }
+
+/* ---------- Private lessons (booking) ---------- */
+.lessons-page,
+.admin-lessons {
+  max-width: 860px;
+  margin: 0 auto;
+}
+.page-title {
+  color: var(--accent);
+  margin: 8px 0 4px;
+}
+.page-sub {
+  color: var(--muted);
+  margin: 0 0 20px;
+}
+.section-h {
+  font-size: 1.05rem;
+  color: var(--text);
+  margin: 0 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.count-pill {
+  background: var(--no);
+  color: #fff;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  padding: 1px 9px;
+  font-weight: 700;
+}
+.empty {
+  color: var(--muted);
+  padding: 8px 0;
+}
+.btn-primary {
+  background: var(--cta);
+  border-color: var(--cta-dark);
+  color: #fff;
+}
+.btn-primary:hover {
+  background: var(--cta-dark);
+  border-color: var(--cta-dark);
+}
+.text-input {
+  padding: 7px 11px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font: inherit;
+  background: var(--surface);
+  color: var(--text);
+  min-width: 220px;
+}
+
+/* rows (slots + requests share the layout) */
+.slot-list,
+.req-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.slot-row,
+.req-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 11px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+}
+.slot-when,
+.req-when {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.slot-when span,
+.req-when span {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+.slot-note {
+  color: var(--accent-2) !important;
+}
+.req-note {
+  font-style: italic;
+}
+.req-admin-note {
+  color: var(--accent) !important;
+}
+.slot-form {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.req-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* status badges */
+.lesson-badge {
+  border-radius: 999px;
+  padding: 3px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.lesson-badge.pending {
+  background: #fff4e0;
+  color: #9a6400;
+}
+.lesson-badge.approved,
+.lesson-badge.open {
+  background: var(--ok-bg);
+  color: var(--ok);
+}
+.lesson-badge.declined,
+.lesson-badge.blocked {
+  background: var(--no-bg);
+  color: var(--no);
+}
+.lesson-badge.canceled {
+  background: var(--surface-2);
+  color: var(--muted);
+}
+
+/* admin forms */
+.lesson-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.form-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+.lesson-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.lesson-form input {
+  padding: 7px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font: inherit;
+  background: var(--surface);
+  color: var(--text);
+}
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 16px 0;
+}
+.gen-title {
+  font-weight: 600;
+  color: var(--text);
+}
+.weekday-pills {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.day-pill {
+  appearance: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.12s;
+}
+.day-pill.on {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}

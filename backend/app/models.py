@@ -485,3 +485,48 @@ class UserAchievement(Base):
 
     user = relationship("User")
     achievement = relationship("Achievement")
+
+
+# ---------------------------------------------------------------------------
+# Private lessons — admin-defined time slots + student booking requests
+# ---------------------------------------------------------------------------
+
+class LessonSlot(Base):
+    """A concrete time slot the admin offers for a private lesson.
+
+    Availability is computed, not stored as a status: a slot is bookable when
+    it is in the future, not blocked, and has no pending/approved request.
+    """
+
+    __tablename__ = "lesson_slots"
+
+    id = Column(Integer, primary_key=True, index=True)
+    starts_at = Column(DateTime, nullable=False, index=True)
+    duration_min = Column(Integer, nullable=False, default=45)
+    is_blocked = Column(Boolean, nullable=False, default=False)  # admin took it off the board
+    note = Column(String, nullable=True)  # optional admin label ("שיעור אונליין" וכו')
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    requests = relationship(
+        "LessonRequest",
+        back_populates="slot",
+        cascade="all, delete-orphan",
+    )
+
+
+class LessonRequest(Base):
+    """A student's request to book a lesson slot, pending the admin's approval."""
+
+    __tablename__ = "lesson_requests"
+
+    id = Column(Integer, primary_key=True, index=True)
+    slot_id = Column(Integer, ForeignKey("lesson_slots.id"), nullable=False, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
+    status = Column(String, nullable=False, default="pending", index=True)  # pending|approved|declined|canceled
+    student_note = Column(Text, nullable=True)  # what the student wants to work on
+    admin_note = Column(Text, nullable=True)  # admin's reply when approving/declining
+    created_at = Column(DateTime, default=datetime.utcnow, index=True)
+    decided_at = Column(DateTime, nullable=True)
+
+    slot = relationship("LessonSlot", back_populates="requests")
+    user = relationship("User")

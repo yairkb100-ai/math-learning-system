@@ -694,4 +694,64 @@ class AnalyticsOverview(BaseModel):
 
 # Resolve forward references (AchievementOut used before definition above)
 PracticeAttemptResult.model_rebuild()
+
+
+# ---------------------------------------------------------------------------
+# Private lessons (time slots + booking requests)
+# ---------------------------------------------------------------------------
+
+class LessonSlotOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    starts_at: datetime
+    duration_min: int
+    is_blocked: bool
+    note: Optional[str] = None
+    # populated by the router (not columns): booking state for this slot
+    status: str = "open"  # open | pending | booked | blocked | past
+    student_name: Optional[str] = None  # who booked/requested it (admin view)
+
+
+class LessonSlotCreate(BaseModel):
+    starts_at: datetime
+    duration_min: int = 45
+    note: Optional[str] = None
+
+
+class LessonSlotGenerate(BaseModel):
+    """Bulk-generate slots: for each date in [start_date, end_date] whose weekday
+    is in ``weekdays``, create a slot at each time in ``times``."""
+
+    start_date: str  # YYYY-MM-DD
+    end_date: str  # YYYY-MM-DD
+    weekdays: List[int] = Field(default_factory=list)  # 0=Monday .. 6=Sunday (Python weekday())
+    times: List[str] = Field(default_factory=list)  # ["16:00", "17:00", ...]
+    duration_min: int = 45
+
+
+class LessonRequestCreate(BaseModel):
+    slot_id: int
+    student_note: Optional[str] = None
+
+
+class LessonRequestDecision(BaseModel):
+    admin_note: Optional[str] = None
+
+
+class LessonRequestOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    slot_id: int
+    user_id: int
+    status: str
+    student_note: Optional[str] = None
+    admin_note: Optional[str] = None
+    created_at: datetime
+    decided_at: Optional[datetime] = None
+    # enriched by the router
+    starts_at: Optional[datetime] = None
+    duration_min: Optional[int] = None
+    student_name: Optional[str] = None
 ExamSubmitResult.model_rebuild()
