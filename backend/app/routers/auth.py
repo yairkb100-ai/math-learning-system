@@ -1,6 +1,6 @@
 """Auth routes: register, login, me."""
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
@@ -15,7 +15,31 @@ from app.schemas import TokenResponse, UserCreate, UserLogin, UserOut
 router = APIRouter(prefix="/api/auth", tags=["auth"])
 
 
+# Collapse repeat "ok" logins from the same account+device into one audit row
+# per this many hours, so the login log stays a general "who logged in, on which
+# days" overview instead of a row every few minutes. 24h => at most one row per
+# device per day. UserDevice.last_seen/login_count still track the latest
+# activity precisely.
+LOGIN_EVENT_DEDUP_HOURS = 24
+
+
 def _record_login_event(db, *, user, username, device_id, label, ip, ua, status):
+    # For a normal login, skip the row if this same account+device already has a
+    # recent "ok" event. "blocked" events are always recorded (security signal).
+    if status == "ok" and user is not None:
+        cutoff = datetime.utcnow() - timedelta(hours=LOGIN_EVENT_DEDUP_HOURS)
+        recent = (
+            db.query(models.LoginEvent)
+            .filter(
+                models.LoginEvent.user_id == user.id,
+                models.LoginEvent.device_id == device_id,
+                models.LoginEvent.status == "ok",
+                models.LoginEvent.created_at >= cutoff,
+            )
+            .first()
+        )
+        if recent is not None:
+            return
     db.add(
         models.LoginEvent(
             user_id=user.id if user else None,
