@@ -346,12 +346,44 @@ _EXAMS = [
 ]
 
 
+def _load_practice_bank_files():
+    """Yield question dicts from every ``data/practice_*.json`` bank file.
+
+    Each file is a list of objects with keys: subject, topic, question, type,
+    options, correct_answer, explanation, difficulty. These are curated,
+    answer-verified banks (see ``data/build_practice_bank.py``).
+    """
+    pattern = os.path.join(_BACKEND_DIR, "data", "practice_*.json")
+    for path in sorted(glob.glob(pattern)):
+        try:
+            with open(path, encoding="utf-8") as fh:
+                rows = json.load(fh)
+        except (OSError, ValueError) as exc:
+            print(f"  ! Could not read practice bank {path}: {exc}")
+            continue
+        for r in rows:
+            yield (
+                r.get("subject", "math"), r.get("topic"), r["question"],
+                r.get("type", "multiple-choice"), r.get("options"),
+                r["correct_answer"], r.get("explanation"), r.get("difficulty", "medium"),
+            )
+
+
 def ensure_practice_questions(db):
-    """Seed the shared practice question bank if empty."""
-    if db.query(PracticeQuestion).first():
-        print("  * Practice questions already exist — skipping.")
-        return
-    for subject, topic, q, qtype, options, answer, expl, diff in _PRACTICE_QUESTIONS:
+    """Upsert the shared practice question bank.
+
+    Idempotent by exact question text: a question is inserted only if no row
+    with that text already exists. Existing rows (and their student attempt
+    history) are never modified or deleted, so this is safe to run on every
+    boot and lets the bank grow over time via new ``data/practice_*.json`` files.
+    """
+    existing = {q for (q,) in db.query(PracticeQuestion.question).all()}
+    rows = list(_PRACTICE_QUESTIONS) + list(_load_practice_bank_files())
+    added = 0
+    for subject, topic, q, qtype, options, answer, expl, diff in rows:
+        if q in existing:
+            continue
+        existing.add(q)  # guard against duplicates within this run
         db.add(
             PracticeQuestion(
                 subject=subject, topic=topic, question=q, type=qtype,
@@ -359,8 +391,12 @@ def ensure_practice_questions(db):
                 difficulty=diff, estimated_time=60,
             )
         )
+        added += 1
     db.commit()
-    print(f"  + Created {len(_PRACTICE_QUESTIONS)} practice questions")
+    if added:
+        print(f"  + Added {added} practice questions (bank now growing idempotently)")
+    else:
+        print("  * Practice questions already up to date — nothing to add.")
 
 
 def ensure_exams(db):

@@ -1,0 +1,1482 @@
+[
+  {
+    "subject": "math",
+    "topic": "שברים",
+    "question": "כמה זה 1/2 + 1/4? (תשובה כשבר מצומצם)",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "3/4",
+    "explanation": "מביאים למכנה משותף ומבצעים את הפעולה: 1/2 + 1/4 = 3/4.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "שברים",
+    "question": "כמה זה 2/3 + 1/6? (תשובה כשבר מצומצם)",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "5/6",
+    "explanation": "מביאים למכנה משותף ומבצעים את הפעולה: 2/3 + 1/6 = 5/6.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "שברים",
+    "question": "כמה זה 3/4 + 1/8? (תשובה כשבר מצומצם)",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "7/8",
+    "explanation": "מביאים למכנה משותף ומבצעים את הפעולה: 3/4 + 1/8 = 7/8.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "שברים",
+    "question": "כמה זה 5/6 - 1/3? (תשובה כשבר מצומצם)",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "1/2",
+    "explanation": "מביאים למכנה משותף ומבצעים את הפעולה: 5/6 - 1/3 = 1/2.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "שברים",
+    "question": "כמה זה 7/8 - 1/2? (תשובה כשבר מצומצם)",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "3/8",
+    "explanation": "מביאים למכנה משותף ומבצעים את הפעולה: 7/8 - 1/2 = 3/8.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "שברים",
+    "question": "כמה זה 2/5 + 3/10? (תשובה כשבר מצומצם)",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "7/10",
+    "explanation": "מביאים למכנה משותף ומבצעים את הפעולה: 2/5 + 3/10 = 7/10.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "שברים",
+    "question": "כמה זה 2/3 × 3/4? (שבר מצומצם)",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "1/2",
+    "explanation": "כפל שברים: מונה×מונה ומכנה×מכנה = 6/12 = 1/2.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "שברים",
+    "question": "כמה זה 3/4 ÷ 1/2? (שבר מצומצם)",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "3/2",
+    "explanation": "חילוק בשבר = כפל בהופכי: 3/4 × 2/1 = 6/4 = 3/2.",
+    "difficulty": "hard"
+  },
+  {
+    "subject": "math",
+    "topic": "שברים",
+    "question": "איזה שבר גדול יותר: 3/5 או 2/3?",
+    "type": "multiple-choice",
+    "options": [
+      "2/3",
+      "3/5",
+      "הם שווים",
+      "אי אפשר לדעת"
+    ],
+    "correct_answer": "2/3",
+    "explanation": "מכנה משותף 15: 3/5 = 9/15 ו-2/3 = 10/15, לכן 2/3 גדול יותר.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "שברים",
+    "question": "צמצמו את השבר 12/18 (שבר מצומצם)",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "2/3",
+    "explanation": "מחלקים מונה ומכנה ב-6: 12/18 = 2/3.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "שברים",
+    "question": "כמה זה 1 ו-1/2 ועוד 2 ו-1/4? (כמספר מעורב, למשל 3 ו-3/4 → כתבו 15/4)",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "15/4",
+    "explanation": "1½ = 3/2 ו-2¼ = 9/4. מכנה משותף 4: 6/4 + 9/4 = 15/4 (שהם 3¾).",
+    "difficulty": "hard"
+  },
+  {
+    "subject": "math",
+    "topic": "מספרים עשרוניים",
+    "question": "כמה זה 0.6 + 0.45?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "1.05",
+    "explanation": "מיישרים לפי הנקודה העשרונית: 0.60 + 0.45 = 1.05.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "מספרים עשרוניים",
+    "question": "כמה זה 3.2 − 1.75?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "1.45",
+    "explanation": "3.20 − 1.75 = 1.45.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "מספרים עשרוניים",
+    "question": "כמה זה 0.5 × 0.4?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "0.2",
+    "explanation": "5×4=20, ושתי ספרות אחרי הנקודה → 0.20 = 0.2.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "מספרים עשרוניים",
+    "question": "כמה זה 2.5 × 100?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "250",
+    "explanation": "כפל ב-100 מזיז את הנקודה שני מקומות ימינה: 250.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "מספרים עשרוניים",
+    "question": "כמה זה 45 ÷ 100?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "0.45",
+    "explanation": "חילוק ב-100 מזיז את הנקודה שני מקומות שמאלה: 0.45.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "מספרים עשרוניים",
+    "question": "כמה זה 1.44 ÷ 1.2?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "1.2",
+    "explanation": "מכפילים מונה ומכנה ב-10: 14.4 ÷ 12 = 1.2.",
+    "difficulty": "hard"
+  },
+  {
+    "subject": "math",
+    "topic": "מספרים עשרוניים",
+    "question": "עגלו את 3.7 למספר השלם הקרוב",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "4",
+    "explanation": "הספרה אחרי הנקודה היא 7 (≥5), לכן מעגלים כלפי מעלה ל-4.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "מספרים עשרוניים",
+    "question": "מהי הספרה במקום העשיריות במספר 12.845?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "8",
+    "explanation": "המקום הראשון מימין לנקודה הוא העשיריות: 8.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "מספרים עשרוניים",
+    "question": "כמה זה 0.25 כשבר מצומצם? (למשל 1/2)",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "1/4",
+    "explanation": "0.25 = 25/100 = 1/4.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "אחוזים",
+    "question": "כמה זה 25% מתוך 80?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "20",
+    "explanation": "25% = 25/100. 25/100 × 80 = 20.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "אחוזים",
+    "question": "כמה זה 10% מתוך 250?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "25",
+    "explanation": "10% = 10/100. 10/100 × 250 = 25.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "אחוזים",
+    "question": "כמה זה 50% מתוך 46?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "23",
+    "explanation": "50% = 50/100. 50/100 × 46 = 23.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "אחוזים",
+    "question": "כמה זה 20% מתוך 150?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "30",
+    "explanation": "20% = 20/100. 20/100 × 150 = 30.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "אחוזים",
+    "question": "כמה זה 15% מתוך 300?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "45",
+    "explanation": "15% = 15/100. 15/100 × 300 = 45.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "אחוזים",
+    "question": "כמה זה 75% מתוך 64?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "48",
+    "explanation": "75% = 75/100. 75/100 × 64 = 48.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "אחוזים",
+    "question": "כמה זה 12% מתוך 50?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "6",
+    "explanation": "12% = 12/100. 12/100 × 50 = 6.",
+    "difficulty": "hard"
+  },
+  {
+    "subject": "math",
+    "topic": "אחוזים",
+    "question": "כמה זה 35% מתוך 220?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "77",
+    "explanation": "35% = 35/100. 35/100 × 220 = 77.",
+    "difficulty": "hard"
+  },
+  {
+    "subject": "math",
+    "topic": "אחוזים",
+    "question": "איזה אחוז מהווה 30 מתוך 120?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "25",
+    "explanation": "30/120 = 0.25 = 25%.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "אחוזים",
+    "question": "איזה אחוז מהווה 18 מתוך 60?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "30",
+    "explanation": "18/60 = 0.3 = 30%.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "אחוזים",
+    "question": "20% ממספר הם 40. מהו המספר?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "200",
+    "explanation": "אם 20% = 40, אז 100% = 40 ÷ 0.2 = 200.",
+    "difficulty": "hard"
+  },
+  {
+    "subject": "math",
+    "topic": "אחוזים",
+    "question": "מחיר עלה מ-200 ל-250 ש\"ח. בכמה אחוזים עלה?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "25",
+    "explanation": "העלייה היא 50, ו-50/200 = 25%.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "אחוזים",
+    "question": "מוצר ב-120 ש\"ח בהנחה של 15%. כמה משלמים?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "102",
+    "explanation": "15% מ-120 הם 18, ו-120 − 18 = 102.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "אחוזים",
+    "question": "מוצר עולה 80 ש\"ח לפני מע\"מ (17%). מה המחיר כולל מע\"מ?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "93.6",
+    "explanation": "מוסיפים 17%: 80 × 1.17 = 93.6.",
+    "difficulty": "hard"
+  },
+  {
+    "subject": "math",
+    "topic": "אחוזים",
+    "question": "חולצה עלתה 90 ש\"ח אחרי הנחה של 10%. מה היה המחיר המקורי?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "100",
+    "explanation": "90 הם 90% מהמקורי, לכן המקורי = 90 ÷ 0.9 = 100.",
+    "difficulty": "hard"
+  },
+  {
+    "subject": "math",
+    "topic": "יחס וקצב",
+    "question": "רכב נוסע 180 ק\"מ ב-3 שעות. מה מהירותו הממוצעת (קמ\"ש)?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "60",
+    "explanation": "מהירות = דרך ÷ זמן = 180 ÷ 3 = 60 קמ\"ש.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "יחס וקצב",
+    "question": "רכב נוסע במהירות 80 קמ\"ש. כמה ק\"מ יעבור ב-2.5 שעות?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "200",
+    "explanation": "דרך = מהירות × זמן = 80 × 2.5 = 200 ק\"מ.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "יחס וקצב",
+    "question": "כמה שעות ייקח לעבור 300 ק\"מ במהירות 60 קמ\"ש?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "5",
+    "explanation": "זמן = דרך ÷ מהירות = 300 ÷ 60 = 5 שעות.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "יחס וקצב",
+    "question": "היחס בין בנים לבנות בכיתה הוא 3:2 ויש 30 תלמידים. כמה בנים?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "18",
+    "explanation": "3+2=5 חלקים ל-30 תלמידים → כל חלק 6. בנים = 3×6 = 18.",
+    "difficulty": "hard"
+  },
+  {
+    "subject": "math",
+    "topic": "יחס וקצב",
+    "question": "מפה בקנה מידה 1:100000. שני יישובים במרחק 4 ס\"מ במפה. מה המרחק האמיתי (ק\"מ)?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "4",
+    "explanation": "4 ס\"מ × 100000 = 400000 ס\"מ = 4 ק\"מ.",
+    "difficulty": "hard"
+  },
+  {
+    "subject": "math",
+    "topic": "יחס וקצב",
+    "question": "5 פועלים בונים קיר ב-10 ימים. כמה ימים ל-10 פועלים (באותו קצב)?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "5",
+    "explanation": "יחס הפוך: פי 2 פועלים = חצי מהזמן = 5 ימים.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "יחס וקצב",
+    "question": "3 עטים עולים 12 ש\"ח. כמה יעלו 7 עטים?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "28",
+    "explanation": "עט אחד עולה 12 ÷ 3 = 4 ש\"ח, ו-7 עטים = 28 ש\"ח.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "יחס וקצב",
+    "question": "פצו את היחס 18:24 לצורתו הפשוטה ביותר (כתבו למשל 3:4)",
+    "type": "multiple-choice",
+    "options": [
+      "3:4",
+      "2:3",
+      "9:12",
+      "6:8"
+    ],
+    "correct_answer": "3:4",
+    "explanation": "מחלקים ב-6: 18:24 = 3:4.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "ביטויים אלגבריים",
+    "question": "הציבו x=3 בביטוי 2x + 5. מה ערכו?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "11",
+    "explanation": "2×3 + 5 = 6 + 5 = 11.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "ביטויים אלגבריים",
+    "question": "הציבו x=4 בביטוי x² − 2x. מה ערכו?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "8",
+    "explanation": "4² − 2×4 = 16 − 8 = 8.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "ביטויים אלגבריים",
+    "question": "כנסו איברים דומים: 3x + 5x − 2x. מהו המקדם של x?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "6",
+    "explanation": "3 + 5 − 2 = 6, כלומר 6x.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "ביטויים אלגבריים",
+    "question": "פתחו סוגריים: 3(x + 4). מהו האיבר החופשי (המספר)?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "12",
+    "explanation": "3(x+4) = 3x + 12. האיבר החופשי הוא 12.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "ביטויים אלגבריים",
+    "question": "פתחו וכנסו: 2(x+3) + 4x. מהו המקדם של x?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "6",
+    "explanation": "2x + 6 + 4x = 6x + 6. המקדם של x הוא 6.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "ביטויים אלגבריים",
+    "question": "הוציאו גורם משותף: 6x + 9 = 3(2x + a). מהו a?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "3",
+    "explanation": "6x + 9 = 3(2x + 3), לכן a = 3.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "ביטויים אלגבריים",
+    "question": "הציבו a=2, b=5 בביטוי 3a + 2b. מה ערכו?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "16",
+    "explanation": "3×2 + 2×5 = 6 + 10 = 16.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "ביטויים אלגבריים",
+    "question": "כמה שווה הביטוי (x+2)(x+3) עבור x=0?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "6",
+    "explanation": "עבור x=0: (2)(3) = 6.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "משוואות",
+    "question": "פתרו: x + 5 = 12",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "7",
+    "explanation": "מבודדים את x: x = (12 − (5)) ÷ 1 = 7.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "משוואות",
+    "question": "פתרו: 2x − 3 = 11",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "7",
+    "explanation": "מבודדים את x: x = (11 − (-3)) ÷ 2 = 7.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "משוואות",
+    "question": "פתרו: 3x = 21",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "7",
+    "explanation": "מבודדים את x: x = (21 − (0)) ÷ 3 = 7.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "משוואות",
+    "question": "פתרו: 4x + 2 = 18",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "4",
+    "explanation": "מבודדים את x: x = (18 − (2)) ÷ 4 = 4.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "משוואות",
+    "question": "פתרו: 5x − 4 = 16",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "4",
+    "explanation": "מבודדים את x: x = (16 − (-4)) ÷ 5 = 4.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "משוואות",
+    "question": "פתרו: 2x + 7 = 1",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "-3",
+    "explanation": "מבודדים את x: x = (1 − (7)) ÷ 2 = -3.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "משוואות",
+    "question": "פתרו: 7x = 21",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "3",
+    "explanation": "מבודדים את x: x = (21 − (0)) ÷ 7 = 3.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "משוואות",
+    "question": "פתרו: 2(x + 3) = 14",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "4",
+    "explanation": "פותחים סוגריים: 2x + 6 = 14, לכן 2x = 8 ו-x = 4.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "משוואות",
+    "question": "פתרו: 3x + 4 = x + 10",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "3",
+    "explanation": "מעבירים אגפים: 3x − x = 10 − 4, כלומר 2x = 6 ו-x = 3.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "משוואות",
+    "question": "פתרו: x/2 + 3 = 7",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "8",
+    "explanation": "x/2 = 4, לכן x = 8.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "משוואות",
+    "question": "פתרו: (x−1)/3 = 4",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "13",
+    "explanation": "x − 1 = 12, לכן x = 13.",
+    "difficulty": "hard"
+  },
+  {
+    "subject": "math",
+    "topic": "משוואות",
+    "question": "חשבתי על מספר, הכפלתי ב-4 והוספתי 3 וקיבלתי 23. מהו המספר?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "5",
+    "explanation": "4x + 3 = 23 → 4x = 20 → x = 5.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "משוואות",
+    "question": "היקף מלבן 30 ס\"מ, אורכו גדול ברוחבו ב-5. מהו הרוחב?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "5",
+    "explanation": "2(w + w+5) = 30 → 4w + 10 = 30 → w = 5.",
+    "difficulty": "hard"
+  },
+  {
+    "subject": "math",
+    "topic": "משוואות",
+    "question": "אם 5x = 21, כמה זה x + 4? (עשרוני)",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "8.2",
+    "explanation": "x = 4.2, לכן x + 4 = 8.2.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "אי-שוויונות",
+    "question": "פתרו: x + 3 > 7. מהו הערך השלם הקטן ביותר של x המקיים?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "5",
+    "explanation": "x > 4, לכן השלם הקטן ביותר הוא 5.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "אי-שוויונות",
+    "question": "פתרו: 2x < 10. מהו הערך השלם הגדול ביותר של x?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "4",
+    "explanation": "x < 5, לכן השלם הגדול ביותר הוא 4.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "אי-שוויונות",
+    "question": "פתרו: 3x − 1 ≥ 8. מהו הערך השלם הקטן ביותר של x?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "3",
+    "explanation": "3x ≥ 9, לכן x ≥ 3. הקטן ביותר הוא 3.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "אי-שוויונות",
+    "question": "כשמחלקים אי-שוויון במספר שלילי, מה קורה לסימן?",
+    "type": "multiple-choice",
+    "options": [
+      "מתהפך",
+      "נשאר אותו דבר",
+      "הופך לשוויון",
+      "נעלם"
+    ],
+    "correct_answer": "מתהפך",
+    "explanation": "חלוקה או כפל במספר שלילי מהפכים את כיוון האי-שוויון.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "אי-שוויונות",
+    "question": "פתרו: −2x > 6. מהו פתרון האי-שוויון?",
+    "type": "multiple-choice",
+    "options": [
+      "x<-3",
+      "x>-3",
+      "x>3",
+      "x<3"
+    ],
+    "correct_answer": "x<-3",
+    "explanation": "מחלקים ב-2- ומהפכים את הסימן: x < −3.",
+    "difficulty": "hard"
+  },
+  {
+    "subject": "math",
+    "topic": "פונקציה קווית",
+    "question": "בפונקציה y = 3x + 2, מהו השיפוע?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "3",
+    "explanation": "בצורה y = mx + n השיפוע הוא m, כאן m = 3.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "פונקציה קווית",
+    "question": "בפונקציה y = 3x + 2, מהי נקודת החיתוך עם ציר y?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "2",
+    "explanation": "החיתוך עם ציר y הוא n, כלומר הערך של y כאשר x=0: 2.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "פונקציה קווית",
+    "question": "מהו ערך y בפונקציה y = 2x − 1 עבור x = 4?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "7",
+    "explanation": "y = 2×4 − 1 = 7.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "פונקציה קווית",
+    "question": "עבור y = −x + 5, לאיזה x מתקיים y = 0? (חיתוך עם ציר x)",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "5",
+    "explanation": "0 = −x + 5 → x = 5.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "פונקציה קווית",
+    "question": "מהו שיפוע הישר העובר דרך הנקודות (0,1) ו-(2,7)?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "3",
+    "explanation": "שיפוע = הפרש ה-y חלקי הפרש ה-x = (7−1)/(2−0) = 3.",
+    "difficulty": "hard"
+  },
+  {
+    "subject": "math",
+    "topic": "פונקציה קווית",
+    "question": "האם הישר y = 4x − 3 עולה או יורד?",
+    "type": "multiple-choice",
+    "options": [
+      "עולה",
+      "יורד",
+      "קבוע",
+      "אנכי"
+    ],
+    "correct_answer": "עולה",
+    "explanation": "השיפוע 4 חיובי, לכן הפונקציה עולה.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "פונקציה קווית",
+    "question": "פתרו גרפית: איפה נפגשים y = x + 1 ו-y = 3x − 3? (מהו x בנקודת המפגש)",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "2",
+    "explanation": "x + 1 = 3x − 3 → 4 = 2x → x = 2.",
+    "difficulty": "hard"
+  },
+  {
+    "subject": "math",
+    "topic": "פונקציה קווית",
+    "question": "שתי פונקציות מקבילות אם ורק אם שווה להן ה...",
+    "type": "multiple-choice",
+    "options": [
+      "שיפוע",
+      "חיתוך עם y",
+      "חיתוך עם x",
+      "תחום"
+    ],
+    "correct_answer": "שיפוע",
+    "explanation": "ישרים מקבילים כאשר יש להם אותו שיפוע.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "סדרות",
+    "question": "המשך הסדרה: 2, 5, 8, 11, ?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "14",
+    "explanation": "סדרה חשבונית עם הפרש 3: 11 + 3 = 14.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "סדרות",
+    "question": "המשך הסדרה: 3, 6, 12, 24, ?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "48",
+    "explanation": "כל איבר כפול קודמו: 24 × 2 = 48.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "סדרות",
+    "question": "המשך הסדרה: 1, 1, 2, 3, 5, 8, ?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "13",
+    "explanation": "סדרת פיבונאצ'י — כל איבר הוא סכום שני קודמיו: 5 + 8 = 13.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "סדרות",
+    "question": "המשך הסדרה: 100, 90, 81, 73, ?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "66",
+    "explanation": "ההפרשים יורדים: 10, 9, 8, 7 → 73 − 7 = 66.",
+    "difficulty": "hard"
+  },
+  {
+    "subject": "math",
+    "topic": "סדרות",
+    "question": "בסדרה חשבונית האיבר הראשון 4 וההפרש 5. מהו האיבר החמישי?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "24",
+    "explanation": "a5 = a1 + 4d = 4 + 4×5 = 24.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "סדרות",
+    "question": "המשך הסדרה: 2, 6, 12, 20, 30, ?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "42",
+    "explanation": "ההפרשים גדלים: 4,6,8,10,12 → 30 + 12 = 42.",
+    "difficulty": "hard"
+  },
+  {
+    "subject": "math",
+    "topic": "סדרות",
+    "question": "המשך הסדרה הריבועית: 1, 4, 9, 16, ?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "25",
+    "explanation": "ריבועים שלמים: 1², 2², 3², 4², 5² = 25.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "שטח והיקף",
+    "question": "מהו שטח מלבן שאורכו 8 ורוחבו 5?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "40",
+    "explanation": "שטח מלבן = אורך × רוחב = 8 × 5 = 40.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "שטח והיקף",
+    "question": "מהו היקף מלבן שאורכו 8 ורוחבו 5?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "26",
+    "explanation": "היקף = 2×(אורך+רוחב) = 2×13 = 26.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "שטח והיקף",
+    "question": "מהו שטח ריבוע שצלעו 7?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "49",
+    "explanation": "שטח ריבוע = צלע² = 7² = 49.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "שטח והיקף",
+    "question": "מהו שטח משולש שבסיסו 10 וגובהו 6?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "30",
+    "explanation": "שטח משולש = בסיס × גובה ÷ 2 = 10×6÷2 = 30.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "שטח והיקף",
+    "question": "מהו שטח עיגול שרדיוסו 5? (השתמשו ב-π≈3.14)",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "78.5",
+    "explanation": "שטח עיגול = πr² = 3.14 × 25 = 78.5.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "שטח והיקף",
+    "question": "מהו היקף עיגול שרדיוסו 10? (π≈3.14)",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "62.8",
+    "explanation": "היקף = 2πr = 2 × 3.14 × 10 = 62.8.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "שטח והיקף",
+    "question": "מהו שטח מקבילית שבסיסה 12 וגובהה 4?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "48",
+    "explanation": "שטח מקבילית = בסיס × גובה = 12 × 4 = 48.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "שטח והיקף",
+    "question": "מהו שטח טרפז עם בסיסים 6 ו-10 וגובה 4?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "32",
+    "explanation": "שטח טרפז = (סכום הבסיסים) × גובה ÷ 2 = 16×4÷2 = 32.",
+    "difficulty": "hard"
+  },
+  {
+    "subject": "math",
+    "topic": "שטח והיקף",
+    "question": "נפח תיבה במידות 2×3×4?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "24",
+    "explanation": "נפח תיבה = אורך × רוחב × גובה = 2×3×4 = 24.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "שטח והיקף",
+    "question": "נפח קובייה שצלעה 3?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "27",
+    "explanation": "נפח קובייה = צלע³ = 3³ = 27.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "זוויות",
+    "question": "כמה מעלות בסכום זוויות משולש?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "180",
+    "explanation": "סכום הזוויות בכל משולש הוא 180 מעלות.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "זוויות",
+    "question": "במשולש שתי זוויות 50° ו-60°. מהי הזווית השלישית?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "70",
+    "explanation": "180 − 50 − 60 = 70 מעלות.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "זוויות",
+    "question": "שתי זוויות משלימות ל-90°. אחת מהן 35°. מהי השנייה?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "55",
+    "explanation": "זוויות משלימות מסתכמות ל-90°: 90 − 35 = 55.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "זוויות",
+    "question": "שתי זוויות צמודות (סמוכות על ישר) מסתכמות ל-180°. אחת 110°. מהי השנייה?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "70",
+    "explanation": "180 − 110 = 70 מעלות.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "זוויות",
+    "question": "כמה מעלות בכל זווית במשולש שווה-צלעות?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "60",
+    "explanation": "במשולש שווה-צלעות כל הזוויות שוות: 180 ÷ 3 = 60.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "זוויות",
+    "question": "מהו סכום הזוויות הפנימיות במרובע?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "360",
+    "explanation": "סכום הזוויות במרובע הוא 360 מעלות.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "פיתגורס",
+    "question": "במשולש ישר-זווית הניצבים 3 ו-4. מהו אורך היתר?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "5",
+    "explanation": "לפי פיתגורס: √(3²+4²) = √25 = 5.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "פיתגורס",
+    "question": "במשולש ישר-זווית הניצבים 6 ו-8. מהו אורך היתר?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "10",
+    "explanation": "לפי פיתגורס: √(6²+8²) = √100 = 10.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "פיתגורס",
+    "question": "במשולש ישר-זווית הניצבים 5 ו-12. מהו אורך היתר?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "13",
+    "explanation": "לפי פיתגורס: √(5²+12²) = √169 = 13.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "פיתגורס",
+    "question": "במשולש ישר-זווית הניצבים 8 ו-15. מהו אורך היתר?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "17",
+    "explanation": "לפי פיתגורס: √(8²+15²) = √289 = 17.",
+    "difficulty": "hard"
+  },
+  {
+    "subject": "math",
+    "topic": "פיתגורס",
+    "question": "במשולש ישר-זווית הניצבים 9 ו-12. מהו אורך היתר?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "15",
+    "explanation": "לפי פיתגורס: √(9²+12²) = √225 = 15.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "פיתגורס",
+    "question": "במשולש ישר-זווית היתר 13 וניצב אחד 5. מהו הניצב השני?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "12",
+    "explanation": "ניצב = √(13² − 5²) = √(169−25) = √144 = 12.",
+    "difficulty": "hard"
+  },
+  {
+    "subject": "math",
+    "topic": "פיתגורס",
+    "question": "האם משולש עם צלעות 5, 12, 13 הוא ישר-זווית?",
+    "type": "multiple-choice",
+    "options": [
+      "כן",
+      "לא",
+      "רק אם שווה-שוקיים",
+      "אי אפשר לדעת"
+    ],
+    "correct_answer": "כן",
+    "explanation": "5² + 12² = 25 + 144 = 169 = 13², לכן לפי פיתגורס ההפוך הוא ישר-זווית.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "חזקות ושורשים",
+    "question": "כמה זה 2⁵?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "32",
+    "explanation": "2×2×2×2×2 = 32.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "חזקות ושורשים",
+    "question": "כמה זה 3⁴?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "81",
+    "explanation": "3×3×3×3 = 81.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "חזקות ושורשים",
+    "question": "כמה זה 10⁰?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "1",
+    "explanation": "כל מספר (חוץ מ-0) בחזקת 0 שווה 1.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "חזקות ושורשים",
+    "question": "כמה זה 2⁻²? (עשרוני)",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "0.25",
+    "explanation": "חזקה שלילית = 1 חלקי החזקה החיובית: 1/2² = 1/4 = 0.25.",
+    "difficulty": "hard"
+  },
+  {
+    "subject": "math",
+    "topic": "חזקות ושורשים",
+    "question": "כמה זה √144?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "12",
+    "explanation": "12 × 12 = 144, לכן √144 = 12.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "חזקות ושורשים",
+    "question": "כמה זה √81 + √49?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "16",
+    "explanation": "9 + 7 = 16.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "חזקות ושורשים",
+    "question": "כמה זה 2³ × 2²? (חוק חזקות — חיבור מעריכים)",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "32",
+    "explanation": "במכפלת חזקות עם אותו בסיס מחברים מעריכים: 2^(3+2) = 2⁵ = 32.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "חזקות ושורשים",
+    "question": "כמה זה (3²)²? (חוק חזקות — כפל מעריכים)",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "81",
+    "explanation": "חזקה של חזקה מכפילה מעריכים: 3^(2×2) = 3⁴ = 81.",
+    "difficulty": "hard"
+  },
+  {
+    "subject": "math",
+    "topic": "משוואות ריבועיות",
+    "question": "פתרו x² = 49 (הפתרון החיובי)",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "7",
+    "explanation": "השורש הריבועי של 49 הוא 7 (וגם 7-).",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "משוואות ריבועיות",
+    "question": "פתרו (x−3)(x+5) = 0 (הפתרון החיובי)",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "3",
+    "explanation": "מכפלה מתאפסת כשאחד הגורמים מתאפס: x=3 או x=5-.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "משוואות ריבועיות",
+    "question": "בכמה פתרונות ממשיים למשוואה x² − 6x + 9 = 0?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "1",
+    "explanation": "הדיסקרימיננט 0 = 36 − 36, לכן פתרון ממשי כפול אחד (x=3).",
+    "difficulty": "hard"
+  },
+  {
+    "subject": "math",
+    "topic": "משוואות ריבועיות",
+    "question": "מהו הדיסקרימיננט של x² + 2x − 3 = 0?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "16",
+    "explanation": "Δ = b² − 4ac = 4 − 4(1)(−3) = 4 + 12 = 16.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "משוואות ריבועיות",
+    "question": "לפי וייטה, מהו סכום השורשים של x² − 5x + 6 = 0?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "5",
+    "explanation": "סכום השורשים = b/a- = 5. (השורשים 2 ו-3.)",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "משוואות ריבועיות",
+    "question": "לפי וייטה, מהי מכפלת השורשים של x² − 5x + 6 = 0?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "6",
+    "explanation": "מכפלת השורשים = c/a = 6. (השורשים 2 ו-3.)",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "משוואות ריבועיות",
+    "question": "פתרו x² − 7x + 12 = 0 (הפתרון הגדול)",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "4",
+    "explanation": "מפרקים: (x−3)(x−4)=0, השורשים 3 ו-4. הגדול הוא 4.",
+    "difficulty": "hard"
+  },
+  {
+    "subject": "math",
+    "topic": "משוואות ריבועיות",
+    "question": "כמה שורשים ממשיים למשוואה x² + 4 = 0?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "0",
+    "explanation": "x² = 4-, ואין מספר ממשי שריבועו שלילי — אין פתרונות ממשיים.",
+    "difficulty": "hard"
+  },
+  {
+    "subject": "math",
+    "topic": "טריגונומטריה",
+    "question": "במשולש ישר-זווית, sin של זווית = הניצב שממול חלקי ה...?",
+    "type": "multiple-choice",
+    "options": [
+      "יתר",
+      "ניצב שליד",
+      "בסיס",
+      "גובה"
+    ],
+    "correct_answer": "יתר",
+    "explanation": "סינוס = הניצב שממול הזווית חלקי היתר.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "טריגונומטריה",
+    "question": "כמה זה sin(30°)? (עשרוני)",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "0.5",
+    "explanation": "sin(30°) = 1/2 = 0.5.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "טריגונומטריה",
+    "question": "כמה זה cos(60°)? (עשרוני)",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "0.5",
+    "explanation": "cos(60°) = 1/2 = 0.5.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "טריגונומטריה",
+    "question": "כמה זה tan(45°)?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "1",
+    "explanation": "tan(45°) = sin/cos = 1.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "טריגונומטריה",
+    "question": "במשולש ישר-זווית היתר 10 והזווית 30°. מהו הניצב שממול (עשרוני)?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "5",
+    "explanation": "הניצב שממול = יתר × sin(30°) = 10 × 0.5 = 5.",
+    "difficulty": "hard"
+  },
+  {
+    "subject": "math",
+    "topic": "טריגונומטריה",
+    "question": "שטח משולש עם שתי צלעות 6 ו-8 והזווית ביניהן 30°. מהו השטח?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "12",
+    "explanation": "שטח = ½·a·b·sin(C) = ½·6·8·sin30° = ½·48·0.5 = 12.",
+    "difficulty": "hard"
+  },
+  {
+    "subject": "math",
+    "topic": "טריגונומטריה",
+    "question": "לפי משפט הסינוסים, a/sin A שווה ל...?",
+    "type": "multiple-choice",
+    "options": [
+      "b/sin B",
+      "b·sin B",
+      "sin B / b",
+      "a·sin A"
+    ],
+    "correct_answer": "b/sin B",
+    "explanation": "משפט הסינוסים: a/sinA = b/sinB = c/sinC.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "נגזרות",
+    "question": "מהי הנגזרת של x²? (כתבו בצורה כמו 3x)",
+    "type": "multiple-choice",
+    "options": [
+      "2x",
+      "x",
+      "2",
+      "x²"
+    ],
+    "correct_answer": "2x",
+    "explanation": "לפי כלל החזקה (xⁿ)' = n·xⁿ⁻¹, ולכן (x²)' = 2x.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "נגזרות",
+    "question": "מהי הנגזרת של 5x?",
+    "type": "multiple-choice",
+    "options": [
+      "5",
+      "5x",
+      "0",
+      "x"
+    ],
+    "correct_answer": "5",
+    "explanation": "הנגזרת של פונקציה קווית ax היא a, כאן 5.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "נגזרות",
+    "question": "מהי הנגזרת של הקבוע 7?",
+    "type": "multiple-choice",
+    "options": [
+      "0",
+      "7",
+      "1",
+      "x"
+    ],
+    "correct_answer": "0",
+    "explanation": "הנגזרת של כל קבוע היא 0.",
+    "difficulty": "easy"
+  },
+  {
+    "subject": "math",
+    "topic": "נגזרות",
+    "question": "מהי נגזרת הפונקציה f(x)=x³? (צורה כמו 2x²)",
+    "type": "multiple-choice",
+    "options": [
+      "3x²",
+      "x²",
+      "3x",
+      "2x³"
+    ],
+    "correct_answer": "3x²",
+    "explanation": "(x³)' = 3x².",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "נגזרות",
+    "question": "מהו ערך הנגזרת של f(x)=x² בנקודה x=4?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "8",
+    "explanation": "f'(x)=2x, ובנקודה x=4: f'(4)=8.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "נגזרות",
+    "question": "מהי נגזרת f(x)=x² + 3x? (צורה כמו 2x+1)",
+    "type": "multiple-choice",
+    "options": [
+      "2x+3",
+      "2x",
+      "x+3",
+      "2x+1"
+    ],
+    "correct_answer": "2x+3",
+    "explanation": "גוזרים איבר-איבר: 2x + 3.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "נגזרות",
+    "question": "בנקודת קיצון של פונקציה גזירה, מה ערך הנגזרת?",
+    "type": "multiple-choice",
+    "options": [
+      "0",
+      "1",
+      "אינסוף",
+      "שלילי"
+    ],
+    "correct_answer": "0",
+    "explanation": "בנקודת מקסימום או מינימום פנימית הנגזרת מתאפסת.",
+    "difficulty": "medium"
+  },
+  {
+    "subject": "math",
+    "topic": "נגזרות",
+    "question": "מהי נקודת הקיצון (ערך x) של f(x)=x² − 6x + 5?",
+    "type": "numeric",
+    "options": null,
+    "correct_answer": "3",
+    "explanation": "f'(x)=2x−6=0 → x=3 (מינימום).",
+    "difficulty": "hard"
+  },
+  {
+    "subject": "math",
+    "topic": "נגזרות",
+    "question": "פונקציה עם f'(x)>0 בקטע היא בקטע זה...",
+    "type": "multiple-choice",
+    "options": [
+      "עולה",
+      "יורדת",
+      "קבועה",
+      "לא רציפה"
+    ],
+    "correct_answer": "עולה",
+    "explanation": "נגזרת חיובית פירושה שהפונקציה עולה.",
+    "difficulty": "medium"
+  }
+]

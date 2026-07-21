@@ -15,6 +15,15 @@ const SUBJECT_HE = {
 const subjectLabel = (s) => SUBJECT_HE[s] || s
 const difficultyLabel = (d) => DIFFICULTY_HE[d] || d
 const OPTION_LETTERS = ['א', 'ב', 'ג', 'ד', 'ה', 'ו']
+const COUNT_OPTIONS = [5, 10, 15, 20]
+
+function formatDuration(totalSeconds) {
+  const s = Math.max(0, Math.round(totalSeconds))
+  const m = Math.floor(s / 60)
+  const rem = s % 60
+  if (m === 0) return `${rem} שנ׳`
+  return `${m}:${String(rem).padStart(2, '0')} דק׳`
+}
 
 export default function Practice() {
   // filter metadata + current selections
@@ -23,6 +32,7 @@ export default function Practice() {
   const [subject, setSubject] = useState('')
   const [difficulty, setDifficulty] = useState('')
   const [topic, setTopic] = useState('')
+  const [count, setCount] = useState(10)
 
   // session state
   const [questions, setQuestions] = useState([])
@@ -30,6 +40,8 @@ export default function Practice() {
   const [loadingQ, setLoadingQ] = useState(false)
   const [sessionErr, setSessionErr] = useState(null)
   const [started, setStarted] = useState(false)
+  const [finished, setFinished] = useState(false)
+  const [sessionLog, setSessionLog] = useState([])
 
   // per-question answer state
   const [answer, setAnswer] = useState('')
@@ -39,6 +51,7 @@ export default function Practice() {
   // stats + achievement toast
   const [stats, setStats] = useState(null)
   const [toast, setToast] = useState(null)
+  const [earnedInSession, setEarnedInSession] = useState([])
 
   // timing
   const shownAt = useRef(Date.now())
@@ -78,11 +91,15 @@ export default function Practice() {
     setResult(null)
     setAnswer('')
     setStarted(true)
+    setFinished(false)
+    setSessionLog([])
+    setEarnedInSession([])
     try {
       const qs = await api.getPracticeQuestions({
         subject: subject || undefined,
         difficulty: difficulty || undefined,
         topic: topic || undefined,
+        limit: count,
       })
       setQuestions(qs || [])
       setIndex(0)
@@ -107,7 +124,22 @@ export default function Practice() {
       })
       setResult(res)
       refreshStats()
+      // record this question's outcome for the end-of-session summary
+      setSessionLog((log) => [
+        ...log,
+        {
+          question: current.question,
+          topic: current.topic,
+          difficulty: current.difficulty,
+          yourAnswer: trimmed,
+          correctAnswer: res.correct_answer,
+          isCorrect: res.is_correct,
+          explanation: res.explanation,
+          timeSpent,
+        },
+      ])
       if (res?.newly_earned?.length) {
+        setEarnedInSession((e) => [...e, ...res.newly_earned])
         showToast(res.newly_earned)
       }
     } catch (e) {
@@ -129,11 +161,20 @@ export default function Practice() {
     if (index + 1 < questions.length) {
       setIndex((i) => i + 1)
     } else {
-      // session finished — return to filter/idle so the user can start again
-      setStarted(false)
-      setQuestions([])
-      setIndex(0)
+      // session finished — show the summary screen
+      setFinished(true)
     }
+  }
+
+  function resetToFilters() {
+    setStarted(false)
+    setFinished(false)
+    setQuestions([])
+    setIndex(0)
+    setResult(null)
+    setAnswer('')
+    setSessionLog([])
+    setEarnedInSession([])
   }
 
   const accuracy = stats ? `${stats.accuracy_pct}%` : '—'
@@ -173,7 +214,7 @@ export default function Practice() {
         </div>
       )}
 
-      {/* filter bar (shown when not in an active session) */}
+      {/* filter bar (shown when idle) */}
       {!started && (
         <div className="card">
           {metaErr ? (
@@ -234,6 +275,22 @@ export default function Practice() {
                   </select>
                 </div>
 
+                <div className="practice-field">
+                  <label htmlFor="pf-count">מספר שאלות</label>
+                  <select
+                    id="pf-count"
+                    className="practice-select"
+                    value={count}
+                    onChange={(e) => setCount(Number(e.target.value))}
+                  >
+                    {COUNT_OPTIONS.map((n) => (
+                      <option key={n} value={n}>
+                        {n}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
                 <button
                   className="btn"
                   style={{ background: 'var(--cta)', color: '#fff' }}
@@ -243,8 +300,32 @@ export default function Practice() {
                   {loadingQ ? 'טוען…' : 'התחל תרגול'}
                 </button>
               </div>
+
+              {/* quick topic chips — one tap to focus a topic */}
+              {meta.topics.length > 0 && (
+                <div className="practice-topic-chips">
+                  <button
+                    type="button"
+                    className={`practice-chip ${topic === '' ? 'is-active' : ''}`}
+                    onClick={() => setTopic('')}
+                  >
+                    הכול
+                  </button>
+                  {meta.topics.map((t) => (
+                    <button
+                      key={t}
+                      type="button"
+                      className={`practice-chip ${topic === t ? 'is-active' : ''}`}
+                      onClick={() => setTopic(t)}
+                    >
+                      {t}
+                    </button>
+                  ))}
+                </div>
+              )}
+
               {stats && stats.best_streak > 0 && (
-                <p className="muted" style={{ margin: 0 }}>
+                <p className="muted" style={{ margin: '4px 0 0' }}>
                   שיא הרצף שלך: 🔥 {stats.best_streak}
                 </p>
               )}
@@ -254,7 +335,7 @@ export default function Practice() {
       )}
 
       {/* active session */}
-      {started && (
+      {started && !finished && (
         <>
           {loadingQ ? (
             <div className="card">
@@ -268,7 +349,7 @@ export default function Practice() {
             <div className="card practice-empty">
               <div className="practice-empty-icon">🗒️</div>
               <p>לא נמצאו שאלות מתאימות למסננים שבחרת.</p>
-              <button className="btn" onClick={() => setStarted(false)}>
+              <button className="btn" onClick={resetToFilters}>
                 חזרה למסננים
               </button>
             </div>
@@ -283,15 +364,20 @@ export default function Practice() {
               submitting={submitting}
               onSubmit={submit}
               onNext={next}
-              onQuit={() => {
-                setStarted(false)
-                setQuestions([])
-                setResult(null)
-                setAnswer('')
-              }}
+              onQuit={() => setFinished(true)}
             />
           ) : null}
         </>
+      )}
+
+      {/* end-of-session summary */}
+      {started && finished && (
+        <SessionSummary
+          log={sessionLog}
+          earned={earnedInSession}
+          onRestart={startSession}
+          onNew={resetToFilters}
+        />
       )}
     </section>
   )
@@ -311,6 +397,7 @@ function QuestionCard({
 }) {
   const isMC = question.type === 'multiple-choice' && Array.isArray(question.options)
   const answered = !!result
+  const progressPct = Math.round(((index + (answered ? 1 : 0)) / total) * 100)
 
   function optionClass(opt) {
     let cls = 'option practice-option'
@@ -329,6 +416,10 @@ function QuestionCard({
 
   return (
     <div className="card practice-question-card">
+      <div className="practice-progressbar" aria-hidden="true">
+        <div className="practice-progressbar-fill" style={{ width: `${progressPct}%` }} />
+      </div>
+
       <div className="practice-q-head">
         <div className="practice-q-meta">
           <span className="badge">{difficultyLabel(question.difficulty)}</span>
@@ -362,7 +453,7 @@ function QuestionCard({
       ) : (
         <input
           className="text-answer"
-          type={question.type === 'numeric' ? 'text' : 'text'}
+          type="text"
           inputMode={question.type === 'numeric' ? 'decimal' : 'text'}
           placeholder="הקלד/י את התשובה"
           value={answer}
@@ -408,9 +499,115 @@ function QuestionCard({
             style={{ background: 'var(--cta)', color: '#fff' }}
             onClick={onNext}
           >
-            {index + 1 < total ? 'השאלה הבאה' : 'סיום התרגול'}
+            {index + 1 < total ? 'השאלה הבאה' : 'לסיכום התרגול'}
           </button>
         )}
+      </div>
+    </div>
+  )
+}
+
+function SessionSummary({ log, earned, onRestart, onNew }) {
+  const total = log.length
+  const correct = log.filter((e) => e.isCorrect).length
+  const pct = total ? Math.round((correct / total) * 100) : 0
+  const totalTime = log.reduce((sum, e) => sum + (e.timeSpent || 0), 0)
+  const wrong = log.filter((e) => !e.isCorrect)
+
+  const grade =
+    pct >= 90
+      ? { emoji: '🏆', text: 'מצוין!', cls: 'is-great' }
+      : pct >= 70
+      ? { emoji: '👏', text: 'כל הכבוד!', cls: 'is-good' }
+      : pct >= 50
+      ? { emoji: '💪', text: 'בדרך הנכונה', cls: 'is-ok' }
+      : { emoji: '📚', text: 'ממשיכים לתרגל', cls: 'is-low' }
+
+  if (total === 0) {
+    return (
+      <div className="card practice-empty">
+        <div className="practice-empty-icon">🗒️</div>
+        <p>לא ענית על שאלות בתרגול הזה.</p>
+        <div className="practice-actions" style={{ justifyContent: 'center' }}>
+          <button className="btn" onClick={onNew}>
+            חזרה למסננים
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="card practice-summary">
+      <div className={`practice-summary-hero ${grade.cls}`}>
+        <div className="practice-summary-emoji">{grade.emoji}</div>
+        <div className="practice-summary-score">{pct}%</div>
+        <div className="practice-summary-grade">{grade.text}</div>
+      </div>
+
+      <div className="practice-summary-stats">
+        <div className="practice-summary-stat">
+          <div className="stat-value">
+            {correct}/{total}
+          </div>
+          <div className="stat-label muted">תשובות נכונות</div>
+        </div>
+        <div className="practice-summary-stat">
+          <div className="stat-value">{formatDuration(totalTime)}</div>
+          <div className="stat-label muted">זמן כולל</div>
+        </div>
+        <div className="practice-summary-stat">
+          <div className="stat-value">
+            {formatDuration(total ? totalTime / total : 0)}
+          </div>
+          <div className="stat-label muted">ממוצע לשאלה</div>
+        </div>
+      </div>
+
+      {earned.length > 0 && (
+        <div className="practice-toast" role="status" style={{ marginTop: 4 }}>
+          <span className="practice-toast-icon">🏆</span>
+          <span>
+            {earned.map((b) => `${b.icon || ''} ${b.title}`).join(' · ')}
+          </span>
+        </div>
+      )}
+
+      {wrong.length > 0 ? (
+        <div className="practice-review">
+          <h3 className="practice-review-title">מה כדאי לחזור עליו ({wrong.length})</h3>
+          {wrong.map((e, i) => (
+            <div key={i} className="practice-review-item">
+              <p className="practice-review-q">{e.question}</p>
+              <div className="practice-review-answers">
+                <span className="practice-review-yours">
+                  תשובתך: {e.yourAnswer}
+                </span>
+                <span className="practice-review-correct">
+                  הנכונה: {e.correctAnswer}
+                </span>
+              </div>
+              {e.explanation && (
+                <p className="practice-review-expl">{e.explanation}</p>
+              )}
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p className="practice-review-perfect">🎯 כל התשובות נכונות — פגיעה מושלמת!</p>
+      )}
+
+      <div className="practice-actions" style={{ justifyContent: 'center' }}>
+        <button
+          className="btn"
+          style={{ background: 'var(--cta)', color: '#fff' }}
+          onClick={onRestart}
+        >
+          תרגול נוסף (אותם מסננים)
+        </button>
+        <button className="btn btn-sm" onClick={onNew}>
+          שינוי מסננים
+        </button>
       </div>
     </div>
   )
