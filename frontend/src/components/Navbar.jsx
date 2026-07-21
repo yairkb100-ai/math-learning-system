@@ -64,10 +64,8 @@ export default function Navbar() {
                 <Link to="/practice" className="nav-link">תרגול</Link>
                 <Link to="/exams" className="nav-link">מבחנים</Link>
                 <Link to="/analytics" className="nav-link">אנליטיקה</Link>
-                <Link to="/achievements" className="nav-link">הישגים</Link>
                 <Link to="/progress" className="nav-link">ההתקדמות שלי</Link>
                 <Link to="/subscription" className="nav-link">המנוי שלי</Link>
-                <Link to="/files" className="nav-link">קבצים</Link>
                 {messagesLink}
               </>
             )}
