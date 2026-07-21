@@ -127,7 +127,7 @@
   "number": 5,
   "topic": "הנחה, התייקרות ומע\"מ",
   "output": "סרטון-פרק-5-הנחה-התייקרות-ומעמ.mp4",
-  "status": "generating",
+  "status": "done",
   "course": "grade6-percents",
   "grade": null,
   "artifact_id": "894f4ded-d326-43e6-95fa-c2e2daec7e4d",
@@ -139,7 +139,7 @@
   "number": 6,
   "topic": "אחוזים מעל 100 ובעיות רב-שלביות",
   "output": "סרטון-פרק-6-אחוזים-מעל-100.mp4",
-  "status": "generating",
+  "status": "done",
   "course": "grade6-percents",
   "grade": null,
   "artifact_id": "96a2f40e-1069-4bef-8141-cbdce85c3052",
@@ -151,7 +151,7 @@
   "number": 12,
   "topic": "חיבור וחיסור מספרים עשרוניים",
   "output": "סרטון-פרק-12-חיבור-וחיסור-עשרוניים.mp4",
-  "status": "generating",
+  "status": "done",
   "course": null,
   "grade": null,
   "artifact_id": "63f954f7-8b80-4342-a5ad-1dcceccd95b0",
@@ -173,7 +173,7 @@
   "number": 7,
   "topic": "משימות חקר — שברים, עשרוניים ואחוזים",
   "output": "סרטון-פרק-7-משימות-חקר.mp4",
-  "status": "staged",
+  "status": "done",
   "course": "grade6-percents",
   "grade": null
  },
@@ -183,7 +183,7 @@
   "number": 1,
   "topic": "משתנים וייצוג תופעות מספריות בביטוי אלגברי",
   "output": "סרטון-פרק-1-משתנים-וביטויים-אלגבריים.mp4",
-  "status": "staged",
+  "status": "done",
   "course": "grade7-algebra",
   "grade": null
  },
@@ -193,7 +193,7 @@
   "number": 2,
   "topic": "הצבת מספרים בביטוי אלגברי וחישוב ערכו",
   "output": "סרטון-פרק-2-הצבה-וחישוב-ערך-ביטוי.mp4",
-  "status": "staged",
+  "status": "done",
   "course": "grade7-algebra",
   "grade": null
  },
@@ -203,9 +203,11 @@
   "number": 3,
   "topic": "איברים דומים וכינוס איברים דומים",
   "output": "סרטון-פרק-3-איברים-דומים-וכינוסם.mp4",
-  "status": "staged",
+  "status": "done",
   "course": "grade7-algebra",
-  "grade": null
+  "grade": null,
+  "artifact_id": "3a3beee8-18a6-44b3-aafc-464781159300",
+  "submitted_at": 1784654704.1671586
  },
  "g7-ch04": {
   "notebook_id": "0b14d18a-ef63-40dc-8a1b-d99aa639a74b",
@@ -213,9 +215,11 @@
   "number": 4,
   "topic": "פתיחת סוגריים בביטוי אלגברי",
   "output": "סרטון-פרק-4-פתיחת-סוגריים.mp4",
-  "status": "staged",
+  "status": "generating",
   "course": "grade7-algebra",
-  "grade": null
+  "grade": null,
+  "artifact_id": "c0563f33-3156-4877-9f71-76b4b32ec4b5",
+  "submitted_at": 1784654709.9212875
  },
  "g7-ch05": {
   "notebook_id": "e7f19f6e-cbba-4d93-bf37-13f7f62ba45a",
@@ -223,9 +227,11 @@
   "number": 5,
   "topic": "הוצאת גורם משותף מחוץ לסוגריים",
   "output": "סרטון-פרק-5-הוצאת-גורם-משותף.mp4",
-  "status": "staged",
+  "status": "done",
   "course": "grade7-algebra",
-  "grade": null
+  "grade": null,
+  "artifact_id": "93b70e1b-a3ec-40c0-af6f-406cc51d40d2",
+  "submitted_at": 1784654718.101398
  },
  "g7-ch06": {
   "notebook_id": "87fa9789-9641-4ddb-b57d-dc0e05d99834",
@@ -233,9 +239,11 @@
   "number": 6,
   "topic": "מהי משוואה? מושג הפתרון ובדיקתו",
   "output": "סרטון-פרק-6-מהי-משוואה-ובדיקת-פתרון.mp4",
-  "status": "staged",
+  "status": "generating",
   "course": "grade7-algebra",
-  "grade": null
+  "grade": null,
+  "artifact_id": "4a8b182f-3583-4e7b-b291-1a09c6b41bf2",
+  "submitted_at": 1784655327.2756796
  },
  "g7-ch07": {
   "notebook_id": "27cdae97-13be-413b-9743-c580f2c258d9",

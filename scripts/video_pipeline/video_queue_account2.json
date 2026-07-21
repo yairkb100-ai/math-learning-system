@@ -107,7 +107,7 @@
   "number": 3,
   "topic": "מציאת האחוז",
   "output": "סרטון-פרק-3-מציאת-האחוז.mp4",
-  "status": "generating",
+  "status": "done",
   "course": "grade6-percents",
   "grade": null,
   "artifact_id": "fce20ec4-a9b4-4812-a2ce-a647c4e911b5",
@@ -119,7 +119,7 @@
   "number": 4,
   "topic": "מציאת הכמות היסודית לפי אחוז",
   "output": "סרטון-פרק-4-מציאת-הכמות-היסודית.mp4",
-  "status": "generating",
+  "status": "done",
   "course": "grade6-percents",
   "grade": null,
   "artifact_id": "275a9c64-e0d4-4eb1-8e6b-0f7ac792e3b7",
@@ -161,7 +161,7 @@
   "number": 13,
   "topic": "השלמה וחקר של סדרות שברים",
   "output": "סרטון-פרק-13-סדרות-של-שברים.mp4",
-  "status": "generating",
+  "status": "done",
   "course": null,
   "grade": null,
   "artifact_id": "4bb2e9bf-6580-487d-9435-4b83cf2cf954",
@@ -173,9 +173,11 @@
   "number": 7,
   "topic": "משימות חקר — שברים, עשרוניים ואחוזים",
   "output": "סרטון-פרק-7-משימות-חקר.mp4",
-  "status": "staged",
+  "status": "done",
   "course": "grade6-percents",
-  "grade": null
+  "grade": null,
+  "artifact_id": "cb1ce033-f458-47c8-bace-4e50d30161ae",
+  "submitted_at": 1784616428.2009194
  },
  "g7-ch01": {
   "notebook_id": "2f8fca51-93ad-4279-958e-6a88e2574b01",
@@ -183,8 +185,10 @@
   "number": 1,
   "topic": "משתנים וייצוג תופעות מספריות בביטוי אלגברי",
   "output": "סרטון-פרק-1-משתנים-וביטויים-אלגבריים.mp4",
-  "status": "staged",
-  "course": "grade7-algebra"
+  "status": "done",
+  "course": "grade7-algebra",
+  "artifact_id": "4f5b7b02-c3c3-4f29-b4ed-ea00e31a0118",
+  "submitted_at": 1784616433.2319543
  },
  "g7-ch02": {
   "notebook_id": "325c6f54-c3ff-4434-8af4-05b9e31de011",
@@ -192,8 +196,10 @@
   "number": 2,
   "topic": "הצבת מספרים בביטוי אלגברי וחישוב ערכו",
   "output": "סרטון-פרק-2-הצבה-וחישוב-ערך-ביטוי.mp4",
-  "status": "staged",
-  "course": "grade7-algebra"
+  "status": "done",
+  "course": "grade7-algebra",
+  "artifact_id": "9daaa838-a96f-457c-8aaf-f52f726cb08b",
+  "submitted_at": 1784616438.2544553
  },
  "g7-ch03": {
   "notebook_id": "f17af3fb-7205-4b9a-959e-b0f6d7c857b1",
@@ -201,7 +207,7 @@
   "number": 3,
   "topic": "איברים דומים וכינוס איברים דומים",
   "output": "סרטון-פרק-3-איברים-דומים-וכינוסם.mp4",
-  "status": "staged",
+  "status": "done",
   "course": "grade7-algebra"
  },
  "g7-ch04": {
@@ -219,7 +225,7 @@
   "number": 5,
   "topic": "הוצאת גורם משותף מחוץ לסוגריים",
   "output": "סרטון-פרק-5-הוצאת-גורם-משותף.mp4",
-  "status": "staged",
+  "status": "done",
   "course": "grade7-algebra"
  },
  "g7-ch06": {
