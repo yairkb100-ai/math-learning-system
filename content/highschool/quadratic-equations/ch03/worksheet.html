@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>דף עבודה — משפטי וייטה ובעיות מילוליות</title>
+<style>
+  @page { size: A4; margin: 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: #1a2233;
+         line-height: 1.7; margin: 0; padding: 20px; background: #f4f6fa; }
+  .sheet { background: #fff; max-width: 820px; margin: 0 auto 24px;
+           padding: 30px 36px; border-radius: 10px;
+           box-shadow: 0 2px 14px rgba(0,0,0,.09); }
+  header { border-bottom: 3px solid #2f6fed; padding-bottom: 12px; margin-bottom: 20px; }
+  h1 { margin: 0 0 4px; font-size: 24px; color: #14306b; }
+  .sub { color: #5b6780; font-size: 14px; }
+  .namebar { display: flex; gap: 26px; margin-top: 12px; font-size: 14px; }
+  .namebar span { flex: 1; border-bottom: 1px dotted #8894ab; padding-bottom: 3px; }
+  h2.q, h2.sec { font-size: 17px; margin: 24px 0 10px; color: #14306b;
+    background: #eef3fe; padding: 7px 12px; border-radius: 6px;
+    border-inline-start: 5px solid #2f6fed; }
+  .tag { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px;
+         margin-inline-start: 8px; vertical-align: middle; }
+  .easy { background: #dff5e3; color: #1c6b32; }
+  .med  { background: #fdf0d5; color: #8a5b06; }
+  .hard { background: #fadbdb; color: #8f2222; }
+  ol.items { margin: 6px 0; padding-inline-start: 22px; }
+  ol.items > li { margin-bottom: 13px; }
+  .fr { display: inline-flex; flex-direction: column; align-items: center;
+        vertical-align: middle; margin: 0 3px; font-size: .95em; line-height: 1.15; }
+  .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
+  .fr i { font-style: normal; padding: 0 4px; }
+  .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
+  .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
+  .fig { text-align: center; font-size: 13px; color: #5b6780; }
+  .lines div { border-bottom: 1px dotted #aab3c4; height: 24px; }
+  .numline { margin: 10px 0; }
+  .pagebreak { page-break-before: always; }
+  .key { background: #fffdf3; }
+  .key h1 { color: #8a5b06; }
+  .key header { border-bottom-color: #e0a800; }
+  .key .ans { background:#fff; border:1px solid #eadfb8; border-radius:6px;
+              padding:10px 14px; margin-bottom:10px; font-size:14.5px; }
+  .key .ans strong { color:#8a5b06; }
+  .credit { text-align:center; font-size: 12px; color: #8894ab; margin-top: 18px;
+            border-top: 1px solid #eef1f6; padding-top: 8px; }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .sheet { box-shadow: none; margin: 0; border-radius: 0; padding: 0; max-width: none; }
+    .noprint { display: none; }
+  }
+  .noprint { text-align:center; margin: 10px 0 20px; }
+  .noprint button { background: #2f6fed; color:#fff; border:0; padding:10px 26px;
+                    border-radius:6px; font-size:15px; cursor:pointer; font-family:inherit; }
+</style>
+</head>
+<body>
+
+<div class="noprint"><button onclick="window.print()">🖨️ הדפסה / שמירה כ‑PDF</button></div>
+
+<div class="sheet">
+  <header>
+    <h1>דף עבודה — פרק 3: משפטי וייטה ובעיות מילוליות</h1>
+    <div class="sub">משוואות ריבועיות · פרק 3 — סכום ומכפלת השורשים, בניית משוואה, ובעיות מילוליות</div>
+    <div class="namebar"><span>שם: </span><span>כיתה: </span><span>תאריך: </span></div>
+  </header>
+  <div class="note-box" style="background:#eef3fe; border-inline-start:4px solid #2f6fed; padding:10px 14px; border-radius:6px; font-size:14px; margin:18px 0">משפטי וייטה עבור <span class="eq">ax² + bx + c = 0</span>: סכום השורשים <span class="eq">x₁ + x₂ = −b/a</span>, מכפלת השורשים <span class="eq">x₁ · x₂ = c/a</span>. כש-<span class="eq">a = 1</span>: הסכום הוא <span class="eq">−b</span> והמכפלה היא <span class="eq">c</span>. בבעיות מילוליות — בסוף פוסלים פתרון לא הגיוני (אורך/זמן שליליים).</div>
+  
+  <h2 class="q">שאלה 1 — סכום ומכפלה — בלי לפתור <span class="tag easy">קל</span></h2>
+  <p>בעזרת וייטה כתבו את סכום ומכפלת השורשים (בלי לפתור):</p><ol type="a"><li><span class="eq">x² − 7x + 10 = 0</span> ⟵ סכום=<span class="blank"></span> מכפלה=<span class="blank"></span></li><li><span class="eq">x² + 3x − 4 = 0</span> ⟵ סכום=<span class="blank"></span> מכפלה=<span class="blank"></span></li><li><span class="eq">x² − 8x + 15 = 0</span> ⟵ סכום=<span class="blank"></span> מכפלה=<span class="blank"></span></li></ol>
+  
+  <h2 class="q">שאלה 2 — מנחשים את השורשים <span class="tag easy">קל</span></h2>
+  <p>בעזרת "איזה זוג נותן סכום ומכפלה כאלה" מצאו את השורשים:</p><ol type="a"><li><span class="eq">x² − 5x + 6 = 0</span></li><li><span class="eq">x² − 6x + 8 = 0</span></li><li><span class="eq">x² + x − 12 = 0</span></li></ol>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 3 — וייטה כשמקדם מוביל שונה מ-1 <span class="tag med">בינוני</span></h2>
+  <p>כתבו את סכום ומכפלת השורשים לפי <span class="eq">−b/a</span> ו-<span class="eq">c/a</span>:</p><ol type="a"><li><span class="eq">2x² − 6x + 4 = 0</span></li><li><span class="eq">3x² + 6x − 9 = 0</span></li></ol>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 4 — בניית משוואה משורשים <span class="tag med">בינוני</span></h2>
+  <p>בנו משוואה ריבועית (מקדם מוביל 1) בעזרת <span class="eq">x² − (סכום)x + (מכפלה) = 0</span>:</p><ol type="a"><li>שורשים <span class="eq">4</span> ו-<span class="eq">−2</span></li><li>שורשים <span class="eq">3</span> ו-<span class="eq">5</span></li><li>שורשים <span class="eq">−1</span> ו-<span class="eq">−6</span></li></ol>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 5 — מציאת שורש שני ומקדם <span class="tag hard">מאתגר</span></h2>
+  <p>אחד השורשים של <span class="eq">x² + bx + 12 = 0</span> הוא <span class="eq">3</span>. מצאו את <span class="eq">b</span> ואת השורש השני (השתמשו בוייטה).</p>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 6 — וייטה כבודק <span class="tag med">בינוני</span></h2>
+  <p>תלמיד פתר <span class="eq">x² − 9x + 20 = 0</span> וקיבל <span class="eq">x = 4</span> ו-<span class="eq">x = 6</span>. בדקו בעזרת סכום ומכפלה אם הפתרון נכון, ותקנו אם צריך.</p>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 7 — בעיית מלבן <span class="tag med">בינוני</span></h2>
+  <p>שטח מלבן <span class="eq">40</span> סמ"ר, והאורך גדול מהרוחב ב-<span class="eq">3</span> ס"מ. סמנו את הרוחב ב-<span class="eq">w</span>, כתבו משוואה, פתרו, ופסלו פתרון לא הגיוני.</p>
+  <div class="lines"><div></div><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 8 — בעיית מספרים <span class="tag med">בינוני</span></h2>
+  <p>מכפלת שני מספרים עוקבים (שלמים) היא <span class="eq">56</span>. סמנו את המספר הקטן ב-<span class="eq">n</span>, כתבו משוואה ומצאו את המספרים (שתי אפשרויות).</p>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 9 — בעיית שטח עם ריבוע <span class="tag hard">מאתגר</span></h2>
+  <p>לגן ריבועי מוסיפים שביל ברוחב <span class="eq">2</span> מטר לאורך צלע אחת, כך שהשטח הכולל (מלבן) הוא <span class="eq">35</span> מ"ר. סמנו את צלע הריבוע ב-<span class="eq">x</span>, כתבו משוואה <span class="eq">x(x + 2) = 35</span> ופתרו.</p>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 10 — בעיית תנועה — כדור <span class="tag hard">מאתגר</span></h2>
+  <p>גובה כדור: <span class="eq">h = −5t² + 20t</span> (מטרים, שניות).</p><ol type="a"><li>מתי הכדור חוזר לקרקע? (רמז: <span class="eq">h = 0</span>)</li><li>מהו הגובה המרבי? (רמז: הפרבולה סימטרית — השיא באמצע בין האפסים)</li></ol>
+  <div class="lines"><div></div><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 11 — נכון או לא נכון — נמקו <span class="tag med">בינוני</span></h2>
+  <p>קבעו נכון/לא נכון ונמקו:</p><ol type="a"><li>אם סכום השורשים <span class="eq">0</span>, אז השורשים הפוכים בסימנם.</li><li>אם מכפלת השורשים שלילית, לשורשים סימנים שונים.</li><li>בבעיה על אורך גינה מותר לקבל פתרון שלילי.</li></ol>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 12 — אתגר — סכום ריבועי השורשים <span class="tag hard">מאתגר</span></h2>
+  <p>עבור <span class="eq">x² − 5x + 6 = 0</span> מצאו את <span class="eq">x₁² + x₂²</span> בלי לפתור, בעזרת הזהות <span class="eq">x₁² + x₂² = (x₁ + x₂)² − 2x₁x₂</span>.</p>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
+</div>
+
+<div class="sheet key pagebreak">
+  <header>
+    <h1>🔑 דף פתרונות למורה — פרק 3: משפטי וייטה ובעיות מילוליות</h1>
+    <div class="sub">לא לחלוקה לתלמידים</div>
+  </header>
+  <div class="ans"><strong>שאלה 1.</strong> א. סכום <span class="eq">7</span>, מכפלה <span class="eq">10</span> &nbsp; ב. סכום <span class="eq">−3</span>, מכפלה <span class="eq">−4</span> &nbsp; ג. סכום <span class="eq">8</span>, מכפלה <span class="eq">15</span></div>
+<div class="ans"><strong>שאלה 2.</strong> א. <span class="eq">x = 2, 3</span> &nbsp; ב. <span class="eq">x = 2, 4</span> &nbsp; ג. <span class="eq">x = 3, −4</span></div>
+<div class="ans"><strong>שאלה 3.</strong> א. סכום <span class="eq">−(−6)/2 = 3</span>, מכפלה <span class="eq">4/2 = 2</span> (שורשים 1 ו-2) &nbsp; ב. סכום <span class="eq">−6/3 = −2</span>, מכפלה <span class="eq">−9/3 = −3</span> (שורשים 1 ו-−3)</div>
+<div class="ans"><strong>שאלה 4.</strong> א. <span class="eq">x² − 2x − 8 = 0</span> &nbsp; ב. <span class="eq">x² − 8x + 15 = 0</span> &nbsp; ג. <span class="eq">x² + 7x + 6 = 0</span></div>
+<div class="ans"><strong>שאלה 5.</strong> מציבים <span class="eq">x = 3</span>: <span class="eq">9 + 3b + 12 = 0</span> → <span class="eq">b = −7</span>. מכפלת השורשים <span class="eq">12</span>, אז <span class="eq">3 · x₂ = 12</span> → <span class="eq">x₂ = 4</span>.</div>
+<div class="ans"><strong>שאלה 6.</strong> סכום צריך להיות <span class="eq">9</span>, מכפלה <span class="eq">20</span>. <span class="eq">4 + 6 = 10 ≠ 9</span> — שגוי. השורשים הנכונים: <span class="eq">4</span> ו-<span class="eq">5</span> (<span class="eq">4 + 5 = 9, 4 · 5 = 20</span>).</div>
+<div class="ans"><strong>שאלה 7.</strong> <span class="eq">w(w + 3) = 40</span> → <span class="eq">w² + 3w − 40 = 0</span>; <span class="eq">Δ = 169, w = (−3 ± 13)/2</span> → <span class="eq">w = 5</span> או <span class="eq">w = −8</span>. פוסלים <span class="eq">−8</span>: רוחב <span class="eq">5</span>, אורך <span class="eq">8</span>.</div>
+<div class="ans"><strong>שאלה 8.</strong> <span class="eq">n(n + 1) = 56</span> → <span class="eq">n² + n − 56 = 0</span> → <span class="eq">(n − 7)(n + 8) = 0</span>. <span class="eq">n = 7</span> (המספרים 7 ו-8) או <span class="eq">n = −8</span> (המספרים −8 ו-−7).</div>
+<div class="ans"><strong>שאלה 9.</strong> <span class="eq">x² + 2x − 35 = 0</span> → <span class="eq">(x + 7)(x − 5) = 0</span> → <span class="eq">x = 5</span> או <span class="eq">x = −7</span>. פוסלים <span class="eq">−7</span>: צלע הריבוע <span class="eq">5</span> מטר.</div>
+<div class="ans"><strong>שאלה 10.</strong> א. <span class="eq">−5t(t − 4) = 0</span> → <span class="eq">t = 0</span> או <span class="eq">t = 4</span>; חוזר לקרקע אחרי <span class="eq">4</span> שניות. &nbsp; ב. השיא ב-<span class="eq">t = 2</span>: <span class="eq">h = −20 + 40 = 20</span> מטר.</div>
+<div class="ans"><strong>שאלה 11.</strong> א. נכון — סכום <span class="eq">0</span> פירושו <span class="eq">x₂ = −x₁</span>. &nbsp; ב. נכון — מכפלה שלילית = סימנים שונים. &nbsp; ג. לא נכון — אורך לא יכול להיות שלילי, פוסלים.</div>
+<div class="ans"><strong>שאלה 12.</strong> <span class="eq">x₁ + x₂ = 5</span>, <span class="eq">x₁x₂ = 6</span>. <span class="eq">x₁² + x₂² = 5² − 2 · 6 = 25 − 12 = 13</span>.</div>
+  <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
+</div>
+</body>
+</html>
