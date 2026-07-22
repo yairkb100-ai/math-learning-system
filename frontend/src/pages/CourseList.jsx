@@ -3,14 +3,20 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
-
-const levelClass = (level) =>
-  'badge badge-' + String(level || '').toLowerCase()
+import {
+  IconLayers,
+  IconClock,
+  IconArrowStart,
+  IconGraduation,
+  IconCompass,
+} from '../components/icons.jsx'
 
 const levelHe = (level) =>
   ({ beginner: 'מתחילים', intermediate: 'רמה בינונית', advanced: 'מתקדמים' }[
     String(level || '').toLowerCase()
   ] || level)
+
+const levelKey = (level) => String(level || '').toLowerCase()
 
 export default function CourseList() {
   const { user } = useAuth()
@@ -37,35 +43,58 @@ export default function CourseList() {
 
   const totalChapters = courses.reduce((s, c) => s + (c.chapters_count || 0), 0)
   const totalHours = courses.reduce((s, c) => s + (c.estimated_hours || 0), 0)
+  const firstName = user ? user.full_name.split(' ')[0] : ''
 
   return (
-    <section dir="rtl">
-      {/* Hero — big promise headline, like the reference platforms */}
-      <div className="hero">
-        <h1 className="hero-title">
-          הדרך שלך להצלחה במתמטיקה{user ? `, ${user.full_name.split(' ')[0]}` : ''} 🎯
-        </h1>
-        <p className="hero-sub">
-          לומדות מלאות עם הסברים ברורים, דוגמאות פתורות, תרגילים מדורגים ובחנים —
-          בקצב שלך, מכל מקום.
-        </p>
+    <section dir="rtl" className="catalog">
+      {/* Hero */}
+      <div className="cat-hero">
+        <div className="cat-hero-body">
+          <span className="cat-eyebrow">
+            <IconGraduation /> פלטפורמת הלימוד במתמטיקה
+          </span>
+          <h1 className="cat-title">
+            {firstName ? (
+              <>
+                שלום {firstName}, בואו נמשיך <span className="cat-title-accent">להתקדם</span>
+              </>
+            ) : (
+              <>
+                הדרך שלך להצלחה <span className="cat-title-accent">במתמטיקה</span>
+              </>
+            )}
+          </h1>
+          <p className="cat-sub">
+            הסברים ברורים, דוגמאות פתורות, תרגול מדורג ובחנים — הכול בקצב שלך, מכל מקום.
+          </p>
 
-        {courses.length > 0 && (
-          <div className="hero-stats">
-            <div className="hero-stat">
-              <span className="hero-stat-num">{courses.length}</span>
-              <span className="hero-stat-label">קורסים</span>
+          {courses.length > 0 && (
+            <div className="cat-stats">
+              <div className="cat-stat">
+                <span className="cat-stat-num">{courses.length}</span>
+                <span className="cat-stat-label">קורסים</span>
+              </div>
+              <span className="cat-stat-div" aria-hidden="true" />
+              <div className="cat-stat">
+                <span className="cat-stat-num">{totalChapters}</span>
+                <span className="cat-stat-label">פרקי לימוד</span>
+              </div>
+              <span className="cat-stat-div" aria-hidden="true" />
+              <div className="cat-stat">
+                <span className="cat-stat-num">{Math.round(totalHours)}</span>
+                <span className="cat-stat-label">שעות תוכן</span>
+              </div>
             </div>
-            <div className="hero-stat">
-              <span className="hero-stat-num">{totalChapters}</span>
-              <span className="hero-stat-label">פרקי לימוד</span>
-            </div>
-            <div className="hero-stat">
-              <span className="hero-stat-num">{totalHours}</span>
-              <span className="hero-stat-label">שעות תוכן</span>
-            </div>
-          </div>
-        )}
+          )}
+        </div>
+      </div>
+
+      {/* Catalog */}
+      <div className="cat-head">
+        <h2 className="cat-head-title">
+          <IconCompass /> הקורסים שלך
+        </h2>
+        <span className="cat-head-count">{courses.length} קורסים זמינים</span>
       </div>
 
       {courses.length === 0 ? (
@@ -73,21 +102,41 @@ export default function CourseList() {
           <p>אין קורסים עדיין. ייבאו קורס לשרת כדי לראותו כאן.</p>
         </div>
       ) : (
-        <div className="grid">
+        <div className="cat-grid">
           {courses.map((c) => (
-            <Link key={c.id} to={`/courses/${c.id}`} className="card course-card">
-              <div className="card-top">
-                <span className={levelClass(c.level)}>{levelHe(c.level)}</span>
+            <Link
+              key={c.id}
+              to={`/courses/${c.id}`}
+              className={`cat-card level-${levelKey(c.level)}`}
+            >
+              <span className="cat-card-bar" aria-hidden="true" />
+              <div className="cat-card-top">
+                <span className="cat-medallion" aria-hidden="true">
+                  <IconLayers />
+                </span>
+                <span className={`cat-chip level-${levelKey(c.level)}`}>
+                  {levelHe(c.level)}
+                </span>
               </div>
-              <h2 className="course-title">{c.title}</h2>
-              <p className="course-desc">{c.description}</p>
-              <div className="card-meta">
-                <span>📚 {c.chapters_count ?? 0} פרקים</span>
+
+              <h3 className="cat-card-title">{c.title}</h3>
+              <p className="cat-card-desc">{c.description}</p>
+
+              <div className="cat-meta">
+                <span className="cat-meta-item">
+                  <IconLayers /> {c.chapters_count ?? 0} פרקים
+                </span>
                 {c.estimated_hours != null && (
-                  <span>⏱ {c.estimated_hours} שעות</span>
+                  <span className="cat-meta-item">
+                    <IconClock /> {c.estimated_hours} שעות
+                  </span>
                 )}
               </div>
-              <span className="btn btn-cta course-cta">התחילו ללמוד ←</span>
+
+              <span className="cat-cta">
+                התחילו ללמוד
+                <IconArrowStart className="cat-cta-arrow" />
+              </span>
             </Link>
           ))}
         </div>
