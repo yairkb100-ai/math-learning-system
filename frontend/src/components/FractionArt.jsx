@@ -390,6 +390,163 @@ function RatioBar({ param }) {
   )
 }
 
+// Right triangle for trig/Pythagoras, e.g. {{righttriangle:3,4|...}}.
+// param = "<leg1>,<leg2>": the two legs. Marks the right angle and labels both
+// legs plus the computed hypotenuse.
+function RightTriangle({ param }) {
+  const m = String(param || '3,4').split(',').map(Number)
+  const p = m[0] > 0 ? m[0] : 3
+  const q = m[1] > 0 ? m[1] : 4
+  const hyp = Math.sqrt(p * p + q * q)
+  const s = 150 / Math.max(p, q)
+  const bw = p * s
+  const bh = q * s
+  const pad = 30
+  const W = bw + pad * 2
+  const H = bh + pad * 2
+  const B = [pad, H - pad] // right-angle corner (bottom-left)
+  const C = [pad + bw, H - pad] // bottom-right
+  const A = [pad, pad] // top-left
+  const r = 12 // right-angle marker size
+  const fmt = (n) => (Number.isInteger(n) ? n : n.toFixed(2))
+  return (
+    <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`}>
+      <polygon points={`${A} ${B} ${C}`} fill={FILL} stroke={NAVY} strokeWidth="2" />
+      {/* right-angle marker at B */}
+      <path d={`M${B[0]} ${B[1] - r} L${B[0] + r} ${B[1] - r} L${B[0] + r} ${B[1]}`} fill="none" stroke={NAVY} strokeWidth="1.5" />
+      {/* leg labels */}
+      <text x={(B[0] + C[0]) / 2} y={B[1] + 18} textAnchor="middle" fontSize="13" fill={NAVY} fontWeight="700">{fmt(p)}</text>
+      <text x={B[0] - 10} y={(A[1] + B[1]) / 2} textAnchor="middle" fontSize="13" fill={NAVY} fontWeight="700" transform={`rotate(-90 ${B[0] - 10} ${(A[1] + B[1]) / 2})`}>{fmt(q)}</text>
+      {/* hypotenuse label */}
+      <text x={(A[0] + C[0]) / 2 + 8} y={(A[1] + C[1]) / 2 - 6} textAnchor="middle" fontSize="13" fill={TOMATO} fontWeight="700">{fmt(hyp)}</text>
+    </svg>
+  )
+}
+
+// General triangle from three side lengths (SSS), e.g. {{triangle:7,5,8}}.
+// param = "a,b,c" where a=BC, b=CA, c=AB. Positions the vertices by the law of
+// cosines and labels vertices A/B/C and the three sides — for the sine/cosine
+// rules and triangle-area problems.
+function Triangle({ param }) {
+  const m = String(param || '6,5,7').split(',').map(Number)
+  const a = m[0]
+  const b = m[1]
+  const c = m[2]
+  if (![a, b, c].every((x) => x > 0) || a + b <= c || a + c <= b || b + c <= a) {
+    return null // not a valid triangle
+  }
+  // B=(0,0), C=(a,0); A from |AB|=c, |AC|=b.
+  const ax = (c * c - b * b + a * a) / (2 * a)
+  const ay = Math.sqrt(Math.max(0, c * c - ax * ax))
+  const s = 150 / Math.max(a, ax, ay, 1)
+  const pad = 30
+  const H = ay * s + pad * 2
+  const B = [pad, H - pad]
+  const C = [pad + a * s, H - pad]
+  const A = [pad + ax * s, H - pad - ay * s]
+  const W = Math.max(C[0], A[0]) + pad
+  const fmt = (n) => (Number.isInteger(n) ? n : n.toFixed(1))
+  const mid = (P, Q) => [(P[0] + Q[0]) / 2, (P[1] + Q[1]) / 2]
+  const [bcx, bcy] = mid(B, C)
+  const [cax, cay] = mid(C, A)
+  const [abx, aby] = mid(A, B)
+  return (
+    <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`}>
+      <polygon points={`${A} ${B} ${C}`} fill={FILL} stroke={NAVY} strokeWidth="2" strokeLinejoin="round" />
+      {/* vertices */}
+      <text x={A[0]} y={A[1] - 8} textAnchor="middle" fontSize="13" fill={NAVY} fontWeight="700">A</text>
+      <text x={B[0] - 10} y={B[1] + 14} textAnchor="middle" fontSize="13" fill={NAVY} fontWeight="700">B</text>
+      <text x={C[0] + 10} y={C[1] + 14} textAnchor="middle" fontSize="13" fill={NAVY} fontWeight="700">C</text>
+      {/* side labels (a=BC opposite A, etc.) */}
+      <text x={bcx} y={bcy + 16} textAnchor="middle" fontSize="12" fill={TOMATO} fontWeight="700">{fmt(a)}</text>
+      <text x={cax + 10} y={cay} textAnchor="middle" fontSize="12" fill={TOMATO} fontWeight="700">{fmt(b)}</text>
+      <text x={abx - 10} y={aby} textAnchor="middle" fontSize="12" fill={TOMATO} fontWeight="700">{fmt(c)}</text>
+    </svg>
+  )
+}
+
+// Inequality solution ray on a number line, e.g. {{inequality:>=3}} / {{inequality:<-1}}.
+// param = "<op><value>" with op one of > >= < <= : open circle for strict,
+// filled for inclusive, and a colored ray in the solution direction.
+function Inequality({ param }) {
+  const m = String(param || '>0').match(/^(>=|<=|>|<)(-?\d+(?:\.\d+)?)$/)
+  const op = m ? m[1] : '>'
+  const val = m ? Number(m[2]) : 0
+  const inclusive = op === '>=' || op === '<='
+  const goRight = op === '>' || op === '>='
+  const W = 260
+  const x0 = 20
+  const x1 = W - 20
+  const y = 30
+  const lo = Math.floor(val) - 3
+  const hi = Math.ceil(val) + 3
+  const sx = (v) => x0 + ((x1 - x0) * (v - lo)) / (hi - lo)
+  const ticks = []
+  for (let v = lo; v <= hi; v++) {
+    ticks.push(
+      <g key={v}>
+        <line x1={sx(v)} y1={y - 5} x2={sx(v)} y2={y + 5} stroke={NAVY} strokeWidth="1.5" />
+        <text x={sx(v)} y={y + 20} textAnchor="middle" fontSize="11" fill={NAVY}>{v}</text>
+      </g>
+    )
+  }
+  const vx = sx(val)
+  return (
+    <svg width={W} height="52" viewBox={`0 0 ${W} 52`}>
+      <line x1={x0} y1={y} x2={x1} y2={y} stroke={NAVY} strokeWidth="2" />
+      {ticks}
+      {/* solution ray */}
+      <line x1={vx} y1={y} x2={goRight ? x1 : x0} y2={y} stroke={TOMATO} strokeWidth="4" />
+      <polygon points={goRight ? `${x1},${y} ${x1 - 9},${y - 5} ${x1 - 9},${y + 5}` : `${x0},${y} ${x0 + 9},${y - 5} ${x0 + 9},${y + 5}`} fill={TOMATO} />
+      {/* endpoint */}
+      <circle cx={vx} cy={y} r="6" fill={inclusive ? TOMATO : '#fff'} stroke={TOMATO} strokeWidth="2.5" />
+    </svg>
+  )
+}
+
+// Curve with a tangent line for the derivative concept, e.g. {{tangent:min}}.
+// param = "left" | "min" | "right": where the tangent touches a U-shaped
+// (minimum) curve — the tangent slope goes negative → zero (at the minimum) →
+// positive, which is exactly the sign of the derivative.
+function Tangent({ param }) {
+  const where = ['left', 'min', 'right'].includes(String(param)) ? String(param) : 'min'
+  const W = 220
+  const H = 160
+  const padL = 26
+  const padB = 24
+  const plotW = W - padL - 12
+  const cx = padL + plotW / 2
+  const topY = 20
+  const vertexY = H - padB - 14 // bottom of the valley
+  const halfW = plotW / 2
+  const k = (vertexY - topY) / (halfW * halfW) // arms reach topY at the edges
+  const yOf = (x) => vertexY - k * (x - cx) * (x - cx)
+  const pts = []
+  for (let i = 0; i <= 40; i++) {
+    const x = padL + (plotW * i) / 40
+    pts.push(`${x.toFixed(1)},${yOf(x).toFixed(1)}`)
+  }
+  const tx = where === 'min' ? cx : where === 'left' ? cx - halfW * 0.6 : cx + halfW * 0.6
+  const ty = yOf(tx)
+  const slope = -2 * k * (tx - cx) // dy/dx in screen coordinates
+  const dxs = 42
+  const t1 = [tx - dxs, ty - slope * dxs]
+  const t2 = [tx + dxs, ty + slope * dxs]
+  return (
+    <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`}>
+      {/* axes */}
+      <line x1={padL} y1="8" x2={padL} y2={H - padB} stroke="#b9c2d8" strokeWidth="1.2" />
+      <line x1={padL} y1={H - padB} x2={W - 6} y2={H - padB} stroke={NAVY} strokeWidth="1.5" />
+      {/* curve */}
+      <polyline points={pts.join(' ')} fill="none" stroke={NAVY} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      {/* tangent line */}
+      <line x1={t1[0]} y1={t1[1]} x2={t2[0]} y2={t2[1]} stroke={TOMATO} strokeWidth="2.5" />
+      {/* point of tangency */}
+      <circle cx={tx} cy={ty} r="5" fill={TOMATO} stroke="#fff" strokeWidth="1.5" />
+    </svg>
+  )
+}
+
 const KINDS = {
   pizza: Pizza,
   circle: CirclePlain,
@@ -402,6 +559,10 @@ const KINDS = {
   parabola: Parabola,
   linegraph: LineGraph,
   ratiobar: RatioBar,
+  righttriangle: RightTriangle,
+  triangle: Triangle,
+  inequality: Inequality,
+  tangent: Tangent,
 }
 
 export default function FractionArt({ kind, n = 1, d = 4, param, caption }) {
