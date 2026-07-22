@@ -1755,3 +1755,196 @@ h4.prose-h {
   border-color: var(--accent);
   color: #fff;
 }
+
+/* ---------------------------------------------------------------------------
+   Booking page (Calendly-style day → time picker) + floating "book" button
+   --------------------------------------------------------------------------- */
+.booking-card {
+  padding: 18px;
+}
+.booking-grid {
+  display: grid;
+  grid-template-columns: minmax(200px, 260px) 1fr;
+  gap: 22px;
+  align-items: start;
+}
+@media (max-width: 640px) {
+  .booking-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.booking-days .day-strip {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 420px;
+  overflow-y: auto;
+}
+@media (max-width: 640px) {
+  .booking-days .day-strip {
+    flex-direction: row;
+    max-height: none;
+    overflow-x: auto;
+    padding-bottom: 6px;
+  }
+}
+.booking-day {
+  appearance: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  text-align: start;
+  transition: border-color 0.12s, box-shadow 0.12s, transform 0.06s;
+  min-width: 130px;
+}
+.booking-day:hover {
+  border-color: var(--accent);
+}
+.booking-day.active {
+  border-color: var(--cta);
+  box-shadow: 0 0 0 2px var(--cta) inset;
+}
+.booking-day .day-weekday {
+  font-weight: 700;
+  font-size: 0.98rem;
+}
+.booking-day .day-date {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.booking-day .day-count {
+  color: var(--accent-2);
+  font-size: 0.78rem;
+  margin-top: 2px;
+}
+.time-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 10px;
+}
+.time-slot {
+  appearance: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 10px 6px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: border-color 0.12s, box-shadow 0.12s;
+}
+.time-slot:hover {
+  border-color: var(--cta);
+}
+.time-slot.active {
+  background: var(--cta);
+  border-color: var(--cta-dark);
+  color: #fff;
+}
+.time-slot .time-dur {
+  font-weight: 400;
+  font-size: 0.72rem;
+  opacity: 0.8;
+}
+.time-slot:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.booking-confirm {
+  margin-top: 18px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface-2);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.booking-confirm .confirm-when {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.booking-confirm .confirm-when strong {
+  font-size: 1.02rem;
+}
+.booking-confirm .confirm-when span {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+.booking-confirm .text-input {
+  width: 100%;
+  box-sizing: border-box;
+}
+.confirm-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.booking-empty {
+  text-align: center;
+  padding: 26px 10px;
+}
+.booking-empty-emoji {
+  font-size: 2.4rem;
+  display: block;
+  margin-bottom: 8px;
+}
+.booking-empty .section-h {
+  justify-content: center;
+}
+
+/* Floating "book a lesson" button — bottom corner, all student pages */
+.book-fab {
+  position: fixed;
+  bottom: 22px;
+  inset-inline-end: 22px;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 18px;
+  border-radius: 999px;
+  background: var(--cta);
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.28);
+  transition: transform 0.12s, box-shadow 0.12s, background 0.12s;
+}
+.book-fab:hover {
+  background: var(--cta-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.34);
+}
+.book-fab-icon {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+.book-fab-label {
+  font-size: 0.95rem;
+}
+@media (max-width: 560px) {
+  .book-fab {
+    bottom: 16px;
+    inset-inline-end: 16px;
+    padding: 12px;
+  }
+  .book-fab-label {
+    display: none;
+  }
+  .book-fab-icon {
+    font-size: 1.5rem;
+  }
+}

@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext.jsx'
 import PrivateRoute from './components/PrivateRoute.jsx'
 import Navbar from './components/Navbar.jsx'
+import BookLessonFab from './components/BookLessonFab.jsx'
 
 import LoginPage from './pages/LoginPage.jsx'
 import RegisterPage from './pages/RegisterPage.jsx'
@@ -241,6 +242,8 @@ function AppRoutes() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
+
+      <BookLessonFab />
 
       <footer className="footer" dir="rtl">
         <span>© כל הזכויות שמורות ליאיר כהנא, בניית אתרים ודפי נחיתה 0545953631</span>

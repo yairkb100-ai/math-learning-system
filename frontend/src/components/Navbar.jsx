@@ -77,7 +77,7 @@ export default function Navbar() {
                 <Link to="/exams" className="nav-link">מבחנים</Link>
                 <Link to="/analytics" className="nav-link">אנליטיקה</Link>
                 <Link to="/progress" className="nav-link">ההתקדמות שלי</Link>
-                <Link to="/lessons" className="nav-link">שיעורים פרטיים</Link>
+                <Link to="/lessons" className="nav-link">קביעת שיעור פרטי</Link>
                 <Link to="/subscription" className="nav-link">המנוי שלי</Link>
                 {messagesLink}
               </>
