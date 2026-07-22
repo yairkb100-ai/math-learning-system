@@ -105,7 +105,7 @@ class ChapterView(Base):
     created_at = Column(DateTime, default=datetime.utcnow, index=True)
 
     user = relationship("User")
-    chapter = relationship("Chapter")
+    chapter = relationship("Chapter", back_populates="views")
 
 
 class AppSetting(Base):
@@ -238,6 +238,15 @@ class Chapter(Base):
     )
     progress = relationship(
         "ChapterProgress",
+        back_populates="chapter",
+        cascade="all, delete-orphan",
+    )
+    # Audit-log rows reference this chapter. Without a cascade, replacing a
+    # course whose content changed fails the DELETE on the chapter_views FK
+    # and crashes the whole seed/boot. The view log is per-chapter, so it is
+    # dropped with the chapter (same as progress/quiz above).
+    views = relationship(
+        "ChapterView",
         back_populates="chapter",
         cascade="all, delete-orphan",
     )
