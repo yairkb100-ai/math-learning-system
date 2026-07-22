@@ -88,11 +88,16 @@ def publish_video(course_slug: str, mp4_path, *, delete_local: bool = True) -> s
                 {"st": stored, "u": url, "z": size, "ct": ctype, "i": row[0]},
             )
         else:
+            # uploaded_at MUST be set explicitly: the ORM default
+            # (default=datetime.utcnow) is Python-side only, so this raw INSERT
+            # would otherwise leave it NULL — and FileAssetOut.uploaded_at is a
+            # required datetime, so any /api/files response containing a
+            # NULL-uploaded_at row 500s and the whole course loses its files.
             c.execute(
                 text("INSERT INTO file_assets "
                      "(uploader_id, course_id, original_name, stored_name, "
-                     " content_type, size, kind, external_url) "
-                     "VALUES (:up,:c,:n,:st,:ct,:z,'resource',:u)"),
+                     " content_type, size, kind, external_url, uploaded_at) "
+                     "VALUES (:up,:c,:n,:st,:ct,:z,'resource',:u, now())"),
                 {"up": admin, "c": cid, "n": name, "st": stored,
                  "ct": ctype, "z": size, "u": url},
             )

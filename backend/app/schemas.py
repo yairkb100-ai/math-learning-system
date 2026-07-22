@@ -354,7 +354,10 @@ class FileAssetOut(BaseModel):
     content_type: Optional[str] = None
     size: Optional[int] = None
     kind: str = "resource"
-    uploaded_at: datetime
+    # Optional so a row with a NULL uploaded_at (e.g. inserted via raw SQL that
+    # bypassed the ORM's Python-side default) can't 500 the whole /api/files
+    # response and silently strip a course of its videos/worksheets.
+    uploaded_at: Optional[datetime] = None
     external_url: Optional[str] = None
 
 
