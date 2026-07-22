@@ -1,15 +1,16 @@
 :root {
-  /* פלטת כחול-ירוק-אפור — נקייה, מקצועית וחמה (לא "AI") */
-  --bg: #f5f7f7;
+  /* זהות "דיו על נייר": דיו אינדיגו על אפור-נייר, אקסנט מרקר ורוד.
+     ירוק/אדום נשמרים למשמעות בלבד (נכון/שגוי, אושר/נדחה). */
+  --bg: #f4f5f8;
   --surface: #ffffff;
-  --surface-2: #eef2f2;
-  --border: #dbe3e3;
-  --text: #202a2e;
-  --muted: #5a666c;
-  --accent: #1f6f8b;       /* כחול-פלדה — צבע ראשי */
-  --accent-2: #2a86a3;     /* כחול בהיר יותר להדגשות */
-  --cta: #2f8f6d;          /* ירוק — פעולה ראשית */
-  --cta-dark: #257456;     /* ירוק כהה למעברים */
+  --surface-2: #eef0f5;
+  --border: #dfe2ea;
+  --text: #1b2440;
+  --muted: #5b6480;
+  --accent: #2f4a86;       /* אינדיגו — צבע ראשי (קישורים/כותרות) */
+  --accent-2: #e85c9a;     /* ורוד מרקר — הדגשות */
+  --cta: #3a53c5;          /* אינדיגו חי — פעולה ראשית */
+  --cta-dark: #2d3fa0;     /* אינדיגו כהה למעברים */
   --ok: #2f8f6d;
   --ok-bg: #e7f4ee;
   --no: #b23a2c;
@@ -37,8 +38,8 @@ body {
   background-color: var(--bg);
   /* רקע מתמטי עדין: דפוס סמלים שקוף מעל גרדיאנט רך */
   background-image:
-    linear-gradient(180deg, rgba(31, 111, 139, 0.05) 0%, rgba(245, 247, 247, 0) 340px),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260' viewBox='0 0 260 260'%3E%3Cg fill='none' stroke='%231f6f8b' stroke-width='2' opacity='0.055'%3E%3Ccircle cx='36' cy='40' r='16'/%3E%3Cpath d='M36 24v32M20 40h32'/%3E%3Cpath d='M118 22l14 26h-28z'/%3E%3Crect x='196' y='26' width='28' height='28' rx='4'/%3E%3Cpath d='M60 122h28M74 108v28'/%3E%3Cpath d='M150 112l20 20m0-20l-20 20'/%3E%3Cpath d='M218 118h26m-26 12h26'/%3E%3Ccircle cx='30' cy='206' r='3' fill='%231f6f8b'/%3E%3Cpath d='M16 206h28'/%3E%3Ccircle cx='30' cy='222' r='3' fill='%231f6f8b'/%3E%3C/g%3E%3Cg fill='%231f6f8b' opacity='0.06' font-family='Georgia, serif' font-size='30'%3E%3Ctext x='92' y='218'%3E%CF%80%3C/text%3E%3Ctext x='158' y='192'%3E%C2%BD%3C/text%3E%3Ctext x='210' y='230'%3E%C2%BE%3C/text%3E%3Ctext x='128' y='76'%3E%C3%B7%3C/text%3E%3C/g%3E%3C/svg%3E");
+    linear-gradient(180deg, rgba(47, 74, 134, 0.05) 0%, rgba(244, 245, 248, 0) 340px),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260' viewBox='0 0 260 260'%3E%3Cg fill='none' stroke='%232f4a86' stroke-width='2' opacity='0.055'%3E%3Ccircle cx='36' cy='40' r='16'/%3E%3Cpath d='M36 24v32M20 40h32'/%3E%3Cpath d='M118 22l14 26h-28z'/%3E%3Crect x='196' y='26' width='28' height='28' rx='4'/%3E%3Cpath d='M60 122h28M74 108v28'/%3E%3Cpath d='M150 112l20 20m0-20l-20 20'/%3E%3Cpath d='M218 118h26m-26 12h26'/%3E%3Ccircle cx='30' cy='206' r='3' fill='%232f4a86'/%3E%3Cpath d='M16 206h28'/%3E%3Ccircle cx='30' cy='222' r='3' fill='%232f4a86'/%3E%3C/g%3E%3Cg fill='%232f4a86' opacity='0.06' font-family='Georgia, serif' font-size='30'%3E%3Ctext x='92' y='218'%3E%CF%80%3C/text%3E%3Ctext x='158' y='192'%3E%C2%BD%3C/text%3E%3Ctext x='210' y='230'%3E%C2%BE%3C/text%3E%3Ctext x='128' y='76'%3E%C3%B7%3C/text%3E%3C/g%3E%3C/svg%3E");
   background-repeat: no-repeat, repeat;
   background-attachment: fixed, fixed;
   color: var(--text);
@@ -71,16 +72,18 @@ a:hover {
 }
 .brand {
   color: var(--text);
-  font-weight: 700;
-  font-size: 1.15rem;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.28rem;
+  letter-spacing: 0.01em;
 }
 .brand:hover {
   text-decoration: none;
 }
 .brand-mark {
-  color: var(--accent);
+  color: var(--accent-2);
   margin-inline-end: 6px;
-  font-size: 1.3rem;
+  font-size: 1.35rem;
 }
 
 .content {
@@ -297,7 +300,7 @@ h1 {
   --ink: #1b2a4a;        /* pen-ink indigo — headings & numerals */
   --ink-soft: #55617d;   /* muted ink for secondary text */
   --paper: #fbfaf6;      /* warm notebook paper */
-  --marker: #f4a821;     /* highlighter marigold */
+  --marker: #e85c9a;     /* highlighter — pink (was marigold) */
   --grid-line: rgba(27, 42, 74, 0.07);
 }
 
@@ -310,7 +313,7 @@ h1 {
   background:
     linear-gradient(var(--grid-line) 1px, transparent 1px) 0 0 / 26px 26px,
     linear-gradient(90deg, var(--grid-line) 1px, transparent 1px) 0 0 / 26px 26px,
-    radial-gradient(130% 120% at 88% -20%, rgba(244, 168, 33, 0.14), transparent 46%),
+    radial-gradient(130% 120% at 88% -20%, rgba(232, 92, 154, 0.13), transparent 46%),
     var(--paper);
   margin-bottom: 32px;
 }
@@ -455,12 +458,12 @@ h1 {
   transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
 }
 .cat-card.level-beginner {
-  --lv: #12936a;
-  --lv-bg: #e5f4ee;
+  --lv: #2e77d0;
+  --lv-bg: #e6eefb;
 }
 .cat-card.level-intermediate {
-  --lv: #d9871a;
-  --lv-bg: #fbeed3;
+  --lv: #7a50e0;
+  --lv-bg: #efe9fc;
 }
 .cat-card.level-advanced {
   --lv: #cc4459;
