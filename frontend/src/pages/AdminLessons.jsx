@@ -43,16 +43,17 @@ export default function AdminLessons() {
 
   // single-slot form
   const [single, setSingle] = useState({ startsAt: '', durationMin: 45, note: '' })
-  // bulk-generate form
-  const [gen, setGen] = useState({
+  // availability window → the system fills a slot every `everyMin` minutes
+  // between fromTime and toTime, on each chosen weekday across the date range.
+  const [avail, setAvail] = useState({
     startDate: '',
     endDate: '',
     weekdays: [],
-    times: '16:00, 17:00, 18:00',
+    fromTime: '16:00',
+    toTime: '20:00',
+    everyMin: 5,
     durationMin: 45,
   })
-  // range → times helper (fills the times field on a fixed-minute grid)
-  const [range, setRange] = useState({ from: '16:00', to: '20:00', every: 5 })
 
   const load = useCallback(() => {
     setLoading(true)
@@ -89,26 +90,46 @@ export default function AdminLessons() {
     }
   }
 
+  // Build the HH:MM start times from the availability window + interval.
+  function windowTimes() {
+    const toMin = (s) => {
+      const [h, m] = String(s).split(':').map(Number)
+      return Number.isFinite(h) && Number.isFinite(m) ? h * 60 + m : NaN
+    }
+    const start = toMin(avail.fromTime)
+    const end = toMin(avail.toTime)
+    const step = Number(avail.everyMin)
+    if (!Number.isFinite(start) || !Number.isFinite(end) || !step || step <= 0 || end < start) {
+      return null
+    }
+    const out = []
+    for (let m = start; m <= end; m += step) {
+      out.push(`${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`)
+    }
+    return out
+  }
+
+  const previewTimes = windowTimes()
+
   async function generate(e) {
     e.preventDefault()
-    const times = gen.times
-      .split(',')
-      .map((t) => t.trim())
-      .filter(Boolean)
-    if (!gen.startDate || !gen.endDate || gen.weekdays.length === 0 || times.length === 0) {
-      alert('יש למלא טווח תאריכים, לבחור לפחות יום אחד, ולציין לפחות שעה אחת.')
+    const times = windowTimes()
+    if (!avail.startDate || !avail.endDate || avail.weekdays.length === 0 || !times) {
+      alert('בחרו טווח תאריכים, לפחות יום אחד בשבוע, וחלון שעות תקין (משעה עד שעה).')
       return
     }
+    const est = times.length * avail.weekdays.length
+    if (est > 300 && !confirm(`הפעולה תיצור בערך ${est} תורים. להמשיך?`)) return
     setBusy(true)
     try {
       const res = await api.adminGenerateLessonSlots({
-        startDate: gen.startDate,
-        endDate: gen.endDate,
-        weekdays: gen.weekdays,
+        startDate: avail.startDate,
+        endDate: avail.endDate,
+        weekdays: avail.weekdays,
         times,
-        durationMin: Number(gen.durationMin) || 45,
+        durationMin: Number(avail.durationMin) || 45,
       })
-      alert(`נוצרו ${res.created} משבצות.`)
+      alert(`נוצרו ${res.created} תורים פנויים.`)
       load()
     } catch (err) {
       alert(err.message)
@@ -117,33 +138,12 @@ export default function AdminLessons() {
     }
   }
 
-  // Expand "from → to every N min" into a comma-separated HH:MM list and drop
-  // it into the times field. Inclusive of both ends.
-  function fillTimesFromRange() {
-    const toMin = (s) => {
-      const [h, m] = String(s).split(':').map(Number)
-      return Number.isFinite(h) && Number.isFinite(m) ? h * 60 + m : NaN
-    }
-    const start = toMin(range.from)
-    const end = toMin(range.to)
-    const step = Number(range.every)
-    if (!Number.isFinite(start) || !Number.isFinite(end) || !step || step <= 0 || end < start) {
-      alert('בדקו את הטווח: "מ־" ו"עד" בפורמט HH:MM, והמרווח מספר חיובי.')
-      return
-    }
-    const out = []
-    for (let m = start; m <= end; m += step) {
-      out.push(`${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`)
-    }
-    setGen((g) => ({ ...g, times: out.join(', ') }))
-  }
-
   function toggleWeekday(v) {
-    setGen((g) => ({
-      ...g,
-      weekdays: g.weekdays.includes(v)
-        ? g.weekdays.filter((x) => x !== v)
-        : [...g.weekdays, v],
+    setAvail((a) => ({
+      ...a,
+      weekdays: a.weekdays.includes(v)
+        ? a.weekdays.filter((x) => x !== v)
+        : [...a.weekdays, v],
     }))
   }
 
@@ -212,139 +212,154 @@ export default function AdminLessons() {
 
       {/* Define availability */}
       <section className="card" style={{ marginBottom: 20 }}>
-        <h2 className="section-h">הוספת משבצות זמן</h2>
-
-        <form className="lesson-form" onSubmit={addSingle}>
-          <div className="form-row">
-            <label>
-              מועד יחיד
-              <input
-                type="datetime-local"
-                step="300"
-                value={single.startsAt}
-                onChange={(e) => setSingle({ ...single, startsAt: e.target.value })}
-              />
-            </label>
-            <label>
-              משך (דק׳)
-              <input
-                type="number"
-                min="5"
-                step="5"
-                value={single.durationMin}
-                onChange={(e) => setSingle({ ...single, durationMin: e.target.value })}
-              />
-            </label>
-            <label>
-              הערה (לא חובה)
-              <input
-                type="text"
-                value={single.note}
-                placeholder="למשל: אונליין"
-                onChange={(e) => setSingle({ ...single, note: e.target.value })}
-              />
-            </label>
-            <button className="btn-sm btn-primary" disabled={busy}>הוספה</button>
-          </div>
-        </form>
-
-        <hr className="divider" />
+        <h2 className="section-h">הגדרת זמינות</h2>
+        <p className="page-sub" style={{ margin: '0 0 14px' }}>
+          בחרו טווח תאריכים, את הימים בשבוע וחלון שעות — המערכת תפתח תור פנוי כל כמה
+          דקות שתבחרו, בכל אחד מהימים המסומנים.
+        </p>
 
         <form className="lesson-form" onSubmit={generate}>
-          <div className="gen-title">יצירה שבועית (טווח תאריכים)</div>
           <div className="form-row">
             <label>
               מתאריך
               <input
                 type="date"
-                value={gen.startDate}
-                onChange={(e) => setGen({ ...gen, startDate: e.target.value })}
+                value={avail.startDate}
+                onChange={(e) => setAvail({ ...avail, startDate: e.target.value })}
               />
             </label>
             <label>
               עד תאריך
               <input
                 type="date"
-                value={gen.endDate}
-                onChange={(e) => setGen({ ...gen, endDate: e.target.value })}
-              />
-            </label>
-            <label>
-              משך (דק׳)
-              <input
-                type="number"
-                min="15"
-                step="15"
-                value={gen.durationMin}
-                onChange={(e) => setGen({ ...gen, durationMin: e.target.value })}
+                value={avail.endDate}
+                onChange={(e) => setAvail({ ...avail, endDate: e.target.value })}
               />
             </label>
           </div>
-          <div className="weekday-pills">
-            {WEEKDAYS.map((d) => (
-              <button
-                type="button"
-                key={d.v}
-                className={`day-pill ${gen.weekdays.includes(d.v) ? 'on' : ''}`}
-                onClick={() => toggleWeekday(d.v)}
-              >
-                {d.label}
-              </button>
-            ))}
+
+          <div>
+            <div className="gen-title" style={{ marginBottom: 6 }}>באילו ימים?</div>
+            <div className="weekday-pills">
+              {WEEKDAYS.map((d) => (
+                <button
+                  type="button"
+                  key={d.v}
+                  className={`day-pill ${avail.weekdays.includes(d.v) ? 'on' : ''}`}
+                  onClick={() => toggleWeekday(d.v)}
+                >
+                  {d.label}
+                </button>
+              ))}
+            </div>
           </div>
+
           <div className="form-row">
             <label>
-              מ־
+              משעה
               <input
                 type="time"
                 step="300"
-                value={range.from}
-                onChange={(e) => setRange({ ...range, from: e.target.value })}
+                value={avail.fromTime}
+                onChange={(e) => setAvail({ ...avail, fromTime: e.target.value })}
               />
             </label>
             <label>
-              עד
+              עד שעה
               <input
                 type="time"
                 step="300"
-                value={range.to}
-                onChange={(e) => setRange({ ...range, to: e.target.value })}
+                value={avail.toTime}
+                onChange={(e) => setAvail({ ...avail, toTime: e.target.value })}
               />
             </label>
             <label>
-              כל (דק׳)
+              תור כל (דק׳)
               <input
                 type="number"
                 min="5"
                 step="5"
-                value={range.every}
-                onChange={(e) => setRange({ ...range, every: e.target.value })}
+                value={avail.everyMin}
+                onChange={(e) => setAvail({ ...avail, everyMin: e.target.value })}
               />
             </label>
-            <button type="button" className="btn-sm btn-ghost" onClick={fillTimesFromRange}>
-              מילוי שעות ↓
-            </button>
-          </div>
-          <div className="form-row">
-            <label style={{ flex: 1 }}>
-              שעות (מופרדות בפסיק)
+            <label>
+              משך שיעור (דק׳)
               <input
-                type="text"
-                value={gen.times}
-                placeholder="16:00, 16:05, 16:10 …"
-                onChange={(e) => setGen({ ...gen, times: e.target.value })}
+                type="number"
+                min="5"
+                step="5"
+                value={avail.durationMin}
+                onChange={(e) => setAvail({ ...avail, durationMin: e.target.value })}
               />
             </label>
-            <button className="btn-sm btn-primary" disabled={busy}>יצירת משבצות</button>
+          </div>
+
+          <div className="gen-preview">
+            {previewTimes ? (
+              <>
+                ייפתחו <strong>{previewTimes.length}</strong> תורים בכל יום (
+                {previewTimes[0]}–{previewTimes[previewTimes.length - 1]}, כל{' '}
+                {avail.everyMin} דק׳)
+                {avail.weekdays.length ? ` × ${avail.weekdays.length} ימים בשבוע` : ''}.
+              </>
+            ) : (
+              <span className="gen-warn">
+                חלון השעות לא תקין — ודאו ש"עד שעה" מאוחר מ"משעה".
+              </span>
+            )}
+          </div>
+
+          <div>
+            <button className="btn-sm btn-primary" disabled={busy}>צור זמינות</button>
           </div>
         </form>
+
+        <hr className="divider" />
+
+        <details className="single-slot">
+          <summary>הוספת מועד יחיד (חד־פעמי)</summary>
+          <form className="lesson-form" onSubmit={addSingle} style={{ marginTop: 12 }}>
+            <div className="form-row">
+              <label>
+                מועד
+                <input
+                  type="datetime-local"
+                  step="300"
+                  value={single.startsAt}
+                  onChange={(e) => setSingle({ ...single, startsAt: e.target.value })}
+                />
+              </label>
+              <label>
+                משך (דק׳)
+                <input
+                  type="number"
+                  min="5"
+                  step="5"
+                  value={single.durationMin}
+                  onChange={(e) => setSingle({ ...single, durationMin: e.target.value })}
+                />
+              </label>
+              <label>
+                הערה (לא חובה)
+                <input
+                  type="text"
+                  value={single.note}
+                  placeholder="למשל: אונליין"
+                  onChange={(e) => setSingle({ ...single, note: e.target.value })}
+                />
+              </label>
+              <button className="btn-sm btn-primary" disabled={busy}>הוספה</button>
+            </div>
+          </form>
+        </details>
       </section>
 
       {/* All slots */}
       <section className="card" style={{ marginBottom: 20 }}>
-        <h2 className="section-h">כל המשבצות ({slots.length})</h2>
+        <h2 className="section-h">כל התורים ({slots.length})</h2>
         {slots.length === 0 ? (
-          <p className="empty">עדיין לא הוגדרו משבצות.</p>
+          <p className="empty">עדיין לא הוגדרו תורים.</p>
         ) : (
           <div className="slot-list">
             {slots.map((s) => {
@@ -374,7 +389,7 @@ export default function AdminLessons() {
                       className="btn-sm btn-danger"
                       disabled={busy}
                       onClick={() => {
-                        if (confirm('למחוק את המשבצת? פעולה זו תמחק גם בקשות שקשורות אליה.'))
+                        if (confirm('למחוק את התור? פעולה זו תמחק גם בקשות שקשורות אליו.'))
                           act(api.adminDeleteLessonSlot, s.id)
                       }}
                     >

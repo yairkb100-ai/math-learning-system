@@ -1738,6 +1738,27 @@ h4.prose-h {
   gap: 6px;
   flex-wrap: wrap;
 }
+.gen-preview {
+  font-size: 0.9rem;
+  color: var(--muted);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 9px 12px;
+}
+.gen-preview strong {
+  color: var(--accent);
+}
+.gen-warn {
+  color: var(--no);
+}
+.single-slot > summary {
+  cursor: pointer;
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 0.92rem;
+  list-style: revert;
+}
 .day-pill {
   appearance: none;
   width: 38px;
