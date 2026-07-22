@@ -51,6 +51,8 @@ export default function AdminLessons() {
     times: '16:00, 17:00, 18:00',
     durationMin: 45,
   })
+  // range → times helper (fills the times field on a fixed-minute grid)
+  const [range, setRange] = useState({ from: '16:00', to: '20:00', every: 5 })
 
   const load = useCallback(() => {
     setLoading(true)
@@ -113,6 +115,27 @@ export default function AdminLessons() {
     } finally {
       setBusy(false)
     }
+  }
+
+  // Expand "from → to every N min" into a comma-separated HH:MM list and drop
+  // it into the times field. Inclusive of both ends.
+  function fillTimesFromRange() {
+    const toMin = (s) => {
+      const [h, m] = String(s).split(':').map(Number)
+      return Number.isFinite(h) && Number.isFinite(m) ? h * 60 + m : NaN
+    }
+    const start = toMin(range.from)
+    const end = toMin(range.to)
+    const step = Number(range.every)
+    if (!Number.isFinite(start) || !Number.isFinite(end) || !step || step <= 0 || end < start) {
+      alert('בדקו את הטווח: "מ־" ו"עד" בפורמט HH:MM, והמרווח מספר חיובי.')
+      return
+    }
+    const out = []
+    for (let m = start; m <= end; m += step) {
+      out.push(`${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`)
+    }
+    setGen((g) => ({ ...g, times: out.join(', ') }))
   }
 
   function toggleWeekday(v) {
@@ -197,6 +220,7 @@ export default function AdminLessons() {
               מועד יחיד
               <input
                 type="datetime-local"
+                step="300"
                 value={single.startsAt}
                 onChange={(e) => setSingle({ ...single, startsAt: e.target.value })}
               />
@@ -205,8 +229,8 @@ export default function AdminLessons() {
               משך (דק׳)
               <input
                 type="number"
-                min="15"
-                step="15"
+                min="5"
+                step="5"
                 value={single.durationMin}
                 onChange={(e) => setSingle({ ...single, durationMin: e.target.value })}
               />
@@ -269,12 +293,45 @@ export default function AdminLessons() {
             ))}
           </div>
           <div className="form-row">
+            <label>
+              מ־
+              <input
+                type="time"
+                step="300"
+                value={range.from}
+                onChange={(e) => setRange({ ...range, from: e.target.value })}
+              />
+            </label>
+            <label>
+              עד
+              <input
+                type="time"
+                step="300"
+                value={range.to}
+                onChange={(e) => setRange({ ...range, to: e.target.value })}
+              />
+            </label>
+            <label>
+              כל (דק׳)
+              <input
+                type="number"
+                min="5"
+                step="5"
+                value={range.every}
+                onChange={(e) => setRange({ ...range, every: e.target.value })}
+              />
+            </label>
+            <button type="button" className="btn-sm btn-ghost" onClick={fillTimesFromRange}>
+              מילוי שעות ↓
+            </button>
+          </div>
+          <div className="form-row">
             <label style={{ flex: 1 }}>
               שעות (מופרדות בפסיק)
               <input
                 type="text"
                 value={gen.times}
-                placeholder="16:00, 17:00, 18:00"
+                placeholder="16:00, 16:05, 16:10 …"
                 onChange={(e) => setGen({ ...gen, times: e.target.value })}
               />
             </label>
