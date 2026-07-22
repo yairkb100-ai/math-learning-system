@@ -41,6 +41,22 @@ def _holding_request(slot: models.LessonSlot):
     return held[0]
 
 
+def _slot_end(slot: models.LessonSlot) -> datetime:
+    return slot.starts_at + timedelta(minutes=slot.duration_min or 0)
+
+
+def _overlaps(a_start, a_end, b_start, b_end) -> bool:
+    """True when two [start, end) time intervals intersect."""
+    return a_start < b_end and b_start < a_end
+
+
+def _held_intervals(slots) -> list[tuple[datetime, datetime]]:
+    """Time windows already taken by a pending/approved request — so overlapping
+    slots can be hidden/blocked even though they're distinct rows. Lets the admin
+    offer densely-spaced start times (e.g. every 5 min) without double-booking."""
+    return [(s.starts_at, _slot_end(s)) for s in slots if _holding_request(s) is not None]
+
+
 def _slot_status(slot: models.LessonSlot, now: datetime) -> str:
     if slot.is_blocked:
         return "blocked"
@@ -97,16 +113,20 @@ def available_slots(
 ) -> list[LessonSlotOut]:
     """משבצות פנויות להזמנה: בעתיד, לא חסומות, וללא בקשה ממתינה/מאושרת."""
     now = datetime.utcnow()
-    slots = (
-        db.query(models.LessonSlot)
-        .filter(models.LessonSlot.starts_at > now, models.LessonSlot.is_blocked.is_(False))
-        .order_by(models.LessonSlot.starts_at)
-        .all()
-    )
+    # Load every slot (not just future) so an in-progress or overlapping held
+    # slot still blocks the times it covers.
+    slots = db.query(models.LessonSlot).order_by(models.LessonSlot.starts_at).all()
+    held = _held_intervals(slots)
     out = []
     for s in slots:
-        if _holding_request(s) is None:
-            out.append(_slot_out(s, now, with_student=False))
+        if s.is_blocked or s.starts_at <= now:
+            continue
+        if _holding_request(s) is not None:
+            continue
+        s_end = _slot_end(s)
+        if any(_overlaps(s.starts_at, s_end, hs, he) for hs, he in held):
+            continue  # overlaps a slot that's already taken
+        out.append(_slot_out(s, now, with_student=False))
     return out
 
 
@@ -131,6 +151,13 @@ def request_lesson(
         raise HTTPException(status_code=400, detail="לא ניתן לבקש משבצת שכבר עברה")
     if _holding_request(slot) is not None:
         raise HTTPException(status_code=409, detail="המשבצת כבר נתפסה")
+    # Reject if this time overlaps another slot that's already held, so densely
+    # spaced (e.g. every-5-min) start times can't be double-booked.
+    s_end = _slot_end(slot)
+    others = db.query(models.LessonSlot).filter(models.LessonSlot.id != slot.id).all()
+    for o in others:
+        if _holding_request(o) is not None and _overlaps(slot.starts_at, s_end, o.starts_at, _slot_end(o)):
+            raise HTTPException(status_code=409, detail="השעה הזו כבר נתפסה בתור חופף")
 
     req = models.LessonRequest(
         slot_id=slot.id,
