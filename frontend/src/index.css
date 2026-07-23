@@ -800,36 +800,59 @@ h1 {
 .chapter-content {
   margin-bottom: 8px;
 }
+.chapter-content.card {
+  padding: 30px 34px 26px;
+}
+/* Reading text — airy: generous leading, breathing paragraphs, and a
+   comfortable measure so lines don't run wall-to-wall. */
 .prose {
-  font-size: 1.05rem;
+  font-size: 1.08rem;
+  line-height: 1.95;
+  max-width: 46rem;
+  margin-inline: auto;
 }
 .prose-p {
-  margin: 0 0 14px;
+  margin: 0 0 20px;
 }
 .prose-p:last-child {
   margin-bottom: 0;
 }
 .prose-h {
-  margin: 22px 0 10px;
+  margin: 34px 0 14px;
   color: var(--text);
   font-weight: 700;
   line-height: 1.35;
 }
+.prose-h:first-child {
+  margin-top: 4px;
+}
 h3.prose-h {
-  font-size: 1.28rem;
-  padding-bottom: 6px;
-  border-bottom: 2px solid var(--surface-2);
+  font-size: 1.3rem;
+  padding-bottom: 0;
+  border-bottom: none;
+  position: relative;
+}
+/* notebook identity: a soft chalk-yellow highlighter dash under section heads */
+h3.prose-h::after {
+  content: '';
+  display: block;
+  width: 58px;
+  height: 5px;
+  margin-top: 7px;
+  border-radius: 3px;
+  background: var(--marker, #f2b134);
+  opacity: 0.65;
 }
 h4.prose-h {
-  font-size: 1.1rem;
+  font-size: 1.12rem;
   color: var(--accent);
 }
 .prose-list {
-  margin: 0 0 14px;
+  margin: 0 0 20px;
   padding-inline-start: 26px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 9px;
 }
 .prose-list li {
   padding-inline-start: 4px;
@@ -1971,11 +1994,15 @@ h4.prose-h {
 /* ===== fraction illustrations ===== */
 .art-row {
   display: flex;
-  gap: 28px;
+  gap: 30px;
   flex-wrap: wrap;
   justify-content: center;
   align-items: flex-end;
-  margin: 18px 0;
+  margin: 28px 0;
+  padding: 18px 14px;
+  background: var(--paper, #f4f8f4);
+  border: 1px solid var(--border);
+  border-radius: 14px;
 }
 .art-fig { margin: 0; text-align: center; }
 .art-caption {
