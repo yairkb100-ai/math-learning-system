@@ -712,6 +712,110 @@ function SignedLine({ param }) {
   )
 }
 
+// Full 4-quadrant Cartesian plane with labeled points, e.g.
+// {{axespoints:2,3;-1,4;-3,-2|נקודות A, B, C}}. param = semicolon-separated
+// "x,y" pairs, auto-labeled A, B, C… (letters only — coordinates go in the
+// caption, so "read the point" exercises stay honest). {{axespoints:blank}}
+// (or empty param) draws just the empty grid for plot-it-yourself exercises.
+// Window auto-ranges to fit the points, at least -5..5 on both axes.
+function AxesPoints({ param }) {
+  const raw = String(param == null ? '' : param).trim()
+  const pts = raw === '' || raw === 'blank'
+    ? []
+    : raw
+        .split(';')
+        .map((p) => p.split(',').map(Number))
+        .filter((p) => p.length === 2 && p.every((v) => Number.isFinite(v)))
+  const span = Math.max(5, ...pts.map((p) => Math.max(Math.abs(p[0]), Math.abs(p[1]))))
+  const R = Math.ceil(span) + 1
+  const W = 250
+  const pad = 16
+  const plot = W - pad * 2
+  const sx = (x) => pad + ((x + R) / (2 * R)) * plot
+  const sy = (y) => pad + ((R - y) / (2 * R)) * plot
+  const grid = []
+  for (let g = -R; g <= R; g++) {
+    grid.push(<line key={`v${g}`} x1={sx(g)} y1={sy(-R)} x2={sx(g)} y2={sy(R)} stroke="#e6ebf5" strokeWidth="1" />)
+    grid.push(<line key={`h${g}`} x1={sx(-R)} y1={sy(g)} x2={sx(R)} y2={sy(g)} stroke="#e6ebf5" strokeWidth="1" />)
+  }
+  const step = R > 6 ? 2 : 1
+  const ticks = []
+  for (let g = -R; g <= R; g += step) {
+    if (g === 0) continue
+    ticks.push(<text key={`tx${g}`} x={sx(g)} y={sy(0) + 12} textAnchor="middle" fontSize="8.5" fill="#8893ad">{g}</text>)
+    ticks.push(<text key={`ty${g}`} x={sx(0) - 4} y={sy(g) + 3} textAnchor="end" fontSize="8.5" fill="#8893ad">{g}</text>)
+  }
+  const LETTERS = 'ABCDEFGH'
+  return (
+    <svg width={W} height={W} viewBox={`0 0 ${W} ${W}`}>
+      {grid}
+      <line x1={sx(-R)} y1={sy(0)} x2={sx(R)} y2={sy(0)} stroke={NAVY} strokeWidth="1.8" />
+      <line x1={sx(0)} y1={sy(-R)} x2={sx(0)} y2={sy(R)} stroke={NAVY} strokeWidth="1.8" />
+      <polygon points={`${sx(R)},${sy(0)} ${sx(R) - 8},${sy(0) - 4} ${sx(R) - 8},${sy(0) + 4}`} fill={NAVY} />
+      <polygon points={`${sx(0)},${sy(R)} ${sx(0) - 4},${sy(R) + 8} ${sx(0) + 4},${sy(R) + 8}`} fill={NAVY} />
+      <text x={sx(R) - 4} y={sy(0) - 7} textAnchor="end" fontSize="12" fill={NAVY} fontWeight="700">x</text>
+      <text x={sx(0) + 7} y={sy(R) + 12} fontSize="12" fill={NAVY} fontWeight="700">y</text>
+      <text x={sx(0) - 4} y={sy(0) + 12} textAnchor="end" fontSize="9" fill="#8893ad">0</text>
+      {ticks}
+      {pts.map((p, i) => (
+        <g key={i}>
+          <circle cx={sx(p[0])} cy={sy(p[1])} r="5" fill={TOMATO} stroke="#fff" strokeWidth="1.5" />
+          <text x={sx(p[0]) + 7} y={sy(p[1]) - 7} fontSize="12" fontWeight="700" fill={NAVY}>{LETTERS[i] || ''}</text>
+        </g>
+      ))}
+    </svg>
+  )
+}
+
+// Single linear function y = m·x + b on a full 4-quadrant window, e.g.
+// {{funcline:2,-1|y = 2x − 1}}. Marks the y-intercept (0,b) with a dot and,
+// when the slope is a nonzero integer, a small rise/run "slope triangle" so the
+// meaning of m is visible. Window fixed at -5..5 on both axes.
+function FuncLine({ param }) {
+  const nums = String(param || '1,0').split(',').map(Number)
+  const m = Number.isFinite(nums[0]) ? nums[0] : 1
+  const b = Number.isFinite(nums[1]) ? nums[1] : 0
+  const R = 5
+  const W = 250
+  const pad = 16
+  const plot = W - pad * 2
+  const sx = (x) => pad + ((x + R) / (2 * R)) * plot
+  const sy = (y) => pad + ((R - y) / (2 * R)) * plot
+  const grid = []
+  for (let g = -R; g <= R; g++) {
+    grid.push(<line key={`v${g}`} x1={sx(g)} y1={sy(-R)} x2={sx(g)} y2={sy(R)} stroke="#e6ebf5" strokeWidth="1" />)
+    grid.push(<line key={`h${g}`} x1={sx(-R)} y1={sy(g)} x2={sx(R)} y2={sy(g)} stroke="#e6ebf5" strokeWidth="1" />)
+  }
+  const clip = `fl-${String(m).replace('.', 'p')}-${String(b).replace('.', 'p')}`
+  // slope triangle from the intercept: run 1 right, rise m up
+  const tri = m !== 0 && Number.isInteger(m) && Math.abs(b) <= 3 && Math.abs(m + b) <= 4.5
+  return (
+    <svg width={W} height={W} viewBox={`0 0 ${W} ${W}`}>
+      <defs>
+        <clipPath id={clip}>
+          <rect x={sx(-R)} y={sy(R)} width={plot} height={plot} />
+        </clipPath>
+      </defs>
+      {grid}
+      <line x1={sx(-R)} y1={sy(0)} x2={sx(R)} y2={sy(0)} stroke={NAVY} strokeWidth="1.8" />
+      <line x1={sx(0)} y1={sy(-R)} x2={sx(0)} y2={sy(R)} stroke={NAVY} strokeWidth="1.8" />
+      <text x={sx(R) - 4} y={sy(0) - 7} textAnchor="end" fontSize="12" fill={NAVY} fontWeight="700">x</text>
+      <text x={sx(0) + 7} y={sy(R) + 12} fontSize="12" fill={NAVY} fontWeight="700">y</text>
+      <g clipPath={`url(#${clip})`}>
+        <line x1={sx(-R)} y1={sy(m * -R + b)} x2={sx(R)} y2={sy(m * R + b)}
+          stroke={TOMATO} strokeWidth="3" strokeLinecap="round" />
+        {tri && (
+          <g>
+            <line x1={sx(0)} y1={sy(b)} x2={sx(1)} y2={sy(b)} stroke={NAVY} strokeWidth="1.6" strokeDasharray="3 2" />
+            <line x1={sx(1)} y1={sy(b)} x2={sx(1)} y2={sy(m + b)} stroke={NAVY} strokeWidth="1.6" strokeDasharray="3 2" />
+          </g>
+        )}
+      </g>
+      <circle cx={sx(0)} cy={sy(b)} r="5.5" fill="#f7d354" stroke={NAVY} strokeWidth="2" />
+    </svg>
+  )
+}
+
 const KINDS = {
   pizza: Pizza,
   circle: CirclePlain,
@@ -726,6 +830,8 @@ const KINDS = {
   cube: Cube,
   linesystem: LineSystem,
   linegraph: LineGraph,
+  axespoints: AxesPoints,
+  funcline: FuncLine,
   ratiobar: RatioBar,
   righttriangle: RightTriangle,
   triangle: Triangle,

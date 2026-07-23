@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>דף עבודה — קריאת גרפים מהחיים</title>
+<style>
+  @page { size: A4; margin: 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: #1a2233;
+         line-height: 1.7; margin: 0; padding: 20px; background: #f4f6fa; }
+  .sheet { background: #fff; max-width: 820px; margin: 0 auto 24px;
+           padding: 30px 36px; border-radius: 10px;
+           box-shadow: 0 2px 14px rgba(0,0,0,.09); }
+  header { border-bottom: 3px solid #2f6fed; padding-bottom: 12px; margin-bottom: 20px; }
+  h1 { margin: 0 0 4px; font-size: 24px; color: #14306b; }
+  .sub { color: #5b6780; font-size: 14px; }
+  .namebar { display: flex; gap: 26px; margin-top: 12px; font-size: 14px; }
+  .namebar span { flex: 1; border-bottom: 1px dotted #8894ab; padding-bottom: 3px; }
+  h2.q, h2.sec { font-size: 17px; margin: 24px 0 10px; color: #14306b;
+    background: #eef3fe; padding: 7px 12px; border-radius: 6px;
+    border-inline-start: 5px solid #2f6fed; }
+  .tag { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px;
+         margin-inline-start: 8px; vertical-align: middle; }
+  .easy { background: #dff5e3; color: #1c6b32; }
+  .med  { background: #fdf0d5; color: #8a5b06; }
+  .hard { background: #fadbdb; color: #8f2222; }
+  ol.items { margin: 6px 0; padding-inline-start: 22px; }
+  ol.items > li { margin-bottom: 13px; }
+  .fr { display: inline-flex; flex-direction: column; align-items: center;
+        vertical-align: middle; margin: 0 3px; font-size: .95em; line-height: 1.15; }
+  .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
+  .fr i { font-style: normal; padding: 0 4px; }
+  .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
+  .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
+  .fig { text-align: center; font-size: 13px; color: #5b6780; }
+  .lines div { border-bottom: 1px dotted #aab3c4; height: 24px; }
+  .numline { margin: 10px 0; }
+  .pagebreak { page-break-before: always; }
+  .key { background: #fffdf3; }
+  .key h1 { color: #8a5b06; }
+  .key header { border-bottom-color: #e0a800; }
+  .key .ans { background:#fff; border:1px solid #eadfb8; border-radius:6px;
+              padding:10px 14px; margin-bottom:10px; font-size:14.5px; }
+  .key .ans strong { color:#8a5b06; }
+  .credit { text-align:center; font-size: 12px; color: #8894ab; margin-top: 18px;
+            border-top: 1px solid #eef1f6; padding-top: 8px; }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .sheet { box-shadow: none; margin: 0; border-radius: 0; padding: 0; max-width: none; }
+    .noprint { display: none; }
+  }
+  .noprint { text-align:center; margin: 10px 0 20px; }
+  .noprint button { background: #2f6fed; color:#fff; border:0; padding:10px 26px;
+                    border-radius:6px; font-size:15px; cursor:pointer; font-family:inherit; }
+</style>
+</head>
+<body>
+
+<div class="noprint"><button onclick="window.print()">🖨️ הדפסה / שמירה כ‑PDF</button></div>
+
+<div class="sheet">
+  <header>
+    <h1>דף עבודה — פרק 2: קריאת גרפים מהחיים</h1>
+    <div class="sub">גרפים שמספרים סיפור: טמפרטורה, מרחק, מפלס מים וסוללה</div>
+    <div class="namebar"><span>שם: </span><span>כיתה: </span><span>תאריך: </span></div>
+  </header>
+  <div class="note-box" style="background:#eef3fe; border-inline-start:4px solid #2f6fed; padding:10px 14px; border-radius:6px; font-size:14px; margin:18px 0">בגרף סיפורי ציר ה-x מתאר בדרך כלל את הזמן וציר ה-y את הגודל המשתנה. קוראים ערך כך: מהציר האופקי מטפסים אל הגרף, ומהגרף פונים אל הציר האנכי. הנקודה הגבוהה ביותר היא ערך השיא, הנמוכה ביותר — ערך המינימום. קטע שטוח (אופקי) פירושו שהגודל אינו משתנה בזמן שהזמן ממשיך להתקדם.</div>
+  
+  <h2 class="q">שאלה 1 — קריאת ערכים מגרף טמפרטורה <span class="tag easy">קל</span></h2>
+  <p>הגרף מתאר את הטמפרטורה לפי מספר השעות מתחילת המדידה:</p><div style="text-align:center;margin:10px 0"><svg width="240" height="180" viewBox="0 0 240 180"><line x1="34.0" y1="12" x2="34.0" y2="152" stroke="#e6ebf5" stroke-width="1"/><line x1="34" y1="12.0" x2="228" y2="12.0" stroke="#e6ebf5" stroke-width="1"/><line x1="82.5" y1="12" x2="82.5" y2="152" stroke="#e6ebf5" stroke-width="1"/><line x1="34" y1="47.0" x2="228" y2="47.0" stroke="#e6ebf5" stroke-width="1"/><line x1="131.0" y1="12" x2="131.0" y2="152" stroke="#e6ebf5" stroke-width="1"/><line x1="34" y1="82.0" x2="228" y2="82.0" stroke="#e6ebf5" stroke-width="1"/><line x1="179.5" y1="12" x2="179.5" y2="152" stroke="#e6ebf5" stroke-width="1"/><line x1="34" y1="117.0" x2="228" y2="117.0" stroke="#e6ebf5" stroke-width="1"/><line x1="228.0" y1="12" x2="228.0" y2="152" stroke="#e6ebf5" stroke-width="1"/><line x1="34" y1="152.0" x2="228" y2="152.0" stroke="#e6ebf5" stroke-width="1"/><line x1="34" y1="12" x2="34" y2="152" stroke="#14306b" stroke-width="1.8"/><line x1="34" y1="152" x2="228" y2="152" stroke="#14306b" stroke-width="1.8"/><text x="29" y="16" text-anchor="end" font-size="10" fill="#8893ad">26</text><text x="29" y="152" text-anchor="end" font-size="10" fill="#8893ad">0</text><text x="228" y="166" text-anchor="end" font-size="10" fill="#8893ad">10</text><polyline points="34.0,98.2 72.8,76.6 111.6,44.3 150.4,12.0 189.2,33.5 228.0,65.8" fill="none" stroke="#e8574b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="34.0" cy="98.2" r="4.5" fill="#14306b" stroke="#fff" stroke-width="1.5"/><circle cx="72.8" cy="76.6" r="4.5" fill="#14306b" stroke="#fff" stroke-width="1.5"/><circle cx="111.6" cy="44.3" r="4.5" fill="#14306b" stroke="#fff" stroke-width="1.5"/><circle cx="150.4" cy="12.0" r="4.5" fill="#14306b" stroke="#fff" stroke-width="1.5"/><circle cx="189.2" cy="33.5" r="4.5" fill="#14306b" stroke="#fff" stroke-width="1.5"/><circle cx="228.0" cy="65.8" r="4.5" fill="#14306b" stroke="#fff" stroke-width="1.5"/></svg><div style="font-size:12px;color:#5b6780;margin-top:2px">טמפרטורה (במעלות) לפי שעות מתחילת המדידה</div></div><p>א. מה הייתה הטמפרטורה בשעה 4? <span class="blank"></span> &nbsp; ב. ומה בשעה 10? <span class="blank"></span></p>
+  
+  <h2 class="q">שאלה 2 — רגע השיא <span class="tag easy">קל</span></h2>
+  <p>הביטו שוב בגרף הטמפרטורה שבתרגיל הקודם. באיזו שעה הטמפרטורה הייתה הגבוהה ביותר, ומה הייתה? <span class="blank"></span></p>
+  
+  <h2 class="q">שאלה 3 — מי על איזה ציר? <span class="tag easy">קל</span></h2>
+  <p>בגרף שמתאר סיפור מהחיים (למשל טמפרטורה במהלך יום) — מה מתאר בדרך כלל ציר ה-x, ומה מתאר ציר ה-y?</p>
+  <div class="lines"><div></div><div></div></div>
+  <h2 class="q">שאלה 4 — קטע שטוח <span class="tag easy">קל</span></h2>
+  <p>בגרף המתאר מרחק מהבית לאורך זמן מופיע קטע שטוח (אופקי). מה קרה בקטע הזה? הסבירו.</p>
+  <div class="lines"><div></div><div></div></div>
+  <h2 class="q">שאלה 5 — עולה או יורד <span class="tag easy">קל</span></h2>
+  <p>גרף המתאר את גובה המים בבריכה עולה בין דקה 3 לדקה 8. מה קורה לגובה המים בפרק זמן זה? <span class="blank"></span></p>
+  
+  <h2 class="q">שאלה 6 — גרף הטיול <span class="tag med">בינוני</span></h2>
+  <p>הגרף מתאר את מרחקה של משפחה מהבית במהלך נסיעה:</p><div style="text-align:center;margin:10px 0"><svg width="240" height="180" viewBox="0 0 240 180"><line x1="34.0" y1="12" x2="34.0" y2="152" stroke="#e6ebf5" stroke-width="1"/><line x1="34" y1="12.0" x2="228" y2="12.0" stroke="#e6ebf5" stroke-width="1"/><line x1="82.5" y1="12" x2="82.5" y2="152" stroke="#e6ebf5" stroke-width="1"/><line x1="34" y1="47.0" x2="228" y2="47.0" stroke="#e6ebf5" stroke-width="1"/><line x1="131.0" y1="12" x2="131.0" y2="152" stroke="#e6ebf5" stroke-width="1"/><line x1="34" y1="82.0" x2="228" y2="82.0" stroke="#e6ebf5" stroke-width="1"/><line x1="179.5" y1="12" x2="179.5" y2="152" stroke="#e6ebf5" stroke-width="1"/><line x1="34" y1="117.0" x2="228" y2="117.0" stroke="#e6ebf5" stroke-width="1"/><line x1="228.0" y1="12" x2="228.0" y2="152" stroke="#e6ebf5" stroke-width="1"/><line x1="34" y1="152.0" x2="228" y2="152.0" stroke="#e6ebf5" stroke-width="1"/><line x1="34" y1="12" x2="34" y2="152" stroke="#14306b" stroke-width="1.8"/><line x1="34" y1="152" x2="228" y2="152" stroke="#14306b" stroke-width="1.8"/><text x="29" y="16" text-anchor="end" font-size="10" fill="#8893ad">160</text><text x="29" y="152" text-anchor="end" font-size="10" fill="#8893ad">0</text><text x="228" y="166" text-anchor="end" font-size="10" fill="#8893ad">4</text><polyline points="34.0,152.0 82.5,117.0 131.0,117.0 228.0,12.0" fill="none" stroke="#e8574b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="34.0" cy="152.0" r="4.5" fill="#14306b" stroke="#fff" stroke-width="1.5"/><circle cx="82.5" cy="117.0" r="4.5" fill="#14306b" stroke="#fff" stroke-width="1.5"/><circle cx="131.0" cy="117.0" r="4.5" fill="#14306b" stroke="#fff" stroke-width="1.5"/><circle cx="228.0" cy="12.0" r="4.5" fill="#14306b" stroke="#fff" stroke-width="1.5"/></svg><div style="font-size:12px;color:#5b6780;margin-top:2px">המרחק מהבית (בק"מ) לפי הזמן (בשעות)</div></div><p>א. כמה ק"מ מהבית הייתה המשפחה אחרי שעה? <span class="blank"></span> &nbsp; ב. מה קרה בין שעה 1 לשעה 2? <span class="blank"></span></p>
+  
+  <h2 class="q">שאלה 7 — כמה עברו בהמשך הדרך? <span class="tag med">בינוני</span></h2>
+  <p>לפי גרף הטיול שבתרגיל הקודם: כמה ק"מ עברה המשפחה בין שעה 2 לשעה 4?</p>
+  <div class="lines"><div></div><div></div></div>
+  <h2 class="q">שאלה 8 — אמבטיה מתמלאת ומתרוקנת <span class="tag med">בינוני</span></h2>
+  <p>הגרף מתאר את גובה המים באמבטיה:</p><div style="text-align:center;margin:10px 0"><svg width="240" height="180" viewBox="0 0 240 180"><line x1="34.0" y1="12" x2="34.0" y2="152" stroke="#e6ebf5" stroke-width="1"/><line x1="34" y1="12.0" x2="228" y2="12.0" stroke="#e6ebf5" stroke-width="1"/><line x1="82.5" y1="12" x2="82.5" y2="152" stroke="#e6ebf5" stroke-width="1"/><line x1="34" y1="47.0" x2="228" y2="47.0" stroke="#e6ebf5" stroke-width="1"/><line x1="131.0" y1="12" x2="131.0" y2="152" stroke="#e6ebf5" stroke-width="1"/><line x1="34" y1="82.0" x2="228" y2="82.0" stroke="#e6ebf5" stroke-width="1"/><line x1="179.5" y1="12" x2="179.5" y2="152" stroke="#e6ebf5" stroke-width="1"/><line x1="34" y1="117.0" x2="228" y2="117.0" stroke="#e6ebf5" stroke-width="1"/><line x1="228.0" y1="12" x2="228.0" y2="152" stroke="#e6ebf5" stroke-width="1"/><line x1="34" y1="152.0" x2="228" y2="152.0" stroke="#e6ebf5" stroke-width="1"/><line x1="34" y1="12" x2="34" y2="152" stroke="#14306b" stroke-width="1.8"/><line x1="34" y1="152" x2="228" y2="152" stroke="#14306b" stroke-width="1.8"/><text x="29" y="16" text-anchor="end" font-size="10" fill="#8893ad">24</text><text x="29" y="152" text-anchor="end" font-size="10" fill="#8893ad">0</text><text x="228" y="166" text-anchor="end" font-size="10" fill="#8893ad">8</text><polyline points="34.0,152.0 106.8,12.0 179.5,12.0 228.0,152.0" fill="none" stroke="#e8574b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="34.0" cy="152.0" r="4.5" fill="#14306b" stroke="#fff" stroke-width="1.5"/><circle cx="106.8" cy="12.0" r="4.5" fill="#14306b" stroke="#fff" stroke-width="1.5"/><circle cx="179.5" cy="12.0" r="4.5" fill="#14306b" stroke="#fff" stroke-width="1.5"/><circle cx="228.0" cy="152.0" r="4.5" fill="#14306b" stroke="#fff" stroke-width="1.5"/></svg><div style="font-size:12px;color:#5b6780;margin-top:2px">גובה המים (בס"מ) לפי הזמן (בדקות)</div></div><p>א. מה היה גובה המים בדקה 4? <span class="blank"></span> &nbsp; ב. באיזו דקה התחילו לרוקן את האמבטיה? <span class="blank"></span></p>
+  
+  <h2 class="q">שאלה 9 — סוללה בירידה <span class="tag med">בינוני</span></h2>
+  <p>בשעה 8:00 בבוקר הראה מד הסוללה 90%, ובשעה 14:00 הוא הראה 45%. בכמה אחוזים ירדה הסוללה, וכמה אחוזים היא ירדה בממוצע בכל שעה?</p>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 10 — השוואה בין שני רגעים <span class="tag med">בינוני</span></h2>
+  <p>לפי גרף הטמפרטורה שבתרגיל הראשון: מתי היה חם יותר — בשעה 2 או בשעה 8? בכמה מעלות?</p>
+  <div class="lines"><div></div><div></div></div>
+  <h2 class="q">שאלה 11 — מהגרף לסיפור <span class="tag med">בינוני</span></h2>
+  <p>גרף המתאר מרחק מהבית עולה במשך 20 דקות, שטוח במשך 10 דקות, ואז עולה שוב. כתבו סיפור קצר שמתאים לגרף.</p>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 12 — אתגר: איזה קטע מהיר יותר? <span class="tag hard">מאתגר</span></h2>
+  <p>לפי גרף הטיול (תרגיל 6): באיזה חלק של הדרך נסעה המשפחה מהר יותר — בשעה הראשונה או בין שעה 2 לשעה 4? הוכיחו בחישוב.</p>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 13 — אתגר: אותה טמפרטורה פעמיים <span class="tag hard">מאתגר</span></h2>
+  <p>לפי גרף הטמפרטורה (תרגיל 1): בשעה 4 הטמפרטורה הייתה 20 מעלות. האם היה עוד רגע ביום שבו הטמפרטורה הייתה בערך 20 מעלות? הסבירו לפי הגרף.</p>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 14 — אתגר: מתי הסוללה תיגמר? <span class="tag hard">מאתגר</span></h2>
+  <p>סוללת טלפון ירדה מ-100% בשעה 0 ל-40% בשעה 6, ובין שעה 6 לשעה 8 הגרף היה שטוח (הטלפון היה כבוי). אם משעה 8 הסוללה תמשיך לרדת בקצב של השעות הראשונות — באיזו שעה תגיע ל-0%?</p>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 15 — אתגר: ציירו בעצמכם <span class="tag hard">מאתגר</span></h2>
+  <p>שרטטו גרף שמתאר את הסיפור: הולכים מהבית לחנות במשך 10 דקות (המרחק גדל עד 500 מטר), שוהים בחנות 5 דקות, וחוזרים הביתה במשך 10 דקות.</p><div style="text-align:center;margin:10px 0"><svg width="250" height="250" viewBox="0 0 250 250"><line x1="16.0" y1="234.0" x2="16.0" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="234.0" x2="234.0" y2="234.0" stroke="#e6ebf5" stroke-width="1"/><line x1="34.2" y1="234.0" x2="34.2" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="215.8" x2="234.0" y2="215.8" stroke="#e6ebf5" stroke-width="1"/><line x1="52.3" y1="234.0" x2="52.3" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="197.7" x2="234.0" y2="197.7" stroke="#e6ebf5" stroke-width="1"/><line x1="70.5" y1="234.0" x2="70.5" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="179.5" x2="234.0" y2="179.5" stroke="#e6ebf5" stroke-width="1"/><line x1="88.7" y1="234.0" x2="88.7" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="161.3" x2="234.0" y2="161.3" stroke="#e6ebf5" stroke-width="1"/><line x1="106.8" y1="234.0" x2="106.8" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="143.2" x2="234.0" y2="143.2" stroke="#e6ebf5" stroke-width="1"/><line x1="125.0" y1="234.0" x2="125.0" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="125.0" x2="234.0" y2="125.0" stroke="#e6ebf5" stroke-width="1"/><line x1="143.2" y1="234.0" x2="143.2" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="106.8" x2="234.0" y2="106.8" stroke="#e6ebf5" stroke-width="1"/><line x1="161.3" y1="234.0" x2="161.3" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="88.7" x2="234.0" y2="88.7" stroke="#e6ebf5" stroke-width="1"/><line x1="179.5" y1="234.0" x2="179.5" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="70.5" x2="234.0" y2="70.5" stroke="#e6ebf5" stroke-width="1"/><line x1="197.7" y1="234.0" x2="197.7" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="52.3" x2="234.0" y2="52.3" stroke="#e6ebf5" stroke-width="1"/><line x1="215.8" y1="234.0" x2="215.8" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="34.2" x2="234.0" y2="34.2" stroke="#e6ebf5" stroke-width="1"/><line x1="234.0" y1="234.0" x2="234.0" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="16.0" x2="234.0" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="125.0" x2="234.0" y2="125.0" stroke="#14306b" stroke-width="1.8"/><line x1="125.0" y1="234.0" x2="125.0" y2="16.0" stroke="#14306b" stroke-width="1.8"/><polygon points="234.0,125.0 226.0,121.0 226.0,129.0" fill="#14306b"/><polygon points="125.0,16.0 121.0,24.0 129.0,24.0" fill="#14306b"/><text x="230.0" y="118.0" text-anchor="end" font-size="12" fill="#14306b" font-weight="700">x</text><text x="132.0" y="28.0" font-size="12" fill="#14306b" font-weight="700">y</text><text x="121.0" y="137.0" text-anchor="end" font-size="9" fill="#8893ad">0</text><text x="16.0" y="137.0" text-anchor="middle" font-size="8.5" fill="#8893ad">-6</text><text x="121.0" y="237.0" text-anchor="end" font-size="8.5" fill="#8893ad">-6</text><text x="34.2" y="137.0" text-anchor="middle" font-size="8.5" fill="#8893ad">-5</text><text x="121.0" y="218.8" text-anchor="end" font-size="8.5" fill="#8893ad">-5</text><text x="52.3" y="137.0" text-anchor="middle" font-size="8.5" fill="#8893ad">-4</text><text x="121.0" y="200.7" text-anchor="end" font-size="8.5" fill="#8893ad">-4</text><text x="70.5" y="137.0" text-anchor="middle" font-size="8.5" fill="#8893ad">-3</text><text x="121.0" y="182.5" text-anchor="end" font-size="8.5" fill="#8893ad">-3</text><text x="88.7" y="137.0" text-anchor="middle" font-size="8.5" fill="#8893ad">-2</text><text x="121.0" y="164.3" text-anchor="end" font-size="8.5" fill="#8893ad">-2</text><text x="106.8" y="137.0" text-anchor="middle" font-size="8.5" fill="#8893ad">-1</text><text x="121.0" y="146.2" text-anchor="end" font-size="8.5" fill="#8893ad">-1</text><text x="143.2" y="137.0" text-anchor="middle" font-size="8.5" fill="#8893ad">1</text><text x="121.0" y="109.8" text-anchor="end" font-size="8.5" fill="#8893ad">1</text><text x="161.3" y="137.0" text-anchor="middle" font-size="8.5" fill="#8893ad">2</text><text x="121.0" y="91.7" text-anchor="end" font-size="8.5" fill="#8893ad">2</text><text x="179.5" y="137.0" text-anchor="middle" font-size="8.5" fill="#8893ad">3</text><text x="121.0" y="73.5" text-anchor="end" font-size="8.5" fill="#8893ad">3</text><text x="197.7" y="137.0" text-anchor="middle" font-size="8.5" fill="#8893ad">4</text><text x="121.0" y="55.3" text-anchor="end" font-size="8.5" fill="#8893ad">4</text><text x="215.8" y="137.0" text-anchor="middle" font-size="8.5" fill="#8893ad">5</text><text x="121.0" y="37.2" text-anchor="end" font-size="8.5" fill="#8893ad">5</text><text x="234.0" y="137.0" text-anchor="middle" font-size="8.5" fill="#8893ad">6</text><text x="121.0" y="19.0" text-anchor="end" font-size="8.5" fill="#8893ad">6</text></svg></div>
+  
+  <h2 class="q">שאלה 16 — אתגר: מי הרחיק יותר? <span class="tag hard">מאתגר</span></h2>
+  <p>שני רוכבים יצאו יחד מאותו מקום. רוכב א' רכב שעתיים בקצב קבוע של 20 קמ"ש. רוכבת ב' רכבה שעה אחת בקצב 30 קמ"ש ואז עצרה למנוחה של שעה. מי היה רחוק יותר מנקודת ההתחלה אחרי שעתיים, ובכמה?</p>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
+</div>
+
+<div class="sheet key pagebreak">
+  <header>
+    <h1>🔑 דף פתרונות למורה — פרק 2: קריאת גרפים מהחיים</h1>
+    <div class="sub">לא לחלוקה לתלמידים</div>
+  </header>
+  <div class="ans"><strong>שאלה 1.</strong> א. <span class="eq">20</span> מעלות &nbsp; ב. <span class="eq">16</span> מעלות</div>
+<div class="ans"><strong>שאלה 2.</strong> בשעה 6 — הנקודה הגבוהה ביותר בגרף, <span class="eq">26</span> מעלות</div>
+<div class="ans"><strong>שאלה 3.</strong> ציר ה-x מתאר בדרך כלל את הזמן, וציר ה-y את הגודל המשתנה (טמפרטורה, מרחק וכדומה)</div>
+<div class="ans"><strong>שאלה 4.</strong> עצירה: הזמן ממשיך להתקדם אבל המרחק מהבית אינו משתנה</div>
+<div class="ans"><strong>שאלה 5.</strong> גובה המים גדל (הבריכה מתמלאת)</div>
+<div class="ans"><strong>שאלה 6.</strong> א. <span class="eq">40</span> ק"מ &nbsp; ב. עצירה של שעה — המרחק לא השתנה</div>
+<div class="ans"><strong>שאלה 7.</strong> <span class="eq">160 − 40 = 120</span> ק"מ</div>
+<div class="ans"><strong>שאלה 8.</strong> א. <span class="eq">24</span> ס"מ (הקטע השטוח) &nbsp; ב. בדקה 6</div>
+<div class="ans"><strong>שאלה 9.</strong> הסוללה ירדה <span class="eq">90 − 45 = 45</span> אחוזים במשך 6 שעות, כלומר <span class="eq">45 : 6 = 7.5</span> אחוזים לשעה בממוצע</div>
+<div class="ans"><strong>שאלה 10.</strong> בשעה 8 היו <span class="eq">22</span> מעלות ובשעה 2 היו <span class="eq">14</span> מעלות — בשעה 8 היה חם יותר, ב-<span class="eq">22 − 14 = 8</span> מעלות</div>
+<div class="ans"><strong>שאלה 11.</strong> לדוגמה: הלכתי מהבית 20 דקות, עצרתי 10 דקות לשוחח עם חבר, והמשכתי ללכת והתרחקתי מהבית</div>
+<div class="ans"><strong>שאלה 12.</strong> בשעה הראשונה: <span class="eq">40</span> קמ"ש. בין שעה 2 לשעה 4: <span class="eq">120 : 2 = 60</span> קמ"ש. הקטע השני מהיר יותר</div>
+<div class="ans"><strong>שאלה 13.</strong> כן — בין שעה 8 (22 מעלות) לשעה 10 (16 מעלות) הגרף יורד ועובר שוב דרך 20 מעלות</div>
+<div class="ans"><strong>שאלה 14.</strong> הקצב: <span class="eq">60 : 6 = 10</span> אחוזים לשעה. בשעה 8 נותרו 40%, ולכן <span class="eq">40 : 10 = 4</span> שעות נוספות — הסוללה תיגמר בשעה 12</div>
+<div class="ans"><strong>שאלה 15.</strong> גרף שעולה מ-0 עד 500 במשך 10 דקות, שטוח בין דקה 10 לדקה 15, ויורד חזרה ל-0 עד דקה 25</div>
+<div class="ans"><strong>שאלה 16.</strong> רוכב א': <span class="eq">20 × 2 = 40</span> ק"מ. רוכבת ב': <span class="eq">30 × 1 = 30</span> ק"מ. רוכב א' רחוק יותר, ב-<span class="eq">10</span> ק"מ</div>
+  <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
+</div>
+</body>
+</html>

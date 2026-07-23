@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>מאגר שאלות — הפונקציה הקווית</title>
+<style>
+  @page { size: A4; margin: 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: #1a2233;
+         line-height: 1.7; margin: 0; padding: 20px; background: #f4f6fa; }
+  .sheet { background: #fff; max-width: 820px; margin: 0 auto 24px;
+           padding: 30px 36px; border-radius: 10px;
+           box-shadow: 0 2px 14px rgba(0,0,0,.09); }
+  header { border-bottom: 3px solid #7a3fd1; padding-bottom: 12px; margin-bottom: 20px; }
+  h1 { margin: 0 0 4px; font-size: 24px; color: #4a1f8a; }
+  .sub { color: #5b6780; font-size: 14px; }
+  .namebar { display: flex; gap: 26px; margin-top: 12px; font-size: 14px; }
+  .namebar span { flex: 1; border-bottom: 1px dotted #8894ab; padding-bottom: 3px; }
+  h2.q, h2.sec { font-size: 17px; margin: 24px 0 10px; color: #4a1f8a;
+    background: #f3edfc; padding: 7px 12px; border-radius: 6px;
+    border-inline-start: 5px solid #7a3fd1; }
+  .tag { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px;
+         margin-inline-start: 8px; vertical-align: middle; }
+  .easy { background: #dff5e3; color: #1c6b32; }
+  .med  { background: #fdf0d5; color: #8a5b06; }
+  .hard { background: #fadbdb; color: #8f2222; }
+  ol.items { margin: 6px 0; padding-inline-start: 22px; }
+  ol.items > li { margin-bottom: 13px; }
+  .fr { display: inline-flex; flex-direction: column; align-items: center;
+        vertical-align: middle; margin: 0 3px; font-size: .95em; line-height: 1.15; }
+  .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
+  .fr i { font-style: normal; padding: 0 4px; }
+  .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #4a1f8a; height: 1em; }
+  .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
+  .fig { text-align: center; font-size: 13px; color: #5b6780; }
+  .lines div { border-bottom: 1px dotted #aab3c4; height: 24px; }
+  .numline { margin: 10px 0; }
+  .pagebreak { page-break-before: always; }
+  .key { background: #fffdf3; }
+  .key h1 { color: #8a5b06; }
+  .key header { border-bottom-color: #e0a800; }
+  .key .ans { background:#fff; border:1px solid #eadfb8; border-radius:6px;
+              padding:10px 14px; margin-bottom:10px; font-size:14.5px; }
+  .key .ans strong { color:#8a5b06; }
+  .credit { text-align:center; font-size: 12px; color: #8894ab; margin-top: 18px;
+            border-top: 1px solid #eef1f6; padding-top: 8px; }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .sheet { box-shadow: none; margin: 0; border-radius: 0; padding: 0; max-width: none; }
+    .noprint { display: none; }
+  }
+  .noprint { text-align:center; margin: 10px 0 20px; }
+  .noprint button { background: #7a3fd1; color:#fff; border:0; padding:10px 26px;
+                    border-radius:6px; font-size:15px; cursor:pointer; font-family:inherit; }
+</style>
+</head>
+<body>
+
+<div class="noprint"><button onclick="window.print()">🖨️ הדפסה / שמירה כ‑PDF</button></div>
+
+<div class="sheet">
+  <header>
+    <h1>מאגר שאלות — פרק 8: הפונקציה הקווית</h1>
+    <div class="sub">24 שאלות · y = mx + b — שיפוע, נקודת חיתוך ושרטוט מהיר · דף פתרונות בעמוד האחרון</div>
+    <div class="namebar"><span>שם: </span><span>כיתה: </span><span>תאריך: </span></div>
+  </header>
+  
+  <h2 class="sec">חלק א' — זיהוי שיפוע וחיתוך 🔍 (שאלות 1–4)</h2>
+  <ol class="items" start="1">
+<li>מהו השיפוע של הפונקציה <span class="eq">y = 6x − 1</span>?</li>
+<li>באיזו נקודה חותך הישר <span class="eq">y = −2x + 9</span> את ציר ה-y?</li>
+<li>מהו השיפוע של הפונקציה <span class="eq">y = x + 4</span>?</li>
+<li>מהם השיפוע ונקודת החיתוך של הפונקציה <span class="eq">y = −5</span>?</li>
+  </ol>
+  <h2 class="sec">חלק ב' — חישוב ערכים 🧮 (שאלות 5–8)</h2>
+  <ol class="items" start="5">
+<li>מהו ערך הפונקציה <span class="eq">y = 2x + 3</span> עבור <span class="eq">x = 4</span>?</li>
+<li>מהו ערך הפונקציה <span class="eq">y = −3x + 10</span> עבור <span class="eq">x = 2</span>?</li>
+<li>מהו ערך הפונקציה <span class="eq">y = 5x − 7</span> עבור <span class="eq">x = 0</span>?</li>
+<li>עבור איזה <span class="eq">x</span> מקבלת הפונקציה <span class="eq">y = x − 6</span> את הערך 0?</li>
+  </ol>
+  <h2 class="sec">חלק ג' — עולה או יורד? 📈 (שאלות 9–12)</h2>
+  <ol class="items" start="9">
+<li>האם הגרף של <span class="eq">y = 7x − 2</span> עולה או יורד?</li>
+<li>האם הגרף של <span class="eq">y = −x + 1</span> עולה או יורד?</li>
+<li>מה צורת הגרף של <span class="eq">y = 8</span>?</li>
+<li>האם הגרף של <span class="eq">y = −6x</span> עולה או יורד?</li>
+  </ol>
+  <h2 class="sec">חלק ד' — מהטבלה אל הביטוי 📋 (שאלות 13–16)</h2>
+  <ol class="items" start="13">
+<li>עבור x בערכים 0, 1, 2, 3 מתקבל y בערכים 2, 5, 8, 11. מהו ייצוג הפונקציה?</li>
+<li>עבור x בערכים 0, 1, 2, 3 מתקבל y בערכים 7, 5, 3, 1. מהו ייצוג הפונקציה?</li>
+<li>עבור x בערכים 0, 1, 2, 3 מתקבל y בערכים 0, 4, 8, 12. מהו ייצוג הפונקציה?</li>
+<li>עבור x בערכים 0, 1, 2, 3 מתקבל y בערכים 1, 1, 1, 1. מהו ייצוג הפונקציה?</li>
+  </ol>
+  <h2 class="sec">חלק ה' — נקודה על הישר 📍 (שאלות 17–20)</h2>
+  <ol class="items" start="17">
+<li>האם הנקודה <span class="eq">(2, 9)</span> נמצאת על הישר <span class="eq">y = 4x + 1</span>?</li>
+<li>האם הנקודה <span class="eq">(3, 5)</span> נמצאת על הישר <span class="eq">y = 2x − 2</span>?</li>
+<li>הישר <span class="eq">y = 2x + b</span> עובר בנקודה <span class="eq">(1, 6)</span>. מהו <span class="eq">b</span>?</li>
+<li>הנקודה <span class="eq">(5, y)</span> נמצאת על הישר <span class="eq">y = x + 3</span>. מהו שיעור ה-y שלה?</li>
+  </ol>
+  <h2 class="sec">חלק ו' — מקבילים ואתגרים 🏆 (שאלות 21–24)</h2>
+  <ol class="items" start="21">
+<li>כתבו את ייצוג הישר המקביל ל-<span class="eq">y = 3x + 2</span> וחותך את ציר ה-y ב-<span class="eq">(0, −1)</span>.</li>
+<li>האם הישרים <span class="eq">y = 4x + 1</span> ו-<span class="eq">y = −4x + 1</span> מקבילים?</li>
+<li>ישר עובר בנקודות <span class="eq">(0, 2)</span> ו-<span class="eq">(1, 6)</span>. מהו ייצוג הפונקציה?</li>
+<li>באיזו נקודה חותך הישר <span class="eq">y = 2x − 8</span> את ציר ה-x?</li>
+  </ol>
+  <div class="credit">מאגר שאלות מקורי · © כל הזכויות שמורות ליאיר כהנא</div>
+</div>
+
+<div class="sheet key pagebreak">
+  <header>
+    <h1>🔑 פתרונות מלאים — מאגר שאלות פרק 8</h1>
+    <div class="sub">למורה / להורה / לבדיקה עצמית</div>
+  </header>
+  <div class="ans"><strong>1.</strong> <span class="eq">6</span></div>
+<div class="ans"><strong>2.</strong> <span class="eq">(0, 9)</span></div>
+<div class="ans"><strong>3.</strong> <span class="eq">1</span></div>
+<div class="ans"><strong>4.</strong> שיפוע <span class="eq">0</span> (ישר אופקי), חיתוך ב-<span class="eq">(0, −5)</span></div>
+<div class="ans"><strong>5.</strong> <span class="eq">2 · 4 + 3 = 11</span></div>
+<div class="ans"><strong>6.</strong> <span class="eq">−3 · 2 + 10 = 4</span></div>
+<div class="ans"><strong>7.</strong> <span class="eq">−7</span></div>
+<div class="ans"><strong>8.</strong> <span class="eq">x = 6</span> (כי <span class="eq">6 − 6 = 0</span>)</div>
+<div class="ans"><strong>9.</strong> עולה — השיפוע 7 חיובי</div>
+<div class="ans"><strong>10.</strong> יורד — השיפוע <span class="eq">−1</span> שלילי</div>
+<div class="ans"><strong>11.</strong> ישר אופקי בגובה 8 (שיפוע אפס)</div>
+<div class="ans"><strong>12.</strong> יורד — השיפוע <span class="eq">−6</span> שלילי</div>
+<div class="ans"><strong>13.</strong> <span class="eq">y = 3x + 2</span></div>
+<div class="ans"><strong>14.</strong> <span class="eq">y = −2x + 7</span></div>
+<div class="ans"><strong>15.</strong> <span class="eq">y = 4x</span></div>
+<div class="ans"><strong>16.</strong> <span class="eq">y = 1</span> (ישר אופקי)</div>
+<div class="ans"><strong>17.</strong> כן: <span class="eq">4 · 2 + 1 = 9</span></div>
+<div class="ans"><strong>18.</strong> לא: <span class="eq">2 · 3 − 2 = 4</span> ולא 5</div>
+<div class="ans"><strong>19.</strong> <span class="eq">6 = 2 · 1 + b</span>, ולכן <span class="eq">b = 4</span></div>
+<div class="ans"><strong>20.</strong> <span class="eq">y = 5 + 3 = 8</span></div>
+<div class="ans"><strong>21.</strong> <span class="eq">y = 3x − 1</span> — אותו שיפוע, b לפי נקודת החיתוך</div>
+<div class="ans"><strong>22.</strong> לא — השיפועים שונים (4 לעומת <span class="eq">−4</span>)</div>
+<div class="ans"><strong>23.</strong> <span class="eq">b = 2</span>; מ-x = 0 ל-x = 1 הפונקציה עלתה ב-4, ולכן <span class="eq">y = 4x + 2</span></div>
+<div class="ans"><strong>24.</strong> פותרים <span class="eq">2x − 8 = 0</span>: <span class="eq">x = 4</span>. הנקודה: <span class="eq">(4, 0)</span></div>
+  <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
+</div>
+</body>
+</html>

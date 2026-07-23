@@ -113,16 +113,147 @@ def _svg_signedline(param):
         f'{"".join(ticks)}{marker}</svg>')
 
 
+def _svg_axespoints(param):
+    """Port of AxesPoints (FractionArt.jsx): 4-quadrant plane with points
+    labeled A, B, C…; empty/'blank' param draws just the grid (for plot-it-
+    yourself worksheet items). Auto-ranges to fit, at least -5..5."""
+    raw = param.strip()
+    pts = []
+    if raw and raw != 'blank':
+        for p in raw.split(';'):
+            nums = re.findall(r'-?\d+(?:\.\d+)?', p)
+            if len(nums) >= 2:
+                pts.append((float(nums[0]), float(nums[1])))
+    span = max([5.0] + [max(abs(x), abs(y)) for x, y in pts])
+    import math
+    R = math.ceil(span) + 1
+    W, pad = 250, 16
+    plot = W - pad * 2
+    sx = lambda x: pad + (x + R) / (2 * R) * plot
+    sy = lambda y: pad + (R - y) / (2 * R) * plot
+    out = [f'<svg width="{W}" height="{W}" viewBox="0 0 {W} {W}">']
+    for g in range(-R, R + 1):
+        out.append(f'<line x1="{sx(g):.1f}" y1="{sy(-R):.1f}" x2="{sx(g):.1f}" y2="{sy(R):.1f}" stroke="#e6ebf5" stroke-width="1"/>')
+        out.append(f'<line x1="{sx(-R):.1f}" y1="{sy(g):.1f}" x2="{sx(R):.1f}" y2="{sy(g):.1f}" stroke="#e6ebf5" stroke-width="1"/>')
+    out.append(f'<line x1="{sx(-R):.1f}" y1="{sy(0):.1f}" x2="{sx(R):.1f}" y2="{sy(0):.1f}" stroke="{_NAVY}" stroke-width="1.8"/>')
+    out.append(f'<line x1="{sx(0):.1f}" y1="{sy(-R):.1f}" x2="{sx(0):.1f}" y2="{sy(R):.1f}" stroke="{_NAVY}" stroke-width="1.8"/>')
+    out.append(f'<polygon points="{sx(R):.1f},{sy(0):.1f} {sx(R)-8:.1f},{sy(0)-4:.1f} {sx(R)-8:.1f},{sy(0)+4:.1f}" fill="{_NAVY}"/>')
+    out.append(f'<polygon points="{sx(0):.1f},{sy(R):.1f} {sx(0)-4:.1f},{sy(R)+8:.1f} {sx(0)+4:.1f},{sy(R)+8:.1f}" fill="{_NAVY}"/>')
+    out.append(f'<text x="{sx(R)-4:.1f}" y="{sy(0)-7:.1f}" text-anchor="end" font-size="12" fill="{_NAVY}" font-weight="700">x</text>')
+    out.append(f'<text x="{sx(0)+7:.1f}" y="{sy(R)+12:.1f}" font-size="12" fill="{_NAVY}" font-weight="700">y</text>')
+    out.append(f'<text x="{sx(0)-4:.1f}" y="{sy(0)+12:.1f}" text-anchor="end" font-size="9" fill="#8893ad">0</text>')
+    step = 2 if R > 6 else 1
+    for g in range(-R, R + 1, step):
+        if g == 0:
+            continue
+        out.append(f'<text x="{sx(g):.1f}" y="{sy(0)+12:.1f}" text-anchor="middle" font-size="8.5" fill="#8893ad">{g}</text>')
+        out.append(f'<text x="{sx(0)-4:.1f}" y="{sy(g)+3:.1f}" text-anchor="end" font-size="8.5" fill="#8893ad">{g}</text>')
+    letters = 'ABCDEFGH'
+    for i, (x, y) in enumerate(pts):
+        out.append(f'<circle cx="{sx(x):.1f}" cy="{sy(y):.1f}" r="5" fill="{_TOMATO}" stroke="#fff" stroke-width="1.5"/>')
+        out.append(f'<text x="{sx(x)+7:.1f}" y="{sy(y)-7:.1f}" font-size="12" font-weight="700" fill="{_NAVY}">{letters[i] if i < len(letters) else ""}</text>')
+    out.append('</svg>')
+    return ''.join(out)
+
+
+def _svg_funcline(param):
+    """Port of FuncLine (FractionArt.jsx): y = m·x + b on a -5..5 window with
+    the y-intercept marked and (for integer slopes near the middle) a dashed
+    rise/run slope triangle."""
+    nums = re.findall(r'-?\d+(?:\.\d+)?', param)
+    m = float(nums[0]) if nums else 1.0
+    b = float(nums[1]) if len(nums) > 1 else 0.0
+    R, W, pad = 5, 250, 16
+    plot = W - pad * 2
+    sx = lambda x: pad + (x + R) / (2 * R) * plot
+    sy = lambda y: pad + (R - y) / (2 * R) * plot
+
+    def clipy(y):  # keep the drawn segment inside the box
+        return max(-R, min(R, y))
+
+    # endpoints of the visible segment (solve for x where line meets the window)
+    xs = [-R, R]
+    if m != 0:
+        xs += [(-R - b) / m, (R - b) / m]
+    xs = sorted(x for x in xs if -R <= x <= R and -R <= m * x + b <= R + 1e-9)
+    if len(xs) < 2:
+        xs = [-R, R]
+    x_a, x_b = xs[0], xs[-1]
+    out = [f'<svg width="{W}" height="{W}" viewBox="0 0 {W} {W}">']
+    for g in range(-R, R + 1):
+        out.append(f'<line x1="{sx(g):.1f}" y1="{sy(-R):.1f}" x2="{sx(g):.1f}" y2="{sy(R):.1f}" stroke="#e6ebf5" stroke-width="1"/>')
+        out.append(f'<line x1="{sx(-R):.1f}" y1="{sy(g):.1f}" x2="{sx(R):.1f}" y2="{sy(g):.1f}" stroke="#e6ebf5" stroke-width="1"/>')
+    out.append(f'<line x1="{sx(-R):.1f}" y1="{sy(0):.1f}" x2="{sx(R):.1f}" y2="{sy(0):.1f}" stroke="{_NAVY}" stroke-width="1.8"/>')
+    out.append(f'<line x1="{sx(0):.1f}" y1="{sy(-R):.1f}" x2="{sx(0):.1f}" y2="{sy(R):.1f}" stroke="{_NAVY}" stroke-width="1.8"/>')
+    out.append(f'<text x="{sx(R)-4:.1f}" y="{sy(0)-7:.1f}" text-anchor="end" font-size="12" fill="{_NAVY}" font-weight="700">x</text>')
+    out.append(f'<text x="{sx(0)+7:.1f}" y="{sy(R)+12:.1f}" font-size="12" fill="{_NAVY}" font-weight="700">y</text>')
+    out.append(f'<line x1="{sx(x_a):.1f}" y1="{sy(clipy(m*x_a+b)):.1f}" x2="{sx(x_b):.1f}" y2="{sy(clipy(m*x_b+b)):.1f}" stroke="{_TOMATO}" stroke-width="3" stroke-linecap="round"/>')
+    if m != 0 and m == int(m) and abs(b) <= 3 and abs(m + b) <= 4.5:
+        out.append(f'<line x1="{sx(0):.1f}" y1="{sy(b):.1f}" x2="{sx(1):.1f}" y2="{sy(b):.1f}" stroke="{_NAVY}" stroke-width="1.6" stroke-dasharray="3 2"/>')
+        out.append(f'<line x1="{sx(1):.1f}" y1="{sy(b):.1f}" x2="{sx(1):.1f}" y2="{sy(m+b):.1f}" stroke="{_NAVY}" stroke-width="1.6" stroke-dasharray="3 2"/>')
+    if abs(b) <= R:
+        out.append(f'<circle cx="{sx(0):.1f}" cy="{sy(b):.1f}" r="5.5" fill="#f7d354" stroke="{_NAVY}" stroke-width="2"/>')
+    out.append('</svg>')
+    return ''.join(out)
+
+
+def _svg_linegraph(param):
+    """Port of LineGraph (FractionArt.jsx): first-quadrant polyline through
+    "x,y" points — story graphs (distance-time, temperature over the day)."""
+    pts = []
+    for p in param.split(';'):
+        nums = re.findall(r'-?\d+(?:\.\d+)?', p)
+        if len(nums) >= 2:
+            pts.append((float(nums[0]), float(nums[1])))
+    if not pts:
+        return ''
+    max_x = max([1.0] + [p[0] for p in pts])
+    max_y = max([1.0] + [p[1] for p in pts])
+    W, H, padL, padB, padT, padR = 240, 180, 34, 28, 12, 12
+    plot_w = W - padL - padR
+    plot_h = H - padT - padB
+    sx = lambda x: padL + plot_w * x / max_x
+    sy = lambda y: H - padB - plot_h * y / max_y
+    out = [f'<svg width="{W}" height="{H}" viewBox="0 0 {W} {H}">']
+    for i in range(5):
+        gx = padL + plot_w * i / 4
+        gy = padT + plot_h * i / 4
+        out.append(f'<line x1="{gx:.1f}" y1="{padT}" x2="{gx:.1f}" y2="{H-padB}" stroke="#e6ebf5" stroke-width="1"/>')
+        out.append(f'<line x1="{padL}" y1="{gy:.1f}" x2="{W-padR}" y2="{gy:.1f}" stroke="#e6ebf5" stroke-width="1"/>')
+    out.append(f'<line x1="{padL}" y1="{padT}" x2="{padL}" y2="{H-padB}" stroke="{_NAVY}" stroke-width="1.8"/>')
+    out.append(f'<line x1="{padL}" y1="{H-padB}" x2="{W-padR}" y2="{H-padB}" stroke="{_NAVY}" stroke-width="1.8"/>')
+    fmt = lambda v: str(int(v)) if v == int(v) else f'{v:g}'
+    out.append(f'<text x="{padL-5}" y="{padT+4}" text-anchor="end" font-size="10" fill="#8893ad">{fmt(max_y)}</text>')
+    out.append(f'<text x="{padL-5}" y="{H-padB}" text-anchor="end" font-size="10" fill="#8893ad">0</text>')
+    out.append(f'<text x="{W-padR}" y="{H-padB+14}" text-anchor="end" font-size="10" fill="#8893ad">{fmt(max_x)}</text>')
+    poly = ' '.join(f'{sx(x):.1f},{sy(y):.1f}' for x, y in pts)
+    out.append(f'<polyline points="{poly}" fill="none" stroke="{_TOMATO}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>')
+    for x, y in pts:
+        out.append(f'<circle cx="{sx(x):.1f}" cy="{sy(y):.1f}" r="4.5" fill="{_NAVY}" stroke="#fff" stroke-width="1.5"/>')
+    out.append('</svg>')
+    return ''.join(out)
+
+
+_ART_SVG = {
+    'signedline': _svg_signedline,
+    'axespoints': _svg_axespoints,
+    'funcline': _svg_funcline,
+    'linegraph': _svg_linegraph,
+}
+
+
 def _art(s):
-    """Replace {{kind:param|caption}} tokens. signedline renders as SVG (centered,
-    with optional caption); any other kind is stripped so nothing leaks."""
+    """Replace {{kind:param|caption}} tokens. Kinds with a Python SVG port
+    render inline (centered, with optional caption); any other kind is
+    stripped so nothing leaks."""
     def repl(m):
         inner = m.group(1)
         kind, _, rest = inner.partition(':')
         kind = kind.strip()
         param, _, caption = rest.partition('|')
-        if kind == 'signedline':
-            fig = _svg_signedline(param)
+        fn = _ART_SVG.get(kind)
+        if fn:
+            fig = fn(param)
             cap = (f'<div style="font-size:12px;color:#5b6780;margin-top:2px">'
                    f'{caption.strip()}</div>') if caption.strip() else ''
             return (f'<div style="text-align:center;margin:10px 0">{fig}{cap}</div>')
