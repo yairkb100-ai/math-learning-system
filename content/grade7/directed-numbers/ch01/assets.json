@@ -24,7 +24,7 @@
       "body": "<p>חשבו: [[eq:30 − (5 + 5)]]</p><p>התוצאה: [[blank]]</p>"
     },
     {
-      "title": "שני מכפלים",
+      "title": "שתי מכפלות",
       "tag": "med",
       "body": "<p>חשבו: [[eq:2 × 5 + 3 × 4]]</p>",
       "lines": 2
@@ -168,7 +168,7 @@
       "solution": "$6 \\div 3 = 2$, ואז $9 + 2 = 11$."
     },
     {
-      "title": "שני מכפלים",
+      "title": "שתי מכפלות",
       "difficulty": "medium",
       "description": "חשבו: $4 \\times 5 - 3 \\times 2$.",
       "solution": "$4 \\times 5 = 20$ ו-$3 \\times 2 = 6$, ואז $20 - 6 = 14$."

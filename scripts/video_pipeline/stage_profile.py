@@ -49,6 +49,10 @@ def source_path(entry):
         return ROOT / "courses" / f"{entry['standalone_slug']}.md"
     if entry.get("course") == "grade7-algebra":
         return ROOT / "content/grade7/algebra" / f"ch{num:02d}" / "source.md"
+    if entry.get("course") == "directed-numbers":
+        return ROOT / "content/grade7/directed-numbers" / f"ch{num:02d}" / "source.md"
+    if entry.get("course") == "arithmetic-laws":
+        return ROOT / "content/grade7/arithmetic-laws" / f"ch{num:02d}" / "source.md"
     if entry.get("course") == "grade6-percents":
         return ROOT / "content/grade6/percents" / f"ch{num:02d}" / "source.md"
     if entry.get("course") == "grade6-ratio-rate":

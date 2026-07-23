@@ -352,5 +352,132 @@
   "status": "staged",
   "standalone_slug": "two-equations-two-unknowns",
   "course": "two-equations-two-unknowns"
+ },
+ "dn-ch01": {
+  "number": 1,
+  "topic": "פעולות החשבון במספרים טבעיים וסדר הפעולות",
+  "output": "סרטון-פרק-1-סדר-פעולות-החשבון.mp4",
+  "status": "pending",
+  "course": "directed-numbers"
+ },
+ "dn-ch02": {
+  "number": 2,
+  "topic": "היכרות עם מספרים מכוונים — ציר המספרים ומספרים נגדיים",
+  "output": "סרטון-פרק-2-מספרים-מכוונים-וציר-המספרים.mp4",
+  "status": "pending",
+  "course": "directed-numbers"
+ },
+ "dn-ch03": {
+  "number": 3,
+  "topic": "השוואת מספרים מכוונים וערך מוחלט",
+  "output": "סרטון-פרק-3-השוואה-וערך-מוחלט.mp4",
+  "status": "pending",
+  "course": "directed-numbers"
+ },
+ "dn-ch04": {
+  "number": 4,
+  "topic": "חיבור מספרים מכוונים",
+  "output": "סרטון-פרק-4-חיבור-מספרים-מכוונים.mp4",
+  "status": "pending",
+  "course": "directed-numbers"
+ },
+ "dn-ch05": {
+  "number": 5,
+  "topic": "חיסור מספרים מכוונים",
+  "output": "סרטון-פרק-5-חיסור-מספרים-מכוונים.mp4",
+  "status": "pending",
+  "course": "directed-numbers"
+ },
+ "dn-ch06": {
+  "number": 6,
+  "topic": "כפל מספרים מכוונים",
+  "output": "סרטון-פרק-6-כפל-מספרים-מכוונים.mp4",
+  "status": "pending",
+  "course": "directed-numbers"
+ },
+ "dn-ch07": {
+  "number": 7,
+  "topic": "חילוק מספרים מכוונים",
+  "output": "סרטון-פרק-7-חילוק-מספרים-מכוונים.mp4",
+  "status": "pending",
+  "course": "directed-numbers"
+ },
+ "dn-ch08": {
+  "number": 8,
+  "topic": "פעולות מעורבות וסדר פעולות במספרים מכוונים",
+  "output": "סרטון-פרק-8-פעולות-מעורבות.mp4",
+  "status": "pending",
+  "course": "directed-numbers"
+ },
+ "dn-ch09": {
+  "number": 9,
+  "topic": "חזקות ובעיות מילוליות במספרים מכוונים",
+  "output": "סרטון-פרק-9-חזקות-ובעיות-מילוליות.mp4",
+  "status": "pending",
+  "course": "directed-numbers"
+ },
+ "al-ch01": {
+  "number": 1,
+  "topic": "כללי סדר פעולות החשבון (חזרה)",
+  "output": "סרטון-פרק-1-סדר-פעולות-חזרה.mp4",
+  "status": "pending",
+  "course": "arithmetic-laws"
+ },
+ "al-ch02": {
+  "number": 2,
+  "topic": "חוק החילוף וחוק הקיבוץ של פעולת החיבור",
+  "output": "סרטון-פרק-2-חילוף-וקיבוץ-בחיבור.mp4",
+  "status": "pending",
+  "course": "arithmetic-laws"
+ },
+ "al-ch03": {
+  "number": 3,
+  "topic": "חוק החילוף וחוק הקיבוץ של פעולת הכפל",
+  "output": "סרטון-פרק-3-חילוף-וקיבוץ-בכפל.mp4",
+  "status": "pending",
+  "course": "arithmetic-laws"
+ },
+ "al-ch04": {
+  "number": 4,
+  "topic": "חוק הפילוג",
+  "output": "סרטון-פרק-4-חוק-הפילוג.mp4",
+  "status": "pending",
+  "course": "arithmetic-laws"
+ },
+ "al-ch05": {
+  "number": 5,
+  "topic": "חיסור של סכום ושל הפרש",
+  "output": "סרטון-פרק-5-חיסור-סכום-והפרש.mp4",
+  "status": "pending",
+  "course": "arithmetic-laws"
+ },
+ "al-ch06": {
+  "number": 6,
+  "topic": "הכפלת המחלק וחילוק המחלק",
+  "output": "סרטון-פרק-6-תכונות-החילוק.mp4",
+  "status": "pending",
+  "course": "arithmetic-laws"
+ },
+ "al-ch07": {
+  "number": 7,
+  "topic": "חזקות עם מעריך טבעי",
+  "output": "סרטון-פרק-7-חזקות.mp4",
+  "status": "pending",
+  "course": "arithmetic-laws"
+ },
+ "al-ch08": {
+  "number": 8,
+  "topic": "שורש ריבועי",
+  "output": "סרטון-פרק-8-שורש-ריבועי.mp4",
+  "status": "pending",
+  "course": "arithmetic-laws"
+ },
+ "sys-powers": {
+  "number": 1,
+  "topic": "חזקות: מהמושג הבסיסי (בסיס ומעריך) דרך חוקי החזקות, חזקה 0 וחזקות שליליות, כתיב מדעי, בסיס שלילי, ועד שורשים כחזקות עם מעריך שברי",
+  "output": "סרטון-חזקות-מהיסוד-ועד-כיתה-י.mp4",
+  "status": "staged",
+  "standalone_slug": "powers-and-exponents",
+  "course": "powers-and-exponents"
  }
 }

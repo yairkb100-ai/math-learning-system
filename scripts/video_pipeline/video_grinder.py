@@ -75,6 +75,16 @@ def targets(entry):
             ROOT / "courses/assets/grade7-algebra" / entry["output"],
             ROOT / f"content/grade7/algebra/ch{num:02d}/video.mp4",
         )
+    if entry.get("course") == "directed-numbers":
+        return (
+            ROOT / "courses/assets/directed-numbers" / entry["output"],
+            ROOT / f"content/grade7/directed-numbers/ch{num:02d}/video.mp4",
+        )
+    if entry.get("course") == "arithmetic-laws":
+        return (
+            ROOT / "courses/assets/arithmetic-laws" / entry["output"],
+            ROOT / f"content/grade7/arithmetic-laws/ch{num:02d}/video.mp4",
+        )
     if entry.get("course") == "grade6-percents":
         return (
             ROOT / "courses/assets/grade6-percents" / entry["output"],
