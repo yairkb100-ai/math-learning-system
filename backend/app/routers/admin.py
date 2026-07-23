@@ -82,11 +82,49 @@ def update_user(
 def delete_user(
     user_id: int,
     db: Session = Depends(get_db),
-    _: models.User = Depends(require_admin),
+    admin: models.User = Depends(require_admin),
 ) -> None:
     user = db.query(models.User).filter(models.User.id == user_id).first()
     if not user:
         raise HTTPException(status_code=404, detail="משתמש לא נמצא")
+    if user.id == admin.id:
+        raise HTTPException(status_code=400, detail="אי אפשר למחוק את המשתמש שאיתו אתה מחובר")
+    if user.role == "admin":
+        other_admins = (
+            db.query(models.User)
+            .filter(models.User.role == "admin", models.User.id != user.id)
+            .count()
+        )
+        if other_admins == 0:
+            raise HTTPException(status_code=400, detail="לא ניתן למחוק את המנהל האחרון")
+
+    # Many tables reference users.id without an ON DELETE cascade (create_all
+    # never adds one), so a bare db.delete(user) 500s for any user with
+    # activity. Clean up dependents explicitly:
+    #  - uploaded FILES are content — reassign them to the acting admin so
+    #    course materials survive the deletion (never silently dropped).
+    #  - the user's message threads are removed with them.
+    #  - all purely-personal activity rows are deleted.
+    db.query(models.FileAsset).filter(models.FileAsset.uploader_id == user.id).update(
+        {models.FileAsset.uploader_id: admin.id}, synchronize_session=False
+    )
+    db.query(models.Message).filter(
+        (models.Message.sender_id == user.id) | (models.Message.recipient_id == user.id)
+    ).delete(synchronize_session=False)
+    for Model in (
+        models.LessonRequest,
+        models.UserAchievement,
+        models.ExamSubmission,
+        models.PracticeAttempt,
+        models.Subscription,
+        models.ChapterProgress,
+        models.UserCourseEnrollment,
+        models.ChapterView,
+        models.LoginEvent,
+        models.UserDevice,
+    ):
+        db.query(Model).filter(Model.user_id == user.id).delete(synchronize_session=False)
+
     db.delete(user)
     db.commit()
 
