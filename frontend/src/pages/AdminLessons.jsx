@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useMemo } from 'react'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
 
@@ -15,6 +15,8 @@ const SLOT_STATUS = {
   blocked: { he: 'חסום', cls: 'blocked' },
   past: { he: 'עבר', cls: 'canceled' },
 }
+// order shown in a day's summary line
+const SUMMARY_ORDER = ['open', 'booked', 'pending', 'blocked', 'past']
 const WEEKDAYS = [
   { v: 6, label: 'א׳' }, // Sunday (Python weekday: Mon=0..Sun=6)
   { v: 0, label: 'ב׳' },
@@ -25,6 +27,15 @@ const WEEKDAYS = [
   { v: 5, label: 'ש׳' },
 ]
 
+// starts_at is naive wall-clock; slice the date directly to avoid TZ drift.
+const dayKey = (iso) => String(iso || '').slice(0, 10)
+function fmtTime(iso) {
+  return new Date(iso).toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' })
+}
+function fmtDayLabel(key) {
+  const d = new Date(key + 'T00:00')
+  return d.toLocaleDateString('he-IL', { weekday: 'long', day: 'numeric', month: 'numeric' })
+}
 function fmtDateTime(iso) {
   const d = new Date(iso)
   return (
@@ -33,6 +44,10 @@ function fmtDateTime(iso) {
     d.toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' })
   )
 }
+function todayKey() {
+  const n = new Date()
+  return `${n.getFullYear()}-${String(n.getMonth() + 1).padStart(2, '0')}-${String(n.getDate()).padStart(2, '0')}`
+}
 
 export default function AdminLessons() {
   const [slots, setSlots] = useState([])
@@ -40,6 +55,7 @@ export default function AdminLessons() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [busy, setBusy] = useState(false)
+  const [showPast, setShowPast] = useState(false)
 
   // single-slot form
   const [single, setSingle] = useState({ startsAt: '', durationMin: 45, note: '' })
@@ -170,27 +186,145 @@ export default function AdminLessons() {
     await act(api.adminDeclineLessonRequest, r.id, note.trim() || null)
   }
 
+  // Delete every slot on a given day in one action (tames the many-small-slots list).
+  async function deleteDay(key, arr) {
+    const held = arr.filter((s) => s.status === 'booked' || s.status === 'pending').length
+    const msg = held > 0
+      ? `למחוק את כל ${arr.length} התורים ביום ${fmtDayLabel(key)}?\n${held} מהם תפוסים/ממתינים — פעולה זו תמחק גם את הבקשות הקשורות.`
+      : `למחוק את כל ${arr.length} התורים הפנויים ביום ${fmtDayLabel(key)}?`
+    if (!confirm(msg)) return
+    setBusy(true)
+    try {
+      await Promise.all(arr.map((s) => api.adminDeleteLessonSlot(s.id)))
+      load()
+    } catch (err) {
+      alert(err.message)
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  // Group slots into days (sorted), split into upcoming vs past.
+  const { upcoming, past } = useMemo(() => {
+    const map = new Map()
+    for (const s of slots) {
+      const k = dayKey(s.starts_at)
+      if (!map.has(k)) map.set(k, [])
+      map.get(k).push(s)
+    }
+    const days = [...map.entries()]
+      .map(([k, arr]) => [k, arr.sort((a, b) => (a.starts_at < b.starts_at ? -1 : 1))])
+      .sort((a, b) => (a[0] < b[0] ? -1 : 1))
+    const tk = todayKey()
+    return {
+      upcoming: days.filter(([k]) => k >= tk),
+      past: days.filter(([k]) => k < tk),
+    }
+  }, [slots])
+
   if (loading) return <Loading />
   if (error) return <ErrorBox error={error} />
 
   const pending = requests.filter((r) => r.status === 'pending')
   const decided = requests.filter((r) => r.status !== 'pending')
 
+  const renderDay = ([key, arr]) => {
+    const counts = {}
+    arr.forEach((s) => {
+      counts[s.status] = (counts[s.status] || 0) + 1
+    })
+    return (
+      <details key={key} className="day-group">
+        <summary className="day-summary">
+          <span className="day-summary-main">
+            <span className="day-caret" aria-hidden="true">▸</span>
+            <strong>{fmtDayLabel(key)}</strong>
+            <span className="day-count-total">
+              {arr.length === 1 ? 'תור אחד' : `${arr.length} תורים`}
+            </span>
+          </span>
+          <span className="day-summary-counts">
+            {SUMMARY_ORDER.filter((st) => counts[st]).map((st) => (
+              <span key={st} className={`lesson-badge ${SLOT_STATUS[st].cls}`}>
+                {counts[st]} {SLOT_STATUS[st].he}
+              </span>
+            ))}
+          </span>
+          <button
+            type="button"
+            className="btn-sm btn-danger day-del"
+            disabled={busy}
+            onClick={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+              deleteDay(key, arr)
+            }}
+          >
+            מחק יום
+          </button>
+        </summary>
+
+        <div className="day-slots">
+          {arr.map((s) => {
+            const st = SLOT_STATUS[s.status] || { he: s.status, cls: '' }
+            return (
+              <div key={s.id} className="slot-row">
+                <div className="slot-when">
+                  <strong>{fmtTime(s.starts_at)}</strong>
+                  <span>
+                    {s.duration_min} דק׳
+                    {s.note ? ` · ${s.note}` : ''}
+                    {s.student_name ? ` · ${s.student_name}` : ''}
+                  </span>
+                </div>
+                <div className="req-actions">
+                  <span className={`lesson-badge ${st.cls}`}>{st.he}</span>
+                  {s.status !== 'booked' && (
+                    <button
+                      className="btn-sm btn-ghost"
+                      disabled={busy}
+                      onClick={() => act(api.adminToggleLessonSlotBlock, s.id)}
+                    >
+                      {s.is_blocked ? 'שחרור' : 'חסימה'}
+                    </button>
+                  )}
+                  <button
+                    className="btn-sm btn-danger"
+                    disabled={busy}
+                    onClick={() => {
+                      if (confirm('למחוק את התור? פעולה זו תמחק גם בקשות שקשורות אליו.'))
+                        act(api.adminDeleteLessonSlot, s.id)
+                    }}
+                  >
+                    מחיקה
+                  </button>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </details>
+    )
+  }
+
   return (
     <div dir="rtl" className="admin-lessons">
       <h1 className="page-title">שיעורים פרטיים — ניהול</h1>
+      <p className="page-sub" style={{ marginTop: -2 }}>
+        מאשרים בקשות, צופים בלוח לפי ימים, ופותחים זמינות חדשה.
+      </p>
 
-      {/* Pending requests — the action center */}
-      <section className="card" style={{ marginBottom: 20 }}>
+      {/* 1 · Pending requests — the action center */}
+      <section className="card lesson-section">
         <h2 className="section-h">
           בקשות ממתינות{pending.length > 0 && <span className="count-pill">{pending.length}</span>}
         </h2>
         {pending.length === 0 ? (
-          <p className="empty">אין בקשות ממתינות.</p>
+          <p className="empty">אין בקשות ממתינות כרגע.</p>
         ) : (
           <div className="req-list">
             {pending.map((r) => (
-              <div key={r.id} className="req-row">
+              <div key={r.id} className="req-row is-pending">
                 <div className="req-when">
                   <strong>{r.student_name}</strong>
                   <span>{r.starts_at ? fmtDateTime(r.starts_at) : '—'} · {r.duration_min} דק׳</span>
@@ -210,218 +344,213 @@ export default function AdminLessons() {
         )}
       </section>
 
-      {/* Define availability */}
-      <section className="card" style={{ marginBottom: 20 }}>
-        <h2 className="section-h">הגדרת זמינות</h2>
-        <p className="page-sub" style={{ margin: '0 0 14px' }}>
-          בחרו טווח תאריכים, את הימים בשבוע וחלון שעות — המערכת תפתח תור פנוי כל כמה
-          דקות שתבחרו, בכל אחד מהימים המסומנים.
-        </p>
+      {/* 2 · The schedule, grouped by day */}
+      <section className="card lesson-section">
+        <div className="section-head-row">
+          <h2 className="section-h" style={{ margin: 0 }}>
+            לוח התורים
+            <span className="count-pill neutral">{slots.length}</span>
+          </h2>
+          {past.length > 0 && (
+            <label className="past-toggle">
+              <input
+                type="checkbox"
+                checked={showPast}
+                onChange={(e) => setShowPast(e.target.checked)}
+              />
+              הצג ימים שעברו ({past.length})
+            </label>
+          )}
+        </div>
 
-        <form className="lesson-form" onSubmit={generate}>
-          <div className="form-row">
-            <label>
-              מתאריך
-              <input
-                type="date"
-                value={avail.startDate}
-                onChange={(e) => setAvail({ ...avail, startDate: e.target.value })}
-              />
-            </label>
-            <label>
-              עד תאריך
-              <input
-                type="date"
-                value={avail.endDate}
-                onChange={(e) => setAvail({ ...avail, endDate: e.target.value })}
-              />
-            </label>
-          </div>
-
-          <div>
-            <div className="gen-title" style={{ marginBottom: 6 }}>באילו ימים?</div>
-            <div className="weekday-pills">
-              {WEEKDAYS.map((d) => (
-                <button
-                  type="button"
-                  key={d.v}
-                  className={`day-pill ${avail.weekdays.includes(d.v) ? 'on' : ''}`}
-                  onClick={() => toggleWeekday(d.v)}
-                >
-                  {d.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="form-row">
-            <label>
-              משעה
-              <input
-                type="time"
-                step="300"
-                value={avail.fromTime}
-                onChange={(e) => setAvail({ ...avail, fromTime: e.target.value })}
-              />
-            </label>
-            <label>
-              עד שעה
-              <input
-                type="time"
-                step="300"
-                value={avail.toTime}
-                onChange={(e) => setAvail({ ...avail, toTime: e.target.value })}
-              />
-            </label>
-            <label>
-              תור כל (דק׳)
-              <input
-                type="number"
-                min="5"
-                step="5"
-                value={avail.everyMin}
-                onChange={(e) => setAvail({ ...avail, everyMin: e.target.value })}
-              />
-            </label>
-            <label>
-              משך שיעור (דק׳)
-              <input
-                type="number"
-                min="5"
-                step="5"
-                value={avail.durationMin}
-                onChange={(e) => setAvail({ ...avail, durationMin: e.target.value })}
-              />
-            </label>
-          </div>
-
-          <div className="gen-preview">
-            {previewTimes ? (
-              <>
-                ייפתחו <strong>{previewTimes.length}</strong> תורים בכל יום (
-                {previewTimes[0]}–{previewTimes[previewTimes.length - 1]}, כל{' '}
-                {avail.everyMin} דק׳)
-                {avail.weekdays.length ? ` × ${avail.weekdays.length} ימים בשבוע` : ''}.
-              </>
+        {slots.length === 0 ? (
+          <p className="empty">עדיין לא הוגדרו תורים. פתחו זמינות למטה כדי להתחיל.</p>
+        ) : (
+          <>
+            {upcoming.length === 0 ? (
+              <p className="empty">אין תורים עתידיים. פתחו זמינות חדשה למטה.</p>
             ) : (
-              <span className="gen-warn">
-                חלון השעות לא תקין — ודאו ש"עד שעה" מאוחר מ"משעה".
-              </span>
+              <div className="day-list">{upcoming.map(renderDay)}</div>
             )}
-          </div>
+            {showPast && past.length > 0 && (
+              <div className="day-list past-days">
+                <p className="day-list-label">ימים שעברו</p>
+                {past.map(renderDay)}
+              </div>
+            )}
+          </>
+        )}
+      </section>
 
-          <div>
-            <button className="btn-sm btn-primary" disabled={busy}>צור זמינות</button>
-          </div>
-        </form>
+      {/* 3 · Open availability (collapsed by default to keep the view calm) */}
+      <section className="card lesson-section">
+        <details className="avail-block">
+          <summary className="avail-summary">＋ פתיחת זמינות ומועדים</summary>
 
-        <hr className="divider" />
+          <p className="page-sub" style={{ margin: '12px 0 14px' }}>
+            בחרו טווח תאריכים, את הימים בשבוע וחלון שעות — המערכת תפתח תור פנוי כל כמה
+            דקות שתבחרו, בכל אחד מהימים המסומנים.
+          </p>
 
-        <details className="single-slot">
-          <summary>הוספת מועד יחיד (חד־פעמי)</summary>
-          <form className="lesson-form" onSubmit={addSingle} style={{ marginTop: 12 }}>
+          <form className="lesson-form" onSubmit={generate}>
             <div className="form-row">
               <label>
-                מועד
+                מתאריך
                 <input
-                  type="datetime-local"
-                  step="300"
-                  value={single.startsAt}
-                  onChange={(e) => setSingle({ ...single, startsAt: e.target.value })}
+                  type="date"
+                  value={avail.startDate}
+                  onChange={(e) => setAvail({ ...avail, startDate: e.target.value })}
                 />
               </label>
               <label>
-                משך (דק׳)
+                עד תאריך
+                <input
+                  type="date"
+                  value={avail.endDate}
+                  onChange={(e) => setAvail({ ...avail, endDate: e.target.value })}
+                />
+              </label>
+            </div>
+
+            <div>
+              <div className="gen-title" style={{ marginBottom: 6 }}>באילו ימים?</div>
+              <div className="weekday-pills">
+                {WEEKDAYS.map((d) => (
+                  <button
+                    type="button"
+                    key={d.v}
+                    className={`day-pill ${avail.weekdays.includes(d.v) ? 'on' : ''}`}
+                    onClick={() => toggleWeekday(d.v)}
+                  >
+                    {d.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="form-row">
+              <label>
+                משעה
+                <input
+                  type="time"
+                  step="300"
+                  value={avail.fromTime}
+                  onChange={(e) => setAvail({ ...avail, fromTime: e.target.value })}
+                />
+              </label>
+              <label>
+                עד שעה
+                <input
+                  type="time"
+                  step="300"
+                  value={avail.toTime}
+                  onChange={(e) => setAvail({ ...avail, toTime: e.target.value })}
+                />
+              </label>
+              <label>
+                תור כל (דק׳)
                 <input
                   type="number"
                   min="5"
                   step="5"
-                  value={single.durationMin}
-                  onChange={(e) => setSingle({ ...single, durationMin: e.target.value })}
+                  value={avail.everyMin}
+                  onChange={(e) => setAvail({ ...avail, everyMin: e.target.value })}
                 />
               </label>
               <label>
-                הערה (לא חובה)
+                משך שיעור (דק׳)
                 <input
-                  type="text"
-                  value={single.note}
-                  placeholder="למשל: אונליין"
-                  onChange={(e) => setSingle({ ...single, note: e.target.value })}
+                  type="number"
+                  min="5"
+                  step="5"
+                  value={avail.durationMin}
+                  onChange={(e) => setAvail({ ...avail, durationMin: e.target.value })}
                 />
               </label>
-              <button className="btn-sm btn-primary" disabled={busy}>הוספה</button>
+            </div>
+
+            <div className="gen-preview">
+              {previewTimes ? (
+                <>
+                  ייפתחו <strong>{previewTimes.length}</strong> תורים בכל יום (
+                  {previewTimes[0]}–{previewTimes[previewTimes.length - 1]}, כל{' '}
+                  {avail.everyMin} דק׳)
+                  {avail.weekdays.length ? ` × ${avail.weekdays.length} ימים בשבוע` : ''}.
+                </>
+              ) : (
+                <span className="gen-warn">
+                  חלון השעות לא תקין — ודאו ש"עד שעה" מאוחר מ"משעה".
+                </span>
+              )}
+            </div>
+
+            <div>
+              <button className="btn-sm btn-primary" disabled={busy}>צור זמינות</button>
             </div>
           </form>
+
+          <hr className="divider" />
+
+          <details className="single-slot">
+            <summary>הוספת מועד יחיד (חד־פעמי)</summary>
+            <form className="lesson-form" onSubmit={addSingle} style={{ marginTop: 12 }}>
+              <div className="form-row">
+                <label>
+                  מועד
+                  <input
+                    type="datetime-local"
+                    step="300"
+                    value={single.startsAt}
+                    onChange={(e) => setSingle({ ...single, startsAt: e.target.value })}
+                  />
+                </label>
+                <label>
+                  משך (דק׳)
+                  <input
+                    type="number"
+                    min="5"
+                    step="5"
+                    value={single.durationMin}
+                    onChange={(e) => setSingle({ ...single, durationMin: e.target.value })}
+                  />
+                </label>
+                <label>
+                  הערה (לא חובה)
+                  <input
+                    type="text"
+                    value={single.note}
+                    placeholder="למשל: אונליין"
+                    onChange={(e) => setSingle({ ...single, note: e.target.value })}
+                  />
+                </label>
+                <button className="btn-sm btn-primary" disabled={busy}>הוספה</button>
+              </div>
+            </form>
+          </details>
         </details>
       </section>
 
-      {/* All slots */}
-      <section className="card" style={{ marginBottom: 20 }}>
-        <h2 className="section-h">כל התורים ({slots.length})</h2>
-        {slots.length === 0 ? (
-          <p className="empty">עדיין לא הוגדרו תורים.</p>
-        ) : (
-          <div className="slot-list">
-            {slots.map((s) => {
-              const st = SLOT_STATUS[s.status] || { he: s.status, cls: '' }
-              return (
-                <div key={s.id} className="slot-row">
-                  <div className="slot-when">
-                    <strong>{fmtDateTime(s.starts_at)}</strong>
-                    <span>
-                      {s.duration_min} דק׳
-                      {s.note ? ` · ${s.note}` : ''}
-                      {s.student_name ? ` · ${s.student_name}` : ''}
-                    </span>
-                  </div>
-                  <div className="req-actions">
-                    <span className={`lesson-badge ${st.cls}`}>{st.he}</span>
-                    {s.status !== 'booked' && (
-                      <button
-                        className="btn-sm btn-ghost"
-                        disabled={busy}
-                        onClick={() => act(api.adminToggleLessonSlotBlock, s.id)}
-                      >
-                        {s.is_blocked ? 'שחרור' : 'חסימה'}
-                      </button>
-                    )}
-                    <button
-                      className="btn-sm btn-danger"
-                      disabled={busy}
-                      onClick={() => {
-                        if (confirm('למחוק את התור? פעולה זו תמחק גם בקשות שקשורות אליו.'))
-                          act(api.adminDeleteLessonSlot, s.id)
-                      }}
-                    >
-                      מחיקה
-                    </button>
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        )}
-      </section>
-
-      {/* Decided history */}
+      {/* 4 · Decided history */}
       {decided.length > 0 && (
-        <section className="card">
-          <h2 className="section-h">היסטוריית בקשות</h2>
-          <div className="req-list">
-            {decided.map((r) => {
-              const st = REQ_STATUS[r.status] || { he: r.status, cls: '' }
-              return (
-                <div key={r.id} className="req-row">
-                  <div className="req-when">
-                    <strong>{r.student_name}</strong>
-                    <span>{r.starts_at ? fmtDateTime(r.starts_at) : '—'}</span>
-                    {r.admin_note && <span className="req-admin-note">הערה: {r.admin_note}</span>}
+        <section className="card lesson-section">
+          <details className="avail-block">
+            <summary className="avail-summary">היסטוריית בקשות ({decided.length})</summary>
+            <div className="req-list" style={{ marginTop: 12 }}>
+              {decided.map((r) => {
+                const st = REQ_STATUS[r.status] || { he: r.status, cls: '' }
+                return (
+                  <div key={r.id} className="req-row">
+                    <div className="req-when">
+                      <strong>{r.student_name}</strong>
+                      <span>{r.starts_at ? fmtDateTime(r.starts_at) : '—'}</span>
+                      {r.admin_note && <span className="req-admin-note">הערה: {r.admin_note}</span>}
+                    </div>
+                    <span className={`lesson-badge ${st.cls}`}>{st.he}</span>
                   </div>
-                  <span className={`lesson-badge ${st.cls}`}>{st.he}</span>
-                </div>
-              )
-            })}
-          </div>
+                )
+              })}
+            </div>
+          </details>
         </section>
       )}
     </div>

@@ -2252,6 +2252,114 @@ h4.prose-h {
   color: #fff;
 }
 
+/* ---- lessons admin: day-grouped schedule ---- */
+.lesson-section { margin-bottom: 18px; }
+.section-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.count-pill.neutral { background: var(--accent); }
+.past-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--muted);
+  cursor: pointer;
+}
+.req-row.is-pending {
+  border-inline-start: 3px solid var(--marker, #f2b134);
+  background: var(--surface);
+}
+
+.day-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.day-list-label {
+  margin: 16px 0 6px;
+  font-size: 0.82rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+.past-days { opacity: 0.85; }
+
+.day-group {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  overflow: hidden;
+}
+.day-group[open] { border-color: color-mix(in srgb, var(--accent) 40%, var(--border)); }
+.day-summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 12px 14px;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+.day-summary::-webkit-details-marker { display: none; }
+.day-summary:hover { background: var(--surface-2); }
+.day-summary-main {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 190px;
+}
+.day-summary-main strong { font-size: 1rem; }
+.day-caret {
+  color: var(--muted);
+  transition: transform 0.15s ease;
+  display: inline-block;
+}
+.day-group[open] .day-caret { transform: rotate(90deg); }
+.day-count-total {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+.day-summary-counts {
+  display: inline-flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+.day-summary-counts .lesson-badge {
+  font-size: 0.74rem;
+  padding: 2px 9px;
+}
+.day-del { margin-inline-start: auto; }
+.day-slots {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 4px 12px 12px;
+  border-top: 1px solid var(--border);
+}
+.day-slots .slot-row {
+  border-color: var(--border);
+  background: var(--surface-2);
+}
+
+/* collapsible availability / history blocks */
+.avail-summary {
+  cursor: pointer;
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 1rem;
+  list-style: none;
+  padding: 2px 0;
+}
+.avail-summary::-webkit-details-marker { display: none; }
+.avail-block[open] .avail-summary { margin-bottom: 4px; }
+
 /* ---------------------------------------------------------------------------
    Booking page (Calendly-style day → time picker) + floating "book" button
    --------------------------------------------------------------------------- */
