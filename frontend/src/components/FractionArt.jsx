@@ -619,6 +619,63 @@ function Tangent({ param }) {
   )
 }
 
+// Number line for directed (signed) numbers, e.g. {{signedline:-3}} places a dot
+// at -3; {{signedline:-2;3}} draws a jump-arrow from -2 to 3 (for showing
+// addition/subtraction on the line). Auto-ranges to include 0 and the value(s),
+// marks 0 in red, and puts arrowheads on both ends of the axis.
+function SignedLine({ param }) {
+  const parts = String(param == null ? '0' : param)
+    .split(';')
+    .map((s) => parseInt(s, 10))
+    .filter((v) => Number.isFinite(v))
+  const a = parts.length ? parts[0] : 0
+  const b = parts.length > 1 ? parts[1] : null
+  const vals = b == null ? [a] : [a, b]
+  let lo = Math.min(0, ...vals) - 1
+  let hi = Math.max(0, ...vals) + 1
+  if (hi - lo < 4) hi = lo + 4 // keep a readable minimum span
+  const W = 300
+  const x0 = 22
+  const x1 = W - 22
+  const y = 42
+  const sx = (v) => x0 + ((x1 - x0) * (v - lo)) / (hi - lo)
+  const ticks = []
+  for (let v = lo; v <= hi; v++) {
+    const zero = v === 0
+    ticks.push(
+      <g key={v}>
+        <line x1={sx(v)} y1={y - 6} x2={sx(v)} y2={y + 6} stroke={zero ? TOMATO : NAVY} strokeWidth={zero ? 2.5 : 1.5} />
+        <text x={sx(v)} y={y + 22} textAnchor="middle" fontSize="12" fill={zero ? TOMATO : NAVY} fontWeight={zero ? 700 : 400}>{v}</text>
+      </g>
+    )
+  }
+  return (
+    <svg width={W} height="64" viewBox={`0 0 ${W} 64`}>
+      <line x1={x0} y1={y} x2={x1} y2={y} stroke={NAVY} strokeWidth="2" />
+      <polygon points={`${x1},${y} ${x1 - 9},${y - 5} ${x1 - 9},${y + 5}`} fill={NAVY} />
+      <polygon points={`${x0},${y} ${x0 + 9},${y - 5} ${x0 + 9},${y + 5}`} fill={NAVY} />
+      {ticks}
+      {b != null ? (
+        <g>
+          <line x1={sx(a)} y1={y - 15} x2={sx(b)} y2={y - 15} stroke={FILL} strokeWidth="3" />
+          <polygon
+            points={
+              b >= a
+                ? `${sx(b)},${y - 15} ${sx(b) - 8},${y - 19} ${sx(b) - 8},${y - 11}`
+                : `${sx(b)},${y - 15} ${sx(b) + 8},${y - 19} ${sx(b) + 8},${y - 11}`
+            }
+            fill={FILL}
+          />
+          <circle cx={sx(a)} cy={y} r="5.5" fill={NAVY} />
+          <circle cx={sx(b)} cy={y} r="6" fill={TOMATO} stroke="#fff" strokeWidth="1.5" />
+        </g>
+      ) : (
+        <circle cx={sx(a)} cy={y} r="6.5" fill={TOMATO} stroke="#fff" strokeWidth="1.5" />
+      )}
+    </svg>
+  )
+}
+
 const KINDS = {
   pizza: Pizza,
   circle: CirclePlain,
@@ -626,6 +683,7 @@ const KINDS = {
   'bar-unequal': BarUnequal,
   chocolate: Chocolate,
   numberline: NumberLine,
+  signedline: SignedLine,
   grid: Grid,
   rect: Rect,
   parabola: Parabola,
