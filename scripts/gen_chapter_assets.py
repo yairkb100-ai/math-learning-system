@@ -59,7 +59,79 @@ def _merge_math_runs(s):
     return _RUN.sub(repl, s)
 
 
+# --- inline art tokens {{kind:param|caption}} ------------------------------
+# The frontend (FractionArt.jsx) renders these as SVG on the web. For the PDF
+# worksheets we port the ones that appear in worksheet/bank bodies so the sheets
+# are genuinely illustrated. Unknown kinds are stripped (never leaked as text).
+_NAVY, _FILL, _TOMATO = '#14306b', '#8ecae6', '#e8574b'
+
+
+def _svg_signedline(param):
+    """Port of SignedLine (FractionArt.jsx): {{signedline:-3}} = dot at -3;
+    {{signedline:-2;3}} = jump-arrow -2->3. Auto-ranges to include 0."""
+    parts = [int(x) for x in re.findall(r'-?\d+', param.split('|')[0])]
+    a = parts[0] if parts else 0
+    b = parts[1] if len(parts) > 1 else None
+    vals = [a] if b is None else [a, b]
+    lo = min(0, *vals) - 1
+    hi = max(0, *vals) + 1
+    if hi - lo < 4:
+        hi = lo + 4
+    W, x0, x1, y = 300, 22, 300 - 22, 42
+    sx = lambda v: x0 + (x1 - x0) * (v - lo) / (hi - lo)
+    ticks = []
+    for v in range(lo, hi + 1):
+        zero = v == 0
+        col = _TOMATO if zero else _NAVY
+        sw = 2.5 if zero else 1.5
+        fw = 700 if zero else 400
+        ticks.append(
+            f'<line x1="{sx(v):.1f}" y1="{y-6}" x2="{sx(v):.1f}" y2="{y+6}" '
+            f'stroke="{col}" stroke-width="{sw}"/>'
+            f'<text x="{sx(v):.1f}" y="{y+22}" text-anchor="middle" '
+            f'font-size="12" fill="{col}" font-weight="{fw}">{v}</text>')
+    if b is not None:
+        if b >= a:
+            head = f'{sx(b):.1f},{y-15} {sx(b)-8:.1f},{y-19} {sx(b)-8:.1f},{y-11}'
+        else:
+            head = f'{sx(b):.1f},{y-15} {sx(b)+8:.1f},{y-19} {sx(b)+8:.1f},{y-11}'
+        marker = (
+            f'<line x1="{sx(a):.1f}" y1="{y-15}" x2="{sx(b):.1f}" y2="{y-15}" '
+            f'stroke="{_FILL}" stroke-width="3"/>'
+            f'<polygon points="{head}" fill="{_FILL}"/>'
+            f'<circle cx="{sx(a):.1f}" cy="{y}" r="5.5" fill="{_NAVY}"/>'
+            f'<circle cx="{sx(b):.1f}" cy="{y}" r="6" fill="{_TOMATO}" '
+            f'stroke="#fff" stroke-width="1.5"/>')
+    else:
+        marker = (f'<circle cx="{sx(a):.1f}" cy="{y}" r="6.5" fill="{_TOMATO}" '
+                  f'stroke="#fff" stroke-width="1.5"/>')
+    return (
+        f'<svg width="{W}" height="64" viewBox="0 0 {W} 64">'
+        f'<line x1="{x0}" y1="{y}" x2="{x1}" y2="{y}" stroke="{_NAVY}" stroke-width="2"/>'
+        f'<polygon points="{x1},{y} {x1-9},{y-5} {x1-9},{y+5}" fill="{_NAVY}"/>'
+        f'<polygon points="{x0},{y} {x0+9},{y-5} {x0+9},{y+5}" fill="{_NAVY}"/>'
+        f'{"".join(ticks)}{marker}</svg>')
+
+
+def _art(s):
+    """Replace {{kind:param|caption}} tokens. signedline renders as SVG (centered,
+    with optional caption); any other kind is stripped so nothing leaks."""
+    def repl(m):
+        inner = m.group(1)
+        kind, _, rest = inner.partition(':')
+        kind = kind.strip()
+        param, _, caption = rest.partition('|')
+        if kind == 'signedline':
+            fig = _svg_signedline(param)
+            cap = (f'<div style="font-size:12px;color:#5b6780;margin-top:2px">'
+                   f'{caption.strip()}</div>') if caption.strip() else ''
+            return (f'<div style="text-align:center;margin:10px 0">{fig}{cap}</div>')
+        return ''
+    return re.sub(r'\{\{(.*?)\}\}', repl, s)
+
+
 def macros(s):
+    s = _art(s)
     s = _merge_math_runs(s)
     s = re.sub(r'\[\[(\d+)/(\d+)\]\]',
                r'<span class="fr"><b>\1</b><i>\2</i></span>', s)

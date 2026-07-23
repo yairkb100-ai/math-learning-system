@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>תרגול אינטראקטיבי — מספרים מכוונים</title>
+<style>
+  @page { size: A4; margin: 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: #1a2233;
+         line-height: 1.7; margin: 0; padding: 20px; background: #f4f6fa; }
+  .sheet { background: #fff; max-width: 820px; margin: 0 auto 24px;
+           padding: 30px 36px; border-radius: 10px;
+           box-shadow: 0 2px 14px rgba(0,0,0,.09); }
+  header { border-bottom: 3px solid #2f6fed; padding-bottom: 12px; margin-bottom: 20px; }
+  h1 { margin: 0 0 4px; font-size: 24px; color: #14306b; }
+  .sub { color: #5b6780; font-size: 14px; }
+  .namebar { display: flex; gap: 26px; margin-top: 12px; font-size: 14px; }
+  .namebar span { flex: 1; border-bottom: 1px dotted #8894ab; padding-bottom: 3px; }
+  h2.q, h2.sec { font-size: 17px; margin: 24px 0 10px; color: #14306b;
+    background: #eef3fe; padding: 7px 12px; border-radius: 6px;
+    border-inline-start: 5px solid #2f6fed; }
+  .tag { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px;
+         margin-inline-start: 8px; vertical-align: middle; }
+  .easy { background: #dff5e3; color: #1c6b32; }
+  .med  { background: #fdf0d5; color: #8a5b06; }
+  .hard { background: #fadbdb; color: #8f2222; }
+  ol.items { margin: 6px 0; padding-inline-start: 22px; }
+  ol.items > li { margin-bottom: 13px; }
+  .fr { display: inline-flex; flex-direction: column; align-items: center;
+        vertical-align: middle; margin: 0 3px; font-size: .95em; line-height: 1.15; }
+  .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
+  .fr i { font-style: normal; padding: 0 4px; }
+  .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
+  .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
+  .fig { text-align: center; font-size: 13px; color: #5b6780; }
+  .lines div { border-bottom: 1px dotted #aab3c4; height: 24px; }
+  .numline { margin: 10px 0; }
+  .pagebreak { page-break-before: always; }
+  .key { background: #fffdf3; }
+  .key h1 { color: #8a5b06; }
+  .key header { border-bottom-color: #e0a800; }
+  .key .ans { background:#fff; border:1px solid #eadfb8; border-radius:6px;
+              padding:10px 14px; margin-bottom:10px; font-size:14.5px; }
+  .key .ans strong { color:#8a5b06; }
+  .credit { text-align:center; font-size: 12px; color: #8894ab; margin-top: 18px;
+            border-top: 1px solid #eef1f6; padding-top: 8px; }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .sheet { box-shadow: none; margin: 0; border-radius: 0; padding: 0; max-width: none; }
+    .noprint { display: none; }
+  }
+  .noprint { text-align:center; margin: 10px 0 20px; }
+  .noprint button { background: #2f6fed; color:#fff; border:0; padding:10px 26px;
+                    border-radius:6px; font-size:15px; cursor:pointer; font-family:inherit; }
+
+  .card { background: #fff; border-radius: 12px; padding: 22px 24px; margin: 0 auto 20px;
+          max-width: 780px; box-shadow: 0 2px 12px rgba(20,48,107,.08); }
+  .card h2 { font-size: 19px; color: #14306b; margin: 0 0 4px; }
+  .hint { color: #77839b; font-size: 14px; margin: 0 0 16px; }
+  .ex { border: 1px solid #e6eaf2; border-radius: 9px; padding: 14px 16px; margin-bottom: 12px; }
+  .ex-h { display: flex; align-items: center; gap: 9px; margin-bottom: 6px; }
+  .ex-h strong { color: #14306b; }
+  .reveal { margin-top: 9px; background: #fff; border: 1.5px solid #2f6fed; color: #2f6fed;
+            border-radius: 6px; padding: 6px 16px; cursor: pointer; font: inherit; font-size: 14px; }
+  .reveal:hover { background: #2f6fed; color: #fff; }
+  .sol { display: none; margin-top: 10px; background:#f3f8f4; border-inline-start:4px solid #34a853;
+         padding: 11px 14px; border-radius: 6px; font-size: 15px; }
+  .sol.show { display: block; }
+  .q { margin-bottom: 22px; padding-bottom: 18px; border-bottom: 1px solid #eef1f6; }
+  .qtext { font-weight: 600; margin-bottom: 10px; }
+  .opts { display: grid; gap: 8px; }
+  .opt { text-align: start; background: #f6f8fc; border: 2px solid #e2e8f2; border-radius: 8px;
+         padding: 10px 14px; cursor: pointer; font: inherit; color: inherit; }
+  .opt:hover:not(:disabled) { border-color: #2f6fed; background: #eef3fe; }
+  .opt.correct { background: #e4f6e9; border-color: #34a853; }
+  .opt.wrong { background: #fdecea; border-color: #d93025; }
+  .opt:disabled { cursor: default; }
+  .score { text-align:center; font-size:17px; font-weight:700; color:#14306b; margin-top:8px; }
+  h1.pt { max-width: 780px; margin: 0 auto 4px; color:#14306b; }
+  p.lead { max-width: 780px; margin: 0 auto 26px; color:#5b6780; }
+</style>
+</head>
+<body>
+
+<h1 class="pt">תרגול: מספרים מכוונים</h1>
+<p class="lead">פרק 2 · ציר המספרים, מספרים שליליים ומספרים נגדיים</p>
+
+<div class="card">
+  <h2>✏️ תרגילים</h2>
+  <p class="hint">נסו לפתור לבד, ורק אחר כך גלו את הפתרון.</p>
+  
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 1: מהמצב למספר מכוון</strong>
+      <span class="tag easy">קל</span></div>
+    <div>כתבו את המספר המכוון המתאים:<br><br>א. 5 מעלות מתחת לאפס<br>ב. קומה 3 מעל הקרקע<br>ג. חוב של 20 ₪</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. <span class="eq">-5</span><br>ב. <span class="eq">3</span><br>ג. <span class="eq">-20</span></div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 2: נגדיים</strong>
+      <span class="tag easy">קל</span></div>
+    <div>מצאו את הנגדי של:<br><br>א. <span class="eq">8</span><br>ב. <span class="eq">-11</span><br>ג. <span class="eq">-1</span></div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. <span class="eq">-8</span><br>ב. <span class="eq">11</span><br>ג. <span class="eq">1</span></div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 3: סידור על הציר</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>סדרו מהקטן לגדול: <span class="eq">\ 3,\ -5,\ 0,\ -1,\ 2</span>.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">לפי המיקום על הציר (משמאל לימין): <span class="eq">-5,\ -1,\ 0,\ 2,\ 3</span>.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 4: אתגר: הצוללת</strong>
+      <span class="tag hard">מאתגר</span></div>
+    <div>צוללת נמצאת בעומק <span class="eq">-120</span> מ' (120 מ' מתחת לפני הים) ועלתה 45 מ'. באיזה גובה היא נמצאת עכשיו?</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">עלייה של 45 מ' פירושה 45 צעדים ימינה על הציר: <span class="eq">-120 + 45 = -75</span>. הצוללת נמצאת בגובה <span class="eq">-75</span> מ' — כלומר 75 מ' מתחת לפני הים.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 5: נגדי</strong>
+      <span class="tag easy">קל</span></div>
+    <div>מהו הנגדי של <span class="eq">14</span>?</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">הנגדי של <span class="eq">14</span> הוא <span class="eq">-14</span> (אותו מרחק מ-0, בצד השני).</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 6: סידור מספרים מכוונים</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>סדרו מהקטן לגדול: <span class="eq">\ -3,\ 5,\ -8,\ 0,\ 2</span>.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">לפי הציר: <span class="eq">-8,\ -3,\ 0,\ 2,\ 5</span>.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 7: טמפרטורה יורדת</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>בבוקר הטמפרטורה הייתה <span class="eq">-5°</span>, ובערב ירדה ב-<span class="eq">3°</span> נוספות. מה הטמפרטורה בערב?</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">ירידה של <span class="eq">3°</span> מ-<span class="eq">-5</span> מובילה שלושה צעדים שמאלה: <span class="eq">-5 - 3 = -8</span>. הטמפרטורה היא <span class="eq">-8°</span>.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 8: אתגר: מהמינוס אל הפלוס</strong>
+      <span class="tag hard">מאתגר</span></div>
+    <div>בחשבון היה חוב של <span class="eq">120</span> ₪ (יתרה <span class="eq">-120</span>). הופקדו <span class="eq">200</span> ₪. מה היתרה החדשה, והאם היא מעל או מתחת ל-0?</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol"><span class="eq">-120 + 200 = 80</span>. היתרה היא <span class="eq">+80</span> ₪ — מעל ל-0 (יש כסף בחשבון).</div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>🎯 מבחנון</h2>
+  <p class="hint">בחרו תשובה — ותקבלו משוב מיד.</p>
+  <div id="quiz"></div>
+  <div class="score" id="score"></div>
+</div>
+
+<div class="credit" style="max-width:780px; margin:0 auto">© כל הזכויות שמורות ליאיר כהנא</div>
+
+<script>
+const quiz = [{"q": "איזה מספר יושב משמאל ל-0 על ציר המספרים?", "o": ["<span class=\"eq\">-4</span>", "<span class=\"eq\">4</span>", "<span class=\"eq\">0</span>", "<span class=\"eq\">1</span>"], "a": 0}, {"q": "מהו הנגדי של <span class=\"eq\">-7</span>?", "o": ["<span class=\"eq\">7</span>", "<span class=\"eq\">-7</span>", "<span class=\"eq\">0</span>", "<span class=\"eq\">14</span>"], "a": 0}, {"q": "מי גדול יותר: <span class=\"eq\">-3</span> או <span class=\"eq\">-8</span>?", "o": ["<span class=\"eq\">-3</span>", "<span class=\"eq\">-8</span>", "הם שווים", "אי אפשר לדעת"], "a": 0}, {"q": "נכון או לא נכון: <span class=\"eq\">-10</span> מעלות חם יותר מ-<span class=\"eq\">-2</span> מעלות.", "o": ["נכון", "לא נכון"], "a": 1}, {"q": "קומה <span class=\"eq\">-2</span> בבניין פירושה:", "o": ["שתי קומות מתחת לכניסה", "הקומה השנייה", "שתי קומות מעל הכניסה", "הקומה העליונה"], "a": 0}];
+let answered = 0, correct = 0;
+document.getElementById('quiz').innerHTML = quiz.map((q, i) => `
+  <div class="q">
+    <div class="qtext">${i + 1}. ${q.q}</div>
+    <div class="opts">${q.o.map((o, j) =>
+      `<button class="opt" data-q="${i}" data-o="${j}">${o}</button>`).join('')}</div>
+  </div>`).join('');
+document.querySelectorAll('.opt').forEach(btn => {
+  btn.onclick = () => {
+    const qi = +btn.dataset.q, oi = +btn.dataset.o, q = quiz[qi];
+    const group = btn.parentElement.querySelectorAll('.opt');
+    group.forEach(b => b.disabled = true);
+    group[q.a].classList.add('correct');
+    if (oi !== q.a) btn.classList.add('wrong'); else correct++;
+    if (++answered === quiz.length) {
+      document.getElementById('score').textContent =
+        `סיימתם! ${correct} מתוך ${quiz.length} נכונות ` +
+        (correct === quiz.length ? '🏆 מושלם!' : correct >= quiz.length - 2 ? '👍 יפה מאוד!' : '💪 שווה לחזור על הפרק');
+    }
+  };
+});
+</script>
+</body>
+</html>
