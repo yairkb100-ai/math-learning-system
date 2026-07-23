@@ -4,6 +4,21 @@ import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
 import MathText from '../components/MathText.jsx'
 import Quiz from '../components/Quiz.jsx'
+import {
+  IconPlay,
+  IconBook,
+  IconBulb,
+  IconPencil,
+  IconTarget,
+  IconTrophy,
+  IconCheck,
+  IconArrowStart,
+  IconDownload,
+  IconUpload,
+  IconPaperclip,
+  IconFile,
+  IconWarning,
+} from '../components/icons.jsx'
 
 const t = (rtl, he, en) => (rtl ? he : en)
 
@@ -44,7 +59,7 @@ function buildSteps(chapter, rtl, videoFile) {
   if (videoFile) {
     steps.push({
       kind: 'video',
-      icon: '🎬',
+      Icon: IconPlay,
       label: t(rtl, 'סרטון הסברה', 'Video'),
       file: videoFile,
     })
@@ -53,7 +68,7 @@ function buildSteps(chapter, rtl, videoFile) {
   chunk(splitContent(chapter.content), 2).forEach((group, i) => {
     steps.push({
       kind: 'content',
-      icon: '📖',
+      Icon: IconBook,
       label:
         group[0].title || (i === 0 ? t(rtl, 'פתיחה', 'Introduction') : ''),
       sections: group,
@@ -64,7 +79,7 @@ function buildSteps(chapter, rtl, videoFile) {
   if (examples.length > 0) {
     steps.push({
       kind: 'examples',
-      icon: '💡',
+      Icon: IconBulb,
       label: t(rtl, 'דוגמאות', 'Examples'),
       examples,
     })
@@ -73,7 +88,7 @@ function buildSteps(chapter, rtl, videoFile) {
   chunk(exercises, 3).forEach((group, i, all) => {
     steps.push({
       kind: 'exercises',
-      icon: '✏️',
+      Icon: IconPencil,
       label:
         all.length > 1
           ? `${t(rtl, 'תרגילים', 'Exercises')} (${i + 1}/${all.length})`
@@ -84,12 +99,12 @@ function buildSteps(chapter, rtl, videoFile) {
   if ((chapter.quiz || []).length > 0) {
     steps.push({
       kind: 'quiz',
-      icon: '🎯',
+      Icon: IconTarget,
       label: t(rtl, 'בוחן סיכום', 'Quiz'),
       quiz: chapter.quiz,
     })
   }
-  steps.push({ kind: 'finish', icon: '🏁', label: t(rtl, 'סיום הפרק', 'Finish') })
+  steps.push({ kind: 'finish', Icon: IconTrophy, label: t(rtl, 'סיום הפרק', 'Finish') })
   return steps
 }
 
@@ -195,10 +210,14 @@ export default function ChapterView() {
   }
 
   return (
-    <section dir={rtl ? 'rtl' : 'ltr'} className={rtl ? 'rtl' : ''}>
+    <section
+      dir={rtl ? 'rtl' : 'ltr'}
+      className={`chapter-view${rtl ? ' rtl' : ''}`}
+    >
       <p className="crumbs">
-        <Link to={`/courses/${id}`}>
-          {t(rtl, '→ חזרה לקורס', '← Back to course')}
+        <Link to={`/courses/${id}`} className="crumb-link">
+          <IconArrowStart className="crumb-arrow" />
+          {t(rtl, 'חזרה לקורס', 'Back to course')}
         </Link>
       </p>
 
@@ -211,7 +230,7 @@ export default function ChapterView() {
 
       <div className="step-bar card">
         <div className="step-count">
-          <span className="step-icon">{current.icon}</span>
+          <span className="step-icon"><current.Icon /></span>
           <span>
             {t(rtl, 'צעד', 'Step')} {step + 1} {t(rtl, 'מתוך', 'of')}{' '}
             {steps.length}
@@ -243,7 +262,8 @@ export default function ChapterView() {
           onClick={() => setStep((s) => Math.max(0, s - 1))}
           disabled={step === 0}
         >
-          {t(rtl, '→ הקודם', '← Back')}
+          <IconArrowStart className="btn-arrow-back" />
+          {t(rtl, 'הקודם', 'Back')}
         </button>
         <span className="step-dots">
           {steps.map((s, i) => (
@@ -261,7 +281,8 @@ export default function ChapterView() {
         </span>
         {!isLast ? (
           <button className="btn" onClick={() => setStep((s) => s + 1)}>
-            {t(rtl, 'הבא ←', 'Next →')}
+            {t(rtl, 'הבא', 'Next')}
+            <IconArrowStart className="btn-arrow" />
           </button>
         ) : (
           <span />
@@ -287,7 +308,8 @@ function StepBody({
     return (
       <div className="card step-card video-step">
         <h2 className="step-title">
-          🎬 {t(rtl, 'סרטון הסברה', 'Explainer video')}: {chapter.title}
+          <IconPlay className="step-title-icon" />
+          {t(rtl, 'סרטון הסברה', 'Explainer video')}: {chapter.title}
         </h2>
         <VideoPlayer fileId={step.file.id} externalUrl={step.file.external_url} rtl={rtl} />
       </div>
@@ -341,13 +363,14 @@ function StepBody({
   return (
     <div className="step-card">
       <div className="card chapter-footer step-finish">
-        <div className="finish-emoji">🎉</div>
+        <div className="finish-emoji"><IconTrophy /></div>
         <h2>
           {t(rtl, 'כל הכבוד! סיימתם את הפרק', 'Great job! Chapter finished')}
         </h2>
         {completed ? (
           <p className="status-ok chapter-done">
-            ✓ {t(rtl, 'הפרק הושלם', 'Chapter completed')}
+            <IconCheck className="chapter-done-icon" />
+            {t(rtl, 'הפרק הושלם', 'Chapter completed')}
           </p>
         ) : (
           <button className="btn" onClick={markComplete} disabled={marking}>
@@ -361,18 +384,22 @@ function StepBody({
             to={`/courses/${courseId}/chapters/${nextNumber}`}
             className="btn"
           >
-            {t(rtl, 'לפרק הבא ←', 'Next chapter →')}
+            {t(rtl, 'לפרק הבא', 'Next chapter')}
+            <IconArrowStart className="btn-arrow" />
           </Link>
         )}
       </div>
 
       {(chapterFiles || []).length > 0 && (
         <div className="card">
-          <h3>{t(rtl, '📎 דפי עבודה וחומרים להורדה', '📎 Worksheets & downloads')}</h3>
+          <h3 className="card-title-icon">
+            <IconPaperclip />
+            {t(rtl, 'דפי עבודה וחומרים להורדה', 'Worksheets & downloads')}
+          </h3>
           <ul className="file-list">
             {chapterFiles.map((f) => (
               <li key={f.id} className="file-row">
-                <span className="file-icon">📄</span>
+                <span className="file-icon"><IconFile /></span>
                 <span className="file-name">{f.original_name}</span>
                 <span className="file-actions">
                   <button
@@ -459,11 +486,15 @@ function HomeworkBox({ courseId, chapterNumber, rtl }) {
   return (
     <div className="card file-manager">
       <div className="file-manager-head">
-        <h3>{t(rtl, '📤 הגשת שיעורי בית', '📤 Submit homework')}</h3>
+        <h3 className="card-title-icon">
+          <IconUpload />
+          {t(rtl, 'הגשת שיעורי בית', 'Submit homework')}
+        </h3>
         <label className="btn btn-cta file-upload-btn">
+          <IconUpload className="btn-lead-icon" />
           {uploading
             ? t(rtl, 'מעלה…', 'Uploading…')
-            : t(rtl, '⬆ העלה הגשה', '⬆ Upload')}
+            : t(rtl, 'העלה הגשה', 'Upload')}
           <input
             ref={inputRef}
             type="file"
@@ -473,7 +504,11 @@ function HomeworkBox({ courseId, chapterNumber, rtl }) {
           />
         </label>
       </div>
-      {err && <p className="inline-error">⚠️ {String(err.message || err)}</p>}
+      {err && (
+        <p className="inline-error">
+          <IconWarning className="inline-error-icon" /> {String(err.message || err)}
+        </p>
+      )}
       {files.length === 0 ? (
         <p className="muted empty-msg">
           {t(
@@ -486,7 +521,7 @@ function HomeworkBox({ courseId, chapterNumber, rtl }) {
         <ul className="file-list">
           {files.map((f) => (
             <li key={f.id} className="file-row">
-              <span className="file-icon">📝</span>
+              <span className="file-icon"><IconFile /></span>
               <span className="file-name">
                 {f.original_name}
                 {f.uploader_name && (
@@ -536,7 +571,12 @@ function VideoPlayer({ fileId, externalUrl, rtl }) {
     }
   }, [fileId, externalUrl])
 
-  if (err) return <p className="inline-error">⚠️ {String(err.message || err)}</p>
+  if (err)
+    return (
+      <p className="inline-error">
+        <IconWarning className="inline-error-icon" /> {String(err.message || err)}
+      </p>
+    )
   if (!src) return <Loading label={rtl ? 'טוען סרטון…' : 'Loading video…'} />
   return (
     <video className="chapter-video" src={src} controls playsInline>
@@ -613,7 +653,11 @@ function Exercise({ exercise, courseId, chapterNumber, rtl }) {
             : t(rtl, 'הצג פתרון', 'Show solution')}
       </button>
 
-      {err && <p className="inline-error">⚠️ {String(err.message || err)}</p>}
+      {err && (
+        <p className="inline-error">
+          <IconWarning className="inline-error-icon" /> {String(err.message || err)}
+        </p>
+      )}
 
       {open && solution != null && (
         <div className="solution">

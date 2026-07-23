@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
+import { IconBrand } from './icons.jsx'
 import api from '../api.js'
 
 export default function Navbar() {
@@ -48,8 +49,8 @@ export default function Navbar() {
     <header className="topbar" dir="rtl">
       <div className="topbar-inner">
         <Link to="/" className="brand">
-          <span className="brand-mark">∑</span>
-          לומדת מתמטיקה
+          <span className="brand-mark"><IconBrand /></span>
+          <span className="brand-text">לומדת מתמטיקה</span>
         </Link>
 
         {user && (

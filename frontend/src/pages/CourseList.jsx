@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
+import MathDoodles from '../components/MathDoodles.jsx'
 import {
   IconLayers,
   IconClock,
@@ -49,6 +50,7 @@ export default function CourseList() {
     <section dir="rtl" className="catalog">
       {/* Hero */}
       <div className="cat-hero">
+        <MathDoodles className="hero-doodles" />
         <div className="cat-hero-body">
           <span className="cat-eyebrow">
             <IconGraduation /> פלטפורמת הלימוד במתמטיקה

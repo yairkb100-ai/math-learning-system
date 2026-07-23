@@ -1,23 +1,28 @@
 :root {
-  /* זהות "דיו על נייר": דיו אינדיגו על אפור-נייר, אקסנט מרקר ורוד.
-     ירוק/אדום נשמרים למשמעות בלבד (נכון/שגוי, אושר/נדחה). */
-  --bg: #f4f5f8;
+  /* זהות "לוח גיר + דף משבצות": דיו ירוק-טורקיז על נייר קריר ידידותי,
+     כחול וירוק כצבעים ראשיים, מבטא גיר צהוב חם. לוח-גיר בהירו/כותרות.
+     ירוק/אדום נשמרים גם למשמעות (נכון/שגוי, אושר/נדחה). */
+  --bg: #eef2ee;
   --surface: #ffffff;
-  --surface-2: #eef0f5;
-  --border: #dfe2ea;
-  --text: #1b2440;
-  --muted: #5b6480;
-  --accent: #2f4a86;       /* אינדיגו — צבע ראשי (קישורים/כותרות) */
-  --accent-2: #e85c9a;     /* ורוד מרקר — הדגשות */
-  --cta: #3a53c5;          /* אינדיגו חי — פעולה ראשית */
-  --cta-dark: #2d3fa0;     /* אינדיגו כהה למעברים */
+  --surface-2: #e8eee9;
+  --border: #d6e0d9;
+  --text: #1d3b34;         /* דיו ירוק-טורקיז כהה */
+  --muted: #586a63;
+  --accent: #1f7a8c;       /* טורקיז-כחול — צבע ראשי (קישורים/כותרות) */
+  --accent-2: #2f9e6a;     /* ירוק — הדגשות */
+  --cta: #1f7a8c;          /* טורקיז חי — פעולה ראשית */
+  --cta-dark: #176070;     /* טורקיז כהה למעברים */
   --ok: #2f8f6d;
-  --ok-bg: #e7f4ee;
+  --ok-bg: #e4f2ea;
   --no: #b23a2c;
   --no-bg: #f7e7e4;
+  /* לוח-גיר וגיר */
+  --board: #294a41;
+  --board-edge: #1e3a33;
+  --chalk: #f4f2e9;
   --radius: 16px;
-  --shadow: 0 2px 10px rgba(28, 45, 58, 0.06);
-  --shadow-hover: 0 8px 22px rgba(28, 45, 58, 0.10);
+  --shadow: 0 2px 10px rgba(24, 48, 42, 0.06);
+  --shadow-hover: 0 8px 22px rgba(24, 48, 42, 0.10);
   /* Hebrew display face (headlines/numerals) vs. body face */
   --font-display: 'Secular One', 'Assistant', 'Segoe UI', sans-serif;
   --font-body: 'Assistant', 'Heebo', 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
@@ -38,8 +43,8 @@ body {
   background-color: var(--bg);
   /* רקע מתמטי עדין: דפוס סמלים שקוף מעל גרדיאנט רך */
   background-image:
-    linear-gradient(180deg, rgba(47, 74, 134, 0.05) 0%, rgba(244, 245, 248, 0) 340px),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260' viewBox='0 0 260 260'%3E%3Cg fill='none' stroke='%232f4a86' stroke-width='2' opacity='0.055'%3E%3Ccircle cx='36' cy='40' r='16'/%3E%3Cpath d='M36 24v32M20 40h32'/%3E%3Cpath d='M118 22l14 26h-28z'/%3E%3Crect x='196' y='26' width='28' height='28' rx='4'/%3E%3Cpath d='M60 122h28M74 108v28'/%3E%3Cpath d='M150 112l20 20m0-20l-20 20'/%3E%3Cpath d='M218 118h26m-26 12h26'/%3E%3Ccircle cx='30' cy='206' r='3' fill='%232f4a86'/%3E%3Cpath d='M16 206h28'/%3E%3Ccircle cx='30' cy='222' r='3' fill='%232f4a86'/%3E%3C/g%3E%3Cg fill='%232f4a86' opacity='0.06' font-family='Georgia, serif' font-size='30'%3E%3Ctext x='92' y='218'%3E%CF%80%3C/text%3E%3Ctext x='158' y='192'%3E%C2%BD%3C/text%3E%3Ctext x='210' y='230'%3E%C2%BE%3C/text%3E%3Ctext x='128' y='76'%3E%C3%B7%3C/text%3E%3C/g%3E%3C/svg%3E");
+    linear-gradient(180deg, rgba(29, 59, 52, 0.07) 0%, rgba(238, 242, 238, 0) 340px),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260' viewBox='0 0 260 260'%3E%3Cg fill='none' stroke='%231d3b34' stroke-width='2' opacity='0.08'%3E%3Ccircle cx='36' cy='40' r='16'/%3E%3Cpath d='M36 24v32M20 40h32'/%3E%3Cpath d='M118 22l14 26h-28z'/%3E%3Crect x='196' y='26' width='28' height='28' rx='4'/%3E%3Cpath d='M60 122h28M74 108v28'/%3E%3Cpath d='M150 112l20 20m0-20l-20 20'/%3E%3Cpath d='M218 118h26m-26 12h26'/%3E%3Ccircle cx='30' cy='206' r='3' fill='%231d3b34'/%3E%3Cpath d='M16 206h28'/%3E%3Ccircle cx='30' cy='222' r='3' fill='%231d3b34'/%3E%3C/g%3E%3Cg fill='%231d3b34' opacity='0.085' font-family='Georgia, serif' font-size='30'%3E%3Ctext x='92' y='218'%3E%CF%80%3C/text%3E%3Ctext x='158' y='192'%3E%C2%BD%3C/text%3E%3Ctext x='210' y='230'%3E%C2%BE%3C/text%3E%3Ctext x='128' y='76'%3E%C3%B7%3C/text%3E%3C/g%3E%3C/svg%3E");
   background-repeat: no-repeat, repeat;
   background-attachment: fixed, fixed;
   color: var(--text);
@@ -71,6 +76,9 @@ a:hover {
   box-shadow: 0 1px 0 var(--border);
 }
 .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
   color: var(--text);
   font-family: var(--font-display);
   font-weight: 400;
@@ -81,10 +89,10 @@ a:hover {
   text-decoration: none;
 }
 .brand-mark {
-  color: var(--accent-2);
-  margin-inline-end: 6px;
-  font-size: 1.35rem;
+  display: inline-flex;
+  filter: drop-shadow(0 1px 2px rgba(24, 48, 42, 0.18));
 }
+.brand-text { line-height: 1; }
 
 .content {
   flex: 1;
@@ -296,33 +304,70 @@ h1 {
    Identity: Hebrew display (Secular One) + Assistant body, indigo ink on warm
    paper, a marigold highlighter accent, and a faint graph-paper hero.
    --------------------------------------------------------------------------- */
-.catalog {
-  --ink: #1b2a4a;        /* pen-ink indigo — headings & numerals */
-  --ink-soft: #55617d;   /* muted ink for secondary text */
-  --paper: #fbfaf6;      /* warm notebook paper */
-  --marker: #e85c9a;     /* highlighter — pink (was marigold) */
-  --grid-line: rgba(27, 42, 74, 0.07);
+.catalog,
+.course-view,
+.chapter-view {
+  --ink: #1d3b34;        /* green-teal pen ink — headings & numerals */
+  --ink-soft: #566b64;   /* muted ink for secondary text */
+  --paper: #f4f8f4;      /* friendly cool squared paper */
+  --marker: #f2b134;     /* chalk-yellow highlighter accent */
+  --grid-line: rgba(29, 59, 52, 0.09);
+  /* chalkboard surface (heroes / headers) */
+  --board: #294a41;
+  --board-edge: #1e3a33;
+  --chalk: #f4f2e9;
+  --chalk-dim: rgba(244, 242, 233, 0.72);
+  --chalk-line: rgba(244, 242, 233, 0.22);
+  /* default per-level accent (overridden per level below) */
+  --lv: #2f6fb0;
+  --lv-bg: #e7eefb;
+}
+.course-view.level-beginner,
+.chapter-view.level-beginner {
+  --lv: #2f9e6a;         /* green */
+  --lv-bg: #e3f3ea;
+}
+.course-view.level-intermediate,
+.chapter-view.level-intermediate {
+  --lv: #2f6fb0;         /* blue */
+  --lv-bg: #e6eefb;
+}
+.course-view.level-advanced,
+.chapter-view.level-advanced {
+  --lv: #e2685a;         /* warm coral */
+  --lv-bg: #fbe9e6;
 }
 
-/* Hero — a sheet of squared paper */
+/* Hero — a chalkboard: dark green board with faint chalk squares */
 .cat-hero {
   position: relative;
   overflow: hidden;
-  border: 1px solid #e7e3d6;
+  border: 1px solid var(--board-edge);
   border-radius: 22px;
   background:
-    linear-gradient(var(--grid-line) 1px, transparent 1px) 0 0 / 26px 26px,
-    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px) 0 0 / 26px 26px,
-    radial-gradient(130% 120% at 88% -20%, rgba(232, 92, 154, 0.13), transparent 46%),
-    var(--paper);
+    linear-gradient(var(--chalk-line) 1px, transparent 1px) 0 0 / 30px 30px,
+    linear-gradient(90deg, var(--chalk-line) 1px, transparent 1px) 0 0 / 30px 30px,
+    radial-gradient(130% 120% at 85% -18%, rgba(47, 158, 106, 0.20), transparent 52%),
+    var(--board);
+  box-shadow: inset 0 0 70px rgba(0, 0, 0, 0.30);
   margin-bottom: 32px;
 }
-/* fade the grid out toward the bottom so it reads as paper, not a table */
+/* soft vignette for depth + edge readability */
 .cat-hero::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, transparent 40%, var(--paper));
+  background: radial-gradient(120% 96% at 50% 0%, transparent 58%, rgba(0, 0, 0, 0.24));
+  pointer-events: none;
+}
+/* chalk math doodles behind the hero copy */
+.hero-doodles {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  color: var(--chalk);
+  opacity: 0.22;
   pointer-events: none;
 }
 .cat-hero-body {
@@ -337,14 +382,13 @@ h1 {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  color: var(--ink);
-  background: #fff;
-  border: 1px solid #e7e3d6;
+  color: var(--chalk);
+  background: rgba(244, 242, 233, 0.08);
+  border: 1px solid var(--chalk-line);
   font-size: 0.82rem;
   font-weight: 700;
   padding: 6px 14px;
   border-radius: 999px;
-  box-shadow: 0 1px 0 rgba(27, 42, 74, 0.04);
 }
 .cat-eyebrow svg {
   font-size: 1.05em;
@@ -355,14 +399,14 @@ h1 {
   font-weight: 400;
   font-size: clamp(2rem, 5vw, 3rem);
   line-height: 1.12;
-  color: var(--ink);
+  color: var(--chalk);
   margin: 18px 0 14px;
 }
-/* the signature: a marigold highlighter swipe behind the key word */
+/* the signature: a chalk-yellow highlighter swipe behind the key word */
 .cat-title-accent {
   position: relative;
   white-space: nowrap;
-  color: var(--ink);
+  color: var(--chalk);
 }
 .cat-title-accent::before {
   content: '';
@@ -377,7 +421,7 @@ h1 {
   border-radius: 3px 8px 5px 7px;
 }
 .cat-sub {
-  color: var(--ink-soft);
+  color: var(--chalk-dim);
   font-size: 1.08rem;
   line-height: 1.6;
   max-width: 520px;
@@ -398,16 +442,16 @@ h1 {
   font-family: var(--font-display);
   font-size: 2.1rem;
   line-height: 1;
-  color: var(--ink);
+  color: var(--chalk);
 }
 .cat-stat-label {
   font-size: 0.84rem;
-  color: var(--ink-soft);
+  color: var(--chalk-dim);
 }
 .cat-stat-div {
   width: 1px;
   height: 38px;
-  background: #e2ddcd;
+  background: var(--chalk-line);
 }
 
 /* Catalog header */
@@ -443,8 +487,8 @@ h1 {
   gap: 20px;
 }
 .cat-card {
-  --lv: #3352b5;         /* default ink-blue */
-  --lv-bg: #eaeefb;
+  --lv: #2f6fb0;         /* default blue */
+  --lv-bg: #e7eefb;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -458,16 +502,16 @@ h1 {
   transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
 }
 .cat-card.level-beginner {
-  --lv: #2e77d0;
-  --lv-bg: #e6eefb;
+  --lv: #2f9e6a;         /* green */
+  --lv-bg: #e3f3ea;
 }
 .cat-card.level-intermediate {
-  --lv: #7a50e0;
-  --lv-bg: #efe9fc;
+  --lv: #2f6fb0;         /* blue */
+  --lv-bg: #e6eefb;
 }
 .cat-card.level-advanced {
-  --lv: #cc4459;
-  --lv-bg: #fbe6ea;
+  --lv: #e2685a;         /* warm coral */
+  --lv-bg: #fbe9e6;
 }
 .cat-card:hover {
   text-decoration: none;
@@ -569,20 +613,97 @@ h1 {
   }
 }
 
-/* ---------- course view ---------- */
-.course-header {
-  margin-bottom: 8px;
+/* ---------- course view — "ink on paper" ---------- */
+/* Breadcrumb back-link with a chevron that flips per reading direction. */
+.crumb-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--ink-soft);
+  font-weight: 600;
 }
-.objectives {
-  margin-top: 18px;
+.crumb-link:hover { color: var(--lv); text-decoration: none; }
+.crumb-arrow { font-size: 1.05em; }
+[dir="rtl"] .crumb-arrow { transform: scaleX(-1); } /* points "back" = right in RTL */
+
+/* Course header — a chalkboard, echoing the catalog hero */
+.course-hero {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--board-edge);
+  border-radius: 20px;
+  padding: 30px 30px 26px;
+  margin-bottom: 24px;
+  background:
+    linear-gradient(var(--chalk-line) 1px, transparent 1px) 0 0 / 30px 30px,
+    linear-gradient(90deg, var(--chalk-line) 1px, transparent 1px) 0 0 / 30px 30px,
+    radial-gradient(120% 130% at 90% -18%,
+      color-mix(in srgb, var(--lv) 26%, transparent), transparent 50%),
+    var(--board);
+  box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.28);
 }
+.course-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 96% at 50% 0%, transparent 55%, rgba(0, 0, 0, 0.22));
+  pointer-events: none;
+}
+.course-hero-body { position: relative; z-index: 1; }
+.course-hero-tags {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+/* language tag turns to chalk on the board */
+.course-hero-tags .lang-tag {
+  color: var(--chalk-dim);
+  border-color: var(--chalk-line);
+}
+.course-hero-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  color: var(--chalk);
+  font-size: clamp(1.7rem, 4vw, 2.5rem);
+  line-height: 1.15;
+  margin: 0 0 10px;
+}
+.course-hero-sub {
+  color: var(--chalk-dim);
+  font-size: 1.08rem;
+  max-width: 60ch;
+  margin: 0 0 18px;
+}
+.course-hero-meta {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.course-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--chalk-dim);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.course-meta-item svg { color: var(--chalk); font-size: 1.15em; }
+
+.objectives { margin-top: 4px; }
 .objectives h3 {
   margin-top: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
+.objectives-icon { color: var(--marker); font-size: 1.15em; }
 .objectives ul {
   margin: 0;
   padding-inline-start: 20px;
 }
+
+/* Chapter list — notebook rows keyed to the course's level accent */
 .chapter-list {
   list-style: none;
   margin: 0;
@@ -595,47 +716,72 @@ h1 {
   display: flex;
   align-items: center;
   gap: 14px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 14px 16px;
-  color: var(--text);
-  transition: border-color 0.12s ease, background 0.12s ease;
+  background: #fff;
+  border: 1px solid #e7e3d6;
+  border-radius: 14px;
+  padding: 13px 16px;
+  color: var(--ink);
+  transition: border-color 0.14s ease, box-shadow 0.14s ease, transform 0.14s ease;
 }
 .chapter-row:hover {
   text-decoration: none;
-  border-color: var(--accent);
-  background: var(--surface-2);
+  transform: translateX(0);
+  border-color: color-mix(in srgb, var(--lv) 45%, #e7e3d6);
+  box-shadow: 0 8px 20px rgba(27, 42, 74, 0.09);
 }
 .chapter-num {
   flex: 0 0 auto;
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   display: grid;
   place-items: center;
   border-radius: 50%;
-  background: var(--accent);
-  color: #fff;
-  font-weight: 700;
+  background: var(--lv-bg);
+  color: var(--lv);
+  font-family: var(--font-display);
+  font-size: 1.05rem;
 }
 .chapter-title {
   flex: 1;
   font-weight: 600;
 }
 .chapter-go {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   color: var(--muted);
 }
+.chapter-go-arrow { font-size: 1.05em; transition: transform 0.16s ease; }
+[dir="ltr"] .chapter-go-arrow { transform: scaleX(-1); } /* points "forward" = right in LTR */
+.chapter-row:hover .chapter-go-arrow { transform: translateX(-3px); }
+[dir="ltr"] .chapter-row:hover .chapter-go-arrow { transform: scaleX(-1) translateX(-3px); }
 
 /* ---------- chapter view ---------- */
 .chapter-head {
   margin-bottom: 18px;
 }
+.chapter-head h1 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  color: var(--ink);
+  margin: 4px 0 0;
+}
 .chapter-kicker {
-  color: var(--accent);
+  display: inline-block;
+  color: var(--lv);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-size: 0.8rem;
+}
+.chapter-kicker::before {
+  content: '';
+  display: inline-block;
+  width: 18px;
+  height: 2px;
+  background: var(--marker);
+  vertical-align: middle;
+  margin-inline-end: 8px;
 }
 .chapter-content {
   margin-bottom: 8px;
@@ -1429,6 +1575,12 @@ h4.prose-h {
   border: 1px solid var(--border);
   border-radius: 10px;
 }
+.file-icon {
+  display: inline-flex;
+  flex: 0 0 auto;
+  font-size: 1.25em;
+  color: var(--lv, var(--accent));
+}
 .file-name {
   flex: 1;
   font-weight: 600;
@@ -1673,6 +1825,13 @@ h4.prose-h {
 .rtl h3 {
   font-family: 'Assistant', 'Segoe UI', system-ui, Arial, sans-serif;
 }
+/* …but the "chrome" hero titles keep the Secular One display face (higher
+   specificity than the blanket .rtl h1 rule above). Content headings inside
+   .prose stay in the body face for readable Hebrew math. */
+.rtl .course-hero-title,
+.rtl .chapter-head h1 {
+  font-family: var(--font-display);
+}
 /* keep code blocks LTR even inside RTL content */
 .code-block[dir='ltr'] {
   text-align: left;
@@ -1690,7 +1849,11 @@ h4.prose-h {
   font-weight: 600;
   margin-bottom: 10px;
 }
-.step-icon { font-size: 20px; }
+.step-icon {
+  display: inline-flex;
+  font-size: 21px;
+  color: var(--lv, var(--accent));
+}
 .step-label {
   color: var(--muted, #6b7a90);
   font-weight: 400;
@@ -1715,7 +1878,31 @@ h4.prose-h {
   from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: none; }
 }
-.step-title { margin-top: 0; color: var(--accent); }
+.step-title {
+  margin-top: 0;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.step-title-icon { color: var(--lv, var(--accent)); font-size: 1.1em; flex: 0 0 auto; }
+/* Section (h3) titles that lead with an SVG icon */
+.card-title-icon {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.card-title-icon svg { color: var(--marker); font-size: 1.15em; flex: 0 0 auto; }
+/* Inline icon before button/link text (upload, etc.) */
+.btn-lead-icon { font-size: 1.05em; margin-inline-end: 2px; }
+/* Directional arrows inside buttons — flip per reading direction */
+.btn, .btn-ghost { display: inline-flex; align-items: center; justify-content: center; gap: 7px; }
+.btn-arrow { font-size: 1.05em; }
+[dir="ltr"] .btn-arrow { transform: scaleX(-1); }      /* "next" points right in LTR */
+.btn-arrow-back { font-size: 1.05em; }
+[dir="rtl"] .btn-arrow-back { transform: scaleX(-1); } /* "back" points right in RTL */
+.inline-error-icon { vertical-align: -0.15em; }
+.chapter-done-icon { color: var(--ok); font-size: 1.2em; vertical-align: -0.18em; }
 .step-nav {
   display: flex;
   align-items: center;
@@ -1751,7 +1938,12 @@ h4.prose-h {
   transform: scale(1.35);
 }
 .step-finish { text-align: center; }
-.finish-emoji { font-size: 44px; margin-bottom: 4px; }
+.finish-emoji {
+  display: inline-flex;
+  font-size: 48px;
+  color: var(--marker);
+  margin-bottom: 6px;
+}
 
 /* ===== fraction illustrations ===== */
 .art-row {
