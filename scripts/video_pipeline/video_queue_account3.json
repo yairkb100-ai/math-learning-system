@@ -239,7 +239,7 @@
   "number": 6,
   "topic": "מהי משוואה? מושג הפתרון ובדיקתו",
   "output": "סרטון-פרק-6-מהי-משוואה-ובדיקת-פתרון.mp4",
-  "status": "generating",
+  "status": "done",
   "course": "grade7-algebra",
   "grade": null,
   "artifact_id": "4a8b182f-3583-4e7b-b291-1a09c6b41bf2",
@@ -251,7 +251,7 @@
   "number": 7,
   "topic": "פתרון משוואות ממעלה ראשונה בנעלם אחד",
   "output": "סרטון-פרק-7-פתרון-משוואות-ממעלה-ראשונה.mp4",
-  "status": "staged",
+  "status": "done",
   "course": "grade7-algebra",
   "grade": null
  },
@@ -261,7 +261,7 @@
   "number": 8,
   "topic": "משוואות עם סוגריים ועם שברים",
   "output": "סרטון-פרק-8-משוואות-עם-סוגריים-ושברים.mp4",
-  "status": "staged",
+  "status": "done",
   "course": "grade7-algebra",
   "grade": null
  },
@@ -271,7 +271,7 @@
   "number": 9,
   "topic": "פתרון בעיות מילוליות בעזרת משוואות",
   "output": "סרטון-פרק-9-בעיות-מילוליות-במשוואות.mp4",
-  "status": "staged",
+  "status": "done",
   "course": "grade7-algebra",
   "grade": null
  },
@@ -281,9 +281,11 @@
   "number": 10,
   "topic": "אי-שוויונות ממעלה ראשונה ופתרונם",
   "output": "סרטון-פרק-10-אי-שוויונות-ממעלה-ראשונה.mp4",
-  "status": "staged",
+  "status": "done",
   "course": "grade7-algebra",
-  "grade": null
+  "grade": null,
+  "artifact_id": "73f747fb-1cb8-4d5b-a2d6-22518d40b084",
+  "submitted_at": 1784807564.4141462
  },
  "g7-ch11": {
   "notebook_id": "c5e8fdc3-0174-4c79-b102-974c40458047",
@@ -291,9 +293,11 @@
   "number": 11,
   "topic": "מערכת שתי משוואות בשני נעלמים",
   "output": "סרטון-פרק-11-מערכת-שתי-משוואות.mp4",
-  "status": "staged",
+  "status": "done",
   "course": "grade7-algebra",
-  "grade": null
+  "grade": null,
+  "artifact_id": "aab6e306-7fee-427c-9239-0fcf59fa0031",
+  "submitted_at": 1784807570.5170276
  },
  "g7-ch12": {
   "notebook_id": "1f6597cb-e8db-4d75-957f-b50a5304fec0",
@@ -301,9 +305,11 @@
   "number": 12,
   "topic": "מבוא לפונקציות ולגרף בעל שני צירים",
   "output": "סרטון-פרק-12-מבוא-לפונקציות-ולמערכת-צירים.mp4",
-  "status": "staged",
+  "status": "done",
   "course": "grade7-algebra",
-  "grade": null
+  "grade": null,
+  "artifact_id": "68105ae4-0569-4807-86d5-bf898e90ffca",
+  "submitted_at": 1784807577.0161788
  },
  "g7-ch13": {
   "notebook_id": "8c60b914-60d2-4906-9f0a-dced2f2d91a6",
