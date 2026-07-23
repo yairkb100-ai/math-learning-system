@@ -50,7 +50,10 @@ export default function Navbar() {
       <div className="topbar-inner">
         <Link to="/" className="brand">
           <span className="brand-mark"><IconBrand /></span>
-          <span className="brand-text">לומדת מתמטיקה</span>
+          <span className="brand-titles">
+            <span className="brand-text">לומדת מתמטיקה</span>
+            <span className="brand-tagline">מהיסודי ועד לתיכון</span>
+          </span>
         </Link>
 
         {user && (

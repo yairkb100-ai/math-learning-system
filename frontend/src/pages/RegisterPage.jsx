@@ -48,6 +48,7 @@ export default function RegisterPage() {
           <span className="brand-mark large">∑</span>
         </div>
         <h1>לומדת מתמטיקה</h1>
+        <p className="auth-tagline">מהיסודי ועד לתיכון</p>
         <h2>הרשמה למערכת</h2>
 
         <form onSubmit={handleSubmit}>

@@ -93,6 +93,20 @@ a:hover {
   filter: drop-shadow(0 1px 2px rgba(24, 48, 42, 0.18));
 }
 .brand-text { line-height: 1; }
+.brand-titles {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+}
+.brand-tagline {
+  font-family: var(--font-body);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  color: var(--accent);
+}
 
 .content {
   flex: 1;
@@ -1190,6 +1204,15 @@ h4.prose-h {
   text-align: center;
   font-size: 1.5rem;
   margin: 0 0 4px;
+}
+.auth-tagline {
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  margin: 0 0 18px;
 }
 .auth-card h2 {
   text-align: center;
