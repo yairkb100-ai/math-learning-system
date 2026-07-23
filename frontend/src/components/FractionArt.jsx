@@ -292,6 +292,78 @@ function Parabola({ param }) {
   )
 }
 
+// Two straight lines on a coordinate plane for systems of two linear
+// equations, e.g. {{linesystem:1,2;-1,6|נקודת החיתוך (2,4)}}.
+// param = "m1,b1;m2,b2" — each line is y = m*x + b. Draws both lines clipped to
+// the window and marks their intersection (the solution of the system) when it
+// falls inside it. Parallel lines (equal m, different b) never meet → no dot,
+// which is exactly the "no solution" picture; passing the same line twice draws
+// one line → the "infinitely many solutions" picture.
+function LineSystem({ param }) {
+  const lines = String(param || '1,0;-1,4')
+    .split(';')
+    .map((s) => s.split(',').map(Number))
+    .filter((p) => p.length === 2 && p.every((v) => Number.isFinite(v)))
+  if (lines.length === 0) return null
+  const W = 230
+  const H = 210
+  const pad = 22
+  const X0 = -1, X1 = 8, Y0 = -1, Y1 = 8 // data window
+  const plotW = W - pad * 2
+  const plotH = H - pad * 2
+  const sx = (x) => pad + ((x - X0) / (X1 - X0)) * plotW
+  const sy = (y) => pad + ((Y1 - y) / (Y1 - Y0)) * plotH
+  const clipId = `ls-${lines.map((l) => l.join('_')).join('-')}`
+  const grid = []
+  for (let g = X0; g <= X1; g++) {
+    grid.push(<line key={`v${g}`} x1={sx(g)} y1={sy(Y0)} x2={sx(g)} y2={sy(Y1)} stroke="#e6ebf5" strokeWidth="1" />)
+    grid.push(<line key={`h${g}`} x1={sx(X0)} y1={sy(g)} x2={sx(X1)} y2={sy(g)} stroke="#e6ebf5" strokeWidth="1" />)
+  }
+  const colors = [NAVY, TOMATO]
+  // De-duplicate identical lines so "same line twice" draws once.
+  const uniq = lines.filter((l, i) => lines.findIndex((o) => o[0] === l[0] && o[1] === l[1]) === i)
+  // Intersection of the first two distinct lines (if they meet inside the box).
+  let hit = null
+  if (uniq.length >= 2 && uniq[0][0] !== uniq[1][0]) {
+    const [m1, b1] = uniq[0]
+    const [m2, b2] = uniq[1]
+    const xi = (b2 - b1) / (m1 - m2)
+    const yi = m1 * xi + b1
+    if (xi >= X0 && xi <= X1 && yi >= Y0 && yi <= Y1) hit = [xi, yi]
+  }
+  return (
+    <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`}>
+      <defs>
+        <clipPath id={clipId}>
+          <rect x={sx(X0)} y={sy(Y1)} width={plotW} height={plotH} />
+        </clipPath>
+      </defs>
+      {grid}
+      {/* axes through the origin */}
+      <line x1={sx(X0)} y1={sy(0)} x2={sx(X1)} y2={sy(0)} stroke={NAVY} strokeWidth="1.6" />
+      <line x1={sx(0)} y1={sy(Y0)} x2={sx(0)} y2={sy(Y1)} stroke={NAVY} strokeWidth="1.6" />
+      <text x={sx(X1)} y={sy(0) - 5} textAnchor="end" fontSize="11" fill="#8893ad">x</text>
+      <text x={sx(0) + 5} y={sy(Y1) + 9} fontSize="11" fill="#8893ad">y</text>
+      {/* the lines, clipped to the plot box */}
+      <g clipPath={`url(#${clipId})`}>
+        {uniq.map(([m, b], i) => (
+          <line key={i} x1={sx(X0)} y1={sy(m * X0 + b)} x2={sx(X1)} y2={sy(m * X1 + b)}
+            stroke={colors[i % colors.length]} strokeWidth="3" strokeLinecap="round" />
+        ))}
+      </g>
+      {/* the solution = intersection point */}
+      {hit && (
+        <>
+          <circle cx={sx(hit[0])} cy={sy(hit[1])} r="6" fill="#f7d354" stroke={NAVY} strokeWidth="2" />
+          <text x={sx(hit[0]) + 8} y={sy(hit[1]) - 8} fontSize="11" fontWeight="700" fill={NAVY}>
+            ({Number.isInteger(hit[0]) ? hit[0] : hit[0].toFixed(1)},{Number.isInteger(hit[1]) ? hit[1] : hit[1].toFixed(1)})
+          </text>
+        </>
+      )}
+    </svg>
+  )
+}
+
 // Labeled rectangle for area/measurement problems, e.g. {{rect:3.5x4.2}}.
 function Rect({ param }) {
   const m = String(param || '').match(/^([\d.]+)x([\d.]+)$/)
@@ -557,6 +629,7 @@ const KINDS = {
   grid: Grid,
   rect: Rect,
   parabola: Parabola,
+  linesystem: LineSystem,
   linegraph: LineGraph,
   ratiobar: RatioBar,
   righttriangle: RightTriangle,
