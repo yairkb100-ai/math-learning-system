@@ -65,6 +65,11 @@ def on_startup() -> None:
                 conn.execute(
                     text("ALTER TABLE courses ADD COLUMN section_id INTEGER")
                 )
+        if "seeded" not in cols:
+            with engine.begin() as conn:
+                conn.execute(
+                    text("ALTER TABLE courses ADD COLUMN seeded BOOLEAN NOT NULL DEFAULT false")
+                )
     if "file_assets" in inspector.get_table_names():
         cols = {c["name"] for c in inspector.get_columns("file_assets")}
         if "kind" not in cols:

@@ -179,6 +179,9 @@ class Course(Base):
     estimated_hours = Column(Float, nullable=True)
     word_count = Column(Integer, nullable=True)
     slug = Column(String, unique=True, nullable=False, index=True)
+    # True when the course was loaded from a courses/*.json file by seed.py.
+    # Admin-created courses stay False so the orphan-cleanup never deletes them.
+    seeded = Column(Boolean, nullable=False, default=False)
 
     section = relationship("Section", back_populates="courses")
     chapters = relationship(

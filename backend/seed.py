@@ -132,6 +132,10 @@ def upsert_course(db, data):
     existing = db.query(Course).filter(Course.slug == slug).first()
     relink_files = []
     if existing is not None:
+        # Mark it as JSON-seeded even when unchanged, so the orphan cleanup can
+        # tell seeded courses apart from admin-created ones.
+        if not existing.seeded:
+            existing.seeded = True
         if _course_unchanged(existing, course_obj, metadata):
             return slug, "unchanged"
         # FileAssets reference the course by FK. On Postgres a plain course
@@ -154,6 +158,7 @@ def upsert_course(db, data):
         estimated_hours=metadata.get("estimated_hours"),
         word_count=metadata.get("word_count"),
         slug=slug,
+        seeded=True,
     )
 
     for text in course_obj.get("learning_objectives", []) or []:
@@ -655,6 +660,12 @@ def run_light_migrations():
             with engine.begin() as conn:
                 conn.execute(text("ALTER TABLE courses ADD COLUMN section_id INTEGER"))
             print("  ~ Migrated: added courses.section_id")
+        if "seeded" not in cols:
+            with engine.begin() as conn:
+                conn.execute(
+                    text("ALTER TABLE courses ADD COLUMN seeded BOOLEAN NOT NULL DEFAULT false")
+                )
+            print("  ~ Migrated: added courses.seeded")
 
     if "file_assets" in inspector.get_table_names():
         cols = {c["name"] for c in inspector.get_columns("file_assets")}
@@ -684,6 +695,39 @@ def run_light_migrations():
             print("  ~ Migrated: added users.password_plain")
 
 
+def prune_orphan_courses(db, loaded_slugs):
+    """Delete courses that were once seeded from a courses/*.json file that no
+    longer exists (e.g. after a slug rename or a removed course).
+
+    Only ``seeded=True`` courses are eligible, so admin-created courses (which
+    stay ``seeded=False``) are never touched. As a safety net we never prune
+    when ``loaded_slugs`` is empty. FileAssets point at the course by an
+    un-cascaded FK, so detach them first; chapters/objectives/enrollments and
+    their progress cascade with the course.
+    """
+    if not loaded_slugs:
+        return
+    orphans = (
+        db.query(Course)
+        .filter(Course.seeded.is_(True), Course.slug.notin_(loaded_slugs))
+        .all()
+    )
+    for course in orphans:
+        detached = (
+            db.query(FileAsset).filter(FileAsset.course_id == course.id).all()
+        )
+        for f in detached:
+            f.course_id = None
+        db.flush()
+        print(
+            f"  - Removed orphaned course '{course.slug}' "
+            f"(no matching courses/*.json)"
+        )
+        db.delete(course)
+    if orphans:
+        db.commit()
+
+
 def main():
     # Create tables if they do not yet exist, then patch older tables in place.
     Base.metadata.create_all(bind=engine)
@@ -710,6 +754,7 @@ def main():
 
     db = SessionLocal()
     loaded = 0
+    loaded_slugs = set()
     try:
         for path in files:
             try:
@@ -722,10 +767,14 @@ def main():
             slug, action = upsert_course(db, data)
             db.commit()
             loaded += 1
+            loaded_slugs.add(slug)
             if action == "unchanged":
                 print(f"  = Unchanged {os.path.basename(path)} (slug: {slug}) — skipped")
             else:
                 print(f"  + Loaded {os.path.basename(path)} (slug: {slug})")
+
+        # Remove courses left behind by a removed/renamed courses/*.json.
+        prune_orphan_courses(db, loaded_slugs)
 
         ensure_sections(db)
         ensure_course_assets(db)
