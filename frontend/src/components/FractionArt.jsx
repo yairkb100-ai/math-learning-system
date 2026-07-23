@@ -292,6 +292,42 @@ function Parabola({ param }) {
   )
 }
 
+// Isometric cube for a^3 / volume, e.g. {{cube:3|נפח 3³=27}}. param = the edge
+// label (any short string; drawn on the front-bottom edge). Shows three faces so
+// the "cube" meaning of a third power reads at a glance.
+function Cube({ param }) {
+  const label = String(param == null ? '' : param).trim()
+  const S = 66 // front-face side
+  const d = 30 // isometric depth offset
+  const pad = 16
+  const W = S + d + pad * 2
+  const H = S + d + pad * 2
+  const ox = pad
+  const oy = pad + d // front-face top-left y (leaves room for the top face above)
+  // front-face corners
+  const fTL = [ox, oy]
+  const fTR = [ox + S, oy]
+  const fBR = [ox + S, oy + S]
+  // back (shifted up-right by depth)
+  const bTL = [ox + d, oy - d]
+  const bTR = [ox + S + d, oy - d]
+  const bBR = [ox + S + d, oy + S - d]
+  return (
+    <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`}>
+      {/* top face */}
+      <polygon points={`${fTL} ${fTR} ${bTR} ${bTL}`} fill="#bfe3f2" stroke={NAVY} strokeWidth="2" strokeLinejoin="round" />
+      {/* right face */}
+      <polygon points={`${fTR} ${bTR} ${bBR} ${fBR}`} fill="#7fbcd8" stroke={NAVY} strokeWidth="2" strokeLinejoin="round" />
+      {/* front face */}
+      <rect x={ox} y={oy} width={S} height={S} fill={FILL} stroke={NAVY} strokeWidth="2" strokeLinejoin="round" />
+      {/* edge label on the front-bottom edge */}
+      {label && (
+        <text x={ox + S / 2} y={oy + S + 14} textAnchor="middle" fontSize="13" fontWeight="700" fill={NAVY}>{label}</text>
+      )}
+    </svg>
+  )
+}
+
 // Two straight lines on a coordinate plane for systems of two linear
 // equations, e.g. {{linesystem:1,2;-1,6|נקודת החיתוך (2,4)}}.
 // param = "m1,b1;m2,b2" — each line is y = m*x + b. Draws both lines clipped to
@@ -687,6 +723,7 @@ const KINDS = {
   grid: Grid,
   rect: Rect,
   parabola: Parabola,
+  cube: Cube,
   linesystem: LineSystem,
   linegraph: LineGraph,
   ratiobar: RatioBar,
