@@ -29,6 +29,7 @@ ROOT = Path(r"C:\Users\yairk\OneDrive\שולחן העבודה\math-learning-syst
 
 # (queue file, notebooklm profile) — one per usable Google account.
 ACCOUNTS = [
+    ("video_queue_account1.json", "account1"),  # yairkb100
     ("video_queue_account2.json", "account2"),  # yairkahana71
     ("video_queue_account3.json", "account3"),  # hthrua100
 ]

@@ -43,6 +43,10 @@ def nlm(*args):
 
 def source_path(entry):
     num = entry["number"]
+    # Standalone topic course: the NotebookLM source is the whole course rendered
+    # to markdown at courses/<slug>.md (see courses/<slug>.json).
+    if entry.get("standalone_slug"):
+        return ROOT / "courses" / f"{entry['standalone_slug']}.md"
     if entry.get("course") == "grade7-algebra":
         return ROOT / "content/grade7/algebra" / f"ch{num:02d}" / "source.md"
     if entry.get("course") == "grade6-percents":
@@ -87,6 +91,7 @@ for key, entry in src_queue.items():
         "status": "staged",
         "course": entry.get("course"),
         "grade": entry.get("grade"),
+        "standalone_slug": entry.get("standalone_slug"),
     })
     out_queue[key] = dest
     OUT_QUEUE.write_text(json.dumps(out_queue, ensure_ascii=False, indent=1), encoding="utf-8")

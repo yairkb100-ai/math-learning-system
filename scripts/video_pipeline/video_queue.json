@@ -344,5 +344,13 @@
   "output": "סרטון-פרק-4-בעיות-הספק.mp4",
   "status": "done",
   "course": "grade6-ratio-rate"
+ },
+ "sys-2eq": {
+  "number": 1,
+  "topic": "מערכת שתי משוואות בשני נעלמים: פתרון בשיטות הצבה, השוואה וחיבור-חיסור, פתרון גרפי, מספר הפתרונות ובעיות מילוליות",
+  "output": "סרטון-מערכת-שתי-משוואות-בשני-נעלמים.mp4",
+  "status": "staged",
+  "standalone_slug": "two-equations-two-unknowns",
+  "course": "two-equations-two-unknowns"
  }
 }

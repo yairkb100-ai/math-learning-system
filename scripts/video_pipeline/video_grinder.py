@@ -62,6 +62,14 @@ def nlm(*args, timeout=1900):
 
 def targets(entry):
     num = entry["number"]
+    # Standalone topic courses (courses/<slug>.json, no content/ chapter dirs):
+    # one video for the whole course, landing under courses/assets/<slug>/ where
+    # ship_new_videos() picks it up and attaches it to that course. No second
+    # content/ target — return the same path twice (copyfile of the temp file to
+    # it twice is harmless).
+    if entry.get("standalone_slug"):
+        p = ROOT / "courses/assets" / entry["standalone_slug"] / entry["output"]
+        return (p, p)
     if entry.get("course") == "grade7-algebra":
         return (
             ROOT / "courses/assets/grade7-algebra" / entry["output"],
