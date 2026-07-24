@@ -305,5 +305,203 @@
   "output": "סרטון-פרק-13-הפונקציה-הקווית-y-mx-n.mp4",
   "status": "staged",
   "course": "grade7-algebra"
+ },
+ "sys-2eq": {
+  "notebook_id": "791b093a-1f5a-4f7b-aa65-d3cf6d0b511d",
+  "source_id": "78503205-649c-46a1-9ff9-29a85a2542d1",
+  "number": 1,
+  "topic": "מערכת שתי משוואות בשני נעלמים: פתרון בשיטות הצבה, השוואה וחיבור-חיסור, פתרון גרפי, מספר הפתרונות ובעיות מילוליות",
+  "output": "סרטון-מערכת-שתי-משוואות-בשני-נעלמים.mp4",
+  "status": "staged",
+  "course": "two-equations-two-unknowns",
+  "grade": null,
+  "standalone_slug": "two-equations-two-unknowns"
+ },
+ "dn-ch01": {
+  "notebook_id": "1e421b2e-e390-4f76-83b7-49a4c5cd8c16",
+  "source_id": "2660d528-c729-42bc-befd-bbbd2653aa4b",
+  "number": 1,
+  "topic": "פעולות החשבון במספרים טבעיים וסדר הפעולות",
+  "output": "סרטון-פרק-1-סדר-פעולות-החשבון.mp4",
+  "status": "staged",
+  "course": "directed-numbers",
+  "grade": null,
+  "standalone_slug": null
+ },
+ "dn-ch02": {
+  "notebook_id": "236884cb-a03f-497a-8fc9-14659397d439",
+  "source_id": "445edafa-52da-4cc2-a1ac-5489716b9686",
+  "number": 2,
+  "topic": "היכרות עם מספרים מכוונים — ציר המספרים ומספרים נגדיים",
+  "output": "סרטון-פרק-2-מספרים-מכוונים-וציר-המספרים.mp4",
+  "status": "staged",
+  "course": "directed-numbers",
+  "grade": null,
+  "standalone_slug": null
+ },
+ "dn-ch03": {
+  "notebook_id": "1529076f-2bb9-4076-ae2c-1ee6104c2ced",
+  "source_id": "7a36e993-b1d4-4af0-bd27-cea1586bb9aa",
+  "number": 3,
+  "topic": "השוואת מספרים מכוונים וערך מוחלט",
+  "output": "סרטון-פרק-3-השוואה-וערך-מוחלט.mp4",
+  "status": "staged",
+  "course": "directed-numbers",
+  "grade": null,
+  "standalone_slug": null
+ },
+ "dn-ch04": {
+  "notebook_id": "4bb1c41e-294a-4303-98dd-f3bd9e99ba78",
+  "source_id": "79c97a96-6dd2-47a8-a7cc-230e292d33c2",
+  "number": 4,
+  "topic": "חיבור מספרים מכוונים",
+  "output": "סרטון-פרק-4-חיבור-מספרים-מכוונים.mp4",
+  "status": "staged",
+  "course": "directed-numbers",
+  "grade": null,
+  "standalone_slug": null
+ },
+ "dn-ch05": {
+  "notebook_id": "f9a06dcf-544f-4b64-8435-127382c8b64c",
+  "source_id": "202e327d-dcbd-4573-9e34-14ae242556f0",
+  "number": 5,
+  "topic": "חיסור מספרים מכוונים",
+  "output": "סרטון-פרק-5-חיסור-מספרים-מכוונים.mp4",
+  "status": "staged",
+  "course": "directed-numbers",
+  "grade": null,
+  "standalone_slug": null
+ },
+ "dn-ch06": {
+  "notebook_id": "153173cc-348d-4518-9767-dbbae08b9b78",
+  "source_id": "1239408e-2019-4aff-b92c-7093d907a8dd",
+  "number": 6,
+  "topic": "כפל מספרים מכוונים",
+  "output": "סרטון-פרק-6-כפל-מספרים-מכוונים.mp4",
+  "status": "staged",
+  "course": "directed-numbers",
+  "grade": null,
+  "standalone_slug": null
+ },
+ "dn-ch08": {
+  "notebook_id": "8714e515-f144-4ebc-b4d9-dd272931b266",
+  "source_id": "f5da0472-1c6e-48d3-abf8-64eec9863133",
+  "number": 8,
+  "topic": "פעולות מעורבות וסדר פעולות במספרים מכוונים",
+  "output": "סרטון-פרק-8-פעולות-מעורבות.mp4",
+  "status": "staged",
+  "course": "directed-numbers",
+  "grade": null,
+  "standalone_slug": null
+ },
+ "dn-ch09": {
+  "notebook_id": "53362eeb-e060-451d-bb3c-22130ebab4f8",
+  "source_id": "8cf7bf2b-f5a9-4878-8dce-4db10ee10c9a",
+  "number": 9,
+  "topic": "חזקות ובעיות מילוליות במספרים מכוונים",
+  "output": "סרטון-פרק-9-חזקות-ובעיות-מילוליות.mp4",
+  "status": "staged",
+  "course": "directed-numbers",
+  "grade": null,
+  "standalone_slug": null
+ },
+ "al-ch01": {
+  "notebook_id": "ea0a542f-822f-43ce-bc3a-2914c7a540f6",
+  "source_id": "b305645b-b737-4d23-b49a-6593deb282f9",
+  "number": 1,
+  "topic": "כללי סדר פעולות החשבון (חזרה)",
+  "output": "סרטון-פרק-1-סדר-פעולות-חזרה.mp4",
+  "status": "staged",
+  "course": "arithmetic-laws",
+  "grade": null,
+  "standalone_slug": null
+ },
+ "al-ch02": {
+  "notebook_id": "f7b60d62-39dc-43bc-b57c-6c7517b31b17",
+  "source_id": "629224ca-a34f-443d-864a-374bad162ea0",
+  "number": 2,
+  "topic": "חוק החילוף וחוק הקיבוץ של פעולת החיבור",
+  "output": "סרטון-פרק-2-חילוף-וקיבוץ-בחיבור.mp4",
+  "status": "staged",
+  "course": "arithmetic-laws",
+  "grade": null,
+  "standalone_slug": null
+ },
+ "al-ch03": {
+  "notebook_id": "b0f17b57-dcbc-4481-ad03-3670c1088d30",
+  "source_id": "22c1cd84-6095-4d7b-b6b3-86c14f9c8047",
+  "number": 3,
+  "topic": "חוק החילוף וחוק הקיבוץ של פעולת הכפל",
+  "output": "סרטון-פרק-3-חילוף-וקיבוץ-בכפל.mp4",
+  "status": "staged",
+  "course": "arithmetic-laws",
+  "grade": null,
+  "standalone_slug": null
+ },
+ "al-ch04": {
+  "notebook_id": "99c50eb9-745f-47f9-b881-d3cb957333f9",
+  "source_id": "e1095c6f-945a-4c89-91a9-9aacad0a2ee1",
+  "number": 4,
+  "topic": "חוק הפילוג",
+  "output": "סרטון-פרק-4-חוק-הפילוג.mp4",
+  "status": "staged",
+  "course": "arithmetic-laws",
+  "grade": null,
+  "standalone_slug": null
+ },
+ "al-ch05": {
+  "notebook_id": "626a7460-f52c-4c51-91bd-de202b1d0828",
+  "source_id": "9521a058-0564-43a9-beff-c8469cd51747",
+  "number": 5,
+  "topic": "חיסור של סכום ושל הפרש",
+  "output": "סרטון-פרק-5-חיסור-סכום-והפרש.mp4",
+  "status": "staged",
+  "course": "arithmetic-laws",
+  "grade": null,
+  "standalone_slug": null
+ },
+ "al-ch06": {
+  "notebook_id": "9e2c477d-6fab-41ee-864f-35b22a6afbbe",
+  "source_id": "f01a9ceb-18e2-46d6-8125-8b74a7952bbc",
+  "number": 6,
+  "topic": "הכפלת המחלק וחילוק המחלק",
+  "output": "סרטון-פרק-6-תכונות-החילוק.mp4",
+  "status": "staged",
+  "course": "arithmetic-laws",
+  "grade": null,
+  "standalone_slug": null
+ },
+ "al-ch07": {
+  "notebook_id": "083af79a-96d4-4353-9250-7471861b92eb",
+  "source_id": "4c014331-5022-4bf2-83cd-f19007e64b32",
+  "number": 7,
+  "topic": "חזקות עם מעריך טבעי",
+  "output": "סרטון-פרק-7-חזקות.mp4",
+  "status": "staged",
+  "course": "arithmetic-laws",
+  "grade": null,
+  "standalone_slug": null
+ },
+ "al-ch08": {
+  "notebook_id": "f498100f-733e-4221-ad7d-a25dd0c9485c",
+  "source_id": "4a15f6d8-97e2-4964-8a59-695b97f4bbd9",
+  "number": 8,
+  "topic": "שורש ריבועי",
+  "output": "סרטון-פרק-8-שורש-ריבועי.mp4",
+  "status": "staged",
+  "course": "arithmetic-laws",
+  "grade": null,
+  "standalone_slug": null
+ },
+ "sys-powers": {
+  "notebook_id": "68c2f011-5b17-4491-b039-fd228bd55fbd",
+  "source_id": "40acda46-26a1-4edb-ac10-874858f0c23c",
+  "number": 1,
+  "topic": "חזקות: מהמושג הבסיסי (בסיס ומעריך) דרך חוקי החזקות, חזקה 0 וחזקות שליליות, כתיב מדעי, בסיס שלילי, ועד שורשים כחזקות עם מעריך שברי",
+  "output": "סרטון-חזקות-מהיסוד-ועד-כיתה-י.mp4",
+  "status": "staged",
+  "course": "powers-and-exponents",
+  "grade": null,
+  "standalone_slug": "powers-and-exponents"
  }
 }
