@@ -180,6 +180,9 @@ export const api = {
     request('/auth/register', { method: 'POST', body: JSON.stringify(data) }),
   me: () => request('/auth/me'),
 
+  // Global content search (public, titles only)
+  search: (q) => request(`/search?q=${encodeURIComponent(q)}`),
+
   // Courses (student)
   listCourses: () => request('/courses'),
   getCourse: (id) => request(`/courses/${id}`),

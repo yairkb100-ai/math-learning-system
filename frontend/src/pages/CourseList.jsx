@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext.jsx'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
 import MathDoodles from '../components/MathDoodles.jsx'
+import SearchBar from '../components/SearchBar.jsx'
 import {
   IconLayers,
   IconClock,
@@ -69,6 +70,8 @@ export default function CourseList() {
           <p className="cat-sub">
             הסברים ברורים, דוגמאות פתורות, תרגול מדורג ובחנים — הכול בקצב שלך, מכל מקום.
           </p>
+
+          <SearchBar />
 
           {courses.length > 0 && (
             <div className="cat-stats">
