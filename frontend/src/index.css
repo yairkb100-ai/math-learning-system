@@ -387,10 +387,35 @@ h1 {
 .cat-hero-body {
   position: relative;
   z-index: 1;
-  max-width: 700px;
-  margin: 0 auto;
-  padding: 52px 32px 46px;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 28px 30px;
+  text-align: right;
+}
+.cat-hero-text {
+  min-width: 0;
+}
+/* search lives to the side, not centered in the flow */
+.cat-hero-search {
+  flex: 0 0 clamp(240px, 32%, 360px);
+}
+.cat-hero-search .lomda-search {
+  margin: 0;
+  max-width: none;
+}
+@media (max-width: 720px) {
+  .cat-hero-body {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 18px;
+    padding: 24px 22px;
+    text-align: center;
+  }
+  .cat-hero-search {
+    flex-basis: auto;
+  }
 }
 .cat-eyebrow {
   display: inline-flex;
@@ -411,10 +436,10 @@ h1 {
 .cat-title {
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(2rem, 5vw, 3rem);
-  line-height: 1.12;
+  font-size: clamp(1.5rem, 3.2vw, 2.15rem);
+  line-height: 1.14;
   color: var(--chalk);
-  margin: 18px 0 14px;
+  margin: 12px 0 0;
 }
 /* the signature: a chalk-yellow highlighter swipe behind the key word */
 .cat-title-accent {
@@ -444,8 +469,8 @@ h1 {
 .cat-stats {
   display: inline-flex;
   align-items: center;
-  gap: 28px;
-  margin-top: 30px;
+  gap: 22px;
+  margin-top: 16px;
 }
 .cat-stat {
   display: flex;
@@ -454,7 +479,7 @@ h1 {
 }
 .cat-stat-num {
   font-family: var(--font-display);
-  font-size: 2.1rem;
+  font-size: 1.7rem;
   line-height: 1;
   color: var(--chalk);
 }

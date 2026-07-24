@@ -53,44 +53,44 @@ export default function CourseList() {
       <div className="cat-hero">
         <MathDoodles className="hero-doodles" />
         <div className="cat-hero-body">
-          <span className="cat-eyebrow">
-            <IconGraduation /> פלטפורמת הלימוד במתמטיקה
-          </span>
-          <h1 className="cat-title">
-            {firstName ? (
-              <>
-                שלום {firstName}, בואו נמשיך <span className="cat-title-accent">להתקדם</span>
-              </>
-            ) : (
-              <>
-                הדרך שלך להצלחה <span className="cat-title-accent">במתמטיקה</span>
-              </>
+          <div className="cat-hero-text">
+            <span className="cat-eyebrow">
+              <IconGraduation /> פלטפורמת הלימוד במתמטיקה
+            </span>
+            <h1 className="cat-title">
+              {firstName ? (
+                <>
+                  שלום {firstName}, בואו נמשיך <span className="cat-title-accent">להתקדם</span>
+                </>
+              ) : (
+                <>
+                  הדרך שלך להצלחה <span className="cat-title-accent">במתמטיקה</span>
+                </>
+              )}
+            </h1>
+            {courses.length > 0 && (
+              <div className="cat-stats">
+                <div className="cat-stat">
+                  <span className="cat-stat-num">{courses.length}</span>
+                  <span className="cat-stat-label">קורסים</span>
+                </div>
+                <span className="cat-stat-div" aria-hidden="true" />
+                <div className="cat-stat">
+                  <span className="cat-stat-num">{totalChapters}</span>
+                  <span className="cat-stat-label">פרקי לימוד</span>
+                </div>
+                <span className="cat-stat-div" aria-hidden="true" />
+                <div className="cat-stat">
+                  <span className="cat-stat-num">{Math.round(totalHours)}</span>
+                  <span className="cat-stat-label">שעות תוכן</span>
+                </div>
+              </div>
             )}
-          </h1>
-          <p className="cat-sub">
-            הסברים ברורים, דוגמאות פתורות, תרגול מדורג ובחנים — הכול בקצב שלך, מכל מקום.
-          </p>
+          </div>
 
-          <SearchBar />
-
-          {courses.length > 0 && (
-            <div className="cat-stats">
-              <div className="cat-stat">
-                <span className="cat-stat-num">{courses.length}</span>
-                <span className="cat-stat-label">קורסים</span>
-              </div>
-              <span className="cat-stat-div" aria-hidden="true" />
-              <div className="cat-stat">
-                <span className="cat-stat-num">{totalChapters}</span>
-                <span className="cat-stat-label">פרקי לימוד</span>
-              </div>
-              <span className="cat-stat-div" aria-hidden="true" />
-              <div className="cat-stat">
-                <span className="cat-stat-num">{Math.round(totalHours)}</span>
-                <span className="cat-stat-label">שעות תוכן</span>
-              </div>
-            </div>
-          )}
+          <div className="cat-hero-search">
+            <SearchBar />
+          </div>
         </div>
       </div>
 
