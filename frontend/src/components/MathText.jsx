@@ -19,25 +19,39 @@ function renderInline(text, keyPrefix) {
       nodes.push(renderMath(part.slice(2, -2), true, `${keyPrefix}-${k++}`, part))
       return
     }
-    // Then inline math $…$.
-    const inlineParts = part.split(/(\$[^$]+\$)/g)
-    inlineParts.forEach((p) => {
-      if (p.startsWith('$') && p.endsWith('$') && p.length >= 2) {
-        nodes.push(renderMath(p.slice(1, -1), false, `${keyPrefix}-${k++}`, p))
-      } else if (p) {
-        // Finally **bold** within the remaining plain text.
-        p.split(/(\*\*[^*]+\*\*)/g).forEach((seg) => {
-          if (!seg) return
-          if (seg.startsWith('**') && seg.endsWith('**') && seg.length >= 4) {
-            nodes.push(<strong key={`${keyPrefix}-${k++}`}>{seg.slice(2, -2)}</strong>)
-          } else {
-            nodes.push(<span key={`${keyPrefix}-${k++}`}>{seg}</span>)
-          }
-        })
+    // Then **bold** — BEFORE inline math, so bold spans that contain $…$
+    // (e.g. "**שימו לב: $2x=10$**") stay bold instead of leaking raw
+    // asterisks. [^*] deliberately allows $ inside the bold span.
+    part.split(/(\*\*[^*]+\*\*)/g).forEach((seg) => {
+      if (!seg) return
+      if (seg.startsWith('**') && seg.endsWith('**') && seg.length >= 4) {
+        nodes.push(
+          <strong key={`${keyPrefix}-${k++}`}>
+            {renderInlineMath(seg.slice(2, -2), `${keyPrefix}-b${k}`)}
+          </strong>
+        )
+      } else {
+        nodes.push(...renderInlineMath(seg, `${keyPrefix}-${k++}`))
       }
     })
   })
   return nodes
+}
+
+// Inline math ($…$) within a plain-text segment → array of nodes.
+function renderInlineMath(text, keyPrefix) {
+  const out = []
+  let k = 0
+  String(text)
+    .split(/(\$[^$]+\$)/g)
+    .forEach((p) => {
+      if (p.startsWith('$') && p.endsWith('$') && p.length >= 2) {
+        out.push(renderMath(p.slice(1, -1), false, `${keyPrefix}-${k++}`, p))
+      } else if (p) {
+        out.push(<span key={`${keyPrefix}-${k++}`}>{p}</span>)
+      }
+    })
+  return out
 }
 
 function renderMath(value, display, key, raw) {

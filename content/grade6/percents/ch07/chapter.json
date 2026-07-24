@@ -66,7 +66,7 @@
   "quiz": [
     {
       "number": 1,
-      "question": "מי הגדול מבין השלושה: $\\frac{3}{4}$, &nbsp;0.7, &nbsp;72%?",
+      "question": "מי הגדול מבין השלושה: $\\frac{3}{4}$,  0.7,  72%?",
       "type": "multiple-choice",
       "options": [
         "$\\frac{3}{4}$",
