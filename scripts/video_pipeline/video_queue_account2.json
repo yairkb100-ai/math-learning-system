@@ -303,8 +303,10 @@
   "number": 13,
   "topic": "הפונקציה הקווית y=mx+n ומשמעות השיפוע וההזזה",
   "output": "סרטון-פרק-13-הפונקציה-הקווית-y-mx-n.mp4",
-  "status": "staged",
-  "course": "grade7-algebra"
+  "status": "done",
+  "course": "grade7-algebra",
+  "artifact_id": "7fe5d186-4df3-4237-a5d1-ce50e25dbb39",
+  "submitted_at": 1784872476.7957144
  },
  "sys-2eq": {
   "notebook_id": "791b093a-1f5a-4f7b-aa65-d3cf6d0b511d",
@@ -334,10 +336,12 @@
   "number": 2,
   "topic": "היכרות עם מספרים מכוונים — ציר המספרים ומספרים נגדיים",
   "output": "סרטון-פרק-2-מספרים-מכוונים-וציר-המספרים.mp4",
-  "status": "staged",
+  "status": "done",
   "course": "directed-numbers",
   "grade": null,
-  "standalone_slug": null
+  "standalone_slug": null,
+  "artifact_id": "94158146-50f5-41e9-8277-816b3a750e6c",
+  "submitted_at": 1784872483.9135833
  },
  "dn-ch03": {
   "notebook_id": "1529076f-2bb9-4076-ae2c-1ee6104c2ced",
@@ -345,10 +349,12 @@
   "number": 3,
   "topic": "השוואת מספרים מכוונים וערך מוחלט",
   "output": "סרטון-פרק-3-השוואה-וערך-מוחלט.mp4",
-  "status": "staged",
+  "status": "done",
   "course": "directed-numbers",
   "grade": null,
-  "standalone_slug": null
+  "standalone_slug": null,
+  "artifact_id": "bc1adbcd-8ec2-4567-a954-36d93f13d2df",
+  "submitted_at": 1784872489.5233915
  },
  "dn-ch04": {
   "notebook_id": "4bb1c41e-294a-4303-98dd-f3bd9e99ba78",
