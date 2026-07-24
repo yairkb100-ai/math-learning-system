@@ -27,6 +27,14 @@ const WEEKDAYS = [
   { v: 5, label: 'ש׳' },
 ]
 
+// One-click availability hours offered in the day panel (afternoon→evening).
+const PRESET_HOURS = ['14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00']
+const HEB_MONTHS = ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר']
+const HEB_WD_SHORT = ['א׳', 'ב׳', 'ג׳', 'ד׳', 'ה׳', 'ו׳', 'ש׳'] // Sun..Sat (JS getDay order)
+
+// Build a YYYY-MM-DD key from a Date without UTC drift.
+const keyOf = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+
 // starts_at is naive wall-clock; slice the date directly to avoid TZ drift.
 const dayKey = (iso) => String(iso || '').slice(0, 10)
 function fmtTime(iso) {
@@ -70,6 +78,16 @@ export default function AdminLessons() {
     everyMin: 5,
     durationMin: 45,
   })
+
+  // Big calendar: which month is shown, which day is selected, and the
+  // duration used when marking availability by clicking an hour.
+  const [calMonth, setCalMonth] = useState(() => {
+    const n = new Date()
+    return new Date(n.getFullYear(), n.getMonth(), 1)
+  })
+  const [selectedDay, setSelectedDay] = useState(todayKey())
+  const [panelDuration, setPanelDuration] = useState(45)
+  const [customTime, setCustomTime] = useState('')
 
   const load = useCallback(() => {
     setLoading(true)
@@ -196,6 +214,48 @@ export default function AdminLessons() {
     setBusy(true)
     try {
       await Promise.all(arr.map((s) => api.adminDeleteLessonSlot(s.id)))
+      load()
+    } catch (err) {
+      alert(err.message)
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  // Fast lookup: dayKey -> slots on that day (sorted by time).
+  const byDay = useMemo(() => {
+    const map = new Map()
+    for (const s of slots) {
+      const k = dayKey(s.starts_at)
+      if (!map.has(k)) map.set(k, [])
+      map.get(k).push(s)
+    }
+    for (const arr of map.values()) arr.sort((a, b) => (a.starts_at < b.starts_at ? -1 : 1))
+    return map
+  }, [slots])
+
+  // The 6-week grid of the displayed month (leading/trailing blanks as null).
+  const monthGrid = useMemo(() => {
+    const y = calMonth.getFullYear()
+    const m = calMonth.getMonth()
+    const lead = new Date(y, m, 1).getDay() // 0=Sun
+    const days = new Date(y, m + 1, 0).getDate()
+    const cells = []
+    for (let i = 0; i < lead; i++) cells.push(null)
+    for (let d = 1; d <= days; d++) cells.push(new Date(y, m, d))
+    while (cells.length % 7 !== 0) cells.push(null)
+    return cells
+  }, [calMonth])
+
+  function shiftMonth(delta) {
+    setCalMonth((c) => new Date(c.getFullYear(), c.getMonth() + delta, 1))
+  }
+
+  // Mark availability: create a bookable slot at day+time (or delete a free one).
+  async function addSlotAt(key, hhmm) {
+    setBusy(true)
+    try {
+      await api.adminCreateLessonSlot({ startsAt: `${key}T${hhmm}`, durationMin: Number(panelDuration) || 45, note: null })
       load()
     } catch (err) {
       alert(err.message)
@@ -344,7 +404,128 @@ export default function AdminLessons() {
         )}
       </section>
 
-      {/* 2 · The schedule, grouped by day */}
+      {/* 2 · Big availability calendar — the centerpiece */}
+      <section className="card lesson-section">
+        <div className="section-head-row">
+          <h2 className="section-h" style={{ margin: 0 }}>לוח הזמינות</h2>
+          <div className="cal-nav">
+            <button type="button" className="btn-sm btn-ghost" onClick={() => shiftMonth(-1)} aria-label="חודש קודם">‹</button>
+            <span className="cal-month-label">{HEB_MONTHS[calMonth.getMonth()]} {calMonth.getFullYear()}</span>
+            <button type="button" className="btn-sm btn-ghost" onClick={() => shiftMonth(1)} aria-label="חודש הבא">›</button>
+          </div>
+        </div>
+        <p className="cal-hint">לחצו על יום, וסמנו את השעות שבהן אתם פנויים. התלמידים יראו רק את השעות שסימנתם ויוכלו לבקש אותן.</p>
+
+        <div className="cal-grid">
+          {HEB_WD_SHORT.map((w, i) => <div key={`wd${i}`} className="cal-wd">{w}</div>)}
+          {monthGrid.map((d, i) => {
+            if (!d) return <div key={`e${i}`} className="cal-cell empty" />
+            const k = keyOf(d)
+            const arr = byDay.get(k) || []
+            const counts = {}
+            arr.forEach((s) => { counts[s.status] = (counts[s.status] || 0) + 1 })
+            const tk = todayKey()
+            const cls = [
+              'cal-cell',
+              k === selectedDay ? 'selected' : '',
+              k === tk ? 'today' : '',
+              k < tk ? 'past' : '',
+            ].filter(Boolean).join(' ')
+            return (
+              <button key={k} type="button" className={cls} onClick={() => setSelectedDay(k)}>
+                <span className="cal-num">{d.getDate()}</span>
+                <span className="cal-dots">
+                  {counts.open ? <span className="cal-dot open" title="פנוי">{counts.open}</span> : null}
+                  {counts.booked ? <span className="cal-dot booked" title="תפוס">{counts.booked}</span> : null}
+                  {counts.pending ? <span className="cal-dot pending" title="ממתין לאישור">{counts.pending}</span> : null}
+                </span>
+              </button>
+            )
+          })}
+        </div>
+
+        {/* Selected-day availability editor */}
+        <div className="cal-day-panel">
+          <div className="cal-day-head">
+            <strong>{fmtDayLabel(selectedDay)}</strong>
+            <label className="cal-dur">
+              משך שיעור:
+              <select value={panelDuration} disabled={busy} onChange={(e) => setPanelDuration(Number(e.target.value))}>
+                <option value={30}>30 דק׳</option>
+                <option value={45}>45 דק׳</option>
+                <option value={60}>60 דק׳</option>
+              </select>
+            </label>
+          </div>
+
+          <div className="cal-hours">
+            {(() => {
+              const arr = byDay.get(selectedDay) || []
+              const isPast = selectedDay < todayKey()
+              // Preset hour chips + any existing slots at non-preset times.
+              const extra = arr.filter((s) => !PRESET_HOURS.includes(String(s.starts_at).slice(11, 16)))
+              const chip = (h, slot) => {
+                if (slot) {
+                  const st = SLOT_STATUS[slot.status] || { he: slot.status, cls: '' }
+                  const locked = slot.status === 'booked' || slot.status === 'pending'
+                  return (
+                    <button
+                      key={h + slot.id}
+                      type="button"
+                      className={`hour-chip on ${st.cls}`}
+                      disabled={busy || locked}
+                      title={locked ? `${st.he}${slot.student_name ? ' · ' + slot.student_name : ''}` : 'לחצו כדי להסיר'}
+                      onClick={() => {
+                        if (locked) return
+                        if (confirm(`להסיר את הזמינות בשעה ${h}?`)) act(api.adminDeleteLessonSlot, slot.id)
+                      }}
+                    >
+                      <span className="hour-chip-time">{h}</span>
+                      {locked && <span className="hour-chip-tag">{slot.student_name || st.he}</span>}
+                    </button>
+                  )
+                }
+                return (
+                  <button
+                    key={h}
+                    type="button"
+                    className="hour-chip"
+                    disabled={busy || isPast}
+                    title="לחצו כדי לסמן זמינות"
+                    onClick={() => addSlotAt(selectedDay, h)}
+                  >
+                    <span className="hour-chip-time">{h}</span>
+                    <span className="hour-chip-plus">＋</span>
+                  </button>
+                )
+              }
+              return (
+                <>
+                  {PRESET_HOURS.map((h) => chip(h, arr.find((s) => String(s.starts_at).slice(11, 16) === h)))}
+                  {extra.map((s) => chip(String(s.starts_at).slice(11, 16), s))}
+                </>
+              )
+            })()}
+          </div>
+
+          {selectedDay >= todayKey() && (
+            <div className="cal-custom">
+              <span>שעה אחרת:</span>
+              <input type="time" value={customTime} disabled={busy} onChange={(e) => setCustomTime(e.target.value)} />
+              <button
+                type="button"
+                className="btn-sm btn-primary"
+                disabled={busy || !customTime}
+                onClick={() => { addSlotAt(selectedDay, customTime); setCustomTime('') }}
+              >
+                הוספה
+              </button>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* 3 · The schedule, grouped by day */}
       <section className="card lesson-section">
         <div className="section-head-row">
           <h2 className="section-h" style={{ margin: 0 }}>

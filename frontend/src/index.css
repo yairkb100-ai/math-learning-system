@@ -2602,3 +2602,182 @@ h4.prose-h {
     font-size: 1.5rem;
   }
 }
+
+/* ---------- lessons: big availability calendar ---------- */
+.cal-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.cal-month-label {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  min-width: 8.5em;
+  text-align: center;
+}
+.cal-hint {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin: 4px 0 14px;
+}
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+.cal-wd {
+  text-align: center;
+  font-weight: 700;
+  color: var(--muted);
+  font-size: 0.82rem;
+  padding-bottom: 4px;
+}
+.cal-cell {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 10px;
+  min-height: 62px;
+  padding: 6px 7px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  transition: border-color 0.12s ease, background 0.12s ease, transform 0.05s ease;
+}
+.cal-cell:hover { border-color: var(--accent); }
+.cal-cell:active { transform: translateY(1px); }
+.cal-cell.empty {
+  border: none;
+  background: transparent;
+  cursor: default;
+  min-height: 0;
+}
+.cal-cell.selected {
+  border-color: var(--accent);
+  background: #eaf3f5;
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+.cal-cell.today .cal-num {
+  background: var(--accent);
+  color: #fff;
+}
+.cal-cell.past {
+  opacity: 0.5;
+}
+.cal-num {
+  font-weight: 700;
+  font-size: 0.9rem;
+  min-width: 1.6em;
+  height: 1.6em;
+  line-height: 1.6em;
+  text-align: center;
+  border-radius: 999px;
+}
+.cal-dots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+.cal-dot {
+  font-size: 0.68rem;
+  font-weight: 700;
+  min-width: 1.5em;
+  text-align: center;
+  border-radius: 999px;
+  padding: 1px 5px;
+}
+.cal-dot.open { background: var(--ok-bg); color: var(--ok); }
+.cal-dot.booked { background: #e2eefb; color: #1f5fa8; }
+.cal-dot.pending { background: #fff4e0; color: #9a6400; }
+
+/* selected-day editor */
+.cal-day-panel {
+  margin-top: 16px;
+  border-top: 1px solid var(--border);
+  padding-top: 14px;
+}
+.cal-day-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.cal-day-head strong { font-size: 1.05rem; }
+.cal-dur {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.cal-dur select {
+  padding: 5px 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  font: inherit;
+}
+.cal-hours {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.hour-chip {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px dashed var(--border);
+  background: var(--surface);
+  color: var(--muted);
+  border-radius: 10px;
+  padding: 7px 12px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.12s ease, background 0.12s ease, color 0.12s ease;
+}
+.hour-chip:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+.hour-chip:disabled { cursor: not-allowed; opacity: 0.7; }
+.hour-chip-plus { font-size: 0.9rem; opacity: 0.7; }
+/* marked-available (open) */
+.hour-chip.on {
+  border-style: solid;
+  border-color: var(--ok);
+  background: var(--ok-bg);
+  color: var(--ok);
+}
+.hour-chip.on.approved { border-color: #1f5fa8; background: #e2eefb; color: #1f5fa8; }
+.hour-chip.on.pending { border-color: #c98a1e; background: #fff4e0; color: #9a6400; }
+.hour-chip.on.blocked { border-color: var(--no); background: var(--no-bg); color: var(--no); }
+.hour-chip-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 1px 7px;
+  background: rgba(255, 255, 255, 0.6);
+}
+.cal-custom {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.cal-custom input[type="time"] {
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  font: inherit;
+}
+@media (max-width: 560px) {
+  .cal-cell { min-height: 52px; padding: 4px; }
+  .cal-num { font-size: 0.82rem; }
+  .cal-dot { min-width: 1.3em; padding: 1px 3px; }
+}
