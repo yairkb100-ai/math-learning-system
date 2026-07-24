@@ -355,7 +355,8 @@ h1 {
 /* Hero — a chalkboard: dark green board with faint chalk squares */
 .cat-hero {
   position: relative;
-  overflow: hidden;
+  /* overflow stays visible so the search results dropdown can extend past the
+     hero's bottom edge; the decorative layers below carry their own rounding. */
   border: 1px solid var(--board-edge);
   border-radius: 22px;
   background:
@@ -371,6 +372,7 @@ h1 {
   content: '';
   position: absolute;
   inset: 0;
+  border-radius: inherit;
   background: radial-gradient(120% 96% at 50% 0%, transparent 58%, rgba(0, 0, 0, 0.24));
   pointer-events: none;
 }
@@ -380,6 +382,8 @@ h1 {
   inset: 0;
   width: 100%;
   height: 100%;
+  border-radius: inherit;
+  overflow: hidden;
   color: var(--chalk);
   opacity: 0.22;
   pointer-events: none;
