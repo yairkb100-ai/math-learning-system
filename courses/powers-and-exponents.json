@@ -57,21 +57,24 @@
             "title": "מכפלה לחזקה",
             "description": "כתבו כחזקה: $7 \\cdot 7 \\cdot 7 \\cdot 7$.",
             "difficulty": "easy",
-            "solution": "אותו גורם $7$ מופיע ארבע פעמים, ולכן $7 \\cdot 7 \\cdot 7 \\cdot 7 = 7^{4}$."
+            "solution": "אותו גורם $7$ מופיע ארבע פעמים, ולכן $7 \\cdot 7 \\cdot 7 \\cdot 7 = 7^{4}$.",
+            "answer": "7^4"
           },
           {
             "number": 2,
             "title": "חישוב חזקה",
             "description": "חשבו: $2^{5}$.",
             "difficulty": "easy",
-            "solution": "$2^{5} = 2 \\cdot 2 \\cdot 2 \\cdot 2 \\cdot 2 = 32$."
+            "solution": "$2^{5} = 2 \\cdot 2 \\cdot 2 \\cdot 2 \\cdot 2 = 32$.",
+            "answer": "32"
           },
           {
             "number": 3,
             "title": "חישוב חזקה",
             "description": "חשבו: $3^{3}$.",
             "difficulty": "easy",
-            "solution": "$3^{3} = 3 \\cdot 3 \\cdot 3 = 27$."
+            "solution": "$3^{3} = 3 \\cdot 3 \\cdot 3 = 27$.",
+            "answer": "27"
           },
           {
             "number": 4,
@@ -182,35 +185,40 @@
             "title": "שטח ריבוע",
             "description": "מהו שטח ריבוע שאורך צלעו $6$?",
             "difficulty": "easy",
-            "solution": "השטח הוא $6^{2} = 36$ יחידות שטח."
+            "solution": "השטח הוא $6^{2} = 36$ יחידות שטח.",
+            "answer": "36"
           },
           {
             "number": 2,
             "title": "נפח קובייה",
             "description": "מהו נפח קובייה שאורך מקצועה $2$?",
             "difficulty": "easy",
-            "solution": "הנפח הוא $2^{3} = 8$ יחידות נפח."
+            "solution": "הנפח הוא $2^{3} = 8$ יחידות נפח.",
+            "answer": "8"
           },
           {
             "number": 3,
             "title": "ריבוע שלם",
             "description": "האם $49$ הוא ריבוע שלם? של איזה מספר?",
             "difficulty": "medium",
-            "solution": "כן, $49 = 7^{2}$, ולכן הוא ריבוע שלם של $7$."
+            "solution": "כן, $49 = 7^{2}$, ולכן הוא ריבוע שלם של $7$.",
+            "answer": "7|כן, 7"
           },
           {
             "number": 4,
             "title": "חזקה שלישית",
             "description": "חשבו: $5^{3}$.",
             "difficulty": "medium",
-            "solution": "$5^{3} = 5 \\cdot 5 \\cdot 5 = 125$."
+            "solution": "$5^{3} = 5 \\cdot 5 \\cdot 5 = 125$.",
+            "answer": "125"
           },
           {
             "number": 5,
             "title": "מנפח למקצוע",
             "description": "נפח קובייה הוא $64$. מהו אורך מקצועה?",
             "difficulty": "hard",
-            "solution": "מחפשים מספר שבחזקה שלישית נותן $64$: $4^{3} = 64$, ולכן אורך המקצוע הוא $4$."
+            "solution": "מחפשים מספר שבחזקה שלישית נותן $64$: $4^{3} = 64$, ולכן אורך המקצוע הוא $4$.",
+            "answer": "4"
           }
         ],
         "quiz": [
@@ -306,35 +314,40 @@
             "title": "כפל",
             "description": "פשטו וחשבו: $2^{2} \\cdot 2^{3}$.",
             "difficulty": "easy",
-            "solution": "$2^{2} \\cdot 2^{3} = 2^{2+3} = 2^{5} = 32$."
+            "solution": "$2^{2} \\cdot 2^{3} = 2^{2+3} = 2^{5} = 32$.",
+            "answer": "32|2^5"
           },
           {
             "number": 2,
             "title": "חילוק",
             "description": "פשטו וחשבו: $\\dfrac{7^{8}}{7^{5}}$.",
             "difficulty": "easy",
-            "solution": "$\\dfrac{7^{8}}{7^{5}} = 7^{8-5} = 7^{3} = 343$."
+            "solution": "$\\dfrac{7^{8}}{7^{5}} = 7^{8-5} = 7^{3} = 343$.",
+            "answer": "343|7^3"
           },
           {
             "number": 3,
             "title": "כפל עם משתנה",
             "description": "פשטו: $x^{4} \\cdot x^{6}$.",
             "difficulty": "medium",
-            "solution": "$x^{4} \\cdot x^{6} = x^{4+6} = x^{10}$."
+            "solution": "$x^{4} \\cdot x^{6} = x^{4+6} = x^{10}$.",
+            "answer": "x^10"
           },
           {
             "number": 4,
             "title": "חילוק עם משתנה",
             "description": "פשטו: $\\dfrac{a^{9}}{a^{4}}$.",
             "difficulty": "medium",
-            "solution": "$\\dfrac{a^{9}}{a^{4}} = a^{9-4} = a^{5}$."
+            "solution": "$\\dfrac{a^{9}}{a^{4}} = a^{9-4} = a^{5}$.",
+            "answer": "a^5"
           },
           {
             "number": 5,
             "title": "שרשור",
             "description": "פשטו וחשבו: $2^{3} \\cdot 2^{2} \\cdot 2^{4}$.",
             "difficulty": "hard",
-            "solution": "מחברים את כל המעריכים: $2^{3+2+4} = 2^{9} = 512$."
+            "solution": "מחברים את כל המעריכים: $2^{3+2+4} = 2^{9} = 512$.",
+            "answer": "512|2^9"
           }
         ],
         "quiz": [
@@ -431,35 +444,40 @@
             "title": "חזקה של חזקה",
             "description": "פשטו וחשבו: $\\left(2^{2}\\right)^{3}$.",
             "difficulty": "easy",
-            "solution": "$\\left(2^{2}\\right)^{3} = 2^{2 \\cdot 3} = 2^{6} = 64$."
+            "solution": "$\\left(2^{2}\\right)^{3} = 2^{2 \\cdot 3} = 2^{6} = 64$.",
+            "answer": "64|2^6"
           },
           {
             "number": 2,
             "title": "חזקת מכפלה",
             "description": "פשטו וחשבו: $(2 \\cdot 4)^{2}$.",
             "difficulty": "easy",
-            "solution": "$(2 \\cdot 4)^{2} = 2^{2} \\cdot 4^{2} = 4 \\cdot 16 = 64$. בדיקה: $8^{2} = 64$. ✓"
+            "solution": "$(2 \\cdot 4)^{2} = 2^{2} \\cdot 4^{2} = 4 \\cdot 16 = 64$. בדיקה: $8^{2} = 64$. ✓",
+            "answer": "64"
           },
           {
             "number": 3,
             "title": "חזקה של חזקה עם משתנה",
             "description": "פשטו: $\\left(x^{3}\\right)^{5}$.",
             "difficulty": "medium",
-            "solution": "$\\left(x^{3}\\right)^{5} = x^{3 \\cdot 5} = x^{15}$."
+            "solution": "$\\left(x^{3}\\right)^{5} = x^{3 \\cdot 5} = x^{15}$.",
+            "answer": "x^15"
           },
           {
             "number": 4,
             "title": "חזקת מנה",
             "description": "פשטו: $\\left(\\dfrac{3}{2}\\right)^{2}$.",
             "difficulty": "medium",
-            "solution": "$\\left(\\dfrac{3}{2}\\right)^{2} = \\dfrac{3^{2}}{2^{2}} = \\dfrac{9}{4}$."
+            "solution": "$\\left(\\dfrac{3}{2}\\right)^{2} = \\dfrac{3^{2}}{2^{2}} = \\dfrac{9}{4}$.",
+            "answer": "9/4"
           },
           {
             "number": 5,
             "title": "אתגר",
             "description": "פשטו וחשבו: $(2 \\cdot 3)^{3}$.",
             "difficulty": "hard",
-            "solution": "$(2 \\cdot 3)^{3} = 2^{3} \\cdot 3^{3} = 8 \\cdot 27 = 216$. בדיקה: $6^{3} = 216$. ✓"
+            "solution": "$(2 \\cdot 3)^{3} = 2^{3} \\cdot 3^{3} = 8 \\cdot 27 = 216$. בדיקה: $6^{3} = 216$. ✓",
+            "answer": "216|6^3"
           }
         ],
         "quiz": [
@@ -556,35 +574,40 @@
             "title": "חזקת אפס",
             "description": "חשבו: $9^{0}$.",
             "difficulty": "easy",
-            "solution": "$9^{0} = 1$ (כל בסיס שונה מאפס בחזקת $0$ נותן $1$)."
+            "solution": "$9^{0} = 1$ (כל בסיס שונה מאפס בחזקת $0$ נותן $1$).",
+            "answer": "1"
           },
           {
             "number": 2,
             "title": "מעריך שלילי",
             "description": "חשבו: $3^{-2}$.",
             "difficulty": "easy",
-            "solution": "$3^{-2} = \\dfrac{1}{3^{2}} = \\dfrac{1}{9}$."
+            "solution": "$3^{-2} = \\dfrac{1}{3^{2}} = \\dfrac{1}{9}$.",
+            "answer": "1/9"
           },
           {
             "number": 3,
             "title": "מעריך שלילי",
             "description": "חשבו: $2^{-4}$.",
             "difficulty": "medium",
-            "solution": "$2^{-4} = \\dfrac{1}{2^{4}} = \\dfrac{1}{16}$."
+            "solution": "$2^{-4} = \\dfrac{1}{2^{4}} = \\dfrac{1}{16}$.",
+            "answer": "1/16"
           },
           {
             "number": 4,
             "title": "הופכי של שבר",
             "description": "חשבו: $\\left(\\dfrac{1}{2}\\right)^{-1}$.",
             "difficulty": "medium",
-            "solution": "מעריך $-1$ הופך את השבר: $\\left(\\dfrac{1}{2}\\right)^{-1} = 2$."
+            "solution": "מעריך $-1$ הופך את השבר: $\\left(\\dfrac{1}{2}\\right)^{-1} = 2$.",
+            "answer": "2"
           },
           {
             "number": 5,
             "title": "אתגר",
             "description": "חשבו: $5^{-3}$.",
             "difficulty": "hard",
-            "solution": "$5^{-3} = \\dfrac{1}{5^{3}} = \\dfrac{1}{125}$."
+            "solution": "$5^{-3} = \\dfrac{1}{5^{3}} = \\dfrac{1}{125}$.",
+            "answer": "1/125"
           }
         ],
         "quiz": [
@@ -681,35 +704,40 @@
             "title": "חזקת 10",
             "description": "חשבו: $10^{4}$.",
             "difficulty": "easy",
-            "solution": "$10^{4} = 10{,}000$ (אחת וארבעה אפסים)."
+            "solution": "$10^{4} = 10{,}000$ (אחת וארבעה אפסים).",
+            "answer": "10000|10,000"
           },
           {
             "number": 2,
             "title": "לכתיב מדעי",
             "description": "כתבו בכתיב מדעי: $5000$.",
             "difficulty": "easy",
-            "solution": "$5000 = 5 \\times 10^{3}$."
+            "solution": "$5000 = 5 \\times 10^{3}$.",
+            "answer": "5*10^3|5x10^3"
           },
           {
             "number": 3,
             "title": "לכתיב מדעי",
             "description": "כתבו בכתיב מדעי: $62{,}000$.",
             "difficulty": "medium",
-            "solution": "מזיזים את הנקודה $4$ מקומות שמאלה: $62{,}000 = 6.2 \\times 10^{4}$."
+            "solution": "מזיזים את הנקודה $4$ מקומות שמאלה: $62{,}000 = 6.2 \\times 10^{4}$.",
+            "answer": "6.2*10^4|6.2x10^4"
           },
           {
             "number": 4,
             "title": "מספר קטן",
             "description": "כתבו בכתיב מדעי: $0.0007$.",
             "difficulty": "medium",
-            "solution": "מזיזים את הנקודה $4$ מקומות ימינה: $0.0007 = 7 \\times 10^{-4}$."
+            "solution": "מזיזים את הנקודה $4$ מקומות ימינה: $0.0007 = 7 \\times 10^{-4}$.",
+            "answer": "7*10^-4|7x10^-4"
           },
           {
             "number": 5,
             "title": "בחזרה לכתיב רגיל",
             "description": "כתבו כמספר רגיל: $2.5 \\times 10^{5}$.",
             "difficulty": "hard",
-            "solution": "מזיזים את הנקודה $5$ מקומות ימינה: $2.5 \\times 10^{5} = 250{,}000$."
+            "solution": "מזיזים את הנקודה $5$ מקומות ימינה: $2.5 \\times 10^{5} = 250{,}000$.",
+            "answer": "250000|250,000"
           }
         ],
         "quiz": [
@@ -806,35 +834,40 @@
             "title": "בסיס שלילי",
             "description": "חשבו: $(-3)^{2}$.",
             "difficulty": "easy",
-            "solution": "מעריך זוגי → חיובי: $(-3)^{2} = (-3)\\cdot(-3) = 9$."
+            "solution": "מעריך זוגי → חיובי: $(-3)^{2} = (-3)\\cdot(-3) = 9$.",
+            "answer": "9"
           },
           {
             "number": 2,
             "title": "בסיס שלילי",
             "description": "חשבו: $(-2)^{3}$.",
             "difficulty": "easy",
-            "solution": "מעריך אי-זוגי → שלילי: $(-2)^{3} = -8$."
+            "solution": "מעריך אי-זוגי → שלילי: $(-2)^{3} = -8$.",
+            "answer": "-8"
           },
           {
             "number": 3,
             "title": "בלי סוגריים",
             "description": "חשבו: $-5^{2}$.",
             "difficulty": "medium",
-            "solution": "בלי סוגריים החזקה חלה רק על ה-$5$: $-5^{2} = -(5^{2}) = -25$."
+            "solution": "בלי סוגריים החזקה חלה רק על ה-$5$: $-5^{2} = -(5^{2}) = -25$.",
+            "answer": "-25"
           },
           {
             "number": 4,
             "title": "מעריך זוגי גדול",
             "description": "חשבו: $(-1)^{10}$.",
             "difficulty": "medium",
-            "solution": "מעריך זוגי → חיובי: $(-1)^{10} = 1$."
+            "solution": "מעריך זוגי → חיובי: $(-1)^{10} = 1$.",
+            "answer": "1"
           },
           {
             "number": 5,
             "title": "סדר פעולות",
             "description": "חשבו: $3 + 2 \\cdot 3^{2}$.",
             "difficulty": "hard",
-            "solution": "קודם חזקה: $3^{2}=9$. אחר כך כפל: $2 \\cdot 9 = 18$. לבסוף חיבור: $3 + 18 = 21$."
+            "solution": "קודם חזקה: $3^{2}=9$. אחר כך כפל: $2 \\cdot 9 = 18$. לבסוף חיבור: $3 + 18 = 21$.",
+            "answer": "21"
           }
         ],
         "quiz": [
@@ -931,35 +964,40 @@
             "title": "שורש ריבועי כחזקה",
             "description": "חשבו: $25^{1/2}$.",
             "difficulty": "easy",
-            "solution": "$25^{1/2} = \\sqrt{25} = 5$, כי $5^{2} = 25$."
+            "solution": "$25^{1/2} = \\sqrt{25} = 5$, כי $5^{2} = 25$.",
+            "answer": "5"
           },
           {
             "number": 2,
             "title": "שורש שלישי כחזקה",
             "description": "חשבו: $27^{1/3}$.",
             "difficulty": "easy",
-            "solution": "$27^{1/3} = \\sqrt[3]{27} = 3$, כי $3^{3} = 27$."
+            "solution": "$27^{1/3} = \\sqrt[3]{27} = 3$, כי $3^{3} = 27$.",
+            "answer": "3"
           },
           {
             "number": 3,
             "title": "שורש ריבועי",
             "description": "חשבו: $16^{1/2}$.",
             "difficulty": "medium",
-            "solution": "$16^{1/2} = \\sqrt{16} = 4$, כי $4^{2} = 16$."
+            "solution": "$16^{1/2} = \\sqrt{16} = 4$, כי $4^{2} = 16$.",
+            "answer": "4"
           },
           {
             "number": 4,
             "title": "מעריך שברי כללי",
             "description": "חשבו: $8^{2/3}$.",
             "difficulty": "medium",
-            "solution": "$8^{2/3} = \\left(\\sqrt[3]{8}\\right)^{2} = 2^{2} = 4$."
+            "solution": "$8^{2/3} = \\left(\\sqrt[3]{8}\\right)^{2} = 2^{2} = 4$.",
+            "answer": "4"
           },
           {
             "number": 5,
             "title": "אתגר",
             "description": "חשבו: $32^{2/5}$.",
             "difficulty": "hard",
-            "solution": "$32^{2/5} = \\left(\\sqrt[5]{32}\\right)^{2} = 2^{2} = 4$, כי $2^{5} = 32$."
+            "solution": "$32^{2/5} = \\left(\\sqrt[5]{32}\\right)^{2} = 2^{2} = 4$, כי $2^{5} = 32$.",
+            "answer": "4"
           }
         ],
         "quiz": [
