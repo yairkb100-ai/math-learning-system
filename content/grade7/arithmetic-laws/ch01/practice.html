@@ -31,6 +31,15 @@
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
   .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
   .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
   .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
   .fig { text-align: center; font-size: 13px; color: #5b6780; }
@@ -107,16 +116,16 @@
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 3: קו השבר קודם</strong>
       <span class="tag med">בינוני</span></div>
-    <div>חשבו: <span class="eq">\dfrac{20 + 15}{7} + 4</span>.</div>
+    <div>חשבו: <span class="eq"><span class="fr"><b>20 + 15</b><i>7</i></span> + 4</span>.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
     <div class="sol">קו השבר הוא סוגריים סמויים על המונה: <span class="eq">20 + 15 = 35</span>. מחלקים: <span class="eq">35 ÷ 7 = 5</span>. ולבסוף: <span class="eq">5 + 4 = 9</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 4: אתגר: כל המדרג</strong>
       <span class="tag hard">מאתגר</span></div>
-    <div>חשבו: <span class="eq">100 - (3 + 2)^2 × 3</span>.</div>
+    <div>חשבו: <span class="eq">100 - (3 + 2)<sup>2</sup> × 3</span>.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">סוגריים: <span class="eq">3 + 2 = 5</span>. חזקה: <span class="eq">5^2 = 25</span>. כפל: <span class="eq">25 × 3 = 75</span>. חיסור: <span class="eq">100 - 75 = 25</span>.</div>
+    <div class="sol">סוגריים: <span class="eq">3 + 2 = 5</span>. חזקה: <span class="eq">5<sup>2</sup> = 25</span>. כפל: <span class="eq">25 × 3 = 75</span>. חיסור: <span class="eq">100 - 75 = 25</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 5: חילוק לפני חיבור</strong>
@@ -135,16 +144,16 @@
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 7: קו שבר וחזקה</strong>
       <span class="tag med">בינוני</span></div>
-    <div>חשבו: <span class="eq">\dfrac{22 + 14}{9} + 3^2</span>.</div>
+    <div>חשבו: <span class="eq"><span class="fr"><b>22 + 14</b><i>9</i></span> + 3<sup>2</sup></span>.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">קו השבר עוטף את המונה: <span class="eq">22 + 14 = 36</span>, ואז <span class="eq">36 ÷ 9 = 4</span>. החזקה: <span class="eq">3^2 = 9</span>. ולבסוף: <span class="eq">4 + 9 = 13</span>.</div>
+    <div class="sol">קו השבר עוטף את המונה: <span class="eq">22 + 14 = 36</span>, ואז <span class="eq">36 ÷ 9 = 4</span>. החזקה: <span class="eq">3<sup>2</sup> = 9</span>. ולבסוף: <span class="eq">4 + 9 = 13</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 8: אתגר: הכול יחד</strong>
       <span class="tag hard">מאתגר</span></div>
-    <div>חשבו: <span class="eq">2 × (7 - 2)^2 - 60 ÷ (3 + 9)</span>.</div>
+    <div>חשבו: <span class="eq">2 × (7 - 2)<sup>2</sup> - 60 ÷ (3 + 9)</span>.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">סוגריים: <span class="eq">7 - 2 = 5</span> ו-<span class="eq">3 + 9 = 12</span>. חזקה: <span class="eq">5^2 = 25</span>. כפל וחילוק: <span class="eq">2 × 25 = 50</span> ו-<span class="eq">60 ÷ 12 = 5</span>. חיסור: <span class="eq">50 - 5 = 45</span>.</div>
+    <div class="sol">סוגריים: <span class="eq">7 - 2 = 5</span> ו-<span class="eq">3 + 9 = 12</span>. חזקה: <span class="eq">5<sup>2</sup> = 25</span>. כפל וחילוק: <span class="eq">2 × 25 = 50</span> ו-<span class="eq">60 ÷ 12 = 5</span>. חיסור: <span class="eq">50 - 5 = 45</span>.</div>
   </div>
 </div>
 
@@ -158,7 +167,7 @@
 <div class="credit" style="max-width:780px; margin:0 auto">© כל הזכויות שמורות ליאיר כהנא</div>
 
 <script>
-const quiz = [{"q": "כמה זה <span class=\"eq\">5 + 2 × 6</span>?", "o": ["<span class=\"eq\">17</span>", "<span class=\"eq\">42</span>", "<span class=\"eq\">13</span>", "<span class=\"eq\">60</span>"], "a": 0}, {"q": "כמה זה <span class=\"eq\">\\dfrac{10 + 6}{4}</span>?", "o": ["<span class=\"eq\">4</span>", "<span class=\"eq\">11.5</span>", "<span class=\"eq\">8</span>", "<span class=\"eq\">16</span>"], "a": 0}, {"q": "כמה זה <span class=\"eq\">40 ÷ 4 ÷ 2</span>?", "o": ["<span class=\"eq\">5</span>", "<span class=\"eq\">20</span>", "<span class=\"eq\">10</span>", "<span class=\"eq\">8</span>"], "a": 0}, {"q": "נכון או לא נכון: קו השבר פועל כמו סוגריים — מחשבים את כל המונה ואת כל המכנה לפני החילוק.", "o": ["נכון", "לא נכון"], "a": 0}, {"q": "כמה זה <span class=\"eq\">(9 - 3)^2 ÷ 4</span>?", "o": ["<span class=\"eq\">9</span>", "<span class=\"eq\">6</span>", "<span class=\"eq\">18</span>", "<span class=\"eq\">3</span>"], "a": 0}];
+const quiz = [{"q": "כמה זה <span class=\"eq\">5 + 2 × 6</span>?", "o": ["<span class=\"eq\">17</span>", "<span class=\"eq\">42</span>", "<span class=\"eq\">13</span>", "<span class=\"eq\">60</span>"], "a": 0}, {"q": "כמה זה <span class=\"eq\"><span class=\"fr\"><b>10 + 6</b><i>4</i></span></span>?", "o": ["<span class=\"eq\">4</span>", "<span class=\"eq\">11.5</span>", "<span class=\"eq\">8</span>", "<span class=\"eq\">16</span>"], "a": 0}, {"q": "כמה זה <span class=\"eq\">40 ÷ 4 ÷ 2</span>?", "o": ["<span class=\"eq\">5</span>", "<span class=\"eq\">20</span>", "<span class=\"eq\">10</span>", "<span class=\"eq\">8</span>"], "a": 0}, {"q": "נכון או לא נכון: קו השבר פועל כמו סוגריים — מחשבים את כל המונה ואת כל המכנה לפני החילוק.", "o": ["נכון", "לא נכון"], "a": 0}, {"q": "כמה זה <span class=\"eq\">(9 - 3)<sup>2</sup> ÷ 4</span>?", "o": ["<span class=\"eq\">9</span>", "<span class=\"eq\">6</span>", "<span class=\"eq\">18</span>", "<span class=\"eq\">3</span>"], "a": 0}];
 let answered = 0, correct = 0;
 document.getElementById('quiz').innerHTML = quiz.map((q, i) => `
   <div class="q">

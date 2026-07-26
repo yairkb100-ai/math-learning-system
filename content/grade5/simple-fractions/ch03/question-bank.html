@@ -31,6 +31,15 @@
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
   .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #4a1f8a; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
   .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #4a1f8a; height: 1em; }
   .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
   .fig { text-align: center; font-size: 13px; color: #5b6780; }
@@ -136,7 +145,7 @@
 <div class="ans"><strong>12.</strong> <span class="eq">5×4+1=21</span> → <span class="fr"><b>21</b><i>4</i></span></div>
 <div class="ans"><strong>13.</strong> <span class="eq">3⅔</span> ליטר = <span class="fr"><b>11</b><i>3</i></span> ליטר = 11 שלישי-ליטר → 11 כוסות.</div>
 <div class="ans"><strong>14.</strong> <span class="fr"><b>11</b><i>4</i></span> = 2¾ → בין 2 ל-3.</div>
-<div class="ans"><strong>15.</strong> ל-<span class="eq">2⅚</span> חסר <span class="fr"><b>1</b><i>6</i></span> עד 3; <span class="eq">3⅓</span> רחוק <span class="fr"><b>1</b><i>3</i></span> מ-3. <span class="eq">1/6 &lt; 1/3</span> → <span class="eq">2⅚</span> קרוב יותר.</div>
+<div class="ans"><strong>15.</strong> ל-<span class="eq">2⅚</span> חסר <span class="fr"><b>1</b><i>6</i></span> עד 3; <span class="eq">3⅓</span> רחוק <span class="fr"><b>1</b><i>3</i></span> מ-3. <span class="eq">1/6 &amp;lt; 1/3</span> → <span class="eq">2⅚</span> קרוב יותר.</div>
 <div class="ans"><strong>16.</strong> <span class="fr"><b>3</b><i>2</i></span>=1½ בין 1 ל-2; <span class="eq">2¼</span> רבע אחרי 2; <span class="fr"><b>8</b><i>4</i></span>=2 בדיוק על 2.</div>
 <div class="ans"><strong>17.</strong> כל שבר בין <span class="fr"><b>16</b><i>4</i></span> ל-<span class="fr"><b>20</b><i>4</i></span> וכדומה. למשל <span class="fr"><b>9</b><i>2</i></span> (=4½).</div>
 <div class="ans"><strong>18.</strong> <span class="eq">3×¾ = 9/4</span> = 2¼ כוסות סוכר.</div>
@@ -147,8 +156,8 @@
 <div class="ans"><strong>23.</strong> <span class="eq">67 ÷ 9 = 7 ש"4</span> → <span class="eq">7 4/9</span></div>
 <div class="ans"><strong>24.</strong> <span class="eq">7 × 8 + 3 = 59</span> → <span class="fr"><b>59</b><i>8</i></span></div>
 <div class="ans"><strong>25.</strong> <span class="eq">6 × 9 + 5 = 59</span> → <span class="fr"><b>59</b><i>9</i></span></div>
-<div class="ans"><strong>26.</strong> במכנה משותף 15: <span class="eq">⅗ = 9/15</span> לעומת <span class="eq">⅔ = 10/15</span> → <span class="eq">5⅗ < 5⅔</span></div>
-<div class="ans"><strong>27.</strong> למשל 5 (כי <span class="eq">4⅘ < 5 < 5⅕</span>).</div>
+<div class="ans"><strong>26.</strong> במכנה משותף 15: <span class="eq">⅗ = 9/15</span> לעומת <span class="eq">⅔ = 10/15</span> → <span class="eq">5⅗ &lt; 5⅔</span></div>
+<div class="ans"><strong>27.</strong> למשל 5 (כי <span class="eq">4⅘ &lt; 5 &lt; 5⅕</span>).</div>
 <div class="ans"><strong>28.</strong> חסר: ל‑<span class="eq">3⅞</span> — <span class="eq">⅛</span> (=0.125); ל‑<span class="eq">5 11/12</span> — <span class="eq">1/12</span> (≈0.083); ל‑<span class="eq">2 8/9</span> — <span class="eq">⅑</span> (≈0.111). הכי קרוב: <span class="eq">5 11/12</span>.</div>
 <div class="ans"><strong>29.</strong> א. <span class="eq">9 × ⅖ = 18/5 = 3⅗</span> פיצות. ב. צריך להזמין <strong>4 פיצות</strong> שלמות.</div>
 <div class="ans"><strong>30.</strong> <span class="eq">6 × 9 = 54</span>, ולכן השבר שאחרי השלם הוא <span class="eq">58 − 54 = 4</span> → <span class="fr"><b>4</b><i>9</i></span> (המספר המעורב המלא: <span class="eq">6 4/9</span>).</div>

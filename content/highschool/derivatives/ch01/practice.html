@@ -31,6 +31,15 @@
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
   .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
   .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
   .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
   .fig { text-align: center; font-size: 13px; color: #5b6780; }
@@ -95,28 +104,28 @@
       <span class="tag easy">קל</span></div>
     <div>מצאו מן ההגדרה את הנגזרת של <span class="eq">f(x) = 5x</span>.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol"><span class="eq">f'(x) = \lim_{h \to 0} <span class="fr"><b>5(x+h) - 5x</b><i>h</i></span> = \lim_{h \to 0} <span class="fr"><b>5h</b><i>h</i></span> = 5</span><br><br>הנגזרת היא 5 בכל נקודה.</div>
+    <div class="sol"><span class="eq">f'(x) = lim<sub>h → 0</sub> <span class="fr"><b>5(x+h) - 5x</b><i>h</i></span> = lim<sub>h → 0</sub> <span class="fr"><b>5h</b><i>h</i></span> = 5</span><br><br>הנגזרת היא 5 בכל נקודה.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 2: שיפוע משיק לפרבולה</strong>
       <span class="tag easy">קל</span></div>
-    <div>נתונה <span class="eq">f(x) = x^2</span>. מהו שיפוע המשיק לגרף בנקודה <span class="eq">x = 4</span>?</div>
+    <div>נתונה <span class="eq">f(x) = x<sup>2</sup></span>. מהו שיפוע המשיק לגרף בנקודה <span class="eq">x = 4</span>?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">הנגזרת של <span class="eq">x^2</span> היא <span class="eq">f'(x) = 2x</span> (חושבה בפרק מן ההגדרה). לכן השיפוע בנקודה <span class="eq">x = 4</span> הוא <span class="eq">f'(4) = 8</span>.</div>
+    <div class="sol">הנגזרת של <span class="eq">x<sup>2</sup></span> היא <span class="eq">f'(x) = 2x</span> (חושבה בפרק מן ההגדרה). לכן השיפוע בנקודה <span class="eq">x = 4</span> הוא <span class="eq">f'(4) = 8</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 3: נגזרת מן ההגדרה בנקודה</strong>
       <span class="tag med">בינוני</span></div>
-    <div>חשבו מן ההגדרה את <span class="eq">f'(1)</span> עבור <span class="eq">f(x) = x^2 + 2x</span>.</div>
+    <div>חשבו מן ההגדרה את <span class="eq">f'(1)</span> עבור <span class="eq">f(x) = x<sup>2</sup> + 2x</span>.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol"><span class="eq">f(1) = 3</span>. מנת ההפרשים:<br><br><span class="eq"><span class="fr"><b>(1+h)^2 + 2(1+h) - 3</b><i>h</i></span> = <span class="fr"><b>1 + 2h + h^2 + 2 + 2h - 3</b><i>h</i></span> = <span class="fr"><b>4h + h^2</b><i>h</i></span> = 4 + h</span><br><br>כאשר <span class="eq">h \to 0</span> מקבלים <span class="eq">f'(1) = 4</span>.<br><br><b>בדיקה</b>: <span class="eq">f'(x) = 2x + 2</span> ולכן <span class="eq">f'(1) = 4</span> ✓</div>
+    <div class="sol"><span class="eq">f(1) = 3</span>. מנת ההפרשים:<br><br><span class="eq"><span class="fr"><b>(1+h)<sup>2</sup> + 2(1+h) - 3</b><i>h</i></span> = <span class="fr"><b>1 + 2h + h<sup>2</sup> + 2 + 2h - 3</b><i>h</i></span> = <span class="fr"><b>4h + h<sup>2</sup></b><i>h</i></span> = 4 + h</span><br><br>כאשר <span class="eq">h → 0</span> מקבלים <span class="eq">f'(1) = 4</span>.<br><br><b>בדיקה</b>: <span class="eq">f'(x) = 2x + 2</span> ולכן <span class="eq">f'(1) = 4</span> ✓</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 4: נגזרת של פונקציה רציונלית</strong>
       <span class="tag hard">מאתגר</span></div>
-    <div>מצאו מן ההגדרה את הנגזרת של <span class="eq">f(x) = <span class="fr"><b>1</b><i>x</i></span></span> (עבור <span class="eq">x \neq 0</span>).</div>
+    <div>מצאו מן ההגדרה את הנגזרת של <span class="eq">f(x) = <span class="fr"><b>1</b><i>x</i></span></span> (עבור <span class="eq">x ≠ 0</span>).</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol"><span class="eq"><span class="fr"><b><span class="fr"><b>1</b><i>x+h</i></span> - <span class="fr"><b>1</b><i>x</i></span></b><i>h</i></span> = <span class="fr"><b><span class="fr"><b>x - (x+h)</b><i>x(x+h)</i></span></b><i>h</i></span> = <span class="fr"><b>-h</b><i>h · x(x+h)</i></span> = <span class="fr"><b>-1</b><i>x(x+h)</i></span></span><br><br>כאשר <span class="eq">h \to 0</span> מקבלים:<br><br><span class="eq">f'(x) = -<span class="fr"><b>1</b><i>x^2</i></span></span></div>
+    <div class="sol"><span class="eq"><span class="fr"><b><span class="fr"><b>1</b><i>x+h</i></span> - <span class="fr"><b>1</b><i>x</i></span></b><i>h</i></span> = <span class="fr"><b><span class="fr"><b>x - (x+h)</b><i>x(x+h)</i></span></b><i>h</i></span> = <span class="fr"><b>-h</b><i>h · x(x+h)</i></span> = <span class="fr"><b>-1</b><i>x(x+h)</i></span></span><br><br>כאשר <span class="eq">h → 0</span> מקבלים:<br><br><span class="eq">f'(x) = -<span class="fr"><b>1</b><i>x<sup>2</sup></i></span></span></div>
   </div>
 </div>
 
@@ -130,7 +139,7 @@
 <div class="credit" style="max-width:780px; margin:0 auto">© כל הזכויות שמורות ליאיר כהנא</div>
 
 <script>
-const quiz = [{"q": "מהי ההגדרה של הנגזרת <span class=\"eq\">f'(x)</span>?", "o": ["<span class=\"eq\">\\lim_{h \\to 0} <span class=\"fr\"><b>f(x+h) - f(x)</b><i>h</i></span></span>", "<span class=\"eq\">f(x+h) - f(x)</span>", "<span class=\"eq\"><span class=\"fr\"><b>f(x+h) - f(x)</b><i>h</i></span></span> עבור <span class=\"eq\">h = 1</span>", "<span class=\"eq\">\\lim_{h \\to 0} f(x+h) · f(x)</span>"], "a": 0}, {"q": "מהי הנגזרת של <span class=\"eq\">f(x) = x^2</span>?", "o": ["<span class=\"eq\">2x</span>", "<span class=\"eq\">x</span>", "<span class=\"eq\">2</span>", "<span class=\"eq\">x^2 / 2</span>"], "a": 0}, {"q": "הנגזרת של פונקציה בנקודה שווה לשיפוע המשיק לגרף באותה נקודה.", "o": ["נכון", "לא נכון"], "a": 0}, {"q": "מהו שיפוע המשיק לגרף <span class=\"eq\">f(x) = x^2</span> בנקודה <span class=\"eq\">x = 5</span>?", "o": ["10", "25", "5", "2"], "a": 0}, {"q": "מהי הנגזרת של פונקציה קבועה <span class=\"eq\">f(x) = c</span>?", "o": ["0", "c", "1", "x"], "a": 0}];
+const quiz = [{"q": "מהי ההגדרה של הנגזרת <span class=\"eq\">f'(x)</span>?", "o": ["<span class=\"eq\">lim<sub>h → 0</sub> <span class=\"fr\"><b>f(x+h) - f(x)</b><i>h</i></span></span>", "<span class=\"eq\">f(x+h) - f(x)</span>", "<span class=\"eq\"><span class=\"fr\"><b>f(x+h) - f(x)</b><i>h</i></span></span> עבור <span class=\"eq\">h = 1</span>", "<span class=\"eq\">lim<sub>h → 0</sub> f(x+h) · f(x)</span>"], "a": 0}, {"q": "מהי הנגזרת של <span class=\"eq\">f(x) = x<sup>2</sup></span>?", "o": ["<span class=\"eq\">2x</span>", "<span class=\"eq\">x</span>", "<span class=\"eq\">2</span>", "<span class=\"eq\">x<sup>2</sup> / 2</span>"], "a": 0}, {"q": "הנגזרת של פונקציה בנקודה שווה לשיפוע המשיק לגרף באותה נקודה.", "o": ["נכון", "לא נכון"], "a": 0}, {"q": "מהו שיפוע המשיק לגרף <span class=\"eq\">f(x) = x<sup>2</sup></span> בנקודה <span class=\"eq\">x = 5</span>?", "o": ["10", "25", "5", "2"], "a": 0}, {"q": "מהי הנגזרת של פונקציה קבועה <span class=\"eq\">f(x) = c</span>?", "o": ["0", "c", "1", "x"], "a": 0}];
 let answered = 0, correct = 0;
 document.getElementById('quiz').innerHTML = quiz.map((q, i) => `
   <div class="q">

@@ -31,6 +31,15 @@
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
   .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
   .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
   .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
   .fig { text-align: center; font-size: 13px; color: #5b6780; }
@@ -95,7 +104,7 @@
       <span class="tag easy">קל</span></div>
     <div>בדקו האם <span class="eq">x=6</span> הוא פתרון של כל אחת מהמשוואות:<br><br>א. <span class="eq">x+4=10</span><br>ב. <span class="eq">2x-5=8</span><br>ג. <span class="eq">3x=20</span><br>ד. <span class="eq"><span class="fr"><b>x</b><i>2</i></span>=3</span></div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">א. <span class="eq">6+4=10</span> ⟵ כן<br>ב. <span class="eq">2×6-5=7\ne8</span> ⟵ לא<br>ג. <span class="eq">3×6=18\ne20</span> ⟵ לא<br>ד. <span class="eq">6÷2=3</span> ⟵ כן</div>
+    <div class="sol">א. <span class="eq">6+4=10</span> ⟵ כן<br>ב. <span class="eq">2×6-5=7≠8</span> ⟵ לא<br>ג. <span class="eq">3×6=18≠20</span> ⟵ לא<br>ד. <span class="eq">6÷2=3</span> ⟵ כן</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 2: מציאת הפתרון הנכון מבין אפשרויות</strong>
@@ -116,14 +125,14 @@
       <span class="tag hard">מאתגר</span></div>
     <div>מחיר כרטיס לסרט הוא <span class="eq">x</span> שקלים. קנייה של 3 כרטיסים עלתה 96 ₪ — מתואר במשוואה <span class="eq">3x=96</span>. האם <span class="eq">x=30</span> פתרון סביר? מהו הפתרון הנכון?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">עבור <span class="eq">x=30</span>: <span class="eq">3×30=90\ne96</span> — אינו פתרון. הפתרון הנכון: <span class="eq">x=32</span>, כי <span class="eq">3×32=96</span>.</div>
+    <div class="sol">עבור <span class="eq">x=30</span>: <span class="eq">3×30=90≠96</span> — אינו פתרון. הפתרון הנכון: <span class="eq">x=32</span>, כי <span class="eq">3×32=96</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 5: בדיקת פתרון — תרגול נוסף</strong>
       <span class="tag easy">קל</span></div>
     <div>בדקו אם <span class="eq">x=5</span> פתרון של:<br><br>א. <span class="eq">x+6=11</span><br>ב. <span class="eq">3x=20</span></div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">א. כן, <span class="eq">5+6=11</span><br>ב. לא, <span class="eq">3×5=15\ne20</span></div>
+    <div class="sol">א. כן, <span class="eq">5+6=11</span><br>ב. לא, <span class="eq">3×5=15≠20</span></div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 6: מציאת הפתרון הנכון</strong>
@@ -144,7 +153,7 @@
       <span class="tag hard">מאתגר</span></div>
     <div>בעוד 6 שנים גילה של דנה יהיה 20 — מתואר במשוואה <span class="eq">a+6=20</span>. בדקו אם <span class="eq">a=15</span> הוא פתרון, ואם לא — מצאו את הפתרון הנכון.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol"><span class="eq">15+6=21\ne20</span> — אינו פתרון. הפתרון הנכון: <span class="eq">a=14</span>, כי <span class="eq">14+6=20</span>.</div>
+    <div class="sol"><span class="eq">15+6=21≠20</span> — אינו פתרון. הפתרון הנכון: <span class="eq">a=14</span>, כי <span class="eq">14+6=20</span>.</div>
   </div>
 </div>
 

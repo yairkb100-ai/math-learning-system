@@ -31,6 +31,15 @@
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
   .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
   .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
   .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
   .fig { text-align: center; font-size: 13px; color: #5b6780; }
@@ -77,7 +86,7 @@
   <p>חשבו את ערך הביטוי <span class="eq">4-3x</span> עבור:</p><ol type="a"><li><span class="eq">x=2</span> ⟵ <span class="blank"></span></li><li><span class="eq">x=-2</span> ⟵ <span class="blank"></span></li><li><span class="eq">x=-5</span> ⟵ <span class="blank"></span></li></ol>
   
   <h2 class="q">שאלה 4 — חזקה עם מספר שלילי <span class="tag med">בינוני</span></h2>
-  <p>חשבו את ערך הביטוי <span class="eq">x^2+2x</span> עבור:</p><ol type="a"><li><span class="eq">x=-3</span> ⟵ <span class="blank"></span></li><li><span class="eq">x=3</span> ⟵ <span class="blank"></span></li></ol>
+  <p>חשבו את ערך הביטוי <span class="eq">x<sup>2</sup>+2x</span> עבור:</p><ol type="a"><li><span class="eq">x=-3</span> ⟵ <span class="blank"></span></li><li><span class="eq">x=3</span> ⟵ <span class="blank"></span></li></ol>
   <div class="lines"><div></div><div></div></div>
   <h2 class="q">שאלה 5 — שלושה משתנים וסוגריים <span class="tag med">בינוני</span></h2>
   <p>חשבו את ערך הביטוי <span class="eq">3(a-b)+c</span> עבור <span class="eq">a=6, b=2, c=-4</span>.</p>
@@ -89,19 +98,19 @@
   <p>עלות הזמנה נתונה בביטוי <span class="eq">3x+10</span>, כאשר x מחיר פריט בודד. חשבו את העלות עבור <span class="eq">x=25</span>.</p>
   <div class="lines"><div></div><div></div></div>
   <h2 class="q">שאלה 8 — אתגר: שלושה איברים ביחד <span class="tag hard">מאתגר</span></h2>
-  <p>חשבו את ערך הביטוי <span class="eq">2x^2-5x+1</span> עבור:</p><ol type="a"><li><span class="eq">x=-2</span> ⟵ <span class="blank"></span></li><li><span class="eq">x=2</span> ⟵ <span class="blank"></span></li></ol>
+  <p>חשבו את ערך הביטוי <span class="eq">2x<sup>2</sup>-5x+1</span> עבור:</p><ol type="a"><li><span class="eq">x=-2</span> ⟵ <span class="blank"></span></li><li><span class="eq">x=2</span> ⟵ <span class="blank"></span></li></ol>
   <div class="lines"><div></div><div></div></div>
   <h2 class="q">שאלה 9 — אתגר: אותו ריבוע, סימן הפוך <span class="tag hard">מאתגר</span></h2>
-  <p>חשבו את ערך הביטוי <span class="eq">x^2-4x</span> עבור <span class="eq">x=6</span> ועבור <span class="eq">x=-6</span>. האם קיבלתם אותה תוצאה?</p>
+  <p>חשבו את ערך הביטוי <span class="eq">x<sup>2</sup>-4x</span> עבור <span class="eq">x=6</span> ועבור <span class="eq">x=-6</span>. האם קיבלתם אותה תוצאה?</p>
   <div class="lines"><div></div><div></div><div></div></div>
   <h2 class="q">שאלה 10 — אתגר: סוגריים בריבוע <span class="tag hard">מאתגר</span></h2>
-  <p>חשבו את ערך הביטוי <span class="eq">(x+3)^2 - x^2</span> עבור <span class="eq">x=5</span>.</p>
+  <p>חשבו את ערך הביטוי <span class="eq">(x+3)<sup>2</sup> - x<sup>2</sup></span> עבור <span class="eq">x=5</span>.</p>
   <div class="lines"><div></div><div></div></div>
   <h2 class="q">שאלה 11 — אתגר: הטמפרטורה במעלה ההר <span class="tag hard">מאתגר</span></h2>
   <p>הטמפרטורה במעלה ההר נתונה בביטוי <span class="eq">-3h+20</span>, כאשר h מספר שעות הטיפוס.</p><ol type="a"><li>מה הטמפרטורה עבור <span class="eq">h=4</span>?</li><li>מה הטמפרטורה עבור <span class="eq">h=8</span>?</li></ol>
   <div class="lines"><div></div><div></div><div></div></div>
   <h2 class="q">שאלה 12 — אתגר: שילוב מלא <span class="tag hard">מאתגר</span></h2>
-  <p>חשבו את ערך הביטוי <span class="eq">2(x-1)^2 - 3x</span> עבור <span class="eq">x=-1</span>.</p>
+  <p>חשבו את ערך הביטוי <span class="eq">2(x-1)<sup>2</sup> - 3x</span> עבור <span class="eq">x=-1</span>.</p>
   <div class="lines"><div></div><div></div></div>
   <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
 </div>
@@ -120,7 +129,7 @@
 <div class="ans"><strong>שאלה 7.</strong> <span class="eq">3×25+10=85</span> ₪</div>
 <div class="ans"><strong>שאלה 8.</strong> א. <span class="eq">8+10+1=19</span> &nbsp; ב. <span class="eq">8-10+1=-1</span></div>
 <div class="ans"><strong>שאלה 9.</strong> עבור <span class="eq">x=6</span>: <span class="eq">36-24=12</span>. עבור <span class="eq">x=-6</span>: <span class="eq">36+24=60</span>. התוצאות שונות — הסימן של <span class="eq">-4x</span> מתהפך.</div>
-<div class="ans"><strong>שאלה 10.</strong> <span class="eq">8^2-5^2=64-25=39</span></div>
+<div class="ans"><strong>שאלה 10.</strong> <span class="eq">8<sup>2</sup>-5<sup>2</sup>=64-25=39</span></div>
 <div class="ans"><strong>שאלה 11.</strong> א. <span class="eq">-12+20=8</span> מעלות &nbsp; ב. <span class="eq">-24+20=-4</span> מעלות</div>
 <div class="ans"><strong>שאלה 12.</strong> <span class="eq">2×4-(-3)=8+3=11</span></div>
   <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>

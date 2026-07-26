@@ -31,6 +31,15 @@
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
   .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
   .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
   .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
   .fig { text-align: center; font-size: 13px; color: #5b6780; }
@@ -83,7 +92,7 @@
   <p>לכל מספר, כתבו בין אילו שני מספרים שלמים הוא נמצא על ציר המספרים:</p><ol class="items"><li><span class="fr"><b>7</b><i>4</i></span></li><li><span class="eq">2⅚</span></li><li><span class="fr"><b>19</b><i>6</i></span></li></ol>
   <div class="lines"><div></div><div></div></div>
   <h2 class="q">שאלה 6 — השוואות עם שלמים <span class="tag med">בינוני</span></h2>
-  <p>כתבו את הסימן המתאים (&gt; , &lt; או =):</p><ol class="items"><li><span class="eq"><span class="fr"><b>7</b><i>3</i></span> ⬜ 2⅓</span></li><li><span class="eq"><span class="fr"><b>9</b><i>2</i></span> ⬜ 4</span></li><li><span class="eq">3½ ⬜ <span class="fr"><b>8</b><i>2</i></span></span></li></ol>
+  <p>כתבו את הסימן המתאים (&gt; , &lt; או =):</p><ol class="items"><li><span class="eq">&lt;span class="fr"&gt;&lt;b&gt;7&lt;/b&gt;&lt;i&gt;3&lt;/i&gt;&lt;/span&gt; ⬜ 2⅓</span></li><li><span class="eq">&lt;span class="fr"&gt;&lt;b&gt;9&lt;/b&gt;&lt;i&gt;2&lt;/i&gt;&lt;/span&gt; ⬜ 4</span></li><li><span class="eq">3½ ⬜ &lt;span class="fr"&gt;&lt;b&gt;8&lt;/b&gt;&lt;i&gt;2&lt;/i&gt;&lt;/span&gt;</span></li></ol>
   <div class="lines"><div></div><div></div></div>
   <h2 class="q">שאלה 7 — אתגר: ההזמנה הגדולה <span class="tag hard">מאתגר</span></h2>
   <p>בקייטנה כל חניך אוכל <span class="fr"><b>2</b><i>5</i></span> אבטיח. יש 8 חניכים.</p><ol class="items"><li>כמה אבטיח יאכלו כולם ביחד? כתבו כשבר וגם כמספר מעורב.</li><li>כמה אבטיחים שלמים צריך לקנות?</li><li>כמה אבטיח יישאר?</li></ol>
@@ -130,17 +139,17 @@
 <div class="ans"><strong>שאלה 2.</strong> א. <span class="eq">5÷2=2 ש"1</span> → 2½ · ב. <span class="eq">11÷3=3 ש"2</span> → 3⅔ · ג. <span class="eq">17÷5=3 ש"2</span> → <span class="eq">3⅖</span></div>
 <div class="ans"><strong>שאלה 3.</strong> א. <span class="eq">2×4+1=9</span> → <span class="fr"><b>9</b><i>4</i></span> · ב. <span class="eq">3×3+2=11</span> → <span class="fr"><b>11</b><i>3</i></span> · ג. <span class="eq">1×8+5=13</span> → <span class="fr"><b>13</b><i>8</i></span></div>
 <div class="ans"><strong>שאלה 4.</strong> שני עיגולים שלמים (8 רבעים) ועוד רבע אחד בעיגול השלישי. <span class="eq">9/4 = 2¼</span>.</div>
-<div class="ans"><strong>שאלה 5.</strong> א. <span class="fr"><b>7</b><i>4</i></span> = 1¾ → בין 1 ל-2. ב. <span class="eq">2⅚</span> → בין 2 ל-3. ג. <span class="eq"><span class="fr"><b>19</b><i>6</i></span> = 3⅙</span> → בין 3 ל-4.</div>
-<div class="ans"><strong>שאלה 6.</strong> א. <span class="fr"><b>7</b><i>3</i></span> = 2⅓ → שווים. ב. <span class="fr"><b>9</b><i>2</i></span> = 4½ → <span class="eq">9/2 &gt; 4</span>. ג. <span class="fr"><b>8</b><i>2</i></span> = 4 → <span class="eq">3½ &lt; 4</span>.</div>
+<div class="ans"><strong>שאלה 5.</strong> א. <span class="fr"><b>7</b><i>4</i></span> = 1¾ → בין 1 ל-2. ב. <span class="eq">2⅚</span> → בין 2 ל-3. ג. <span class="eq">&lt;span class="fr"&gt;&lt;b&gt;19&lt;/b&gt;&lt;i&gt;6&lt;/i&gt;&lt;/span&gt; = 3⅙</span> → בין 3 ל-4.</div>
+<div class="ans"><strong>שאלה 6.</strong> א. <span class="fr"><b>7</b><i>3</i></span> = 2⅓ → שווים. ב. <span class="fr"><b>9</b><i>2</i></span> = 4½ → <span class="eq">9/2 &amp;gt; 4</span>. ג. <span class="fr"><b>8</b><i>2</i></span> = 4 → <span class="eq">3½ &amp;lt; 4</span>.</div>
 <div class="ans"><strong>שאלה 7.</strong> 1. <span class="eq">8×2/5 = 16/5 = 3⅕</span> אבטיחים. 2. צריך לקנות 4 אבטיחים (מעגלים למעלה). 3. יישאר <span class="eq">4 − 3⅕ = ⅘</span> אבטיח.</div>
-<div class="ans"><strong>שאלה 8.</strong> <span class="fr"><b>11</b><i>12</i></span> — פחות משלם. <span class="fr"><b>12</b><i>11</i></span> — יותר משלם. <span class="fr"><b>15</b><i>15</i></span> — בדיוק שלם. <span class="fr"><b>29</b><i>13</i></span> — יותר משלם (<span class="eq">29 > 13</span>, למעשה יותר מ‑2 שלמים). <span class="fr"><b>4</b><i>15</i></span> — פחות משלם. <span class="fr"><b>40</b><i>40</i></span> — בדיוק שלם.</div>
+<div class="ans"><strong>שאלה 8.</strong> <span class="fr"><b>11</b><i>12</i></span> — פחות משלם. <span class="fr"><b>12</b><i>11</i></span> — יותר משלם. <span class="fr"><b>15</b><i>15</i></span> — בדיוק שלם. <span class="fr"><b>29</b><i>13</i></span> — יותר משלם (<span class="eq">29 &gt; 13</span>, למעשה יותר מ‑2 שלמים). <span class="fr"><b>4</b><i>15</i></span> — פחות משלם. <span class="fr"><b>40</b><i>40</i></span> — בדיוק שלם.</div>
 <div class="ans"><strong>שאלה 9.</strong> א. <span class="eq">47 ÷ 6 = 7 ש"5</span> → <span class="eq">7⅚</span>. ב. <span class="eq">53 ÷ 8 = 6 ש"5</span> → <span class="eq">6⅝</span>. ג. <span class="eq">61 ÷ 9 = 6 ש"7</span> → <span class="eq">6⅞</span>.</div>
 <div class="ans"><strong>שאלה 10.</strong> א. <span class="eq">6 × 8 + 7 = 55</span> → <span class="fr"><b>55</b><i>8</i></span>. ב. <span class="eq">5 × 9 + 4 = 49</span> → <span class="fr"><b>49</b><i>9</i></span>. ג. <span class="eq">8 × 7 + 3 = 59</span> → <span class="fr"><b>59</b><i>7</i></span>.</div>
-<div class="ans"><strong>שאלה 11.</strong> א. במכנה משותף 15: <span class="eq">⅗ = 9/15</span> לעומת <span class="eq">⅔ = 10/15</span> → <span class="eq">4⅔ > 4⅗</span>. ב. במכנה משותף 40: <span class="eq">⅜ = 15/40</span> לעומת <span class="eq">⅖ = 16/40</span> → <span class="eq">5⅖ > 5⅜</span>.</div>
-<div class="ans"><strong>שאלה 12.</strong> למשל: <span class="eq">2⅞</span> , 3 (שלם, כי <span class="eq">2¾ < 3 < 3¼</span>) , <span class="eq">3⅛</span>. (כל שלושה מספרים שונים בטווח הזה מתקבלים.)</div>
+<div class="ans"><strong>שאלה 11.</strong> א. במכנה משותף 15: <span class="eq">⅗ = 9/15</span> לעומת <span class="eq">⅔ = 10/15</span> → <span class="eq">4⅔ &gt; 4⅗</span>. ב. במכנה משותף 40: <span class="eq">⅜ = 15/40</span> לעומת <span class="eq">⅖ = 16/40</span> → <span class="eq">5⅖ &gt; 5⅜</span>.</div>
+<div class="ans"><strong>שאלה 12.</strong> למשל: <span class="eq">2⅞</span> , 3 (שלם, כי <span class="eq">2¾ &lt; 3 &lt; 3¼</span>) , <span class="eq">3⅛</span>. (כל שלושה מספרים שונים בטווח הזה מתקבלים.)</div>
 <div class="ans"><strong>שאלה 13.</strong> <span class="eq">53 ÷ 8 = 6 ש"5</span> → 6 ארגזים מלאים, ויישארו 5 בקבוקים. כמספר מעורב: <span class="eq">6⅝</span> ארגזים.</div>
 <div class="ans"><strong>שאלה 14.</strong> 1. <span class="eq">11 × ⅗ = 33/5 = 6⅗</span> עוגות. 2. צריך לקנות <strong>7 עוגות</strong> שלמות (מעגלים למעלה, כי אי אפשר להזמין חלק מעוגה). 3. יישאר <span class="eq">7 − 6⅗ = ⅖</span> עוגה.</div>
-<div class="ans"><strong>שאלה 15.</strong> במכנה משותף 60: <span class="eq">¼ = 15/60</span> , <span class="eq">⅓ = 20/60</span> , <span class="eq">⅖ = 24/60</span>. הסדר: <span class="eq">5¼ < 5⅓ < 5⅖</span>.</div>
+<div class="ans"><strong>שאלה 15.</strong> במכנה משותף 60: <span class="eq">¼ = 15/60</span> , <span class="eq">⅓ = 20/60</span> , <span class="eq">⅖ = 24/60</span>. הסדר: <span class="eq">5¼ &lt; 5⅓ &lt; 5⅖</span>.</div>
 <div class="ans"><strong>שאלה 16.</strong> <span class="eq">5 × 8 = 40</span>, ולכן <span class="eq">n = 47 − 40 = 7</span>. המספר המעורב המלא הוא <span class="eq">5⅞</span>.</div>
 <div class="ans"><strong>שאלה 17.</strong> חסר: ל‑<span class="eq">4 7/9</span> — <span class="eq">2/9</span> (≈0.22); ל‑<span class="eq">6 11/13</span> — <span class="eq">2/13</span> (≈0.15); ל‑<span class="eq">3⅚</span> — <span class="eq">1/6</span> (≈0.17). הכי קרוב לשלם הבא: <span class="eq">6 11/13</span> (חסר לו הכי מעט).</div>
   <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>

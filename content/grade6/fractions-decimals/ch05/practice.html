@@ -31,6 +31,15 @@
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
   .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
   .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
   .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
   .fig { text-align: center; font-size: 13px; color: #5b6780; }
@@ -107,9 +116,9 @@
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 3: מצאו את המספר החסר</strong>
       <span class="tag med">בינוני</span></div>
-    <div>השלימו:<br><br>א. <span class="eq">7.2 × \square = 720</span><br>ב. <span class="eq">\square ÷ 100 = 0.35</span><br>ג. <span class="eq">0.048 × 1{,}000 = \square</span></div>
+    <div>השלימו:<br><br>א. <span class="eq">7.2 × □ = 720</span><br>ב. <span class="eq">□ ÷ 100 = 0.35</span><br>ג. <span class="eq">0.048 × 1{,}000 = □</span></div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">א. מ-7.2 ל-720 הנקודה זזה שני צעדים ימינה → <span class="eq">\square = 100</span><br>ב. הנקודה זזה שני צעדים שמאלה והגיעה ל-0.35, אז המקור: <span class="eq">0.35 × 100 = 35</span> → <span class="eq">\square = 35</span><br>ג. שלושה צעדים ימינה: <span class="eq">0.048 × 1{,}000 = 48</span></div>
+    <div class="sol">א. מ-7.2 ל-720 הנקודה זזה שני צעדים ימינה → <span class="eq">□ = 100</span><br>ב. הנקודה זזה שני צעדים שמאלה והגיעה ל-0.35, אז המקור: <span class="eq">0.35 × 100 = 35</span> → <span class="eq">□ = 35</span><br>ג. שלושה צעדים ימינה: <span class="eq">0.048 × 1{,}000 = 48</span></div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 4: המרות מידה</strong>
@@ -135,9 +144,9 @@
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 7: מצאו את החזקה החסרה</strong>
       <span class="tag med">בינוני</span></div>
-    <div>השלימו את הפעולה החסרה (× 10, × 100, × 1{,}000, ÷ 10, ÷ 100 או ÷ 1{,}000):<br><br>א. <span class="eq">4.83 × \square = 4{,}830</span><br>ב. <span class="eq">\square ÷ 100 = 0.056</span><br>ג. <span class="eq">0.009 × \square = 9</span></div>
+    <div>השלימו את הפעולה החסרה (× 10, × 100, × 1{,}000, ÷ 10, ÷ 100 או ÷ 1{,}000):<br><br>א. <span class="eq">4.83 × □ = 4{,}830</span><br>ב. <span class="eq">□ ÷ 100 = 0.056</span><br>ג. <span class="eq">0.009 × □ = 9</span></div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">א. <span class="eq">× 1{,}000</span>, כי <span class="eq">4.83 × 1{,}000 = 4{,}830</span><br>ב. <span class="eq">\square = 5.6</span>, כי <span class="eq">5.6 ÷ 100 = 0.056</span><br>ג. <span class="eq">× 1{,}000</span>, כי <span class="eq">0.009 × 1{,}000 = 9</span></div>
+    <div class="sol">א. <span class="eq">× 1{,}000</span>, כי <span class="eq">4.83 × 1{,}000 = 4{,}830</span><br>ב. <span class="eq">□ = 5.6</span>, כי <span class="eq">5.6 ÷ 100 = 0.056</span><br>ג. <span class="eq">× 1{,}000</span>, כי <span class="eq">0.009 × 1{,}000 = 9</span></div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 8: המרות מידה מאתגרות</strong>
@@ -156,7 +165,7 @@
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 10: איזו פעולה בוצעה?</strong>
       <span class="tag med">בינוני</span></div>
-    <div>בכל סעיף בוצעה פעולה אחת בלבד (כפל או חילוק בחזקה של 10). מצאו אותה:<br><br>א. <span class="eq">0.078 \to 78</span><br>ב. <span class="eq">6.2 \to 0.0062</span><br>ג. <span class="eq">45 \to 4{,}500</span></div>
+    <div>בכל סעיף בוצעה פעולה אחת בלבד (כפל או חילוק בחזקה של 10). מצאו אותה:<br><br>א. <span class="eq">0.078 → 78</span><br>ב. <span class="eq">6.2 → 0.0062</span><br>ג. <span class="eq">45 → 4{,}500</span></div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
     <div class="sol">א. <span class="eq">× 1{,}000</span>, כי <span class="eq">0.078 × 1{,}000 = 78</span><br>ב. <span class="eq">÷ 1{,}000</span>, כי <span class="eq">6.2 ÷ 1{,}000 = 0.0062</span><br>ג. <span class="eq">× 100</span>, כי <span class="eq">45 × 100 = 4{,}500</span></div>
   </div>
@@ -193,7 +202,7 @@
       <span class="tag hard">מאתגר</span></div>
     <div>דנה טוענת שאם מכפילים ב-10 ואז עוד פעם ב-10, זה כמו לכפול ב-100. יובל טוען שזה כמו לכפול ב-20. מי צודק? הוכיחו עם המספר 3.4.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol"><span class="eq">3.4×10=34</span>, ואז <span class="eq">34×10=340</span> — וגם <span class="eq">3.4×100=340</span>. דנה צודקת. לעומת זאת <span class="eq">3.4×20=68 \neq 340</span>, כך שיובל טעה.</div>
+    <div class="sol"><span class="eq">3.4×10=34</span>, ואז <span class="eq">34×10=340</span> — וגם <span class="eq">3.4×100=340</span>. דנה צודקת. לעומת זאת <span class="eq">3.4×20=68 ≠ 340</span>, כך שיובל טעה.</div>
   </div>
 </div>
 

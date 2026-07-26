@@ -31,6 +31,15 @@
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
   .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
   .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
   .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
   .fig { text-align: center; font-size: 13px; color: #5b6780; }
@@ -95,28 +104,28 @@
       <span class="tag easy">קל</span></div>
     <div>עץ מטיל צל באורך 12 מטר כאשר זווית הרום של השמש היא <span class="eq">35°</span>. חשבו את גובה העץ.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol"><span class="eq">h = 12\tan 35° \approx 12 · 0.7002 \approx 8.4</span> מטר.</div>
+    <div class="sol"><span class="eq">h = 12tan 35° ≈ 12 · 0.7002 ≈ 8.4</span> מטר.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 2: עפיפון</strong>
       <span class="tag med">בינוני</span></div>
     <div>חוט עפיפון מתוח באורך 60 מטר יוצר זווית של <span class="eq">48°</span> עם הקרקע. באיזה גובה נמצא העפיפון?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">החוט הוא היתר: <span class="eq">h = 60\sin 48° \approx 60 · 0.7431 \approx 44.6</span> מטר.</div>
+    <div class="sol">החוט הוא היתר: <span class="eq">h = 60sin 48° ≈ 60 · 0.7431 ≈ 44.6</span> מטר.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 3: מרחק מבניין</strong>
       <span class="tag med">בינוני</span></div>
     <div>בניין בגובה 30 מטר נראה מנקודה על הקרקע בזווית רום של <span class="eq">38°</span>. מה המרחק מהנקודה לבסיס הבניין?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol"><span class="eq">\tan 38° = <span class="fr"><b>30</b><i>d</i></span></span>, ולכן <span class="eq">d = <span class="fr"><b>30</b><i>\tan 38°</i></span> \approx <span class="fr"><b>30</b><i>0.7813</i></span> \approx 38.4</span> מטר.</div>
+    <div class="sol"><span class="eq">tan 38° = <span class="fr"><b>30</b><i>d</i></span></span>, ולכן <span class="eq">d = <span class="fr"><b>30</b><i>tan 38°</i></span> ≈ <span class="fr"><b>30</b><i>0.7813</i></span> ≈ 38.4</span> מטר.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 4: שתי תצפיות על מגדל</strong>
       <span class="tag hard">מאתגר</span></div>
     <div>צופה רואה ראש מגדל בזווית רום <span class="eq">30°</span>. הוא מתקרב 50 מטר ורואה אותו בזווית <span class="eq">45°</span>. חשבו את גובה המגדל.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">נסמן ב-<span class="eq">x</span> את המרחק מהנקודה הקרובה. מהנקודה הקרובה: <span class="eq">h = x\tan 45° = x</span>. מהרחוקה: <span class="eq">h = (x+50)\tan 30° \approx (x+50) · 0.5774</span>. השוואה: <span class="eq">x = 0.5774x + 28.87</span>, כלומר <span class="eq">0.4226x = 28.87</span>, ומכאן <span class="eq">x \approx 68.3</span>. הגובה: <span class="eq">h \approx 68.3</span> מטר.</div>
+    <div class="sol">נסמן ב-<span class="eq">x</span> את המרחק מהנקודה הקרובה. מהנקודה הקרובה: <span class="eq">h = xtan 45° = x</span>. מהרחוקה: <span class="eq">h = (x+50)tan 30° ≈ (x+50) · 0.5774</span>. השוואה: <span class="eq">x = 0.5774x + 28.87</span>, כלומר <span class="eq">0.4226x = 28.87</span>, ומכאן <span class="eq">x ≈ 68.3</span>. הגובה: <span class="eq">h ≈ 68.3</span> מטר.</div>
   </div>
 </div>
 

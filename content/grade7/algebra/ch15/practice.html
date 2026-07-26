@@ -31,6 +31,15 @@
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
   .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
   .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
   .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
   .fig { text-align: center; font-size: 13px; color: #5b6780; }
@@ -91,9 +100,9 @@
   <p class="hint">נסו לפתור לבד, ורק אחר כך גלו את הפתרון.</p>
   
   <div class="ex">
-    <div class="ex-h"><strong>תרגיל 1: קריאת טבלת הליכה</strong>
+    <div class="ex-h"><strong>תרגיל 1: קריאת טבלת ריצה</strong>
       <span class="tag easy">קל</span></div>
-    <div>הטבלה מתארת מרחק של רץ ממסלול הבית (בק"מ), לפי זמן (בשעות): <span class="eq">x:0,1,2,3,4,5,6</span> ; <span class="eq">y:0,3,6,9,6,3,0</span>.<br><br>א. מצאו <span class="eq">y</span> עבור <span class="eq">x=2</span>.<br>ב. מצאו את כל <span class="eq">x</span> שעבורם <span class="eq">y=6</span>.<br>ג. מהו הערך המרבי של <span class="eq">y</span>, ובאיזה <span class="eq">x</span> הוא מתקבל?</div>
+    <div>הטבלה מתארת מרחק של רץ מנקודת הזינוק (בק"מ), לפי זמן (בשעות): <span class="eq">x:0,1,2,3,4,5,6</span> ; <span class="eq">y:0,3,6,9,6,3,0</span>.<br><br>א. מצאו <span class="eq">y</span> עבור <span class="eq">x=2</span>.<br>ב. מצאו את כל <span class="eq">x</span> שעבורם <span class="eq">y=6</span>.<br>ג. מהו הערך המרבי של <span class="eq">y</span>, ובאיזה <span class="eq">x</span> הוא מתקבל?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
     <div class="sol">א. <span class="eq">y=6</span>.<br>ב. <span class="eq">y=6</span> מתקבל ב-<span class="eq">x=2</span> וגם ב-<span class="eq">x=4</span>.<br>ג. הערך המרבי הוא <span class="eq">y=9</span>, בשעה <span class="eq">x=3</span>.</div>
   </div>
@@ -102,21 +111,21 @@
       <span class="tag easy">קל</span></div>
     <div>בטבלה <span class="eq">x:0,1,2,3</span> ; <span class="eq">y:4,7,10,13</span>: חשבו את קצב ההשתנות בין כל זוג נקודות סמוכות. האם הקצב אחיד? מה זה אומר על צורת הגרף?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">קצב ההשתנות בכל צעד: <span class="eq"><span class="fr"><b>7-4</b><i>1</i></span>=3,\ <span class="fr"><b>10-7</b><i>1</i></span>=3,\ <span class="fr"><b>13-10</b><i>1</i></span>=3</span>. הקצב אחיד (תמיד <span class="eq">3</span>), ולכן הגרף של הפונקציה הוא קו ישר.</div>
+    <div class="sol">קצב ההשתנות בכל צעד: <span class="eq"><span class="fr"><b>7-4</b><i>1</i></span>=3, <span class="fr"><b>10-7</b><i>1</i></span>=3, <span class="fr"><b>13-10</b><i>1</i></span>=3</span>. הקצב אחיד (תמיד <span class="eq">3</span>), ולכן הגרף של הפונקציה הוא קו ישר.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 3: בדיקת קצב לא אחיד</strong>
       <span class="tag med">בינוני</span></div>
     <div>בטבלה <span class="eq">x:0,1,2,3</span> ; <span class="eq">y:2,3,6,11</span>: חשבו את קצב ההשתנות בין כל זוג נקודות סמוכות. האם הקצב אחיד? האם הגרף הוא קו ישר?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">קצב ההשתנות: <span class="eq"><span class="fr"><b>3-2</b><i>1</i></span>=1,\ <span class="fr"><b>6-3</b><i>1</i></span>=3,\ <span class="fr"><b>11-6</b><i>1</i></span>=5</span>. הקצב אינו אחיד (משתנה מ-<span class="eq">1</span> ל-<span class="eq">3</span> ל-<span class="eq">5</span>), ולכן הגרף אינו קו ישר.</div>
+    <div class="sol">קצב ההשתנות: <span class="eq"><span class="fr"><b>3-2</b><i>1</i></span>=1, <span class="fr"><b>6-3</b><i>1</i></span>=3, <span class="fr"><b>11-6</b><i>1</i></span>=5</span>. הקצב אינו אחיד (משתנה מ-<span class="eq">1</span> ל-<span class="eq">3</span> ל-<span class="eq">5</span>), ולכן הגרף אינו קו ישר.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 4: אתגר: חיסכון בבנק</strong>
       <span class="tag hard">מאתגר</span></div>
     <div>היתרה בחשבון חיסכון (בשקלים) נתונה בטבלה לפי חודשים: <span class="eq">x:0,1,2,3,4</span> ; <span class="eq">y:100,110,122,136,152</span>.<br><br>א. מהי היתרה אחרי <span class="eq">3</span> חודשים?<br>ב. חשבו את קצב ההשתנות בין <span class="eq">x=0</span> ל-<span class="eq">x=1</span>, ובין <span class="eq">x=2</span> ל-<span class="eq">x=3</span>.<br>ג. האם קצב ההשתנות אחיד? מה זה אומר על צורת הגרף?<br>ד. באיזה תחום היתרה עולה?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">א. <span class="eq">y=136</span> ₪.<br>ב. קצב בין <span class="eq">x=0</span> ל-<span class="eq">x=1</span>: <span class="eq"><span class="fr"><b>110-100</b><i>1</i></span>=10</span>. קצב בין <span class="eq">x=2</span> ל-<span class="eq">x=3</span>: <span class="eq"><span class="fr"><b>136-122</b><i>1</i></span>=14</span>.<br>ג. הקצב אינו אחיד (<span class="eq">10\neq14</span>), ולכן הגרף אינו קו ישר.<br>ד. היתרה עולה בכל התחום הנתון, <span class="eq">x</span> שבין <span class="eq">0</span> ל-<span class="eq">4</span>.</div>
+    <div class="sol">א. <span class="eq">y=136</span> ₪.<br>ב. קצב בין <span class="eq">x=0</span> ל-<span class="eq">x=1</span>: <span class="eq"><span class="fr"><b>110-100</b><i>1</i></span>=10</span>. קצב בין <span class="eq">x=2</span> ל-<span class="eq">x=3</span>: <span class="eq"><span class="fr"><b>136-122</b><i>1</i></span>=14</span>.<br>ג. הקצב אינו אחיד (<span class="eq">10≠14</span>), ולכן הגרף אינו קו ישר.<br>ד. היתרה עולה בכל התחום הנתון, <span class="eq">x</span> שבין <span class="eq">0</span> ל-<span class="eq">4</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 5: קריאת טבלה — תרגול נוסף</strong>

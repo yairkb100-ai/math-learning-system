@@ -31,6 +31,15 @@
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
   .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #4a1f8a; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
   .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #4a1f8a; height: 1em; }
   .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
   .fig { text-align: center; font-size: 13px; color: #5b6780; }
@@ -68,38 +77,38 @@
   
   <h2 class="sec">חלק א' — הצבה 1️⃣ (שאלות 1–4)</h2>
   <ol class="items" start="1">
-<li>פתרו: <span class="eq">y=x+5, x+y=21</span></li>
-<li>פתרו: <span class="eq">y=x-3, x+y=15</span></li>
-<li>פתרו: <span class="eq">y=2x, x+y=18</span></li>
-<li>פתרו: <span class="eq">x=y+4, x+y=22</span></li>
+<li>פתרו: <span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>y=x+5</span><span>x+y=21</span></span></span></li>
+<li>פתרו: <span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>y=x-3</span><span>x+y=15</span></span></span></li>
+<li>פתרו: <span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>y=2x</span><span>x+y=18</span></span></span></li>
+<li>פתרו: <span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>x=y+4</span><span>x+y=22</span></span></span></li>
   </ol>
   <h2 class="sec">חלק ב' — חיבור ישיר 🔤 (שאלות 5–8)</h2>
   <ol class="items" start="5">
-<li>פתרו: <span class="eq">x+y=16, x-y=4</span></li>
-<li>פתרו: <span class="eq">x+y=25, x-y=7</span></li>
-<li>פתרו: <span class="eq">x+y=9, x-y=1</span></li>
-<li>פתרו: <span class="eq">x+y=30, x-y=10</span></li>
+<li>פתרו: <span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>x+y=16</span><span>x-y=4</span></span></span></li>
+<li>פתרו: <span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>x+y=25</span><span>x-y=7</span></span></span></li>
+<li>פתרו: <span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>x+y=9</span><span>x-y=1</span></span></span></li>
+<li>פתרו: <span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>x+y=30</span><span>x-y=10</span></span></span></li>
   </ol>
   <h2 class="sec">חלק ג' — חיסור והכפלה 🎯 (שאלות 9–12)</h2>
   <ol class="items" start="9">
-<li>פתרו: <span class="eq">2x+y=15, x+y=9</span></li>
-<li>פתרו: <span class="eq">3x+y=20, x+y=8</span></li>
-<li>פתרו: <span class="eq">2x+3y=16, x+y=6</span></li>
-<li>פתרו: <span class="eq">3x+2y=19, x+y=8</span></li>
+<li>פתרו: <span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>2x+y=15</span><span>x+y=9</span></span></span></li>
+<li>פתרו: <span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>3x+y=20</span><span>x+y=8</span></span></span></li>
+<li>פתרו: <span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>2x+3y=16</span><span>x+y=6</span></span></span></li>
+<li>פתרו: <span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>3x+2y=19</span><span>x+y=8</span></span></span></li>
   </ol>
   <h2 class="sec">חלק ד' — בעיות מילוליות 🏆 (שאלות 13–16)</h2>
   <ol class="items" start="13">
 <li>סכום שני מספרים 28, הפרש 8. מצאו אותם.</li>
 <li>יובל קנה 3 עטים ועיפרון אחד ב-17 ₪. שירה קנתה עט אחד ועיפרון אחד ב-9 ₪. מצאו את המחירים.</li>
 <li>בקופה מטבעות של 1 ₪ ו-2 ₪, יחד 20 מטבעות בשווי 27 ₪. כמה מכל סוג?</li>
-<li>פתרו: <span class="eq">y=4x-2, 3x+y=19</span></li>
+<li>פתרו: <span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>y=4x-2</span><span>3x+y=19</span></span></span></li>
   </ol>
   <h2 class="sec">חלק ה' — תרגול נוסף ✏️ (שאלות 17–22)</h2>
   <ol class="items" start="17">
-<li>פתרו: <span class="eq">y=x+7, x+y=25</span></li>
-<li>פתרו: <span class="eq">x+y=13, x-y=5</span></li>
-<li>פתרו: <span class="eq">2x+y=11, 3x+2y=18</span></li>
-<li>פתרו: <span class="eq">5x-2y=16, x+2y=8</span></li>
+<li>פתרו: <span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>y=x+7</span><span>x+y=25</span></span></span></li>
+<li>פתרו: <span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>x+y=13</span><span>x-y=5</span></span></span></li>
+<li>פתרו: <span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>2x+y=11</span><span>3x+2y=18</span></span></span></li>
+<li>פתרו: <span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>5x-2y=16</span><span>x+2y=8</span></span></span></li>
 <li>בקולנוע 5 כרטיסי מבוגר ו-2 כרטיסי ילד עלו 220 ₪; מבוגר אחד וילד אחד עלו 62 ₪. מצאו את המחירים.</li>
 <li>סכום שני מספרים 40, ואחד גדול פי 3 מהשני. מצאו אותם.</li>
   </ol>

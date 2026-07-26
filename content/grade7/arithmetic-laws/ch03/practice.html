@@ -31,6 +31,15 @@
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
   .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
   .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
   .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
   .fig { text-align: center; font-size: 13px; color: #5b6780; }
@@ -158,7 +167,7 @@
 <div class="credit" style="max-width:780px; margin:0 auto">© כל הזכויות שמורות ליאיר כהנא</div>
 
 <script>
-const quiz = [{"q": "איזה חוק מתאר השוויון <span class=\"eq\">8 · 13 = 13 · 8</span>?", "o": ["חוק החילוף של הכפל", "חוק הקיבוץ של הכפל", "סדר הפעולות", "חוק החילוף של החילוק"], "a": 0}, {"q": "כמה זה <span class=\"eq\">2 · 17 · 5</span>?", "o": ["<span class=\"eq\">170</span>", "<span class=\"eq\">85</span>", "<span class=\"eq\">120</span>", "<span class=\"eq\">175</span>"], "a": 0}, {"q": "נכון או לא נכון: <span class=\"eq\">(2 · 9) · 5 = 2 · (9 · 5)</span>.", "o": ["נכון", "לא נכון"], "a": 0}, {"q": "כמה זה <span class=\"eq\">25 · 13 · 4</span>?", "o": ["<span class=\"eq\">1300</span>", "<span class=\"eq\">1200</span>", "<span class=\"eq\">325</span>", "<span class=\"eq\">1400</span>"], "a": 0}, {"q": "איזו מהטענות הבאות נכונה?", "o": ["<span class=\"eq\">12 ÷ 3 \\ne 3 ÷ 12</span>, ולכן החילוק אינו חילופי", "<span class=\"eq\">12 ÷ 3 = 3 ÷ 12</span>, ולכן החילוק חילופי", "החילוק חילופי בדיוק כמו הכפל", "מיקום הסוגריים בחילוק אינו משנה את התוצאה"], "a": 0}];
+const quiz = [{"q": "איזה חוק מתאר השוויון <span class=\"eq\">8 · 13 = 13 · 8</span>?", "o": ["חוק החילוף של הכפל", "חוק הקיבוץ של הכפל", "סדר הפעולות", "חוק החילוף של החילוק"], "a": 0}, {"q": "כמה זה <span class=\"eq\">2 · 17 · 5</span>?", "o": ["<span class=\"eq\">170</span>", "<span class=\"eq\">85</span>", "<span class=\"eq\">120</span>", "<span class=\"eq\">175</span>"], "a": 0}, {"q": "נכון או לא נכון: <span class=\"eq\">(2 · 9) · 5 = 2 · (9 · 5)</span>.", "o": ["נכון", "לא נכון"], "a": 0}, {"q": "כמה זה <span class=\"eq\">25 · 13 · 4</span>?", "o": ["<span class=\"eq\">1300</span>", "<span class=\"eq\">1200</span>", "<span class=\"eq\">325</span>", "<span class=\"eq\">1400</span>"], "a": 0}, {"q": "איזו מהטענות הבאות נכונה?", "o": ["<span class=\"eq\">12 ÷ 3 ≠ 3 ÷ 12</span>, ולכן החילוק אינו חילופי", "<span class=\"eq\">12 ÷ 3 = 3 ÷ 12</span>, ולכן החילוק חילופי", "החילוק חילופי בדיוק כמו הכפל", "מיקום הסוגריים בחילוק אינו משנה את התוצאה"], "a": 0}];
 let answered = 0, correct = 0;
 document.getElementById('quiz').innerHTML = quiz.map((q, i) => `
   <div class="q">

@@ -31,6 +31,15 @@
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
   .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
   .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
   .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
   .fig { text-align: center; font-size: 13px; color: #5b6780; }
@@ -95,7 +104,7 @@
       <span class="tag easy">קל</span></div>
     <div>נתון הקו <span class="eq">y=x+5</span>. לאיזה <span class="eq">x</span> הוא מגיע לגובה <span class="eq">9</span>? זהו את הפתרון בעזרת ערכים, ובדקו אותו אלגברית.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">מחפשים <span class="eq">x</span> שבו <span class="eq">x+5=9</span>. בטבלה: <span class="eq">x=4</span> נותן <span class="eq">y=9</span>. בדיקה אלגברית: <span class="eq">x+5=9 \Rightarrow x=4</span> ✓. הפתרון הוא נקודת המפגש של הקו עם הקו האופקי <span class="eq">y=9</span>, בנקודה <span class="eq">(4,9)</span>.</div>
+    <div class="sol">מחפשים <span class="eq">x</span> שבו <span class="eq">x+5=9</span>. בטבלה: <span class="eq">x=4</span> נותן <span class="eq">y=9</span>. בדיקה אלגברית: <span class="eq">x+5=9 ⇒ x=4</span> ✓. הפתרון הוא נקודת המפגש של הקו עם הקו האופקי <span class="eq">y=9</span>, בנקודה <span class="eq">(4,9)</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 2: מציאת נקודת החיתוך מטבלה</strong>
@@ -109,42 +118,42 @@
       <span class="tag med">בינוני</span></div>
     <div>פתרו את המשוואה <span class="eq">4x-1=2x+7</span> בשתי דרכים: בנו טבלה לשני הקווים <span class="eq">y=4x-1</span> ו-<span class="eq">y=2x+7</span> ומצאו את נקודת החיתוך, ואז בדקו אלגברית.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">בטבלה עבור <span class="eq">x=0..5</span>: הטור <span class="eq">y=4x-1</span> נותן <span class="eq">-1,3,7,11,15,19</span>, והטור <span class="eq">y=2x+7</span> נותן <span class="eq">7,9,11,13,15,17</span>. שניהם שווים (<span class="eq">15</span>) כאשר <span class="eq">x=4</span>, ולכן נקודת החיתוך היא <span class="eq">(4,15)</span>. אלגברית: <span class="eq">4x-1=2x+7 \Rightarrow 2x=8 \Rightarrow x=4</span> ✓.</div>
+    <div class="sol">בטבלה עבור <span class="eq">x=0..5</span>: הטור <span class="eq">y=4x-1</span> נותן <span class="eq">-1,3,7,11,15,19</span>, והטור <span class="eq">y=2x+7</span> נותן <span class="eq">7,9,11,13,15,17</span>. שניהם שווים (<span class="eq">15</span>) כאשר <span class="eq">x=4</span>, ולכן נקודת החיתוך היא <span class="eq">(4,15)</span>. אלגברית: <span class="eq">4x-1=2x+7 ⇒ 2x=8 ⇒ x=4</span> ✓.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 4: אתגר: שני מסלולי חדר כושר</strong>
       <span class="tag hard">מאתגר</span></div>
     <div>מסלול א׳ עולה <span class="eq">50</span> ₪ דמי בסיס ועוד <span class="eq">10</span> ₪ לכל כניסה: <span class="eq">y=10x+50</span>. מסלול ב׳ עולה <span class="eq">20</span> ₪ דמי בסיס ועוד <span class="eq">15</span> ₪ לכל כניסה: <span class="eq">y=15x+20</span> (<span class="eq">x</span> מספר הכניסות). מתי העלות שווה, ומי משתלם יותר עבור <span class="eq">3</span> כניסות ועבור <span class="eq">10</span> כניסות?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">משווים: <span class="eq">10x+50=15x+20 \Rightarrow 30=5x \Rightarrow x=6</span>. העלות המשותפת: <span class="eq">10×6+50=110</span> ₪, כלומר נקודת המפגש <span class="eq">(6,110)</span>. עבור <span class="eq">3</span> כניסות (לפני <span class="eq">6</span>): מסלול ב׳ זול יותר — <span class="eq">15×3+20=65</span> מול <span class="eq">10×3+50=80</span>. עבור <span class="eq">10</span> כניסות (אחרי <span class="eq">6</span>): מסלול א׳ זול יותר — <span class="eq">10×10+50=150</span> מול <span class="eq">15×10+20=170</span>.</div>
+    <div class="sol">משווים: <span class="eq">10x+50=15x+20 ⇒ 30=5x ⇒ x=6</span>. העלות המשותפת: <span class="eq">10×6+50=110</span> ₪, כלומר נקודת המפגש <span class="eq">(6,110)</span>. עבור <span class="eq">3</span> כניסות (לפני <span class="eq">6</span>): מסלול ב׳ זול יותר — <span class="eq">15×3+20=65</span> מול <span class="eq">10×3+50=80</span>. עבור <span class="eq">10</span> כניסות (אחרי <span class="eq">6</span>): מסלול א׳ זול יותר — <span class="eq">10×10+50=150</span> מול <span class="eq">15×10+20=170</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 5: פתרון מקו בודד</strong>
       <span class="tag easy">קל</span></div>
     <div>פתרו את המשוואה <span class="eq">2x+5=13</span> בעזרת ערכי הקו <span class="eq">y=2x+5</span>.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">בטבלה <span class="eq">y=2x+5</span> מגיע ל-<span class="eq">13</span> כאשר <span class="eq">x=4</span>. אלגברית: <span class="eq">2x=8 \Rightarrow x=4</span> ✓. זוהי נקודת המפגש של הקו עם הקו האופקי <span class="eq">y=13</span>.</div>
+    <div class="sol">בטבלה <span class="eq">y=2x+5</span> מגיע ל-<span class="eq">13</span> כאשר <span class="eq">x=4</span>. אלגברית: <span class="eq">2x=8 ⇒ x=4</span> ✓. זוהי נקודת המפגש של הקו עם הקו האופקי <span class="eq">y=13</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 6: פתרון גרפי ואלגברי</strong>
       <span class="tag med">בינוני</span></div>
     <div>פתרו את המשוואה <span class="eq">3x+1=x+9</span> בשתי דרכים: בעזרת טבלה של שני הקווים, ובדיקה אלגברית.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">הקווים <span class="eq">y=3x+1</span> ו-<span class="eq">y=x+9</span> מקבלים את אותו הערך (<span class="eq">13</span>) כאשר <span class="eq">x=4</span>, ולכן נקודת החיתוך היא <span class="eq">(4,13)</span>. אלגברית: <span class="eq">3x+1=x+9 \Rightarrow 2x=8 \Rightarrow x=4</span> ✓.</div>
+    <div class="sol">הקווים <span class="eq">y=3x+1</span> ו-<span class="eq">y=x+9</span> מקבלים את אותו הערך (<span class="eq">13</span>) כאשר <span class="eq">x=4</span>, ולכן נקודת החיתוך היא <span class="eq">(4,13)</span>. אלגברית: <span class="eq">3x+1=x+9 ⇒ 2x=8 ⇒ x=4</span> ✓.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 7: שני מסלולי תשלום</strong>
       <span class="tag med">בינוני</span></div>
     <div>מסלול א׳: <span class="eq">y=4x+30</span>; מסלול ב׳: <span class="eq">y=6x+10</span> (<span class="eq">x</span> יחידות). מתי המחיר שווה, ומי זול יותר עבור <span class="eq">3</span> יחידות?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">משווים: <span class="eq">4x+30=6x+10 \Rightarrow 20=2x \Rightarrow x=10</span>, המחיר המשותף <span class="eq">70</span> ₪. עבור <span class="eq">3</span> יחידות: א׳ <span class="eq">=4×3+30=42</span>, ב׳ <span class="eq">=6×3+10=28</span> — מסלול ב׳ זול יותר.</div>
+    <div class="sol">משווים: <span class="eq">4x+30=6x+10 ⇒ 20=2x ⇒ x=10</span>, המחיר המשותף <span class="eq">70</span> ₪. עבור <span class="eq">3</span> יחידות: א׳ <span class="eq">=4×3+30=42</span>, ב׳ <span class="eq">=6×3+10=28</span> — מסלול ב׳ זול יותר.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 8: אתגר: קווים מקבילים</strong>
       <span class="tag hard">מאתגר</span></div>
     <div>נתונים הקווים <span class="eq">y=2x+1</span> ו-<span class="eq">y=2x+7</span>. הסבירו, בעזרת מושג נקודת החיתוך, מדוע למשוואה <span class="eq">2x+1=2x+7</span> אין פתרון.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">לשני הקווים אותו שיפוע (<span class="eq">2</span>) אך <span class="eq">n</span> שונה (<span class="eq">1</span> ו-<span class="eq">7</span>), ולכן הם מקבילים ואינם נחתכים — אין נקודת חיתוך. משום כך למשוואה אין פתרון. אלגברית: <span class="eq">2x+1=2x+7 \Rightarrow 1=7</span>, טענה שקרית, ולכן אין פתרון.</div>
+    <div class="sol">לשני הקווים אותו שיפוע (<span class="eq">2</span>) אך <span class="eq">n</span> שונה (<span class="eq">1</span> ו-<span class="eq">7</span>), ולכן הם מקבילים ואינם נחתכים — אין נקודת חיתוך. משום כך למשוואה אין פתרון. אלגברית: <span class="eq">2x+1=2x+7 ⇒ 1=7</span>, טענה שקרית, ולכן אין פתרון.</div>
   </div>
 </div>
 
@@ -158,7 +167,7 @@
 <div class="credit" style="max-width:780px; margin:0 auto">© כל הזכויות שמורות ליאיר כהנא</div>
 
 <script>
-const quiz = [{"q": "לאיזה <span class=\"eq\">x</span> הקו <span class=\"eq\">y=2x+1</span> מגיע לגובה <span class=\"eq\">9</span> (כלומר, מהו פתרון המשוואה <span class=\"eq\">2x+1=9</span>)?", "o": ["<span class=\"eq\">x=4</span>", "<span class=\"eq\">x=9</span>", "<span class=\"eq\">x=5</span>", "<span class=\"eq\">x=8</span>"], "a": 0}, {"q": "מהו הפתרון של המשוואה <span class=\"eq\">ax+b=cx+d</span> בדרך גרפית?", "o": ["שיעור ה-<span class=\"eq\">x</span> של נקודת החיתוך של הקווים <span class=\"eq\">y=ax+b</span> ו-<span class=\"eq\">y=cx+d</span>", "שיעור ה-<span class=\"eq\">y</span> של נקודת החיתוך", "נקודת החיתוך של הקו <span class=\"eq\">y=ax+b</span> עם ציר <span class=\"eq\">x</span>", "השיפוע של אחד הקווים"], "a": 0}, {"q": "נכון או לא נכון: נקודת החיתוך של שני הקווים <span class=\"eq\">y=ax+b</span> ו-<span class=\"eq\">y=cx+d</span> היא בדיוק הפתרון <span class=\"eq\">(x,y)</span> של מערכת שתי המשוואות המתאימה.", "o": ["נכון", "לא נכון"], "a": 0}, {"q": "בטבלה, <span class=\"eq\">y=x+5</span> ו-<span class=\"eq\">y=3x+1</span> מקבלים את אותו הערך (<span class=\"eq\">7</span>) כאשר <span class=\"eq\">x=2</span>. מהו פתרון המשוואה <span class=\"eq\">x+5=3x+1</span>?", "o": ["<span class=\"eq\">x=2</span>", "<span class=\"eq\">x=7</span>", "<span class=\"eq\">x=3</span>", "<span class=\"eq\">x=5</span>"], "a": 0}, {"q": "נכון או לא נכון: לשני קווים עם אותו שיפוע <span class=\"eq\">m</span> אך <span class=\"eq\">n</span> שונה אין נקודת חיתוך, ולכן למשוואה המתאימה אין פתרון.", "o": ["נכון", "לא נכון"], "a": 0}];
+const quiz = [{"q": "לאיזה <span class=\"eq\">x</span> הקו <span class=\"eq\">y=2x+1</span> מגיע לגובה <span class=\"eq\">9</span> (כלומר, מהו פתרון המשוואה <span class=\"eq\">2x+1=9</span>)?", "o": ["<span class=\"eq\">x=4</span>", "<span class=\"eq\">x=9</span>", "<span class=\"eq\">x=5</span>", "<span class=\"eq\">x=8</span>"], "a": 0}, {"q": "מהו הפתרון של המשוואה <span class=\"eq\">ax+b=cx+d</span> בדרך גרפית?", "o": ["שיעור ה-<span class=\"eq\">x</span> של נקודת החיתוך של הקווים <span class=\"eq\">y=ax+b</span> ו-<span class=\"eq\">y=cx+d</span>", "שיעור ה-<span class=\"eq\">y</span> של נקודת החיתוך", "נקודת החיתוך של הקו <span class=\"eq\">y=ax+b</span> עם ציר <span class=\"eq\">x</span>", "השיפוע של אחד הקווים"], "a": 0}, {"q": "נכון או לא נכון: נקודת החיתוך של שני הקווים <span class=\"eq\">y=ax+b</span> ו-<span class=\"eq\">y=cx+d</span> היא בדיוק הפתרון <span class=\"eq\">(x,y)</span> של מערכת שתי המשוואות המתאימה.", "o": ["נכון", "לא נכון"], "a": 0}, {"q": "בטבלה, <span class=\"eq\">y=x+5</span> ו-<span class=\"eq\">y=3x+1</span> מקבלים את אותו הערך (<span class=\"eq\">7</span>) כאשר <span class=\"eq\">x=2</span>. מהו פתרון המשוואה <span class=\"eq\">x+5=3x+1</span>?", "o": ["<span class=\"eq\">x=2</span>", "<span class=\"eq\">x=7</span>", "<span class=\"eq\">x=3</span>", "<span class=\"eq\">x=5</span>"], "a": 0}, {"q": "נכון או לא נכון: לשני קווים עם אותו שיפוע <span class=\"eq\">m</span> אך גובה חיתוך שונה עם ציר ה-<span class=\"eq\">y</span> אין נקודת חיתוך, ולכן למשוואה המתאימה אין פתרון.", "o": ["נכון", "לא נכון"], "a": 0}];
 let answered = 0, correct = 0;
 document.getElementById('quiz').innerHTML = quiz.map((q, i) => `
   <div class="q">

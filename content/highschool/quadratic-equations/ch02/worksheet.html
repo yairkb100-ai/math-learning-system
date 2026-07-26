@@ -31,6 +31,15 @@
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
   .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
   .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
   .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
   .fig { text-align: center; font-size: 13px; color: #5b6780; }
@@ -65,7 +74,7 @@
     <div class="sub">משוואות ריבועיות · פרק 2 — פירוק לגורמים, השלמה לריבוע, נוסחת השורשים והדיסקרימיננט Δ</div>
     <div class="namebar"><span>שם: </span><span>כיתה: </span><span>תאריך: </span></div>
   </header>
-  <div class="note-box" style="background:#eef3fe; border-inline-start:4px solid #2f6fed; padding:10px 14px; border-radius:6px; font-size:14px; margin:18px 0">נוסחת השורשים: <span class="eq">x = (−b ± √(b² − 4ac)) / 2a</span>. הדיסקרימיננט: <span class="eq">Δ = b² − 4ac</span>. זכרו — <span class="eq">Δ > 0</span>: שני פתרונות, <span class="eq">Δ = 0</span>: פתרון יחיד, <span class="eq">Δ < 0</span>: אין פתרון ממשי.</div>
+  <div class="note-box" style="background:#eef3fe; border-inline-start:4px solid #2f6fed; padding:10px 14px; border-radius:6px; font-size:14px; margin:18px 0">נוסחת השורשים: <span class="eq">x = (−b ± √(b² − 4ac)) / 2a</span>. הדיסקרימיננט: <span class="eq">Δ = b² − 4ac</span>. זכרו — <span class="eq">Δ &gt; 0</span>: שני פתרונות, <span class="eq">Δ = 0</span>: פתרון יחיד, <span class="eq">Δ &lt; 0</span>: אין פתרון ממשי.</div>
   
   <h2 class="q">שאלה 1 — פירוק לגורמים — חימום <span class="tag easy">קל</span></h2>
   <p>מצאו שני מספרים שמכפלתם היא האיבר החופשי וסכומם הוא <span class="eq">−b</span>, ופתרו:</p><ol type="a"><li><span class="eq">x² − 7x + 12 = 0</span></li><li><span class="eq">x² − 5x + 6 = 0</span></li><li><span class="eq">x² + 5x + 6 = 0</span></li><li><span class="eq">x² − x − 6 = 0</span></li></ol>
@@ -115,14 +124,14 @@
 <div class="ans"><strong>שאלה 2.</strong> א. <span class="eq">(x + 5)(x − 3) = 0</span> → <span class="eq">x = −5, 3</span> &nbsp; ב. <span class="eq">(x − 4)(x − 5) = 0</span> → <span class="eq">x = 4, 5</span> &nbsp; ג. <span class="eq">(x − 5)(x + 2) = 0</span> → <span class="eq">x = 5, −2</span></div>
 <div class="ans"><strong>שאלה 3.</strong> א. <span class="eq">x = 3</span> או <span class="eq">x = 4</span> &nbsp; ב. <span class="eq">x = −2</span> או <span class="eq">x = 7</span> &nbsp; ג. <span class="eq">x = 0</span> או <span class="eq">x = 5</span></div>
 <div class="ans"><strong>שאלה 4.</strong> א. <span class="eq">(x + 3)² = 4</span> → <span class="eq">x = −1, −5</span> &nbsp; ב. <span class="eq">(x − 2)² = 9</span> → <span class="eq">x = 5, −1</span> &nbsp; ג. <span class="eq">(x + 1)² = 9</span> → <span class="eq">x = 2, −4</span></div>
-<div class="ans"><strong>שאלה 5.</strong> א. <span class="eq">Δ = 25 − 24 = 1 > 0</span> → 2 פתרונות &nbsp; ב. <span class="eq">Δ = 16 − 16 = 0</span> → פתרון יחיד &nbsp; ג. <span class="eq">Δ = 1 − 4 = −3 < 0</span> → אין פתרון &nbsp; ד. <span class="eq">Δ = 9 − 40 = −31 < 0</span> → אין פתרון</div>
+<div class="ans"><strong>שאלה 5.</strong> א. <span class="eq">Δ = 25 − 24 = 1 &gt; 0</span> → 2 פתרונות &nbsp; ב. <span class="eq">Δ = 16 − 16 = 0</span> → פתרון יחיד &nbsp; ג. <span class="eq">Δ = 1 − 4 = −3 &lt; 0</span> → אין פתרון &nbsp; ד. <span class="eq">Δ = 9 − 40 = −31 &lt; 0</span> → אין פתרון</div>
 <div class="ans"><strong>שאלה 6.</strong> א. <span class="eq">Δ = 16, x = (−2 ± 4)/2</span> → <span class="eq">x = 1, −3</span> &nbsp; ב. <span class="eq">Δ = 4, x = (6 ± 2)/2</span> → <span class="eq">x = 4, 2</span> &nbsp; ג. <span class="eq">Δ = 0, x = −2</span> (פתרון יחיד)</div>
 <div class="ans"><strong>שאלה 7.</strong> א. <span class="eq">Δ = 16 + 48 = 64, x = (4 ± 8)/4</span> → <span class="eq">x = 3, −1</span> &nbsp; ב. <span class="eq">Δ = 25 + 24 = 49, x = (5 ± 7)/6</span> → <span class="eq">x = 2, −1/3</span> &nbsp; ג. <span class="eq">Δ = 49 − 24 = 25, x = (−7 ± 5)/4</span> → <span class="eq">x = −1/2, −3</span></div>
 <div class="ans"><strong>שאלה 8.</strong> א. פירוק: <span class="eq">(x − 3)(x − 5) = 0</span> → <span class="eq">x = 3, 5</span> &nbsp; ב. נוסחה: <span class="eq">Δ = 4 + 16 = 20, x = 1 ± √5</span></div>
-<div class="ans"><strong>שאלה 9.</strong> א. <span class="eq">Δ = 9 > 0</span> → 2 פתרונות, הפרבולה חותכת פעמיים &nbsp; ב. <span class="eq">Δ = 0</span> → פתרון יחיד, נוגעת בנקודה אחת &nbsp; ג. <span class="eq">Δ = −5 < 0</span> → אין פתרון, אינה נוגעת בציר</div>
+<div class="ans"><strong>שאלה 9.</strong> א. <span class="eq">Δ = 9 &gt; 0</span> → 2 פתרונות, הפרבולה חותכת פעמיים &nbsp; ב. <span class="eq">Δ = 0</span> → פתרון יחיד, נוגעת בנקודה אחת &nbsp; ג. <span class="eq">Δ = −5 &lt; 0</span> → אין פתרון, אינה נוגעת בציר</div>
 <div class="ans"><strong>שאלה 10.</strong> <span class="eq">Δ = 100 − 100 = 0</span> → פתרון יחיד <span class="eq">x = 10/2 = 5</span>; המשוואה היא <span class="eq">(x − 5)² = 0</span>.</div>
 <div class="ans"><strong>שאלה 11.</strong> <span class="eq">Δ = 36 − 4c = 0</span> → <span class="eq">4c = 36</span> → <span class="eq">c = 9</span>.</div>
-<div class="ans"><strong>שאלה 12.</strong> <span class="eq">Δ = 4 − 20 = −16 < 0</span> → אין פתרון ממשי. הפרבולה <span class="eq">y = x² + 2x + 5</span> כולה מעל ציר ה-<span class="eq">x</span> ואינה חותכת אותו.</div>
+<div class="ans"><strong>שאלה 12.</strong> <span class="eq">Δ = 4 − 20 = −16 &lt; 0</span> → אין פתרון ממשי. הפרבולה <span class="eq">y = x² + 2x + 5</span> כולה מעל ציר ה-<span class="eq">x</span> ואינה חותכת אותו.</div>
   <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
 </div>
 </body>

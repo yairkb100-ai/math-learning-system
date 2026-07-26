@@ -31,6 +31,15 @@
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
   .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #4a1f8a; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
   .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #4a1f8a; height: 1em; }
   .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
   .fig { text-align: center; font-size: 13px; color: #5b6780; }
@@ -72,7 +81,7 @@
 <li>מדוע משפט הקוסינוסים הוא הכללה של פיתגורס?</li>
 <li><span class="eq">a = 6, b = 8, C = 90°</span>. מצאו <span class="eq">c</span>.</li>
 <li>כתבו נוסחה ל-<span class="eq">cos C</span> כאשר נתונות שלוש הצלעות.</li>
-<li>אם <span class="eq">c² > a² + b²</span>, איזו זווית היא <span class="eq">C</span>?</li>
+<li>אם <span class="eq">c² &gt; a² + b²</span>, איזו זווית היא <span class="eq">C</span>?</li>
   </ol>
   <h2 class="sec">חלק ב' — צז"צ 📏 (שאלות 6–10)</h2>
   <ol class="items" start="6">
@@ -118,7 +127,7 @@
 <div class="ans"><strong>2.</strong> כי כאשר <span class="eq">C = 90°</span>, <span class="eq">cos C = 0</span> והנוסחה הופכת ל-<span class="eq">c² = a² + b²</span>.</div>
 <div class="ans"><strong>3.</strong> <span class="eq">c² = 36 + 64 − 0 = 100</span> → <span class="eq">c = 10</span>.</div>
 <div class="ans"><strong>4.</strong> <span class="eq">cos C = (a² + b² − c²) / 2ab</span>.</div>
-<div class="ans"><strong>5.</strong> קהה (<span class="eq">cos C < 0</span>).</div>
+<div class="ans"><strong>5.</strong> קהה (<span class="eq">cos C &lt; 0</span>).</div>
 <div class="ans"><strong>6.</strong> <span class="eq">c² = 25 + 49 − 70·0.5 = 39</span> → <span class="eq">c ≈ 6.24</span>.</div>
 <div class="ans"><strong>7.</strong> <span class="eq">c² = 100 + 36 − 120·0.707 ≈ 51.2</span> → <span class="eq">c ≈ 7.15</span>.</div>
 <div class="ans"><strong>8.</strong> <span class="eq">c² = 64 + 64 − 128·0.5 = 64</span> → <span class="eq">c = 8</span> (שווה-צלעות).</div>

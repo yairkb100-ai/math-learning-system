@@ -31,6 +31,15 @@
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
   .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
   .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
   .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
   .fig { text-align: center; font-size: 13px; color: #5b6780; }
@@ -93,21 +102,21 @@
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 1: הצבה</strong>
       <span class="tag easy">קל</span></div>
-    <div>פתרו את המערכת: <span class="eq">y=x+3,\ x+y=17</span>.</div>
+    <div>פתרו את המערכת: <span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>y=x+3</span><span>x+y=17</span></span></span>.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol"><span class="eq">x+(x+3)=17 \Rightarrow 2x=14 \Rightarrow x=7</span>. אז <span class="eq">y=10</span>.</div>
+    <div class="sol"><span class="eq">x+(x+3)=17 ⇒ 2x=14 ⇒ x=7</span>. אז <span class="eq">y=10</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 2: חיבור ישיר</strong>
       <span class="tag easy">קל</span></div>
-    <div>פתרו את המערכת: <span class="eq">x+y=12,\ x-y=4</span>.</div>
+    <div>פתרו את המערכת: <span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>x+y=12</span><span>x-y=4</span></span></span>.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">מחברים: <span class="eq">2x=16 \Rightarrow x=8</span>. מציבים: <span class="eq">8+y=12 \Rightarrow y=4</span>.</div>
+    <div class="sol">מחברים: <span class="eq">2x=16 ⇒ x=8</span>. מציבים: <span class="eq">8+y=12 ⇒ y=4</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 3: חיסור</strong>
       <span class="tag med">בינוני</span></div>
-    <div>פתרו את המערכת: <span class="eq">2x+y=13,\ x+y=8</span>.</div>
+    <div>פתרו את המערכת: <span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>2x+y=13</span><span>x+y=8</span></span></span>.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
     <div class="sol">מחסרים את המשוואה השנייה מהראשונה: <span class="eq">x=5</span>. מציבים ב-<span class="eq">x+y=8</span>: <span class="eq">y=3</span>.</div>
   </div>
@@ -116,49 +125,49 @@
       <span class="tag hard">מאתגר</span></div>
     <div>סכום שני מספרים הוא 24, וההפרש ביניהם 6. מצאו את המספרים.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol"><span class="eq">x+y=24,\ x-y=6</span>. מחברים: <span class="eq">2x=30 \Rightarrow x=15</span>. מציבים: <span class="eq">15+y=24 \Rightarrow y=9</span>. המספרים: 15 ו-9.</div>
+    <div class="sol"><span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>x+y=24</span><span>x-y=6</span></span></span>. מחברים: <span class="eq">2x=30 ⇒ x=15</span>. מציבים: <span class="eq">15+y=24 ⇒ y=9</span>. המספרים: 15 ו-9.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 5: הצבה — תרגול נוסף</strong>
       <span class="tag easy">קל</span></div>
-    <div>פתרו: <span class="eq">y=x+5,\ x+y=21</span></div>
+    <div>פתרו: <span class="eq">y=x+5, x+y=21</span></div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol"><span class="eq">x+(x+5)=21 \Rightarrow 2x=16 \Rightarrow x=8</span>. אז <span class="eq">y=13</span>.</div>
+    <div class="sol"><span class="eq">x+(x+5)=21 ⇒ 2x=16 ⇒ x=8</span>. אז <span class="eq">y=13</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 6: חיסור בין משוואות</strong>
       <span class="tag med">בינוני</span></div>
-    <div>פתרו: <span class="eq">3x+y=20,\ x+y=8</span></div>
+    <div>פתרו: <span class="eq">3x+y=20, x+y=8</span></div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">מחסרים: <span class="eq">2x=12 \Rightarrow x=6</span>. מציבים: <span class="eq">y=2</span>.</div>
+    <div class="sol">מחסרים: <span class="eq">2x=12 ⇒ x=6</span>. מציבים: <span class="eq">y=2</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 7: עטים ועיפרונות</strong>
       <span class="tag med">בינוני</span></div>
     <div>יובל קנה 3 עטים ועיפרון אחד ב-17 ₪. שירה קנתה עט אחד ועיפרון אחד ב-9 ₪. מצאו את מחירי העט והעיפרון.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol"><span class="eq">3x+y=17,\ x+y=9</span>. מחסרים: <span class="eq">2x=8 \Rightarrow x=4</span>. מציבים: <span class="eq">y=5</span>. עט 4 ₪, עיפרון 5 ₪.</div>
+    <div class="sol"><span class="eq">3x+y=17, x+y=9</span>. מחסרים: <span class="eq">2x=8 ⇒ x=4</span>. מציבים: <span class="eq">y=5</span>. עט 4 ₪, עיפרון 5 ₪.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 8: אתגר: מטבעות בקופה</strong>
       <span class="tag hard">מאתגר</span></div>
     <div>בקופה מטבעות של 1 ₪ ו-2 ₪ בלבד, יחד 20 מטבעות בשווי 27 ₪. כמה מטבעות מכל סוג?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol"><span class="eq">a</span> — מספר מטבעות 1 ₪, <span class="eq">b</span> — מספר מטבעות 2 ₪. <span class="eq">a+b=20,\ a+2b=27</span>. מחסרים: <span class="eq">b=7</span>, ולכן <span class="eq">a=13</span>.</div>
+    <div class="sol"><span class="eq">a</span> — מספר מטבעות 1 ₪, <span class="eq">b</span> — מספר מטבעות 2 ₪. <span class="eq">a+b=20, a+2b=27</span>. מחסרים: <span class="eq">b=7</span>, ולכן <span class="eq">a=13</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 9: הכפלה לפני אלימינציה</strong>
       <span class="tag hard">מאתגר</span></div>
     <div>פתרו: <span class="eq">2x+y=11    3x+2y=18</span></div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">מכפילים את הראשונה ב-2: <span class="eq">4x+2y=22</span>. מחסרים את השנייה: <span class="eq">x=4</span>. מציבים: <span class="eq">2×4+y=11 \Rightarrow y=3</span>.</div>
+    <div class="sol">מכפילים את הראשונה ב-2: <span class="eq">4x+2y=22</span>. מחסרים את השנייה: <span class="eq">x=4</span>. מציבים: <span class="eq">2×4+y=11 ⇒ y=3</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 10: תרנגולות וכבשים</strong>
       <span class="tag hard">מאתגר</span></div>
     <div>בחצר יש תרנגולות וכבשים, יחד 12 ראשים ו-34 רגליים. כמה מכל סוג?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol"><span class="eq">t</span> תרנגולות, <span class="eq">s</span> כבשים. <span class="eq">t+s=12    2t+4s=34</span>. מהראשונה <span class="eq">t=12-s</span>, מציבים: <span class="eq">2(12-s)+4s=34 \Rightarrow 24+2s=34 \Rightarrow s=5</span>, ולכן <span class="eq">t=7</span>. שבע תרנגולות וחמש כבשים.</div>
+    <div class="sol"><span class="eq">t</span> תרנגולות, <span class="eq">s</span> כבשים. <span class="eq">t+s=12    2t+4s=34</span>. מהראשונה <span class="eq">t=12-s</span>, מציבים: <span class="eq">2(12-s)+4s=34 ⇒ 24+2s=34 ⇒ s=5</span>, ולכן <span class="eq">t=7</span>. שבע תרנגולות וחמש כבשים.</div>
   </div>
 </div>
 
@@ -172,7 +181,7 @@
 <div class="credit" style="max-width:780px; margin:0 auto">© כל הזכויות שמורות ליאיר כהנא</div>
 
 <script>
-const quiz = [{"q": "מהו פתרון של מערכת משוואות בשני נעלמים?", "o": ["כל ערך של <span class=\"eq\">x</span> בלבד", "זוג <span class=\"eq\">(x,y)</span> שמקיים את שתי המשוואות בו-זמנית", "רק ערך של <span class=\"eq\">y</span>", "אין צורך בפתרון"], "a": 1}, {"q": "פתרו: <span class=\"eq\">x+y=10,\\ x-y=4</span>", "o": ["<span class=\"eq\">x=7,\\ y=3</span>", "<span class=\"eq\">x=3,\\ y=7</span>", "<span class=\"eq\">x=14,\\ y=6</span>", "<span class=\"eq\">x=6,\\ y=4</span>"], "a": 0}, {"q": "נכון או לא נכון: בשיטת ההצבה, מבטאים משתנה אחד באמצעות השני, ומציבים אותו במשוואה השנייה.", "o": ["נכון", "לא נכון"], "a": 0}, {"q": "פתרו: <span class=\"eq\">y=2x,\\ x+y=15</span>", "o": ["<span class=\"eq\">x=5,\\ y=10</span>", "<span class=\"eq\">x=10,\\ y=5</span>", "<span class=\"eq\">x=15,\\ y=30</span>", "<span class=\"eq\">x=3,\\ y=6</span>"], "a": 0}, {"q": "נכון או לא נכון: כדי לבדוק פתרון של מערכת משוואות, מספיק להציב אותו במשוואה אחת בלבד.", "o": ["נכון", "לא נכון"], "a": 1}];
+const quiz = [{"q": "מהו פתרון של מערכת משוואות בשני נעלמים?", "o": ["כל ערך של <span class=\"eq\">x</span> בלבד", "זוג <span class=\"eq\">(x,y)</span> שמקיים את שתי המשוואות בו-זמנית", "רק ערך של <span class=\"eq\">y</span>", "אין צורך בפתרון"], "a": 1}, {"q": "פתרו: <span class=\"sys\"><span class=\"sysbrace\">{</span><span class=\"syseq\"><span>x+y=10</span><span>x-y=4</span></span></span>", "o": ["<span class=\"eq\">x=7, y=3</span>", "<span class=\"eq\">x=3, y=7</span>", "<span class=\"eq\">x=14, y=6</span>", "<span class=\"eq\">x=6, y=4</span>"], "a": 0}, {"q": "נכון או לא נכון: בשיטת ההצבה, מבטאים משתנה אחד באמצעות השני, ומציבים אותו במשוואה השנייה.", "o": ["נכון", "לא נכון"], "a": 0}, {"q": "פתרו: <span class=\"sys\"><span class=\"sysbrace\">{</span><span class=\"syseq\"><span>y=2x</span><span>x+y=15</span></span></span>", "o": ["<span class=\"eq\">x=5, y=10</span>", "<span class=\"eq\">x=10, y=5</span>", "<span class=\"eq\">x=15, y=30</span>", "<span class=\"eq\">x=3, y=6</span>"], "a": 0}, {"q": "נכון או לא נכון: כדי לבדוק פתרון של מערכת משוואות, מספיק להציב אותו במשוואה אחת בלבד.", "o": ["נכון", "לא נכון"], "a": 1}];
 let answered = 0, correct = 0;
 document.getElementById('quiz').innerHTML = quiz.map((q, i) => `
   <div class="q">

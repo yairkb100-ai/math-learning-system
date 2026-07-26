@@ -31,6 +31,15 @@
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
   .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
   .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
   .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
   .fig { text-align: center; font-size: 13px; color: #5b6780; }
@@ -95,28 +104,28 @@
       <span class="tag easy">קל</span></div>
     <div>חשבו את שטח משולש שצלעותיו 8 ו-5 ס"מ והזווית ביניהן <span class="eq">60°</span>.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol"><span class="eq">S = <span class="fr"><b>1</b><i>2</i></span> · 8 · 5 · \sin 60° = 20 · 0.866 \approx 17.32</span> סמ"ר.</div>
+    <div class="sol"><span class="eq">S = <span class="fr"><b>1</b><i>2</i></span> · 8 · 5 · sin 60° = 20 · 0.866 ≈ 17.32</span> סמ"ר.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 2: משולש שווה-צלעות</strong>
       <span class="tag med">בינוני</span></div>
     <div>חשבו את שטח משולש שווה-צלעות שאורך צלעו 6 ס"מ, בעזרת הנוסחה הטריגונומטרית.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol"><span class="eq">S = <span class="fr"><b>1</b><i>2</i></span> · 6 · 6 · \sin 60° = 18 · 0.866 \approx 15.59</span> סמ"ר (בדיוק <span class="eq">9\sqrt{3}</span>).</div>
+    <div class="sol"><span class="eq">S = <span class="fr"><b>1</b><i>2</i></span> · 6 · 6 · sin 60° = 18 · 0.866 ≈ 15.59</span> סמ"ר (בדיוק <span class="eq">9√<span class="rad">3</span></span>).</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 3: זווית מתוך שטח</strong>
       <span class="tag med">בינוני</span></div>
     <div>שטח משולש 20 סמ"ר, צלעותיו 9 ו-7 ס"מ. מצאו את כל הערכים האפשריים של הזווית ביניהן.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol"><span class="eq">\sin C = <span class="fr"><b>2 · 20</b><i>9 · 7</i></span> = <span class="fr"><b>40</b><i>63</i></span> \approx 0.6349</span>, ולכן <span class="eq">C \approx 39.4°</span> או <span class="eq">C \approx 140.6°</span>.</div>
+    <div class="sol"><span class="eq">sin C = <span class="fr"><b>2 · 20</b><i>9 · 7</i></span> = <span class="fr"><b>40</b><i>63</i></span> ≈ 0.6349</span>, ולכן <span class="eq">C ≈ 39.4°</span> או <span class="eq">C ≈ 140.6°</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 4: בעיה משולבת</strong>
       <span class="tag hard">מאתגר</span></div>
     <div>במשולש: <span class="eq">a = 9</span>, <span class="eq">b = 7</span> והשטח 20 סמ"ר, כאשר הזווית <span class="eq">C</span> ביניהן חדה. חשבו את הצלע <span class="eq">c</span>.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">מהתרגיל הקודם: <span class="eq">C \approx 39.4°</span> (החדה). משפט הקוסינוסים: <span class="eq">c^2 = 81 + 49 - 2 · 9 · 7 · \cos 39.4° \approx 130 - 126 · 0.7727 \approx 130 - 97.4 = 32.6</span>, ולכן <span class="eq">c \approx 5.71</span> ס"מ.</div>
+    <div class="sol">מהתרגיל הקודם: <span class="eq">C ≈ 39.4°</span> (החדה). משפט הקוסינוסים: <span class="eq">c<sup>2</sup> = 81 + 49 - 2 · 9 · 7 · cos 39.4° ≈ 130 - 126 · 0.7727 ≈ 130 - 97.4 = 32.6</span>, ולכן <span class="eq">c ≈ 5.71</span> ס"מ.</div>
   </div>
 </div>
 
@@ -130,7 +139,7 @@
 <div class="credit" style="max-width:780px; margin:0 auto">© כל הזכויות שמורות ליאיר כהנא</div>
 
 <script>
-const quiz = [{"q": "בנוסחה <span class=\"eq\">S = <span class=\"fr\"><b>1</b><i>2</i></span>ab\\sin C</span>, הזווית <span class=\"eq\">C</span> היא הזווית שבין הצלעות <span class=\"eq\">a</span> ו-<span class=\"eq\">b</span>.", "o": ["נכון", "לא נכון"], "a": 0}, {"q": "מהו שטח משולש עם צלעות 4 ו-10 וזווית <span class=\"eq\">30°</span> ביניהן?", "o": ["10", "20", "40", "17.32"], "a": 0}, {"q": "אם <span class=\"eq\">\\sin C = 0.5</span> במשולש, הזווית <span class=\"eq\">C</span> יכולה להיות <span class=\"eq\">30°</span> או <span class=\"eq\">150°</span>.", "o": ["נכון", "לא נכון"], "a": 0}, {"q": "נתונות שלוש צלעות בלבד. איזו נוסחה מאפשרת חישוב שטח ישירות?", "o": ["נוסחת הרון", "<span class=\"eq\"><span class=\"fr\"><b>1</b><i>2</i></span>ab\\sin C</span>", "משפט הסינוסים", "<span class=\"eq\"><span class=\"fr\"><b>abc</b><i>2R</i></span></span>"], "a": 0}, {"q": "כאשר הזווית בין שתי צלעות קבועות גדלה מ-<span class=\"eq\">0°</span> ל-<span class=\"eq\">90°</span>, שטח המשולש:", "o": ["גדל", "קטן", "לא משתנה", "גדל ואז קטן"], "a": 0}];
+const quiz = [{"q": "בנוסחה <span class=\"eq\">S = <span class=\"fr\"><b>1</b><i>2</i></span>absin C</span>, הזווית <span class=\"eq\">C</span> היא הזווית שבין הצלעות <span class=\"eq\">a</span> ו-<span class=\"eq\">b</span>.", "o": ["נכון", "לא נכון"], "a": 0}, {"q": "מהו שטח משולש עם צלעות 4 ו-10 וזווית <span class=\"eq\">30°</span> ביניהן?", "o": ["10", "20", "40", "17.32"], "a": 0}, {"q": "אם <span class=\"eq\">sin C = 0.5</span> במשולש, הזווית <span class=\"eq\">C</span> יכולה להיות <span class=\"eq\">30°</span> או <span class=\"eq\">150°</span>.", "o": ["נכון", "לא נכון"], "a": 0}, {"q": "נתונות שלוש צלעות בלבד. איזו נוסחה מאפשרת חישוב שטח ישירות?", "o": ["נוסחת הרון", "<span class=\"eq\"><span class=\"fr\"><b>1</b><i>2</i></span>absin C</span>", "משפט הסינוסים", "<span class=\"eq\"><span class=\"fr\"><b>abc</b><i>2R</i></span></span>"], "a": 0}, {"q": "כאשר הזווית בין שתי צלעות קבועות גדלה מ-<span class=\"eq\">0°</span> ל-<span class=\"eq\">90°</span>, שטח המשולש:", "o": ["גדל", "קטן", "לא משתנה", "גדל ואז קטן"], "a": 0}];
 let answered = 0, correct = 0;
 document.getElementById('quiz').innerHTML = quiz.map((q, i) => `
   <div class="q">

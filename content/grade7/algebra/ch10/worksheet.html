@@ -31,6 +31,15 @@
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
   .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
   .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
   .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
   .fig { text-align: center; font-size: 13px; color: #5b6780; }
@@ -68,16 +77,16 @@
   <div class="note-box" style="background:#eef3fe; border-inline-start:4px solid #2f6fed; padding:10px 14px; border-radius:6px; font-size:14px; margin:18px 0">פותרים אי-שוויון באותם כללים כמו משוואה. הכלל הקריטי: כשכופלים או מחלקים את שני האגפים במספר שלילי, כיוון האי-שוויון מתהפך. הפתרון הוא קבוצה שלמה של מספרים, לא ערך יחיד.</div>
   
   <h2 class="q">שאלה 1 — אי-שוויון בסיסי <span class="tag easy">קל</span></h2>
-  <p>פתרו:</p><ol type="a"><li><span class="eq">x+7>16</span> ⟵ <span class="blank"></span></li><li><span class="eq">x-5≤9</span> ⟵ <span class="blank"></span></li><li><span class="eq">6x<30</span> ⟵ <span class="blank"></span></li><li><span class="eq">x/3≥7</span> ⟵ <span class="blank"></span></li></ol>
+  <p>פתרו:</p><ol type="a"><li><span class="eq">x+7&gt;16</span> ⟵ <span class="blank"></span></li><li><span class="eq">x-5≤9</span> ⟵ <span class="blank"></span></li><li><span class="eq">6x&lt;30</span> ⟵ <span class="blank"></span></li><li><span class="eq">x/3≥7</span> ⟵ <span class="blank"></span></li></ol>
   
   <h2 class="q">שאלה 2 — שני צעדים <span class="tag easy">קל</span></h2>
-  <p>פתרו:</p><ol type="a"><li><span class="eq">3x+5>20</span> ⟵ <span class="blank"></span></li><li><span class="eq">4x-3≤25</span> ⟵ <span class="blank"></span></li></ol>
+  <p>פתרו:</p><ol type="a"><li><span class="eq">3x+5&gt;20</span> ⟵ <span class="blank"></span></li><li><span class="eq">4x-3≤25</span> ⟵ <span class="blank"></span></li></ol>
   <div class="lines"><div></div><div></div></div>
   <h2 class="q">שאלה 3 — חילוק במספר שלילי <span class="tag med">בינוני</span></h2>
-  <p>פתרו:</p><ol type="a"><li><span class="eq">-x≥8</span> ⟵ <span class="blank"></span></li><li><span class="eq">-5x>25</span> ⟵ <span class="blank"></span></li></ol>
+  <p>פתרו:</p><ol type="a"><li><span class="eq">-x≥8</span> ⟵ <span class="blank"></span></li><li><span class="eq">-5x&gt;25</span> ⟵ <span class="blank"></span></li></ol>
   <div class="lines"><div></div><div></div></div>
   <h2 class="q">שאלה 4 — עוד חילוק שלילי <span class="tag med">בינוני</span></h2>
-  <p>פתרו:</p><ol type="a"><li><span class="eq">-2x≤-14</span> ⟵ <span class="blank"></span></li><li><span class="eq">-3x<-9</span> ⟵ <span class="blank"></span></li></ol>
+  <p>פתרו:</p><ol type="a"><li><span class="eq">-2x≤-14</span> ⟵ <span class="blank"></span></li><li><span class="eq">-3x&lt;-9</span> ⟵ <span class="blank"></span></li></ol>
   <div class="lines"><div></div><div></div></div>
   <h2 class="q">שאלה 5 — תקציב לכרטיסים <span class="tag med">בינוני</span></h2>
   <p>מחיר כרטיס הוא x שקלים. קבוצה קונה 4 כרטיסים ורוצה לשלם פחות מ-100 ₪. כתבו אי-שוויון ופתרו.</p>
@@ -89,7 +98,7 @@
   <p>פתרו: <span class="eq">6x-4 ≥ 3x+11</span></p>
   <div class="lines"><div></div><div></div></div>
   <h2 class="q">שאלה 8 — אתגר: מינוס משני הצדדים <span class="tag hard">מאתגר</span></h2>
-  <p>פתרו: <span class="eq">9-3x<2x-6</span></p>
+  <p>פתרו: <span class="eq">9-3x&lt;2x-6</span></p>
   <div class="lines"><div></div><div></div></div>
   <h2 class="q">שאלה 9 — אתגר: תקציב לספרים <span class="tag hard">מאתגר</span></h2>
   <p>ספר עולה 12 ₪. התקציב הוא עד 90 ₪. כמה ספרים לכל היותר אפשר לקנות? כתבו אי-שוויון ופתרו.</p>
@@ -98,7 +107,7 @@
   <p>הטמפרטורה נתונה בביטוי <span class="eq">-2h+15</span> (h מספר השעות). אחרי כמה שעות לפחות הטמפרטורה תהיה 3 מעלות או פחות? פתרו: <span class="eq">-2h+15 ≤ 3</span></p>
   <div class="lines"><div></div><div></div><div></div></div>
   <h2 class="q">שאלה 11 — אתגר: סוגריים באי-שוויון <span class="tag hard">מאתגר</span></h2>
-  <p>פתרו: <span class="eq">4(x-1)>2x+6</span></p>
+  <p>פתרו: <span class="eq">4(x-1)&gt;2x+6</span></p>
   <div class="lines"><div></div><div></div></div>
   <h2 class="q">שאלה 12 — אתגר: בדקו טענה <span class="tag hard">מאתגר</span></h2>
   <p>טענה: "הפתרון של <span class="eq">5-2x≥1</span> הוא <span class="eq">x≥2</span>". בדקו אם נכון, ומצאו את הפתרון הנכון.</p>
@@ -111,17 +120,17 @@
     <h1>🔑 דף פתרונות למורה — פרק 10: אי-שוויונות ממעלה ראשונה</h1>
     <div class="sub">לא לחלוקה לתלמידים</div>
   </header>
-  <div class="ans"><strong>שאלה 1.</strong> א. <span class="eq">x>9</span> &nbsp; ב. <span class="eq">x≤14</span> &nbsp; ג. <span class="eq">x<5</span> &nbsp; ד. <span class="eq">x≥21</span></div>
-<div class="ans"><strong>שאלה 2.</strong> א. <span class="eq">x>5</span> &nbsp; ב. <span class="eq">x≤7</span></div>
-<div class="ans"><strong>שאלה 3.</strong> א. <span class="eq">x≤-8</span> &nbsp; ב. <span class="eq">x<-5</span></div>
-<div class="ans"><strong>שאלה 4.</strong> א. <span class="eq">x≥7</span> &nbsp; ב. <span class="eq">x>3</span></div>
-<div class="ans"><strong>שאלה 5.</strong> <span class="eq">4x<100</span> ⟵ <span class="eq">x<25</span></div>
+  <div class="ans"><strong>שאלה 1.</strong> א. <span class="eq">x&gt;9</span> &nbsp; ב. <span class="eq">x≤14</span> &nbsp; ג. <span class="eq">x&lt;5</span> &nbsp; ד. <span class="eq">x≥21</span></div>
+<div class="ans"><strong>שאלה 2.</strong> א. <span class="eq">x&gt;5</span> &nbsp; ב. <span class="eq">x≤7</span></div>
+<div class="ans"><strong>שאלה 3.</strong> א. <span class="eq">x≤-8</span> &nbsp; ב. <span class="eq">x&lt;-5</span></div>
+<div class="ans"><strong>שאלה 4.</strong> א. <span class="eq">x≥7</span> &nbsp; ב. <span class="eq">x&gt;3</span></div>
+<div class="ans"><strong>שאלה 5.</strong> <span class="eq">4x&lt;100</span> ⟵ <span class="eq">x&lt;25</span></div>
 <div class="ans"><strong>שאלה 6.</strong> <span class="eq">2x+3≥35</span> ⟵ <span class="eq">x≥16</span></div>
 <div class="ans"><strong>שאלה 7.</strong> <span class="eq">x≥5</span></div>
-<div class="ans"><strong>שאלה 8.</strong> <span class="eq">x>3</span></div>
+<div class="ans"><strong>שאלה 8.</strong> <span class="eq">x&gt;3</span></div>
 <div class="ans"><strong>שאלה 9.</strong> <span class="eq">12x≤90</span> ⟵ <span class="eq">x≤7.5</span>, ולכן לכל היותר 7 ספרים</div>
 <div class="ans"><strong>שאלה 10.</strong> <span class="eq">h≥6</span> שעות</div>
-<div class="ans"><strong>שאלה 11.</strong> <span class="eq">x>5</span></div>
+<div class="ans"><strong>שאלה 11.</strong> <span class="eq">x&gt;5</span></div>
 <div class="ans"><strong>שאלה 12.</strong> לא נכון — הכיוון ההפוך: <span class="eq">x≤2</span></div>
   <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
 </div>

@@ -31,6 +31,15 @@
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
   .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
   .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
   .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
   .fig { text-align: center; font-size: 13px; color: #5b6780; }
@@ -93,23 +102,23 @@
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 1: חזקות בסיסיות</strong>
       <span class="tag easy">קל</span></div>
-    <div>חשבו:<br><br>א. <span class="eq">(-2)^2</span><br>ב. <span class="eq">(-1)^3</span></div>
+    <div>חשבו:<br><br>א. <span class="eq">(-2)<sup>2</sup></span><br>ב. <span class="eq">(-1)<sup>3</sup></span></div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">א. מעריך זוגי ← חיובי: <span class="eq">(-2)^2 = 4</span>.<br>ב. מעריך אי-זוגי ← שלילי: <span class="eq">(-1)^3 = -1</span>.</div>
+    <div class="sol">א. מעריך זוגי ← חיובי: <span class="eq">(-2)<sup>2</sup> = 4</span>.<br>ב. מעריך אי-זוגי ← שלילי: <span class="eq">(-1)<sup>3</sup> = -1</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 2: חזקות גדולות יותר</strong>
       <span class="tag easy">קל</span></div>
-    <div>חשבו:<br><br>א. <span class="eq">(-10)^2</span><br>ב. <span class="eq">(-2)^5</span></div>
+    <div>חשבו:<br><br>א. <span class="eq">(-10)<sup>2</sup></span><br>ב. <span class="eq">(-2)<sup>5</sup></span></div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">א. מעריך זוגי ← חיובי: <span class="eq">(-10)^2 = 100</span>.<br>ב. מעריך אי-זוגי ← שלילי: <span class="eq">(-2)^5 = -32</span>.</div>
+    <div class="sol">א. מעריך זוגי ← חיובי: <span class="eq">(-10)<sup>2</sup> = 100</span>.<br>ב. מעריך אי-זוגי ← שלילי: <span class="eq">(-2)<sup>5</sup> = -32</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 3: המלכודת של הסוגריים</strong>
       <span class="tag med">בינוני</span></div>
-    <div>חשבו והשוו: <span class="eq">(-4)^2</span> ו-<span class="eq">-4^2</span>.</div>
+    <div>חשבו והשוו: <span class="eq">(-4)<sup>2</sup></span> ו-<span class="eq">-4<sup>2</sup></span>.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol"><span class="eq">(-4)^2 = (-4) × (-4) = 16</span> (המינוס נכנס לחזקה). <span class="eq">-4^2 = -(4^2) = -16</span> (המינוס נשאר בחוץ). אותן ספרות, סימן הפוך.</div>
+    <div class="sol"><span class="eq">(-4)<sup>2</sup> = (-4) × (-4) = 16</span> (המינוס נכנס לחזקה). <span class="eq">-4<sup>2</sup> = -(4<sup>2</sup>) = -16</span> (המינוס נשאר בחוץ). אותן ספרות, סימן הפוך.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 4: אתגר: הצוללן</strong>
@@ -121,23 +130,23 @@
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 5: מעריך זוגי</strong>
       <span class="tag easy">קל</span></div>
-    <div>חשבו: <span class="eq">(-2)^4</span>.</div>
+    <div>חשבו: <span class="eq">(-2)<sup>4</sup></span>.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">מעריך זוגי ← חיובי: <span class="eq">(-2)^4 = 16</span>.</div>
+    <div class="sol">מעריך זוגי ← חיובי: <span class="eq">(-2)<sup>4</sup> = 16</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 6: עם ובלי סוגריים</strong>
       <span class="tag med">בינוני</span></div>
-    <div>חשבו והשוו: <span class="eq">(-3)^2</span> ו-<span class="eq">-3^2</span>.</div>
+    <div>חשבו והשוו: <span class="eq">(-3)<sup>2</sup></span> ו-<span class="eq">-3<sup>2</sup></span>.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol"><span class="eq">(-3)^2 = 9</span> (המינוס נכנס לחזקה), אבל <span class="eq">-3^2 = -(3^2) = -9</span> (המינוס בחוץ).</div>
+    <div class="sol"><span class="eq">(-3)<sup>2</sup> = 9</span> (המינוס נכנס לחזקה), אבל <span class="eq">-3<sup>2</sup> = -(3<sup>2</sup>) = -9</span> (המינוס בחוץ).</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 7: מעריך גדול</strong>
       <span class="tag med">בינוני</span></div>
-    <div>חשבו: <span class="eq">(-1)^{10}</span>.</div>
+    <div>חשבו: <span class="eq">(-1)<sup>10</sup></span>.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">מעריך זוגי ← חיובי: <span class="eq">(-1)^{10} = 1</span>.</div>
+    <div class="sol">מעריך זוגי ← חיובי: <span class="eq">(-1)<sup>10</sup> = 1</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 8: אתגר: חשבון הבנק</strong>
@@ -158,7 +167,7 @@
 <div class="credit" style="max-width:780px; margin:0 auto">© כל הזכויות שמורות ליאיר כהנא</div>
 
 <script>
-const quiz = [{"q": "כמה זה <span class=\"eq\">(-2)^3</span>?", "o": ["<span class=\"eq\">-8</span>", "<span class=\"eq\">8</span>", "<span class=\"eq\">-6</span>", "<span class=\"eq\">6</span>"], "a": 0}, {"q": "כמה זה <span class=\"eq\">(-3)^2</span>?", "o": ["<span class=\"eq\">9</span>", "<span class=\"eq\">-9</span>", "<span class=\"eq\">6</span>", "<span class=\"eq\">-6</span>"], "a": 0}, {"q": "כמה זה <span class=\"eq\">-2^2</span>?", "o": ["<span class=\"eq\">-4</span>", "<span class=\"eq\">4</span>", "<span class=\"eq\">-2</span>", "<span class=\"eq\">2</span>"], "a": 0}, {"q": "נכון או לא נכון: <span class=\"eq\">(-1)^{100}</span> שווה ל-<span class=\"eq\">1</span>.", "o": ["נכון", "לא נכון"], "a": 0}, {"q": "מה הסימן של <span class=\"eq\">(-5)^7</span>?", "o": ["שלילי", "חיובי", "אפס", "אי אפשר לדעת"], "a": 0}];
+const quiz = [{"q": "כמה זה <span class=\"eq\">(-2)<sup>3</sup></span>?", "o": ["<span class=\"eq\">-8</span>", "<span class=\"eq\">8</span>", "<span class=\"eq\">-6</span>", "<span class=\"eq\">6</span>"], "a": 0}, {"q": "כמה זה <span class=\"eq\">(-3)<sup>2</sup></span>?", "o": ["<span class=\"eq\">9</span>", "<span class=\"eq\">-9</span>", "<span class=\"eq\">6</span>", "<span class=\"eq\">-6</span>"], "a": 0}, {"q": "כמה זה <span class=\"eq\">-2<sup>2</sup></span>?", "o": ["<span class=\"eq\">-4</span>", "<span class=\"eq\">4</span>", "<span class=\"eq\">-2</span>", "<span class=\"eq\">2</span>"], "a": 0}, {"q": "נכון או לא נכון: <span class=\"eq\">(-1)<sup>100</sup></span> שווה ל-<span class=\"eq\">1</span>.", "o": ["נכון", "לא נכון"], "a": 0}, {"q": "מה הסימן של <span class=\"eq\">(-5)<sup>7</sup></span>?", "o": ["שלילי", "חיובי", "אפס", "אי אפשר לדעת"], "a": 0}];
 let answered = 0, correct = 0;
 document.getElementById('quiz').innerHTML = quiz.map((q, i) => `
   <div class="q">

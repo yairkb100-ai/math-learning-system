@@ -31,6 +31,15 @@
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
   .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
   .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
   .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
   .fig { text-align: center; font-size: 13px; color: #5b6780; }
@@ -93,28 +102,28 @@
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 1: המשיכו את הסדרה</strong>
       <span class="tag easy">קל</span></div>
-    <div>מצאו את החוקיות והשלימו שני איברים נוספים:<br><br>א. <span class="eq"><span class="fr"><b>1</b><i>6</i></span>,\ <span class="fr"><b>2</b><i>6</i></span>,\ <span class="fr"><b>3</b><i>6</i></span>,\ \_\_,\ \_\_</span><br>ב. <span class="eq">0.5,\ 1,\ 1.5,\ 2,\ \_\_,\ \_\_</span><br>ג. <span class="eq">2<span class="fr"><b>1</b><i>2</i></span>,\ 2,\ 1<span class="fr"><b>1</b><i>2</i></span>,\ \_\_,\ \_\_</span></div>
+    <div>מצאו את החוקיות והשלימו שני איברים נוספים:<br><br>א. <span class="eq"><span class="fr"><b>1</b><i>6</i></span>, <span class="fr"><b>2</b><i>6</i></span>, <span class="fr"><b>3</b><i>6</i></span>, \_\_, \_\_</span><br>ב. <span class="eq">0.5, 1, 1.5, 2, \_\_, \_\_</span><br>ג. <span class="eq">2<span class="fr"><b>1</b><i>2</i></span>, 2, 1<span class="fr"><b>1</b><i>2</i></span>, \_\_, \_\_</span></div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">א. מוסיפים <span class="eq"><span class="fr"><b>1</b><i>6</i></span></span>: <span class="eq">\ <span class="fr"><b>4</b><i>6</i></span>,\ <span class="fr"><b>5</b><i>6</i></span></span> (ואפשר לצמצם: <span class="eq"><span class="fr"><b>2</b><i>3</i></span></span>)<br>ב. מוסיפים 0.5: <span class="eq">\ 2.5,\ 3</span><br>ג. מחסרים <span class="eq"><span class="fr"><b>1</b><i>2</i></span></span>: <span class="eq">\ 1,\ <span class="fr"><b>1</b><i>2</i></span></span></div>
+    <div class="sol">א. מוסיפים <span class="eq"><span class="fr"><b>1</b><i>6</i></span></span>: <span class="eq"><span class="fr"><b>4</b><i>6</i></span>, <span class="fr"><b>5</b><i>6</i></span></span> (ואפשר לצמצם: <span class="eq"><span class="fr"><b>2</b><i>3</i></span></span>)<br>ב. מוסיפים 0.5: <span class="eq">2.5, 3</span><br>ג. מחסרים <span class="eq"><span class="fr"><b>1</b><i>2</i></span></span>: <span class="eq">1, <span class="fr"><b>1</b><i>2</i></span></span></div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 2: השלימו את החסר באמצע</strong>
       <span class="tag med">בינוני</span></div>
-    <div>מצאו את האיברים החסרים:<br><br>א. <span class="eq"><span class="fr"><b>2</b><i>5</i></span>,\ \_\_,\ <span class="fr"><b>4</b><i>5</i></span>,\ 1</span><br>ב. <span class="eq">0.25,\ 0.5,\ \_\_,\ 1</span><br>ג. <span class="eq"><span class="fr"><b>1</b><i>2</i></span>,\ \_\_,\ <span class="fr"><b>1</b><i>8</i></span>,\ <span class="fr"><b>1</b><i>16</i></span></span></div>
+    <div>מצאו את האיברים החסרים:<br><br>א. <span class="eq"><span class="fr"><b>2</b><i>5</i></span>, \_\_, <span class="fr"><b>4</b><i>5</i></span>, 1</span><br>ב. <span class="eq">0.25, 0.5, \_\_, 1</span><br>ג. <span class="eq"><span class="fr"><b>1</b><i>2</i></span>, \_\_, <span class="fr"><b>1</b><i>8</i></span>, <span class="fr"><b>1</b><i>16</i></span></span></div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
     <div class="sol">א. צעד של <span class="eq"><span class="fr"><b>1</b><i>5</i></span></span> ⟵ החסר: <span class="eq"><span class="fr"><b>3</b><i>5</i></span></span><br>ב. צעד של 0.25 ⟵ החסר: 0.75<br>ג. כאן החוק הוא חצייה (בדקו ביחס!) ⟵ החסר: <span class="eq"><span class="fr"><b>1</b><i>4</i></span></span></div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 3: הוספה או כפל?</strong>
       <span class="tag med">בינוני</span></div>
-    <div>לכל סדרה קבעו אם החוק הוא הוספה קבועה או כפל קבוע, נסחו אותו במילים, וכתבו את האיבר הבא:<br><br>א. <span class="eq"><span class="fr"><b>1</b><i>9</i></span>,\ <span class="fr"><b>1</b><i>3</i></span>,\ 1,\ 3</span><br>ב. <span class="eq">1<span class="fr"><b>1</b><i>4</i></span>,\ 1<span class="fr"><b>3</b><i>4</i></span>,\ 2<span class="fr"><b>1</b><i>4</i></span>,\ 2<span class="fr"><b>3</b><i>4</i></span></span></div>
+    <div>לכל סדרה קבעו אם החוק הוא הוספה קבועה או כפל קבוע, נסחו אותו במילים, וכתבו את האיבר הבא:<br><br>א. <span class="eq"><span class="fr"><b>1</b><i>9</i></span>, <span class="fr"><b>1</b><i>3</i></span>, 1, 3</span><br>ב. <span class="eq">1<span class="fr"><b>1</b><i>4</i></span>, 1<span class="fr"><b>3</b><i>4</i></span>, 2<span class="fr"><b>1</b><i>4</i></span>, 2<span class="fr"><b>3</b><i>4</i></span></span></div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
     <div class="sol">א. <b>כפל קבוע</b>: כל איבר גדול פי 3 מקודמו (<span class="eq"><span class="fr"><b>1</b><i>3</i></span> ÷ <span class="fr"><b>1</b><i>9</i></span> = 3</span>). הבא: <span class="eq">9</span>.<br>ב. <b>הוספה קבועה</b>: מוסיפים <span class="eq"><span class="fr"><b>1</b><i>2</i></span></span> בכל צעד. הבא: <span class="eq">3<span class="fr"><b>1</b><i>4</i></span></span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 4: האיבר הרחוק</strong>
       <span class="tag med">בינוני</span></div>
-    <div>בסדרה <span class="eq"><span class="fr"><b>1</b><i>4</i></span>,\ <span class="fr"><b>2</b><i>4</i></span>,\ <span class="fr"><b>3</b><i>4</i></span>,\ ...</span> (מוסיפים רבע בכל צעד):<br><br>א. מהו האיבר השמיני?<br>ב. מהו האיבר העשרים?<br>ג. באיזה מקום בסדרה נמצא המספר 5?</div>
+    <div>בסדרה <span class="eq"><span class="fr"><b>1</b><i>4</i></span>, <span class="fr"><b>2</b><i>4</i></span>, <span class="fr"><b>3</b><i>4</i></span>, ...</span> (מוסיפים רבע בכל צעד):<br><br>א. מהו האיבר השמיני?<br>ב. מהו האיבר העשרים?<br>ג. באיזה מקום בסדרה נמצא המספר 5?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
     <div class="sol">האיבר ה-<span class="eq">n</span> הוא <span class="eq">n</span> רבעים, כלומר <span class="eq"><span class="fr"><b>n</b><i>4</i></span></span>:<br><br>א. <span class="eq"><span class="fr"><b>8</b><i>4</i></span> = 2</span><br>ב. <span class="eq"><span class="fr"><b>20</b><i>4</i></span> = 5</span><br>ג. <span class="eq">5 = <span class="fr"><b>20</b><i>4</i></span></span> ⟵ המקום העשרים (כפי שמצאנו בסעיף ב').</div>
   </div>
@@ -123,42 +132,42 @@
       <span class="tag hard">מאתגר</span></div>
     <div>חשבו את הסכומים שלב אחרי שלב:<br><span class="eq"><span class="fr"><b>1</b><i>2</i></span> + <span class="fr"><b>1</b><i>4</i></span> = ?   + <span class="fr"><b>1</b><i>8</i></span> = ?   + <span class="fr"><b>1</b><i>16</i></span> = ?</span><br>א. מה הדפוס בתוצאות?<br>ב. כמה חסר לכל סכום כדי להגיע ל-1?<br>ג. האם הסכום יגיע אי פעם ל-1 אם נמשיך לנצח? נמקו.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">א. <span class="eq"><span class="fr"><b>3</b><i>4</i></span>,\ <span class="fr"><b>7</b><i>8</i></span>,\ <span class="fr"><b>15</b><i>16</i></span></span> — המונה תמיד קטן מהמכנה ב-1.<br>ב. חסר בדיוק האיבר האחרון שהוספנו: <span class="eq"><span class="fr"><b>1</b><i>4</i></span></span>, ואז <span class="eq"><span class="fr"><b>1</b><i>8</i></span></span>, ואז <span class="eq"><span class="fr"><b>1</b><i>16</i></span></span>.<br>ג. לא. בכל שלב נשאר "חור" בגודל האיבר האחרון — הוא מצטמצם בחצי בכל פעם אבל לעולם אינו נעלם. הסכום מתקרב ל-1 כרצוננו, אך לא נוגע בו.</div>
+    <div class="sol">א. <span class="eq"><span class="fr"><b>3</b><i>4</i></span>, <span class="fr"><b>7</b><i>8</i></span>, <span class="fr"><b>15</b><i>16</i></span></span> — המונה תמיד קטן מהמכנה ב-1.<br>ב. חסר בדיוק האיבר האחרון שהוספנו: <span class="eq"><span class="fr"><b>1</b><i>4</i></span></span>, ואז <span class="eq"><span class="fr"><b>1</b><i>8</i></span></span>, ואז <span class="eq"><span class="fr"><b>1</b><i>16</i></span></span>.<br>ג. לא. בכל שלב נשאר "חור" בגודל האיבר האחרון — הוא מצטמצם בחצי בכל פעם אבל לעולם אינו נעלם. הסכום מתקרב ל-1 כרצוננו, אך לא נוגע בו.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 6: השלימו סדרה שחוצה את 1</strong>
       <span class="tag med">בינוני</span></div>
-    <div>מצאו את החוקיות והשלימו שני איברים: <span class="eq"><span class="fr"><b>3</b><i>8</i></span>,\ <span class="fr"><b>5</b><i>8</i></span>,\ <span class="fr"><b>7</b><i>8</i></span>,\ ?,\ ?</span></div>
+    <div>מצאו את החוקיות והשלימו שני איברים: <span class="eq"><span class="fr"><b>3</b><i>8</i></span>, <span class="fr"><b>5</b><i>8</i></span>, <span class="fr"><b>7</b><i>8</i></span>, ?, ?</span></div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
     <div class="sol">הצעד הוא <span class="eq"><span class="fr"><b>2</b><i>8</i></span>=<span class="fr"><b>1</b><i>4</i></span></span>. ההמשך: <span class="eq"><span class="fr"><b>9</b><i>8</i></span>=1<span class="fr"><b>1</b><i>8</i></span></span>, ואז <span class="eq"><span class="fr"><b>11</b><i>8</i></span>=1<span class="fr"><b>3</b><i>8</i></span></span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 7: כפל קבוע עם עשרונים</strong>
       <span class="tag med">בינוני</span></div>
-    <div>מצאו את החוק וכתבו את האיבר הבא, ונסחו את החוק במילים: <span class="eq">6.4,\ 3.2,\ 1.6,\ ?</span></div>
+    <div>מצאו את החוק וכתבו את האיבר הבא, ונסחו את החוק במילים: <span class="eq">6.4, 3.2, 1.6, ?</span></div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
     <div class="sol">כל איבר הוא חצי מקודמו (כפל ב-0.5). האיבר הבא: <span class="eq">0.8</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 8: שני איברים חסרים ברצף</strong>
       <span class="tag med">בינוני</span></div>
-    <div>מצאו את שני האיברים החסרים באמצע: <span class="eq">2,\ ?,\ ?,\ 3<span class="fr"><b>1</b><i>2</i></span>,\ 4</span></div>
+    <div>מצאו את שני האיברים החסרים באמצע: <span class="eq">2, ?, ?, 3<span class="fr"><b>1</b><i>2</i></span>, 4</span></div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
     <div class="sol">בין 2 ל-4 יש ארבעה צעדים שווים, כל צעד <span class="eq"><span class="fr"><b>1</b><i>2</i></span></span>. האיברים החסרים: <span class="eq">2<span class="fr"><b>1</b><i>2</i></span></span> ו-<span class="eq">3</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 9: האיבר ה-15 ומציאת המקום</strong>
       <span class="tag med">בינוני</span></div>
-    <div>בסדרה <span class="eq"><span class="fr"><b>3</b><i>10</i></span>,\ <span class="fr"><b>6</b><i>10</i></span>,\ <span class="fr"><b>9</b><i>10</i></span>,\ ...</span> (מוסיפים <span class="eq"><span class="fr"><b>3</b><i>10</i></span></span> בכל צעד): א. מהו האיבר ה-15? ב. באיזה מקום נמצא המספר 3?</div>
+    <div>בסדרה <span class="eq"><span class="fr"><b>3</b><i>10</i></span>, <span class="fr"><b>6</b><i>10</i></span>, <span class="fr"><b>9</b><i>10</i></span>, ...</span> (מוסיפים <span class="eq"><span class="fr"><b>3</b><i>10</i></span></span> בכל צעד): א. מהו האיבר ה-15? ב. באיזה מקום נמצא המספר 3?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
     <div class="sol">האיבר ה-<span class="eq">n</span> הוא <span class="eq">n×<span class="fr"><b>3</b><i>10</i></span></span>. א. <span class="eq">15×<span class="fr"><b>3</b><i>10</i></span>=4<span class="fr"><b>1</b><i>2</i></span></span>. ב. <span class="eq">3=<span class="fr"><b>30</b><i>10</i></span></span>, ומכיוון ש-<span class="eq">10×<span class="fr"><b>3</b><i>10</i></span>=3</span> — המקום העשירי.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 10: סדרת כפל עם מספר מעורב</strong>
       <span class="tag med">בינוני</span></div>
-    <div>מצאו את החוק והשלימו שני איברים: <span class="eq">1<span class="fr"><b>1</b><i>2</i></span>,\ 3,\ 6,\ 12,\ ?,\ ?</span></div>
+    <div>מצאו את החוק והשלימו שני איברים: <span class="eq">1<span class="fr"><b>1</b><i>2</i></span>, 3, 6, 12, ?, ?</span></div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">כופלים פי 2 בכל צעד. ההמשך: <span class="eq">24,\ 48</span>.</div>
+    <div class="sol">כופלים פי 2 בכל צעד. ההמשך: <span class="eq">24, 48</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 11: בריכת השחייה</strong>
@@ -170,7 +179,7 @@
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 12: אתגר: מתקרבים לאפס</strong>
       <span class="tag hard">מאתגר</span></div>
-    <div>מתחילים ב-5 וכל איבר הוא מחצית מהקודם: <span class="eq">5,\ 2<span class="fr"><b>1</b><i>2</i></span>,\ 1<span class="fr"><b>1</b><i>4</i></span>,\ ?</span>. א. מהו האיבר הרביעי? ב. האם הסדרה תגיע אי פעם לאפס בדיוק?</div>
+    <div>מתחילים ב-5 וכל איבר הוא מחצית מהקודם: <span class="eq">5, 2<span class="fr"><b>1</b><i>2</i></span>, 1<span class="fr"><b>1</b><i>4</i></span>, ?</span>. א. מהו האיבר הרביעי? ב. האם הסדרה תגיע אי פעם לאפס בדיוק?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
     <div class="sol">א. <span class="eq"><span class="fr"><b>5</b><i>8</i></span>=0.625</span>. ב. לא — כל איבר הוא חצי מהקודם וחיובי, כך שהוא לעולם לא מגיע בדיוק לאפס, רק מתקרב אליו.</div>
   </div>
@@ -179,12 +188,12 @@
       <span class="tag hard">מאתגר</span></div>
     <div>בסדרה של הוספה קבועה, האיבר השני הוא <span class="eq">1<span class="fr"><b>1</b><i>2</i></span></span> והאיבר החמישי הוא <span class="eq">3</span>. מצאו את הצעד הקבוע ואת כל חמשת האיברים.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">מאיבר 2 לאיבר 5 יש 3 צעדים ש-<span class="eq">3-1<span class="fr"><b>1</b><i>2</i></span>=1<span class="fr"><b>1</b><i>2</i></span></span>, לכן הצעד הוא <span class="eq"><span class="fr"><b>1</b><i>2</i></span></span>. האיברים: <span class="eq">1,\ 1<span class="fr"><b>1</b><i>2</i></span>,\ 2,\ 2<span class="fr"><b>1</b><i>2</i></span>,\ 3</span>.</div>
+    <div class="sol">מאיבר 2 לאיבר 5 יש 3 צעדים ש-<span class="eq">3-1<span class="fr"><b>1</b><i>2</i></span>=1<span class="fr"><b>1</b><i>2</i></span></span>, לכן הצעד הוא <span class="eq"><span class="fr"><b>1</b><i>2</i></span></span>. האיברים: <span class="eq">1, 1<span class="fr"><b>1</b><i>2</i></span>, 2, 2<span class="fr"><b>1</b><i>2</i></span>, 3</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 14: אתגר: הוספה או כפל — ומעבר לאיבר ה-15</strong>
       <span class="tag hard">מאתגר</span></div>
-    <div>לסדרה <span class="eq"><span class="fr"><b>3</b><i>4</i></span>,\ 1<span class="fr"><b>1</b><i>2</i></span>,\ 2<span class="fr"><b>1</b><i>4</i></span>,\ 3</span> קבעו אם החוק הוא הוספה קבועה או כפל קבוע, נסחו אותו, ואז מצאו: א. את האיבר ה-15. ב. באיזה מקום נמצא המספר 9?</div>
+    <div>לסדרה <span class="eq"><span class="fr"><b>3</b><i>4</i></span>, 1<span class="fr"><b>1</b><i>2</i></span>, 2<span class="fr"><b>1</b><i>4</i></span>, 3</span> קבעו אם החוק הוא הוספה קבועה או כפל קבוע, נסחו אותו, ואז מצאו: א. את האיבר ה-15. ב. באיזה מקום נמצא המספר 9?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
     <div class="sol">הוספה קבועה של <span class="eq"><span class="fr"><b>3</b><i>4</i></span></span> בכל צעד. א. <span class="eq">15×<span class="fr"><b>3</b><i>4</i></span>=11<span class="fr"><b>1</b><i>4</i></span></span>. ב. <span class="eq">12×<span class="fr"><b>3</b><i>4</i></span>=9</span> — המקום ה-12.</div>
   </div>
@@ -207,7 +216,7 @@
 <div class="credit" style="max-width:780px; margin:0 auto">© כל הזכויות שמורות ליאיר כהנא</div>
 
 <script>
-const quiz = [{"q": "מהו האיבר הבא בסדרה <span class=\"eq\"><span class=\"fr\"><b>1</b><i>3</i></span>,\\ <span class=\"fr\"><b>2</b><i>3</i></span>,\\ 1,\\ 1<span class=\"fr\"><b>1</b><i>3</i></span>,\\ ...</span>?", "o": ["<span class=\"eq\">1<span class=\"fr\"><b>2</b><i>3</i></span></span>", "<span class=\"eq\">2</span>", "<span class=\"eq\">1<span class=\"fr\"><b>1</b><i>2</i></span></span>", "<span class=\"eq\"><span class=\"fr\"><b>4</b><i>3</i></span></span> בלבד"], "a": 0}, {"q": "מה החוקיות בסדרה <span class=\"eq\"><span class=\"fr\"><b>1</b><i>2</i></span>,\\ <span class=\"fr\"><b>1</b><i>4</i></span>,\\ <span class=\"fr\"><b>1</b><i>8</i></span>,\\ <span class=\"fr\"><b>1</b><i>16</i></span></span>?", "o": ["כל איבר הוא חצי מהאיבר שלפניו", "מחסרים <span class=\"eq\"><span class=\"fr\"><b>1</b><i>4</i></span></span> בכל צעד", "מוסיפים <span class=\"eq\"><span class=\"fr\"><b>1</b><i>2</i></span></span> בכל צעד", "אין חוקיות"], "a": 0}, {"q": "מהו האיבר החסר: <span class=\"eq\">0.2,\\ 0.4,\\ \\_\\_,\\ 0.8</span>?", "o": ["0.6", "0.5", "0.7", "0.44"], "a": 0}, {"q": "בסדרה שמתחילה ב-<span class=\"eq\"><span class=\"fr\"><b>1</b><i>2</i></span></span> ומוסיפה <span class=\"eq\"><span class=\"fr\"><b>1</b><i>4</i></span></span> בכל צעד, מהו האיבר החמישי?", "o": ["<span class=\"eq\">1<span class=\"fr\"><b>1</b><i>2</i></span></span>", "<span class=\"eq\">1<span class=\"fr\"><b>1</b><i>4</i></span></span>", "<span class=\"eq\">1<span class=\"fr\"><b>3</b><i>4</i></span></span>", "<span class=\"eq\">2</span>"], "a": 0}, {"q": "נכון או לא נכון: בסדרה שבה כל איבר גדול מקודמו ב-<span class=\"eq\"><span class=\"fr\"><b>1</b><i>10</i></span></span>, האיבר העשירי גדול מהאיבר הראשון ב-<span class=\"eq\"><span class=\"fr\"><b>9</b><i>10</i></span></span>.", "o": ["נכון", "לא נכון"], "a": 0}];
+const quiz = [{"q": "מהו האיבר הבא בסדרה <span class=\"eq\"><span class=\"fr\"><b>1</b><i>3</i></span>, <span class=\"fr\"><b>2</b><i>3</i></span>, 1, 1<span class=\"fr\"><b>1</b><i>3</i></span>, ...</span>?", "o": ["<span class=\"eq\">1<span class=\"fr\"><b>2</b><i>3</i></span></span>", "<span class=\"eq\">2</span>", "<span class=\"eq\">1<span class=\"fr\"><b>1</b><i>2</i></span></span>", "<span class=\"eq\"><span class=\"fr\"><b>4</b><i>3</i></span></span> בלבד"], "a": 0}, {"q": "מה החוקיות בסדרה <span class=\"eq\"><span class=\"fr\"><b>1</b><i>2</i></span>, <span class=\"fr\"><b>1</b><i>4</i></span>, <span class=\"fr\"><b>1</b><i>8</i></span>, <span class=\"fr\"><b>1</b><i>16</i></span></span>?", "o": ["כל איבר הוא חצי מהאיבר שלפניו", "מחסרים <span class=\"eq\"><span class=\"fr\"><b>1</b><i>4</i></span></span> בכל צעד", "מוסיפים <span class=\"eq\"><span class=\"fr\"><b>1</b><i>2</i></span></span> בכל צעד", "אין חוקיות"], "a": 0}, {"q": "מהו האיבר החסר: <span class=\"eq\">0.2, 0.4, \\_\\_, 0.8</span>?", "o": ["0.6", "0.5", "0.7", "0.44"], "a": 0}, {"q": "בסדרה שמתחילה ב-<span class=\"eq\"><span class=\"fr\"><b>1</b><i>2</i></span></span> ומוסיפה <span class=\"eq\"><span class=\"fr\"><b>1</b><i>4</i></span></span> בכל צעד, מהו האיבר החמישי?", "o": ["<span class=\"eq\">1<span class=\"fr\"><b>1</b><i>2</i></span></span>", "<span class=\"eq\">1<span class=\"fr\"><b>1</b><i>4</i></span></span>", "<span class=\"eq\">1<span class=\"fr\"><b>3</b><i>4</i></span></span>", "<span class=\"eq\">2</span>"], "a": 0}, {"q": "נכון או לא נכון: בסדרה שבה כל איבר גדול מקודמו ב-<span class=\"eq\"><span class=\"fr\"><b>1</b><i>10</i></span></span>, האיבר העשירי גדול מהאיבר הראשון ב-<span class=\"eq\"><span class=\"fr\"><b>9</b><i>10</i></span></span>.", "o": ["נכון", "לא נכון"], "a": 0}];
 let answered = 0, correct = 0;
 document.getElementById('quiz').innerHTML = quiz.map((q, i) => `
   <div class="q">

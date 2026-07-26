@@ -31,6 +31,15 @@
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
   .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
   .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
   .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
   .fig { text-align: center; font-size: 13px; color: #5b6780; }
@@ -95,28 +104,28 @@
       <span class="tag easy">קל</span></div>
     <div>מבין כל זוגות המספרים החיוביים שסכומם 16, מצאו את הזוג בעל המכפלה הגדולה ביותר.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol"><span class="eq">P(x) = x(16 - x) = 16x - x^2</span>, ולכן <span class="eq">P'(x) = 16 - 2x = 0 \Rightarrow x = 8</span>.<br><br>הזוג: <span class="eq">8</span> ו-<span class="eq">8</span>; המכפלה המקסימלית: <span class="eq">64</span>.</div>
+    <div class="sol"><span class="eq">P(x) = x(16 - x) = 16x - x<sup>2</sup></span>, ולכן <span class="eq">P'(x) = 16 - 2x = 0 ⇒ x = 8</span>.<br><br>הזוג: <span class="eq">8</span> ו-<span class="eq">8</span>; המכפלה המקסימלית: <span class="eq">64</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 2: שטח מקסימלי</strong>
       <span class="tag med">בינוני</span></div>
     <div>היקף מלבן הוא 24 ס"מ. מהן מידות המלבן בעל השטח המקסימלי, ומהו שטח זה?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">צלעות <span class="eq">x</span> ו-<span class="eq">12 - x</span>; שטח <span class="eq">S(x) = x(12 - x) = 12x - x^2</span>.<br><br><span class="eq">S'(x) = 12 - 2x = 0 \Rightarrow x = 6</span><br><br>ריבוע <span class="eq">6 × 6</span>, שטח מקסימלי <span class="eq">36</span> סמ"ר.</div>
+    <div class="sol">צלעות <span class="eq">x</span> ו-<span class="eq">12 - x</span>; שטח <span class="eq">S(x) = x(12 - x) = 12x - x<sup>2</sup></span>.<br><br><span class="eq">S'(x) = 12 - 2x = 0 ⇒ x = 6</span><br><br>ריבוע <span class="eq">6 × 6</span>, שטח מקסימלי <span class="eq">36</span> סמ"ר.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 3: גדר צמודה לקיר</strong>
       <span class="tag med">בינוני</span></div>
     <div>לרשות גנן 60 מטר גדר לתחימת ערוגה מלבנית הצמודה בצלעה האחת לקיר (הקיר אינו דורש גדר). מהן המידות שיניבו שטח מקסימלי?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">נסמן את הצלע הניצבת לקיר <span class="eq">x</span>; אז הצלע המקבילה לקיר היא <span class="eq">60 - 2x</span>.<br><br><span class="eq">S(x) = x(60 - 2x) = 60x - 2x^2</span><br><br><span class="eq">S'(x) = 60 - 4x = 0 \Rightarrow x = 15</span><br><br>המידות: <span class="eq">15</span> מטר (ניצב לקיר) על <span class="eq">30</span> מטר (מקביל לקיר); שטח מקסימלי <span class="eq">450</span> מ"ר.</div>
+    <div class="sol">נסמן את הצלע הניצבת לקיר <span class="eq">x</span>; אז הצלע המקבילה לקיר היא <span class="eq">60 - 2x</span>.<br><br><span class="eq">S(x) = x(60 - 2x) = 60x - 2x<sup>2</sup></span><br><br><span class="eq">S'(x) = 60 - 4x = 0 ⇒ x = 15</span><br><br>המידות: <span class="eq">15</span> מטר (ניצב לקיר) על <span class="eq">30</span> מטר (מקביל לקיר); שטח מקסימלי <span class="eq">450</span> מ"ר.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 4: סכום ריבועים מינימלי</strong>
       <span class="tag hard">מאתגר</span></div>
     <div>סכום שני מספרים הוא 10. מצאו את המספרים שעבורם סכום ריבועיהם מינימלי.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol"><span class="eq">f(x) = x^2 + (10 - x)^2 = 2x^2 - 20x + 100</span><br><br><span class="eq">f'(x) = 4x - 20 = 0 \Rightarrow x = 5</span><br><br><span class="eq">f'</span> שלילית משמאל וחיובית מימין — מינימום. המספרים: <span class="eq">5</span> ו-<span class="eq">5</span>; סכום הריבועים המינימלי: <span class="eq">25 + 25 = 50</span>.</div>
+    <div class="sol"><span class="eq">f(x) = x<sup>2</sup> + (10 - x)<sup>2</sup> = 2x<sup>2</sup> - 20x + 100</span><br><br><span class="eq">f'(x) = 4x - 20 = 0 ⇒ x = 5</span><br><br><span class="eq">f'</span> שלילית משמאל וחיובית מימין — מינימום. המספרים: <span class="eq">5</span> ו-<span class="eq">5</span>; סכום הריבועים המינימלי: <span class="eq">25 + 25 = 50</span>.</div>
   </div>
 </div>
 

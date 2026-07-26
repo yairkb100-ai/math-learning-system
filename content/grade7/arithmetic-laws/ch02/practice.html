@@ -31,6 +31,15 @@
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
   .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
   .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
   .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
   .fig { text-align: center; font-size: 13px; color: #5b6780; }
@@ -109,7 +118,7 @@
       <span class="tag med">בינוני</span></div>
     <div>בדקו האם שתי התוצאות שוות: <span class="eq">(20 - 8) - 2</span> לעומת <span class="eq">20 - (8 - 2)</span>. מה אפשר להסיק?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">בדרך הראשונה: <span class="eq">(20 - 8) - 2 = 12 - 2 = 10</span>.<br>בדרך השנייה: <span class="eq">20 - (8 - 2) = 20 - 6 = 14</span>.<br>התוצאות שונות (<span class="eq">10 \neq 14</span>), ולכן זו דוגמה נגדית המוכיחה שחיסור אינו מקיים את חוק הקיבוץ.</div>
+    <div class="sol">בדרך הראשונה: <span class="eq">(20 - 8) - 2 = 12 - 2 = 10</span>.<br>בדרך השנייה: <span class="eq">20 - (8 - 2) = 20 - 6 = 14</span>.<br>התוצאות שונות (<span class="eq">10 ≠ 14</span>), ולכן זו דוגמה נגדית המוכיחה שחיסור אינו מקיים את חוק הקיבוץ.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 4: אתגר: סכום של סדרה</strong>
@@ -144,7 +153,7 @@
       <span class="tag hard">מאתגר</span></div>
     <div>בדקו האם <span class="eq">(25 - 9) - 6</span> שווה ל-<span class="eq">25 - (9 - 6)</span>, והסבירו מה זה מלמד על פעולת החיסור.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">בדרך הראשונה: <span class="eq">(25 - 9) - 6 = 16 - 6 = 10</span>. בדרך השנייה: <span class="eq">25 - (9 - 6) = 25 - 3 = 22</span>. התוצאות שונות (<span class="eq">10 \neq 22</span>), ולכן חיסור אינו מקיים את חוק הקיבוץ — מיקום הסוגריים משנה את התוצאה, ואסור לקבץ בחופשיות בתרגילי חיסור.</div>
+    <div class="sol">בדרך הראשונה: <span class="eq">(25 - 9) - 6 = 16 - 6 = 10</span>. בדרך השנייה: <span class="eq">25 - (9 - 6) = 25 - 3 = 22</span>. התוצאות שונות (<span class="eq">10 ≠ 22</span>), ולכן חיסור אינו מקיים את חוק הקיבוץ — מיקום הסוגריים משנה את התוצאה, ואסור לקבץ בחופשיות בתרגילי חיסור.</div>
   </div>
 </div>
 

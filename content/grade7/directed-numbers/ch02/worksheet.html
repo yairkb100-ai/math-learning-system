@@ -31,6 +31,15 @@
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
   .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
   .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
   .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
   .fig { text-align: center; font-size: 13px; color: #5b6780; }
@@ -83,7 +92,7 @@
   <p>סדרו מהקטן לגדול: <span class="eq">−4, 2, −1, 0, 5</span></p>
   <div class="lines"><div></div><div></div></div>
   <h2 class="q">שאלה 6 — השלמת סימן <span class="tag med">בינוני</span></h2>
-  <p>השלימו <span class="eq">></span> או <span class="eq"><</span>:</p><ol type="a"><li><span class="eq">−5</span> __ <span class="eq">−2</span></li><li><span class="eq">3</span> __ <span class="eq">−10</span></li><li><span class="eq">−7</span> __ <span class="eq">0</span></li></ol>
+  <p>השלימו <span class="eq">&gt;</span> או <span class="eq">&lt;</span>:</p><ol type="a"><li><span class="eq">−5</span> __ <span class="eq">−2</span></li><li><span class="eq">3</span> __ <span class="eq">−10</span></li><li><span class="eq">−7</span> __ <span class="eq">0</span></li></ol>
   
   <h2 class="q">שאלה 7 — שכנים על הציר <span class="tag med">בינוני</span></h2>
   <p>כתבו שלושה מספרים שליליים שגדולים מ-<span class="eq">−5</span>.</p>
@@ -116,7 +125,7 @@
 <div class="ans"><strong>שאלה 3.</strong> <span class="eq">−4</span></div>
 <div class="ans"><strong>שאלה 4.</strong> א. <span class="eq">1</span> &nbsp; ב. <span class="eq">−2</span></div>
 <div class="ans"><strong>שאלה 5.</strong> <span class="eq">−4, −1, 0, 2, 5</span></div>
-<div class="ans"><strong>שאלה 6.</strong> א. <span class="eq">−5 < −2</span> &nbsp; ב. <span class="eq">3 > −10</span> &nbsp; ג. <span class="eq">−7 < 0</span></div>
+<div class="ans"><strong>שאלה 6.</strong> א. <span class="eq">−5 &lt; −2</span> &nbsp; ב. <span class="eq">3 &gt; −10</span> &nbsp; ג. <span class="eq">−7 &lt; 0</span></div>
 <div class="ans"><strong>שאלה 7.</strong> לדוגמה: <span class="eq">−4, −3, −2</span> (כל שלילי בין −5 ל-0)</div>
 <div class="ans"><strong>שאלה 8.</strong> מ-<span class="eq">−6</span> עד <span class="eq">1</span>: <span class="eq">6 + 1 = 7</span> מעלות</div>
 <div class="ans"><strong>שאלה 9.</strong> הנגדי של <span class="eq">−8</span> הוא <span class="eq">8</span>, והנגדי של <span class="eq">8</span> הוא <span class="eq">−8</span></div>

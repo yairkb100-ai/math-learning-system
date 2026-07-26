@@ -31,6 +31,15 @@
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
   .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #4a1f8a; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
   .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #4a1f8a; height: 1em; }
   .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
   .fig { text-align: center; font-size: 13px; color: #5b6780; }
@@ -87,7 +96,7 @@
 <li><span class="eq">f′</span> עוברת ב-<span class="eq">x = 2</span> מ-<span class="eq">−</span> ל-<span class="eq">+</span>. איזה קיצון?</li>
 <li><span class="eq">f′</span> עוברת ב-<span class="eq">x = −1</span> מ-<span class="eq">+</span> ל-<span class="eq">−</span>. איזה קיצון?</li>
 <li><span class="eq">f′(x) = 3x²</span> ב-<span class="eq">x = 0</span> — יש קיצון? נמקו.</li>
-<li>נתון <span class="eq">f′(x) > 0</span> בכל <span class="eq">x</span>. מה אפשר לומר על <span class="eq">f</span>?</li>
+<li>נתון <span class="eq">f′(x) &gt; 0</span> בכל <span class="eq">x</span>. מה אפשר לומר על <span class="eq">f</span>?</li>
 <li>נתון <span class="eq">f′(x) = (x − 1)(x − 4)</span>. מצאו את תחומי העלייה והירידה.</li>
   </ol>
   <h2 class="sec">חלק ד' — חקירה מלאה 🔬 (שאלות 16–20)</h2>
@@ -120,24 +129,24 @@
 <div class="ans"><strong>4.</strong> <span class="eq">f′ = 6x² − 6 = 0</span> → <span class="eq">x = ±1</span>.</div>
 <div class="ans"><strong>5.</strong> <span class="eq">f′ = 2x + 4 = 0</span> → <span class="eq">x = −2</span>.</div>
 <div class="ans"><strong>6.</strong> <span class="eq">x = 3</span>, <span class="eq">f′</span> מ-<span class="eq">−</span> ל-<span class="eq">+</span> → מינימום <span class="eq">(3, −9)</span>.</div>
-<div class="ans"><strong>7.</strong> <span class="eq">f′ = 3x² − 3</span> → <span class="eq">x = ±1</span>. עולה ב-<span class="eq">x < −1</span> וב-<span class="eq">x > 1</span>, יורדת ב-<span class="eq">−1 < x < 1</span>.</div>
+<div class="ans"><strong>7.</strong> <span class="eq">f′ = 3x² − 3</span> → <span class="eq">x = ±1</span>. עולה ב-<span class="eq">x &lt; −1</span> וב-<span class="eq">x &gt; 1</span>, יורדת ב-<span class="eq">−1 &lt; x &lt; 1</span>.</div>
 <div class="ans"><strong>8.</strong> מקסימום <span class="eq">(−2, 16)</span>, מינימום <span class="eq">(2, −16)</span>.</div>
-<div class="ans"><strong>9.</strong> יורדת ב-<span class="eq">0 < x < 2</span>.</div>
+<div class="ans"><strong>9.</strong> יורדת ב-<span class="eq">0 &lt; x &lt; 2</span>.</div>
 <div class="ans"><strong>10.</strong> <span class="eq">f′ = −2x + 8 = 0</span> → <span class="eq">x = 4</span>; מקסימום <span class="eq">(4, 16)</span>.</div>
 <div class="ans"><strong>11.</strong> מינימום.</div>
 <div class="ans"><strong>12.</strong> מקסימום.</div>
-<div class="ans"><strong>13.</strong> אין קיצון — <span class="eq">3x² > 0</span> משני הצדדים, אין החלפת סימן (נקודת פיתול).</div>
+<div class="ans"><strong>13.</strong> אין קיצון — <span class="eq">3x² &gt; 0</span> משני הצדדים, אין החלפת סימן (נקודת פיתול).</div>
 <div class="ans"><strong>14.</strong> <span class="eq">f</span> עולה בכל תחום הגדרתה.</div>
-<div class="ans"><strong>15.</strong> עולה ב-<span class="eq">x < 1</span> וב-<span class="eq">x > 4</span>; יורדת ב-<span class="eq">1 < x < 4</span>.</div>
+<div class="ans"><strong>15.</strong> עולה ב-<span class="eq">x &lt; 1</span> וב-<span class="eq">x &gt; 4</span>; יורדת ב-<span class="eq">1 &lt; x &lt; 4</span>.</div>
 <div class="ans"><strong>16.</strong> <span class="eq">f′ = 3x² − 12x + 9 = 3(x−1)(x−3)</span> → מקסימום <span class="eq">(1, 4)</span>, מינימום <span class="eq">(3, 0)</span>.</div>
 <div class="ans"><strong>17.</strong> <span class="eq">f′ = 4x³ − 16x = 4x(x²−4)</span> → <span class="eq">x = 0, ±2</span>. מקסימום מקומי <span class="eq">(0, 0)</span>, מינימומים <span class="eq">(−2, −16)</span> ו-<span class="eq">(2, −16)</span>.</div>
 <div class="ans"><strong>18.</strong> <span class="eq">f′ = 3x² − 3</span> → <span class="eq">x = ±1</span>. מקסימום <span class="eq">(−1, 4)</span>, מינימום <span class="eq">(1, 0)</span>.</div>
-<div class="ans"><strong>19.</strong> <span class="eq">f′ = 6x² − 18x + 12 = 6(x−1)(x−2)</span> → עולה ב-<span class="eq">x < 1</span> וב-<span class="eq">x > 2</span>.</div>
+<div class="ans"><strong>19.</strong> <span class="eq">f′ = 6x² − 18x + 12 = 6(x−1)(x−2)</span> → עולה ב-<span class="eq">x &lt; 1</span> וב-<span class="eq">x &gt; 2</span>.</div>
 <div class="ans"><strong>20.</strong> <span class="eq">f′ = 4x³ − 12x² = 4x²(x−3)</span> → מינימום ב-<span class="eq">x = 3</span>: <span class="eq">(3, −27)</span> (ב-<span class="eq">x=0</span> אין קיצון).</div>
-<div class="ans"><strong>21.</strong> <span class="eq">f′ = 3x² = 0</span> ב-<span class="eq">x = 0</span>, אך <span class="eq">f′ > 0</span> משני הצדדים → אין קיצון.</div>
+<div class="ans"><strong>21.</strong> <span class="eq">f′ = 3x² = 0</span> ב-<span class="eq">x = 0</span>, אך <span class="eq">f′ &gt; 0</span> משני הצדדים → אין קיצון.</div>
 <div class="ans"><strong>22.</strong> <span class="eq">f′ = 2x − 2a = 0</span> → <span class="eq">x = a</span> (מינימום).</div>
 <div class="ans"><strong>23.</strong> לא נכון — נקודה קריטית ללא החלפת סימן ב-<span class="eq">f′</span> אינה קיצון (למשל <span class="eq">x³</span> ב-0).</div>
-<div class="ans"><strong>24.</strong> <span class="eq">f′ > 0</span> בכל התחום.</div>
+<div class="ans"><strong>24.</strong> <span class="eq">f′ &gt; 0</span> בכל התחום.</div>
 <div class="ans"><strong>25.</strong> <span class="eq">f′ = 6x² − 6x − 12 = 6(x−2)(x+1)</span> → מקסימום <span class="eq">(−1, 7)</span>, מינימום <span class="eq">(2, −20)</span>.</div>
   <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
 </div>

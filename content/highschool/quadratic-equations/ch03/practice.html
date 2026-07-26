@@ -31,6 +31,15 @@
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
   .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
   .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
   .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
   .fig { text-align: center; font-size: 13px; color: #5b6780; }
@@ -93,7 +102,7 @@
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 1: סכום ומכפלה בעזרת וייטה</strong>
       <span class="tag easy">קל</span></div>
-    <div>בעזרת משפטי וייטה, מצא את סכום ומכפלת השורשים של <span class="eq">x^2 - 7x + 10 = 0</span> (בלי לפתור).</div>
+    <div>בעזרת משפטי וייטה, מצא את סכום ומכפלת השורשים של <span class="eq">x<sup>2</sup> - 7x + 10 = 0</span> (בלי לפתור).</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
     <div class="sol">סכום השורשים <span class="eq">= -b/a = 7</span>, מכפלת השורשים <span class="eq">= c/a = 10</span>. (השורשים בפועל הם 2 ו-5.)</div>
   </div>
@@ -102,28 +111,28 @@
       <span class="tag med">בינוני</span></div>
     <div>בנה משוואה ריבועית (עם מקדם מוביל 1) ששורשיה הם <span class="eq">4</span> ו-<span class="eq">-2</span>.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">סכום <span class="eq">= 4 + (-2) = 2</span>, מכפלה <span class="eq">= 4 · (-2) = -8</span>. המשוואה: <span class="eq">x^2 - 2x - 8 = 0</span>.</div>
+    <div class="sol">סכום <span class="eq">= 4 + (-2) = 2</span>, מכפלה <span class="eq">= 4 · (-2) = -8</span>. המשוואה: <span class="eq">x<sup>2</sup> - 2x - 8 = 0</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 3: בעיית מלבן</strong>
       <span class="tag med">בינוני</span></div>
     <div>שטח מלבן הוא 40 סמ"ר, ואורכו גדול מרוחבו ב-3 ס"מ. מצא את ממדי המלבן.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol"><span class="eq">w(w+3) = 40 \Rightarrow w^2 + 3w - 40 = 0</span>. <span class="eq">\Delta = 9 + 160 = 169</span>, <span class="eq">w = <span class="fr"><b>-3 \pm 13</b><i>2</i></span></span>. פוסלים <span class="eq">w = -8</span>, אז הרוחב 5 ס"מ והאורך 8 ס"מ.</div>
+    <div class="sol"><span class="eq">w(w+3) = 40 ⇒ w<sup>2</sup> + 3w - 40 = 0</span>. <span class="eq">Δ = 9 + 160 = 169</span>, <span class="eq">w = <span class="fr"><b>-3 ± 13</b><i>2</i></span></span>. פוסלים <span class="eq">w = -8</span>, אז הרוחב 5 ס"מ והאורך 8 ס"מ.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 4: בעיית תנועה</strong>
       <span class="tag hard">מאתגר</span></div>
-    <div>גובה כדור נתון על ידי <span class="eq">h = -5t^2 + 20t</span> (מטרים, שניות). מתי הכדור חוזר לקרקע, ומהו הגובה המרבי?</div>
+    <div>גובה כדור נתון על ידי <span class="eq">h = -5t<sup>2</sup> + 20t</span> (מטרים, שניות). מתי הכדור חוזר לקרקע, ומהו הגובה המרבי?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
     <div class="sol">בקרקע <span class="eq">h=0</span>: <span class="eq">-5t(t-4)=0</span>, אז <span class="eq">t=0</span> או <span class="eq">t=4</span> — חוזר לקרקע לאחר 4 שניות. הקדקוד ב-<span class="eq">t=2</span>: <span class="eq">h = -5 · 4 + 40 = 20</span> מטר.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 5: מציאת שורש שני</strong>
       <span class="tag med">בינוני</span></div>
-    <div>אחד השורשים של <span class="eq">x^2 + bx + 12 = 0</span> הוא 3. מצא את <span class="eq">b</span> ואת השורש השני.</div>
+    <div>אחד השורשים של <span class="eq">x<sup>2</sup> + bx + 12 = 0</span> הוא 3. מצא את <span class="eq">b</span> ואת השורש השני.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">מציבים <span class="eq">x=3</span>: <span class="eq">9 + 3b + 12 = 0 \Rightarrow b = -7</span>. לפי וייטה, מכפלת השורשים 12, אז <span class="eq">3 · x_2 = 12</span> ולכן <span class="eq">x_2 = 4</span>.</div>
+    <div class="sol">מציבים <span class="eq">x=3</span>: <span class="eq">9 + 3b + 12 = 0 ⇒ b = -7</span>. לפי וייטה, מכפלת השורשים 12, אז <span class="eq">3 · x<sub>2</sub> = 12</span> ולכן <span class="eq">x<sub>2</sub> = 4</span>.</div>
   </div>
 </div>
 
@@ -137,7 +146,7 @@
 <div class="credit" style="max-width:780px; margin:0 auto">© כל הזכויות שמורות ליאיר כהנא</div>
 
 <script>
-const quiz = [{"q": "לפי משפטי וייטה, מהו סכום השורשים של <span class=\"eq\">x^2 - 5x + 6 = 0</span>?", "o": ["-5", "5", "6", "-6"], "a": 1}, {"q": "לפי משפטי וייטה, מהי מכפלת השורשים של <span class=\"eq\">x^2 - 5x + 6 = 0</span>?", "o": ["5", "6", "-6", "-5"], "a": 1}, {"q": "איזו משוואה ריבועית ששורשיה הם 2 ו-3?", "o": ["<span class=\"eq\">x^2 - 5x + 6 = 0</span>", "<span class=\"eq\">x^2 + 5x + 6 = 0</span>", "<span class=\"eq\">x^2 - 6x + 5 = 0</span>", "<span class=\"eq\">x^2 - x - 6 = 0</span>"], "a": 0}, {"q": "בבעיה מילולית על אורך מלבן, פתרון שלילי (<span class=\"eq\">w = -8</span>) יש לפסול כי אורך אינו יכול להיות שלילי.", "o": ["נכון", "לא נכון"], "a": 0}, {"q": "כדור נזרק וגובהו <span class=\"eq\">h = -5t^2 + 20t</span>. מתי הוא חוזר לקרקע?", "o": ["לאחר 2 שניות", "לאחר 4 שניות", "לאחר 5 שניות", "לאחר 20 שניות"], "a": 1}];
+const quiz = [{"q": "לפי משפטי וייטה, מהו סכום השורשים של <span class=\"eq\">x<sup>2</sup> - 5x + 6 = 0</span>?", "o": ["-5", "5", "6", "-6"], "a": 1}, {"q": "לפי משפטי וייטה, מהי מכפלת השורשים של <span class=\"eq\">x<sup>2</sup> - 5x + 6 = 0</span>?", "o": ["5", "6", "-6", "-5"], "a": 1}, {"q": "איזו משוואה ריבועית ששורשיה הם 2 ו-3?", "o": ["<span class=\"eq\">x<sup>2</sup> - 5x + 6 = 0</span>", "<span class=\"eq\">x<sup>2</sup> + 5x + 6 = 0</span>", "<span class=\"eq\">x<sup>2</sup> - 6x + 5 = 0</span>", "<span class=\"eq\">x<sup>2</sup> - x - 6 = 0</span>"], "a": 0}, {"q": "בבעיה מילולית על אורך מלבן, פתרון שלילי (<span class=\"eq\">w = -8</span>) יש לפסול כי אורך אינו יכול להיות שלילי.", "o": ["נכון", "לא נכון"], "a": 0}, {"q": "כדור נזרק וגובהו <span class=\"eq\">h = -5t<sup>2</sup> + 20t</span>. מתי הוא חוזר לקרקע?", "o": ["לאחר 2 שניות", "לאחר 4 שניות", "לאחר 5 שניות", "לאחר 20 שניות"], "a": 1}];
 let answered = 0, correct = 0;
 document.getElementById('quiz').innerHTML = quiz.map((q, i) => `
   <div class="q">

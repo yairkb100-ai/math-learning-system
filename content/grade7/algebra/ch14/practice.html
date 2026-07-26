@@ -31,6 +31,15 @@
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
   .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
   .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
   .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
   .fig { text-align: center; font-size: 13px; color: #5b6780; }
@@ -93,58 +102,58 @@
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 1: מציאת הביטוי הכללי</strong>
       <span class="tag easy">קל</span></div>
-    <div>נתון הרצף <span class="eq">2,5,8,11,\dots</span> מצאו ביטוי כללי לאיבר ה-<span class="eq">n</span>, ואת האיבר השביעי.</div>
+    <div>נתון הרצף <span class="eq">2,5,8,11,…</span> מצאו ביטוי כללי לאיבר ה-<span class="eq">n</span>, ואת האיבר השביעי.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">ההפרש הקבוע: <span class="eq">5-2=3</span>. הביטוי מהצורה <span class="eq">3n+c</span>. מציבים <span class="eq">n=1</span>: <span class="eq">3×1+c=2 \Rightarrow c=-1</span>. הביטוי הכללי: <span class="eq">3n-1</span>. בדיקה: <span class="eq">n=2</span>: <span class="eq">3×2-1=5</span> ✓. האיבר השביעי: <span class="eq">n=7</span>: <span class="eq">3×7-1=20</span>.</div>
+    <div class="sol">ההפרש הקבוע: <span class="eq">5-2=3</span>. הביטוי מהצורה <span class="eq">3n+c</span>. מציבים <span class="eq">n=1</span>: <span class="eq">3×1+c=2 ⇒ c=-1</span>. הביטוי הכללי: <span class="eq">3n-1</span>. בדיקה: <span class="eq">n=2</span>: <span class="eq">3×2-1=5</span> ✓. האיבר השביעי: <span class="eq">n=7</span>: <span class="eq">3×7-1=20</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 2: רצף עולה בקפיצות של 5</strong>
       <span class="tag easy">קל</span></div>
-    <div>נתון הרצף <span class="eq">10,15,20,25,\dots</span> מצאו ביטוי כללי לאיבר ה-<span class="eq">n</span>, ואת האיבר העשירי.</div>
+    <div>נתון הרצף <span class="eq">10,15,20,25,…</span> מצאו ביטוי כללי לאיבר ה-<span class="eq">n</span>, ואת האיבר העשירי.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">ההפרש הקבוע: <span class="eq">15-10=5</span>. הביטוי מהצורה <span class="eq">5n+c</span>. מציבים <span class="eq">n=1</span>: <span class="eq">5×1+c=10 \Rightarrow c=5</span>. הביטוי הכללי: <span class="eq">5n+5</span>. בדיקה: <span class="eq">n=2</span>: <span class="eq">5×2+5=15</span> ✓. האיבר העשירי: <span class="eq">n=10</span>: <span class="eq">5×10+5=55</span>.</div>
+    <div class="sol">ההפרש הקבוע: <span class="eq">15-10=5</span>. הביטוי מהצורה <span class="eq">5n+c</span>. מציבים <span class="eq">n=1</span>: <span class="eq">5×1+c=10 ⇒ c=5</span>. הביטוי הכללי: <span class="eq">5n+5</span>. בדיקה: <span class="eq">n=2</span>: <span class="eq">5×2+5=15</span> ✓. האיבר העשירי: <span class="eq">n=10</span>: <span class="eq">5×10+5=55</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 3: תבנית נקודות</strong>
       <span class="tag med">בינוני</span></div>
     <div>רצף ציורים של נקודות נתון בטבלה:<br><br>| מספר הציור (<span class="eq">n</span>) | 1 | 2 | 3 | 4 |<br>|---|---|---|---|---|<br>| מספר הנקודות | 2 | 6 | 10 | 14 |<br><br>מצאו ביטוי כללי למספר הנקודות בציור ה-<span class="eq">n</span>, ואת מספר הנקודות בציור ה-30.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">ההפרש הקבוע: <span class="eq">6-2=4</span>. הביטוי מהצורה <span class="eq">4n+c</span>. מציבים <span class="eq">n=1</span>: <span class="eq">4×1+c=2 \Rightarrow c=-2</span>. הביטוי הכללי: <span class="eq">4n-2</span>. בדיקה: <span class="eq">n=3</span>: <span class="eq">4×3-2=10</span> ✓. עבור <span class="eq">n=30</span>: <span class="eq">4×30-2=118</span> נקודות.</div>
+    <div class="sol">ההפרש הקבוע: <span class="eq">6-2=4</span>. הביטוי מהצורה <span class="eq">4n+c</span>. מציבים <span class="eq">n=1</span>: <span class="eq">4×1+c=2 ⇒ c=-2</span>. הביטוי הכללי: <span class="eq">4n-2</span>. בדיקה: <span class="eq">n=3</span>: <span class="eq">4×3-2=10</span> ✓. עבור <span class="eq">n=30</span>: <span class="eq">4×30-2=118</span> נקודות.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 4: אתגר: האם 300 שייך לרצף?</strong>
       <span class="tag hard">מאתגר</span></div>
-    <div>נתון הרצף <span class="eq">7,11,15,19,\dots</span><br><br>א. מצאו ביטוי כללי לאיבר ה-<span class="eq">n</span>.<br>ב. מצאו את האיבר ה-1000.<br>ג. בדקו האם המספר 300 הוא איבר ברצף (רמז: הציבו את הביטוי הכללי שווה ל-300, ובדקו אם מתקבל <span class="eq">n</span> שהוא מספר טבעי).</div>
+    <div>נתון הרצף <span class="eq">7,11,15,19,…</span><br><br>א. מצאו ביטוי כללי לאיבר ה-<span class="eq">n</span>.<br>ב. מצאו את האיבר ה-1000.<br>ג. בדקו האם המספר 300 הוא איבר ברצף (רמז: הציבו את הביטוי הכללי שווה ל-300, ובדקו אם מתקבל <span class="eq">n</span> שהוא מספר טבעי).</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">א. ההפרש הקבוע: <span class="eq">11-7=4</span>. הביטוי מהצורה <span class="eq">4n+c</span>. מציבים <span class="eq">n=1</span>: <span class="eq">4×1+c=7 \Rightarrow c=3</span>. הביטוי הכללי: <span class="eq">4n+3</span>.<br>ב. <span class="eq">n=1000</span>: <span class="eq">4×1000+3=4003</span>.<br>ג. פותרים <span class="eq">4n+3=300</span>: <span class="eq">4n=297 \Rightarrow n=74.25</span>. מכיוון ש-<span class="eq">n</span> אינו מספר טבעי, המספר 300 אינו איבר ברצף.</div>
+    <div class="sol">א. ההפרש הקבוע: <span class="eq">11-7=4</span>. הביטוי מהצורה <span class="eq">4n+c</span>. מציבים <span class="eq">n=1</span>: <span class="eq">4×1+c=7 ⇒ c=3</span>. הביטוי הכללי: <span class="eq">4n+3</span>.<br>ב. <span class="eq">n=1000</span>: <span class="eq">4×1000+3=4003</span>.<br>ג. פותרים <span class="eq">4n+3=300</span>: <span class="eq">4n=297 ⇒ n=74.25</span>. מכיוון ש-<span class="eq">n</span> אינו מספר טבעי, המספר 300 אינו איבר ברצף.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 5: השלמת רצף</strong>
       <span class="tag easy">קל</span></div>
-    <div>השלימו את שני האיברים הבאים ברצף <span class="eq">2,6,10,14,\ldots</span> ומצאו את ההפרש הקבוע.</div>
+    <div>השלימו את שני האיברים הבאים ברצף <span class="eq">2,6,10,14,…</span> ומצאו את ההפרש הקבוע.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
     <div class="sol">ההפרש הקבוע: <span class="eq">4</span>. האיברים הבאים: <span class="eq">18, 22</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 6: מציאת הביטוי הכללי</strong>
       <span class="tag med">בינוני</span></div>
-    <div>נתון הרצף <span class="eq">6,9,12,15,\ldots</span> מצאו ביטוי כללי לאיבר ה-<span class="eq">n</span>, ואת האיבר האחד-עשר.</div>
+    <div>נתון הרצף <span class="eq">6,9,12,15,…</span> מצאו ביטוי כללי לאיבר ה-<span class="eq">n</span>, ואת האיבר האחד-עשר.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">ההפרש הקבוע: <span class="eq">3</span>. הביטוי מהצורה <span class="eq">3n+c</span>. מציבים <span class="eq">n=1</span>: <span class="eq">3×1+c=6 \Rightarrow c=3</span>. הביטוי: <span class="eq">3n+3</span>. האיבר ה-11: <span class="eq">3×11+3=36</span>.</div>
+    <div class="sol">ההפרש הקבוע: <span class="eq">3</span>. הביטוי מהצורה <span class="eq">3n+c</span>. מציבים <span class="eq">n=1</span>: <span class="eq">3×1+c=6 ⇒ c=3</span>. הביטוי: <span class="eq">3n+3</span>. האיבר ה-11: <span class="eq">3×11+3=36</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 7: תבנית צורות</strong>
       <span class="tag med">בינוני</span></div>
     <div>לצורה 1 יש 7 יחידות, לצורה 2 יש 10, ולצורה 3 יש 13. מצאו ביטוי כללי למספר היחידות בצורה ה-<span class="eq">n</span>, וכמה יחידות יהיו בצורה ה-25.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">ההפרש הקבוע: <span class="eq">3</span>. הביטוי מהצורה <span class="eq">3n+c</span>. מציבים <span class="eq">n=1</span>: <span class="eq">3×1+c=7 \Rightarrow c=4</span>. הביטוי: <span class="eq">3n+4</span>. בצורה ה-25: <span class="eq">3×25+4=79</span> יחידות.</div>
+    <div class="sol">ההפרש הקבוע: <span class="eq">3</span>. הביטוי מהצורה <span class="eq">3n+c</span>. מציבים <span class="eq">n=1</span>: <span class="eq">3×1+c=7 ⇒ c=4</span>. הביטוי: <span class="eq">3n+4</span>. בצורה ה-25: <span class="eq">3×25+4=79</span> יחידות.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 8: אתגר: איבר רחוק ובדיקת שייכות</strong>
       <span class="tag hard">מאתגר</span></div>
-    <div>נתון הרצף <span class="eq">12,17,22,\ldots</span><br><br>א. מצאו ביטוי כללי לאיבר ה-<span class="eq">n</span>.<br>ב. מצאו את האיבר ה-1000.<br>ג. בדקו האם 407 הוא איבר ברצף.</div>
+    <div>נתון הרצף <span class="eq">12,17,22,…</span><br><br>א. מצאו ביטוי כללי לאיבר ה-<span class="eq">n</span>.<br>ב. מצאו את האיבר ה-1000.<br>ג. בדקו האם 407 הוא איבר ברצף.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">א. ההפרש הקבוע: <span class="eq">5</span>. הביטוי מהצורה <span class="eq">5n+c</span>. מציבים <span class="eq">n=1</span>: <span class="eq">5×1+c=12 \Rightarrow c=7</span>. הביטוי: <span class="eq">5n+7</span>.<br>ב. <span class="eq">n=1000</span>: <span class="eq">5×1000+7=5007</span>.<br>ג. פותרים <span class="eq">5n+7=407</span>: <span class="eq">5n=400 \Rightarrow n=80</span>. מספר טבעי — כן, 407 הוא האיבר ה-80.</div>
+    <div class="sol">א. ההפרש הקבוע: <span class="eq">5</span>. הביטוי מהצורה <span class="eq">5n+c</span>. מציבים <span class="eq">n=1</span>: <span class="eq">5×1+c=12 ⇒ c=7</span>. הביטוי: <span class="eq">5n+7</span>.<br>ב. <span class="eq">n=1000</span>: <span class="eq">5×1000+7=5007</span>.<br>ג. פותרים <span class="eq">5n+7=407</span>: <span class="eq">5n=400 ⇒ n=80</span>. מספר טבעי — כן, 407 הוא האיבר ה-80.</div>
   </div>
 </div>
 
@@ -158,7 +167,7 @@
 <div class="credit" style="max-width:780px; margin:0 auto">© כל הזכויות שמורות ליאיר כהנא</div>
 
 <script>
-const quiz = [{"q": "ברצף <span class=\"eq\">5,8,11,14,\\dots</span> מהו ההפרש הקבוע בין איברים עוקבים?", "o": ["2", "3", "4", "5"], "a": 1}, {"q": "מהו הביטוי הכללי לאיבר ה-<span class=\"eq\">n</span> ברצף <span class=\"eq\">5,8,11,14,\\dots</span>?", "o": ["<span class=\"eq\">3n+2</span>", "<span class=\"eq\">3n+5</span>", "<span class=\"eq\">2n+3</span>", "<span class=\"eq\">5n+3</span>"], "a": 0}, {"q": "נכון או לא נכון: כדי למצוא את האיבר ה-1000 ברצף, חובה לרשום את כל 1000 האיברים אחד-אחד.", "o": ["נכון", "לא נכון"], "a": 1}, {"q": "בטבלה מוצג רצף צורות: לצורה 1 יש 3 משולשים, לצורה 2 יש 7 משולשים, ולצורה 3 יש 11 משולשים. מהו הביטוי הכללי למספר המשולשים בצורה ה-<span class=\"eq\">n</span>?", "o": ["<span class=\"eq\">4n-1</span>", "<span class=\"eq\">4n+3</span>", "<span class=\"eq\">3n+4</span>", "<span class=\"eq\">4n+1</span>"], "a": 0}, {"q": "הביטוי הכללי לאיבר ה-<span class=\"eq\">n</span> ברצף הוא <span class=\"eq\">6n-4</span>. מהו האיבר ה-50?", "o": ["296", "300", "304", "46"], "a": 0}];
+const quiz = [{"q": "ברצף <span class=\"eq\">5,8,11,14,…</span> מהו ההפרש הקבוע בין איברים עוקבים?", "o": ["2", "3", "4", "5"], "a": 1}, {"q": "מהו הביטוי הכללי לאיבר ה-<span class=\"eq\">n</span> ברצף <span class=\"eq\">5,8,11,14,…</span>?", "o": ["<span class=\"eq\">3n+2</span>", "<span class=\"eq\">3n+5</span>", "<span class=\"eq\">2n+3</span>", "<span class=\"eq\">5n+3</span>"], "a": 0}, {"q": "נכון או לא נכון: כדי למצוא את האיבר ה-1000 ברצף, חובה לרשום את כל 1000 האיברים אחד-אחד.", "o": ["נכון", "לא נכון"], "a": 1}, {"q": "בטבלה מוצג רצף צורות: לצורה 1 יש 3 משולשים, לצורה 2 יש 7 משולשים, ולצורה 3 יש 11 משולשים. מהו הביטוי הכללי למספר המשולשים בצורה ה-<span class=\"eq\">n</span>?", "o": ["<span class=\"eq\">4n-1</span>", "<span class=\"eq\">4n+3</span>", "<span class=\"eq\">3n+4</span>", "<span class=\"eq\">4n+1</span>"], "a": 0}, {"q": "הביטוי הכללי לאיבר ה-<span class=\"eq\">n</span> ברצף הוא <span class=\"eq\">6n-4</span>. מהו האיבר ה-50?", "o": ["296", "300", "304", "46"], "a": 0}];
 let answered = 0, correct = 0;
 document.getElementById('quiz').innerHTML = quiz.map((q, i) => `
   <div class="q">

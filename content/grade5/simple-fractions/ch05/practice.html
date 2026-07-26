@@ -31,6 +31,15 @@
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
   .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
   .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
   .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
   .fig { text-align: center; font-size: 13px; color: #5b6780; }
@@ -102,7 +111,7 @@
       <span class="tag easy">קל</span></div>
     <div>דן פתר: <span class="eq"><span class="fr"><b>2</b><i>5</i></span> + <span class="fr"><b>1</b><i>5</i></span> = <span class="fr"><b>3</b><i>10</i></span></span>.<br><br>א. מה הטעות של דן?<br>ב. מה הפתרון הנכון?<br>ג. הסבירו לדן במשפט אחד למה המכנה לא משתנה.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">א. דן חיבר גם את המכנים (5+5=10) — אסור!<br><br>ב. <span class="eq"><span class="fr"><b>2</b><i>5</i></span> + <span class="fr"><b>1</b><i>5</i></span> = <span class="fr"><b>3</b><i>5</i></span></span>.<br><br>ג. המכנה הוא סוג החלקים (חמישיות), לא כמות — כשמחברים 2 חמישיות עם חמישית אחת מקבלים 3 חמישיות, בדיוק כמו ש-2 תפוחים ועוד תפוח הם 3 תפוחים.</div>
+    <div class="sol">א. דן חיבר גם את המכנים (<span class="eq">5+5=10</span>) — אסור!<br><br>ב. <span class="eq"><span class="fr"><b>2</b><i>5</i></span> + <span class="fr"><b>1</b><i>5</i></span> = <span class="fr"><b>3</b><i>5</i></span></span>.<br><br>ג. המכנה הוא סוג החלקים (חמישיות), לא כמות — כשמחברים שתי חמישיות עם חמישית אחת מקבלים שלוש חמישיות, בדיוק כמו ש-2 תפוחים ועוד תפוח הם 3 תפוחים.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 3: מכנים שונים</strong>
@@ -121,7 +130,7 @@
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 5: אתגר: יום הולדת</strong>
       <span class="tag hard">מאתגר</span></div>
-    <div>בת המצווה של שיר: העוגה חולקה ל-12 חלקים שווים. המשפחה אכלה <span class="eq"><span class="fr"><b>5</b><i>12</i></span></span>, החברים אכלו <span class="eq"><span class="fr"><b>1</b><i>3</i></span></span>.<br><br>א. איזה חלק מהעוגה נאכל בסך הכול?<br>ב. איזה חלק נשאר?<br>ג. אם בעוגה היו 12 פרוסות — כמה פרוסות נשארו?</div>
+    <div>מסיבת יום ההולדת של שיר: העוגה חולקה ל-12 חלקים שווים. המשפחה אכלה <span class="eq"><span class="fr"><b>5</b><i>12</i></span></span>, החברים אכלו <span class="eq"><span class="fr"><b>1</b><i>3</i></span></span>.<br><br>א. איזה חלק מהעוגה נאכל בסך הכול?<br>ב. איזה חלק נשאר?<br>ג. כמה פרוסות נשארו מתוך 12 הפרוסות?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
     <div class="sol">א. מרחיבים את <span class="eq"><span class="fr"><b>1</b><i>3</i></span></span> למכנה 12: <span class="eq"><span class="fr"><b>1</b><i>3</i></span> = <span class="fr"><b>4</b><i>12</i></span></span>. נאכל: <span class="eq"><span class="fr"><b>5</b><i>12</i></span> + <span class="fr"><b>4</b><i>12</i></span> = <span class="fr"><b>9</b><i>12</i></span> = <span class="fr"><b>3</b><i>4</i></span></span> מהעוגה.<br><br>ב. נשאר: <span class="eq">1 - <span class="fr"><b>9</b><i>12</i></span> = <span class="fr"><b>12</b><i>12</i></span> - <span class="fr"><b>9</b><i>12</i></span> = <span class="fr"><b>3</b><i>12</i></span> = <span class="fr"><b>1</b><i>4</i></span></span> מהעוגה.<br><br>ג. <span class="eq"><span class="fr"><b>3</b><i>12</i></span></span> מתוך 12 פרוסות = <b>3 פרוסות</b> נשארו.</div>
   </div>

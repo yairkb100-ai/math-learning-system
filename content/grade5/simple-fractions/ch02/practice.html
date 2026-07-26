@@ -31,6 +31,15 @@
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
   .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
   .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
   .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
   .fig { text-align: center; font-size: 13px; color: #5b6780; }
@@ -107,16 +116,16 @@
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 3: השוואה עם מונה שווה</strong>
       <span class="tag med">בינוני</span></div>
-    <div>כתבו את הסימן המתאים והסבירו במילה אחת את הרעיון:<br><br>א. <span class="eq"><span class="fr"><b>2</b><i>5</i></span></span> ⬜ <span class="eq"><span class="fr"><b>2</b><i>9</i></span></span><br>ב. <span class="eq"><span class="fr"><b>5</b><i>6</i></span></span> ⬜ <span class="eq"><span class="fr"><b>5</b><i>12</i></span></span><br>ג. <span class="eq"><span class="fr"><b>1</b><i>100</i></span></span> ⬜ <span class="eq"><span class="fr"><b>1</b><i>50</i></span></span></div>
+    <div>כתבו את הסימן המתאים והסבירו בקצרה את הרעיון:<br><br>א. <span class="eq"><span class="fr"><b>2</b><i>5</i></span></span> ⬜ <span class="eq"><span class="fr"><b>2</b><i>9</i></span></span><br>ב. <span class="eq"><span class="fr"><b>5</b><i>6</i></span></span> ⬜ <span class="eq"><span class="fr"><b>5</b><i>12</i></span></span><br>ג. <span class="eq"><span class="fr"><b>1</b><i>100</i></span></span> ⬜ <span class="eq"><span class="fr"><b>1</b><i>50</i></span></span></div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">בכולם המונה שווה — אז מנצח המכנה הקטן (חלקים גדולים יותר):<br><br>א. <span class="eq"><span class="fr"><b>2</b><i>5</i></span> &gt; <span class="fr"><b>2</b><i>9</i></span></span> — חמישיות גדולות מתשיעיות.<br><br>ב. <span class="eq"><span class="fr"><b>5</b><i>6</i></span> &gt; <span class="fr"><b>5</b><i>12</i></span></span> — שישיות גדולות משתים-עשיריות.<br><br>ג. <span class="eq"><span class="fr"><b>1</b><i>100</i></span> &lt; <span class="fr"><b>1</b><i>50</i></span></span> — זהירות עם הכיוון! מאיות קטנות מחמישיות-של-עשר, לכן <span class="eq"><span class="fr"><b>1</b><i>50</i></span></span> גדול יותר.</div>
+    <div class="sol">בכולם המונה שווה — אז מנצח המכנה הקטן (חלקים גדולים יותר):<br><br>א. <span class="eq"><span class="fr"><b>2</b><i>5</i></span> &gt; <span class="fr"><b>2</b><i>9</i></span></span> — חמישיות גדולות מתשיעיות.<br><br>ב. <span class="eq"><span class="fr"><b>5</b><i>6</i></span> &gt; <span class="fr"><b>5</b><i>12</i></span></span> — שישיות גדולות משתים-עשריות.<br><br>ג. <span class="eq"><span class="fr"><b>1</b><i>100</i></span> &lt; <span class="fr"><b>1</b><i>50</i></span></span> — זהירות עם הכיוון! חלוקה ל-100 יוצרת חתיכות קטנות יותר מחלוקה ל-50, לכן <span class="eq"><span class="fr"><b>1</b><i>50</i></span></span> גדול יותר.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 4: גדול או קטן מחצי?</strong>
       <span class="tag med">בינוני</span></div>
     <div>מיינו את השברים לשלוש קבוצות — קטן מחצי, שווה לחצי, גדול מחצי:<br><br><span class="eq"><span class="fr"><b>3</b><i>8</i></span>   <span class="fr"><b>5</b><i>10</i></span>   <span class="fr"><b>7</b><i>12</i></span>   <span class="fr"><b>2</b><i>6</i></span>   <span class="fr"><b>4</b><i>7</i></span></span></div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">בודקים כל שבר: האם המונה גדול או קטן מחצי המכנה?<br><br>- <span class="eq"><span class="fr"><b>3</b><i>8</i></span></span>: חצי מ-8 זה 4, ו-3 < 4 → <b>קטן מחצי</b>.<br>- <span class="eq"><span class="fr"><b>5</b><i>10</i></span></span>: חצי מ-10 זה 5 בדיוק → <b>שווה לחצי</b>.<br>- <span class="eq"><span class="fr"><b>7</b><i>12</i></span></span>: חצי מ-12 זה 6, ו-7 > 6 → <b>גדול מחצי</b>.<br>- <span class="eq"><span class="fr"><b>2</b><i>6</i></span></span>: חצי מ-6 זה 3, ו-2 < 3 → <b>קטן מחצי</b>.<br>- <span class="eq"><span class="fr"><b>4</b><i>7</i></span></span>: חצי מ-7 זה 3.5, ו-4 > 3.5 → <b>גדול מחצי</b>.</div>
+    <div class="sol">בודקים כל שבר: האם המונה גדול או קטן מחצי המכנה?<br><br>- <span class="eq"><span class="fr"><b>3</b><i>8</i></span></span>: חצי מ-8 זה 4, ו-<span class="eq">3 &lt; 4</span> → <b>קטן מחצי</b>.<br>- <span class="eq"><span class="fr"><b>5</b><i>10</i></span></span>: חצי מ-10 זה 5 בדיוק → <b>שווה לחצי</b>.<br>- <span class="eq"><span class="fr"><b>7</b><i>12</i></span></span>: חצי מ-12 זה 6, ו-<span class="eq">7 &gt; 6</span> → <b>גדול מחצי</b>.<br>- <span class="eq"><span class="fr"><b>2</b><i>6</i></span></span>: חצי מ-6 זה 3, ו-<span class="eq">2 &lt; 3</span> → <b>קטן מחצי</b>.<br>- <span class="eq"><span class="fr"><b>4</b><i>7</i></span></span>: חצי מ-7 זה 3.5, ו-<span class="eq">4 &gt; 3.5</span> → <b>גדול מחצי</b>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 5: אתגר: השוואה חכמה</strong>
@@ -130,7 +139,7 @@
       <span class="tag med">בינוני</span></div>
     <div>לכל זוג, קבעו איזה טריק מתאים ואז כתבו סימן:<br><br>א. <span class="eq"><span class="fr"><b>6</b><i>13</i></span></span> ⬜ <span class="eq"><span class="fr"><b>6</b><i>8</i></span></span><br>ב. <span class="eq"><span class="fr"><b>9</b><i>20</i></span></span> ⬜ <span class="eq"><span class="fr"><b>11</b><i>20</i></span></span><br>ג. <span class="eq"><span class="fr"><b>7</b><i>9</i></span></span> ⬜ <span class="eq"><span class="fr"><b>12</b><i>13</i></span></span></div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">א. <span class="eq"><span class="fr"><b>6</b><i>13</i></span>&lt;<span class="fr"><b>6</b><i>8</i></span></span> (מונה שווה, מכנה קטן מנצח). ב. <span class="eq"><span class="fr"><b>9</b><i>20</i></span>&lt;<span class="fr"><b>11</b><i>20</i></span></span> (מכנה שווה). ג. <span class="eq"><span class="fr"><b>7</b><i>9</i></span>&lt;<span class="fr"><b>12</b><i>13</i></span></span> (חסר ל‑<span class="eq"><span class="fr"><b>7</b><i>9</i></span></span>: <span class="eq"><span class="fr"><b>2</b><i>9</i></span>\approx0.22</span>; חסר ל‑<span class="eq"><span class="fr"><b>12</b><i>13</i></span></span>: <span class="eq"><span class="fr"><b>1</b><i>13</i></span>\approx0.08</span>).</div>
+    <div class="sol">א. <span class="eq"><span class="fr"><b>6</b><i>13</i></span>&lt;<span class="fr"><b>6</b><i>8</i></span></span> (מונה שווה, מכנה קטן מנצח). ב. <span class="eq"><span class="fr"><b>9</b><i>20</i></span>&lt;<span class="fr"><b>11</b><i>20</i></span></span> (מכנה שווה). ג. <span class="eq"><span class="fr"><b>7</b><i>9</i></span>&lt;<span class="fr"><b>12</b><i>13</i></span></span> (חסר ל‑<span class="eq"><span class="fr"><b>7</b><i>9</i></span></span>: <span class="eq"><span class="fr"><b>2</b><i>9</i></span>≈0.22</span>; חסר ל‑<span class="eq"><span class="fr"><b>12</b><i>13</i></span></span>: <span class="eq"><span class="fr"><b>1</b><i>13</i></span>≈0.08</span>).</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 7: בין שני שברים</strong>
@@ -158,14 +167,14 @@
       <span class="tag med">בינוני</span></div>
     <div>לכל שבר כתבו כמה חסר לו ל‑1, וקבעו מי הכי קרוב לשלם: <span class="eq"><span class="fr"><b>9</b><i>11</i></span></span>, <span class="eq"><span class="fr"><b>13</b><i>15</i></span></span>, <span class="eq"><span class="fr"><b>21</b><i>25</i></span></span></div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">חסר: <span class="eq"><span class="fr"><b>2</b><i>11</i></span>\approx0.18</span>, <span class="eq"><span class="fr"><b>2</b><i>15</i></span>\approx0.13</span>, <span class="eq"><span class="fr"><b>4</b><i>25</i></span>=0.16</span>. הכי קרוב: <span class="eq"><span class="fr"><b>13</b><i>15</i></span></span>.</div>
+    <div class="sol">חסר: <span class="eq"><span class="fr"><b>2</b><i>11</i></span>≈0.18</span>, <span class="eq"><span class="fr"><b>2</b><i>15</i></span>≈0.13</span>, <span class="eq"><span class="fr"><b>4</b><i>25</i></span>=0.16</span>. הכי קרוב: <span class="eq"><span class="fr"><b>13</b><i>15</i></span></span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 11: נקודת הייחוס המתאימה</strong>
       <span class="tag med">בינוני</span></div>
     <div>בחרו נקודת ייחוס מתאימה וקבעו מי גדול יותר:<br><br>א. <span class="eq"><span class="fr"><b>5</b><i>12</i></span></span> או <span class="eq"><span class="fr"><b>9</b><i>16</i></span></span><br>ב. <span class="eq"><span class="fr"><b>11</b><i>13</i></span></span> או <span class="eq"><span class="fr"><b>15</b><i>17</i></span></span></div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">א. <span class="eq"><span class="fr"><b>5</b><i>12</i></span>&lt;\frac12&lt;<span class="fr"><b>9</b><i>16</i></span></span> ⇒ <span class="eq"><span class="fr"><b>9</b><i>16</i></span></span> גדול יותר. ב. חסר ל‑<span class="eq"><span class="fr"><b>11</b><i>13</i></span></span>: <span class="eq"><span class="fr"><b>2</b><i>13</i></span>\approx0.154</span>; חסר ל‑<span class="eq"><span class="fr"><b>15</b><i>17</i></span></span>: <span class="eq"><span class="fr"><b>2</b><i>17</i></span>\approx0.118</span> ⇒ <span class="eq"><span class="fr"><b>15</b><i>17</i></span></span> גדול יותר.</div>
+    <div class="sol">א. <span class="eq"><span class="fr"><b>5</b><i>12</i></span>&lt;\frac12&lt;<span class="fr"><b>9</b><i>16</i></span></span> ⇒ <span class="eq"><span class="fr"><b>9</b><i>16</i></span></span> גדול יותר. ב. חסר ל‑<span class="eq"><span class="fr"><b>11</b><i>13</i></span></span>: <span class="eq"><span class="fr"><b>2</b><i>13</i></span>≈0.154</span>; חסר ל‑<span class="eq"><span class="fr"><b>15</b><i>17</i></span></span>: <span class="eq"><span class="fr"><b>2</b><i>17</i></span>≈0.118</span> ⇒ <span class="eq"><span class="fr"><b>15</b><i>17</i></span></span> גדול יותר.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 12: אתגר: שרשרת השוואות</strong>
@@ -193,7 +202,7 @@
       <span class="tag hard">מאתגר</span></div>
     <div>יובל טוען ש‑<span class="eq"><span class="fr"><b>9</b><i>13</i></span></span> קרוב יותר ל‑1 מ‑<span class="eq"><span class="fr"><b>5</b><i>6</i></span></span>, כי 9 גדול מ‑5. נגה חושבת שצריך לבדוק מה חסר. מי צודק?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">חסר ל‑<span class="eq"><span class="fr"><b>5</b><i>6</i></span></span>: <span class="eq"><span class="fr"><b>1</b><i>6</i></span>\approx0.167</span>. חסר ל‑<span class="eq"><span class="fr"><b>9</b><i>13</i></span></span>: <span class="eq"><span class="fr"><b>4</b><i>13</i></span>\approx0.308</span>. <span class="eq"><span class="fr"><b>1</b><i>6</i></span>&lt;<span class="fr"><b>4</b><i>13</i></span></span> — ל‑<span class="eq"><span class="fr"><b>5</b><i>6</i></span></span> חסר פחות, ולכן הוא קרוב יותר ל‑1. נגה צודקת, יובל טעה.</div>
+    <div class="sol">חסר ל‑<span class="eq"><span class="fr"><b>5</b><i>6</i></span></span>: <span class="eq"><span class="fr"><b>1</b><i>6</i></span>≈0.167</span>. חסר ל‑<span class="eq"><span class="fr"><b>9</b><i>13</i></span></span>: <span class="eq"><span class="fr"><b>4</b><i>13</i></span>≈0.308</span>. <span class="eq"><span class="fr"><b>1</b><i>6</i></span>&lt;<span class="fr"><b>4</b><i>13</i></span></span> — ל‑<span class="eq"><span class="fr"><b>5</b><i>6</i></span></span> חסר פחות, ולכן הוא קרוב יותר ל‑1. נגה צודקת, יובל טעה.</div>
   </div>
 </div>
 

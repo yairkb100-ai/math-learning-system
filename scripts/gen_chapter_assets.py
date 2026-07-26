@@ -18,6 +18,7 @@ assets.json structure (all HTML strings may use the macros below):
 Macros:
   [[3/5]]      -> stacked fraction span
   [[eq: ... ]] -> LTR-isolated inline math run
+  [[sys:A ; B]]-> braced system, one equation stacked above the other
   [[blank]]    -> answer blank
   [[lines:N]]  -> N dotted answer lines
 """
@@ -30,9 +31,9 @@ from pathlib import Path
 CR = '© כל הזכויות שמורות ליאיר כהנא'
 
 
-# One math token: an [[eq:...]] island (which may embed [[a/b]] fractions) or a
-# bare [[a/b]] fraction.
-_TOKEN = r'\[\[eq:(?:[^\[\]]|\[\[\d+/\d+\]\])*\]\]|\[\[\d+/\d+\]\]'
+# One math token: an [[eq:...]] island (which may embed [[a/b]] fractions or a
+# \sqrt[n]{...} root index in square brackets) or a bare [[a/b]] fraction.
+_TOKEN = r'\[\[eq:(?:[^\[\]]|\[\[\d+/\d+\]\]|\[[^\[\]]*\])*\]\]|\[\[\d+/\d+\]\]'
 _RUN = re.compile(r'(?:' + _TOKEN + r')(?:[ \t]*(?:' + _TOKEN + r'))+')
 
 
@@ -261,13 +262,72 @@ def _art(s):
     return re.sub(r'\{\{(.*?)\}\}', repl, s)
 
 
+def _sys_html(equations):
+    """One brace + a column of equations, as one LTR island.
+
+    A system must read as two stacked lines. Written inline as
+    ``x+y=10, x-y=2`` inside RTL Hebrew the two halves get visually reordered
+    and a learner sees the equations in the wrong order on one line, so
+    systems always go through this.
+    """
+    rows = ''.join(f'<span>{e.strip()}</span>' for e in equations if e.strip())
+    return (f'<span class="sys"><span class="sysbrace">{{</span>'
+            f'<span class="syseq">{rows}</span></span>')
+
+
+def _systems(s):
+    # Inner [[a/b]] fractions are part of the token, so the body is matched
+    # the same way _TOKEN does it rather than with a bare non-greedy `.*?`
+    # (which would stop at a nested fraction's closing brackets).
+    return re.sub(
+        r'\[\[sys:((?:[^\[\]]|\[\[\d+/\d+\]\])*)\]\]',
+        lambda m: _sys_html(re.split(r'\s*;\s*', m.group(1))),
+        s, flags=re.S)
+
+
+def _sqrt_root(s):
+    """Replace ``\\sqrt{a}`` and ``\\sqrt[n]{a}`` with a real radical bar span
+    (``.rad``), with the root index (if any other than 2) as a leading
+    superscript. Brace-aware and recursive so a root can nest inside a root."""
+    needle = '\\sqrt'
+    out, i = [], 0
+    while True:
+        idx = s.find(needle, i)
+        if idx == -1:
+            out.append(s[i:])
+            return ''.join(out)
+        out.append(s[i:idx])
+        j = idx + len(needle)
+        index = None
+        if j < len(s) and s[j] == '[':
+            k = s.find(']', j)
+            if k != -1:
+                index = s[j + 1:k]
+                j = k + 1
+        if j < len(s) and s[j] == '{':
+            close = _scan_brace(s, j)
+            if close is not None:
+                arg = _sqrt_root(s[j + 1:close - 1])
+                if index and index.strip() not in ('', '2'):
+                    out.append(f'<sup class="rootidx">{index}</sup>√<span class="rad">{arg}</span>')
+                else:
+                    out.append(f'√<span class="rad">{arg}</span>')
+                i = close
+                continue
+        # No well-formed {...} argument found - leave the token untouched
+        # rather than eating following text.
+        out.append(needle)
+        i = idx + len(needle)
+
+
 def macros(s):
     s = _art(s)
+    s = _systems(s)
     s = _merge_math_runs(s)
     s = re.sub(r'\[\[(\d+)/(\d+)\]\]',
                r'<span class="fr"><b>\1</b><i>\2</i></span>', s)
-    s = re.sub(r'\[\[eq:([^\]]*)\]\]',
-               r'<span class="eq">\1</span>', s)
+    s = re.sub(r'\[\[eq:((?:[^\[\]]|\[[^\[\]]*\]|\[\[\d+/\d+\]\])*)\]\]',
+               lambda m: f'<span class="eq">{_row(m.group(1))}</span>', s)
     s = s.replace('[[blank]]', '<span class="blank"></span>')
     s = re.sub(r'\[\[lines:(\d)\]\]',
                lambda m: '<div class="lines">' + '<div></div>' * int(m.group(1)) + '</div>',
@@ -327,17 +387,141 @@ def _convert_fracs(s):
     return ''.join(out)
 
 
+def _scan_brace(s, i):
+    """s[i] is '{'; return the index just past the matching '}' (or None)."""
+    depth, i = 1, i + 1
+    while i < len(s) and depth:
+        if s[i] == '{':
+            depth += 1
+        elif s[i] == '}':
+            depth -= 1
+        i += 1
+    return i if depth == 0 else None
+
+
+def _cmd1(s, name, wrap):
+    """Replace every single-argument ``\\name{...}`` using `wrap(arg)`.
+
+    Brace-aware and recursive, so nested commands (``\\sqrt{\\frac{a}{b}}``)
+    survive. A regex with `[^}]*` would truncate at the first inner brace.
+    """
+    needle = '\\' + name + '{'
+    out, i = [], 0
+    while True:
+        idx = s.find(needle, i)
+        if idx == -1:
+            out.append(s[i:])
+            return ''.join(out)
+        open_brace = idx + len(needle) - 1
+        close = _scan_brace(s, open_brace)
+        if close is None:
+            out.append(s[i:])
+            return ''.join(out)
+        out.append(s[i:idx])
+        out.append(wrap(_cmd1(s[open_brace + 1:close - 1], name, wrap)))
+        i = close
+
+
+# Symbols KaTeX renders on the web but that used to reach the printable sheets
+# as raw text (``\Rightarrow``, ``\approx``, ``\sqrt`` …).
+_SYMBOLS = {
+    '\\Longrightarrow': '⇒', '\\Rightarrow': '⇒', '\\rightarrow': '→',
+    '\\longrightarrow': '→', '\\Leftrightarrow': '⇔', '\\to': '→',
+    '\\approx': '≈', '\\neq': '≠', '\\ne': '≠', '\\leq': '≤', '\\le': '≤',
+    '\\geq': '≥', '\\ge': '≥', '\\pm': '±', '\\mp': '∓', '\\infty': '∞',
+    '\\ldots': '…', '\\dots': '…', '\\cdots': '…', '\\square': '□',
+    '\\alpha': 'α', '\\beta': 'β', '\\gamma': 'γ', '\\theta': 'θ',
+    '\\Delta': 'Δ', '\\delta': 'δ', '\\pi': 'π', '\\circ': '°',
+    '\\sin': 'sin', '\\cos': 'cos', '\\tan': 'tan', '\\lim': 'lim',
+    '\\log': 'log', '\\ln': 'ln', '\\in': '∈', '\\cup': '∪', '\\cap': '∩',
+}
+
+
+def _tex_symbols(s):
+    for cmd, ch in sorted(_SYMBOLS.items(), key=lambda kv: -len(kv[0])):
+        s = s.replace(cmd, ch)
+    return s
+
+
+def _tex_commands(s):
+    """Resolve the brace-taking TeX commands used across the courses."""
+    s = s.replace('\\dfrac', '\\frac').replace('\\tfrac', '\\frac')
+    s = _cmd1(s, 'text', lambda a: a)
+    s = _cmd1(s, 'mathrm', lambda a: a)
+    s = _cmd1(s, 'underbrace', lambda a: a)
+    s = _cmd1(s, 'xrightarrow', lambda a: ' →<sub>' + a + '</sub> ')
+    # An overline is meaningful content here — it marks the repeating block of
+    # a recurring decimal — so it has to survive as real formatting.
+    s = _cmd1(s, 'overline', lambda a: f'<span class="ovl">{a}</span>')
+    s = _sqrt_root(s)
+    for junk in ('\\left', '\\right', '\\bigl', '\\bigr', '\\big', '\\!'):
+        s = s.replace(junk, '')
+    return s
+
+
+def _scripts(s):
+    """``x^2``/``x^{n+1}`` -> <sup>, ``a_1``/``a_{ij}`` -> <sub>.
+
+    Without this an exponents course prints its powers as a literal caret,
+    which is the one thing those sheets cannot get wrong.
+    """
+    for mark, tag in (('^', 'sup'), ('_', 'sub')):
+        out, i = [], 0
+        while True:
+            idx = s.find(mark, i)
+            if idx == -1:
+                out.append(s[i:])
+                break
+            out.append(s[i:idx])
+            rest = s[idx + 1:]
+            if rest.startswith('{'):
+                close = _scan_brace(s, idx + 1)
+                if close is None:
+                    out.append(mark)
+                    i = idx + 1
+                    continue
+                arg, i = s[idx + 2:close - 1], close
+            elif rest and (rest[0].isalnum() or rest[0] == '-'):
+                # a bare single token: x^2, x^n, 10^-3
+                m = re.match(r'-?\w', rest)
+                arg, i = m.group(0), idx + 1 + m.end()
+            else:
+                out.append(mark)
+                i = idx + 1
+                continue
+            out.append(f'<{tag}>{arg}</{tag}>')
+        s = ''.join(out)
+    return s
+
+
+def _row(t):
+    """Render one row of math. Escaping happens before any HTML is
+    emitted, so the spans produced downstream survive intact."""
+    t = t.replace('&', '&amp;').replace('>', '&gt;').replace('<', '&lt;')
+    t = t.replace('\\times', '×').replace('\\div', '÷')
+    t = t.replace('\\cdot', '·').replace('\\quad', ' ').replace('\\qquad', '  ')
+    # Spacing commands render as nothing; without this they used to leak
+    # into the sheet as a literal backslash.
+    t = re.sub(r'\\[ ,;!:]', ' ', t)
+    t = _tex_commands(t)
+    t = _tex_symbols(t)
+    t = _scripts(t)
+    return _convert_fracs(t).strip()
+
+
 # LaTeX-ish course text -> plain HTML for practice.html (no KaTeX there).
 def tex2html(s):
     s = str(s)
     # inline math with operators -> LTR span, stripped of TeX commands
     def conv(m):
         inner = m.group(1)
-        inner = inner.replace('\\times', '×').replace('\\div', '÷')
-        inner = inner.replace('\\cdot', '·').replace('\\quad', ' ').replace('\\qquad', '  ')
-        inner = inner.replace('>', '&gt;').replace('<', '&lt;')
-        inner = _convert_fracs(inner)
-        return f'<span class="eq">{inner}</span>'
+        # \begin{cases}A \\ B\end{cases} is the course JSON's way of writing a
+        # system; render it stacked here too, not as one run-on line. Split
+        # before the spacing pass, which would otherwise eat the `\\` break.
+        cases = re.search(r'\\begin\{cases\}(.*?)\\end\{cases\}', inner, re.S)
+        if cases:
+            return _sys_html([_row(r) for r in cases.group(1).split('\\\\')])
+        return f'<span class="eq">{_row(inner)}</span>'
     s = re.sub(r'\$\$?([^$]+)\$\$?', conv, s)
     s = re.sub(r'\*\*([^*]+)\*\*', r'<b>\1</b>', s)
     s = re.sub(r'\{\{[^}]*\}\}', '', s)  # strip art tokens
@@ -373,6 +557,15 @@ BASE_CSS = """
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
   .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: DARK; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
   .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid DARK; height: 1em; }
   .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
   .fig { text-align: center; font-size: 13px; color: #5b6780; }
@@ -594,6 +787,33 @@ document.querySelectorAll('.opt').forEach(btn => {{
     return page(f"תרגול אינטראקטיבי — {meta['short_title']}", style, body)
 
 
+def _write_text(path, text, attempts=5):
+    """Write, retrying on transient locks.
+
+    The repo sits in a OneDrive-synced folder; a sync handle on the file we are
+    replacing surfaces as PermissionError/EINVAL and used to abort batch runs
+    partway through.
+    """
+    import os
+    import time
+    tmp = path.with_suffix(path.suffix + '.tmp')
+    for i in range(attempts):
+        try:
+            tmp.write_text(text, encoding='utf-8')
+            os.replace(tmp, path)
+            return
+        except OSError:
+            if i == attempts - 1:
+                raise
+            time.sleep(1.5 * (i + 1))
+        finally:
+            if tmp.exists():
+                try:
+                    tmp.unlink()
+                except OSError:
+                    pass
+
+
 def main(chdir):
     chdir = Path(chdir)
     ch = json.loads((chdir / 'chapter.json').read_text(encoding='utf-8'))
@@ -603,9 +823,9 @@ def main(chdir):
         'short_title': assets.get('short_title', ch['title']),
         'subtitle': assets.get('subtitle', ch['title']),
     }
-    (chdir / 'worksheet.html').write_text(build_worksheet(ch, assets, meta), encoding='utf-8')
-    (chdir / 'question-bank.html').write_text(build_bank(ch, assets, meta), encoding='utf-8')
-    (chdir / 'practice.html').write_text(build_practice(ch, assets, meta), encoding='utf-8')
+    _write_text(chdir / 'worksheet.html', build_worksheet(ch, assets, meta))
+    _write_text(chdir / 'question-bank.html', build_bank(ch, assets, meta))
+    _write_text(chdir / 'practice.html', build_practice(ch, assets, meta))
     print(f'generated 3 html files in {chdir}')
 
 

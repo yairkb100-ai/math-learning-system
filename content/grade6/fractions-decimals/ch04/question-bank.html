@@ -31,6 +31,15 @@
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
   .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #4a1f8a; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
   .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #4a1f8a; height: 1em; }
   .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
   .fig { text-align: center; font-size: 13px; color: #5b6780; }
@@ -68,11 +77,11 @@
   
   <h2 class="sec">חלק א' — כפל ישיר ✏️ (שאלות 1–5)</h2>
   <ol class="items" start="1">
-<li><span class="eq"><span class="fr"><b>1</b><i>2</i></span> × <span class="fr"><b>1</b><i>2</i></span></span> = ?</li>
-<li><span class="eq"><span class="fr"><b>1</b><i>3</i></span> × <span class="fr"><b>1</b><i>4</i></span></span> = ?</li>
-<li><span class="eq"><span class="fr"><b>2</b><i>5</i></span> × <span class="fr"><b>1</b><i>3</i></span></span> = ?</li>
-<li><span class="eq"><span class="fr"><b>3</b><i>5</i></span> × <span class="fr"><b>5</b><i>6</i></span></span> = ? (צמצמו)</li>
-<li><span class="eq"><span class="fr"><b>7</b><i>8</i></span> × <span class="fr"><b>2</b><i>3</i></span></span> = ? (צמצמו)</li>
+<li><span class="eq">&lt;span class="fr"&gt;&lt;b&gt;1&lt;/b&gt;&lt;i&gt;2&lt;/i&gt;&lt;/span&gt; × &lt;span class="fr"&gt;&lt;b&gt;1&lt;/b&gt;&lt;i&gt;2&lt;/i&gt;&lt;/span&gt;</span> = ?</li>
+<li><span class="eq">&lt;span class="fr"&gt;&lt;b&gt;1&lt;/b&gt;&lt;i&gt;3&lt;/i&gt;&lt;/span&gt; × &lt;span class="fr"&gt;&lt;b&gt;1&lt;/b&gt;&lt;i&gt;4&lt;/i&gt;&lt;/span&gt;</span> = ?</li>
+<li><span class="eq">&lt;span class="fr"&gt;&lt;b&gt;2&lt;/b&gt;&lt;i&gt;5&lt;/i&gt;&lt;/span&gt; × &lt;span class="fr"&gt;&lt;b&gt;1&lt;/b&gt;&lt;i&gt;3&lt;/i&gt;&lt;/span&gt;</span> = ?</li>
+<li><span class="eq">&lt;span class="fr"&gt;&lt;b&gt;3&lt;/b&gt;&lt;i&gt;5&lt;/i&gt;&lt;/span&gt; × &lt;span class="fr"&gt;&lt;b&gt;5&lt;/b&gt;&lt;i&gt;6&lt;/i&gt;&lt;/span&gt;</span> = ? (צמצמו)</li>
+<li><span class="eq">&lt;span class="fr"&gt;&lt;b&gt;7&lt;/b&gt;&lt;i&gt;8&lt;/i&gt;&lt;/span&gt; × &lt;span class="fr"&gt;&lt;b&gt;2&lt;/b&gt;&lt;i&gt;3&lt;/i&gt;&lt;/span&gt;</span> = ? (צמצמו)</li>
   </ol>
   <h2 class="sec">חלק ב' — חלק של חלק בסיפור 🍰 (שאלות 6–9)</h2>
   <ol class="items" start="6">
@@ -90,17 +99,17 @@
   </ol>
   <h2 class="sec">חלק ד' — אתגרים 🏆 (שאלות 14–16)</h2>
   <ol class="items" start="14">
-<li>חשבו בקיצור מפתיע: <span class="eq"><span class="fr"><b>4</b><i>7</i></span> × <span class="fr"><b>7</b><i>4</i></span></span> = ?</li>
+<li>חשבו בקיצור מפתיע: <span class="eq">&lt;span class="fr"&gt;&lt;b&gt;4&lt;/b&gt;&lt;i&gt;7&lt;/i&gt;&lt;/span&gt; × &lt;span class="fr"&gt;&lt;b&gt;7&lt;/b&gt;&lt;i&gt;4&lt;/i&gt;&lt;/span&gt;</span> = ?</li>
 <li>שטיח מלבני: <span class="eq">1½</span> מ' על <span class="fr"><b>2</b><i>3</i></span> מ'. מה שטחו?</li>
-<li>בלי לחשב: האם <span class="eq"><span class="fr"><b>2</b><i>3</i></span> × <span class="fr"><b>4</b><i>5</i></span></span> גדול או קטן מ-<span class="fr"><b>4</b><i>5</i></span>? נמקו, ואז חשבו ובדקו.</li>
+<li>בלי לחשב: האם <span class="eq">&lt;span class="fr"&gt;&lt;b&gt;2&lt;/b&gt;&lt;i&gt;3&lt;/i&gt;&lt;/span&gt; × &lt;span class="fr"&gt;&lt;b&gt;4&lt;/b&gt;&lt;i&gt;5&lt;/i&gt;&lt;/span&gt;</span> גדול או קטן מ-<span class="fr"><b>4</b><i>5</i></span>? נמקו, ואז חשבו ובדקו.</li>
   </ol>
   <h2 class="sec">חלק ה' — כפל מתקדם עם צמצום 🔍 (שאלות 17–21)</h2>
   <ol class="items" start="17">
-<li><span class="eq"><span class="fr"><b>9</b><i>14</i></span> × <span class="fr"><b>7</b><i>12</i></span></span> = ?</li>
+<li><span class="eq">&lt;span class="fr"&gt;&lt;b&gt;9&lt;/b&gt;&lt;i&gt;14&lt;/i&gt;&lt;/span&gt; × &lt;span class="fr"&gt;&lt;b&gt;7&lt;/b&gt;&lt;i&gt;12&lt;/i&gt;&lt;/span&gt;</span> = ?</li>
 <li>מגרש: <span class="fr"><b>5</b><i>9</i></span> מיועד לחניה, ומתוך שטח החניה <span class="fr"><b>3</b><i>5</i></span> מסומן לרכבי נכים. איזה חלק מכל המגרש מסומן לרכבי נכים?</li>
 <li><span class="eq">3⅓ × 1¾</span> = ?</li>
 <li>מכפילים <span class="eq">2⅙</span> במספר מסוים ומקבלים <span class="eq">3¼</span>. מהו המספר?</li>
-<li><span class="eq"><span class="fr"><b>5</b><i>12</i></span> × <span class="fr"><b>8</b><i>15</i></span></span> = ?</li>
+<li><span class="eq">&lt;span class="fr"&gt;&lt;b&gt;5&lt;/b&gt;&lt;i&gt;12&lt;/i&gt;&lt;/span&gt; × &lt;span class="fr"&gt;&lt;b&gt;8&lt;/b&gt;&lt;i&gt;15&lt;/i&gt;&lt;/span&gt;</span> = ?</li>
   </ol>
   <h2 class="sec">חלק ו' — אתגרים 🏆 (שאלות 22–25)</h2>
   <ol class="items" start="22">
@@ -122,26 +131,26 @@
 <div class="ans"><strong>3.</strong> <span class="fr"><b>2</b><i>15</i></span></div>
 <div class="ans"><strong>4.</strong> <span class="fr"><b>15</b><i>30</i></span> = <span class="fr"><b>1</b><i>2</i></span></div>
 <div class="ans"><strong>5.</strong> <span class="fr"><b>14</b><i>24</i></span> = <span class="fr"><b>7</b><i>12</i></span></div>
-<div class="ans"><strong>6.</strong> <span class="eq"><span class="fr"><b>1</b><i>2</i></span> × <span class="fr"><b>1</b><i>3</i></span></span> = <span class="fr"><b>1</b><i>6</i></span> מהעוגה השלמה.</div>
-<div class="ans"><strong>7.</strong> <span class="eq"><span class="fr"><b>2</b><i>3</i></span> × <span class="fr"><b>3</b><i>5</i></span></span> = <span class="fr"><b>6</b><i>15</i></span> = <span class="fr"><b>2</b><i>5</i></span> מהחוג.</div>
-<div class="ans"><strong>8.</strong> <span class="eq"><span class="fr"><b>3</b><i>4</i></span> × <span class="fr"><b>4</b><i>5</i></span></span> = <span class="fr"><b>12</b><i>20</i></span> = <span class="fr"><b>3</b><i>5</i></span> ליטר.</div>
-<div class="ans"><strong>9.</strong> <span class="eq"><span class="fr"><b>3</b><i>8</i></span> × <span class="fr"><b>2</b><i>3</i></span></span> = <span class="fr"><b>6</b><i>24</i></span> = <span class="fr"><b>1</b><i>4</i></span> מהטבלה.</div>
-<div class="ans"><strong>10.</strong> <span class="eq"><span class="fr"><b>3</b><i>2</i></span> × <span class="fr"><b>5</b><i>2</i></span></span> = <span class="fr"><b>15</b><i>4</i></span> = <span class="eq">3¾</span></div>
-<div class="ans"><strong>11.</strong> <span class="eq"><span class="fr"><b>5</b><i>4</i></span> × <span class="fr"><b>8</b><i>5</i></span></span> = <span class="fr"><b>40</b><i>20</i></span> = 2</div>
-<div class="ans"><strong>12.</strong> <span class="eq"><span class="fr"><b>7</b><i>3</i></span> × <span class="fr"><b>3</b><i>2</i></span></span> = <span class="fr"><b>21</b><i>6</i></span> = <span class="fr"><b>7</b><i>2</i></span> = <span class="eq">3½</span></div>
-<div class="ans"><strong>13.</strong> <span class="eq"><span class="fr"><b>7</b><i>2</i></span> × 2</span> = 7</div>
+<div class="ans"><strong>6.</strong> <span class="eq">&lt;span class="fr"&gt;&lt;b&gt;1&lt;/b&gt;&lt;i&gt;2&lt;/i&gt;&lt;/span&gt; × &lt;span class="fr"&gt;&lt;b&gt;1&lt;/b&gt;&lt;i&gt;3&lt;/i&gt;&lt;/span&gt;</span> = <span class="fr"><b>1</b><i>6</i></span> מהעוגה השלמה.</div>
+<div class="ans"><strong>7.</strong> <span class="eq">&lt;span class="fr"&gt;&lt;b&gt;2&lt;/b&gt;&lt;i&gt;3&lt;/i&gt;&lt;/span&gt; × &lt;span class="fr"&gt;&lt;b&gt;3&lt;/b&gt;&lt;i&gt;5&lt;/i&gt;&lt;/span&gt;</span> = <span class="fr"><b>6</b><i>15</i></span> = <span class="fr"><b>2</b><i>5</i></span> מהחוג.</div>
+<div class="ans"><strong>8.</strong> <span class="eq">&lt;span class="fr"&gt;&lt;b&gt;3&lt;/b&gt;&lt;i&gt;4&lt;/i&gt;&lt;/span&gt; × &lt;span class="fr"&gt;&lt;b&gt;4&lt;/b&gt;&lt;i&gt;5&lt;/i&gt;&lt;/span&gt;</span> = <span class="fr"><b>12</b><i>20</i></span> = <span class="fr"><b>3</b><i>5</i></span> ליטר.</div>
+<div class="ans"><strong>9.</strong> <span class="eq">&lt;span class="fr"&gt;&lt;b&gt;3&lt;/b&gt;&lt;i&gt;8&lt;/i&gt;&lt;/span&gt; × &lt;span class="fr"&gt;&lt;b&gt;2&lt;/b&gt;&lt;i&gt;3&lt;/i&gt;&lt;/span&gt;</span> = <span class="fr"><b>6</b><i>24</i></span> = <span class="fr"><b>1</b><i>4</i></span> מהטבלה.</div>
+<div class="ans"><strong>10.</strong> <span class="eq">&lt;span class="fr"&gt;&lt;b&gt;3&lt;/b&gt;&lt;i&gt;2&lt;/i&gt;&lt;/span&gt; × &lt;span class="fr"&gt;&lt;b&gt;5&lt;/b&gt;&lt;i&gt;2&lt;/i&gt;&lt;/span&gt;</span> = <span class="fr"><b>15</b><i>4</i></span> = <span class="eq">3¾</span></div>
+<div class="ans"><strong>11.</strong> <span class="eq">&lt;span class="fr"&gt;&lt;b&gt;5&lt;/b&gt;&lt;i&gt;4&lt;/i&gt;&lt;/span&gt; × &lt;span class="fr"&gt;&lt;b&gt;8&lt;/b&gt;&lt;i&gt;5&lt;/i&gt;&lt;/span&gt;</span> = <span class="fr"><b>40</b><i>20</i></span> = 2</div>
+<div class="ans"><strong>12.</strong> <span class="eq">&lt;span class="fr"&gt;&lt;b&gt;7&lt;/b&gt;&lt;i&gt;3&lt;/i&gt;&lt;/span&gt; × &lt;span class="fr"&gt;&lt;b&gt;3&lt;/b&gt;&lt;i&gt;2&lt;/i&gt;&lt;/span&gt;</span> = <span class="fr"><b>21</b><i>6</i></span> = <span class="fr"><b>7</b><i>2</i></span> = <span class="eq">3½</span></div>
+<div class="ans"><strong>13.</strong> <span class="eq">&lt;span class="fr"&gt;&lt;b&gt;7&lt;/b&gt;&lt;i&gt;2&lt;/i&gt;&lt;/span&gt; × 2</span> = 7</div>
 <div class="ans"><strong>14.</strong> 1 בדיוק — מונה ומכנה מתחלפים ומצטמצמים לגמרי.</div>
-<div class="ans"><strong>15.</strong> <span class="eq"><span class="fr"><b>3</b><i>2</i></span> × <span class="fr"><b>2</b><i>3</i></span></span> = 1 מ"ר בדיוק.</div>
+<div class="ans"><strong>15.</strong> <span class="eq">&lt;span class="fr"&gt;&lt;b&gt;3&lt;/b&gt;&lt;i&gt;2&lt;/i&gt;&lt;/span&gt; × &lt;span class="fr"&gt;&lt;b&gt;2&lt;/b&gt;&lt;i&gt;3&lt;/i&gt;&lt;/span&gt;</span> = 1 מ"ר בדיוק.</div>
 <div class="ans"><strong>16.</strong> קטן מ-<span class="fr"><b>4</b><i>5</i></span>, כי כפלנו בשבר קטן מ-1. חישוב: <span class="fr"><b>8</b><i>15</i></span>, ובאמת <span class="fr"><b>8</b><i>15</i></span> < <span class="fr"><b>12</b><i>15</i></span> = <span class="fr"><b>4</b><i>5</i></span> ✓</div>
 <div class="ans"><strong>17.</strong> <span class="fr"><b>3</b><i>8</i></span> (מצמצמים 7 עם 14 ו-9 עם 12).</div>
-<div class="ans"><strong>18.</strong> <span class="eq"><span class="fr"><b>5</b><i>9</i></span> × <span class="fr"><b>3</b><i>5</i></span></span> = <span class="fr"><b>15</b><i>45</i></span> = <span class="fr"><b>1</b><i>3</i></span> מכל המגרש.</div>
-<div class="ans"><strong>19.</strong> <span class="eq">5⅚</span> (כי <span class="eq"><span class="fr"><b>10</b><i>3</i></span> × <span class="fr"><b>7</b><i>4</i></span></span> = <span class="fr"><b>70</b><i>12</i></span> = <span class="fr"><b>35</b><i>6</i></span>).</div>
-<div class="ans"><strong>20.</strong> <span class="eq">1½</span>, כי <span class="eq"><span class="fr"><b>13</b><i>4</i></span> ÷ <span class="fr"><b>13</b><i>6</i></span></span> = <span class="eq"><span class="fr"><b>13</b><i>4</i></span> × <span class="fr"><b>6</b><i>13</i></span></span> = <span class="fr"><b>3</b><i>2</i></span>.</div>
+<div class="ans"><strong>18.</strong> <span class="eq">&lt;span class="fr"&gt;&lt;b&gt;5&lt;/b&gt;&lt;i&gt;9&lt;/i&gt;&lt;/span&gt; × &lt;span class="fr"&gt;&lt;b&gt;3&lt;/b&gt;&lt;i&gt;5&lt;/i&gt;&lt;/span&gt;</span> = <span class="fr"><b>15</b><i>45</i></span> = <span class="fr"><b>1</b><i>3</i></span> מכל המגרש.</div>
+<div class="ans"><strong>19.</strong> <span class="eq">5⅚</span> (כי <span class="eq">&lt;span class="fr"&gt;&lt;b&gt;10&lt;/b&gt;&lt;i&gt;3&lt;/i&gt;&lt;/span&gt; × &lt;span class="fr"&gt;&lt;b&gt;7&lt;/b&gt;&lt;i&gt;4&lt;/i&gt;&lt;/span&gt;</span> = <span class="fr"><b>70</b><i>12</i></span> = <span class="fr"><b>35</b><i>6</i></span>).</div>
+<div class="ans"><strong>20.</strong> <span class="eq">1½</span>, כי <span class="eq">&lt;span class="fr"&gt;&lt;b&gt;13&lt;/b&gt;&lt;i&gt;4&lt;/i&gt;&lt;/span&gt; ÷ &lt;span class="fr"&gt;&lt;b&gt;13&lt;/b&gt;&lt;i&gt;6&lt;/i&gt;&lt;/span&gt;</span> = <span class="eq">&lt;span class="fr"&gt;&lt;b&gt;13&lt;/b&gt;&lt;i&gt;4&lt;/i&gt;&lt;/span&gt; × &lt;span class="fr"&gt;&lt;b&gt;6&lt;/b&gt;&lt;i&gt;13&lt;/i&gt;&lt;/span&gt;</span> = <span class="fr"><b>3</b><i>2</i></span>.</div>
 <div class="ans"><strong>21.</strong> <span class="fr"><b>2</b><i>9</i></span> (מצמצמים 5 עם 15 ו-8 עם 12).</div>
-<div class="ans"><strong>22.</strong> <span class="fr"><b>3</b><i>10</i></span> מהסחורה המקורית: אחרי הבוקר נשאר <span class="fr"><b>2</b><i>5</i></span>, ואחה"צ נמכר <span class="eq"><span class="fr"><b>1</b><i>4</i></span> × <span class="fr"><b>2</b><i>5</i></span></span> = <span class="fr"><b>1</b><i>10</i></span>, כך שנשאר <span class="eq"><span class="fr"><b>2</b><i>5</i></span> − <span class="fr"><b>1</b><i>10</i></span></span> = <span class="fr"><b>3</b><i>10</i></span>.</div>
-<div class="ans"><strong>23.</strong> <span class="eq">2¼</span> מטר, כי <span class="eq"><span class="fr"><b>27</b><i>8</i></span> ÷ <span class="fr"><b>3</b><i>2</i></span></span> = <span class="eq"><span class="fr"><b>27</b><i>8</i></span> × <span class="fr"><b>2</b><i>3</i></span></span> = <span class="fr"><b>54</b><i>24</i></span> = <span class="fr"><b>9</b><i>4</i></span>.</div>
-<div class="ans"><strong>24.</strong> <span class="eq">4⅕ × 1⅔</span> = <span class="eq"><span class="fr"><b>21</b><i>5</i></span> × <span class="fr"><b>5</b><i>3</i></span></span> = <span class="fr"><b>105</b><i>15</i></span> = 7 בדיוק. <span class="eq">3½ × 2¼</span> = <span class="eq"><span class="fr"><b>7</b><i>2</i></span> × <span class="fr"><b>9</b><i>4</i></span></span> = <span class="fr"><b>63</b><i>8</i></span> = <span class="eq">7⅞</span>. לכן <span class="eq">3½ × 2¼</span> גדול יותר (7⅞ > 7).</div>
-<div class="ans"><strong>25.</strong> <span class="eq">2⅖</span>, כי <span class="eq"><span class="fr"><b>22</b><i>5</i></span> ÷ <span class="fr"><b>11</b><i>6</i></span></span> = <span class="eq"><span class="fr"><b>22</b><i>5</i></span> × <span class="fr"><b>6</b><i>11</i></span></span> = <span class="fr"><b>132</b><i>55</i></span> = <span class="fr"><b>12</b><i>5</i></span> = <span class="eq">2⅖</span>.</div>
+<div class="ans"><strong>22.</strong> <span class="fr"><b>3</b><i>10</i></span> מהסחורה המקורית: אחרי הבוקר נשאר <span class="fr"><b>2</b><i>5</i></span>, ואחה"צ נמכר <span class="eq">&lt;span class="fr"&gt;&lt;b&gt;1&lt;/b&gt;&lt;i&gt;4&lt;/i&gt;&lt;/span&gt; × &lt;span class="fr"&gt;&lt;b&gt;2&lt;/b&gt;&lt;i&gt;5&lt;/i&gt;&lt;/span&gt;</span> = <span class="fr"><b>1</b><i>10</i></span>, כך שנשאר <span class="eq">&lt;span class="fr"&gt;&lt;b&gt;2&lt;/b&gt;&lt;i&gt;5&lt;/i&gt;&lt;/span&gt; − &lt;span class="fr"&gt;&lt;b&gt;1&lt;/b&gt;&lt;i&gt;10&lt;/i&gt;&lt;/span&gt;</span> = <span class="fr"><b>3</b><i>10</i></span>.</div>
+<div class="ans"><strong>23.</strong> <span class="eq">2¼</span> מטר, כי <span class="eq">&lt;span class="fr"&gt;&lt;b&gt;27&lt;/b&gt;&lt;i&gt;8&lt;/i&gt;&lt;/span&gt; ÷ &lt;span class="fr"&gt;&lt;b&gt;3&lt;/b&gt;&lt;i&gt;2&lt;/i&gt;&lt;/span&gt;</span> = <span class="eq">&lt;span class="fr"&gt;&lt;b&gt;27&lt;/b&gt;&lt;i&gt;8&lt;/i&gt;&lt;/span&gt; × &lt;span class="fr"&gt;&lt;b&gt;2&lt;/b&gt;&lt;i&gt;3&lt;/i&gt;&lt;/span&gt;</span> = <span class="fr"><b>54</b><i>24</i></span> = <span class="fr"><b>9</b><i>4</i></span>.</div>
+<div class="ans"><strong>24.</strong> <span class="eq">4⅕ × 1⅔</span> = <span class="eq">&lt;span class="fr"&gt;&lt;b&gt;21&lt;/b&gt;&lt;i&gt;5&lt;/i&gt;&lt;/span&gt; × &lt;span class="fr"&gt;&lt;b&gt;5&lt;/b&gt;&lt;i&gt;3&lt;/i&gt;&lt;/span&gt;</span> = <span class="fr"><b>105</b><i>15</i></span> = 7 בדיוק. <span class="eq">3½ × 2¼</span> = <span class="eq">&lt;span class="fr"&gt;&lt;b&gt;7&lt;/b&gt;&lt;i&gt;2&lt;/i&gt;&lt;/span&gt; × &lt;span class="fr"&gt;&lt;b&gt;9&lt;/b&gt;&lt;i&gt;4&lt;/i&gt;&lt;/span&gt;</span> = <span class="fr"><b>63</b><i>8</i></span> = <span class="eq">7⅞</span>. לכן <span class="eq">3½ × 2¼</span> גדול יותר (7⅞ > 7).</div>
+<div class="ans"><strong>25.</strong> <span class="eq">2⅖</span>, כי <span class="eq">&lt;span class="fr"&gt;&lt;b&gt;22&lt;/b&gt;&lt;i&gt;5&lt;/i&gt;&lt;/span&gt; ÷ &lt;span class="fr"&gt;&lt;b&gt;11&lt;/b&gt;&lt;i&gt;6&lt;/i&gt;&lt;/span&gt;</span> = <span class="eq">&lt;span class="fr"&gt;&lt;b&gt;22&lt;/b&gt;&lt;i&gt;5&lt;/i&gt;&lt;/span&gt; × &lt;span class="fr"&gt;&lt;b&gt;6&lt;/b&gt;&lt;i&gt;11&lt;/i&gt;&lt;/span&gt;</span> = <span class="fr"><b>132</b><i>55</i></span> = <span class="fr"><b>12</b><i>5</i></span> = <span class="eq">2⅖</span>.</div>
   <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
 </div>
 </body>

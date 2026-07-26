@@ -31,6 +31,15 @@
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
   .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
   .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
   .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
   .fig { text-align: center; font-size: 13px; color: #5b6780; }
@@ -95,28 +104,28 @@
       <span class="tag easy">קל</span></div>
     <div>במשולש: <span class="eq">a = 3</span>, <span class="eq">b = 5</span> והזווית ביניהן <span class="eq">C = 90°</span>. חשבו את <span class="eq">c</span> בעזרת משפט הקוסינוסים וודאו שהתקבל משפט פיתגורס.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol"><span class="eq">c^2 = 9 + 25 - 30\cos 90° = 34 - 0 = 34</span>, ולכן <span class="eq">c = \sqrt{34} \approx 5.83</span>. אכן זהו בדיוק משפט פיתגורס, כי <span class="eq">\cos 90° = 0</span>.</div>
+    <div class="sol"><span class="eq">c<sup>2</sup> = 9 + 25 - 30cos 90° = 34 - 0 = 34</span>, ולכן <span class="eq">c = √<span class="rad">34</span> ≈ 5.83</span>. אכן זהו בדיוק משפט פיתגורס, כי <span class="eq">cos 90° = 0</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 2: צז"צ</strong>
       <span class="tag med">בינוני</span></div>
     <div>במשולש: <span class="eq">a = 8</span>, <span class="eq">b = 11</span>, <span class="eq">C = 40°</span>. חשבו את <span class="eq">c</span>.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol"><span class="eq">c^2 = 64 + 121 - 2 · 8 · 11 · \cos 40° = 185 - 176 · 0.766 \approx 185 - 134.8 = 50.2</span>, ולכן <span class="eq">c \approx 7.08</span>.</div>
+    <div class="sol"><span class="eq">c<sup>2</sup> = 64 + 121 - 2 · 8 · 11 · cos 40° = 185 - 176 · 0.766 ≈ 185 - 134.8 = 50.2</span>, ולכן <span class="eq">c ≈ 7.08</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 3: שלוש צלעות</strong>
       <span class="tag med">בינוני</span></div>
     <div>צלעות משולש: 7, 9, 12. מצאו את הזווית שמול הצלע 12.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol"><span class="eq">\cos\theta = <span class="fr"><b>49 + 81 - 144</b><i>2 · 7 · 9</i></span> = <span class="fr"><b>-14</b><i>126</i></span> \approx -0.1111</span>, ולכן <span class="eq">\theta \approx 96.4°</span>.</div>
+    <div class="sol"><span class="eq">cosθ = <span class="fr"><b>49 + 81 - 144</b><i>2 · 7 · 9</i></span> = <span class="fr"><b>-14</b><i>126</i></span> ≈ -0.1111</span>, ולכן <span class="eq">θ ≈ 96.4°</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 4: אלכסוני מקבילית</strong>
       <span class="tag hard">מאתגר</span></div>
     <div>במקבילית צלעות של 6 ו-9 ס"מ וזווית של <span class="eq">70°</span> ביניהן. חשבו את אורכי שני האלכסונים.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">האלכסון מול זווית <span class="eq">70°</span>: <span class="eq">d_1^2 = 36 + 81 - 108\cos 70° \approx 117 - 36.9 = 80.1</span>, <span class="eq">d_1 \approx 8.95</span> ס"מ. האלכסון השני מול הזווית הצמודה <span class="eq">110°</span>: <span class="eq">d_2^2 = 117 - 108\cos 110° \approx 117 + 36.9 = 153.9</span>, <span class="eq">d_2 \approx 12.41</span> ס"מ.</div>
+    <div class="sol">האלכסון מול זווית <span class="eq">70°</span>: <span class="eq">d<sub>1</sub><sup>2</sup> = 36 + 81 - 108cos 70° ≈ 117 - 36.9 = 80.1</span>, <span class="eq">d<sub>1</sub> ≈ 8.95</span> ס"מ. האלכסון השני מול הזווית הצמודה <span class="eq">110°</span>: <span class="eq">d<sub>2</sub><sup>2</sup> = 117 - 108cos 110° ≈ 117 + 36.9 = 153.9</span>, <span class="eq">d<sub>2</sub> ≈ 12.41</span> ס"מ.</div>
   </div>
 </div>
 
@@ -130,7 +139,7 @@
 <div class="credit" style="max-width:780px; margin:0 auto">© כל הזכויות שמורות ליאיר כהנא</div>
 
 <script>
-const quiz = [{"q": "משפט הקוסינוסים הוא הכללה של משפט פיתגורס.", "o": ["נכון", "לא נכון"], "a": 0}, {"q": "נתונות שלוש צלעות של משולש. באיזה משפט משתמשים למציאת זווית?", "o": ["משפט הקוסינוסים", "משפט הסינוסים", "משפט פיתגורס", "משפט תאלס"], "a": 0}, {"q": "אם הקוסינוס של זווית במשולש שלילי, הזווית היא:", "o": ["קהה", "חדה", "ישרה", "שטוחה"], "a": 0}, {"q": "בנוסחה <span class=\"eq\">c^2 = a^2 + b^2 - 2ab\\cos C</span>, הזווית <span class=\"eq\">C</span> נמצאת מול הצלע <span class=\"eq\">c</span>.", "o": ["נכון", "לא נכון"], "a": 0}, {"q": "במשולש עם <span class=\"eq\">a=b=5</span> ו-<span class=\"eq\">C = 60°</span>, מהו <span class=\"eq\">c</span>?", "o": ["5", "לא ניתן לחשב", "7.07", "10"], "a": 0}];
+const quiz = [{"q": "משפט הקוסינוסים הוא הכללה של משפט פיתגורס.", "o": ["נכון", "לא נכון"], "a": 0}, {"q": "נתונות שלוש צלעות של משולש. באיזה משפט משתמשים למציאת זווית?", "o": ["משפט הקוסינוסים", "משפט הסינוסים", "משפט פיתגורס", "משפט תאלס"], "a": 0}, {"q": "אם הקוסינוס של זווית במשולש שלילי, הזווית היא:", "o": ["קהה", "חדה", "ישרה", "שטוחה"], "a": 0}, {"q": "בנוסחה <span class=\"eq\">c<sup>2</sup> = a<sup>2</sup> + b<sup>2</sup> - 2abcos C</span>, הזווית <span class=\"eq\">C</span> נמצאת מול הצלע <span class=\"eq\">c</span>.", "o": ["נכון", "לא נכון"], "a": 0}, {"q": "במשולש עם <span class=\"eq\">a=b=5</span> ו-<span class=\"eq\">C = 60°</span>, מהו <span class=\"eq\">c</span>?", "o": ["5", "לא ניתן לחשב", "7.07", "10"], "a": 0}];
 let answered = 0, correct = 0;
 document.getElementById('quiz').innerHTML = quiz.map((q, i) => `
   <div class="q">

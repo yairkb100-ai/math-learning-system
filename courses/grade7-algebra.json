@@ -1209,38 +1209,38 @@
           {
             "title": "פתרון בשיטת ההצבה",
             "type": "text",
-            "content": "פתרו את המערכת: $x+y=10,\\ y=x+2$.\n\n**פתרון:** מציבים: $x+(x+2)=10 \\Rightarrow 2x+2=10 \\Rightarrow x=4$. אז $y=4+2=6$.\n\n**בדיקה:** $4+6=10$ ✓, וגם $6=4+2$ ✓."
+            "content": "פתרו את המערכת: $\\begin{cases}x+y=10 \\\\ y=x+2\\end{cases}$.\n\n**פתרון:** מציבים: $x+(x+2)=10 \\Rightarrow 2x+2=10 \\Rightarrow x=4$. אז $y=4+2=6$.\n\n**בדיקה:** $4+6=10$ ✓, וגם $6=4+2$ ✓."
           },
           {
             "title": "פתרון בשיטת החיבור",
             "type": "text",
-            "content": "פתרו את המערכת: $x+y=10,\\ x-y=2$.\n\n**פתרון:** מחברים את המשוואות: $2x=12 \\Rightarrow x=6$. מציבים: $6+y=10 \\Rightarrow y=4$.\n\n**בדיקה:** $6+4=10$ ✓, וגם $6-4=2$ ✓."
+            "content": "פתרו את המערכת: $\\begin{cases}x+y=10 \\\\ x-y=2\\end{cases}$.\n\n**פתרון:** מחברים את המשוואות: $2x=12 \\Rightarrow x=6$. מציבים: $6+y=10 \\Rightarrow y=4$.\n\n**בדיקה:** $6+4=10$ ✓, וגם $6-4=2$ ✓."
           },
           {
             "title": "בעיה מילולית",
             "type": "text",
-            "content": "סכום שני מספרים הוא 15, וההפרש ביניהם 3. מהם המספרים?\n\n**פתרון:** $x+y=15,\\ x-y=3$. מחברים: $2x=18 \\Rightarrow x=9$. מציבים: $9+y=15 \\Rightarrow y=6$.\n\nהמספרים: 9 ו-6. **בדיקה:** $9+6=15$ ✓, $9-6=3$ ✓."
+            "content": "סכום שני מספרים הוא 15, וההפרש ביניהם 3. מהם המספרים?\n\n**פתרון:** $\\begin{cases}x+y=15 \\\\ x-y=3\\end{cases}$. מחברים: $2x=18 \\Rightarrow x=9$. מציבים: $9+y=15 \\Rightarrow y=6$.\n\nהמספרים: 9 ו-6. **בדיקה:** $9+6=15$ ✓, $9-6=3$ ✓."
           }
         ],
         "exercises": [
           {
             "number": 1,
             "title": "הצבה",
-            "description": "פתרו את המערכת: $y=x+3,\\ x+y=17$.",
+            "description": "פתרו את המערכת: $\\begin{cases}y=x+3 \\\\ x+y=17\\end{cases}$.",
             "difficulty": "easy",
             "solution": "$x+(x+3)=17 \\Rightarrow 2x=14 \\Rightarrow x=7$. אז $y=10$."
           },
           {
             "number": 2,
             "title": "חיבור ישיר",
-            "description": "פתרו את המערכת: $x+y=12,\\ x-y=4$.",
+            "description": "פתרו את המערכת: $\\begin{cases}x+y=12 \\\\ x-y=4\\end{cases}$.",
             "difficulty": "easy",
             "solution": "מחברים: $2x=16 \\Rightarrow x=8$. מציבים: $8+y=12 \\Rightarrow y=4$."
           },
           {
             "number": 3,
             "title": "חיסור",
-            "description": "פתרו את המערכת: $2x+y=13,\\ x+y=8$.",
+            "description": "פתרו את המערכת: $\\begin{cases}2x+y=13 \\\\ x+y=8\\end{cases}$.",
             "difficulty": "medium",
             "solution": "מחסרים את המשוואה השנייה מהראשונה: $x=5$. מציבים ב-$x+y=8$: $y=3$."
           },
@@ -1249,7 +1249,7 @@
             "title": "אתגר: בעיה מילולית",
             "description": "סכום שני מספרים הוא 24, וההפרש ביניהם 6. מצאו את המספרים.",
             "difficulty": "hard",
-            "solution": "$x+y=24,\\ x-y=6$. מחברים: $2x=30 \\Rightarrow x=15$. מציבים: $15+y=24 \\Rightarrow y=9$. המספרים: 15 ו-9."
+            "solution": "$\\begin{cases}x+y=24 \\\\ x-y=6\\end{cases}$. מחברים: $2x=30 \\Rightarrow x=15$. מציבים: $15+y=24 \\Rightarrow y=9$. המספרים: 15 ו-9."
           }
         ],
         "quiz": [
@@ -1267,7 +1267,7 @@
           },
           {
             "number": 2,
-            "question": "פתרו: $x+y=10,\\ x-y=4$",
+            "question": "פתרו: $\\begin{cases}x+y=10 \\\\ x-y=4\\end{cases}$",
             "type": "multiple-choice",
             "options": [
               "$x=7,\\ y=3$",
@@ -1289,7 +1289,7 @@
           },
           {
             "number": 4,
-            "question": "פתרו: $y=2x,\\ x+y=15$",
+            "question": "פתרו: $\\begin{cases}y=2x \\\\ x+y=15\\end{cases}$",
             "type": "multiple-choice",
             "options": [
               "$x=5,\\ y=10$",

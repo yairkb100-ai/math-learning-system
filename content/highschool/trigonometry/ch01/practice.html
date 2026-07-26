@@ -31,6 +31,15 @@
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
   .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
   .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
   .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
   .fig { text-align: center; font-size: 13px; color: #5b6780; }
@@ -93,30 +102,30 @@
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 1: יחסים במשולש 6-8-10</strong>
       <span class="tag easy">קל</span></div>
-    <div>במשולש ישר-זווית הניצבים 6 ו-8 והיתר 10. חשבו את <span class="eq">\sin\alpha</span>, <span class="eq">\cos\alpha</span> ו-<span class="eq">\tan\alpha</span> עבור הזווית <span class="eq">\alpha</span> שמול הצלע 6.</div>
+    <div>במשולש ישר-זווית הניצבים 6 ו-8 והיתר 10. חשבו את <span class="eq">sinα</span>, <span class="eq">cosα</span> ו-<span class="eq">tanα</span> עבור הזווית <span class="eq">α</span> שמול הצלע 6.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol"><span class="eq">\sin\alpha = <span class="fr"><b>6</b><i>10</i></span> = 0.6</span>, <span class="eq">\cos\alpha = <span class="fr"><b>8</b><i>10</i></span> = 0.8</span>, <span class="eq">\tan\alpha = <span class="fr"><b>6</b><i>8</i></span> = 0.75</span>. (המשולש דומה למשולש 3-4-5, ולכן היחסים זהים.)</div>
+    <div class="sol"><span class="eq">sinα = <span class="fr"><b>6</b><i>10</i></span> = 0.6</span>, <span class="eq">cosα = <span class="fr"><b>8</b><i>10</i></span> = 0.8</span>, <span class="eq">tanα = <span class="fr"><b>6</b><i>8</i></span> = 0.75</span>. (המשולש דומה למשולש 3-4-5, ולכן היחסים זהים.)</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 2: מציאת ניצב בעזרת טנגנס</strong>
       <span class="tag med">בינוני</span></div>
-    <div>במשולש ישר-זווית הזווית <span class="eq">\alpha = 40°</span> והניצב שלידה שווה 7 ס"מ. חשבו את אורך הניצב שמול <span class="eq">\alpha</span> (דיוק: 2 ספרות אחרי הנקודה).</div>
+    <div>במשולש ישר-זווית הזווית <span class="eq">α = 40°</span> והניצב שלידה שווה 7 ס"מ. חשבו את אורך הניצב שמול <span class="eq">α</span> (דיוק: 2 ספרות אחרי הנקודה).</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">מול וליד — משתמשים בטנגנס: <span class="eq">\tan 40° = <span class="fr"><b>x</b><i>7</i></span></span>, ולכן <span class="eq">x = 7\tan 40° \approx 7 · 0.8391 \approx 5.87</span> ס"מ.</div>
+    <div class="sol">מול וליד — משתמשים בטנגנס: <span class="eq">tan 40° = <span class="fr"><b>x</b><i>7</i></span></span>, ולכן <span class="eq">x = 7tan 40° ≈ 7 · 0.8391 ≈ 5.87</span> ס"מ.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 3: מציאת זווית</strong>
       <span class="tag med">בינוני</span></div>
-    <div>במשולש ישר-זווית היתר 12 ס"מ והניצב שמול הזווית <span class="eq">\alpha</span> שווה 9 ס"מ. מצאו את <span class="eq">\alpha</span>.</div>
+    <div>במשולש ישר-זווית היתר 12 ס"מ והניצב שמול הזווית <span class="eq">α</span> שווה 9 ס"מ. מצאו את <span class="eq">α</span>.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol"><span class="eq">\sin\alpha = <span class="fr"><b>9</b><i>12</i></span> = 0.75</span>, ולכן <span class="eq">\alpha = \sin^{-1}(0.75) \approx 48.59°</span>.</div>
+    <div class="sol"><span class="eq">sinα = <span class="fr"><b>9</b><i>12</i></span> = 0.75</span>, ולכן <span class="eq">α = sin<sup>-1</sup>(0.75) ≈ 48.59°</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 4: סולם נשען על קיר</strong>
       <span class="tag hard">מאתגר</span></div>
     <div>סולם באורך 5 מטר נשען על קיר ויוצר זווית של <span class="eq">65°</span> עם הקרקע. לאיזה גובה על הקיר מגיע הסולם?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">הסולם הוא היתר, הגובה הוא הניצב שמול זווית <span class="eq">65°</span>: <span class="eq">h = 5\sin 65° \approx 5 · 0.9063 \approx 4.53</span> מטר.</div>
+    <div class="sol">הסולם הוא היתר, הגובה הוא הניצב שמול זווית <span class="eq">65°</span>: <span class="eq">h = 5sin 65° ≈ 5 · 0.9063 ≈ 4.53</span> מטר.</div>
   </div>
 </div>
 
@@ -130,7 +139,7 @@
 <div class="credit" style="max-width:780px; margin:0 auto">© כל הזכויות שמורות ליאיר כהנא</div>
 
 <script>
-const quiz = [{"q": "מהו <span class=\"eq\">\\sin 30°</span>?", "o": ["0.5", "0.866", "1", "0.707"], "a": 0}, {"q": "מהו <span class=\"eq\">\\tan 45°</span>?", "o": ["1", "0.5", "0.707", "אינסוף"], "a": 0}, {"q": "סינוס של זווית חדה מוגדר כיחס בין הניצב שמול הזווית ליתר.", "o": ["נכון", "לא נכון"], "a": 0}, {"q": "אם <span class=\"eq\">\\sin\\alpha = 0.6</span> עבור זווית חדה <span class=\"eq\">\\alpha</span>, מהו <span class=\"eq\">\\cos\\alpha</span>?", "o": ["0.8", "0.4", "0.6", "0.36"], "a": 0}, {"q": "במשולש ישר-זווית, איזו צלע היא תמיד הארוכה ביותר?", "o": ["היתר", "הניצב שמול", "הניצב שליד", "תלוי בזוויות"], "a": 0}];
+const quiz = [{"q": "מהו <span class=\"eq\">sin 30°</span>?", "o": ["0.5", "0.866", "1", "0.707"], "a": 0}, {"q": "מהו <span class=\"eq\">tan 45°</span>?", "o": ["1", "0.5", "0.707", "אינסוף"], "a": 0}, {"q": "סינוס של זווית חדה מוגדר כיחס בין הניצב שמול הזווית ליתר.", "o": ["נכון", "לא נכון"], "a": 0}, {"q": "אם <span class=\"eq\">sinα = 0.6</span> עבור זווית חדה <span class=\"eq\">α</span>, מהו <span class=\"eq\">cosα</span>?", "o": ["0.8", "0.4", "0.6", "0.36"], "a": 0}, {"q": "במשולש ישר-זווית, איזו צלע היא תמיד הארוכה ביותר?", "o": ["היתר", "הניצב שמול", "הניצב שליד", "תלוי בזוויות"], "a": 0}];
 let answered = 0, correct = 0;
 document.getElementById('quiz').innerHTML = quiz.map((q, i) => `
   <div class="q">
