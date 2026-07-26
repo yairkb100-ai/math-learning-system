@@ -362,10 +362,12 @@
   "number": 4,
   "topic": "חיבור מספרים מכוונים",
   "output": "סרטון-פרק-4-חיבור-מספרים-מכוונים.mp4",
-  "status": "staged",
+  "status": "done",
   "course": "directed-numbers",
   "grade": null,
-  "standalone_slug": null
+  "standalone_slug": null,
+  "artifact_id": "6a367a74-c2b1-4250-b22b-34fed3f4f7b2",
+  "submitted_at": 1785052798.183883
  },
  "dn-ch05": {
   "notebook_id": "f9a06dcf-544f-4b64-8435-127382c8b64c",
@@ -373,10 +375,12 @@
   "number": 5,
   "topic": "חיסור מספרים מכוונים",
   "output": "סרטון-פרק-5-חיסור-מספרים-מכוונים.mp4",
-  "status": "staged",
+  "status": "done",
   "course": "directed-numbers",
   "grade": null,
-  "standalone_slug": null
+  "standalone_slug": null,
+  "artifact_id": "601563c1-a823-462f-ba00-a95ea9fd5964",
+  "submitted_at": 1785052810.3468509
  },
  "dn-ch06": {
   "notebook_id": "153173cc-348d-4518-9767-dbbae08b9b78",
@@ -384,10 +388,12 @@
   "number": 6,
   "topic": "כפל מספרים מכוונים",
   "output": "סרטון-פרק-6-כפל-מספרים-מכוונים.mp4",
-  "status": "staged",
+  "status": "done",
   "course": "directed-numbers",
   "grade": null,
-  "standalone_slug": null
+  "standalone_slug": null,
+  "artifact_id": "c4a61c7d-19d8-44b5-97f2-2da50e24f6b9",
+  "submitted_at": 1785052824.4948606
  },
  "dn-ch08": {
   "notebook_id": "8714e515-f144-4ebc-b4d9-dd272931b266",
