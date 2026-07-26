@@ -29,6 +29,8 @@ from app.schemas import (
     ImportResult,
     QuizCheckRequest,
     QuizCheckResult,
+    ExerciseCheckRequest,
+    ExerciseCheckResult,
     SolutionResult,
 )
 
@@ -162,3 +164,21 @@ def exercise_solution(
     if solution is None:
         raise HTTPException(status_code=404, detail="Exercise not found")
     return SolutionResult(solution=solution)
+
+
+@router.post(
+    "/courses/{course_id}/chapters/{number}/exercises/{n}/check",
+    response_model=ExerciseCheckResult,
+)
+def exercise_check(
+    course_id: int,
+    number: int,
+    n: int,
+    payload: ExerciseCheckRequest,
+    db: Session = Depends(get_db),
+    _sub: models.User = Depends(require_active_subscription),
+) -> ExerciseCheckResult:
+    result = crud.check_exercise(db, course_id, number, n, payload.answer)
+    if result is None:
+        raise HTTPException(status_code=404, detail="Exercise has no checkable answer")
+    return ExerciseCheckResult(**result)

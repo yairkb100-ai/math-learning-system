@@ -158,6 +158,7 @@ class ExerciseOut(BaseModel):
     title: Optional[str] = None
     description: str
     difficulty: str
+    has_answer: bool = False  # true when an interactive self-check is available
 
 
 class QuizQuestionOut(BaseModel):
@@ -224,6 +225,7 @@ class ExerciseIn(BaseModel):
     description: str
     difficulty: str
     solution: str
+    answer: Optional[str] = None
 
 
 class QuizQuestionIn(BaseModel):
@@ -282,6 +284,15 @@ class QuizCheckRequest(BaseModel):
 class QuizCheckResult(BaseModel):
     correct: bool
     correct_answer: str
+
+
+class ExerciseCheckRequest(BaseModel):
+    answer: str
+
+
+class ExerciseCheckResult(BaseModel):
+    correct: bool
+    expected: Optional[str] = None  # the accepted answer, revealed after a try
 
 
 class SolutionResult(BaseModel):
@@ -428,6 +439,24 @@ class SubscriptionAssign(BaseModel):
 class SubscriptionExtend(BaseModel):
     # מספר הימים להארכה; ברירת מחדל 30 (חודש)
     days: int = 30
+
+
+class AccessStatusOut(BaseModel):
+    """מצב הגישה של המשתמש המחובר — הבסיס לחלון הברוכים-הבאים ולטיימר ההתנסות.
+
+    ``state``: admin (גישה מלאה) | trial (בתקופת התנסות) | active (מנוי בתוקף
+    שאושר ע"י מנהל) | trial_ended (ההתנסות נגמרה) | blocked (מנוי שפג/בוטל).
+    """
+
+    state: str
+    plan_code: Optional[str] = None
+    expires_at: Optional[datetime] = None
+    seconds_left: Optional[int] = None  # שניות עד תום ההתנסות/המנוי (0 אם נגמר)
+    trial_days: int
+    is_trial: bool = False
+    has_access: bool = True
+    welcome_seen: bool = True
+    server_time: datetime
 
 
 # ---------------------------------------------------------------------------

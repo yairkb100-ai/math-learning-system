@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState, useCallback, useRef } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
-import MathText from '../components/MathText.jsx'
+import MathText, { InlineMathText } from '../components/MathText.jsx'
 import Quiz from '../components/Quiz.jsx'
 import {
   IconPlay,
@@ -613,6 +613,11 @@ function Exercise({ exercise, courseId, chapterNumber, rtl }) {
   const [loading, setLoading] = useState(false)
   const [err, setErr] = useState(null)
 
+  // Interactive self-check (only when the exercise has a checkable answer).
+  const [answer, setAnswer] = useState('')
+  const [result, setResult] = useState(null) // { correct, expected }
+  const [checking, setChecking] = useState(false)
+
   const reveal = () => {
     if (solution != null) {
       setOpen((o) => !o)
@@ -630,6 +635,18 @@ function Exercise({ exercise, courseId, chapterNumber, rtl }) {
       .finally(() => setLoading(false))
   }
 
+  const check = (e) => {
+    e.preventDefault()
+    if (!answer.trim()) return
+    setChecking(true)
+    setErr(null)
+    api
+      .checkExercise(courseId, chapterNumber, exercise.number, answer)
+      .then((data) => setResult(data))
+      .catch(setErr)
+      .finally(() => setChecking(false))
+  }
+
   return (
     <div className="card exercise">
       <div className="exercise-head">
@@ -644,6 +661,44 @@ function Exercise({ exercise, courseId, chapterNumber, rtl }) {
         )}
       </div>
       <MathText text={exercise.description} className="prose" />
+
+      {exercise.has_answer && (
+        <form className="ex-check" onSubmit={check}>
+          <input
+            className="ex-answer-input"
+            type="text"
+            dir="auto"
+            value={answer}
+            onChange={(e) => {
+              setAnswer(e.target.value)
+              setResult(null)
+            }}
+            placeholder={t(rtl, 'הקלד/י את תשובתך…', 'Type your answer…')}
+            aria-label={t(rtl, 'התשובה שלך', 'Your answer')}
+          />
+          <button type="submit" className="btn btn-primary" disabled={checking || !answer.trim()}>
+            {checking ? t(rtl, 'בודק…', 'Checking…') : t(rtl, 'בדיקה', 'Check')}
+          </button>
+        </form>
+      )}
+
+      {result && (
+        <div className={'verdict ' + (result.correct ? 'ok' : 'no')}>
+          {result.correct ? (
+            <strong>✓ {t(rtl, 'כל הכבוד, נכון!', 'Correct!')}</strong>
+          ) : (
+            <>
+              <strong>✗ {t(rtl, 'לא מדויק, נסו שוב.', 'Not quite, try again.')}</strong>
+              {result.expected != null && (
+                <span className="correct-answer">
+                  {' '}{t(rtl, 'התשובה:', 'Answer:')}{' '}
+                  <InlineMathText text={result.expected} />
+                </span>
+              )}
+            </>
+          )}
+        </div>
+      )}
 
       <button className="btn" onClick={reveal} disabled={loading}>
         {loading

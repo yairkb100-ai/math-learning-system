@@ -4,19 +4,20 @@ import api from '../api.js'
 import { useAuth } from '../context/AuthContext.jsx'
 import { Loading } from '../components/Status.jsx'
 
-// עמוד "המנוי שלי" — מציג את מצב המנוי של המשתמש המחובר. מגיעים לכאן ביוזמת
-// המשתמש (קישור בתפריט) וגם אוטומטית כשנחסם מהתוכן (שגיאת 402 מהשרת → הפניה
-// מ-api.js). חידוש המנוי נעשה ידנית מול מנהל המערכת — אין כאן סליקה.
+// עמוד "המנוי שלי" — מציג את מצב הגישה של המשתמש המחובר: תקופת ההתנסות
+// (שבועיים חינם, עם הזמן שנותר), גישה שאושרה ע"י המנהל, או חסימה. מגיעים לכאן
+// ביוזמת המשתמש (קישור בתפריט) וגם אוטומטית כשנחסם מהתוכן (שגיאת 402 מהשרת →
+// הפניה מ-api.js). חידוש/אישור נעשה ידנית מול מנהל המערכת — אין כאן סליקה.
 export default function SubscriptionPage() {
   const { user } = useAuth()
-  const [sub, setSub] = useState(null)
+  const [access, setAccess] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     api
-      .mySubscription()
-      .then(setSub)
-      .catch(() => setSub(null))
+      .myAccess()
+      .then(setAccess)
+      .catch(() => setAccess(null))
       .finally(() => setLoading(false))
   }, [])
 
@@ -25,26 +26,51 @@ export default function SubscriptionPage() {
 
   if (loading) return <Loading label="טוען את פרטי המנוי…" />
 
+  const state = access?.state
+  const daysLeft =
+    access?.seconds_left != null ? Math.floor(access.seconds_left / 86400) : null
+  const hoursLeft =
+    access?.seconds_left != null
+      ? Math.floor((access.seconds_left % 86400) / 3600)
+      : null
+
   return (
     <section dir="rtl" className="card subscription-card">
       <h1>המנוי שלי</h1>
 
-      {isAdmin ? (
+      {isAdmin || state === 'admin' ? (
         <p className="sub-line">
           <span className="status-ok">צוות המערכת</span>
           <br />
           לחשבון מנהל יש גישה מלאה לתוכן — אין צורך במנוי.
         </p>
-      ) : sub && sub.is_active ? (
+      ) : state === 'trial' ? (
         <>
           <p className="sub-line">
-            <span className="status-ok">המנוי בתוקף</span>
+            <span className="status-ok">תקופת התנסות — הלומדה פתוחה לך ללא תשלום</span>
           </p>
           <p>
-            {sub.expires_at ? (
-              <>בתוקף עד <strong>{fmt(sub.expires_at)}</strong></>
+            נותרו <strong>{daysLeft}</strong> ימים ו-<strong>{hoursLeft}</strong> שעות
+            {access.expires_at && <> (עד {fmt(access.expires_at)})</>}
+          </p>
+          <p className="sub-note">
+            בתום תקופת ההתנסות הגישה ללומדה נשמרת לתלמידים שהמנהל אישר אישית.
+            רוצה להמשיך? שלח הודעה ונסדר את זה.
+          </p>
+          <div className="sub-actions">
+            <Link to="/messages" className="btn">שליחת הודעה למנהל</Link>
+          </div>
+        </>
+      ) : state === 'active' ? (
+        <>
+          <p className="sub-line">
+            <span className="status-ok">הגישה שלך אושרה</span>
+          </p>
+          <p>
+            {access.expires_at ? (
+              <>בתוקף עד <strong>{fmt(access.expires_at)}</strong></>
             ) : (
-              'מנוי ללא הגבלת זמן'
+              'גישה מלאה ללא הגבלת זמן'
             )}
           </p>
         </>
@@ -52,22 +78,25 @@ export default function SubscriptionPage() {
         <>
           <p className="sub-line">
             <span className="status-off">
-              {sub == null
-                ? 'אין מנוי פעיל'
-                : sub.status === 'canceled'
-                ? 'המנוי בוטל'
-                : 'המנוי פג תוקף'}
+              {state === 'trial_ended' ? 'תקופת ההתנסות הסתיימה' : 'אין גישה פעילה'}
             </span>
           </p>
-          {sub?.expires_at && <p className="muted">תוקף המנוי הסתיים ב-{fmt(sub.expires_at)}</p>}
+          {access?.expires_at && (
+            <p className="muted">
+              {state === 'trial_ended' ? 'ההתנסות הסתיימה ב-' : 'תוקף המנוי הסתיים ב-'}
+              {fmt(access.expires_at)}
+            </p>
+          )}
           <p className="sub-note">
-            המנוי שלך אינו פעיל — יש להסדיר את המנוי כדי לגשת לקורסים.
+            {state === 'trial_ended'
+              ? 'נהניתי שהיית כאן! להמשך הגישה ללומדה נדרש אישור אישי שלי כמנהל.'
+              : 'הגישה שלך ללומדה אינה פעילה כרגע.'}
             <br />
-            להסדרת המנוי פנה למנהל המערכת.
+            שלח לי הודעה ואאשר לך את ההמשך.
           </p>
-          <p>
+          <div className="sub-actions">
             <Link to="/messages" className="btn">שליחת הודעה למנהל</Link>
-          </p>
+          </div>
         </>
       )}
     </section>

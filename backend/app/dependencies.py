@@ -9,6 +9,7 @@ from sqlalchemy.orm import Session
 from app import models
 from app.auth import decode_token
 from app.database import get_db
+from app.trials import start_trial_if_needed
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login")
 
@@ -66,9 +67,13 @@ def require_active_subscription(
 
     יש להריץ על נתיבי צריכת התוכן בלבד (קורס, פרק, פתרון, בדיקת בוחן) — לא על
     התחברות/פרופיל/ניהול. הפרונט מזהה את ה-402 ומפנה לעמוד "המנוי שלי".
+
+    תלמיד שאין לו שום היסטוריית מנויים מקבל כאן אוטומטית התנסות של שבועיים
+    (רשת ביטחון לחשבונות שנוצרו בדרך שלא מפעילה התנסות בעצמה).
     """
     if current_user.role == "admin":
         return current_user
+    start_trial_if_needed(db, current_user)
     if not user_has_active_subscription(db, current_user):
         raise HTTPException(status_code=402, detail="no_active_subscription")
     return current_user

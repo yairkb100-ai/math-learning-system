@@ -17,6 +17,7 @@ from app.schemas import (
     UserCreate,
     UserUpdate,
 )
+from app.trials import start_trial_if_needed
 
 router = APIRouter(prefix="/api/admin", tags=["admin"])
 
@@ -51,6 +52,8 @@ def create_user(
     db.add(user)
     db.commit()
     db.refresh(user)
+    # תלמיד שנוצר ע"י מנהל מקבל את אותה התנסות של שבועיים כמו נרשם רגיל.
+    start_trial_if_needed(db, user)
     return user
 
 

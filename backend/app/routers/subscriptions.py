@@ -6,18 +6,20 @@
 
 from datetime import datetime, timedelta
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Response
 from sqlalchemy.orm import Session
 
 from app import models
 from app.database import get_db
 from app.dependencies import get_current_user, require_admin
 from app.schemas import (
+    AccessStatusOut,
     PlanOut,
     SubscriptionAssign,
     SubscriptionExtend,
     SubscriptionOut,
 )
+from app.trials import TRIAL_DAYS, TRIAL_PLAN_CODE, start_trial_if_needed
 
 router = APIRouter(prefix="/api", tags=["subscriptions"])
 
@@ -64,6 +66,83 @@ def my_subscription(
         .first()
     )
     return sub
+
+
+@router.get("/me/access", response_model=AccessStatusOut)
+def my_access(
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user),
+) -> AccessStatusOut:
+    """מצב הגישה של המשתמש המחובר — מזין את חלון הברוכים-הבאים וטיימר ההתנסות.
+
+    כאן גם מופעלת ההתנסות בפועל לתלמיד שעוד אין לו מנוי, כך שכל כניסה ללומדה
+    (הפרונט קורא לנתיב הזה אחרי התחברות) מתחילה את השבועיים.
+    """
+    now = datetime.utcnow()
+    welcome_seen = current_user.welcome_seen_at is not None
+
+    if current_user.role == "admin":
+        return AccessStatusOut(
+            state="admin",
+            trial_days=TRIAL_DAYS,
+            has_access=True,
+            welcome_seen=True,
+            server_time=now,
+        )
+
+    start_trial_if_needed(db, current_user)
+    sub = _active_sub_for(db, current_user.id)
+
+    if sub is not None:
+        is_trial = sub.plan_code == TRIAL_PLAN_CODE
+        seconds_left = (
+            max(0, int((sub.expires_at - now).total_seconds()))
+            if sub.expires_at
+            else None
+        )
+        return AccessStatusOut(
+            state="trial" if is_trial else "active",
+            plan_code=sub.plan_code,
+            expires_at=sub.expires_at,
+            seconds_left=seconds_left,
+            trial_days=TRIAL_DAYS,
+            is_trial=is_trial,
+            has_access=True,
+            welcome_seen=welcome_seen,
+            server_time=now,
+        )
+
+    # אין מנוי בתוקף — נבדיל בין "ההתנסות נגמרה" לבין מנוי בתשלום שפג/בוטל
+    last = (
+        db.query(models.Subscription)
+        .filter(models.Subscription.user_id == current_user.id)
+        .order_by(models.Subscription.started_at.desc())
+        .first()
+    )
+    trial_ended = last is not None and last.plan_code == TRIAL_PLAN_CODE
+    return AccessStatusOut(
+        state="trial_ended" if trial_ended else "blocked",
+        plan_code=last.plan_code if last else None,
+        expires_at=last.expires_at if last else None,
+        seconds_left=0,
+        trial_days=TRIAL_DAYS,
+        is_trial=trial_ended,
+        has_access=False,
+        welcome_seen=welcome_seen,
+        server_time=now,
+    )
+
+
+@router.post("/me/welcome-seen", status_code=204)
+def mark_welcome_seen(
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user),
+) -> Response:
+    """סימון שהמשתמש ראה את חלון הברוכים-הבאים (כדי שלא יוצג שוב)."""
+    if current_user.welcome_seen_at is None:
+        current_user.welcome_seen_at = datetime.utcnow()
+        db.commit()
+    return Response(status_code=204)
 
 
 @router.get("/admin/subscriptions", response_model=list[SubscriptionOut])

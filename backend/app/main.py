@@ -100,6 +100,18 @@ def on_startup() -> None:
                 conn.execute(
                     text("ALTER TABLE users ADD COLUMN password_plain VARCHAR")
                 )
+        if "welcome_seen_at" not in cols:
+            with engine.begin() as conn:
+                conn.execute(
+                    text("ALTER TABLE users ADD COLUMN welcome_seen_at TIMESTAMP")
+                )
+    if "exercises" in inspector.get_table_names():
+        cols = {c["name"] for c in inspector.get_columns("exercises")}
+        if "answer" not in cols:
+            with engine.begin() as conn:
+                conn.execute(
+                    text("ALTER TABLE exercises ADD COLUMN answer VARCHAR")
+                )
 
 
 app.include_router(courses.router)

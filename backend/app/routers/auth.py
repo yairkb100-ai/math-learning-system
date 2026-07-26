@@ -11,6 +11,7 @@ from app.database import get_db
 from app.dependencies import get_current_user
 from app.device_utils import client_ip, device_label, get_max_devices
 from app.schemas import TokenResponse, UserCreate, UserLogin, UserOut
+from app.trials import start_trial_if_needed
 
 router = APIRouter(prefix="/api/auth", tags=["auth"])
 
@@ -141,6 +142,8 @@ def register(payload: UserCreate, db: Session = Depends(get_db)) -> TokenRespons
     db.add(user)
     db.commit()
     db.refresh(user)
+    # שבועיים התנסות חינם מרגע ההרשמה; בתומם נדרש אישור מנהל.
+    start_trial_if_needed(db, user)
     token = create_access_token({"sub": str(user.id), "role": user.role})
     return TokenResponse(access_token=token, user=UserOut.model_validate(user))
 

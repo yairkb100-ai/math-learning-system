@@ -192,6 +192,11 @@ export const api = {
     request(
       `/courses/${courseId}/chapters/${number}/exercises/${exerciseNumber}/solution`
     ),
+  checkExercise: (courseId, number, exerciseNumber, answer) =>
+    request(
+      `/courses/${courseId}/chapters/${number}/exercises/${exerciseNumber}/check`,
+      { method: 'POST', body: JSON.stringify({ answer }) }
+    ),
   checkQuiz: ({ chapterId, questionNumber, answer }) =>
     request('/quiz/check', {
       method: 'POST',
@@ -288,6 +293,9 @@ export const api = {
   // Subscriptions / billing
   listPlans: () => request('/plans'),
   mySubscription: () => request('/me/subscription'),
+  // מצב הגישה: תקופת התנסות / מנוי מאושר / נחסם + הטיימר לחלון הברוכים־הבאים
+  myAccess: () => request('/me/access'),
+  markWelcomeSeen: () => request('/me/welcome-seen', { method: 'POST' }),
   adminSubscriptions: () => request('/admin/subscriptions'),
   assignSubscription: (userId, planCode) =>
     request('/admin/subscriptions', {

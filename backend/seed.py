@@ -93,11 +93,11 @@ def _course_unchanged(existing, course_obj, metadata):
         if db_examples != json_examples:
             return False
         db_exercises = [
-            (x.number, x.title, x.description, x.difficulty, x.solution)
+            (x.number, x.title, x.description, x.difficulty, x.solution, x.answer)
             for x in db_ch.exercises
         ]
         json_exercises = [
-            (x.get("number"), x.get("title"), x.get("description", ""), x.get("difficulty", ""), x.get("solution", ""))
+            (x.get("number"), x.get("title"), x.get("description", ""), x.get("difficulty", ""), x.get("solution", ""), x.get("answer"))
             for x in ch.get("exercises", []) or []
         ]
         if db_exercises != json_exercises:
@@ -189,6 +189,7 @@ def upsert_course(db, data):
                     description=exc.get("description", ""),
                     difficulty=exc.get("difficulty", ""),
                     solution=exc.get("solution", ""),
+                    answer=exc.get("answer"),
                 )
             )
 
@@ -257,19 +258,90 @@ def ensure_admin(db):
     print("    ** שנה את הסיסמה לאחר הכניסה הראשונה! **")
 
 
+# תוכנית "free" היא למעשה "אישור מנהל לגישה ללא הגבלת זמן" — השם המוצג עודכן
+# בהתאם כשהושקה תקופת ההתנסות (ראה rollout_free_trial).
+APPROVED_PLAN_NAME = "גישה מאושרת (ללא הגבלת זמן)"
+
+
 def ensure_plans(db):
     """Create the default subscription plans if none exist."""
     if db.query(SubscriptionPlan).first():
         print("  * Subscription plans already exist — skipping.")
         return
     plans = [
-        SubscriptionPlan(code="free", name="חינם", price_nis=0, duration_days=0),
+        SubscriptionPlan(code="free", name=APPROVED_PLAN_NAME, price_nis=0, duration_days=0),
         SubscriptionPlan(code="monthly", name="מנוי חודשי", price_nis=49, duration_days=30),
         SubscriptionPlan(code="yearly", name="מנוי שנתי", price_nis=399, duration_days=365),
     ]
     db.add_all(plans)
     db.commit()
     print("  + Created 3 subscription plans (free / monthly / yearly)")
+
+
+def rollout_free_trial(db):
+    """השקה חד-פעמית של תקופת ההתנסות (שבועיים חינם) לכל התלמידים.
+
+    נקודת ההשקה מזוהה ע"י *היעדר* תוכנית ``trial`` במסד — כלומר הבלוק הזה רץ
+    בפריסה הראשונה שכוללת את הפיצ'ר, ומאותו רגע נדלג עליו. מה שהוא עושה:
+
+    1. יוצר את תוכנית ``trial`` (שבועיים, ללא תשלום).
+    2. הופך כל מנוי "חינם ללא הגבלת זמן" קיים (ה-backfill שניתן לתלמידים
+       הראשונים) להתנסות שנגמרת בעוד שבועיים — כך שגם התלמידים הקיימים
+       מקבלים שבועיים מעכשיו, ואחריהם נדרש אישור מנהל.
+    3. מפעיל התנסות לתלמידים שאין להם שום שורת מנוי.
+
+    מנויים בתשלום (monthly/yearly) ומנויים עם תאריך תפוגה אינם נוגעים.
+    """
+    from app.models import Subscription
+    from app.trials import TRIAL_DAYS, TRIAL_PLAN_CODE, ensure_trial_plan, start_trial_if_needed
+
+    already = (
+        db.query(SubscriptionPlan)
+        .filter(SubscriptionPlan.code == TRIAL_PLAN_CODE)
+        .first()
+    )
+    ensure_trial_plan(db)
+    if already:
+        return  # ההשקה כבר בוצעה בפריסה קודמת
+
+    now = datetime.utcnow()
+    trial_end = now + timedelta(days=TRIAL_DAYS)
+
+    legacy = (
+        db.query(Subscription)
+        .filter(
+            Subscription.plan_code == "free",
+            Subscription.status == "active",
+            Subscription.expires_at.is_(None),
+        )
+        .all()
+    )
+    converted = 0
+    for sub in legacy:
+        user = db.query(User).filter(User.id == sub.user_id).first()
+        if user is None or user.role == "admin":
+            continue
+        sub.plan_code = TRIAL_PLAN_CODE
+        sub.started_at = now
+        sub.expires_at = trial_end
+        converted += 1
+
+    # שם ידידותי לתוכנית שבה המנהל מאשר גישה קבועה
+    free_plan = db.query(SubscriptionPlan).filter(SubscriptionPlan.code == "free").first()
+    if free_plan and free_plan.name != APPROVED_PLAN_NAME:
+        free_plan.name = APPROVED_PLAN_NAME
+    db.commit()
+
+    started = 0
+    for user in db.query(User).filter(User.role != "admin").all():
+        if start_trial_if_needed(db, user) is not None:
+            started += 1
+
+    print(
+        f"  + Free-trial rollout: {converted} unlimited sub(s) converted to a "
+        f"{TRIAL_DAYS}-day trial, {started} student(s) started fresh "
+        f"(ends {trial_end:%Y-%m-%d %H:%M} UTC)"
+    )
 
 
 _PRACTICE_QUESTIONS = [
@@ -714,6 +786,17 @@ def run_light_migrations():
             with engine.begin() as conn:
                 conn.execute(text("ALTER TABLE users ADD COLUMN password_plain VARCHAR"))
             print("  ~ Migrated: added users.password_plain")
+        if "welcome_seen_at" not in cols:
+            with engine.begin() as conn:
+                conn.execute(text("ALTER TABLE users ADD COLUMN welcome_seen_at TIMESTAMP"))
+            print("  ~ Migrated: added users.welcome_seen_at")
+
+    if "exercises" in inspector.get_table_names():
+        cols = {c["name"] for c in inspector.get_columns("exercises")}
+        if "answer" not in cols:
+            with engine.begin() as conn:
+                conn.execute(text("ALTER TABLE exercises ADD COLUMN answer VARCHAR"))
+            print("  ~ Migrated: added exercises.answer")
 
 
 def prune_orphan_courses(db, loaded_slugs):
@@ -758,6 +841,7 @@ def main():
     try:
         ensure_admin(db)
         ensure_plans(db)
+        rollout_free_trial(db)
         ensure_practice_questions(db)
         ensure_exams(db)
         ensure_achievements(db)

@@ -36,6 +36,9 @@ class User(Base):
     role = Column(String, nullable=False, default="student")  # student | admin
     is_active = Column(Boolean, default=True, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
+    # When the student dismissed the one-time welcome / free-trial popup. Kept
+    # server-side so the greeting doesn't reappear on another device.
+    welcome_seen_at = Column(DateTime, nullable=True)
 
     enrollments = relationship(
         "UserCourseEnrollment",
@@ -278,8 +281,16 @@ class Exercise(Base):
     description = Column(Text, nullable=False)
     difficulty = Column(String, nullable=False)  # easy | medium | hard
     solution = Column(Text, nullable=False)
+    # Optional short checkable answer for interactive self-testing. May hold
+    # several accepted forms separated by "|" (e.g. "1/8|0.125"). Prose lives in
+    # ``solution``; this is only the final value the student types.
+    answer = Column(String, nullable=True)
 
     chapter = relationship("Chapter", back_populates="exercises")
+
+    @property
+    def has_answer(self) -> bool:
+        return bool(self.answer and self.answer.strip())
 
 
 class QuizQuestion(Base):

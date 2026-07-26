@@ -116,6 +116,52 @@ def check_quiz(
     }
 
 
+def _norm_math(s: str) -> str:
+    """Lenient normalisation for comparing short math answers.
+
+    Drops formatting a student shouldn't be penalised for: whitespace, ``$``/
+    LaTeX backslashes, surrounding parentheses, ``x=``/``y=`` prefixes, and
+    unifies the various multiplication/minus glyphs. So "(4, 6)", "x=4,y=6" and
+    "4,6" all compare equal, and "$1/8$" == "1/8".
+    """
+    s = (s or "").strip().lower()
+    for ch in ("$", "\\", " ", "(", ")", "{", "}"):
+        s = s.replace(ch, "")
+    s = s.replace("x=", "").replace("y=", "")
+    s = s.replace("×", "*").replace("·", "*").replace("⋅", "*").replace("*", "*")
+    s = s.replace("−", "-").replace("–", "-")
+    s = s.rstrip(".")
+    return s
+
+
+def check_exercise(
+    db: Session, course_id: int, number: int, exercise_number: int, answer: str
+) -> Optional[dict]:
+    """Check a typed answer against an exercise's stored ``answer``.
+
+    The stored answer may list several accepted forms separated by ``|``.
+    Returns ``{"correct": bool, "expected": str}`` or ``None`` if the exercise
+    (or its answer) does not exist.
+    """
+    chapter = get_chapter(db, course_id, number)
+    if chapter is None:
+        return None
+    exercise = (
+        db.query(Exercise)
+        .filter(
+            Exercise.chapter_id == chapter.id,
+            Exercise.number == exercise_number,
+        )
+        .first()
+    )
+    if exercise is None or not (exercise.answer and exercise.answer.strip()):
+        return None
+    accepted = [a for a in exercise.answer.split("|") if a.strip()]
+    given = _norm_math(answer)
+    correct = any(given == _norm_math(a) for a in accepted)
+    return {"correct": correct, "expected": accepted[0]}
+
+
 # ---------------------------------------------------------------------------
 # Import (idempotent by slug — upsert/replace)
 # ---------------------------------------------------------------------------
@@ -171,6 +217,7 @@ def import_course(db: Session, payload: CourseImport) -> Course:
                     description=exr.description,
                     difficulty=exr.difficulty,
                     solution=exr.solution,
+                    answer=exr.answer,
                 )
             )
         for q in ch.quiz:

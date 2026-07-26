@@ -4,6 +4,17 @@ import { Loading, ErrorBox } from '../components/Status.jsx'
 
 const statusHe = { active: 'פעיל', expired: 'פג', canceled: 'בוטל' }
 
+// כמה זמן נותר למנוי — עמודת "נותרו" בטבלה
+function daysLeftLabel(sub) {
+  if (!sub.is_active) return '—'
+  if (!sub.expires_at) return 'ללא הגבלה'
+  const ms = new Date(sub.expires_at) - new Date()
+  if (ms <= 0) return '—'
+  const days = Math.floor(ms / 86400000)
+  const hours = Math.floor((ms % 86400000) / 3600000)
+  return days > 0 ? `${days} ימים` : `${hours} שעות`
+}
+
 export default function AdminSubscriptions() {
   const [subs, setSubs] = useState([])
   const [users, setUsers] = useState([])
@@ -65,6 +76,21 @@ export default function AdminSubscriptions() {
     }
   }
 
+  // אישור גישה קבועה לתלמיד — הלחיץ המרכזי אחרי שתקופת ההתנסות נגמרה.
+  // תוכנית "free" היא ללא הגבלת זמן (duration_days=0 → expires_at=NULL).
+  async function approve(userId) {
+    if (!confirm(`לאשר גישה מלאה ללומדה ל${userName(userId)} (ללא הגבלת זמן)?`)) return
+    setBusy(true)
+    try {
+      await api.assignSubscription(userId, 'free')
+      load()
+    } catch (err) {
+      alert(err.message)
+    } finally {
+      setBusy(false)
+    }
+  }
+
   async function cancel(sub) {
     if (!confirm(`לבטל את המנוי של ${userName(sub.user_id)}? הגישה לתוכן תיחסם מיידית.`))
       return
@@ -96,6 +122,8 @@ export default function AdminSubscriptions() {
         <h1>מנויים ותשלומים</h1>
         <p className="muted">
           ניהול מנויים ידני — הענקה, הארכה וביטול. תלמיד ללא מנוי בתוקף נחסם מהתוכן.
+          כל תלמיד חדש מקבל אוטומטית <strong>שבועיים התנסות חינם</strong>; בתומם הגישה
+          נפתחת רק אם תאשר אותה כאן.
         </p>
       </div>
 
@@ -157,13 +185,26 @@ export default function AdminSubscriptions() {
         </form>
       </div>
 
-      {/* Students without an active subscription */}
+      {/* Students without an active subscription — כאן מאשרים המשך גישה */}
       {studentsNoSub.length > 0 && (
         <div className="card">
-          <h3>תלמידים ללא מנוי בתוקף ({studentsNoSub.length})</h3>
-          <p className="muted">
-            {studentsNoSub.map((u) => `${u.full_name} (${u.username})`).join(' · ')}
+          <h3>תלמידים ללא גישה פעילה ({studentsNoSub.length})</h3>
+          <p className="muted" style={{ marginTop: 0 }}>
+            תלמידים אלה חסומים מהתוכן (תקופת ההתנסות שלהם נגמרה או שהמנוי בוטל).
+            "אשר גישה" פותח להם את הלומדה ללא הגבלת זמן.
           </p>
+          <ul className="no-sub-list">
+            {studentsNoSub.map((u) => (
+              <li key={u.id}>
+                <span>
+                  {u.full_name} <span className="muted">({u.username})</span>
+                </span>
+                <button className="btn-sm" disabled={busy} onClick={() => approve(u.id)}>
+                  אשר גישה
+                </button>
+              </li>
+            ))}
+          </ul>
         </div>
       )}
 
@@ -185,6 +226,7 @@ export default function AdminSubscriptions() {
               <th>סטטוס</th>
               <th>התחלה</th>
               <th>תפוגה</th>
+              <th>נותרו</th>
               <th>פעולות</th>
             </tr>
           </thead>
@@ -195,7 +237,11 @@ export default function AdminSubscriptions() {
                 <td>{planName(s.plan_code)}</td>
                 <td>
                   <span className={s.is_active ? 'status-ok' : 'status-off'}>
-                    {s.is_active ? 'בתוקף' : statusHe[s.status] || s.status}
+                    {s.is_active
+                      ? 'בתוקף'
+                      : s.status === 'active'
+                      ? 'פג' /* סטטוס 'active' + תאריך שעבר = פג בפועל */
+                      : statusHe[s.status] || s.status}
                   </span>
                 </td>
                 <td className="muted">
@@ -206,8 +252,18 @@ export default function AdminSubscriptions() {
                     ? new Date(s.expires_at).toLocaleDateString('he-IL')
                     : '—'}
                 </td>
+                <td className="muted">{daysLeftLabel(s)}</td>
                 <td>
                   <div className="row-actions">
+                    {s.plan_code === 'trial' && (
+                      <button
+                        className="btn-sm"
+                        disabled={busy}
+                        onClick={() => approve(s.user_id)}
+                      >
+                        אשר גישה
+                      </button>
+                    )}
                     <button
                       className="btn-sm"
                       disabled={busy}

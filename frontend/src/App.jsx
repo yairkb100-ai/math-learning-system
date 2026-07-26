@@ -3,6 +3,7 @@ import { AuthProvider } from './context/AuthContext.jsx'
 import PrivateRoute from './components/PrivateRoute.jsx'
 import Navbar from './components/Navbar.jsx'
 import BookLessonFab from './components/BookLessonFab.jsx'
+import TrialWelcome from './components/TrialWelcome.jsx'
 
 import LoginPage from './pages/LoginPage.jsx'
 import RegisterPage from './pages/RegisterPage.jsx'
@@ -244,6 +245,7 @@ function AppRoutes() {
       </main>
 
       <BookLessonFab />
+      <TrialWelcome />
 
       <footer className="footer" dir="rtl">
         <span>© כל הזכויות שמורות ליאיר כהנא, בניית אתרים ודפי נחיתה 0545953631</span>
