@@ -635,23 +635,34 @@ def ensure_course_assets(db):
                     # A content-only edit (regenerated PDF, fixed rendering
                     # bug, ...) changes the file's bytes but not its name.
                     # Overwriting the storage object does NOT invalidate
-                    # Bunny's edge cache (max-age is 30 days and purging
+                    # Bunny's edge cache (max-age is 30 days, and purging
                     # needs an account API key we don't have) — a plain
                     # re-upload would keep serving the stale cached PDF for a
-                    # month. Appending a content-hash query string makes the
-                    # new bytes a distinct cache key, so the CDN has to fetch
-                    # fresh; a later run with unchanged content reproduces the
-                    # same hash and the same URL, so this doesn't re-bust on
-                    # every deploy.
+                    # month. A `?v=` query string does NOT help either: Bunny
+                    # pull zones ignore the query string for cache-key purposes
+                    # by default (confirmed — same cdn-cachedat regardless of
+                    # query). The only thing that actually busts the cache is a
+                    # new PATH, so give the refreshed file a hashed storage
+                    # name and drop the old object. Unchanged content
+                    # reproduces the same hash and the same path, so this
+                    # doesn't rename on every deploy.
+                    with open(src, "rb") as fh:
+                        digest = hashlib.sha1(fh.read()).hexdigest()[:10]
+                    ext = os.path.splitext(exists.stored_name)[1]
+                    new_stored = f"{os.path.splitext(exists.stored_name)[0]}-{digest}{ext}"
                     try:
-                        base_url = bunny.upload(src, exists.stored_name)
+                        new_url = bunny.upload(src, new_stored)
                     except Exception as exc:  # noqa: BLE001 — network/HTTP errors
                         print(f"  ! Failed to refresh {slug}/{name} on Bunny: {exc} — skipped")
                         continue
-                    with open(src, "rb") as fh:
-                        digest = hashlib.sha1(fh.read()).hexdigest()[:10]
-                    exists.external_url = f"{base_url}?v={digest}"
+                    old_stored = exists.stored_name
+                    exists.stored_name = new_stored
+                    exists.external_url = new_url
                     exists.size = src_size
+                    try:
+                        bunny.delete(old_stored)
+                    except Exception as exc:  # noqa: BLE001 — best-effort cleanup
+                        print(f"  ! Failed to delete stale {slug}/{name} ({old_stored}): {exc}")
                     migrated += 1
                     continue
                 # The DB row survives redeploys (Postgres) but the container
