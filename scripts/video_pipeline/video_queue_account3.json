@@ -226,11 +226,11 @@
   "number": 4,
   "topic": "פתיחת סוגריים בביטוי אלגברי",
   "output": "סרטון-פרק-4-פתיחת-סוגריים.mp4",
-  "status": "generating",
+  "status": "done",
   "course": "grade7-algebra",
   "grade": null,
-  "artifact_id": "c0563f33-3156-4877-9f71-76b4b32ec4b5",
-  "submitted_at": 1784654709.9212875
+  "submitted_at": 1784654709.9212875,
+  "watchdog_retries": 1
  },
  "g7-ch05": {
   "notebook_id": "e7f19f6e-cbba-4d93-bf37-13f7f62ba45a",
@@ -331,5 +331,73 @@
   "status": "done",
   "course": "grade7-algebra",
   "grade": null
+ },
+ "dn-ch01": {
+  "notebook_id": "54444f6b-ad72-498e-8553-be60b46a99e5",
+  "source_id": "8dd9a815-c143-4a94-9028-779532b5e809",
+  "number": 1,
+  "topic": "פעולות החשבון במספרים טבעיים וסדר הפעולות",
+  "output": "סרטון-פרק-1-סדר-פעולות-החשבון.mp4",
+  "status": "done",
+  "course": "directed-numbers",
+  "grade": null
+ },
+ "dn-ch08": {
+  "notebook_id": "c85eba4d-35bc-4459-9172-754e4795d154",
+  "source_id": "3bd31d79-63f5-432e-911d-94a84f73f6fd",
+  "number": 8,
+  "topic": "פעולות מעורבות וסדר פעולות במספרים מכוונים",
+  "output": "סרטון-פרק-8-פעולות-מעורבות.mp4",
+  "status": "done",
+  "course": "directed-numbers",
+  "grade": null
+ },
+ "dn-ch09": {
+  "notebook_id": "d159d2d0-60a8-4ec6-a96b-ccf3039b39f3",
+  "source_id": "1c29658a-a852-4c17-a853-a03a3f2f992b",
+  "number": 9,
+  "topic": "חזקות ובעיות מילוליות במספרים מכוונים",
+  "output": "סרטון-פרק-9-חזקות-ובעיות-מילוליות.mp4",
+  "status": "done",
+  "course": "directed-numbers",
+  "grade": null,
+  "artifact_id": "cb703e8c-febf-4392-9c14-73a715de529b",
+  "submitted_at": 1785093022.344232
+ },
+ "al-ch01": {
+  "notebook_id": "76c09683-df41-436d-b556-8c56a4402f57",
+  "source_id": "dba1ecff-b675-400e-9488-17e9c5008310",
+  "number": 1,
+  "topic": "כללי סדר פעולות החשבון (חזרה)",
+  "output": "סרטון-פרק-1-סדר-פעולות-חזרה.mp4",
+  "status": "done",
+  "course": "arithmetic-laws",
+  "grade": null,
+  "artifact_id": "57b26754-753f-4992-a9be-b8eda8830e81",
+  "submitted_at": 1785093027.564572
+ },
+ "al-ch02": {
+  "notebook_id": "30213464-beeb-493b-b77a-1d3d277e67d8",
+  "source_id": "6f06d4c9-c1af-476f-9be1-ec9440bf2cfc",
+  "number": 2,
+  "topic": "חוק החילוף וחוק הקיבוץ של פעולת החיבור",
+  "output": "סרטון-פרק-2-חילוף-וקיבוץ-בחיבור.mp4",
+  "status": "generating",
+  "course": "arithmetic-laws",
+  "grade": null,
+  "artifact_id": "fda5ca1b-6c27-4bf6-9754-dfb55555cbdb",
+  "submitted_at": 1785093034.79377
+ },
+ "al-ch03": {
+  "notebook_id": "2503d9aa-72d4-41d4-ac12-17d9d39f0bbf",
+  "source_id": "e2b02acd-eae5-48f1-a15c-96d71362d5e3",
+  "number": 3,
+  "topic": "חוק החילוף וחוק הקיבוץ של פעולת הכפל",
+  "output": "סרטון-פרק-3-חילוף-וקיבוץ-בכפל.mp4",
+  "status": "done",
+  "course": "arithmetic-laws",
+  "grade": null,
+  "artifact_id": "d0b15b27-8c42-4777-bc16-7ae0da6d3198",
+  "submitted_at": 1785093903.7603178
  }
 }

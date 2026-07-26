@@ -216,7 +216,7 @@
   "number": 4,
   "topic": "פתיחת סוגריים בביטוי אלגברי",
   "output": "סרטון-פרק-4-פתיחת-סוגריים.mp4",
-  "status": "staged",
+  "status": "done",
   "course": "grade7-algebra"
  },
  "g7-ch05": {
@@ -325,7 +325,7 @@
   "number": 1,
   "topic": "פעולות החשבון במספרים טבעיים וסדר הפעולות",
   "output": "סרטון-פרק-1-סדר-פעולות-החשבון.mp4",
-  "status": "staged",
+  "status": "done",
   "course": "directed-numbers",
   "grade": null,
   "standalone_slug": null
@@ -401,7 +401,7 @@
   "number": 8,
   "topic": "פעולות מעורבות וסדר פעולות במספרים מכוונים",
   "output": "סרטון-פרק-8-פעולות-מעורבות.mp4",
-  "status": "staged",
+  "status": "done",
   "course": "directed-numbers",
   "grade": null,
   "standalone_slug": null
@@ -412,7 +412,7 @@
   "number": 9,
   "topic": "חזקות ובעיות מילוליות במספרים מכוונים",
   "output": "סרטון-פרק-9-חזקות-ובעיות-מילוליות.mp4",
-  "status": "staged",
+  "status": "done",
   "course": "directed-numbers",
   "grade": null,
   "standalone_slug": null
@@ -423,7 +423,7 @@
   "number": 1,
   "topic": "כללי סדר פעולות החשבון (חזרה)",
   "output": "סרטון-פרק-1-סדר-פעולות-חזרה.mp4",
-  "status": "staged",
+  "status": "done",
   "course": "arithmetic-laws",
   "grade": null,
   "standalone_slug": null
@@ -445,7 +445,7 @@
   "number": 3,
   "topic": "חוק החילוף וחוק הקיבוץ של פעולת הכפל",
   "output": "סרטון-פרק-3-חילוף-וקיבוץ-בכפל.mp4",
-  "status": "staged",
+  "status": "done",
   "course": "arithmetic-laws",
   "grade": null,
   "standalone_slug": null
