@@ -1465,6 +1465,10 @@ h4.prose-h {
   margin-bottom: 0;
 }
 .form-row .form-group {
+  /* grid items default to min-width:auto, so a <select> with long option text
+     (e.g. a section title) refuses to shrink below its content and forces the
+     whole row — and the page — to overflow horizontally on narrow screens. */
+  min-width: 0;
   margin-bottom: 16px;
 }
 
@@ -1580,17 +1584,24 @@ h4.prose-h {
 .section-course-row {
   display: flex;
   align-items: center;
-  gap: 12px;
+  flex-wrap: wrap;
+  gap: 8px 12px;
   padding: 10px 14px;
   background: var(--surface-2);
   border: 1px solid var(--border);
   border-radius: 10px;
 }
 .section-course-title {
-  flex: 1;
+  flex: 1 1 140px;
+  min-width: 0;
   font-weight: 600;
 }
 .section-course-row select {
+  /* min-width:0 lets it shrink below a long section-title option's intrinsic
+     width instead of forcing the whole row (and page) to overflow. */
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
   padding: 5px 8px;
   background: var(--surface);
   border: 1px solid var(--border);
@@ -3046,4 +3057,104 @@ h4.prose-h {
 }
 .exercise .verdict {
   margin: 4px 0 12px;
+}
+
+/* ---------------------------------------------------------------------------
+   Responsive navbar — hamburger + dropdown menu below ~1080px, where the full
+   admin link set (10 items) no longer fits inline. Desktop keeps the existing
+   inline layout untouched via display:contents on the wrapper.
+   --------------------------------------------------------------------------- */
+.nav-toggle {
+  display: none;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 1.2rem;
+  cursor: pointer;
+  z-index: 160;
+}
+.nav-toggle:hover {
+  background: var(--surface-2);
+}
+.nav-toggle-badge {
+  position: absolute;
+  top: -6px;
+  inset-inline-end: -6px;
+}
+.topbar-menu {
+  display: contents;
+}
+.topbar-menu-overlay {
+  display: none;
+}
+
+@media (max-width: 1080px) {
+  .nav-toggle {
+    display: inline-flex;
+  }
+  .topbar-menu {
+    display: none;
+    position: absolute;
+    inset-inline: 0;
+    top: 100%;
+    flex-direction: column;
+    gap: 3px;
+    padding: 10px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow-hover);
+    max-height: calc(100vh - 70px);
+    overflow-y: auto;
+    z-index: 150;
+  }
+  .topbar-menu.open {
+    display: flex;
+  }
+  .topbar-nav {
+    flex-direction: column;
+    width: 100%;
+    gap: 2px;
+  }
+  .nav-link {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 14px;
+    font-size: 1rem;
+  }
+  .topbar-user {
+    width: 100%;
+    box-sizing: border-box;
+    justify-content: space-between;
+    margin-top: 6px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+  .topbar-user .btn-logout {
+    padding: 9px 16px;
+    font-size: 0.9rem;
+  }
+  .topbar-menu-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 38, 33, 0.35);
+    z-index: 140;
+  }
+}
+@media (max-width: 480px) {
+  .brand-tagline {
+    display: none;
+  }
+  .form-row {
+    grid-template-columns: 1fr;
+  }
 }

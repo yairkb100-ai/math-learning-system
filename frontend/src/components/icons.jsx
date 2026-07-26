@@ -237,3 +237,22 @@ export function IconWarning(props) {
     </svg>
   )
 }
+
+export function IconMenu(props) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M4 7h16" />
+      <path d="M4 12h16" />
+      <path d="M4 17h16" />
+    </svg>
+  )
+}
+
+export function IconX(props) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M6 6l12 12" />
+      <path d="M18 6 6 18" />
+    </svg>
+  )
+}
