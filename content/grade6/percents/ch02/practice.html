@@ -31,6 +31,15 @@
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
   .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
   .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
   .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
   .fig { text-align: center; font-size: 13px; color: #5b6780; }
@@ -130,14 +139,14 @@
       <span class="tag med">בינוני</span></div>
     <div>חשבו בעזרת אבני הבניין:<br><br>א. 12% של 150<br>ב. 24% של 250<br>ג. 45% של 220<br>ד. 65% של 40</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">א. <span class="eq">10\%=15, 2\%=3 \Rightarrow 18</span><br>ב. <span class="eq">10\%=25, 20\%=50, 4\%=10 \Rightarrow 60</span><br>ג. <span class="eq">10\%=22, 40\%=88, 5\%=11 \Rightarrow 99</span><br>ד. <span class="eq">10\%=4, 60\%=24, 5\%=2 \Rightarrow 26</span></div>
+    <div class="sol">א. <span class="eq">10\%=15, 2\%=3 ⇒ 18</span><br>ב. <span class="eq">10\%=25, 20\%=50, 4\%=10 ⇒ 60</span><br>ג. <span class="eq">10\%=22, 40\%=88, 5\%=11 ⇒ 99</span><br>ד. <span class="eq">10\%=4, 60\%=24, 5\%=2 ⇒ 26</span></div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 7: כשגם האחוז וגם התוצאה עשרוניים</strong>
       <span class="tag med">בינוני</span></div>
     <div>חשבו:<br><br>א. 6% של 250<br>ב. 3.5% של 200<br>ג. 15% של 46<br>ד. 8% של 62.5</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">א. <span class="eq">1\%=2.5 \Rightarrow 15</span><br>ב. <span class="eq">1\%=2 \Rightarrow 7</span><br>ג. <span class="eq">10\%=4.6, 5\%=2.3 \Rightarrow 6.9</span><br>ד. <span class="eq">1\%=0.625 \Rightarrow 5</span></div>
+    <div class="sol">א. <span class="eq">1\%=2.5 ⇒ 15</span><br>ב. <span class="eq">1\%=2 ⇒ 7</span><br>ג. <span class="eq">10\%=4.6, 5\%=2.3 ⇒ 6.9</span><br>ד. <span class="eq">1\%=0.625 ⇒ 5</span></div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 8: המשלים — הפעם לא עגול</strong>
@@ -158,14 +167,14 @@
       <span class="tag med">בינוני</span></div>
     <div>מה גדול יותר: 35% מ-260, או 28% מ-320?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol"><span class="eq">35\%</span> של <span class="eq">260=91</span>. <span class="eq">  28\%</span> של <span class="eq">320=89.6</span>. <br><br><span class="eq">91&gt;89.6</span>, ולכן 35% מ-260 גדול יותר.</div>
+    <div class="sol"><span class="eq">35\%</span> של <span class="eq">260=91</span>. <span class="eq">28\%</span> של <span class="eq">320=89.6</span>. <br><br><span class="eq">91&gt;89.6</span>, ולכן 35% מ-260 גדול יותר.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 11: כמות גדולה, אחוז לא עגול</strong>
       <span class="tag med">בינוני</span></div>
     <div>בבית ספר 850 תלמידים. 44% מהם לומדים צרפתית. כמה תלמידים לומדים צרפתית?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol"><span class="eq">10\%=85,\ 40\%=340,\ 4\%=34 \Rightarrow 340+34=374</span> תלמידים</div>
+    <div class="sol"><span class="eq">10\%=85, 40\%=340, 4\%=34 ⇒ 340+34=374</span> תלמידים</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 12: אתגר: אחוז מתוך אחוז</strong>
@@ -179,7 +188,7 @@
       <span class="tag hard">מאתגר</span></div>
     <div>במלאי חנות 720 מוצרים: 37.5% חולצות, 27.5% מכנסיים, והשאר ז'קטים. כמה ז'קטים במלאי?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol"><span class="eq">37.5\%</span> של <span class="eq">720 = <span class="fr"><b>3</b><i>8</i></span>×720=270</span>. <span class="eq">  27.5\%</span> של <span class="eq">720</span>: <span class="eq">25\%=180, 2.5\%=18 \Rightarrow 198</span>.<br><br>ז'קטים: <span class="eq">720-270-198=252</span></div>
+    <div class="sol"><span class="eq">37.5\%</span> של <span class="eq">720 = <span class="fr"><b>3</b><i>8</i></span>×720=270</span>. <span class="eq">27.5\%</span> של <span class="eq">720</span>: <span class="eq">25\%=180, 2.5\%=18 ⇒ 198</span>.<br><br>ז'קטים: <span class="eq">720-270-198=252</span></div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 14: אתגר: השתתפות בפועל מול אחוז השתתפות</strong>
@@ -193,7 +202,7 @@
       <span class="tag hard">מאתגר</span></div>
     <div>במגרש חניה 640 מקומות. 12.5% שמורים לנכים, ו-7.5% שמורים לאוטובוסים (שניהם מחושבים מתוך 640). כמה מקומות פנויים לרכבים רגילים?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol"><span class="eq">12.5\%</span> של <span class="eq">640=<span class="fr"><b>1</b><i>8</i></span>×640=80</span>. <span class="eq">  7.5\%</span> של <span class="eq">640</span>: <span class="eq">5\%=32, 2.5\%=16 \Rightarrow 48</span>.<br><br>שמורים ביחד: <span class="eq">80+48=128</span>. פנויים: <span class="eq">640-128=512</span></div>
+    <div class="sol"><span class="eq">12.5\%</span> של <span class="eq">640=<span class="fr"><b>1</b><i>8</i></span>×640=80</span>. <span class="eq">7.5\%</span> של <span class="eq">640</span>: <span class="eq">5\%=32, 2.5\%=16 ⇒ 48</span>.<br><br>שמורים ביחד: <span class="eq">80+48=128</span>. פנויים: <span class="eq">640-128=512</span></div>
   </div>
 </div>
 

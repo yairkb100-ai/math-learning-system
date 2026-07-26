@@ -256,7 +256,10 @@ function Parabola({ param }) {
   const up = dir === 'up'
   // Pick a vertex height (in px from the axis) so the curve meets the axis the
   // requested number of times: below/above for 2, on it for 1, past it for 0.
-  const vGap = roots === 2 ? 46 : roots === 1 ? 0 : 40
+  // SVG y grows downward, so a POSITIVE gap puts an upward vertex below the
+  // axis (two crossings). For roots === 0 the vertex must sit on the same side
+  // the arms open away from — hence the negative gap.
+  const vGap = roots === 2 ? 46 : roots === 1 ? 0 : -40
   const vertexY = up ? axisY + vGap : axisY - vGap
   // Sample the parabola y = k*(x-cx)^2 + vertexY across the width.
   const halfW = 92

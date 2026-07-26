@@ -31,6 +31,15 @@
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
   .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
   .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
   .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
   .fig { text-align: center; font-size: 13px; color: #5b6780; }
@@ -151,7 +160,7 @@
       <span class="tag med">בינוני</span></div>
     <div>בכיתה 40 תלמידים: 15 כדורגל, 9 כדורסל, השאר לא משחקים בכדור.<br><br>א. איזה אחוז לא משחק בכדור?<br>ב. מתוך 24 שכן משחקים, איזה אחוז משחקים כדורגל?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">א. משחקים: <span class="eq">15+9=24</span>, לא משחקים: <span class="eq">40-24=16 \Rightarrow <span class="fr"><b>16</b><i>40</i></span>=40\%</span><br>ב. <span class="eq"><span class="fr"><b>15</b><i>24</i></span>=<span class="fr"><b>5</b><i>8</i></span>=62.5\%</span></div>
+    <div class="sol">א. משחקים: <span class="eq">15+9=24</span>, לא משחקים: <span class="eq">40-24=16 ⇒ <span class="fr"><b>16</b><i>40</i></span>=40\%</span><br>ב. <span class="eq"><span class="fr"><b>15</b><i>24</i></span>=<span class="fr"><b>5</b><i>8</i></span>=62.5\%</span></div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 10: אחוז תקינות במפעל</strong>
@@ -172,7 +181,7 @@
       <span class="tag hard">מאתגר</span></div>
     <div>מבחן א': 26 מתוך 40. מבחן ב': 34 מתוך 50. מבחן ג': 42 מתוך 60. יש מגמת שיפור אמיתית?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol"><span class="eq"><span class="fr"><b>26</b><i>40</i></span>=65\%,\ <span class="fr"><b>34</b><i>50</i></span>=68\%,\ <span class="fr"><b>42</b><i>60</i></span>=70\%</span>.<br><br>כן — האחוזים עצמם עולים בהדרגה, זהו שיפור אמיתי ולא רק מספרים גדולים יותר.</div>
+    <div class="sol"><span class="eq"><span class="fr"><b>26</b><i>40</i></span>=65\%, <span class="fr"><b>34</b><i>50</i></span>=68\%, <span class="fr"><b>42</b><i>60</i></span>=70\%</span>.<br><br>כן — האחוזים עצמם עולים בהדרגה, זהו שיפור אמיתי ולא רק מספרים גדולים יותר.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 13: אתגר: איזה שלם הפעם?</strong>

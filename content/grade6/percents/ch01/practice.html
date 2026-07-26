@@ -31,6 +31,15 @@
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
   .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
   .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
   .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
   .fig { text-align: center; font-size: 13px; color: #5b6780; }
@@ -121,9 +130,9 @@
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 5: אתגר: סידור מעורב</strong>
       <span class="tag hard">מאתגר</span></div>
-    <div>סדרו מהקטן לגדול: <span class="eq">\ 42\%,\ <span class="fr"><b>2</b><i>5</i></span>,\ 0.44,\ <span class="fr"><b>9</b><i>20</i></span>,\ 39\%</span></div>
+    <div>סדרו מהקטן לגדול: <span class="eq">42\%, <span class="fr"><b>2</b><i>5</i></span>, 0.44, <span class="fr"><b>9</b><i>20</i></span>, 39\%</span></div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">נתרגם הכול לאחוזים:<br><span class="eq"><span class="fr"><b>2</b><i>5</i></span> = 40\%</span>, <span class="eq">\ 0.44 = 44\%</span>, <span class="eq">\ <span class="fr"><b>9</b><i>20</i></span> = 45\%</span><br><br>מסדרים: <span class="eq">39\% &lt; 40\% &lt; 42\% &lt; 44\% &lt; 45\%</span><br><br>כלומר: <span class="eq">39\%,\ <span class="fr"><b>2</b><i>5</i></span>,\ 42\%,\ 0.44,\ <span class="fr"><b>9</b><i>20</i></span></span></div>
+    <div class="sol">נתרגם הכול לאחוזים:<br><span class="eq"><span class="fr"><b>2</b><i>5</i></span> = 40\%</span>, <span class="eq">0.44 = 44\%</span>, <span class="eq"><span class="fr"><b>9</b><i>20</i></span> = 45\%</span><br><br>מסדרים: <span class="eq">39\% &lt; 40\% &lt; 42\% &lt; 44\% &lt; 45\%</span><br><br>כלומר: <span class="eq">39\%, <span class="fr"><b>2</b><i>5</i></span>, 42\%, 0.44, <span class="fr"><b>9</b><i>20</i></span></span></div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 6: המרת שמיניות</strong>
@@ -170,7 +179,7 @@
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 12: אתגר: סידור עם עשרוניות אחוז</strong>
       <span class="tag hard">מאתגר</span></div>
-    <div>סדרו מהקטן לגדול: <span class="eq">83\%,\ <span class="fr"><b>7</b><i>8</i></span>,\ 0.845,\ <span class="fr"><b>17</b><i>20</i></span>,\ 0.86,\ 84\%</span></div>
+    <div>סדרו מהקטן לגדול: <span class="eq">83\%, <span class="fr"><b>7</b><i>8</i></span>, 0.845, <span class="fr"><b>17</b><i>20</i></span>, 0.86, 84\%</span></div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
     <div class="sol">נתרגם לאחוזים: <span class="eq"><span class="fr"><b>7</b><i>8</i></span>=87.5\%</span>, <span class="eq">0.845=84.5\%</span>, <span class="eq"><span class="fr"><b>17</b><i>20</i></span>=85\%</span>, <span class="eq">0.86=86\%</span>.<br><br>הסדר: <span class="eq">83\%&lt;84\%&lt;0.845&lt;<span class="fr"><b>17</b><i>20</i></span>&lt;0.86&lt;<span class="fr"><b>7</b><i>8</i></span></span></div>
   </div>
