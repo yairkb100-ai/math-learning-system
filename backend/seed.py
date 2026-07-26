@@ -8,6 +8,7 @@ Run from the project root:  ``py backend/seed.py``
 """
 
 import glob
+import hashlib
 import json
 import mimetypes
 import os
@@ -632,14 +633,24 @@ def ensure_course_assets(db):
                     if exists.size == src_size:
                         continue  # already on Bunny, unchanged
                     # A content-only edit (regenerated PDF, fixed rendering
-                    # bug, ...) changes the file's bytes but not its name —
-                    # re-upload so the CDN URL serves the new version, not a
-                    # stale one that silently outlives every future deploy.
+                    # bug, ...) changes the file's bytes but not its name.
+                    # Overwriting the storage object does NOT invalidate
+                    # Bunny's edge cache (max-age is 30 days and purging
+                    # needs an account API key we don't have) — a plain
+                    # re-upload would keep serving the stale cached PDF for a
+                    # month. Appending a content-hash query string makes the
+                    # new bytes a distinct cache key, so the CDN has to fetch
+                    # fresh; a later run with unchanged content reproduces the
+                    # same hash and the same URL, so this doesn't re-bust on
+                    # every deploy.
                     try:
-                        exists.external_url = bunny.upload(src, exists.stored_name)
+                        base_url = bunny.upload(src, exists.stored_name)
                     except Exception as exc:  # noqa: BLE001 — network/HTTP errors
                         print(f"  ! Failed to refresh {slug}/{name} on Bunny: {exc} — skipped")
                         continue
+                    with open(src, "rb") as fh:
+                        digest = hashlib.sha1(fh.read()).hexdigest()[:10]
+                    exists.external_url = f"{base_url}?v={digest}"
                     exists.size = src_size
                     migrated += 1
                     continue
