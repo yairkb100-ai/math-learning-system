@@ -629,7 +629,20 @@ def ensure_course_assets(db):
                     migrated += 1
                     continue
                 if use_bunny and exists.external_url:
-                    continue  # already on Bunny, nothing to do
+                    if exists.size == src_size:
+                        continue  # already on Bunny, unchanged
+                    # A content-only edit (regenerated PDF, fixed rendering
+                    # bug, ...) changes the file's bytes but not its name —
+                    # re-upload so the CDN URL serves the new version, not a
+                    # stale one that silently outlives every future deploy.
+                    try:
+                        exists.external_url = bunny.upload(src, exists.stored_name)
+                    except Exception as exc:  # noqa: BLE001 — network/HTTP errors
+                        print(f"  ! Failed to refresh {slug}/{name} on Bunny: {exc} — skipped")
+                        continue
+                    exists.size = src_size
+                    migrated += 1
+                    continue
                 # The DB row survives redeploys (Postgres) but the container
                 # disk does not — restore the file from git if it is missing.
                 # Also refresh when the git copy changed (e.g. regenerated PDF),
