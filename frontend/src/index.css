@@ -1323,7 +1323,7 @@ h4.prose-h {
 /* ---------- admin stats ---------- */
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
   gap: 16px;
   margin-bottom: 32px;
 }
@@ -1332,7 +1332,9 @@ h4.prose-h {
   padding: 24px 16px;
 }
 .stat-icon {
-  font-size: 2rem;
+  display: inline-flex;
+  font-size: 1.7rem;
+  color: var(--accent-2, var(--accent));
   margin-bottom: 8px;
 }
 .stat-value {
@@ -1354,6 +1356,7 @@ h4.prose-h {
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  flex: 1 1 150px;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -1368,7 +1371,30 @@ h4.prose-h {
   text-decoration: none;
 }
 .action-icon {
-  font-size: 2rem;
+  display: inline-flex;
+  font-size: 1.7rem;
+  color: var(--accent);
+}
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .stat-card {
+    padding: 16px 8px;
+  }
+  .stat-icon {
+    font-size: 1.4rem;
+  }
+  .stat-value {
+    font-size: 1.5rem;
+  }
+  .stat-label {
+    font-size: 0.78rem;
+  }
+  .action-card {
+    padding: 18px 14px;
+  }
 }
 
 /* ---------- admin tables ---------- */

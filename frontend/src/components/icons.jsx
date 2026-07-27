@@ -256,3 +256,33 @@ export function IconX(props) {
     </svg>
   )
 }
+
+export function IconUsers(props) {
+  return (
+    <svg {...base} {...props}>
+      <circle cx="9" cy="8" r="3.2" />
+      <path d="M3.5 19.5c0-3 2.5-5.2 5.5-5.2s5.5 2.2 5.5 5.2" />
+      <path d="M16 8.2a3 3 0 1 1 .5 6" opacity="0.7" />
+      <path d="M15.2 14.5c2.6.3 4.8 2.3 4.8 5" opacity="0.7" />
+    </svg>
+  )
+}
+
+export function IconShield(props) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M12 3.5 5 6v6c0 4.2 2.9 7 7 8.5 4.1-1.5 7-4.3 7-8.5V6l-7-2.5Z" />
+      <path d="m9 12 2 2 4-4" />
+    </svg>
+  )
+}
+
+export function IconClipboard(props) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M8 4.5h8a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V5.5a1 1 0 0 1 1-1Z" />
+      <path d="M9.5 3.5h5a.7.7 0 0 1 .7.7v1.6a.7.7 0 0 1-.7.7h-5a.7.7 0 0 1-.7-.7V4.2a.7.7 0 0 1 .7-.7Z" />
+      <path d="M9 12h6M9 15.5h6M9 8.5h3" />
+    </svg>
+  )
+}

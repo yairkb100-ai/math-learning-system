@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
+import { IconGraduation, IconShield, IconBook, IconClipboard, IconUsers } from '../components/icons.jsx'
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState(null)
@@ -38,21 +39,21 @@ export default function AdminDashboard() {
       </div>
 
       <div className="stats-grid">
-        <StatCard label="תלמידים" value={stats.students} icon="👨‍🎓" />
-        <StatCard label="מנהלים" value={stats.admins} icon="🛡️" />
-        <StatCard label="קורסים" value={stats.courses} icon="📚" />
-        <StatCard label="רישומים" value={stats.enrollments} icon="📋" />
+        <StatCard label="תלמידים" value={stats.students} icon={<IconGraduation />} />
+        <StatCard label="מנהלים" value={stats.admins} icon={<IconShield />} />
+        <StatCard label="קורסים" value={stats.courses} icon={<IconBook />} />
+        <StatCard label="רישומים" value={stats.enrollments} icon={<IconClipboard />} />
       </div>
 
       <div className="admin-actions">
         <h2 className="section-title">פעולות מהירות</h2>
         <div className="action-cards">
           <Link to="/admin/users" className="action-card">
-            <span className="action-icon">👥</span>
+            <span className="action-icon"><IconUsers /></span>
             <span>ניהול תלמידים</span>
           </Link>
           <Link to="/admin/courses" className="action-card">
-            <span className="action-icon">📖</span>
+            <span className="action-icon"><IconBook /></span>
             <span>ניהול קורסים</span>
           </Link>
         </div>
