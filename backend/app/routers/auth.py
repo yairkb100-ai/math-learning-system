@@ -10,6 +10,7 @@ from app.auth import create_access_token, hash_password, verify_password
 from app.database import get_db
 from app.dependencies import get_current_user
 from app.device_utils import client_ip, device_label, get_max_devices
+from app.rate_limit import check_rate_limit, reset_rate_limit
 from app.schemas import TokenResponse, UserCreate, UserLogin, UserOut
 from app.trials import start_trial_if_needed
 
@@ -120,7 +121,12 @@ def _register_device(db, *, user, device_id, label, ip, ua) -> None:
 
 
 @router.post("/register", response_model=TokenResponse, status_code=201)
-def register(payload: UserCreate, db: Session = Depends(get_db)) -> TokenResponse:
+def register(
+    payload: UserCreate, request: Request, db: Session = Depends(get_db)
+) -> TokenResponse:
+    check_rate_limit(
+        f"register:{client_ip(request)}", limit=5, window_seconds=3600
+    )
     username = payload.username.strip()
     if len(username) < 2:
         raise HTTPException(status_code=422, detail="שם משתמש חייב להכיל לפחות 2 תווים")
@@ -156,11 +162,18 @@ def login(
     ua = request.headers.get("user-agent")
     label = device_label(ua)
 
+    # Cap attempts per IP+username so credential stuffing / password guessing
+    # can't run unthrottled. Keyed on the pair so one slow typist on a shared
+    # IP (school/office NAT) doesn't lock out everyone else on that IP.
+    rate_key = f"login:{ip}:{payload.username}"
+    check_rate_limit(rate_key, limit=8, window_seconds=900)
+
     user = db.query(models.User).filter(models.User.username == payload.username).first()
     if not user or not verify_password(payload.password, user.password_hash):
         raise HTTPException(status_code=401, detail="שם משתמש או סיסמה שגויים")
     if not user.is_active:
         raise HTTPException(status_code=403, detail="החשבון אינו פעיל")
+    reset_rate_limit(rate_key)
 
     # Enforce the device limit and track the device (may raise 403). Runs
     # before we mint the token so a blocked device never gets a session.

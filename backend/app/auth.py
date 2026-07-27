@@ -7,7 +7,18 @@ from typing import Optional
 import bcrypt
 from jose import JWTError, jwt
 
-SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-change-in-production")
+_INSECURE_DEFAULT = "dev-secret-change-in-production"
+SECRET_KEY = os.getenv("SECRET_KEY", _INSECURE_DEFAULT)
+
+# DATABASE_URL is only set in production (Railway/Postgres); local dev uses
+# the bundled SQLite file and has no DATABASE_URL (see app/database.py).
+# Refuse to boot with a publicly-known JWT secret outside local dev.
+if SECRET_KEY == _INSECURE_DEFAULT and os.environ.get("DATABASE_URL"):
+    raise RuntimeError(
+        "SECRET_KEY environment variable must be set (DATABASE_URL is set, "
+        "indicating a non-local environment)."
+    )
+
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 8  # 8 hours
 

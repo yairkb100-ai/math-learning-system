@@ -22,9 +22,30 @@ router = APIRouter(prefix="/api/files", tags=["files"])
 _BACKEND_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 UPLOAD_DIR = os.environ.get("UPLOAD_DIR", os.path.join(_BACKEND_DIR, "uploads"))
 
+MAX_UPLOAD_BYTES = int(os.environ.get("MAX_UPLOAD_MB", "50")) * 1024 * 1024
+
 
 def _ensure_upload_dir() -> None:
     os.makedirs(UPLOAD_DIR, exist_ok=True)
+
+
+def _read_upload(file: UploadFile) -> bytes:
+    """Read the upload in chunks, aborting once MAX_UPLOAD_BYTES is exceeded
+    instead of buffering an arbitrarily large file into memory first."""
+    chunks = []
+    total = 0
+    while True:
+        chunk = file.file.read(1024 * 1024)
+        if not chunk:
+            break
+        total += len(chunk)
+        if total > MAX_UPLOAD_BYTES:
+            raise HTTPException(
+                status_code=413,
+                detail=f"הקובץ גדול מדי (מקסימום {MAX_UPLOAD_BYTES // (1024 * 1024)}MB)",
+            )
+        chunks.append(chunk)
+    return b"".join(chunks)
 
 
 from app.schemas import FileAssetOut  # noqa: E402
@@ -63,7 +84,7 @@ def upload_file(
         kind = "resource"
     ext = os.path.splitext(file.filename or "")[1]
     stored_name = uuid.uuid4().hex + ext
-    contents = file.file.read()
+    contents = _read_upload(file)
 
     external_url = None
     if bunny.is_configured() and kind == "resource":
