@@ -434,10 +434,12 @@
   "number": 2,
   "topic": "חוק החילוף וחוק הקיבוץ של פעולת החיבור",
   "output": "סרטון-פרק-2-חילוף-וקיבוץ-בחיבור.mp4",
-  "status": "staged",
+  "status": "done",
   "course": "arithmetic-laws",
   "grade": null,
-  "standalone_slug": null
+  "standalone_slug": null,
+  "artifact_id": "7ded0ef9-245e-4f70-b101-4c210810ff4e",
+  "submitted_at": 1785143317.5983565
  },
  "al-ch03": {
   "notebook_id": "b0f17b57-dcbc-4481-ad03-3670c1088d30",
@@ -456,10 +458,12 @@
   "number": 4,
   "topic": "חוק הפילוג",
   "output": "סרטון-פרק-4-חוק-הפילוג.mp4",
-  "status": "staged",
+  "status": "done",
   "course": "arithmetic-laws",
   "grade": null,
-  "standalone_slug": null
+  "standalone_slug": null,
+  "artifact_id": "6d2e3339-be50-48b0-8c23-b1bae7578d00",
+  "submitted_at": 1785143341.6082177
  },
  "al-ch05": {
   "notebook_id": "626a7460-f52c-4c51-91bd-de202b1d0828",
@@ -467,10 +471,12 @@
   "number": 5,
   "topic": "חיסור של סכום ושל הפרש",
   "output": "סרטון-פרק-5-חיסור-סכום-והפרש.mp4",
-  "status": "staged",
+  "status": "done",
   "course": "arithmetic-laws",
   "grade": null,
-  "standalone_slug": null
+  "standalone_slug": null,
+  "artifact_id": "7d751d2f-3692-4ec7-85b1-e69d1b5c8895",
+  "submitted_at": 1785143351.2410536
  },
  "al-ch06": {
   "notebook_id": "9e2c477d-6fab-41ee-864f-35b22a6afbbe",

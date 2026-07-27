@@ -382,11 +382,11 @@
   "number": 2,
   "topic": "חוק החילוף וחוק הקיבוץ של פעולת החיבור",
   "output": "סרטון-פרק-2-חילוף-וקיבוץ-בחיבור.mp4",
-  "status": "generating",
+  "status": "done",
   "course": "arithmetic-laws",
   "grade": null,
-  "artifact_id": "fda5ca1b-6c27-4bf6-9754-dfb55555cbdb",
-  "submitted_at": 1785093034.79377
+  "submitted_at": 1785093034.79377,
+  "watchdog_retries": 1
  },
  "al-ch03": {
   "notebook_id": "2503d9aa-72d4-41d4-ac12-17d9d39f0bbf",
@@ -399,5 +399,61 @@
   "grade": null,
   "artifact_id": "d0b15b27-8c42-4777-bc16-7ae0da6d3198",
   "submitted_at": 1785093903.7603178
+ },
+ "al-ch04": {
+  "notebook_id": "2db5702e-1a4c-43e9-aa02-6febc2186809",
+  "source_id": "028c60fe-9970-4baa-b538-1ca64f1215ee",
+  "number": 4,
+  "topic": "חוק הפילוג",
+  "output": "סרטון-פרק-4-חוק-הפילוג.mp4",
+  "status": "done",
+  "course": "arithmetic-laws",
+  "grade": null
+ },
+ "al-ch05": {
+  "notebook_id": "79cce8f2-6ac7-4190-b29d-34fffd6e6947",
+  "source_id": "d93774c7-843f-4741-90f5-db34edffb5fd",
+  "number": 5,
+  "topic": "חיסור של סכום ושל הפרש",
+  "output": "סרטון-פרק-5-חיסור-סכום-והפרש.mp4",
+  "status": "done",
+  "course": "arithmetic-laws",
+  "grade": null
+ },
+ "al-ch06": {
+  "notebook_id": "6478c8b2-cc37-489c-8ac9-3fe3fecc4a6b",
+  "source_id": "9df6ee03-8d2a-4ee2-b130-68a5f81410c1",
+  "number": 6,
+  "topic": "הכפלת המחלק וחילוק המחלק",
+  "output": "סרטון-פרק-6-תכונות-החילוק.mp4",
+  "status": "done",
+  "course": "arithmetic-laws",
+  "grade": null,
+  "artifact_id": "6133e0ef-1c36-40c6-98d1-75ba4978208e",
+  "submitted_at": 1785143586.0964043
+ },
+ "al-ch07": {
+  "notebook_id": "e3899fa0-beec-4273-92ca-92a1cce86d32",
+  "source_id": "52c98e25-4486-484b-8878-67752275651f",
+  "number": 7,
+  "topic": "חזקות עם מעריך טבעי",
+  "output": "סרטון-פרק-7-חזקות.mp4",
+  "status": "done",
+  "course": "arithmetic-laws",
+  "grade": null,
+  "artifact_id": "dc1e0582-6b6d-4c47-861a-8210e610455a",
+  "submitted_at": 1785143601.7041042
+ },
+ "al-ch08": {
+  "notebook_id": "5dfeac7d-6040-406d-9a58-c94358bd3a7c",
+  "source_id": "ed4df2be-e9d1-440d-8b05-c2de3faae93e",
+  "number": 8,
+  "topic": "שורש ריבועי",
+  "output": "סרטון-פרק-8-שורש-ריבועי.mp4",
+  "status": "done",
+  "course": "arithmetic-laws",
+  "grade": null,
+  "artifact_id": "2913f8a5-5075-4ebb-9f00-b7fa669f1a75",
+  "submitted_at": 1785143613.7416308
  }
 }
