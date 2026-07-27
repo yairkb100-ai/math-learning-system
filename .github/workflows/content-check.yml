@@ -1,0 +1,30 @@
+name: Content check
+
+on:
+  pull_request:
+    paths:
+      - "content/**"
+      - "scripts/check_assets.py"
+      - "scripts/gen_chapter_assets.py"
+  push:
+    branches: [main]
+    paths:
+      - "content/**"
+      - "scripts/check_assets.py"
+      - "scripts/gen_chapter_assets.py"
+
+jobs:
+  check-assets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Run content assets check
+        env:
+          PYTHONIOENCODING: utf-8
+          PYTHONUTF8: "1"
+        run: python scripts/check_assets.py
