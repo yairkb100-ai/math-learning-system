@@ -145,7 +145,7 @@ export default function AdminChapterViews() {
                         onClick={() => deleteOne(v.id)}
                         disabled={busy}
                       >
-                        🗑
+                        מחק
                       </button>
                     </td>
                   </tr>
