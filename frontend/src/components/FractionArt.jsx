@@ -1,6 +1,8 @@
 // Cute SVG illustrations for fraction content, aimed at young learners.
 // Used via {{kind:n/d|caption}} tokens inside course content (see MathText).
 
+import isolateSignedNumbers from './bidiIsolate.jsx'
+
 const NAVY = '#14306b'
 const FILL = '#8ecae6'
 const TOMATO = '#e8574b'
@@ -850,7 +852,13 @@ export default function FractionArt({ kind, n = 1, d = 4, param, caption }) {
       <div dir="ltr">
         <Art n={n} d={d} param={param} />
       </div>
-      {caption && <figcaption className="art-caption">{caption}</figcaption>}
+      {/* Captions routinely carry signed numbers ("(-2)³ = -8 — מעריך אי-זוגי"),
+          and as raw text in an RTL figure they'd render as "8-". */}
+      {caption && (
+        <figcaption className="art-caption">
+          {isolateSignedNumbers(caption, 'cap')}
+        </figcaption>
+      )}
     </figure>
   )
 }

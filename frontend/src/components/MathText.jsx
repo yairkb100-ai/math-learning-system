@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import katex from 'katex'
 import FractionArt from './FractionArt.jsx'
+import isolateSignedNumbers from './bidiIsolate.jsx'
 
 // Lightweight Markdown + LaTeX renderer for course content.
 // Handles: ## / ### headings, **bold**, bullet/numbered lists, tables,
@@ -48,11 +49,14 @@ function renderInlineMath(text, keyPrefix) {
       if (p.startsWith('$') && p.endsWith('$') && p.length >= 2) {
         out.push(renderMath(p.slice(1, -1), false, `${keyPrefix}-${k++}`, p))
       } else if (p) {
-        out.push(<span key={`${keyPrefix}-${k++}`}>{p}</span>)
+        out.push(...isolateSignedNumbers(p, `${keyPrefix}-${k++}`))
       }
     })
   return out
 }
+
+// Math already wrapped in $…$ goes through KaTeX (which renders LTR); the plain
+// text around it is what needs isolateSignedNumbers — see bidiIsolate.jsx.
 
 function renderMath(value, display, key, raw) {
   let html

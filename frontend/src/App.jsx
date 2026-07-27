@@ -6,6 +6,7 @@ import BookLessonFab from './components/BookLessonFab.jsx'
 import TrialWelcome from './components/TrialWelcome.jsx'
 
 import LoginPage from './pages/LoginPage.jsx'
+import DevBidiCheck from './pages/DevBidiCheck.jsx'
 import RegisterPage from './pages/RegisterPage.jsx'
 import CourseList from './pages/CourseList.jsx'
 import CourseView from './pages/CourseView.jsx'
@@ -49,6 +50,11 @@ function AppRoutes() {
           {/* Public */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+
+          {/* Dev-only: RTL/bidi harness for MathText, stripped from prod builds */}
+          {import.meta.env.DEV && (
+            <Route path="/__bidi" element={<DevBidiCheck />} />
+          )}
 
           {/* Student */}
           <Route

@@ -920,6 +920,15 @@ h4.prose-h {
   direction: ltr;
   unicode-bidi: isolate;
 }
+/* מספר מסומן שיושב בתוך פסקה עברית בלי $…$ — למשל "הטמפרטורה הייתה -7 מעלות".
+   הסימן ניטרלי מבחינת bidi, ולכן בפסקה RTL הוא נוחת מימין לספרות והקורא רואה
+   "7-". isolate לבדו לא מספיק: בתוך הבידוד כיוון הבסיס עדיין נורש RTL, ולכן
+   חייבים גם direction: ltr. inline (לא inline-block) כדי שהמספר ישבור שורה
+   ויתיישר עם הטקסט סביבו כמו כל מילה. */
+.ltr-run {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
 .math-display {
   display: block;
   overflow-x: auto;
