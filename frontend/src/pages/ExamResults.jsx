@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useLocation, useNavigate, Link } from 'react-router-dom'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
+import { celebrate } from '../lib/celebrate.js'
 import '../styles/exams.css'
 
 const DIFFICULTY_HE = { easy: 'קל', medium: 'בינוני', hard: 'קשה' }
@@ -26,6 +27,20 @@ export default function ExamResults() {
     api.getExamSubmission(id).then(setSub).catch(setError)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
+
+  // Celebrate only on a fresh finish (arrived via ExamPlayer's navigate state)
+  // — not on every later revisit of this results page from exam history, and
+  // not again if the student uses the browser's back/forward to return to
+  // this exact history entry (React Router keeps location.state around for
+  // that, so a plain stateResult check alone would re-fire it).
+  useEffect(() => {
+    if (!stateResult?.passed) return
+    const flag = `celebrated-exam-${stateResult.id}`
+    if (sessionStorage.getItem(flag)) return
+    sessionStorage.setItem(flag, '1')
+    celebrate({ size: 'big' })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   if (error) return <ErrorBox error={error} />
   if (!sub) return <Loading label="טוען תוצאות…" />

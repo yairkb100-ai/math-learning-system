@@ -4,6 +4,7 @@ import PrivateRoute from './components/PrivateRoute.jsx'
 import Navbar from './components/Navbar.jsx'
 import BookLessonFab from './components/BookLessonFab.jsx'
 import TrialWelcome from './components/TrialWelcome.jsx'
+import Celebration from './components/Celebration.jsx'
 
 import LoginPage from './pages/LoginPage.jsx'
 import RegisterPage from './pages/RegisterPage.jsx'
@@ -246,6 +247,7 @@ function AppRoutes() {
 
       <BookLessonFab />
       <TrialWelcome />
+      <Celebration />
 
       <footer className="footer" dir="rtl">
         <span>© יאיר כהנא 0545953631</span>

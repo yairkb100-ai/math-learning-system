@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import api from '../api.js'
 import MathText, { InlineMathText } from './MathText.jsx'
+import { celebrate } from '../lib/celebrate.js'
 
 const t = (rtl, he, en) => (rtl ? he : en)
 
@@ -24,6 +25,10 @@ function QuizQuestion({ question, chapterId, rtl }) {
   const [result, setResult] = useState(null) // { correct, correct_answer }
   const [loading, setLoading] = useState(false)
   const [err, setErr] = useState(null)
+
+  useEffect(() => {
+    if (result?.correct) celebrate({ size: 'small' })
+  }, [result])
 
   const trueFalse = question.type === 'true-false'
   const multiple = question.type === 'multiple-choice'

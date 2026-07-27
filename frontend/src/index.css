@@ -3184,3 +3184,89 @@ h4.prose-h {
     grid-template-columns: 1fr;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Celebration — confetti burst + hype toast for "something good happened"
+   (chapter finished, correct answer, exam passed). Mounted once globally;
+   the fixed+clipped layer guarantees it never contributes to page scrollWidth
+   regardless of how a particle's random position/size lands.
+   --------------------------------------------------------------------------- */
+.celebration-layer {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 300;
+}
+.confetti-piece {
+  position: absolute;
+  top: -20px;
+  display: block;
+  animation-name: confetti-fall;
+  animation-timing-function: cubic-bezier(0.35, 0, 0.65, 1);
+  animation-fill-mode: forwards;
+}
+.confetti-rect { border-radius: 2px; }
+.confetti-circle { border-radius: 50%; }
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(-10vh) translateX(0) rotate(0deg);
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(105vh) translateX(var(--drift)) rotate(var(--spin));
+    opacity: 0;
+  }
+}
+
+.celebrate-toast {
+  position: absolute;
+  top: 78px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 999px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.24);
+  font-weight: 700;
+  animation: celebrate-pop 0.32s cubic-bezier(0.2, 0.9, 0.3, 1.35);
+  max-width: min(92vw, 460px);
+  box-sizing: border-box;
+}
+.celebrate-toast-small {
+  padding: 10px 18px;
+  background: var(--board);
+  color: var(--chalk);
+  font-size: 0.95rem;
+}
+.celebrate-toast-small svg {
+  color: var(--marker, #f2b134);
+  font-size: 1.15em;
+  flex-shrink: 0;
+}
+.celebrate-toast-big {
+  top: 100px;
+  padding: 16px 26px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 1.15rem;
+  text-align: center;
+}
+.celebrate-toast-big svg {
+  color: var(--marker, #f2b134);
+  font-size: 1.5em;
+  flex-shrink: 0;
+}
+@keyframes celebrate-pop {
+  from { opacity: 0; transform: translateX(-50%) translateY(-8px) scale(0.9); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+}
+@media (max-width: 480px) {
+  .celebrate-toast-small { top: 70px; font-size: 0.88rem; padding: 8px 14px; }
+  .celebrate-toast-big { top: 88px; font-size: 1.02rem; padding: 14px 18px; }
+}

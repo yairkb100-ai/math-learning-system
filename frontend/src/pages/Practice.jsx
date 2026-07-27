@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
+import { celebrate } from '../lib/celebrate.js'
 import '../styles/practice.css'
 
 const DIFFICULTY_HE = { easy: 'קל', medium: 'בינוני', hard: 'קשה' }
@@ -123,6 +124,10 @@ export default function Practice() {
         timeSpent,
       })
       setResult(res)
+      // Skip the hype toast when a badge was also just earned — the
+      // achievement toast below already covers "something great happened"
+      // and the two would otherwise briefly overlap on screen.
+      if (res?.is_correct && !res?.newly_earned?.length) celebrate({ size: 'small' })
       refreshStats()
       // record this question's outcome for the end-of-session summary
       setSessionLog((log) => [

@@ -4,6 +4,7 @@ import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
 import MathText, { InlineMathText } from '../components/MathText.jsx'
 import Quiz from '../components/Quiz.jsx'
+import { celebrate } from '../lib/celebrate.js'
 import {
   IconPlay,
   IconBook,
@@ -120,6 +121,9 @@ export default function ChapterView() {
   const [step, setStep] = useState(0)
   const [videoFile, setVideoFile] = useState(null)
   const [chapterFiles, setChapterFiles] = useState([])
+  // Shared in-flight guard between the auto-complete effect and the manual
+  // "mark complete" button — see the effect below for why this is needed.
+  const completingRef = useRef(false)
 
   const load = useCallback(() => {
     setLoading(true)
@@ -177,14 +181,26 @@ export default function ChapterView() {
   // separate "mark complete" button, which most students never click
   // (they just move on via "next chapter"), leaving progress unrecorded
   // even though real progress happened.
+  //
+  // completingRef guards against a real race: the manual button below stays
+  // visible and clickable during this effect's async round-trip (nothing
+  // else disables it), so a click right as the finish step loads could fire
+  // both paths for the same completion — two markChapterComplete calls and
+  // a doubled-up celebration.
   useEffect(() => {
     if (!chapter || steps.length === 0 || completed) return
     if (steps[step]?.kind !== 'finish') return
+    if (completingRef.current) return
+    completingRef.current = true
     api
       .markChapterComplete(id, chapter.id)
       .then(() => api.getProgress(id))
       .then(setProgress)
+      .then(() => celebrate({ size: 'big' }))
       .catch(() => {}) // silent — the manual button below still works as a fallback
+      .finally(() => {
+        completingRef.current = false
+      })
   }, [step, steps, completed, chapter, id])
 
   if (loading) return <Loading label="טוען פרק…" />
@@ -197,15 +213,19 @@ export default function ChapterView() {
   const pct = Math.round((step / (steps.length - 1)) * 100)
 
   const markComplete = async () => {
+    if (completingRef.current) return
+    completingRef.current = true
     setMarking(true)
     try {
       await api.markChapterComplete(id, chapter.id)
       const p = await api.getProgress(id)
       setProgress(p)
+      celebrate({ size: 'big' })
     } catch (e) {
       alert(String(e.message || e))
     } finally {
       setMarking(false)
+      completingRef.current = false
     }
   }
 
@@ -617,6 +637,10 @@ function Exercise({ exercise, courseId, chapterNumber, rtl }) {
   const [answer, setAnswer] = useState('')
   const [result, setResult] = useState(null) // { correct, expected }
   const [checking, setChecking] = useState(false)
+
+  useEffect(() => {
+    if (result?.correct) celebrate({ size: 'small' })
+  }, [result])
 
   const reveal = () => {
     if (solution != null) {
