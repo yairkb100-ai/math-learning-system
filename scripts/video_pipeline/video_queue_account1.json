@@ -1,1 +1,152 @@
-{}
+{
+ "sys-powers": {
+  "notebook_id": "b0a2929f-f6c2-4e28-887d-8087db701573",
+  "source_id": "b78f130d-b01a-4b7f-bb14-7630b49b0a1c",
+  "number": 1,
+  "topic": "חזקות: מהמושג הבסיסי (בסיס ומעריך) דרך חוקי החזקות, חזקה 0 וחזקות שליליות, כתיב מדעי, בסיס שלילי, ועד שורשים כחזקות עם מעריך שברי",
+  "output": "סרטון-חזקות-מהיסוד-ועד-כיתה-י.mp4",
+  "status": "done",
+  "course": "powers-and-exponents",
+  "standalone_slug": "powers-and-exponents",
+  "artifact_id": "dfda40eb-a67c-46af-a6b9-b04691ee95c8",
+  "submitted_at": 1784830750.7749858
+ },
+ "sys-2eq": {
+  "notebook_id": "a70e92a4-b90b-4d00-a772-54432c94e51a",
+  "source_id": "2fa60b9f-9b43-4733-b747-925fa9b74cf4",
+  "number": 1,
+  "topic": "מערכת שתי משוואות בשני נעלמים: פתרון בשיטות הצבה, השוואה וחיבור-חיסור, פתרון גרפי, מספר הפתרונות ובעיות מילוליות",
+  "output": "סרטון-מערכת-שתי-משוואות-בשני-נעלמים.mp4",
+  "status": "done",
+  "course": "two-equations-two-unknowns",
+  "standalone_slug": "two-equations-two-unknowns",
+  "artifact_id": "644edf88-ceb8-43ac-80e1-a543a5007a86",
+  "submitted_at": 1784830756.097663
+ },
+ "dn-ch01": {
+  "notebook_id": "903d5480-6edd-4d62-be57-48c5923a7064",
+  "source_id": "fa6fd644-aa86-4f38-ac54-f47e927da21f",
+  "number": 1,
+  "topic": "פעולות החשבון במספרים טבעיים וסדר הפעולות",
+  "output": "סרטון-פרק-1-סדר-פעולות-החשבון.mp4",
+  "status": "done",
+  "course": "directed-numbers",
+  "submitted_at": 1785092796.3978677,
+  "watchdog_retries": 1,
+  "artifact_id": "bef1ba95-be6e-492b-b175-7c7704d4533f"
+ },
+ "g7-ch04": {
+  "notebook_id": "68f756a5-e789-4f86-a6eb-495ece1c2e17",
+  "source_id": "626b4298-5ca7-4938-ad9b-0cb629dc95b2",
+  "number": 4,
+  "topic": "פתיחת סוגריים בביטוי אלגברי",
+  "output": "סרטון-פרק-4-פתיחת-סוגריים.mp4",
+  "status": "done",
+  "course": "grade7-algebra",
+  "grade": null,
+  "artifact_id": "f0e1dc89-1e67-4342-afe0-fcc8776a505d",
+  "submitted_at": 1785092802.41098
+ },
+ "dn-ch08": {
+  "notebook_id": "e0713627-bc3c-4a19-b52a-a7a57f69285f",
+  "source_id": "e1489918-508f-4403-96f9-4f2e3288a14e",
+  "number": 8,
+  "topic": "פעולות מעורבות וסדר פעולות במספרים מכוונים",
+  "output": "סרטון-פרק-8-פעולות-מעורבות.mp4",
+  "status": "done",
+  "course": "directed-numbers",
+  "grade": null,
+  "artifact_id": "f68354aa-e444-4920-86f9-99db59dfaeea",
+  "submitted_at": 1785092809.2614887
+ },
+ "dn-ch09": {
+  "notebook_id": "b08a5f19-fc43-4662-b33f-42d8626cc788",
+  "source_id": "bac9c143-5412-43d2-80d0-a88102b26002",
+  "number": 9,
+  "topic": "חזקות ובעיות מילוליות במספרים מכוונים",
+  "output": "סרטון-פרק-9-חזקות-ובעיות-מילוליות.mp4",
+  "status": "done",
+  "course": "directed-numbers",
+  "grade": null
+ },
+ "al-ch01": {
+  "notebook_id": "b50ef312-bd75-45a5-832a-800a940bceee",
+  "source_id": "abde87b4-1f7f-4cb9-8d6a-bd8aab73cd59",
+  "number": 1,
+  "topic": "כללי סדר פעולות החשבון (חזרה)",
+  "output": "סרטון-פרק-1-סדר-פעולות-חזרה.mp4",
+  "status": "done",
+  "course": "arithmetic-laws",
+  "grade": null
+ },
+ "al-ch02": {
+  "notebook_id": "f72d1d6a-73fc-48f8-a412-a0efd479146e",
+  "source_id": "99b433a8-8c41-42dd-98e9-5105fd00c19c",
+  "number": 2,
+  "topic": "חוק החילוף וחוק הקיבוץ של פעולת החיבור",
+  "output": "סרטון-פרק-2-חילוף-וקיבוץ-בחיבור.mp4",
+  "status": "staged",
+  "course": "arithmetic-laws",
+  "grade": null
+ },
+ "al-ch03": {
+  "notebook_id": "95897da5-b8fb-48f9-a8ee-fd5ab371cf6c",
+  "source_id": "204dac71-01c2-41db-8084-1387ef798bb6",
+  "number": 3,
+  "topic": "חוק החילוף וחוק הקיבוץ של פעולת הכפל",
+  "output": "סרטון-פרק-3-חילוף-וקיבוץ-בכפל.mp4",
+  "status": "done",
+  "course": "arithmetic-laws",
+  "grade": null
+ },
+ "al-ch04": {
+  "notebook_id": "63ccec1f-92de-4f57-9538-cf2721f70096",
+  "source_id": "9432f490-11ed-4b39-92a7-b7298ed7db42",
+  "number": 4,
+  "topic": "חוק הפילוג",
+  "output": "סרטון-פרק-4-חוק-הפילוג.mp4",
+  "status": "staged",
+  "course": "arithmetic-laws",
+  "grade": null
+ },
+ "al-ch05": {
+  "notebook_id": "8f572870-a3f4-4d75-b0ca-de6fef1fa8f1",
+  "source_id": "feaea1af-b607-4b11-8930-a656218804ab",
+  "number": 5,
+  "topic": "חיסור של סכום ושל הפרש",
+  "output": "סרטון-פרק-5-חיסור-סכום-והפרש.mp4",
+  "status": "staged",
+  "course": "arithmetic-laws",
+  "grade": null
+ },
+ "al-ch06": {
+  "notebook_id": "8828bd32-e2b6-437e-a830-ff6f8af24a9e",
+  "source_id": "cba79f86-51a5-402e-b853-fab73c03a335",
+  "number": 6,
+  "topic": "הכפלת המחלק וחילוק המחלק",
+  "output": "סרטון-פרק-6-תכונות-החילוק.mp4",
+  "status": "staged",
+  "course": "arithmetic-laws",
+  "grade": null
+ },
+ "al-ch07": {
+  "notebook_id": "a729dbeb-b916-42d9-9dd0-2c9420989b17",
+  "source_id": "7fd52689-a56a-4136-a122-d420c67e48e5",
+  "number": 7,
+  "topic": "חזקות עם מעריך טבעי",
+  "output": "סרטון-פרק-7-חזקות.mp4",
+  "status": "staged",
+  "course": "arithmetic-laws",
+  "grade": null
+ },
+ "al-ch08": {
+  "notebook_id": "2f86adf5-8eae-4512-8ffc-48adb738551a",
+  "source_id": "6a69ad55-b4d2-43fa-b587-912f4281ff29",
+  "number": 8,
+  "topic": "שורש ריבועי",
+  "output": "סרטון-פרק-8-שורש-ריבועי.mp4",
+  "status": "staged",
+  "course": "arithmetic-laws",
+  "grade": null
+ }
+}

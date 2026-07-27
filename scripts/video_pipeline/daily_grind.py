@@ -2,10 +2,13 @@
 """Daily autonomous backlog grinder.
 
 One self-contained run that drains as much of the video backlog as the daily
-NotebookLM quota allows, then ships whatever downloaded. Safe to run daily
+NotebookLM quota allows, then ships whatever downloaded. Safe to run repeatedly
 (idempotent): submits staged videos on each usable account (subject to the
-~3/day/account quota), polls + downloads completed ones, registers them via
-seed.py, and commits + pushes any new mp4s.
+~3/day/account quota), polls + downloads completed ones, runs each finished mp4
+through the review_video.py QA gate, and publishes only the ones that pass.
+
+Normally invoked by pipeline_watchdog.py rather than directly — the watchdog is
+what probes auth, un-sticks stalled entries and alerts a human.
 
 Accounts are routed through their own staged queues (notebooks are account-
 scoped): account2 = yairkahana71, account3 = hthrua100. video_queue.json is
@@ -18,6 +21,7 @@ Usage: python daily_grind.py [--minutes 25]
 """
 import argparse
 import json
+import shutil
 import subprocess
 import sys
 import time
@@ -26,6 +30,8 @@ from pathlib import Path
 HERE = Path(__file__).parent
 PY = sys.executable
 ROOT = Path(r"C:\Users\yairk\OneDrive\שולחן העבודה\math-learning-system")
+REVIEW = HERE / "_review"          # extracted frames, one dir per video
+QUARANTINE = HERE / "_held"        # videos that failed QA and were NOT published
 
 # (queue file, notebooklm profile) — one per usable Google account.
 ACCOUNTS = [
@@ -63,6 +69,30 @@ def any_generating():
     return False
 
 
+def qa(mp4):
+    """Pre-publish gate. Returns (ok, reasons, frames_dir).
+
+    Only catches machine-checkable breakage — no audio track, wrong length,
+    dead-silent or distorted narration. It always extracts frames too, because
+    the failures that actually matter in practice (English captions leaking
+    into a Hebrew video, a leading minus flipped by RTL, sloppy notation) are
+    only visible by looking. Those still need eyes on REVIEW/<video>/.
+    """
+    frames = REVIEW / mp4.stem
+    r = subprocess.run(
+        [PY, str(HERE / "review_video.py"), str(mp4), "--out", str(frames), "--json"],
+        capture_output=True, text=True, encoding="utf-8", errors="replace",
+    )
+    try:
+        verdict = json.loads((r.stdout or "").strip())
+    except json.JSONDecodeError:
+        # A broken checker must not silently pass bad videos, nor block good
+        # ones forever — publish, but say loudly that it went out unchecked.
+        print(f"QA ERROR on {mp4.name}: {(r.stdout or '') + (r.stderr or '')}", flush=True)
+        return True, [], frames
+    return verdict.get("ok", False), verdict.get("flags", []), frames
+
+
 def ship_new_videos():
     """Publish any freshly downloaded mp4s straight to Bunny + the prod DB.
 
@@ -74,24 +104,36 @@ def ship_new_videos():
     from publish_videos import publish_video
 
     assets_root = ROOT / "courses" / "assets"
-    published = 0
+    published, held = 0, []
     for slug_dir in sorted(assets_root.glob("*")):
         if not slug_dir.is_dir():
             continue
         for mp4 in sorted(slug_dir.glob("*.mp4")):
+            ok, reasons, frames = qa(mp4)
+            if not ok:
+                dest = QUARANTINE / mp4.name
+                QUARANTINE.mkdir(parents=True, exist_ok=True)
+                shutil.move(str(mp4), str(dest))
+                (QUARANTINE / f"{mp4.stem}.txt").write_text(
+                    "\n".join(reasons), encoding="utf-8")
+                held.append((mp4.name, reasons))
+                print(f"HELD {mp4.name}: {'; '.join(reasons)}", flush=True)
+                continue
             try:
                 url = publish_video(slug_dir.name, mp4)  # deletes local on success
                 print(f"published {mp4.name} -> {url}", flush=True)
+                print(f"  frames for visual review: {frames}", flush=True)
                 published += 1
             except Exception as exc:  # noqa: BLE001
                 print(f"FAILED to publish {mp4.name}: {exc}", flush=True)
-    if not published:
+    if not published and not held:
         print("no new videos to publish", flush=True)
+    if held:
+        print(f"{len(held)} video(s) held in {QUARANTINE} — not published", flush=True)
 
     # Record backlog progress (queue JSONs only — never the mp4s).
     run(["git", "-C", str(ROOT), "add",
-         "scripts/video_pipeline/video_queue_account2.json",
-         "scripts/video_pipeline/video_queue_account3.json"])
+         *(f"scripts/video_pipeline/{q}" for q, _ in ACCOUNTS)])
     diff = run(["git", "-C", str(ROOT), "diff", "--cached", "--name-only"])
     if diff.strip():
         run(["git", "-C", str(ROOT), "commit", "-m",

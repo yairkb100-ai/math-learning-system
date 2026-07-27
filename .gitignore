@@ -36,3 +36,10 @@ source-material/
 
 # Course videos live only on Bunny CDN (uploaded by the grinder), never git
 courses/assets/**/*.mp4
+
+# Video QA artifacts: extracted review frames, videos held back by the
+# pre-publish gate, and watchdog state. Local working state, never committed.
+scripts/video_pipeline/_review/
+scripts/video_pipeline/_held/
+scripts/video_pipeline/pipeline_status.json
+scripts/video_pipeline/*.log
