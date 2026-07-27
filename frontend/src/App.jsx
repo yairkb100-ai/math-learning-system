@@ -248,7 +248,7 @@ function AppRoutes() {
       <TrialWelcome />
 
       <footer className="footer" dir="rtl">
-        <span>© כל הזכויות שמורות ליאיר כהנא, בניית אתרים ודפי נחיתה 0545953631</span>
+        <span>© יאיר כהנא 0545953631</span>
       </footer>
     </div>
   )
