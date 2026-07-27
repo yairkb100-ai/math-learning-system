@@ -75,9 +75,10 @@
   "number": 1,
   "topic": "כללי סדר פעולות החשבון (חזרה)",
   "output": "סרטון-פרק-1-סדר-פעולות-חזרה.mp4",
-  "status": "done",
+  "status": "staged",
   "course": "arithmetic-laws",
-  "grade": null
+  "grade": null,
+  "qa_rejections": 1
  },
  "al-ch02": {
   "notebook_id": "f72d1d6a-73fc-48f8-a412-a0efd479146e",
