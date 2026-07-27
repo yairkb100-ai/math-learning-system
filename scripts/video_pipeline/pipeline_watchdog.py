@@ -278,7 +278,9 @@ def main():
     last_progress = (datetime.now().isoformat(timespec="seconds") if gained > 0
                      else prev.get("last_progress"))
     stall_toast_at = prev.get("last_stall_toast")
-    log(f"backlog: {len(done)} done (+{gained}), {len(pending)} pending")
+    # gained can go negative when a QA rejection sends a "done" key back to
+    # staged, so sign it explicitly rather than printing "(+-1)".
+    log(f"backlog: {len(done)} done ({gained:+d}), {len(pending)} pending")
 
     needs = None
     if dead:

@@ -93,6 +93,34 @@ def qa(mp4):
     return verdict.get("ok", False), verdict.get("flags", []), frames
 
 
+def requeue(mp4_name):
+    """Send a QA-rejected video back to 'staged' on every queue that carries it.
+
+    Without this a held video is the worst of both worlds: the grinder already
+    marked the key 'done' before publishing, so busy_elsewhere() makes every
+    account skip it forever, the chapter never gets a video, and the backlog
+    counts it as finished. Holding the file has to undo the 'done'.
+    """
+    keys = []
+    for queue, _ in ACCOUNTS:
+        qf = HERE / queue
+        if not qf.exists():
+            continue
+        q = json.loads(qf.read_text(encoding="utf-8"))
+        changed = False
+        for key, e in q.items():
+            if e.get("output") != mp4_name or e.get("status") != "done":
+                continue
+            e["status"] = "staged"
+            e.pop("artifact_id", None)
+            e["qa_rejections"] = e.get("qa_rejections", 0) + 1
+            keys.append(f"{key}@{queue}")
+            changed = True
+        if changed:
+            qf.write_text(json.dumps(q, ensure_ascii=False, indent=1), encoding="utf-8")
+    return keys
+
+
 def ship_new_videos():
     """Publish any freshly downloaded mp4s straight to Bunny + the prod DB.
 
@@ -117,7 +145,10 @@ def ship_new_videos():
                 (QUARANTINE / f"{mp4.stem}.txt").write_text(
                     "\n".join(reasons), encoding="utf-8")
                 held.append((mp4.name, reasons))
+                back = requeue(mp4.name)
                 print(f"HELD {mp4.name}: {'; '.join(reasons)}", flush=True)
+                print(f"  re-staged for regeneration: {', '.join(back) or 'NO QUEUE ENTRY FOUND'}",
+                      flush=True)
                 continue
             try:
                 url = publish_video(slug_dir.name, mp4)  # deletes local on success
