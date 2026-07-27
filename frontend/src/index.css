@@ -3227,6 +3227,12 @@ h4.prose-h {
   top: 78px;
   left: 50%;
   transform: translateX(-50%);
+  /* Without an explicit width, an absolutely-positioned box with only
+     `left` set (no `right`) computes its shrink-to-fit width bounded by
+     (containing-block-width − left) — on a narrow phone that's ~half the
+     viewport, so the text wrapped needlessly tight. width:max-content sizes
+     to content instead, still capped by max-width below. */
+  width: max-content;
   display: inline-flex;
   align-items: center;
   gap: 10px;
