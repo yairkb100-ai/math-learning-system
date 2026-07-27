@@ -149,5 +149,41 @@
   "status": "staged",
   "course": "arithmetic-laws",
   "grade": null
+ },
+ "directed-numbers-ch07": {
+  "notebook_id": "375e981b-b22b-4731-a7d9-827ede794613",
+  "source_id": "6c779ea7-eb81-4ba2-9583-8c8f6261266b",
+  "number": 7,
+  "topic": "חילוק מספרים מכוונים",
+  "output": "סרטון-פרק-7-חילוק-מספרים-מכוונים.mp4",
+  "status": "staged",
+  "course": "directed-numbers"
+ },
+ "grade7-algebra-ch14": {
+  "notebook_id": "c7fff4c9-9f70-491a-b346-c01a1f4ebdba",
+  "source_id": "00236e1b-2985-4cea-b602-e7c7fca8ec24",
+  "number": 14,
+  "topic": "הכללה של תבניות ורצפים מספריים לביטוי אלגברי",
+  "output": "סרטון-פרק-14-הכללה-של-תבניות-ורצפים-מספריים-לביטוי-אלגברי.mp4",
+  "status": "staged",
+  "course": "grade7-algebra"
+ },
+ "grade7-algebra-ch15": {
+  "notebook_id": "04ba886b-50ff-4dca-a44e-61fa722e5637",
+  "source_id": "f18c7800-0539-4e58-98ff-09fbd8c43a84",
+  "number": 15,
+  "topic": "קריאת גרפים מהחיים, השתנות פונקציה וקצב שינוי",
+  "output": "סרטון-פרק-15-קריאת-גרפים-מהחיים-השתנות-פונקציה-וקצב-שינוי.mp4",
+  "status": "staged",
+  "course": "grade7-algebra"
+ },
+ "grade7-algebra-ch16": {
+  "notebook_id": "439781a9-767b-4a2d-86b2-3ef6ad380f05",
+  "source_id": "288c1c80-0a86-490f-9c71-e9ae2d341bc4",
+  "number": 16,
+  "topic": "פתרון משוואות בדרך גרפית — נקודת המפגש של שני גרפים",
+  "output": "סרטון-פרק-16-פתרון-משוואות-בדרך-גרפית-נקודת-המפגש-של-שני-גרפים.mp4",
+  "status": "staged",
+  "course": "grade7-algebra"
  }
 }

@@ -60,50 +60,46 @@ def nlm(*args, timeout=1900):
     return {}, out
 
 
+# course slug -> content/<dir> with chNN/video.mp4. Courses absent from this map
+# (functions, trigonometry, derivatives, quadratic-equations …) have no chapter
+# directories, so their videos only land under courses/assets/<slug>/.
+CONTENT_DIR = {
+    "grade7-algebra": "grade7/algebra",
+    "directed-numbers": "grade7/directed-numbers",
+    "arithmetic-laws": "grade7/arithmetic-laws",
+    "grade6-percents": "grade6/percents",
+    "grade6-ratio-rate": "grade6/ratio-rate",
+    "grade5-simple-fractions": "grade5/simple-fractions",
+    "grade6-fractions-decimals": "grade6/fractions-decimals",
+}
+
+
 def targets(entry):
+    """(assets copy, content copy). ship_new_videos() publishes the assets copy.
+
+    Both paths are returned even when there is no content/ directory — the
+    caller copies to each, and copying the same file twice is harmless.
+    """
     num = entry["number"]
     # Standalone topic courses (courses/<slug>.json, no content/ chapter dirs):
     # one video for the whole course, landing under courses/assets/<slug>/ where
-    # ship_new_videos() picks it up and attaches it to that course. No second
-    # content/ target — return the same path twice (copyfile of the temp file to
-    # it twice is harmless).
+    # ship_new_videos() picks it up and attaches it to that course.
     if entry.get("standalone_slug"):
         p = ROOT / "courses/assets" / entry["standalone_slug"] / entry["output"]
         return (p, p)
-    if entry.get("course") == "grade7-algebra":
-        return (
-            ROOT / "courses/assets/grade7-algebra" / entry["output"],
-            ROOT / f"content/grade7/algebra/ch{num:02d}/video.mp4",
-        )
-    if entry.get("course") == "directed-numbers":
-        return (
-            ROOT / "courses/assets/directed-numbers" / entry["output"],
-            ROOT / f"content/grade7/directed-numbers/ch{num:02d}/video.mp4",
-        )
-    if entry.get("course") == "arithmetic-laws":
-        return (
-            ROOT / "courses/assets/arithmetic-laws" / entry["output"],
-            ROOT / f"content/grade7/arithmetic-laws/ch{num:02d}/video.mp4",
-        )
-    if entry.get("course") == "grade6-percents":
-        return (
-            ROOT / "courses/assets/grade6-percents" / entry["output"],
-            ROOT / f"content/grade6/percents/ch{num:02d}/video.mp4",
-        )
-    if entry.get("course") == "grade6-ratio-rate":
-        return (
-            ROOT / "courses/assets/grade6-ratio-rate" / entry["output"],
-            ROOT / f"content/grade6/ratio-rate/ch{num:02d}/video.mp4",
-        )
-    if entry.get("grade") == 5:
-        return (
-            ROOT / "courses/assets/grade5-simple-fractions" / entry["output"],
-            ROOT / f"content/grade5/simple-fractions/ch{num:02d}/video.mp4",
-        )
-    return (
-        ROOT / "courses/assets/grade6-fractions-decimals" / entry["output"],
-        ROOT / f"content/grade6/fractions-decimals/ch{num:02d}/video.mp4",
-    )
+
+    slug = entry.get("course")
+    if not slug:
+        # Legacy entries predate the `course` field: grade 5 meant simple
+        # fractions, anything else meant grade6 fractions-decimals.
+        slug = ("grade5-simple-fractions" if entry.get("grade") == 5
+                else "grade6-fractions-decimals")
+
+    assets = ROOT / "courses/assets" / slug / entry["output"]
+    sub = CONTENT_DIR.get(slug)
+    if not sub:
+        return (assets, assets)
+    return (assets, ROOT / "content" / sub / f"ch{num:02d}/video.mp4")
 
 
 def busy_elsewhere():

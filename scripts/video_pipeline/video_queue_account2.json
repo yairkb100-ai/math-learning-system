@@ -522,5 +522,45 @@
   "course": "powers-and-exponents",
   "grade": null,
   "standalone_slug": "powers-and-exponents"
+ },
+ "directed-numbers-ch07": {
+  "notebook_id": "1e50bd45-65a7-4b26-847d-74c5c04abc40",
+  "source_id": "7cc42bba-8089-4f7c-8c12-ff9d31aa3102",
+  "number": 7,
+  "topic": "חילוק מספרים מכוונים",
+  "output": "סרטון-פרק-7-חילוק-מספרים-מכוונים.mp4",
+  "status": "staged",
+  "course": "directed-numbers",
+  "grade": null
+ },
+ "grade7-algebra-ch14": {
+  "notebook_id": "9feadd46-31b7-4ad3-ba84-34d1ad8f1141",
+  "source_id": "1648cb2c-d779-4046-8ed4-c90417281de2",
+  "number": 14,
+  "topic": "הכללה של תבניות ורצפים מספריים לביטוי אלגברי",
+  "output": "סרטון-פרק-14-הכללה-של-תבניות-ורצפים-מספריים-לביטוי-אלגברי.mp4",
+  "status": "staged",
+  "course": "grade7-algebra",
+  "grade": null
+ },
+ "grade7-algebra-ch15": {
+  "notebook_id": "6199f22e-d835-4b9f-aa3d-195426e12626",
+  "source_id": "a43a5630-1233-4eee-b003-beac07c7b04e",
+  "number": 15,
+  "topic": "קריאת גרפים מהחיים, השתנות פונקציה וקצב שינוי",
+  "output": "סרטון-פרק-15-קריאת-גרפים-מהחיים-השתנות-פונקציה-וקצב-שינוי.mp4",
+  "status": "staged",
+  "course": "grade7-algebra",
+  "grade": null
+ },
+ "grade7-algebra-ch16": {
+  "notebook_id": "3a2327b6-f2f8-4f1f-b6e3-a0f5efe1f7bf",
+  "source_id": "7a4353c8-3345-4d8f-be58-88b4bcb1dcb8",
+  "number": 16,
+  "topic": "פתרון משוואות בדרך גרפית — נקודת המפגש של שני גרפים",
+  "output": "סרטון-פרק-16-פתרון-משוואות-בדרך-גרפית-נקודת-המפגש-של-שני-גרפים.mp4",
+  "status": "staged",
+  "course": "grade7-algebra",
+  "grade": null
  }
 }

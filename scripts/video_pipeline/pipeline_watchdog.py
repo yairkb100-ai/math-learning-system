@@ -242,14 +242,21 @@ def main():
         if n >= DAILY_QUOTA:
             continue
         log(f"{profile}: only {n} workable staged entries — topping up")
-        r = subprocess.run(
-            [PY, str(HERE / "stage_backlog.py"), "--profile", profile,
-             "--limit", str(DAILY_QUOTA * 2)],
-            capture_output=True, text=True, encoding="utf-8",
-            errors="replace", cwd=str(HERE),
-        )
-        out = (r.stdout or "") + (r.stderr or "")
-        print(out, flush=True)
+        # First mirror work that already exists somewhere (cheap, no new
+        # notebooks). Only if that leaves the account idle do we go to
+        # stage_courses, which walks courses/*.json and can pull in chapters
+        # that were never queued at all — the gap stage_backlog structurally
+        # cannot see.
+        for stager in ("stage_backlog.py", "stage_courses.py"):
+            r = subprocess.run(
+                [PY, str(HERE / stager), "--profile", profile,
+                 "--limit", str(DAILY_QUOTA * 2)],
+                capture_output=True, text=True, encoding="utf-8",
+                errors="replace", cwd=str(HERE),
+            )
+            print((r.stdout or "") + (r.stderr or ""), flush=True)
+            if feedable(queue) >= DAILY_QUOTA:
+                break
         restaged[profile] = feedable(queue) - n
 
     # 3. Grind. daily_grind runs the pre-publish QA gate itself and holds
