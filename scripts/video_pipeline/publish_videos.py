@@ -15,11 +15,21 @@ Config (from backend/.env, same values as Railway):
 Usage (as a library): from publish_videos import publish_video
        (CLI): python publish_videos.py <course_slug> <path-to-mp4> [...]
 """
+import json
 import mimetypes
 import os
+import re
 import sys
 import uuid
 from pathlib import Path
+
+# Chapter videos are named in Hebrew and the CLI echoes the name on success.
+# Under the Windows console default (cp1252) that print raises — after the
+# upload and the DB upsert have already happened, so the work lands but the
+# command still exits non-zero and looks like a failure.
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
 ROOT = Path(r"C:\Users\yairk\OneDrive\שולחן העבודה\math-learning-system")
 BACKEND = ROOT / "backend"
@@ -45,6 +55,42 @@ from sqlalchemy import create_engine, text  # noqa: E402
 import app.bunny as bunny  # noqa: E402
 
 
+def _slugify(title):
+    """Same rule as backend/seed.py — the DB slug is derived, not stored in git."""
+    title = (title or "").strip().lower()
+    title = re.sub(r"[^\w-]+", "-", title, flags=re.UNICODE)
+    return re.sub(r"-{2,}", "-", title).strip("-") or "course"
+
+
+def _candidate_slugs(course_slug):
+    """Every slug the prod DB might hold this course under, best guess first.
+
+    The pipeline knows a course by its `courses/<name>.json` filename, because
+    that is what names the `courses/assets/<name>/` directory the mp4s land in.
+    The DB, though, keys on `Course.slug`, and seed.py only uses the filename
+    if the JSON declares a slug — otherwise it slugifies the Hebrew title.
+    Fourteen of the sixteen courses declare one; derivatives and trigonometry
+    do not, so they live in prod as "חשבון-דיפרנציאלי-נגזרות" and
+    "טריגונומטריה-ממשולש-ישר-זווית-ועד-משפט-הקוסינוסים" and an exact-match
+    lookup on "derivatives" finds nothing.
+    """
+    out = [course_slug]
+    src = ROOT / "courses" / f"{course_slug}.json"
+    if src.exists():
+        try:
+            data = json.loads(src.read_text(encoding="utf-8"))
+        except (ValueError, OSError):
+            return out
+        co = data.get("course", data)
+        md = co.get("metadata") or {}
+        declared = co.get("slug") or md.get("slug")
+        derived = _slugify(md.get("title") or co.get("title") or "")
+        for cand in (declared, derived):
+            if cand and cand not in out:
+                out.append(cand)
+    return out
+
+
 def publish_video(course_slug: str, mp4_path, *, delete_local: bool = True) -> str:
     """Upload one mp4 to Bunny + upsert its prod FileAsset. Returns CDN URL."""
     mp4_path = Path(mp4_path)
@@ -60,15 +106,29 @@ def publish_video(course_slug: str, mp4_path, *, delete_local: bool = True) -> s
     size = mp4_path.stat().st_size
     ctype = mimetypes.guess_type(name)[0] or "video/mp4"
 
+    engine = create_engine(PROD_DB_URL)
+    # Resolve the course BEFORE uploading. The upload used to come first, so a
+    # slug that did not resolve still pushed the file to Bunny and only then
+    # raised — leaving an orphaned object behind on every retry, once an hour,
+    # for a video that could never be published.
+    tried = _candidate_slugs(course_slug)
+    with engine.connect() as c:
+        cid = None
+        for cand in tried:
+            cid = c.execute(
+                text("SELECT id FROM courses WHERE slug=:s"), {"s": cand}
+            ).scalar()
+            if cid is not None:
+                break
+    if cid is None:
+        raise RuntimeError(
+            f"no course in prod DB for {course_slug!r} — tried slugs: "
+            + ", ".join(repr(t) for t in tried)
+        )
+
     url = bunny.upload(str(mp4_path), stored)
 
-    engine = create_engine(PROD_DB_URL)
     with engine.begin() as c:
-        cid = c.execute(
-            text("SELECT id FROM courses WHERE slug=:s"), {"s": course_slug}
-        ).scalar()
-        if cid is None:
-            raise RuntimeError(f"no course with slug {course_slug!r} in prod DB")
         admin = c.execute(
             text("SELECT id FROM users WHERE role='admin' ORDER BY id LIMIT 1")
         ).scalar()

@@ -21,6 +21,15 @@ import subprocess
 import sys
 from pathlib import Path
 
+# Every chapter video is named in Hebrew, and the verdict echoes that name back.
+# Under the Windows console default (cp1252) that print raises UnicodeEncodeError
+# and the tool dies before reporting anything. daily_grind captures our stdout as
+# a pipe so it never hit this, but running the checker by hand on a single file —
+# which is exactly what you do when a video looks wrong — always crashed.
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+
 HERE = Path(__file__).parent
 
 # Thresholds. Prompt asks for 7-11 min; allow slack before calling it broken.
