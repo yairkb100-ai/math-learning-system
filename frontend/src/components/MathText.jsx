@@ -162,7 +162,16 @@ export default function MathText({ text, className }) {
           return (
             <div key={key} className="art-row">
               {block.items.map((it, j) => (
-                <FractionArt key={j} {...it} />
+                // The caption is authored like any other prose, so it goes
+                // through renderInline — otherwise "$3 \times 4$" reaches the
+                // reader as literal dollar signs, and a bare < in it flips.
+                <FractionArt
+                  key={j}
+                  {...it}
+                  caption={
+                    it.caption ? renderInline(it.caption, `${key}-${j}-cap`) : null
+                  }
+                />
               ))}
             </div>
           )
