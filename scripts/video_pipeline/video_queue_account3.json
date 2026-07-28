@@ -564,5 +564,41 @@
   "status": "staged",
   "course": "functions",
   "grade": null
+ },
+ "proportion-variation-ch01": {
+  "notebook_id": "39c34094-73af-47da-b349-2e9950dd3759",
+  "source_id": "6e5caa2c-3549-452a-b2b5-4692a1cd020e",
+  "number": 1,
+  "topic": "פרופורציה — שוויון יחסים וכפל בהצלבה",
+  "output": "סרטון-פרק-1-פרופורציה-שוויון-יחסים-וכפל-בהצלבה.mp4",
+  "status": "staged",
+  "course": "proportion-variation"
+ },
+ "proportion-variation-ch02": {
+  "notebook_id": "b0de7976-e92c-4378-9114-4e4525156564",
+  "source_id": "45a867ff-5c15-429e-b400-fd89fa2e7298",
+  "number": 2,
+  "topic": "השתנות ישרה — הקשר y = kx",
+  "output": "סרטון-פרק-2-השתנות-ישרה-הקשר-y-kx.mp4",
+  "status": "staged",
+  "course": "proportion-variation"
+ },
+ "proportion-variation-ch03": {
+  "notebook_id": "553a582b-c6f1-4545-93fc-a6f86a763c19",
+  "source_id": "01828e36-0fb6-474a-be15-2263c0f22f1d",
+  "number": 3,
+  "topic": "השתנות הפוכה — הקשר y = k/x",
+  "output": "סרטון-פרק-3-השתנות-הפוכה-הקשר-y-k-x.mp4",
+  "status": "staged",
+  "course": "proportion-variation"
+ },
+ "proportion-variation-ch04": {
+  "notebook_id": "e88cd273-0aed-4ba6-894e-b647b85e56c9",
+  "source_id": "3b3240fa-59a2-465d-8abd-2a87fdd8b4dd",
+  "number": 4,
+  "topic": "ישרה, הפוכה או אף אחת? זיהוי ויישום",
+  "output": "סרטון-פרק-4-ישרה-הפוכה-או-אף-אחת-זיהוי-ויישום.mp4",
+  "status": "staged",
+  "course": "proportion-variation"
  }
 }
