@@ -27,6 +27,10 @@ import sys
 import time
 from pathlib import Path
 
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+
 HERE = Path(__file__).parent
 PY = sys.executable
 ROOT = Path(r"C:\Users\yairk\OneDrive\שולחן העבודה\math-learning-system")
@@ -38,6 +42,8 @@ ACCOUNTS = [
     ("video_queue_account1.json", "account1"),  # yairkb100
     ("video_queue_account2.json", "account2"),  # yairkahana71
     ("video_queue_account3.json", "account3"),  # hthrua100
+    ("video_queue_account4.json", "account4"),  # mysport.mk
+    ("video_queue_account5.json", "account5"),  # yaelik333
 ]
 
 ap = argparse.ArgumentParser()
