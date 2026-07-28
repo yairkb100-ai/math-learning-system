@@ -2118,8 +2118,15 @@ h4.prose-h {
   background: var(--paper, #f4f8f4);
   border: 1px solid var(--border);
   border-radius: 14px;
+  /* The art SVGs carry fixed pixel widths (grid:13x12 is 288px, the widest
+     token in the content). On a 320px phone that is wider than the row —
+     without this the figure escapes the card and drags the whole page into
+     horizontal scroll. Scroll the row instead. */
+  overflow-x: auto;
 }
 .art-fig { margin: 0; text-align: center; }
+/* Shrink to fit first; the viewBox keeps the drawing proportional. */
+.art-fig svg { max-width: 100%; height: auto; }
 .art-caption {
   font-size: 13.5px;
   color: var(--muted, #6b7a90);
