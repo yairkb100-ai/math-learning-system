@@ -423,13 +423,13 @@
   "number": 1,
   "topic": "כללי סדר פעולות החשבון (חזרה)",
   "output": "סרטון-פרק-1-סדר-פעולות-חזרה.mp4",
-  "status": "done",
+  "status": "staged",
   "course": "arithmetic-laws",
   "grade": null,
   "standalone_slug": null,
-  "qa_rejections": 1,
-  "artifact_id": "373decb6-b3fb-4d3c-a2e8-c705b8f82bca",
-  "submitted_at": 1785225611.26968
+  "qa_rejections": 2,
+  "submitted_at": 1785225611.26968,
+  "requeue_reason": "slide mirrored: 2^3-6=8-6=2 rendered as 2 = 6 - 8 = 6 - 3^2 (false, wrong power)"
  },
  "al-ch02": {
   "notebook_id": "f7b60d62-39dc-43bc-b57c-6c7517b31b17",
@@ -531,11 +531,12 @@
   "number": 7,
   "topic": "חילוק מספרים מכוונים",
   "output": "סרטון-פרק-7-חילוק-מספרים-מכוונים.mp4",
-  "status": "done",
+  "status": "staged",
   "course": "directed-numbers",
   "grade": null,
-  "artifact_id": "30c58689-a168-45b2-be33-e3093dee2771",
-  "submitted_at": 1785225617.0474548
+  "submitted_at": 1785225617.0474548,
+  "qa_rejections": 1,
+  "requeue_reason": "slide mirrored: -12/4=-3 rendered with trailing minus signs"
  },
  "grade7-algebra-ch14": {
   "notebook_id": "9feadd46-31b7-4ad3-ba84-34d1ad8f1141",
@@ -622,5 +623,23 @@
   "output": "סרטון-פרק-2-קריאת-גרפים-מהחיים-גרפים-שמספרים-סיפור.mp4",
   "status": "staged",
   "course": "functions"
+ },
+ "arithmetic-laws-ch09": {
+  "notebook_id": "c633f2ef-ffef-4923-b5c8-21074b7b8284",
+  "source_id": "94f12923-ce7a-48b7-8eb5-296bf35eb14c",
+  "number": 9,
+  "topic": "סוגריים מקוננים — סוגריים בתוך סוגריים",
+  "output": "סרטון-פרק-9-סוגריים-מקוננים-סוגריים-בתוך-סוגריים.mp4",
+  "status": "staged",
+  "course": "arithmetic-laws"
+ },
+ "divisibility-primes-ch01": {
+  "notebook_id": "fe9fb250-7591-4687-bce9-0c59aa0d2a8c",
+  "source_id": "d835c0ab-8d29-4b98-b0e6-9e6aa78dd811",
+  "number": 1,
+  "topic": "כפל וחילוק במאונך במספרים גדולים",
+  "output": "סרטון-פרק-1-כפל-וחילוק-במאונך-במספרים-גדולים.mp4",
+  "status": "staged",
+  "course": "divisibility-primes"
  }
 }

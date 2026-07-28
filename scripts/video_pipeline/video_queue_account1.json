@@ -75,10 +75,11 @@
   "number": 1,
   "topic": "כללי סדר פעולות החשבון (חזרה)",
   "output": "סרטון-פרק-1-סדר-פעולות-חזרה.mp4",
-  "status": "done",
+  "status": "staged",
   "course": "arithmetic-laws",
   "grade": null,
-  "qa_rejections": 1
+  "qa_rejections": 2,
+  "requeue_reason": "slide mirrored: 2^3-6=8-6=2 rendered as 2 = 6 - 8 = 6 - 3^2 (false, wrong power)"
  },
  "al-ch02": {
   "notebook_id": "f72d1d6a-73fc-48f8-a412-a0efd479146e",

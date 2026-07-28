@@ -370,11 +370,12 @@
   "number": 1,
   "topic": "כללי סדר פעולות החשבון (חזרה)",
   "output": "סרטון-פרק-1-סדר-פעולות-חזרה.mp4",
-  "status": "done",
+  "status": "staged",
   "course": "arithmetic-laws",
   "grade": null,
   "submitted_at": 1785093027.564572,
-  "qa_rejections": 1
+  "qa_rejections": 2,
+  "requeue_reason": "slide mirrored: 2^3-6=8-6=2 rendered as 2 = 6 - 8 = 6 - 3^2 (false, wrong power)"
  },
  "al-ch02": {
   "notebook_id": "30213464-beeb-493b-b77a-1d3d277e67d8",
@@ -462,9 +463,11 @@
   "number": 7,
   "topic": "חילוק מספרים מכוונים",
   "output": "סרטון-פרק-7-חילוק-מספרים-מכוונים.mp4",
-  "status": "done",
+  "status": "staged",
   "course": "directed-numbers",
-  "grade": null
+  "grade": null,
+  "qa_rejections": 1,
+  "requeue_reason": "slide mirrored: -12/4=-3 rendered with trailing minus signs"
  },
  "grade7-algebra-ch14": {
   "notebook_id": "be6b1e51-77f3-40c5-b3a4-5f798c89c470",
