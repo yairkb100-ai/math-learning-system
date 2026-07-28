@@ -17,8 +17,7 @@ import AdminUsers from './pages/AdminUsers.jsx'
 import AdminCourses from './pages/AdminCourses.jsx'
 import AdminProgress from './pages/AdminProgress.jsx'
 import AdminSections from './pages/AdminSections.jsx'
-import AdminSubscriptions from './pages/AdminSubscriptions.jsx'
-import AdminDevices from './pages/AdminDevices.jsx'
+import AdminBilling from './pages/AdminBilling.jsx'
 import AdminChapterViews from './pages/AdminChapterViews.jsx'
 import Messages from './pages/Messages.jsx'
 import FilesPage from './pages/FilesPage.jsx'
@@ -178,18 +177,11 @@ function AppRoutes() {
             path="/admin/subscriptions"
             element={
               <PrivateRoute adminOnly>
-                <AdminSubscriptions />
+                <AdminBilling />
               </PrivateRoute>
             }
           />
-          <Route
-            path="/admin/devices"
-            element={
-              <PrivateRoute adminOnly>
-                <AdminDevices />
-              </PrivateRoute>
-            }
-          />
+          <Route path="/admin/devices" element={<Navigate to="/admin/subscriptions" replace />} />
           <Route
             path="/admin/chapter-views"
             element={

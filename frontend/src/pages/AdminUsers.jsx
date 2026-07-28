@@ -10,9 +10,52 @@ export default function AdminUsers() {
   const [form, setForm] = useState({ username: '', password: '', full_name: '', role: 'student' })
   const [saving, setSaving] = useState(false)
   const [revealed, setRevealed] = useState({})
+  const [selected, setSelected] = useState(new Set())
+  const [bulkBusy, setBulkBusy] = useState(false)
 
   function toggleReveal(id) {
     setRevealed((r) => ({ ...r, [id]: !r[id] }))
+  }
+
+  function toggleSelect(id) {
+    setSelected((s) => {
+      const next = new Set(s)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }
+
+  function toggleSelectAll() {
+    setSelected((s) => (s.size === users.length ? new Set() : new Set(users.map((u) => u.id))))
+  }
+
+  async function runBulk(ids, fn, failLabel) {
+    setBulkBusy(true)
+    const results = await Promise.allSettled(ids.map(fn))
+    const failed = results.filter((r) => r.status === 'rejected')
+    setBulkBusy(false)
+    setSelected(new Set())
+    load()
+    if (failed.length) {
+      alert(`${failed.length} ${failLabel}:\n` + failed.map((f) => f.reason?.message || 'שגיאה').join('\n'))
+    }
+  }
+
+  function handleBulkActive(active) {
+    runBulk([...selected], (id) => api.adminUpdateUser(id, { is_active: active }), 'עדכונים נכשלו')
+  }
+
+  function handleBulkReset() {
+    const ids = [...selected]
+    if (!confirm(`לאפס את נתוני ההתקדמות של ${ids.length} משתמשים נבחרים?`)) return
+    runBulk(ids, (id) => api.resetStudent(id), 'איפוסים נכשלו')
+  }
+
+  function handleBulkDelete() {
+    const ids = [...selected]
+    if (!confirm(`למחוק ${ids.length} משתמשים נבחרים? הפעולה בלתי הפיכה.`)) return
+    runBulk(ids, (id) => api.adminDeleteUser(id), 'מחיקות נכשלו')
   }
 
   const load = useCallback(() => {
@@ -147,10 +190,38 @@ export default function AdminUsers() {
         </div>
       )}
 
+      {selected.size > 0 && (
+        <div className="bulk-bar" dir="rtl">
+          <span className="bulk-count">{selected.size} נבחרו</span>
+          <button className="btn-sm" disabled={bulkBusy} onClick={() => handleBulkActive(true)}>
+            הפעל נבחרים
+          </button>
+          <button className="btn-sm" disabled={bulkBusy} onClick={() => handleBulkActive(false)}>
+            השבת נבחרים
+          </button>
+          <button className="btn-sm" disabled={bulkBusy} onClick={handleBulkReset}>
+            אפס נתונים לנבחרים
+          </button>
+          <button className="btn-sm btn-danger" disabled={bulkBusy} onClick={handleBulkDelete}>
+            מחק נבחרים
+          </button>
+          <button className="btn-sm" disabled={bulkBusy} onClick={() => setSelected(new Set())}>
+            בטל בחירה
+          </button>
+        </div>
+      )}
+
       <div className="table-wrap card">
         <table className="data-table">
           <thead>
             <tr>
+              <th className="select-col">
+                <input
+                  type="checkbox"
+                  checked={users.length > 0 && selected.size === users.length}
+                  onChange={toggleSelectAll}
+                />
+              </th>
               <th>שם מלא</th>
               <th>שם משתמש</th>
               <th>סיסמה</th>
@@ -163,6 +234,13 @@ export default function AdminUsers() {
           <tbody>
             {users.map((u) => (
               <tr key={u.id}>
+                <td className="select-col">
+                  <input
+                    type="checkbox"
+                    checked={selected.has(u.id)}
+                    onChange={() => toggleSelect(u.id)}
+                  />
+                </td>
                 <td>{u.full_name}</td>
                 <td className="mono">{u.username}</td>
                 <td className="mono">
