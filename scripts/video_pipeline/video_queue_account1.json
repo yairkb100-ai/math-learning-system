@@ -75,7 +75,7 @@
   "number": 1,
   "topic": "כללי סדר פעולות החשבון (חזרה)",
   "output": "סרטון-פרק-1-סדר-פעולות-חזרה.mp4",
-  "status": "staged",
+  "status": "done",
   "course": "arithmetic-laws",
   "grade": null,
   "qa_rejections": 1
@@ -165,7 +165,7 @@
   "number": 14,
   "topic": "הכללה של תבניות ורצפים מספריים לביטוי אלגברי",
   "output": "סרטון-פרק-14-הכללה-של-תבניות-ורצפים-מספריים-לביטוי-אלגברי.mp4",
-  "status": "staged",
+  "status": "done",
   "course": "grade7-algebra"
  },
  "grade7-algebra-ch15": {

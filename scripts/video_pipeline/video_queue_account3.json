@@ -370,7 +370,7 @@
   "number": 1,
   "topic": "כללי סדר פעולות החשבון (חזרה)",
   "output": "סרטון-פרק-1-סדר-פעולות-חזרה.mp4",
-  "status": "staged",
+  "status": "done",
   "course": "arithmetic-laws",
   "grade": null,
   "submitted_at": 1785093027.564572,
@@ -462,7 +462,7 @@
   "number": 7,
   "topic": "חילוק מספרים מכוונים",
   "output": "סרטון-פרק-7-חילוק-מספרים-מכוונים.mp4",
-  "status": "staged",
+  "status": "done",
   "course": "directed-numbers",
   "grade": null
  },
@@ -472,7 +472,7 @@
   "number": 14,
   "topic": "הכללה של תבניות ורצפים מספריים לביטוי אלגברי",
   "output": "סרטון-פרק-14-הכללה-של-תבניות-ורצפים-מספריים-לביטוי-אלגברי.mp4",
-  "status": "staged",
+  "status": "done",
   "course": "grade7-algebra",
   "grade": null
  },
@@ -482,9 +482,11 @@
   "number": 15,
   "topic": "קריאת גרפים מהחיים, השתנות פונקציה וקצב שינוי",
   "output": "סרטון-פרק-15-קריאת-גרפים-מהחיים-השתנות-פונקציה-וקצב-שינוי.mp4",
-  "status": "staged",
+  "status": "done",
   "course": "grade7-algebra",
-  "grade": null
+  "grade": null,
+  "artifact_id": "3f4a32fa-69f6-454b-8b0f-c55124f07243",
+  "submitted_at": 1785225825.125262
  },
  "grade7-algebra-ch16": {
   "notebook_id": "8d099b09-ee02-4b37-8901-b52ddbc364f7",
@@ -492,8 +494,72 @@
   "number": 16,
   "topic": "פתרון משוואות בדרך גרפית — נקודת המפגש של שני גרפים",
   "output": "סרטון-פרק-16-פתרון-משוואות-בדרך-גרפית-נקודת-המפגש-של-שני-גרפים.mp4",
-  "status": "staged",
+  "status": "done",
   "course": "grade7-algebra",
+  "grade": null,
+  "artifact_id": "98b5a935-09fc-433f-bc50-5401807cf3e4",
+  "submitted_at": 1785225832.89895
+ },
+ "derivatives-ch01": {
+  "notebook_id": "33ad42a1-7e35-415a-9a57-6435de12a825",
+  "source_id": "71390042-560d-4413-bbd3-a51b46379a90",
+  "number": 1,
+  "topic": "מושג הגבול והגדרת הנגזרת",
+  "output": "סרטון-פרק-1-מושג-הגבול-והגדרת-הנגזרת.mp4",
+  "status": "done",
+  "course": "derivatives",
+  "grade": null,
+  "artifact_id": "da5bfc2e-758f-4335-896d-76342da111f8",
+  "submitted_at": 1785226258.3040082
+ },
+ "derivatives-ch02": {
+  "notebook_id": "e309d8bd-6595-4d8e-83d8-8c95c4f9f373",
+  "source_id": "ce5f9c8c-1852-42ab-9e23-81cfe9e99291",
+  "number": 2,
+  "topic": "כללי גזירה",
+  "output": "סרטון-פרק-2-כללי-גזירה.mp4",
+  "status": "staged",
+  "course": "derivatives",
+  "grade": null
+ },
+ "derivatives-ch03": {
+  "notebook_id": "bd5682d2-1e45-4cec-9558-ff38819942ba",
+  "source_id": "10e4a0c5-0787-4b23-b75a-1e17848207a0",
+  "number": 3,
+  "topic": "חקירת פונקציות: עלייה, ירידה ונקודות קיצון",
+  "output": "סרטון-פרק-3-חקירת-פונקציות-עלייה-ירידה-ונקודות-קיצון.mp4",
+  "status": "staged",
+  "course": "derivatives",
+  "grade": null
+ },
+ "derivatives-ch04": {
+  "notebook_id": "f8ea38ef-de0d-4b54-b19a-514df6ecb7fd",
+  "source_id": "9f7cef9a-50dc-4c03-8b6a-dd244e0d3bcb",
+  "number": 4,
+  "topic": "בעיות קיצון (אופטימיזציה)",
+  "output": "סרטון-פרק-4-בעיות-קיצון-אופטימיזציה.mp4",
+  "status": "staged",
+  "course": "derivatives",
+  "grade": null
+ },
+ "functions-ch01": {
+  "notebook_id": "56795af3-9fe9-4667-93b9-c4589242aed4",
+  "source_id": "1625163a-af42-432b-b23a-48114f9829c1",
+  "number": 1,
+  "topic": "מערכת הצירים הקרטזית — נקודות, שיעורים ורביעים",
+  "output": "סרטון-פרק-1-מערכת-הצירים-הקרטזית-נקודות-שיעורים-ורביעים.mp4",
+  "status": "staged",
+  "course": "functions",
+  "grade": null
+ },
+ "functions-ch02": {
+  "notebook_id": "31d3e099-19a8-4f2d-9f84-a049fad068d4",
+  "source_id": "b65ff346-7ff1-4f94-a620-ff24241f4e22",
+  "number": 2,
+  "topic": "קריאת גרפים מהחיים — גרפים שמספרים סיפור",
+  "output": "סרטון-פרק-2-קריאת-גרפים-מהחיים-גרפים-שמספרים-סיפור.mp4",
+  "status": "staged",
+  "course": "functions",
   "grade": null
  }
 }
