@@ -60,9 +60,8 @@ def nlm(*args, timeout=1900):
     return {}, out
 
 
-# course slug -> content/<dir> with chNN/video.mp4. Courses absent from this map
-# (functions, trigonometry, derivatives, quadratic-equations …) have no chapter
-# directories, so their videos only land under courses/assets/<slug>/.
+# course slug -> content/<dir> with chNN/video.mp4. Keep in sync with
+# stage_courses.COURSE_CONTENT — every course has a chapter directory.
 CONTENT_DIR = {
     "grade7-algebra": "grade7/algebra",
     "directed-numbers": "grade7/directed-numbers",
@@ -71,6 +70,15 @@ CONTENT_DIR = {
     "grade6-ratio-rate": "grade6/ratio-rate",
     "grade5-simple-fractions": "grade5/simple-fractions",
     "grade6-fractions-decimals": "grade6/fractions-decimals",
+    "powers-and-exponents": "grade7/powers-and-exponents",
+    "two-equations-two-unknowns": "grade8/two-equations-two-unknowns",
+    "functions": "grade8/functions",
+    "trigonometry": "highschool/trigonometry",
+    "derivatives": "highschool/derivatives",
+    "quadratic-equations": "highschool/quadratic-equations",
+    "divisibility-primes": "grade6/divisibility",
+    "shortcut-formulas": "grade8/shortcut-formulas",
+    "proportion-variation": "grade7/proportion",
 }
 
 

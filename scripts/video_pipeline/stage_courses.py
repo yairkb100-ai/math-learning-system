@@ -43,8 +43,9 @@ QUEUE_OF = {
     "account3": "video_queue_account3.json",
 }
 
-# course slug -> content/<dir> holding chNN/source.md. A slug mapped to None has
-# no chapter directories at all, so none of its chapters can be staged yet.
+# course slug -> content/<dir> holding chNN/source.md. Every course HAS a chapter
+# directory; the six at the bottom simply have no narration scripts written yet
+# (chapter.json/assets.json only), which is what source_for() actually tests.
 COURSE_CONTENT = {
     "arithmetic-laws": "grade7/arithmetic-laws",
     "directed-numbers": "grade7/directed-numbers",
@@ -53,12 +54,12 @@ COURSE_CONTENT = {
     "grade6-ratio-rate": "grade6/ratio-rate",
     "grade5-simple-fractions": "grade5/simple-fractions",
     "grade6-fractions-decimals": "grade6/fractions-decimals",
-    "powers-and-exponents": None,
-    "two-equations-two-unknowns": None,
-    "functions": None,
-    "trigonometry": None,
-    "derivatives": None,
-    "quadratic-equations": None,
+    "powers-and-exponents": "grade7/powers-and-exponents",
+    "two-equations-two-unknowns": "grade8/two-equations-two-unknowns",
+    "functions": "grade8/functions",
+    "trigonometry": "highschool/trigonometry",
+    "derivatives": "highschool/derivatives",
+    "quadratic-equations": "highschool/quadratic-equations",
 }
 
 CHAPTER_IN_NAME = re.compile(r"פרק-(\d+)")
