@@ -1,4 +1,112 @@
 {
+ "arithmetic-laws-ch09": {
+  "notebook_id": "c633f2ef-ffef-4923-b5c8-21074b7b8284",
+  "source_id": "94f12923-ce7a-48b7-8eb5-296bf35eb14c",
+  "number": 9,
+  "topic": "סוגריים מקוננים — סוגריים בתוך סוגריים",
+  "output": "סרטון-פרק-9-סוגריים-מקוננים-סוגריים-בתוך-סוגריים.mp4",
+  "status": "staged",
+  "course": "arithmetic-laws"
+ },
+ "divisibility-primes-ch01": {
+  "notebook_id": "fe9fb250-7591-4687-bce9-0c59aa0d2a8c",
+  "source_id": "d835c0ab-8d29-4b98-b0e6-9e6aa78dd811",
+  "number": 1,
+  "topic": "כפל וחילוק במאונך במספרים גדולים",
+  "output": "סרטון-פרק-1-כפל-וחילוק-במאונך-במספרים-גדולים.mp4",
+  "status": "staged",
+  "course": "divisibility-primes"
+ },
+ "divisibility-primes-ch02": {
+  "notebook_id": "175ce204-04d7-4af1-873d-094b0d4cc050",
+  "source_id": "07a57478-27ed-42d8-8715-7ce7d811b1a4",
+  "number": 2,
+  "topic": "סימני התחלקות ב-2, ב-5 וב-10",
+  "output": "סרטון-פרק-2-סימני-התחלקות-ב-2-ב-5-וב-10.mp4",
+  "status": "staged",
+  "course": "divisibility-primes"
+ },
+ "divisibility-primes-ch03": {
+  "notebook_id": "7033b714-8eae-49d1-80a8-ec6f7624c185",
+  "source_id": "278ea2fc-7a3b-4d2c-a3c6-acda10932ca9",
+  "number": 3,
+  "topic": "סימני התחלקות ב-3 וב-9",
+  "output": "סרטון-פרק-3-סימני-התחלקות-ב-3-וב-9.mp4",
+  "status": "staged",
+  "course": "divisibility-primes"
+ },
+ "divisibility-primes-ch04": {
+  "notebook_id": "da9db270-8f66-4f25-9a95-9b2226f89a7c",
+  "source_id": "82dda918-88c3-4e8c-a254-0810ce15c69f",
+  "number": 4,
+  "topic": "מספרים ראשוניים ומספרים מורכבים",
+  "output": "סרטון-פרק-4-מספרים-ראשוניים-ומספרים-מורכבים.mp4",
+  "status": "staged",
+  "course": "divisibility-primes"
+ },
+ "divisibility-primes-ch05": {
+  "notebook_id": "ab2fa98f-e5e3-4583-bf25-fa0213eeece1",
+  "source_id": "3a0089e0-fd9e-4ec2-8fa6-2ef265ebed23",
+  "number": 5,
+  "topic": "פירוק לגורמים ראשוניים",
+  "output": "סרטון-פרק-5-פירוק-לגורמים-ראשוניים.mp4",
+  "status": "staged",
+  "course": "divisibility-primes"
+ },
+ "divisibility-primes-ch06": {
+  "notebook_id": "1600de33-919b-4bec-8881-419933df5561",
+  "source_id": "29c53018-fb5b-487f-b7a9-a0d27684aa23",
+  "number": 6,
+  "topic": "מחלק משותף מקסימלי וכפולה משותפת מינימלית",
+  "output": "סרטון-פרק-6-מחלק-משותף-מקסימלי-וכפולה-משותפת-מינימלית.mp4",
+  "status": "staged",
+  "course": "divisibility-primes"
+ },
+ "shortcut-formulas-ch01": {
+  "notebook_id": "3abf38d8-bacc-4244-9b1e-bdaf55de758d",
+  "source_id": "26d7830c-57fa-4a77-9187-c4d35afa9f8b",
+  "number": 1,
+  "topic": "כפל רב-איבר ברב-איבר",
+  "output": "סרטון-פרק-1-כפל-רב-איבר-ברב-איבר.mp4",
+  "status": "staged",
+  "course": "shortcut-formulas"
+ },
+ "shortcut-formulas-ch02": {
+  "notebook_id": "c605a2b4-e59c-43fc-a2f7-f331d441aae8",
+  "source_id": "034721d8-9156-485c-a291-db1dc7afb756",
+  "number": 2,
+  "topic": "ריבוע של סכום",
+  "output": "סרטון-פרק-2-ריבוע-של-סכום.mp4",
+  "status": "staged",
+  "course": "shortcut-formulas"
+ },
+ "shortcut-formulas-ch03": {
+  "notebook_id": "c639a4bc-7802-4504-a569-4ab4a941762b",
+  "source_id": "ce11273d-888e-4b37-8414-6a813aa43d29",
+  "number": 3,
+  "topic": "ריבוע של הפרש",
+  "output": "סרטון-פרק-3-ריבוע-של-הפרש.mp4",
+  "status": "staged",
+  "course": "shortcut-formulas"
+ },
+ "shortcut-formulas-ch04": {
+  "notebook_id": "0a06a761-3c43-4662-a1b1-49f7b4d0e8a5",
+  "source_id": "118378a0-425e-40af-8e8a-1a4bc5b555e8",
+  "number": 4,
+  "topic": "הפרש ריבועים",
+  "output": "סרטון-פרק-4-הפרש-ריבועים.mp4",
+  "status": "staged",
+  "course": "shortcut-formulas"
+ },
+ "shortcut-formulas-ch05": {
+  "notebook_id": "e27261e8-04d2-4bbf-9c78-fe1874e69355",
+  "source_id": "74310c1b-d635-42f3-922f-c67a6ce2e0da",
+  "number": 5,
+  "topic": "פירוק לגורמים בעזרת הנוסחאות",
+  "output": "סרטון-פרק-5-פירוק-לגורמים-בעזרת-הנוסחאות.mp4",
+  "status": "staged",
+  "course": "shortcut-formulas"
+ },
  "g6-ch05": {
   "notebook_id": "10e3b507-cf66-49a9-be3d-e6d9f77b9f21",
   "source_id": "7606700e-066b-45c2-bde8-a7811741ac48",
@@ -623,113 +731,5 @@
   "output": "סרטון-פרק-2-קריאת-גרפים-מהחיים-גרפים-שמספרים-סיפור.mp4",
   "status": "staged",
   "course": "functions"
- },
- "arithmetic-laws-ch09": {
-  "notebook_id": "c633f2ef-ffef-4923-b5c8-21074b7b8284",
-  "source_id": "94f12923-ce7a-48b7-8eb5-296bf35eb14c",
-  "number": 9,
-  "topic": "סוגריים מקוננים — סוגריים בתוך סוגריים",
-  "output": "סרטון-פרק-9-סוגריים-מקוננים-סוגריים-בתוך-סוגריים.mp4",
-  "status": "staged",
-  "course": "arithmetic-laws"
- },
- "divisibility-primes-ch01": {
-  "notebook_id": "fe9fb250-7591-4687-bce9-0c59aa0d2a8c",
-  "source_id": "d835c0ab-8d29-4b98-b0e6-9e6aa78dd811",
-  "number": 1,
-  "topic": "כפל וחילוק במאונך במספרים גדולים",
-  "output": "סרטון-פרק-1-כפל-וחילוק-במאונך-במספרים-גדולים.mp4",
-  "status": "staged",
-  "course": "divisibility-primes"
- },
- "divisibility-primes-ch02": {
-  "notebook_id": "175ce204-04d7-4af1-873d-094b0d4cc050",
-  "source_id": "07a57478-27ed-42d8-8715-7ce7d811b1a4",
-  "number": 2,
-  "topic": "סימני התחלקות ב-2, ב-5 וב-10",
-  "output": "סרטון-פרק-2-סימני-התחלקות-ב-2-ב-5-וב-10.mp4",
-  "status": "staged",
-  "course": "divisibility-primes"
- },
- "divisibility-primes-ch03": {
-  "notebook_id": "7033b714-8eae-49d1-80a8-ec6f7624c185",
-  "source_id": "278ea2fc-7a3b-4d2c-a3c6-acda10932ca9",
-  "number": 3,
-  "topic": "סימני התחלקות ב-3 וב-9",
-  "output": "סרטון-פרק-3-סימני-התחלקות-ב-3-וב-9.mp4",
-  "status": "staged",
-  "course": "divisibility-primes"
- },
- "divisibility-primes-ch04": {
-  "notebook_id": "da9db270-8f66-4f25-9a95-9b2226f89a7c",
-  "source_id": "82dda918-88c3-4e8c-a254-0810ce15c69f",
-  "number": 4,
-  "topic": "מספרים ראשוניים ומספרים מורכבים",
-  "output": "סרטון-פרק-4-מספרים-ראשוניים-ומספרים-מורכבים.mp4",
-  "status": "staged",
-  "course": "divisibility-primes"
- },
- "divisibility-primes-ch05": {
-  "notebook_id": "ab2fa98f-e5e3-4583-bf25-fa0213eeece1",
-  "source_id": "3a0089e0-fd9e-4ec2-8fa6-2ef265ebed23",
-  "number": 5,
-  "topic": "פירוק לגורמים ראשוניים",
-  "output": "סרטון-פרק-5-פירוק-לגורמים-ראשוניים.mp4",
-  "status": "staged",
-  "course": "divisibility-primes"
- },
- "divisibility-primes-ch06": {
-  "notebook_id": "1600de33-919b-4bec-8881-419933df5561",
-  "source_id": "29c53018-fb5b-487f-b7a9-a0d27684aa23",
-  "number": 6,
-  "topic": "מחלק משותף מקסימלי וכפולה משותפת מינימלית",
-  "output": "סרטון-פרק-6-מחלק-משותף-מקסימלי-וכפולה-משותפת-מינימלית.mp4",
-  "status": "staged",
-  "course": "divisibility-primes"
- },
- "shortcut-formulas-ch01": {
-  "notebook_id": "3abf38d8-bacc-4244-9b1e-bdaf55de758d",
-  "source_id": "26d7830c-57fa-4a77-9187-c4d35afa9f8b",
-  "number": 1,
-  "topic": "כפל רב-איבר ברב-איבר",
-  "output": "סרטון-פרק-1-כפל-רב-איבר-ברב-איבר.mp4",
-  "status": "staged",
-  "course": "shortcut-formulas"
- },
- "shortcut-formulas-ch02": {
-  "notebook_id": "c605a2b4-e59c-43fc-a2f7-f331d441aae8",
-  "source_id": "034721d8-9156-485c-a291-db1dc7afb756",
-  "number": 2,
-  "topic": "ריבוע של סכום",
-  "output": "סרטון-פרק-2-ריבוע-של-סכום.mp4",
-  "status": "staged",
-  "course": "shortcut-formulas"
- },
- "shortcut-formulas-ch03": {
-  "notebook_id": "c639a4bc-7802-4504-a569-4ab4a941762b",
-  "source_id": "ce11273d-888e-4b37-8414-6a813aa43d29",
-  "number": 3,
-  "topic": "ריבוע של הפרש",
-  "output": "סרטון-פרק-3-ריבוע-של-הפרש.mp4",
-  "status": "staged",
-  "course": "shortcut-formulas"
- },
- "shortcut-formulas-ch04": {
-  "notebook_id": "0a06a761-3c43-4662-a1b1-49f7b4d0e8a5",
-  "source_id": "118378a0-425e-40af-8e8a-1a4bc5b555e8",
-  "number": 4,
-  "topic": "הפרש ריבועים",
-  "output": "סרטון-פרק-4-הפרש-ריבועים.mp4",
-  "status": "staged",
-  "course": "shortcut-formulas"
- },
- "shortcut-formulas-ch05": {
-  "notebook_id": "e27261e8-04d2-4bbf-9c78-fe1874e69355",
-  "source_id": "74310c1b-d635-42f3-922f-c67a6ce2e0da",
-  "number": 5,
-  "topic": "פירוק לגורמים בעזרת הנוסחאות",
-  "output": "סרטון-פרק-5-פירוק-לגורמים-בעזרת-הנוסחאות.mp4",
-  "status": "staged",
-  "course": "shortcut-formulas"
  }
 }

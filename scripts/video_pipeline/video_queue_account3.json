@@ -1,4 +1,76 @@
 {
+ "proportion-variation-ch01": {
+  "notebook_id": "39c34094-73af-47da-b349-2e9950dd3759",
+  "source_id": "6e5caa2c-3549-452a-b2b5-4692a1cd020e",
+  "number": 1,
+  "topic": "פרופורציה — שוויון יחסים וכפל בהצלבה",
+  "output": "סרטון-פרק-1-פרופורציה-שוויון-יחסים-וכפל-בהצלבה.mp4",
+  "status": "staged",
+  "course": "proportion-variation"
+ },
+ "proportion-variation-ch02": {
+  "notebook_id": "b0de7976-e92c-4378-9114-4e4525156564",
+  "source_id": "45a867ff-5c15-429e-b400-fd89fa2e7298",
+  "number": 2,
+  "topic": "השתנות ישרה — הקשר y = kx",
+  "output": "סרטון-פרק-2-השתנות-ישרה-הקשר-y-kx.mp4",
+  "status": "staged",
+  "course": "proportion-variation"
+ },
+ "proportion-variation-ch03": {
+  "notebook_id": "553a582b-c6f1-4545-93fc-a6f86a763c19",
+  "source_id": "01828e36-0fb6-474a-be15-2263c0f22f1d",
+  "number": 3,
+  "topic": "השתנות הפוכה — הקשר y = k/x",
+  "output": "סרטון-פרק-3-השתנות-הפוכה-הקשר-y-k-x.mp4",
+  "status": "staged",
+  "course": "proportion-variation"
+ },
+ "proportion-variation-ch04": {
+  "notebook_id": "e88cd273-0aed-4ba6-894e-b647b85e56c9",
+  "source_id": "3b3240fa-59a2-465d-8abd-2a87fdd8b4dd",
+  "number": 4,
+  "topic": "ישרה, הפוכה או אף אחת? זיהוי ויישום",
+  "output": "סרטון-פרק-4-ישרה-הפוכה-או-אף-אחת-זיהוי-ויישום.mp4",
+  "status": "staged",
+  "course": "proportion-variation"
+ },
+ "grade7-algebra-ch17": {
+  "notebook_id": "b66d0ce3-157b-4850-b450-71f83495b031",
+  "source_id": "8382702c-241d-40f4-95b6-e4530085b9fd",
+  "number": 17,
+  "topic": "משוואות מיוחדות — ללא פתרון, אינסוף פתרונות וזהות",
+  "output": "סרטון-פרק-17-משוואות-מיוחדות-ללא-פתרון-אינסוף-פתרונות-וזהות.mp4",
+  "status": "staged",
+  "course": "grade7-algebra"
+ },
+ "grade6-fractions-decimals-ch14": {
+  "notebook_id": "669aed55-b93f-4c41-9bcc-e21db3c36200",
+  "source_id": "26cde3f7-4703-4e6c-9255-eca57b1836cf",
+  "number": 14,
+  "topic": "שבר מורכב — שבר בתוך שבר",
+  "output": "סרטון-פרק-14-שבר-מורכב-שבר-בתוך-שבר.mp4",
+  "status": "staged",
+  "course": "grade6-fractions-decimals"
+ },
+ "functions-ch10": {
+  "notebook_id": "4541fd3a-74e0-4790-8e94-551a39c378b4",
+  "source_id": "644b5041-b862-4a09-8373-6c684e6647f5",
+  "number": 10,
+  "topic": "תחומי חיוביות ושליליות ואפסי הפונקציה",
+  "output": "סרטון-פרק-10-תחומי-חיוביות-ושליליות-ואפסי-הפונקציה.mp4",
+  "status": "staged",
+  "course": "functions"
+ },
+ "functions-ch11": {
+  "notebook_id": "2298b24e-0c64-4fdf-82d7-b6c17d50bb11",
+  "source_id": "4e649a8a-cae6-4454-bfaa-a639cb8c1233",
+  "number": 11,
+  "topic": "ישרים מיוחדים — אופקי, אנכי ומקבילים",
+  "output": "סרטון-פרק-11-ישרים-מיוחדים-אופקי-אנכי-ומקבילים.mp4",
+  "status": "staged",
+  "course": "functions"
+ },
  "sys-2eq": {
   "notebook_id": "ca2d5478-138e-48b4-85cc-47857ed6e630",
   "source_id": "2dd518b6-2446-4e92-872d-73cbca926915",
@@ -565,40 +637,67 @@
   "course": "functions",
   "grade": null
  },
- "proportion-variation-ch01": {
-  "notebook_id": "39c34094-73af-47da-b349-2e9950dd3759",
-  "source_id": "6e5caa2c-3549-452a-b2b5-4692a1cd020e",
-  "number": 1,
-  "topic": "פרופורציה — שוויון יחסים וכפל בהצלבה",
-  "output": "סרטון-פרק-1-פרופורציה-שוויון-יחסים-וכפל-בהצלבה.mp4",
-  "status": "staged",
-  "course": "proportion-variation"
- },
- "proportion-variation-ch02": {
-  "notebook_id": "b0de7976-e92c-4378-9114-4e4525156564",
-  "source_id": "45a867ff-5c15-429e-b400-fd89fa2e7298",
-  "number": 2,
-  "topic": "השתנות ישרה — הקשר y = kx",
-  "output": "סרטון-פרק-2-השתנות-ישרה-הקשר-y-kx.mp4",
-  "status": "staged",
-  "course": "proportion-variation"
- },
- "proportion-variation-ch03": {
-  "notebook_id": "553a582b-c6f1-4545-93fc-a6f86a763c19",
-  "source_id": "01828e36-0fb6-474a-be15-2263c0f22f1d",
+ "functions-ch03": {
+  "notebook_id": "4c61ae8e-653c-4e19-b7d6-e9a3e0513dbf",
+  "source_id": "52752b6d-e7ce-4e60-858c-726b3f07a421",
   "number": 3,
-  "topic": "השתנות הפוכה — הקשר y = k/x",
-  "output": "סרטון-פרק-3-השתנות-הפוכה-הקשר-y-k-x.mp4",
+  "topic": "מהי פונקציה — מכונה של קלט ופלט",
+  "output": "סרטון-פרק-3-מהי-פונקציה-מכונה-של-קלט-ופלט.mp4",
   "status": "staged",
-  "course": "proportion-variation"
+  "course": "functions"
  },
- "proportion-variation-ch04": {
-  "notebook_id": "e88cd273-0aed-4ba6-894e-b647b85e56c9",
-  "source_id": "3b3240fa-59a2-465d-8abd-2a87fdd8b4dd",
+ "functions-ch04": {
+  "notebook_id": "f6a8049e-cb1a-467c-ba90-dea598b07e3e",
+  "source_id": "a0d52076-30cc-4968-988f-fc268cf164e6",
   "number": 4,
-  "topic": "ישרה, הפוכה או אף אחת? זיהוי ויישום",
-  "output": "סרטון-פרק-4-ישרה-הפוכה-או-אף-אחת-זיהוי-ויישום.mp4",
+  "topic": "ייצוגי פונקציה — מילים, טבלה, ביטוי וגרף",
+  "output": "סרטון-פרק-4-ייצוגי-פונקציה-מילים-טבלה-ביטוי-וגרף.mp4",
   "status": "staged",
-  "course": "proportion-variation"
+  "course": "functions"
+ },
+ "functions-ch05": {
+  "notebook_id": "14be7476-c749-4b5c-a70b-502b8e903ced",
+  "source_id": "4740197a-ce33-4e8f-8422-1b863cc1931b",
+  "number": 5,
+  "topic": "שרטוט גרפים של פונקציות — מטבלה לקו ישר",
+  "output": "סרטון-פרק-5-שרטוט-גרפים-של-פונקציות-מטבלה-לקו-ישר.mp4",
+  "status": "staged",
+  "course": "functions"
+ },
+ "functions-ch06": {
+  "notebook_id": "d21a6211-eff2-4327-bd12-d80f5949384b",
+  "source_id": "ec3dfe13-3763-4025-8cc7-035b93d2a386",
+  "number": 6,
+  "topic": "עלייה וירידה של פונקציה",
+  "output": "סרטון-פרק-6-עלייה-וירידה-של-פונקציה.mp4",
+  "status": "staged",
+  "course": "functions"
+ },
+ "functions-ch07": {
+  "notebook_id": "e3983721-c682-4ca3-95bd-2bde824a83eb",
+  "source_id": "810c18d9-f0bc-49aa-b8db-1685652ade38",
+  "number": 7,
+  "topic": "קצב ההשתנות של פונקציה",
+  "output": "סרטון-פרק-7-קצב-ההשתנות-של-פונקציה.mp4",
+  "status": "staged",
+  "course": "functions"
+ },
+ "functions-ch08": {
+  "notebook_id": "da47783e-28ca-4813-a1a3-c60310d1798f",
+  "source_id": "d6609b64-a3fd-4065-bac9-cc41b3dd576a",
+  "number": 8,
+  "topic": "הפונקציה הקווית y = mx + b",
+  "output": "סרטון-פרק-8-הפונקציה-הקווית-y-mx-b.mp4",
+  "status": "staged",
+  "course": "functions"
+ },
+ "functions-ch09": {
+  "notebook_id": "d2b04794-40bf-4231-aab5-4dfad28fd03c",
+  "source_id": "dc76e776-165f-40c7-a50d-1e1aa507c7ac",
+  "number": 9,
+  "topic": "חקר גרפים ובעיות מהחיים",
+  "output": "סרטון-פרק-9-חקר-גרפים-ובעיות-מהחיים.mp4",
+  "status": "staged",
+  "course": "functions"
  }
 }

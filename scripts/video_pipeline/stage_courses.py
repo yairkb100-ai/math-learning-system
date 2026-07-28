@@ -71,9 +71,12 @@ COURSE_CONTENT = {
 
 CHAPTER_IN_NAME = re.compile(r"פרק-(\d+)")
 # Illegal on Windows, plus punctuation that only adds noise to a name that ends
-# up in a CDN URL. Dashes of every width collapse to a plain hyphen.
-ILLEGAL = re.compile(r'[\\/:*?"<>|,.;()\[\]{}\'"]')
-DASHES = re.compile(r"[—–―]")
+# up in a CDN URL. "=" and "+" belong here too: raw, they break the URL.
+ILLEGAL = re.compile(r'[\\:*?"<>|,.;()\[\]{}\'"=+]')
+# Dashes of every width collapse to a plain hyphen — and so does "/", which must
+# NOT simply be dropped: "y = k/x" would silently become "y = kx", the formula of
+# a different chapter (direct instead of inverse variation).
+DASHES = re.compile(r"[—–―/]")
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--profile", choices=sorted(QUEUE_OF))
