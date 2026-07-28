@@ -37,10 +37,14 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="repla
 HERE = Path(__file__).parent
 ROOT = Path(r"C:\Users\yairk\OneDrive\שולחן העבודה\math-learning-system")
 
+# Keep in sync with daily_grind.ACCOUNTS / pipeline_watchdog.ACCOUNTS — a profile
+# missing here cannot be topped up by the watchdog and sits idle with an empty queue.
 QUEUE_OF = {
     "account1": "video_queue_account1.json",
     "account2": "video_queue_account2.json",
     "account3": "video_queue_account3.json",
+    "account4": "video_queue_account4.json",
+    "account5": "video_queue_account5.json",
 }
 
 # course slug -> content/<dir> holding chNN/source.md. Every course HAS a chapter
@@ -60,6 +64,9 @@ COURSE_CONTENT = {
     "trigonometry": "highschool/trigonometry",
     "derivatives": "highschool/derivatives",
     "quadratic-equations": "highschool/quadratic-equations",
+    "divisibility-primes": "grade6/divisibility",
+    "shortcut-formulas": "grade8/shortcut-formulas",
+    "proportion-variation": "grade7/proportion",
 }
 
 CHAPTER_IN_NAME = re.compile(r"פרק-(\d+)")
