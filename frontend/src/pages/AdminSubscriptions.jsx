@@ -48,6 +48,7 @@ export default function AdminSubscriptions() {
 
   const userName = (id) => users.find((u) => u.id === id)?.full_name || `#${id}`
   const planName = (code) => plans.find((p) => p.code === code)?.name || code
+  const trialDays = plans.find((p) => p.code === 'trial')?.duration_days ?? 14
 
   async function assign(e) {
     e.preventDefault()
@@ -122,7 +123,7 @@ export default function AdminSubscriptions() {
         <h1>מנויים ותשלומים</h1>
         <p className="muted">
           ניהול מנויים ידני — הענקה, הארכה וביטול. תלמיד ללא מנוי בתוקף נחסם מהתוכן.
-          כל תלמיד חדש מקבל אוטומטית <strong>שבועיים התנסות חינם</strong>; בתומם הגישה
+          כל תלמיד חדש מקבל אוטומטית <strong>{trialDays} ימים התנסות חינם</strong>; בתומם הגישה
           נפתחת רק אם תאשר אותה כאן.
         </p>
       </div>

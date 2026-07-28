@@ -1,4 +1,4 @@
-"""תקופת התנסות חינם (שבועיים) לכל תלמיד — ואחריה גישה רק באישור מנהל.
+"""תקופת התנסות חינם לכל תלמיד — ואחריה גישה רק באישור מנהל.
 
 כל תלמיד חדש מקבל אוטומטית מנוי מסוג ``trial`` שתוקפו ``TRIAL_DAYS`` ימים מרגע
 ההרשמה. בתום התקופה המנוי פג, ``require_active_subscription`` חוסם את התוכן
@@ -18,18 +18,28 @@ from sqlalchemy.orm import Session
 from app import models
 
 TRIAL_PLAN_CODE = "trial"
-TRIAL_DAYS = 14
-TRIAL_PLAN_NAME = "התנסות חינם (שבועיים)"
+TRIAL_DAYS = 10
+TRIAL_PLAN_NAME = f"התנסות חינם ({TRIAL_DAYS} ימים)"
 
 
 def ensure_trial_plan(db: Session) -> models.SubscriptionPlan:
-    """יוצר את תוכנית ההתנסות אם אינה קיימת (אידמפוטנטי)."""
+    """יוצר את תוכנית ההתנסות אם אינה קיימת, ומסנכרן שם/משך אם ``TRIAL_DAYS`` השתנה.
+
+    מנויי התנסות שכבר פעילים אינם נוגעים — הסנכרון משפיע רק על תלמידים חדשים
+    (``start_trial_if_needed`` משתמש ב-``TRIAL_DAYS`` ישירות) ועל התצוגה של
+    התוכנית עצמה (שם/מספר הימים המוצג בכרטיסי המנהל).
+    """
     plan = (
         db.query(models.SubscriptionPlan)
         .filter(models.SubscriptionPlan.code == TRIAL_PLAN_CODE)
         .first()
     )
     if plan:
+        if plan.name != TRIAL_PLAN_NAME or plan.duration_days != TRIAL_DAYS:
+            plan.name = TRIAL_PLAN_NAME
+            plan.duration_days = TRIAL_DAYS
+            db.commit()
+            db.refresh(plan)
         return plan
     plan = models.SubscriptionPlan(
         code=TRIAL_PLAN_CODE,

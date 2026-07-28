@@ -6,7 +6,8 @@ import { IconClock, IconSpark } from './icons.jsx'
 
 // חלון "ברוכים הבאים" צף + טיימר תקופת ההתנסות.
 //
-// כל תלמיד מקבל שבועיים גישה חופשית ללומדה; החלון מוצג פעם אחת בלבד (הסימון
+// כל תלמיד מקבל גישה חופשית ללומדה למשך access.trial_days ימים (מגיע מהשרת,
+// ראה TRIAL_DAYS ב-backend/app/trials.py); החלון מוצג פעם אחת בלבד (הסימון
 // נשמר בשרת דרך POST /api/me/welcome-seen, כך שהוא לא חוזר גם ממכשיר אחר),
 // ואחריו נשאר צ'יפ צף קטן עם הזמן שנותר. בתום התקופה הגישה לתוכן נחסמת
 // (402 מהשרת) עד שהמנהל מאשר ידנית — הצ'יפ מתחלף בהתראה שמובילה ל"המנוי שלי".
@@ -118,7 +119,7 @@ export default function TrialWelcome() {
             {inTrial ? (
               <div className="welcome-trial">
                 <div className="welcome-trial-head">
-                  <IconClock /> הלומדה פתוחה לך <strong>ללא תשלום</strong> לשבועיים הקרובים
+                  <IconClock /> הלומדה פתוחה לך <strong>ללא תשלום</strong> ל-{access.trial_days} הימים הקרובים
                 </div>
                 <div className="countdown" aria-label="הזמן שנותר לתקופת ההתנסות">
                   <div className="cd-cell">
@@ -139,7 +140,7 @@ export default function TrialWelcome() {
                   </div>
                 </div>
                 <p className="welcome-note">
-                  בתום השבועיים הגישה ללומדה נשמרת רק לתלמידים שאישרתי אישית — נשמח
+                  בתום תקופת ההתנסות הגישה ללומדה נשמרת רק לתלמידים שאישרתי אישית — נשמח
                   להמשיך יחד. תמיד אפשר לפנות אליי בהודעה מתוך הלומדה.
                 </p>
               </div>

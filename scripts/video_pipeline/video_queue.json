@@ -598,5 +598,26 @@
   "output": "סרטון-פרק-10-תחומי-חיוביות-ושליליות.mp4",
   "status": "pending",
   "course": "functions"
+ },
+ "al-ch09": {
+  "number": 9,
+  "topic": "סוגריים מקוננים — סוגריים בתוך סוגריים",
+  "output": "סרטון-פרק-9-סוגריים-מקוננים.mp4",
+  "status": "pending",
+  "course": "arithmetic-laws"
+ },
+ "g7-ch17": {
+  "number": 17,
+  "topic": "משוואות ללא פתרון, אינסוף פתרונות וזהות",
+  "output": "סרטון-פרק-17-משוואות-מיוחדות.mp4",
+  "status": "pending",
+  "course": "grade7-algebra"
+ },
+ "fn-ch11": {
+  "number": 11,
+  "topic": "ישרים מיוחדים — אופקי, אנכי ומקבילים",
+  "output": "סרטון-פרק-11-ישרים-מיוחדים.mp4",
+  "status": "pending",
+  "course": "functions"
  }
 }
