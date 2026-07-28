@@ -479,5 +479,124 @@
   "status": "staged",
   "standalone_slug": "powers-and-exponents",
   "course": "powers-and-exponents"
+ },
+ "dv-ch01": {
+  "number": 1,
+  "topic": "כפל וחילוק במאונך במספרים גדולים",
+  "output": "סרטון-פרק-1-כפל-וחילוק-במאונך.mp4",
+  "status": "pending",
+  "course": "divisibility-primes"
+ },
+ "dv-ch02": {
+  "number": 2,
+  "topic": "סימני התחלקות ב-2, ב-5 וב-10",
+  "output": "סרטון-פרק-2-סימני-התחלקות-2-5-10.mp4",
+  "status": "pending",
+  "course": "divisibility-primes"
+ },
+ "dv-ch03": {
+  "number": 3,
+  "topic": "סימני התחלקות ב-3 וב-9",
+  "output": "סרטון-פרק-3-סימני-התחלקות-3-9.mp4",
+  "status": "pending",
+  "course": "divisibility-primes"
+ },
+ "dv-ch04": {
+  "number": 4,
+  "topic": "מספרים ראשוניים ומספרים מורכבים",
+  "output": "סרטון-פרק-4-מספרים-ראשוניים-ומורכבים.mp4",
+  "status": "pending",
+  "course": "divisibility-primes"
+ },
+ "dv-ch05": {
+  "number": 5,
+  "topic": "פירוק לגורמים ראשוניים",
+  "output": "סרטון-פרק-5-פירוק-לגורמים-ראשוניים.mp4",
+  "status": "pending",
+  "course": "divisibility-primes"
+ },
+ "dv-ch06": {
+  "number": 6,
+  "topic": "מחלק משותף מקסימלי וכפולה משותפת מינימלית",
+  "output": "סרטון-פרק-6-מחלק-משותף-וכפולה-משותפת.mp4",
+  "status": "pending",
+  "course": "divisibility-primes"
+ },
+ "sf-ch01": {
+  "number": 1,
+  "topic": "כפל רב-איבר ברב-איבר",
+  "output": "סרטון-פרק-1-כפל-רב-איבר-ברב-איבר.mp4",
+  "status": "pending",
+  "course": "shortcut-formulas"
+ },
+ "sf-ch02": {
+  "number": 2,
+  "topic": "ריבוע של סכום",
+  "output": "סרטון-פרק-2-ריבוע-של-סכום.mp4",
+  "status": "pending",
+  "course": "shortcut-formulas"
+ },
+ "sf-ch03": {
+  "number": 3,
+  "topic": "ריבוע של הפרש",
+  "output": "סרטון-פרק-3-ריבוע-של-הפרש.mp4",
+  "status": "pending",
+  "course": "shortcut-formulas"
+ },
+ "sf-ch04": {
+  "number": 4,
+  "topic": "הפרש ריבועים",
+  "output": "סרטון-פרק-4-הפרש-ריבועים.mp4",
+  "status": "pending",
+  "course": "shortcut-formulas"
+ },
+ "sf-ch05": {
+  "number": 5,
+  "topic": "פירוק לגורמים בעזרת הנוסחאות",
+  "output": "סרטון-פרק-5-פירוק-לגורמים-בנוסחאות.mp4",
+  "status": "pending",
+  "course": "shortcut-formulas"
+ },
+ "pv-ch01": {
+  "number": 1,
+  "topic": "פרופורציה — שוויון יחסים וכפל בהצלבה",
+  "output": "סרטון-פרק-1-פרופורציה-וכפל-בהצלבה.mp4",
+  "status": "pending",
+  "course": "proportion-variation"
+ },
+ "pv-ch02": {
+  "number": 2,
+  "topic": "השתנות ישרה",
+  "output": "סרטון-פרק-2-השתנות-ישרה.mp4",
+  "status": "pending",
+  "course": "proportion-variation"
+ },
+ "pv-ch03": {
+  "number": 3,
+  "topic": "השתנות הפוכה",
+  "output": "סרטון-פרק-3-השתנות-הפוכה.mp4",
+  "status": "pending",
+  "course": "proportion-variation"
+ },
+ "pv-ch04": {
+  "number": 4,
+  "topic": "זיהוי סוג ההשתנות ויישום",
+  "output": "סרטון-פרק-4-זיהוי-סוג-ההשתנות.mp4",
+  "status": "pending",
+  "course": "proportion-variation"
+ },
+ "g6-ch14": {
+  "number": 14,
+  "topic": "שבר מורכב — שבר בתוך שבר",
+  "output": "סרטון-פרק-14-שבר-מורכב.mp4",
+  "status": "pending",
+  "course": "grade6-fractions-decimals"
+ },
+ "fn-ch10": {
+  "number": 10,
+  "topic": "תחומי חיוביות ושליליות ואפסי הפונקציה",
+  "output": "סרטון-פרק-10-תחומי-חיוביות-ושליליות.mp4",
+  "status": "pending",
+  "course": "functions"
  }
 }

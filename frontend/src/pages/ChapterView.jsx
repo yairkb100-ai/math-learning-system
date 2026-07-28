@@ -255,7 +255,9 @@ export default function ChapterView() {
             {t(rtl, 'צעד', 'Step')} {step + 1} {t(rtl, 'מתוך', 'of')}{' '}
             {steps.length}
           </span>
-          <span className="step-label">· {current.label}</span>
+          <span className="step-label">
+            · <InlineMathText text={current.label} />
+          </span>
         </div>
         <div className="step-track">
           <div className="step-fill" style={{ width: `${pct}%` }} />
@@ -340,7 +342,11 @@ function StepBody({
       <article className="chapter-content card step-card">
         {step.sections.map((sec, i) => (
           <div key={i} className={i > 0 ? 'step-section' : ''}>
-            {sec.title && <h2 className="step-title">{sec.title}</h2>}
+            {sec.title && (
+              <h2 className="step-title">
+                <InlineMathText text={sec.title} />
+              </h2>
+            )}
             <MathText text={sec.body} className="prose" />
           </div>
         ))}

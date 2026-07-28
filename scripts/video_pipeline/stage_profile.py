@@ -57,6 +57,14 @@ def source_path(entry):
         return ROOT / "content/grade6/percents" / f"ch{num:02d}" / "source.md"
     if entry.get("course") == "grade6-ratio-rate":
         return ROOT / "content/grade6/ratio-rate" / f"ch{num:02d}" / "source.md"
+    if entry.get("course") == "functions":
+        return ROOT / "content/grade8/functions" / f"ch{num:02d}" / "source.md"
+    if entry.get("course") == "divisibility-primes":
+        return ROOT / "content/grade6/divisibility" / f"ch{num:02d}" / "source.md"
+    if entry.get("course") == "shortcut-formulas":
+        return ROOT / "content/grade8/shortcut-formulas" / f"ch{num:02d}" / "source.md"
+    if entry.get("course") == "proportion-variation":
+        return ROOT / "content/grade7/proportion" / f"ch{num:02d}" / "source.md"
     if entry.get("grade") == 5:
         return ROOT / "content/grade5/simple-fractions" / f"ch{num:02d}" / "source.md"
     return ROOT / "content/grade6/fractions-decimals" / f"ch{num:02d}" / "source.md"
