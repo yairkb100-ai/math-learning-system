@@ -100,12 +100,17 @@ def my_access(
             if sub.expires_at
             else None
         )
+        # trial_days הוא המשך האישי של המשתמש, לא הקבוע הגלובלי — מי שנרשם
+        # כשההתנסות הייתה 14 יום ימשיך לראות 14, ומצטרף חדש יראה 10.
+        personal_days = TRIAL_DAYS
+        if is_trial and sub.expires_at and sub.started_at:
+            personal_days = max(1, round((sub.expires_at - sub.started_at).total_seconds() / 86400))
         return AccessStatusOut(
             state="trial" if is_trial else "active",
             plan_code=sub.plan_code,
             expires_at=sub.expires_at,
             seconds_left=seconds_left,
-            trial_days=TRIAL_DAYS,
+            trial_days=personal_days,
             is_trial=is_trial,
             has_access=True,
             welcome_seen=welcome_seen,
