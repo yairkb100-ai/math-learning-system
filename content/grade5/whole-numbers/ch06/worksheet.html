@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>דף עבודה — חילוק ארוך ושארית</title>
+<style>
+  @page { size: A4; margin: 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: #1a2233;
+         line-height: 1.7; margin: 0; padding: 20px; background: #f4f6fa; }
+  .sheet { background: #fff; max-width: 820px; margin: 0 auto 24px;
+           padding: 30px 36px; border-radius: 10px;
+           box-shadow: 0 2px 14px rgba(0,0,0,.09); }
+  header { border-bottom: 3px solid #2f6fed; padding-bottom: 12px; margin-bottom: 20px; }
+  h1 { margin: 0 0 4px; font-size: 24px; color: #14306b; }
+  .sub { color: #5b6780; font-size: 14px; }
+  .namebar { display: flex; gap: 26px; margin-top: 12px; font-size: 14px; }
+  .namebar span { flex: 1; border-bottom: 1px dotted #8894ab; padding-bottom: 3px; }
+  h2.q, h2.sec { font-size: 17px; margin: 24px 0 10px; color: #14306b;
+    background: #eef3fe; padding: 7px 12px; border-radius: 6px;
+    border-inline-start: 5px solid #2f6fed; }
+  .tag { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px;
+         margin-inline-start: 8px; vertical-align: middle; }
+  .easy { background: #dff5e3; color: #1c6b32; }
+  .med  { background: #fdf0d5; color: #8a5b06; }
+  .hard { background: #fadbdb; color: #8f2222; }
+  ol.items { margin: 6px 0; padding-inline-start: 22px; }
+  ol.items > li { margin-bottom: 13px; }
+  .fr { display: inline-flex; flex-direction: column; align-items: center;
+        vertical-align: middle; margin: 0 3px; font-size: .95em; line-height: 1.15; }
+  .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
+  .fr i { font-style: normal; padding: 0 4px; }
+  .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
+  .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
+  .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
+  .fig { text-align: center; font-size: 13px; color: #5b6780; }
+  .lines div { border-bottom: 1px dotted #aab3c4; height: 24px; }
+  .numline { margin: 10px 0; }
+  .pagebreak { page-break-before: always; }
+  .key { background: #fffdf3; }
+  .key h1 { color: #8a5b06; }
+  .key header { border-bottom-color: #e0a800; }
+  .key .ans { background:#fff; border:1px solid #eadfb8; border-radius:6px;
+              padding:10px 14px; margin-bottom:10px; font-size:14.5px; }
+  .key .ans strong { color:#8a5b06; }
+  .credit { text-align:center; font-size: 12px; color: #8894ab; margin-top: 18px;
+            border-top: 1px solid #eef1f6; padding-top: 8px; }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .sheet { box-shadow: none; margin: 0; border-radius: 0; padding: 0; max-width: none; }
+    .noprint { display: none; }
+  }
+  .noprint { text-align:center; margin: 10px 0 20px; }
+  .noprint button { background: #2f6fed; color:#fff; border:0; padding:10px 26px;
+                    border-radius:6px; font-size:15px; cursor:pointer; font-family:inherit; }
+</style>
+</head>
+<body>
+
+<div class="noprint"><button onclick="window.print()">🖨️ הדפסה / שמירה כ‑PDF</button></div>
+
+<div class="sheet">
+  <header>
+    <h1>דף עבודה — פרק 6: חילוק ארוך ושארית</h1>
+    <div class="sub">ארבעת הצעדים החוזרים, אפס במנה ופירוש השארית בבעיות</div>
+    <div class="namebar"><span>שם: </span><span>כיתה: </span><span>תאריך: </span></div>
+  </header>
+  <div class="note-box" style="background:#eef3fe; border-inline-start:4px solid #2f6fed; padding:10px 14px; border-radius:6px; font-size:14px; margin:18px 0">החילוק הארוך מתקדם משמאל לימין ובכל סיבוב חוזרים אותם ארבעה צעדים: מחלקים, כופלים, מחסרים, ומורידים את הספרה הבאה. השארית תמיד קטנה מהמחלק — אם קיבלתם שארית שאינה קטנה ממנו, ספרת המנה שבחרתם קטנה מדי. על כל ספרה שמורידים נרשמת בדיוק ספרה אחת במנה, גם כשהיא אפס: <span class="eq">618 ÷ 6 = 103</span>. את התוצאה בודקים בכפל הפוך — מנה כפול מחלק ועוד השארית, למשל <span class="eq">22 × 7 + 4 = 158</span>. בבעיות מהחיים צריך גם להחליט מה עושים עם השארית: לפעמים מעגלים למעלה, לפעמים מתעלמים ממנה ולפעמים היא עצמה התשובה.</div>
+  
+  <h2 class="q">שאלה 1 — חימום בחילוק <span class="tag easy">קל</span></h2>
+  <p>חשבו:</p><ol type="a"><li><span class="eq">84 ÷ 4</span> ⟵ <span class="blank"></span></li><li><span class="eq">96 ÷ 8</span> ⟵ <span class="blank"></span></li></ol>
+  <div class="lines"><div></div><div></div></div>
+  <h2 class="q">שאלה 2 — חילוק תלת-ספרתי שנסגר <span class="tag easy">קל</span></h2>
+  <p>עברו על ארבעת הצעדים בכל סיבוב:</p><ol type="a"><li><span class="eq">675 ÷ 5</span> ⟵ <span class="blank"></span></li><li><span class="eq">486 ÷ 6</span> ⟵ <span class="blank"></span></li></ol>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 3 — מנה ושארית <span class="tag easy">קל</span></h2>
+  <p>כתבו לכל תרגיל את המנה ואת השארית, ובדקו שהשארית קטנה מהמחלק:</p><ol type="a"><li><span class="eq">47 ÷ 5</span> ⟵ <span class="blank"></span></li><li><span class="eq">59 ÷ 8</span> ⟵ <span class="blank"></span></li></ol>
+  <div class="lines"><div></div><div></div></div>
+  <h2 class="q">שאלה 4 — אל תשכחו את האפס במנה <span class="tag easy">קל</span></h2>
+  <p>על כל ספרה שמורידים נרשמת ספרה אחת במנה — גם אם היא אפס:</p><ol type="a"><li><span class="eq">618 ÷ 6</span> ⟵ <span class="blank"></span></li><li><span class="eq">728 ÷ 7</span> ⟵ <span class="blank"></span></li></ol>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 5 — בדיקה בכפל הפוך <span class="tag easy">קל</span></h2>
+  <p>חשבו וכתבו לכל סעיף גם את תרגיל הבדיקה:</p><ol type="a"><li><span class="eq">465 ÷ 5</span> ⟵ <span class="blank"></span></li><li><span class="eq">252 ÷ 4</span> ⟵ <span class="blank"></span></li></ol>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 6 — חילוק עם שארית <span class="tag med">בינוני</span></h2>
+  <p>כתבו מנה ושארית, ובדקו בעזרת מנה כפול מחלק ועוד השארית:</p><ol type="a"><li><span class="eq">247 ÷ 6</span> ⟵ <span class="blank"></span></li><li><span class="eq">523 ÷ 7</span> ⟵ <span class="blank"></span></li></ol>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 7 — חילוק ארבע-ספרתי <span class="tag med">בינוני</span></h2>
+  <p>חשבו בחילוק ארוך:</p><ol type="a"><li><span class="eq">1284 ÷ 4</span> ⟵ <span class="blank"></span></li><li><span class="eq">2565 ÷ 5</span> ⟵ <span class="blank"></span></li></ol>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 8 — אפס באמצע המנה <span class="tag med">בינוני</span></h2>
+  <p>שימו לב איפה בדיוק נכנס האפס:</p><ol type="a"><li><span class="eq">4020 ÷ 4</span> ⟵ <span class="blank"></span></li><li><span class="eq">3045 ÷ 3</span> ⟵ <span class="blank"></span></li></ol>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 9 — כמה אוטובוסים צריך? <span class="tag med">בינוני</span></h2>
+  <p>לטיול נוסעים 140 ילדים, ובכל אוטובוס 30 מקומות.</p><ol type="a"><li>מהי המנה ומהי השארית בחילוק?</li><li>כמה אוטובוסים צריך להזמין כדי שכולם ייסעו?</li><li>כמה מקומות יישארו ריקים?</li></ol>
+  <div class="lines"><div></div><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 10 — בעיה בשני שלבים <span class="tag med">בינוני</span></h2>
+  <p>בית ספר קנה 7 ארגזים של עפרונות, ובכל ארגז 36 עפרונות. את כל העפרונות חילקו שווה בשווה ל-6 כיתות.</p><ol type="a"><li>כמה עפרונות נקנו בסך הכול?</li><li>כמה עפרונות קיבלה כל כיתה?</li></ol>
+  <div class="lines"><div></div><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 11 — מצאו את שתי הטעויות <span class="tag hard">מאתגר</span></h2>
+  <p>לפניכם שני חישובים של תלמידים. מצאו בכל אחד את הטעות, הסבירו אותה וחשבו נכון.</p><ol type="a"><li>תלמיד חישב <span class="eq">856 ÷ 8</span> וקיבל <span class="eq">17</span></li><li>תלמידה חישבה <span class="eq">95 ÷ 7</span> וקיבלה מנה <span class="eq">12</span> ושארית <span class="eq">11</span></li></ol>
+  <div class="lines"><div></div><div></div><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 12 — המדפים והעטים <span class="tag hard">מאתגר</span></h2>
+  <p>בחנות 4 מדפים, ובכל מדף 25 קופסאות. בכל קופסה 12 עטים.</p><ol type="a"><li>כמה עטים יש בחנות?</li><li>את כל העטים מחלקים שווה בשווה ל-8 כיתות. כמה עטים תקבל כל כיתה?</li></ol>
+  <div class="lines"><div></div><div></div><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 13 — אתגר: השקיות במפעל <span class="tag hard">מאתגר</span></h2>
+  <p>מפעל ארז 1000 ממתקים בשקיות, ובכל שקית 24 ממתקים.</p><ol type="a"><li>כמה שקיות מלאות יצאו וכמה ממתקים נשארו?</li><li>כמה ממתקים חסרים כדי למלא שקית נוספת?</li><li>בדקו את החילוק בכפל הפוך.</li></ol>
+  <div class="lines"><div></div><div></div><div></div><div></div><div></div><div></div></div>
+  <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
+</div>
+
+<div class="sheet key pagebreak">
+  <header>
+    <h1>🔑 דף פתרונות למורה — פרק 6: חילוק ארוך ושארית</h1>
+    <div class="sub">לא לחלוקה לתלמידים</div>
+  </header>
+  <div class="ans"><strong>שאלה 1.</strong> א. <span class="eq">84 ÷ 4 = 21</span>; בדיקה <span class="eq">21 × 4 = 84</span> &nbsp; ב. <span class="eq">96 ÷ 8 = 12</span>; בדיקה <span class="eq">12 × 8 = 96</span></div>
+<div class="ans"><strong>שאלה 2.</strong> א. <span class="eq">675 ÷ 5 = 135</span> — <span class="eq">6 ÷ 5 = 1</span> נשאר 1 ומורידים 7; <span class="eq">17 ÷ 5 = 3</span> נשאר 2 ומורידים 5; <span class="eq">25 ÷ 5 = 5</span> &nbsp; ב. <span class="eq">486 ÷ 6 = 81</span>; בדיקה <span class="eq">81 × 6 = 486</span></div>
+<div class="ans"><strong>שאלה 3.</strong> א. מנה 9 ושארית 2 — <span class="eq">9 × 5 + 2 = 47</span> &nbsp; ב. מנה 7 ושארית 3 — <span class="eq">7 × 8 + 3 = 59</span>. בשני הסעיפים השארית קטנה מהמחלק</div>
+<div class="ans"><strong>שאלה 4.</strong> א. <span class="eq">618 ÷ 6 = 103</span> — אחרי הצעד הראשון נשאר 1 שאינו מתחלק ב-6 ולכן רושמים 0 במנה &nbsp; ב. <span class="eq">728 ÷ 7 = 104</span> — את 2 אי אפשר לחלק ב-7 ולכן רושמים 0 במנה</div>
+<div class="ans"><strong>שאלה 5.</strong> א. <span class="eq">465 ÷ 5 = 93</span>; בדיקה <span class="eq">93 × 5 = 465</span> &nbsp; ב. <span class="eq">252 ÷ 4 = 63</span>; בדיקה <span class="eq">63 × 4 = 252</span></div>
+<div class="ans"><strong>שאלה 6.</strong> א. מנה 41 ושארית 1; בדיקה <span class="eq">41 × 6 + 1 = 247</span> &nbsp; ב. מנה 74 ושארית 5; בדיקה <span class="eq">74 × 7 + 5 = 523</span></div>
+<div class="ans"><strong>שאלה 7.</strong> א. <span class="eq">1284 ÷ 4 = 321</span>; בדיקה <span class="eq">321 × 4 = 1284</span> &nbsp; ב. <span class="eq">2565 ÷ 5 = 513</span>; בדיקה <span class="eq">513 × 5 = 2565</span></div>
+<div class="ans"><strong>שאלה 8.</strong> א. <span class="eq">4020 ÷ 4 = 1005</span> — האפסים נכנסים בטור המאות ובטור העשרות; בדיקה <span class="eq">1005 × 4 = 4020</span> &nbsp; ב. <span class="eq">3045 ÷ 3 = 1015</span>; בדיקה <span class="eq">1015 × 3 = 3045</span></div>
+<div class="ans"><strong>שאלה 9.</strong> א. <span class="eq">140 ÷ 30 = 4</span> ושארית 20 — כלומר <span class="eq">4 × 30 + 20 = 140</span> &nbsp; ב. ארבעה אוטובוסים ישאירו 20 ילדים מאחור, ולכן מזמינים 5 אוטובוסים &nbsp; ג. <span class="eq">5 × 30 = 150</span> מקומות ולכן <span class="eq">150 - 140 = 10</span> מקומות ריקים</div>
+<div class="ans"><strong>שאלה 10.</strong> א. <span class="eq">7 × 36 = 252</span> עפרונות &nbsp; ב. <span class="eq">252 ÷ 6 = 42</span> עפרונות לכל כיתה; בדיקה <span class="eq">42 × 6 = 252</span></div>
+<div class="ans"><strong>שאלה 11.</strong> א. התלמיד דילג על האפס במנה: אחרי <span class="eq">8 ÷ 8 = 1</span> נשאר 0 ומורידים 5 — את 5 אי אפשר לחלק ב-8 ולכן רושמים 0 ומורידים 6. <span class="eq">56 ÷ 8 = 7</span> והמנה היא <span class="eq">856 ÷ 8 = 107</span>; בדיקה <span class="eq">107 × 8 = 856</span> &nbsp; ב. השארית 11 גדולה מהמחלק 7 — סימן שהמנה קטנה מדי. נכון: <span class="eq">95 ÷ 7 = 13</span> ושארית 4; בדיקה <span class="eq">13 × 7 + 4 = 95</span></div>
+<div class="ans"><strong>שאלה 12.</strong> א. <span class="eq">4 × 25 = 100</span> קופסאות ולכן <span class="eq">100 × 12 = 1200</span> עטים &nbsp; ב. <span class="eq">1200 ÷ 8 = 150</span> עטים לכל כיתה; בדיקה <span class="eq">150 × 8 = 1200</span></div>
+<div class="ans"><strong>שאלה 13.</strong> א. <span class="eq">1000 ÷ 24 = 41</span> ושארית 16 — יצאו 41 שקיות מלאות ונשארו 16 ממתקים &nbsp; ב. <span class="eq">24 - 16 = 8</span> ממתקים חסרים &nbsp; ג. בדיקה <span class="eq">41 × 24 + 16 = 1000</span></div>
+  <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
+</div>
+</body>
+</html>

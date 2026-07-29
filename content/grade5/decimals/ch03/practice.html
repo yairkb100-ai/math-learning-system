@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>תרגול אינטראקטיבי — משבר פשוט לשבר עשרוני</title>
+<style>
+  @page { size: A4; margin: 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: #1a2233;
+         line-height: 1.7; margin: 0; padding: 20px; background: #f4f6fa; }
+  .sheet { background: #fff; max-width: 820px; margin: 0 auto 24px;
+           padding: 30px 36px; border-radius: 10px;
+           box-shadow: 0 2px 14px rgba(0,0,0,.09); }
+  header { border-bottom: 3px solid #2f6fed; padding-bottom: 12px; margin-bottom: 20px; }
+  h1 { margin: 0 0 4px; font-size: 24px; color: #14306b; }
+  .sub { color: #5b6780; font-size: 14px; }
+  .namebar { display: flex; gap: 26px; margin-top: 12px; font-size: 14px; }
+  .namebar span { flex: 1; border-bottom: 1px dotted #8894ab; padding-bottom: 3px; }
+  h2.q, h2.sec { font-size: 17px; margin: 24px 0 10px; color: #14306b;
+    background: #eef3fe; padding: 7px 12px; border-radius: 6px;
+    border-inline-start: 5px solid #2f6fed; }
+  .tag { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px;
+         margin-inline-start: 8px; vertical-align: middle; }
+  .easy { background: #dff5e3; color: #1c6b32; }
+  .med  { background: #fdf0d5; color: #8a5b06; }
+  .hard { background: #fadbdb; color: #8f2222; }
+  ol.items { margin: 6px 0; padding-inline-start: 22px; }
+  ol.items > li { margin-bottom: 13px; }
+  .fr { display: inline-flex; flex-direction: column; align-items: center;
+        vertical-align: middle; margin: 0 3px; font-size: .95em; line-height: 1.15; }
+  .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
+  .fr i { font-style: normal; padding: 0 4px; }
+  .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
+  .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
+  .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
+  .fig { text-align: center; font-size: 13px; color: #5b6780; }
+  .lines div { border-bottom: 1px dotted #aab3c4; height: 24px; }
+  .numline { margin: 10px 0; }
+  .pagebreak { page-break-before: always; }
+  .key { background: #fffdf3; }
+  .key h1 { color: #8a5b06; }
+  .key header { border-bottom-color: #e0a800; }
+  .key .ans { background:#fff; border:1px solid #eadfb8; border-radius:6px;
+              padding:10px 14px; margin-bottom:10px; font-size:14.5px; }
+  .key .ans strong { color:#8a5b06; }
+  .credit { text-align:center; font-size: 12px; color: #8894ab; margin-top: 18px;
+            border-top: 1px solid #eef1f6; padding-top: 8px; }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .sheet { box-shadow: none; margin: 0; border-radius: 0; padding: 0; max-width: none; }
+    .noprint { display: none; }
+  }
+  .noprint { text-align:center; margin: 10px 0 20px; }
+  .noprint button { background: #2f6fed; color:#fff; border:0; padding:10px 26px;
+                    border-radius:6px; font-size:15px; cursor:pointer; font-family:inherit; }
+
+  .card { background: #fff; border-radius: 12px; padding: 22px 24px; margin: 0 auto 20px;
+          max-width: 780px; box-shadow: 0 2px 12px rgba(20,48,107,.08); }
+  .card h2 { font-size: 19px; color: #14306b; margin: 0 0 4px; }
+  .hint { color: #77839b; font-size: 14px; margin: 0 0 16px; }
+  .ex { border: 1px solid #e6eaf2; border-radius: 9px; padding: 14px 16px; margin-bottom: 12px; }
+  .ex-h { display: flex; align-items: center; gap: 9px; margin-bottom: 6px; }
+  .ex-h strong { color: #14306b; }
+  .reveal { margin-top: 9px; background: #fff; border: 1.5px solid #2f6fed; color: #2f6fed;
+            border-radius: 6px; padding: 6px 16px; cursor: pointer; font: inherit; font-size: 14px; }
+  .reveal:hover { background: #2f6fed; color: #fff; }
+  .sol { display: none; margin-top: 10px; background:#f3f8f4; border-inline-start:4px solid #34a853;
+         padding: 11px 14px; border-radius: 6px; font-size: 15px; }
+  .sol.show { display: block; }
+  .q { margin-bottom: 22px; padding-bottom: 18px; border-bottom: 1px solid #eef1f6; }
+  .qtext { font-weight: 600; margin-bottom: 10px; }
+  .opts { display: grid; gap: 8px; }
+  .opt { text-align: start; background: #f6f8fc; border: 2px solid #e2e8f2; border-radius: 8px;
+         padding: 10px 14px; cursor: pointer; font: inherit; color: inherit; }
+  .opt:hover:not(:disabled) { border-color: #2f6fed; background: #eef3fe; }
+  .opt.correct { background: #e4f6e9; border-color: #34a853; }
+  .opt.wrong { background: #fdecea; border-color: #d93025; }
+  .opt:disabled { cursor: default; }
+  .score { text-align:center; font-size:17px; font-weight:700; color:#14306b; margin-top:8px; }
+  h1.pt { max-width: 780px; margin: 0 auto 4px; color:#14306b; }
+  p.lead { max-width: 780px; margin: 0 auto 26px; color:#5b6780; }
+</style>
+</head>
+<body>
+
+<h1 class="pt">תרגול: משבר פשוט לשבר עשרוני</h1>
+<p class="lead">פרק 3 · מכנה עשרוני, הרחבה, צמצום ומעבר בשני הכיוונים</p>
+
+<div class="card">
+  <h2>✏️ תרגילים</h2>
+  <p class="hint">נסו לפתור לבד, ורק אחר כך גלו את הפתרון.</p>
+  
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 1: מכנה עשרוני — כתיבה ישירה</strong>
+      <span class="tag easy">קל</span></div>
+    <div>כתבו כשבר עשרוני.<br><br>א. <span class="eq"><span class="fr"><b>3</b><i>10</i></span></span><br>ב. <span class="eq"><span class="fr"><b>17</b><i>100</i></span></span><br>ג. <span class="eq"><span class="fr"><b>5</b><i>100</i></span></span><br>ד. <span class="eq"><span class="fr"><b>248</b><i>1000</i></span></span><br>ה. <span class="eq"><span class="fr"><b>6</b><i>1000</i></span></span></div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. <span class="eq">0.3</span><br>ב. <span class="eq">0.17</span><br>ג. <span class="eq">0.05</span> — מכנה <span class="eq">100</span> מחייב שתי ספרות אחרי הנקודה, ולכן נוסף אפס שומר מקום.<br>ד. <span class="eq">0.248</span><br>ה. <span class="eq">0.006</span> — מכנה <span class="eq">1000</span> מחייב שלוש ספרות אחרי הנקודה.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 2: מרחיבים וממירים</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>המירו כל שבר לשבר עשרוני. רשמו גם את שלב ההרחבה.<br><br>א. <span class="eq"><span class="fr"><b>1</b><i>5</i></span></span><br>ב. <span class="eq"><span class="fr"><b>3</b><i>4</i></span></span><br>ג. <span class="eq"><span class="fr"><b>9</b><i>25</i></span></span><br>ד. <span class="eq"><span class="fr"><b>1</b><i>8</i></span></span></div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. <span class="eq"><span class="fr"><b>1</b><i>5</i></span> = <span class="fr"><b>1 · 2</b><i>5 · 2</i></span> = <span class="fr"><b>2</b><i>10</i></span> = 0.2</span><br>ב. <span class="eq"><span class="fr"><b>3</b><i>4</i></span> = <span class="fr"><b>3 · 25</b><i>4 · 25</i></span> = <span class="fr"><b>75</b><i>100</i></span> = 0.75</span><br>ג. <span class="eq"><span class="fr"><b>9</b><i>25</i></span> = <span class="fr"><b>9 · 4</b><i>25 · 4</i></span> = <span class="fr"><b>36</b><i>100</i></span> = 0.36</span><br>ד. <span class="eq"><span class="fr"><b>1</b><i>8</i></span> = <span class="fr"><b>1 · 125</b><i>8 · 125</i></span> = <span class="fr"><b>125</b><i>1000</i></span> = 0.125</span></div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 3: בכיוון ההפוך</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>כתבו כל מספר עשרוני כשבר פשוט מצומצם.<br><br>א. <span class="eq">0.7</span><br>ב. <span class="eq">0.5</span><br>ג. <span class="eq">0.25</span><br>ד. <span class="eq">0.08</span></div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. <span class="eq">0.7 = <span class="fr"><b>7</b><i>10</i></span></span> — כבר מצומצם.<br>ב. <span class="eq">0.5 = <span class="fr"><b>5</b><i>10</i></span> = <span class="fr"><b>1</b><i>2</i></span></span><br>ג. <span class="eq">0.25 = <span class="fr"><b>25</b><i>100</i></span> = <span class="fr"><b>1</b><i>4</i></span></span><br>ד. <span class="eq">0.08 = <span class="fr"><b>8</b><i>100</i></span> = <span class="fr"><b>2</b><i>25</i></span></span></div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 4: שווים או לא שווים?</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>לכל זוג קבעו אם שני המספרים שווים בערכם, ונמקו.<br><br>א. <span class="eq">0.8</span> ו-<span class="eq">0.80</span><br>ב. <span class="eq">0.3</span> ו-<span class="eq">0.03</span><br>ג. <span class="eq"><span class="fr"><b>1</b><i>2</i></span></span> ו-<span class="eq">0.5</span><br>ד. <span class="eq"><span class="fr"><b>1</b><i>4</i></span></span> ו-<span class="eq">0.14</span></div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. שווים. <span class="eq">0.8 = <span class="fr"><b>8</b><i>10</i></span> = <span class="fr"><b>80</b><i>100</i></span> = 0.80</span> — אפס בסוף אינו משנה ערך.<br>ב. אינם שווים. <span class="eq">0.3 = <span class="fr"><b>3</b><i>10</i></span></span> ואילו <span class="eq">0.03 = <span class="fr"><b>3</b><i>100</i></span></span>, שקטן פי <span class="eq">10</span>.<br>ג. שווים. <span class="eq"><span class="fr"><b>1</b><i>2</i></span> = <span class="fr"><b>5</b><i>10</i></span> = 0.5</span>.<br>ד. אינם שווים. <span class="eq"><span class="fr"><b>1</b><i>4</i></span> = <span class="fr"><b>25</b><i>100</i></span> = 0.25</span>, ולא <span class="eq">0.14</span>. זו בדיוק טעות ההעתקה של הספרות.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 5: אתגר: מי מסתתר מאחורי התווית?</strong>
+      <span class="tag hard">מאתגר</span></div>
+    <div>בשלוש חבילות אורז רשומים המשקלים הבאים: חבילה א' — <span class="eq"><span class="fr"><b>1</b><i>2</i></span></span> ק"ג, חבילה ב' — <span class="eq">0.45</span> ק"ג, חבילה ג' — <span class="eq"><span class="fr"><b>2</b><i>5</i></span></span> ק"ג.<br><br>א. כתבו את כל שלושת המשקלים כשברים עשרוניים בעלי שתי ספרות אחרי הנקודה.<br>ב. כתבו את משקלה של חבילה ב' כשבר פשוט מצומצם.<br>ג. איזו חבילה כבדה ביותר ואיזו קלה ביותר?</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. חבילה א': <span class="eq"><span class="fr"><b>1</b><i>2</i></span> = <span class="fr"><b>50</b><i>100</i></span> = 0.50</span>. חבילה ב': <span class="eq">0.45</span> — כבר בעלת שתי ספרות. חבילה ג': <span class="eq"><span class="fr"><b>2</b><i>5</i></span> = <span class="fr"><b>40</b><i>100</i></span> = 0.40</span>.<br><br>ב. <span class="eq">0.45 = <span class="fr"><b>45</b><i>100</i></span> = <span class="fr"><b>9</b><i>20</i></span></span> (מצמצמים ב-<span class="eq">5</span>).<br><br>ג. משווים עכשיו מספרים בעלי אותו מספר ספרות: <span class="eq">0.50</span>, <span class="eq">0.45</span>, <span class="eq">0.40</span>. החבילה הכבדה ביותר היא א', והקלה ביותר היא ג'.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 6: מכנה שהוא כבר עשרוני</strong>
+      <span class="tag easy">קל</span></div>
+    <div>כתבו כשבר עשרוני: <span class="eq"><span class="fr"><b>9</b><i>10</i></span></span>, <span class="eq"><span class="fr"><b>9</b><i>100</i></span></span>, <span class="eq"><span class="fr"><b>9</b><i>1000</i></span></span>.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">המכנה קובע לאיזה מקום הולכת הספרה: <span class="eq"><span class="fr"><b>9</b><i>10</i></span> = 0.9</span> (עשיריות), <span class="eq"><span class="fr"><b>9</b><i>100</i></span> = 0.09</span> (מאיות), <span class="eq"><span class="fr"><b>9</b><i>1000</i></span> = 0.009</span> (אלפיות). מספר האפסים במכנה שווה תמיד למספר הספרות שאחרי הנקודה.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 7: הרחבה למכנה מאה</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>המירו את <span class="eq"><span class="fr"><b>7</b><i>20</i></span></span> לשבר עשרוני, ובדקו את סבירות התשובה.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol"><span class="eq">20 · 5 = 100</span>, ולכן מרחיבים פי <span class="eq">5</span>: <span class="eq"><span class="fr"><b>7</b><i>20</i></span> = <span class="fr"><b>7 · 5</b><i>20 · 5</i></span> = <span class="fr"><b>35</b><i>100</i></span> = 0.35</span>. בדיקת סבירות: <span class="eq"><span class="fr"><b>7</b><i>20</i></span></span> קצת קטן מחצי, ואכן <span class="eq">0.35</span> קטן מ-<span class="eq">0.5</span>.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 8: מעשרוני לשבר מצומצם</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>כתבו כשבר פשוט מצומצם: <span class="eq">0.6</span>, <span class="eq">0.04</span> ו-<span class="eq">0.125</span>.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol"><span class="eq">0.6</span> — שש עשיריות: <span class="eq"><span class="fr"><b>6</b><i>10</i></span> = <span class="fr"><b>3</b><i>5</i></span></span>. <span class="eq">0.04</span> — ארבע מאיות: <span class="eq"><span class="fr"><b>4</b><i>100</i></span> = <span class="fr"><b>1</b><i>25</i></span></span>. <span class="eq">0.125</span> — מאה עשרים וחמש אלפיות: <span class="eq"><span class="fr"><b>125</b><i>1000</i></span> = <span class="fr"><b>1</b><i>8</i></span></span>.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 9: אתגר: שני שמות לאותה כמות</strong>
+      <span class="tag hard">מאתגר</span></div>
+    <div>על בקבוק אחד כתוב <span class="eq"><span class="fr"><b>3</b><i>4</i></span></span> ליטר ועל בקבוק זהה כתוב <span class="eq">0.75</span> ליטר. א. הראו בשתי דרכים — מהשבר אל העשרוני ומהעשרוני אל השבר — ששני הבקבוקים מכילים אותה כמות. ב. הסבירו מדוע <span class="eq"><span class="fr"><b>1</b><i>3</i></span></span> אינו מתאים לדרך הזאת.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. מהשבר אל העשרוני: <span class="eq">4 · 25 = 100</span>, ולכן <span class="eq"><span class="fr"><b>3</b><i>4</i></span> = <span class="fr"><b>3 · 25</b><i>4 · 25</i></span> = <span class="fr"><b>75</b><i>100</i></span> = 0.75</span>. מהעשרוני אל השבר: <span class="eq">0.75</span> נקרא שבעים וחמש מאיות, כלומר <span class="eq"><span class="fr"><b>75</b><i>100</i></span></span>, ואחרי צמצום ב-<span class="eq">25</span> מתקבל <span class="eq"><span class="fr"><b>3</b><i>4</i></span></span>. שני הכיוונים מובילים לאותה מסקנה. ב. כדי להרחיב את <span class="eq"><span class="fr"><b>1</b><i>3</i></span></span> למכנה עשרוני צריך מספר שלם שמכפלתו ב-<span class="eq">3</span> נותנת <span class="eq">10</span>, <span class="eq">100</span> או <span class="eq">1000</span> — ואין מספר כזה, כי אף אחד מהם אינו מתחלק ב-<span class="eq">3</span> בלי שארית.</div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>🎯 מבחנון</h2>
+  <p class="hint">בחרו תשובה — ותקבלו משוב מיד.</p>
+  <div id="quiz"></div>
+  <div class="score" id="score"></div>
+</div>
+
+<div class="credit" style="max-width:780px; margin:0 auto">© כל הזכויות שמורות ליאיר כהנא</div>
+
+<script>
+const quiz = [{"q": "מהו <span class=\"eq\"><span class=\"fr\"><b>7</b><i>100</i></span></span> בכתיב עשרוני?", "o": ["<span class=\"eq\">0.07</span>", "<span class=\"eq\">0.7</span>", "<span class=\"eq\">0.007</span>", "<span class=\"eq\">7.1</span>"], "a": 0}, {"q": "מהו <span class=\"eq\"><span class=\"fr\"><b>3</b><i>4</i></span></span> בכתיב עשרוני?", "o": ["<span class=\"eq\">0.75</span>", "<span class=\"eq\">0.34</span>", "<span class=\"eq\">0.7</span>", "<span class=\"eq\">3.4</span>"], "a": 0}, {"q": "איזה זוג מספרים מתאר בדיוק את אותה כמות?", "o": ["<span class=\"eq\">0.4</span> ו-<span class=\"eq\">0.40</span>", "<span class=\"eq\">0.4</span> ו-<span class=\"eq\">0.04</span>", "<span class=\"eq\">0.4</span> ו-<span class=\"eq\">4.0</span>", "<span class=\"eq\">0.4</span> ו-<span class=\"eq\">0.44</span>"], "a": 0}, {"q": "מהו <span class=\"eq\">0.6</span> כשבר פשוט מצומצם?", "o": ["<span class=\"eq\"><span class=\"fr\"><b>3</b><i>5</i></span></span>", "<span class=\"eq\"><span class=\"fr\"><b>1</b><i>6</i></span></span>", "<span class=\"eq\"><span class=\"fr\"><b>6</b><i>100</i></span></span>", "<span class=\"eq\"><span class=\"fr\"><b>3</b><i>10</i></span></span>"], "a": 0}, {"q": "כדי להמיר את <span class=\"eq\"><span class=\"fr\"><b>1</b><i>4</i></span></span> לשבר עשרוני מרחיבים אותו למכנה <span class=\"eq\">100</span>. בכמה צריך לכפול את המונה ואת המכנה?", "o": ["פי <span class=\"eq\">25</span>", "פי <span class=\"eq\">4</span>", "פי <span class=\"eq\">10</span>", "פי <span class=\"eq\">50</span>"], "a": 0}];
+let answered = 0, correct = 0;
+document.getElementById('quiz').innerHTML = quiz.map((q, i) => `
+  <div class="q">
+    <div class="qtext">${i + 1}. ${q.q}</div>
+    <div class="opts">${q.o.map((o, j) =>
+      `<button class="opt" data-q="${i}" data-o="${j}">${o}</button>`).join('')}</div>
+  </div>`).join('');
+document.querySelectorAll('.opt').forEach(btn => {
+  btn.onclick = () => {
+    const qi = +btn.dataset.q, oi = +btn.dataset.o, q = quiz[qi];
+    const group = btn.parentElement.querySelectorAll('.opt');
+    group.forEach(b => b.disabled = true);
+    group[q.a].classList.add('correct');
+    if (oi !== q.a) btn.classList.add('wrong'); else correct++;
+    if (++answered === quiz.length) {
+      document.getElementById('score').textContent =
+        `סיימתם! ${correct} מתוך ${quiz.length} נכונות ` +
+        (correct === quiz.length ? '🏆 מושלם!' : correct >= quiz.length - 2 ? '👍 יפה מאוד!' : '💪 שווה לחזור על הפרק');
+    }
+  };
+});
+</script>
+</body>
+</html>

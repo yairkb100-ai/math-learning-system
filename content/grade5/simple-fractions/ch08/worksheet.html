@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>דף עבודה — משימות חקר בשברים</title>
+<style>
+  @page { size: A4; margin: 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: #1a2233;
+         line-height: 1.7; margin: 0; padding: 20px; background: #f4f6fa; }
+  .sheet { background: #fff; max-width: 820px; margin: 0 auto 24px;
+           padding: 30px 36px; border-radius: 10px;
+           box-shadow: 0 2px 14px rgba(0,0,0,.09); }
+  header { border-bottom: 3px solid #2f6fed; padding-bottom: 12px; margin-bottom: 20px; }
+  h1 { margin: 0 0 4px; font-size: 24px; color: #14306b; }
+  .sub { color: #5b6780; font-size: 14px; }
+  .namebar { display: flex; gap: 26px; margin-top: 12px; font-size: 14px; }
+  .namebar span { flex: 1; border-bottom: 1px dotted #8894ab; padding-bottom: 3px; }
+  h2.q, h2.sec { font-size: 17px; margin: 24px 0 10px; color: #14306b;
+    background: #eef3fe; padding: 7px 12px; border-radius: 6px;
+    border-inline-start: 5px solid #2f6fed; }
+  .tag { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px;
+         margin-inline-start: 8px; vertical-align: middle; }
+  .easy { background: #dff5e3; color: #1c6b32; }
+  .med  { background: #fdf0d5; color: #8a5b06; }
+  .hard { background: #fadbdb; color: #8f2222; }
+  ol.items { margin: 6px 0; padding-inline-start: 22px; }
+  ol.items > li { margin-bottom: 13px; }
+  .fr { display: inline-flex; flex-direction: column; align-items: center;
+        vertical-align: middle; margin: 0 3px; font-size: .95em; line-height: 1.15; }
+  .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
+  .fr i { font-style: normal; padding: 0 4px; }
+  .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
+  .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
+  .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
+  .fig { text-align: center; font-size: 13px; color: #5b6780; }
+  .lines div { border-bottom: 1px dotted #aab3c4; height: 24px; }
+  .numline { margin: 10px 0; }
+  .pagebreak { page-break-before: always; }
+  .key { background: #fffdf3; }
+  .key h1 { color: #8a5b06; }
+  .key header { border-bottom-color: #e0a800; }
+  .key .ans { background:#fff; border:1px solid #eadfb8; border-radius:6px;
+              padding:10px 14px; margin-bottom:10px; font-size:14.5px; }
+  .key .ans strong { color:#8a5b06; }
+  .credit { text-align:center; font-size: 12px; color: #8894ab; margin-top: 18px;
+            border-top: 1px solid #eef1f6; padding-top: 8px; }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .sheet { box-shadow: none; margin: 0; border-radius: 0; padding: 0; max-width: none; }
+    .noprint { display: none; }
+  }
+  .noprint { text-align:center; margin: 10px 0 20px; }
+  .noprint button { background: #2f6fed; color:#fff; border:0; padding:10px 26px;
+                    border-radius:6px; font-size:15px; cursor:pointer; font-family:inherit; }
+</style>
+</head>
+<body>
+
+<div class="noprint"><button onclick="window.print()">🖨️ הדפסה / שמירה כ‑PDF</button></div>
+
+<div class="sheet">
+  <header>
+    <h1>דף עבודה — פרק 8: משימות חקר בשברים</h1>
+    <div class="sub">לבדוק דוגמאות, לזהות דפוס, לנסח השערה ולנמק או להפריך</div>
+    <div class="namebar"><span>שם: </span><span>כיתה: </span><span>תאריך: </span></div>
+  </header>
+  <div class="note-box" style="background:#eef3fe; border-inline-start:4px solid #2f6fed; padding:10px 14px; border-radius:6px; font-size:14px; margin:18px 0"><strong>חקירה בארבעה צעדים:</strong> בודקים כמה דוגמאות מסודרות; מזהים דפוס; מנסחים השערה במשפט אחד ברור; ומנמקים בהסבר כללי — או מפריכים בדוגמה נגדית אחת. שני כללים גדולים: דוגמה נגדית אחת מספיקה כדי להפריך, אבל אלף דוגמאות תומכות עדיין אינן מוכיחות; ולכל מסקנה יש תחום שבו היא תקפה — נכון ש-<span class="eq"><span class="fr"><b>1</b><i>2</i></span> &gt; <span class="fr"><b>1</b><i>3</i></span></span>, אבל אסור למתוח את זה ולומר ש-<span class="eq"><span class="fr"><b>3</b><i>4</i></span></span> קטן מ-<span class="eq"><span class="fr"><b>1</b><i>2</i></span></span>. את המסקנה מציגים בשלושה חלקים: מה בדקתי, מה גיליתי, ולמה זה נכון.</div>
+  
+  <h2 class="q">שאלה 1 — חקר: סדרת המכנים <span class="tag easy">קל</span></h2>
+  <p>לפניכם השברים <span class="eq"><span class="fr"><b>1</b><i>9</i></span></span>, <span class="eq"><span class="fr"><b>1</b><i>3</i></span></span>, <span class="eq"><span class="fr"><b>1</b><i>12</i></span></span> ו-<span class="eq"><span class="fr"><b>1</b><i>5</i></span></span>.</p><ol type="a"><li>סדרו אותם מהקטן לגדול.</li><li>נסחו במשפט אחד את הכלל שהשתמשתם בו.</li><li>הסבירו למה הכלל עובד — בלי לחשב.</li></ol>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 2 — חקר: מתי הסכום הוא בדיוק שלם <span class="tag easy">קל</span></h2>
+  <p>חשבו: <span class="eq"><span class="fr"><b>3</b><i>7</i></span> + <span class="fr"><b>4</b><i>7</i></span></span>, <span class="eq"><span class="fr"><b>2</b><i>9</i></span> + <span class="fr"><b>7</b><i>9</i></span></span>, <span class="eq"><span class="fr"><b>5</b><i>8</i></span> + <span class="fr"><b>3</b><i>8</i></span></span>.</p><ol type="a"><li>מה משותף לכל התוצאות?</li><li>נסחו השערה.</li><li>המציאו בעצמכם עוד תרגיל שמתאים לדפוס, עם מכנה 10.</li></ol>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 3 — חקר: כשהמונה גדל <span class="tag easy">קל</span></h2>
+  <p>לפניכם השברים <span class="eq"><span class="fr"><b>1</b><i>8</i></span></span>, <span class="eq"><span class="fr"><b>5</b><i>8</i></span></span>, <span class="eq"><span class="fr"><b>3</b><i>8</i></span></span> ו-<span class="eq"><span class="fr"><b>7</b><i>8</i></span></span>.</p><ol type="a"><li>סדרו אותם מהקטן לגדול.</li><li>נסחו השערה על מה שקורה כשהמכנה קבוע והמונה גדל.</li><li>נמקו את ההשערה.</li></ol>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 4 — נכון או לא נכון? <span class="tag easy">קל</span></h2>
+  <p>לכל טענה כתבו <strong>נכונה</strong> ונמקו, או <strong>לא נכונה</strong> והביאו דוגמה נגדית:</p><ol type="a"><li>"אם המונה שווה למכנה, השבר שווה לשלם אחד."</li><li>"כל שבר קטן משלם אחד."</li></ol>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 5 — חקר: כולם חצי? <span class="tag easy">קל</span></h2>
+  <p>בדקו את השברים <span class="eq"><span class="fr"><b>2</b><i>4</i></span></span>, <span class="eq"><span class="fr"><b>3</b><i>6</i></span></span> ו-<span class="eq"><span class="fr"><b>5</b><i>10</i></span></span>.</p><ol type="a"><li>מה משותף לשלושתם?</li><li>נסחו השערה: מתי שבר שווה בדיוק לחצי?</li><li>כתבו שבר נוסף כזה עם מכנה 14.</li></ol>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 6 — חקר: החתיכה שנעלמת <span class="tag med">בינוני</span></h2>
+  <p>לפניכם שרשרת: <span class="eq"><span class="fr"><b>1</b><i>2</i></span> + <span class="fr"><b>1</b><i>4</i></span> = <span class="fr"><b>3</b><i>4</i></span></span> ואז <span class="eq"><span class="fr"><b>3</b><i>4</i></span> + <span class="fr"><b>1</b><i>8</i></span> = <span class="fr"><b>7</b><i>8</i></span></span>.</p><ol type="a"><li>חשבו את שני האיברים הבאים בשרשרת.</li><li>איזה חלק חסר עד השלם בכל שלב?</li><li>האם השרשרת תגיע אי פעם בדיוק לשלם? נמקו.</li></ol>
+  <div class="lines"><div></div><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 7 — חקר: להוסיף אחד לשניהם <span class="tag med">בינוני</span></h2>
+  <p>חקרו את הטענה: "הוספת 1 למונה והוספת 1 למכנה אינן משנות את ערך השבר".</p><ol type="a"><li>בדקו על <span class="eq"><span class="fr"><b>1</b><i>3</i></span></span> ועל <span class="eq"><span class="fr"><b>2</b><i>5</i></span></span>, והשוו במכנה משותף.</li><li>האם הטענה נכונה? נמקו.</li><li>נסחו השערה מדויקת יותר על מה שקורה באמת.</li></ol>
+  <div class="lines"><div></div><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 8 — חקר: שבר באמצע <span class="tag med">בינוני</span></h2>
+  <p>חפשו שבר שנמצא בין שני שברים נתונים:</p><ol type="a"><li>שבר בין <span class="eq"><span class="fr"><b>1</b><i>4</i></span></span> ל-<span class="eq"><span class="fr"><b>1</b><i>2</i></span></span> (רמז: הרחיבו לשמיניות).</li><li>שבר בין <span class="eq"><span class="fr"><b>1</b><i>3</i></span></span> ל-<span class="eq"><span class="fr"><b>1</b><i>2</i></span></span>.</li><li>נסחו השערה כללית ונמקו אותה.</li></ol>
+  <div class="lines"><div></div><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 9 — נכון תמיד? בדקו והפריכו <span class="tag med">בינוני</span></h2>
+  <p>לכל טענה בדקו שתי דוגמאות לפחות, והחליטו: נכונה תמיד (נמקו) או לא נכונה (הביאו דוגמה נגדית).</p><ol type="a"><li>"שבר עם מכנה גדול יותר הוא תמיד השבר הקטן יותר."</li><li>"כשמצמצמים שבר, הערך שלו קטן."</li></ol>
+  <div class="lines"><div></div><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 10 — חקר: הרחבה וצמצום <span class="tag med">בינוני</span></h2>
+  <p>בדקו את השברים <span class="eq"><span class="fr"><b>3</b><i>4</i></span></span>, <span class="eq"><span class="fr"><b>6</b><i>8</i></span></span> ו-<span class="eq"><span class="fr"><b>9</b><i>12</i></span></span>.</p><ol type="a"><li>האם שלושתם שווים? הראו בעזרת צמצום.</li><li>מה משותף לכולם?</li><li>נסחו כלל ונמקו אותו במילים.</li></ol>
+  <div class="lines"><div></div><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 11 — אתגר: להפריך טענה <span class="tag hard">מאתגר</span></h2>
+  <p>הטענה: "סכום של שני שברים הקטנים משלם אחד תמיד קטן משלם אחד".</p><ol type="a"><li>בדקו שתי דוגמאות שתומכות בטענה.</li><li>מצאו דוגמה נגדית אחת.</li><li>מה זה מלמד אותנו על מספר הדוגמאות שצריך לפני שמסיקים מסקנה?</li></ol>
+  <div class="lines"><div></div><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 12 — אתגר: עד כמה הכלל תקף? <span class="tag hard">מאתגר</span></h2>
+  <p>תלמיד גילה את הכלל "מכנה גדול יותר פירושו שבר קטן יותר", ומיד הסיק ש-<span class="eq"><span class="fr"><b>5</b><i>6</i></span></span> קטן מ-<span class="eq"><span class="fr"><b>1</b><i>2</i></span></span>.</p><ol type="a"><li>בדקו את המסקנה בעזרת מכנה משותף.</li><li>הסבירו מה בדיוק השתבש בהסקה שלו.</li><li>כתבו מחדש את הכלל, יחד עם התנאי שבו הוא תקף.</li></ol>
+  <div class="lines"><div></div><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 13 — אתגר חקר: מסקנה בשלושה חלקים <span class="tag hard">מאתגר</span></h2>
+  <p>חקרו: מה קורה לשבר כשמכפילים <strong>רק את המונה</strong> ב-2, והמכנה נשאר כמו שהוא?</p><ol type="a"><li>בדקו על <span class="eq"><span class="fr"><b>1</b><i>4</i></span></span>, על <span class="eq"><span class="fr"><b>2</b><i>5</i></span></span> ועל <span class="eq"><span class="fr"><b>3</b><i>8</i></span></span>.</li><li>הציגו את המסקנה בשלושה חלקים: מה בדקתי, מה גיליתי, ולמה זה נכון.</li></ol>
+  <div class="lines"><div></div><div></div><div></div><div></div><div></div><div></div></div>
+  <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
+</div>
+
+<div class="sheet key pagebreak">
+  <header>
+    <h1>🔑 דף פתרונות למורה — פרק 8: משימות חקר בשברים</h1>
+    <div class="sub">לא לחלוקה לתלמידים</div>
+  </header>
+  <div class="ans"><strong>שאלה 1.</strong> א. <span class="eq"><span class="fr"><b>1</b><i>12</i></span> &lt; <span class="fr"><b>1</b><i>9</i></span> &lt; <span class="fr"><b>1</b><i>5</i></span> &lt; <span class="fr"><b>1</b><i>3</i></span></span> &nbsp; ב. כשהמונה הוא 1, ככל שהמכנה גדול יותר — השבר קטן יותר. &nbsp; ג. המכנה אומר לכמה חלקים שווים חילקנו את אותו שלם; יותר חלקים פירושו שכל חלק יוצא קטן יותר.</div>
+<div class="ans"><strong>שאלה 2.</strong> א. כל התוצאות שוות בדיוק לשלם אחד: <span class="eq"><span class="fr"><b>7</b><i>7</i></span> = 1</span>, <span class="eq"><span class="fr"><b>9</b><i>9</i></span> = 1</span>, <span class="eq"><span class="fr"><b>8</b><i>8</i></span> = 1</span>. &nbsp; ב. אם סכום המונים שווה למכנה — הסכום הוא שלם אחד. &nbsp; ג. למשל <span class="eq"><span class="fr"><b>3</b><i>10</i></span> + <span class="fr"><b>7</b><i>10</i></span> = <span class="fr"><b>10</b><i>10</i></span> = 1</span> (כל זוג מונים שסכומם 10 מתאים).</div>
+<div class="ans"><strong>שאלה 3.</strong> א. <span class="eq"><span class="fr"><b>1</b><i>8</i></span> &lt; <span class="fr"><b>3</b><i>8</i></span> &lt; <span class="fr"><b>5</b><i>8</i></span> &lt; <span class="fr"><b>7</b><i>8</i></span></span> &nbsp; ב. כשהמכנה קבוע, ככל שהמונה גדול יותר — השבר גדול יותר. &nbsp; ג. כל החלקים כאן הם שמיניות, כלומר בדיוק באותו גודל, ופשוט לוקחים מהם יותר.</div>
+<div class="ans"><strong>שאלה 4.</strong> א. <strong>נכונה.</strong> דוגמאות: <span class="eq"><span class="fr"><b>4</b><i>4</i></span> = 1</span> ו-<span class="eq"><span class="fr"><b>9</b><i>9</i></span> = 1</span>. הנימוק: אספנו בדיוק את כל החלקים שאליהם חולק השלם, ולכן הרכבנו אותו במלואו. &nbsp; ב. <strong>לא נכונה.</strong> דוגמה נגדית: <span class="eq"><span class="fr"><b>5</b><i>4</i></span></span> גדול משלם אחד (הוא <span class="eq">1<span class="fr"><b>1</b><i>4</i></span></span>).</div>
+<div class="ans"><strong>שאלה 5.</strong> א. כולם שווים ל-<span class="eq"><span class="fr"><b>1</b><i>2</i></span></span>: <span class="eq"><span class="fr"><b>2</b><i>4</i></span> = <span class="fr"><b>1</b><i>2</i></span></span>, <span class="eq"><span class="fr"><b>3</b><i>6</i></span> = <span class="fr"><b>1</b><i>2</i></span></span>, <span class="eq"><span class="fr"><b>5</b><i>10</i></span> = <span class="fr"><b>1</b><i>2</i></span></span>. &nbsp; ב. כשהמונה הוא בדיוק חצי מהמכנה — השבר שווה לחצי. &nbsp; ג. <span class="eq"><span class="fr"><b>7</b><i>14</i></span></span>.</div>
+<div class="ans"><strong>שאלה 6.</strong> א. <span class="eq"><span class="fr"><b>7</b><i>8</i></span> + <span class="fr"><b>1</b><i>16</i></span> = <span class="fr"><b>15</b><i>16</i></span></span> ואחר כך <span class="eq"><span class="fr"><b>15</b><i>16</i></span> + <span class="fr"><b>1</b><i>32</i></span> = <span class="fr"><b>31</b><i>32</i></span></span>. &nbsp; ב. חסר בכל שלב חלק אחד בלבד: <span class="eq"><span class="fr"><b>1</b><i>4</i></span></span>, אחר כך <span class="eq"><span class="fr"><b>1</b><i>8</i></span></span>, אחר כך <span class="eq"><span class="fr"><b>1</b><i>16</i></span></span>, אחר כך <span class="eq"><span class="fr"><b>1</b><i>32</i></span></span> — כל פעם קטן יותר. &nbsp; ג. <strong>לא.</strong> בכל שלב מוסיפים בדיוק חצי ממה שחסר, וחצי מהחסר סוגר רק חצי מהפער ומשאיר תמיד את החצי השני. הפער מתכווץ בלי הפסקה אבל לעולם אינו מתאפס.</div>
+<div class="ans"><strong>שאלה 7.</strong> א. <span class="eq"><span class="fr"><b>1</b><i>3</i></span></span> הופך ל-<span class="eq"><span class="fr"><b>2</b><i>4</i></span></span>; במכנה משותף 12 אלה <span class="eq"><span class="fr"><b>4</b><i>12</i></span></span> מול <span class="eq"><span class="fr"><b>6</b><i>12</i></span></span> — גדל. <span class="eq"><span class="fr"><b>2</b><i>5</i></span></span> הופך ל-<span class="eq"><span class="fr"><b>3</b><i>6</i></span></span>; במכנה משותף 30 אלה <span class="eq"><span class="fr"><b>12</b><i>30</i></span></span> מול <span class="eq"><span class="fr"><b>15</b><i>30</i></span></span> — גדל. &nbsp; ב. <strong>הטענה אינה נכונה</strong>, ודי בדוגמה נגדית אחת מסעיף א' כדי להפריך אותה. &nbsp; ג. שבר הקטן משלם אחד תמיד גדל ומתקרב לשלם: ההפרש בין המכנה למונה נשאר קבוע, אבל החלקים עצמם נעשים קטנים יותר, ולכן מה שחסר עד השלם מצטמצם.</div>
+<div class="ans"><strong>שאלה 8.</strong> א. מרחיבים לשמיניות: <span class="eq"><span class="fr"><b>1</b><i>4</i></span> = <span class="fr"><b>2</b><i>8</i></span></span> ו-<span class="eq"><span class="fr"><b>1</b><i>2</i></span> = <span class="fr"><b>4</b><i>8</i></span></span>, ולכן <span class="eq"><span class="fr"><b>3</b><i>8</i></span></span> נמצא ביניהם. &nbsp; ב. מכנה משותף 12: <span class="eq"><span class="fr"><b>1</b><i>3</i></span> = <span class="fr"><b>4</b><i>12</i></span></span> ו-<span class="eq"><span class="fr"><b>1</b><i>2</i></span> = <span class="fr"><b>6</b><i>12</i></span></span>, ולכן <span class="eq"><span class="fr"><b>5</b><i>12</i></span></span> נמצא ביניהם. &nbsp; ג. בין כל שני שברים שונים אפשר למצוא שבר נוסף — תמיד אפשר להרחיב את שניהם למכנה גדול יותר, וכך נפתח ביניהם מקום לעוד חלקים.</div>
+<div class="ans"><strong>שאלה 9.</strong> א. <strong>לא נכונה.</strong> דוגמה נגדית: <span class="eq"><span class="fr"><b>3</b><i>4</i></span></span> מול <span class="eq"><span class="fr"><b>1</b><i>2</i></span></span> — המכנה 4 גדול מ-2, ובכל זאת במכנה משותף מקבלים <span class="eq"><span class="fr"><b>6</b><i>8</i></span></span> מול <span class="eq"><span class="fr"><b>4</b><i>8</i></span></span>, כלומר <span class="eq"><span class="fr"><b>3</b><i>4</i></span></span> גדול יותר. הכלל תקף רק כשהמונה של שני השברים הוא 1. &nbsp; ב. <strong>לא נכונה.</strong> דוגמה נגדית: <span class="eq"><span class="fr"><b>6</b><i>8</i></span> = <span class="fr"><b>3</b><i>4</i></span></span> — הערך זהה לגמרי, רק הכתיב פשוט יותר. צמצום משנה את הצורה ולא את הכמות.</div>
+<div class="ans"><strong>שאלה 10.</strong> א. כן. מצמצמים ב-2: <span class="eq"><span class="fr"><b>6</b><i>8</i></span> = <span class="fr"><b>3</b><i>4</i></span></span>; מצמצמים ב-3: <span class="eq"><span class="fr"><b>9</b><i>12</i></span> = <span class="fr"><b>3</b><i>4</i></span></span>. &nbsp; ב. כולם מתארים בדיוק את אותו חלק מהשלם. &nbsp; ג. כפל המונה והמכנה באותו מספר (או חלוקה של שניהם באותו מספר) אינו משנה את ערך השבר: החלקים נעשים קטנים פי אותו מספר, אבל לוקחים מהם פי אותו מספר יותר — וזה מתקזז.</div>
+<div class="ans"><strong>שאלה 11.</strong> א. למשל <span class="eq"><span class="fr"><b>1</b><i>5</i></span> + <span class="fr"><b>2</b><i>5</i></span> = <span class="fr"><b>3</b><i>5</i></span></span> וגם <span class="eq"><span class="fr"><b>1</b><i>4</i></span> + <span class="fr"><b>1</b><i>4</i></span> = <span class="fr"><b>2</b><i>4</i></span></span> — שניהם קטנים משלם. &nbsp; ב. דוגמה נגדית: <span class="eq"><span class="fr"><b>3</b><i>4</i></span> + <span class="fr"><b>3</b><i>4</i></span> = <span class="fr"><b>6</b><i>4</i></span></span>, וזה גדול משלם אחד. הטענה הופרכה. &nbsp; ג. דוגמאות תומכות אינן מוכיחות כלום, וגם עשר מהן לא. חוקר זהיר בודק במיוחד דוגמאות קיצוניות — כאן שברים גדולים — ולא רק דוגמאות נוחות.</div>
+<div class="ans"><strong>שאלה 12.</strong> א. מכנה משותף 6: <span class="eq"><span class="fr"><b>1</b><i>2</i></span> = <span class="fr"><b>3</b><i>6</i></span></span>, ולכן <span class="eq"><span class="fr"><b>5</b><i>6</i></span> &gt; <span class="fr"><b>3</b><i>6</i></span></span> — המסקנה שגויה. &nbsp; ב. הכלל נוסח ונומק עבור שברים שהמונה שלהם 1, וכאן המונים שונים זה מזה; התלמיד מתח את המסקנה אל מחוץ לתחום שבו היא נכונה. &nbsp; ג. הניסוח הנכון: כאשר המונה של שני השברים הוא 1, מכנה גדול יותר פירושו שבר קטן יותר.</div>
+<div class="ans"><strong>שאלה 13.</strong> א. <span class="eq"><span class="fr"><b>1</b><i>4</i></span></span> הופך ל-<span class="eq"><span class="fr"><b>2</b><i>4</i></span></span> (פי 2), <span class="eq"><span class="fr"><b>2</b><i>5</i></span></span> הופך ל-<span class="eq"><span class="fr"><b>4</b><i>5</i></span></span> (פי 2), <span class="eq"><span class="fr"><b>3</b><i>8</i></span></span> הופך ל-<span class="eq"><span class="fr"><b>6</b><i>8</i></span></span> (פי 2). &nbsp; ב. <strong>מה בדקתי:</strong> שלושה שברים, לפני הכפלת המונה ואחריה. <strong>מה גיליתי:</strong> הכפלת המונה ב-2 מכפילה גם את השבר עצמו ב-2. <strong>למה זה נכון:</strong> המכנה לא השתנה, ולכן גודל כל חלק נשאר בדיוק אותו גודל — פשוט לוקחים פי שניים חלקים.</div>
+  <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
+</div>
+</body>
+</html>

@@ -79,6 +79,13 @@ CONTENT_DIR = {
     "divisibility-primes": "grade6/divisibility",
     "shortcut-formulas": "grade8/shortcut-formulas",
     "proportion-variation": "grade7/proportion",
+    "grade5-whole-numbers": "grade5/whole-numbers",
+    "grade5-decimals": "grade5/decimals",
+    # These two carry an explicit Hebrew slug in their courses/*.json metadata,
+    # so courses/assets/<slug>/ is the Hebrew directory — keep the key in sync
+    # with the slug or the mp4 lands in a directory the seed never reads.
+    "טריגונומטריה-ממשולש-ישר-זווית-ועד-משפט-הקוסינוסים": "highschool/trigonometry",
+    "חשבון-דיפרנציאלי-נגזרות": "highschool/derivatives",
 }
 
 

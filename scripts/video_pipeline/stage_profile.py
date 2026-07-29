@@ -65,6 +65,18 @@ def source_path(entry):
         return ROOT / "content/grade8/shortcut-formulas" / f"ch{num:02d}" / "source.md"
     if entry.get("course") == "proportion-variation":
         return ROOT / "content/grade7/proportion" / f"ch{num:02d}" / "source.md"
+    if entry.get("course") == "grade5-whole-numbers":
+        return ROOT / "content/grade5/whole-numbers" / f"ch{num:02d}" / "source.md"
+    if entry.get("course") == "grade5-decimals":
+        return ROOT / "content/grade5/decimals" / f"ch{num:02d}" / "source.md"
+    if entry.get("course") == "grade5-simple-fractions":
+        return ROOT / "content/grade5/simple-fractions" / f"ch{num:02d}" / "source.md"
+    if entry.get("course") == "quadratic-equations":
+        return ROOT / "content/highschool/quadratic-equations" / f"ch{num:02d}" / "source.md"
+    if entry.get("course") == "חשבון-דיפרנציאלי-נגזרות":
+        return ROOT / "content/highschool/derivatives" / f"ch{num:02d}" / "source.md"
+    if entry.get("course") == "טריגונומטריה-ממשולש-ישר-זווית-ועד-משפט-הקוסינוסים":
+        return ROOT / "content/highschool/trigonometry" / f"ch{num:02d}" / "source.md"
     if entry.get("grade") == 5:
         return ROOT / "content/grade5/simple-fractions" / f"ch{num:02d}" / "source.md"
     return ROOT / "content/grade6/fractions-decimals" / f"ch{num:02d}" / "source.md"

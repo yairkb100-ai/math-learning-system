@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>דף עבודה — מהו מספר עשרוני</title>
+<style>
+  @page { size: A4; margin: 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: #1a2233;
+         line-height: 1.7; margin: 0; padding: 20px; background: #f4f6fa; }
+  .sheet { background: #fff; max-width: 820px; margin: 0 auto 24px;
+           padding: 30px 36px; border-radius: 10px;
+           box-shadow: 0 2px 14px rgba(0,0,0,.09); }
+  header { border-bottom: 3px solid #2f6fed; padding-bottom: 12px; margin-bottom: 20px; }
+  h1 { margin: 0 0 4px; font-size: 24px; color: #14306b; }
+  .sub { color: #5b6780; font-size: 14px; }
+  .namebar { display: flex; gap: 26px; margin-top: 12px; font-size: 14px; }
+  .namebar span { flex: 1; border-bottom: 1px dotted #8894ab; padding-bottom: 3px; }
+  h2.q, h2.sec { font-size: 17px; margin: 24px 0 10px; color: #14306b;
+    background: #eef3fe; padding: 7px 12px; border-radius: 6px;
+    border-inline-start: 5px solid #2f6fed; }
+  .tag { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px;
+         margin-inline-start: 8px; vertical-align: middle; }
+  .easy { background: #dff5e3; color: #1c6b32; }
+  .med  { background: #fdf0d5; color: #8a5b06; }
+  .hard { background: #fadbdb; color: #8f2222; }
+  ol.items { margin: 6px 0; padding-inline-start: 22px; }
+  ol.items > li { margin-bottom: 13px; }
+  .fr { display: inline-flex; flex-direction: column; align-items: center;
+        vertical-align: middle; margin: 0 3px; font-size: .95em; line-height: 1.15; }
+  .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
+  .fr i { font-style: normal; padding: 0 4px; }
+  .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
+  .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
+  .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
+  .fig { text-align: center; font-size: 13px; color: #5b6780; }
+  .lines div { border-bottom: 1px dotted #aab3c4; height: 24px; }
+  .numline { margin: 10px 0; }
+  .pagebreak { page-break-before: always; }
+  .key { background: #fffdf3; }
+  .key h1 { color: #8a5b06; }
+  .key header { border-bottom-color: #e0a800; }
+  .key .ans { background:#fff; border:1px solid #eadfb8; border-radius:6px;
+              padding:10px 14px; margin-bottom:10px; font-size:14.5px; }
+  .key .ans strong { color:#8a5b06; }
+  .credit { text-align:center; font-size: 12px; color: #8894ab; margin-top: 18px;
+            border-top: 1px solid #eef1f6; padding-top: 8px; }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .sheet { box-shadow: none; margin: 0; border-radius: 0; padding: 0; max-width: none; }
+    .noprint { display: none; }
+  }
+  .noprint { text-align:center; margin: 10px 0 20px; }
+  .noprint button { background: #2f6fed; color:#fff; border:0; padding:10px 26px;
+                    border-radius:6px; font-size:15px; cursor:pointer; font-family:inherit; }
+</style>
+</head>
+<body>
+
+<div class="noprint"><button onclick="window.print()">🖨️ הדפסה / שמירה כ‑PDF</button></div>
+
+<div class="sheet">
+  <header>
+    <h1>דף עבודה — פרק 1: מהו מספר עשרוני</h1>
+    <div class="sub">עשיריות ומאיות — הנקודה שמפרידה בין שלמים לחלקים</div>
+    <div class="namebar"><span>שם: </span><span>כיתה: </span><span>תאריך: </span></div>
+  </header>
+  <div class="note-box" style="background:#eef3fe; border-inline-start:4px solid #2f6fed; padding:10px 14px; border-radius:6px; font-size:14px; margin:18px 0">מספר עשרוני בנוי משני חלקים, והנקודה מפרידה ביניהם: משמאל לה יושבים השלמים, ומימין לה יושב חלק של שלם. חלוקה של שלם לעשרה חלקים שווים נותנת <strong>עשיריות</strong> — <span class="eq">&lt;span class="fr"&gt;&lt;b&gt;1&lt;/b&gt;&lt;i&gt;10&lt;/i&gt;&lt;/span&gt; = 0.1</span> — וחלוקה למאה חלקים שווים נותנת <strong>מאיות</strong> — <span class="eq">&lt;span class="fr"&gt;&lt;b&gt;1&lt;/b&gt;&lt;i&gt;100&lt;/i&gt;&lt;/span&gt; = 0.01</span>. הספרה הראשונה מימין לנקודה סופרת עשיריות, והספרה השנייה סופרת מאיות. בכל עשירית מסתתרות עשר מאיות, ובשלם אחד יש מאה מאיות. ושלוש אזהרות: <span class="eq">0.5</span> אינו <span class="eq">5</span>, <span class="eq">0.5</span> אינו <span class="eq">0.05</span>, והאפס שלפני הנקודה רק מודיע שאין כאן אף שלם.</div>
+  
+  <h2 class="q">שאלה 1 — מעשיריות למספר עשרוני <span class="tag easy">קל</span></h2>
+  <p>כתבו כל שבר כמספר עשרוני.</p><ol type="a"><li><span class="fr"><b>3</b><i>10</i></span> ⟵ <span class="blank"></span></li><li><span class="fr"><b>8</b><i>10</i></span> ⟵ <span class="blank"></span></li><li><span class="fr"><b>1</b><i>10</i></span> ⟵ <span class="blank"></span></li></ol>
+  
+  <h2 class="q">שאלה 2 — ממאיות למספר עשרוני <span class="tag easy">קל</span></h2>
+  <p>כתבו כל שבר כמספר עשרוני. שימו לב מתי דרוש אפס במקום העשיריות.</p><ol type="a"><li><span class="fr"><b>7</b><i>100</i></span> ⟵ <span class="blank"></span></li><li><span class="fr"><b>52</b><i>100</i></span> ⟵ <span class="blank"></span></li><li><span class="fr"><b>4</b><i>100</i></span> ⟵ <span class="blank"></span></li></ol>
+  
+  <h2 class="q">שאלה 3 — מהאיור למספר <span class="tag easy">קל</span></h2>
+  <p>בכל סעיף נתון תיאור של איור. כתבו איזה חלק צבוע — כשבר פשוט וכמספר עשרוני.</p><ol type="a"><li>פס שחולק לעשרה חלקים שווים, ושישה מהם צבועים.</li><li>ריבוע שחולק למאה משבצות שוות, ושלושים מהן צבועות.</li><li>ריבוע שחולק למאה משבצות שוות, ושתיים מהן צבועות.</li></ol>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 4 — כסף — שקלים ואגורות <span class="tag easy">קל</span></h2>
+  <p>כתבו כל סכום כמספר עשרוני, בשקלים. זכרו: אגורה אחת היא מאית של שקל.</p><ol type="a"><li>ארבעה שקלים ועשרים אגורות ⟵ <span class="blank"></span></li><li>שישה שקלים ותשע אגורות ⟵ <span class="blank"></span></li></ol>
+  
+  <h2 class="q">שאלה 5 — אורך — מטרים וסנטימטרים <span class="tag easy">קל</span></h2>
+  <p>כתבו כל אורך כמספר עשרוני, במטרים. זכרו: סנטימטר אחד הוא מאית של מטר.</p><ol type="a"><li>שני מטרים וחמישים סנטימטרים ⟵ <span class="blank"></span></li><li>מטר אחד ושישה סנטימטרים ⟵ <span class="blank"></span></li></ol>
+  
+  <h2 class="q">שאלה 6 — ממילים למספר עשרוני <span class="tag med">בינוני</span></h2>
+  <p>כתבו כל תיאור כמספר עשרוני.</p><ol type="a"><li>שלוש עשיריות ⟵ <span class="blank"></span></li><li>שלוש מאיות ⟵ <span class="blank"></span></li><li>שני שלמים ושש עשיריות ⟵ <span class="blank"></span></li><li>חמישה שלמים ושתים עשרה מאיות ⟵ <span class="blank"></span></li></ol>
+  
+  <h2 class="q">שאלה 7 — בין אילו שני שלמים? <span class="tag med">בינוני</span></h2>
+  <p>לכל מספר כתבו בין אילו שני מספרים שלמים עוקבים הוא נמצא.</p><ol type="a"><li><span class="eq">3.4</span></li><li><span class="eq">0.85</span></li><li><span class="eq">7.09</span></li><li><span class="eq">12.6</span></li></ol>
+  <div class="lines"><div></div><div></div></div>
+  <h2 class="q">שאלה 8 — כמה עשיריות וכמה מאיות? <span class="tag med">בינוני</span></h2>
+  <p>ענו על השאלות והסבירו בקצרה.</p><ol type="a"><li>כמה מאיות מסתתרות בעשירית אחת?</li><li>כמה מאיות יש בשלם אחד?</li><li>כמה עשיריות יש בשלם אחד?</li></ol>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 9 — תוויות מחיר בחנות <span class="tag med">בינוני</span></h2>
+  <p>בחנות שלוש תוויות. כתבו כל מחיר כמספר עשרוני, בשקלים.</p><ol type="a"><li>לחם — שלושה שקלים ושמונים אגורות</li><li>חלב — שישה שקלים וחמש אגורות</li><li>ביצים — שנים עשר שקלים וחמישים אגורות</li></ol>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 10 — נכון או לא נכון? <span class="tag med">בינוני</span></h2>
+  <p>קבעו לכל טענה נכון או לא נכון, ותקנו את השגויות.</p><ol type="a"><li><span class="eq">0.5</span> ו-<span class="eq">5</span> מתארים אותה כמות.</li><li><span class="eq">0.5</span> ו-<span class="eq">0.05</span> מתארים אותה כמות.</li><li><span class="eq">0.4</span> ו-<span class="eq">0.40</span> מתארים אותה כמות.</li><li>במספר <span class="eq">0.9</span> יש תשע מאיות.</li></ol>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 11 — מצאו את הטעות <span class="tag hard">מאתגר</span></h2>
+  <p>תלמיד רצה לכתוב כמספר עשרוני את הסכום "שבעה שקלים וחמש אגורות", וכתב <span class="eq">7.5</span> ש"ח.</p><p>הסבירו איזה סכום הוא כתב בפועל, מהי התשובה הנכונה, ומדוע האפס חיוני כאן.</p>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 12 — אתגר: בנו את המספר <span class="tag hard">מאתגר</span></h2>
+  <p>בנו מספר עשרוני שמקיים את כל התנאים:</p><ol type="a"><li>יש בו ארבעה שלמים</li><li>ספרת העשיריות שלו היא <span class="eq">0</span></li><li>ספרת המאיות שלו היא <span class="eq">7</span></li></ol><p>כתבו את המספר והסבירו מה היה קורה אילו מחקנו את האפס.</p>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 13 — אתגר: אותה ספרה, ערך אחר <span class="tag hard">מאתגר</span></h2>
+  <p>לפניכם המספר <span class="eq">0.77</span>. שתי הספרות בו זהות, אבל ערכן שונה.</p><p>הסבירו מה מציינת כל אחת מהספרות, ומי מהן גדולה בערכה — והמחישו את התשובה בעזרת דוגמה מהכסף.</p>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
+</div>
+
+<div class="sheet key pagebreak">
+  <header>
+    <h1>🔑 דף פתרונות למורה — פרק 1: מהו מספר עשרוני</h1>
+    <div class="sub">לא לחלוקה לתלמידים</div>
+  </header>
+  <div class="ans"><strong>שאלה 1.</strong> א. <span class="eq">0.3</span> &nbsp; ב. <span class="eq">0.8</span> &nbsp; ג. <span class="eq">0.1</span> — הספרה שמימין לנקודה סופרת עשיריות</div>
+<div class="ans"><strong>שאלה 2.</strong> א. <span class="eq">0.07</span> &nbsp; ב. <span class="eq">0.52</span> &nbsp; ג. <span class="eq">0.04</span> — בסעיפים א ו-ג אין אף עשירית, ולכן נכנס אפס שומר מקום</div>
+<div class="ans"><strong>שאלה 3.</strong> א. <span class="fr"><b>6</b><i>10</i></span>, כלומר <span class="eq">0.6</span> &nbsp; ב. <span class="fr"><b>30</b><i>100</i></span>, כלומר <span class="eq">0.30</span> — וזה בדיוק <span class="eq">0.3</span> &nbsp; ג. <span class="fr"><b>2</b><i>100</i></span>, כלומר <span class="eq">0.02</span></div>
+<div class="ans"><strong>שאלה 4.</strong> א. <span class="eq">4.20</span> ש"ח (אפשר גם <span class="eq">4.2</span>) &nbsp; ב. <span class="eq">6.09</span> ש"ח — תשע אגורות הן תשע מאיות שקל, ולכן דרוש אפס במקום העשיריות</div>
+<div class="ans"><strong>שאלה 5.</strong> א. <span class="eq">2.50</span> מטר (אפשר גם <span class="eq">2.5</span>) &nbsp; ב. <span class="eq">1.06</span> מטר — שישה סנטימטרים הם שש מאיות מטר</div>
+<div class="ans"><strong>שאלה 6.</strong> א. <span class="eq">0.3</span> &nbsp; ב. <span class="eq">0.03</span> &nbsp; ג. <span class="eq">2.6</span> &nbsp; ד. <span class="eq">5.12</span></div>
+<div class="ans"><strong>שאלה 7.</strong> א. בין <span class="eq">3</span> ל-<span class="eq">4</span> &nbsp; ב. בין <span class="eq">0</span> ל-<span class="eq">1</span> &nbsp; ג. בין <span class="eq">7</span> ל-<span class="eq">8</span> &nbsp; ד. בין <span class="eq">12</span> ל-<span class="eq">13</span></div>
+<div class="ans"><strong>שאלה 8.</strong> א. עשר מאיות — כל עשירית מתחלקת לעשרה חלקים שווים. ב. מאה מאיות. ג. עשר עשיריות.</div>
+<div class="ans"><strong>שאלה 9.</strong> א. <span class="eq">3.80</span> ש"ח &nbsp; ב. <span class="eq">6.05</span> ש"ח — חמש אגורות הן חמש מאיות שקל &nbsp; ג. <span class="eq">12.50</span> ש"ח</div>
+<div class="ans"><strong>שאלה 10.</strong> א. לא נכון — <span class="eq">0.5</span> הוא חצי שלם, ואילו <span class="eq">5</span> הוא חמישה שלמים. ב. לא נכון — <span class="eq">0.5</span> הוא חמש עשיריות ו-<span class="eq">0.05</span> הוא חמש מאיות בלבד. ג. נכון — אפס בסוף אינו משנה את הערך. ד. לא נכון — יש שם תשע עשיריות; תשע מאיות נכתבות <span class="eq">0.09</span>.</div>
+<div class="ans"><strong>שאלה 11.</strong> בפועל הוא כתב שבעה שלמים וחמש <strong>עשיריות</strong>, כלומר שבעה שקלים וחמישים אגורות. אגורה היא מאית של שקל, ולכן חמש אגורות שייכות למקום המאיות והתשובה הנכונה היא <span class="eq">7.05</span> ש"ח. האפס דוחף את הספרה <span class="eq">5</span> למקום המאיות; בלעדיו הסכום גדול פי עשרה.</div>
+<div class="ans"><strong>שאלה 12.</strong> המספר הוא <span class="eq">4.07</span>. אילו מחקנו את האפס היינו מקבלים <span class="eq">4.7</span> — הספרה <span class="eq">7</span> הייתה עוברת למקום העשיריות וערכה היה גדל פי עשרה.</div>
+<div class="ans"><strong>שאלה 13.</strong> הספרה השמאלית יושבת במקום העשיריות ומציינת שבע עשיריות; הימנית יושבת במקום המאיות ומציינת שבע מאיות. השמאלית גדולה בהרבה — פי עשרה. בכסף: <span class="eq">0.7</span> ש"ח הם שבעים אגורות, ואילו <span class="eq">0.07</span> ש"ח הם שבע אגורות בלבד.</div>
+  <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
+</div>
+</body>
+</html>

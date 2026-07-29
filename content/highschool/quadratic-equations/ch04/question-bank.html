@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>מאגר שאלות — השלמה לריבוע</title>
+<style>
+  @page { size: A4; margin: 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: #1a2233;
+         line-height: 1.7; margin: 0; padding: 20px; background: #f4f6fa; }
+  .sheet { background: #fff; max-width: 820px; margin: 0 auto 24px;
+           padding: 30px 36px; border-radius: 10px;
+           box-shadow: 0 2px 14px rgba(0,0,0,.09); }
+  header { border-bottom: 3px solid #7a3fd1; padding-bottom: 12px; margin-bottom: 20px; }
+  h1 { margin: 0 0 4px; font-size: 24px; color: #4a1f8a; }
+  .sub { color: #5b6780; font-size: 14px; }
+  .namebar { display: flex; gap: 26px; margin-top: 12px; font-size: 14px; }
+  .namebar span { flex: 1; border-bottom: 1px dotted #8894ab; padding-bottom: 3px; }
+  h2.q, h2.sec { font-size: 17px; margin: 24px 0 10px; color: #4a1f8a;
+    background: #f3edfc; padding: 7px 12px; border-radius: 6px;
+    border-inline-start: 5px solid #7a3fd1; }
+  .tag { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px;
+         margin-inline-start: 8px; vertical-align: middle; }
+  .easy { background: #dff5e3; color: #1c6b32; }
+  .med  { background: #fdf0d5; color: #8a5b06; }
+  .hard { background: #fadbdb; color: #8f2222; }
+  ol.items { margin: 6px 0; padding-inline-start: 22px; }
+  ol.items > li { margin-bottom: 13px; }
+  .fr { display: inline-flex; flex-direction: column; align-items: center;
+        vertical-align: middle; margin: 0 3px; font-size: .95em; line-height: 1.15; }
+  .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
+  .fr i { font-style: normal; padding: 0 4px; }
+  .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #4a1f8a; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
+  .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #4a1f8a; height: 1em; }
+  .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
+  .fig { text-align: center; font-size: 13px; color: #5b6780; }
+  .lines div { border-bottom: 1px dotted #aab3c4; height: 24px; }
+  .numline { margin: 10px 0; }
+  .pagebreak { page-break-before: always; }
+  .key { background: #fffdf3; }
+  .key h1 { color: #8a5b06; }
+  .key header { border-bottom-color: #e0a800; }
+  .key .ans { background:#fff; border:1px solid #eadfb8; border-radius:6px;
+              padding:10px 14px; margin-bottom:10px; font-size:14.5px; }
+  .key .ans strong { color:#8a5b06; }
+  .credit { text-align:center; font-size: 12px; color: #8894ab; margin-top: 18px;
+            border-top: 1px solid #eef1f6; padding-top: 8px; }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .sheet { box-shadow: none; margin: 0; border-radius: 0; padding: 0; max-width: none; }
+    .noprint { display: none; }
+  }
+  .noprint { text-align:center; margin: 10px 0 20px; }
+  .noprint button { background: #7a3fd1; color:#fff; border:0; padding:10px 26px;
+                    border-radius:6px; font-size:15px; cursor:pointer; font-family:inherit; }
+</style>
+</head>
+<body>
+
+<div class="noprint"><button onclick="window.print()">🖨️ הדפסה / שמירה כ‑PDF</button></div>
+
+<div class="sheet">
+  <header>
+    <h1>מאגר שאלות — פרק 4: השלמה לריבוע</h1>
+    <div class="sub">24 שאלות · משוואות ריבועיות · פרק 4 — האיבר המשלים, צורת הקדקוד וגזירת נוסחת השורשים · דף פתרונות בעמוד האחרון</div>
+    <div class="namebar"><span>שם: </span><span>כיתה: </span><span>תאריך: </span></div>
+  </header>
+  
+  <h2 class="sec">חלק א' — האיבר המשלים 🧩 (שאלות 1–4)</h2>
+  <ol class="items" start="1">
+<li>איזה מספר משלים את <span class="eq">x² + 8x</span> לריבוע מושלם, ומהו הריבוע?</li>
+<li>איזה מספר משלים את <span class="eq">x² − 12x</span> לריבוע מושלם, ומהו הריבוע?</li>
+<li>איזה מספר משלים את <span class="eq">x² + 5x</span> לריבוע מושלם, ומהו הריבוע?</li>
+<li>איזה מספר משלים את <span class="eq">x² − 18x</span> לריבוע מושלם, ומהו הריבוע?</li>
+  </ol>
+  <h2 class="sec">חלק ב' — פתרון מריבוע מוכן 🔓 (שאלות 5–8)</h2>
+  <ol class="items" start="5">
+<li>פתרו: <span class="eq">(x − 2)² = 49</span></li>
+<li>פתרו: <span class="eq">(x + 5)² = 16</span></li>
+<li>פתרו: <span class="eq">(x − 3)² = 0</span></li>
+<li>פתרו והשאירו תשובה מדויקת: <span class="eq">(x + 1)² = 12</span></li>
+  </ol>
+  <h2 class="sec">חלק ג' — השלמה לריבוע כשהמקדם המוביל הוא 1 ✍️ (שאלות 9–12)</h2>
+  <ol class="items" start="9">
+<li>פתרו בהשלמה לריבוע: <span class="eq">x² + 4x − 12 = 0</span></li>
+<li>פתרו בהשלמה לריבוע: <span class="eq">x² − 6x + 5 = 0</span></li>
+<li>פתרו בהשלמה לריבוע: <span class="eq">x² + 12x + 20 = 0</span></li>
+<li>פתרו בהשלמה לריבוע: <span class="eq">x² − 10x + 16 = 0</span></li>
+  </ol>
+  <h2 class="sec">חלק ד' — מקדם מוביל שאינו 1 ⚙️ (שאלות 13–16)</h2>
+  <ol class="items" start="13">
+<li>פתרו: <span class="eq">2x² − 4x − 6 = 0</span></li>
+<li>פתרו: <span class="eq">3x² + 18x + 15 = 0</span></li>
+<li>פתרו: <span class="eq">5x² − 20x + 15 = 0</span></li>
+<li>פתרו: <span class="eq">4x² + 8x − 32 = 0</span></li>
+  </ol>
+  <h2 class="sec">חלק ה' — צורת הקדקוד 📍 (שאלות 17–20)</h2>
+  <ol class="items" start="17">
+<li>כתבו בצורת הקדקוד ומצאו את הקדקוד: <span class="eq">y = x² + 2x + 5</span></li>
+<li>כתבו בצורת הקדקוד ומצאו את הקדקוד: <span class="eq">y = x² − 8x + 13</span></li>
+<li>כתבו בצורת הקדקוד ומצאו את הקדקוד: <span class="eq">y = 2x² + 12x + 20</span></li>
+<li>כתבו בצורת הקדקוד ומצאו את הקדקוד: <span class="eq">y = −x² + 4x + 1</span></li>
+  </ol>
+  <h2 class="sec">חלק ו' — אתגרים 🏆 (שאלות 21–24)</h2>
+  <ol class="items" start="21">
+<li>פתרו בהשלמה לריבוע והשאירו תשובה מדויקת: <span class="eq">x² + 3x + 1 = 0</span></li>
+<li>פרבולה שקדקודה <span class="eq">(−1, 4)</span> עוברת בנקודה <span class="eq">(1, 12)</span>. מצאו את <span class="eq">a</span> ואת צורת הקדקוד.</li>
+<li>עבור אילו ערכי <span class="eq">k</span> יש למשוואה <span class="eq">x² + 8x + k = 0</span> שני פתרונות שונים? השלימו לריבוע לפני שתענו.</li>
+<li>מהו הערך המזערי של <span class="eq">y = x² − 14x + 50</span>, ובאיזה <span class="eq">x</span> הוא מתקבל?</li>
+  </ol>
+  <div class="credit">מאגר שאלות מקורי · © כל הזכויות שמורות ליאיר כהנא</div>
+</div>
+
+<div class="sheet key pagebreak">
+  <header>
+    <h1>🔑 פתרונות מלאים — מאגר שאלות פרק 4</h1>
+    <div class="sub">למורה / להורה / לבדיקה עצמית</div>
+  </header>
+  <div class="ans"><strong>1.</strong> מוסיפים <span class="eq">16</span>: <span class="eq">x² + 8x + 16 = (x + 4)²</span></div>
+<div class="ans"><strong>2.</strong> מוסיפים <span class="eq">36</span>: <span class="eq">x² − 12x + 36 = (x − 6)²</span></div>
+<div class="ans"><strong>3.</strong> מוסיפים <span class="eq">25/4</span>: <span class="eq">x² + 5x + 25/4 = (x + 5/2)²</span></div>
+<div class="ans"><strong>4.</strong> מוסיפים <span class="eq">81</span>: <span class="eq">x² − 18x + 81 = (x − 9)²</span></div>
+<div class="ans"><strong>5.</strong> <span class="eq">x − 2 = ±7</span>, ולכן <span class="eq">x = 9</span> או <span class="eq">x = −5</span></div>
+<div class="ans"><strong>6.</strong> <span class="eq">x + 5 = ±4</span>, ולכן <span class="eq">x = −1</span> או <span class="eq">x = −9</span></div>
+<div class="ans"><strong>7.</strong> פתרון יחיד: <span class="eq">x = 3</span></div>
+<div class="ans"><strong>8.</strong> <span class="eq">x + 1 = ±√<span class="rad">12</span> = ±2√<span class="rad">3</span></span>, ולכן <span class="eq">x = −1 + 2√<span class="rad">3</span></span> או <span class="eq">x = −1 − 2√<span class="rad">3</span></span></div>
+<div class="ans"><strong>9.</strong> <span class="eq">x² + 4x = 12</span> → <span class="eq">(x + 2)² = 16</span> → <span class="eq">x = 2</span> או <span class="eq">x = −6</span></div>
+<div class="ans"><strong>10.</strong> <span class="eq">x² − 6x = −5</span> → <span class="eq">(x − 3)² = 4</span> → <span class="eq">x = 5</span> או <span class="eq">x = 1</span></div>
+<div class="ans"><strong>11.</strong> <span class="eq">x² + 12x = −20</span> → <span class="eq">(x + 6)² = 16</span> → <span class="eq">x = −2</span> או <span class="eq">x = −10</span></div>
+<div class="ans"><strong>12.</strong> <span class="eq">x² − 10x = −16</span> → <span class="eq">(x − 5)² = 9</span> → <span class="eq">x = 8</span> או <span class="eq">x = 2</span></div>
+<div class="ans"><strong>13.</strong> מחלקים ב-<span class="eq">2</span>: <span class="eq">x² − 2x − 3 = 0</span> → <span class="eq">(x − 1)² = 4</span> → <span class="eq">x = 3</span> או <span class="eq">x = −1</span></div>
+<div class="ans"><strong>14.</strong> מחלקים ב-<span class="eq">3</span>: <span class="eq">x² + 6x + 5 = 0</span> → <span class="eq">(x + 3)² = 4</span> → <span class="eq">x = −1</span> או <span class="eq">x = −5</span></div>
+<div class="ans"><strong>15.</strong> מחלקים ב-<span class="eq">5</span>: <span class="eq">x² − 4x + 3 = 0</span> → <span class="eq">(x − 2)² = 1</span> → <span class="eq">x = 3</span> או <span class="eq">x = 1</span></div>
+<div class="ans"><strong>16.</strong> מחלקים ב-<span class="eq">4</span>: <span class="eq">x² + 2x − 8 = 0</span> → <span class="eq">(x + 1)² = 9</span> → <span class="eq">x = 2</span> או <span class="eq">x = −4</span></div>
+<div class="ans"><strong>17.</strong> <span class="eq">y = (x + 1)² + 4</span>, הקדקוד <span class="eq">(−1, 4)</span></div>
+<div class="ans"><strong>18.</strong> <span class="eq">y = (x − 4)² − 3</span>, הקדקוד <span class="eq">(4, −3)</span></div>
+<div class="ans"><strong>19.</strong> <span class="eq">y = 2(x + 3)² + 2</span>, הקדקוד <span class="eq">(−3, 2)</span></div>
+<div class="ans"><strong>20.</strong> <span class="eq">y = −(x − 2)² + 5</span>, הקדקוד <span class="eq">(2, 5)</span> והוא נקודת מקסימום</div>
+<div class="ans"><strong>21.</strong> <span class="eq">x² + 3x = −1</span> → <span class="eq">(x + 3/2)² = 5/4</span> → <span class="eq">x + 3/2 = ±√<span class="rad">5</span>/2</span>, ולכן <span class="eq">x = (−3 + √<span class="rad">5</span>)/2</span> או <span class="eq">x = (−3 − √<span class="rad">5</span>)/2</span></div>
+<div class="ans"><strong>22.</strong> <span class="eq">y = a(x + 1)² + 4</span>; מציבים <span class="eq">x = 1</span> ומקבלים <span class="eq">4a + 4 = 12</span>, ולכן <span class="eq">a = 2</span> והצורה היא <span class="eq">y = 2(x + 1)² + 4</span></div>
+<div class="ans"><strong>23.</strong> <span class="eq">(x + 4)² = 16 − k</span>. שני פתרונות שונים כאשר <span class="eq">16 − k &gt; 0</span>, כלומר <span class="eq">k &lt; 16</span></div>
+<div class="ans"><strong>24.</strong> <span class="eq">y = (x − 7)² + 1</span>, ולכן הערך המזערי הוא <span class="eq">1</span> והוא מתקבל ב-<span class="eq">x = 7</span></div>
+  <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
+</div>
+</body>
+</html>
