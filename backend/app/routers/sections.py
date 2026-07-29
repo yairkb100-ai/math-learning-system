@@ -23,6 +23,7 @@ def _course_summary(course: models.Course) -> CourseSummary:
         title=course.title,
         description=course.description,
         level=course.level,
+        grade=course.grade,
         language=course.language,
         chapters_count=len(course.chapters),
         estimated_hours=course.estimated_hours,

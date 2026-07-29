@@ -131,6 +131,9 @@ class CourseSummary(BaseModel):
     title: str
     description: str
     level: str
+    # "5".."8" or "hs" — what the catalog badges/filters by. Optional so an
+    # admin-created course with no grade still serializes.
+    grade: Optional[str] = None
     language: str
     chapters_count: int
     estimated_hours: Optional[float] = None
@@ -186,6 +189,7 @@ class CourseMetadataOut(BaseModel):
     title: str
     description: str
     level: str
+    grade: Optional[str] = None
     language: str
     chapters: int
     estimated_hours: Optional[float] = None

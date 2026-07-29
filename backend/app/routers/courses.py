@@ -54,6 +54,7 @@ def _course_detail(course: Course) -> CourseDetail:
             title=course.title,
             description=course.description,
             level=course.level,
+            grade=course.grade,
             language=course.language,
             chapters=len(course.chapters),
             estimated_hours=course.estimated_hours,
@@ -81,10 +82,12 @@ def list_courses(db: Session = Depends(get_db)) -> list[CourseSummary]:
             title=c.title,
             description=c.description,
             level=c.level,
+            grade=c.grade,
             language=c.language,
             chapters_count=len(c.chapters),
             estimated_hours=c.estimated_hours,
             slug=c.slug,
+            section_id=c.section_id,
         )
         for c in courses
     ]

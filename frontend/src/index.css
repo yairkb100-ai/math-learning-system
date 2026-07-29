@@ -332,24 +332,9 @@ h1 {
   --chalk: #f4f2e9;
   --chalk-dim: rgba(244, 242, 233, 0.72);
   --chalk-line: rgba(244, 242, 233, 0.22);
-  /* default per-level accent (overridden per level below) */
+  /* default accent (overridden per school year below) */
   --lv: #2f6fb0;
   --lv-bg: #e7eefb;
-}
-.course-view.level-beginner,
-.chapter-view.level-beginner {
-  --lv: #2f9e6a;         /* green */
-  --lv-bg: #e3f3ea;
-}
-.course-view.level-intermediate,
-.chapter-view.level-intermediate {
-  --lv: #2f6fb0;         /* blue */
-  --lv-bg: #e6eefb;
-}
-.course-view.level-advanced,
-.chapter-view.level-advanced {
-  --lv: #e2685a;         /* warm coral */
-  --lv-bg: #fbe9e6;
 }
 
 /* Hero — a chalkboard: dark green board with faint chalk squares */
@@ -523,6 +508,87 @@ h1 {
   font-size: 0.9rem;
 }
 
+/* Grade filter — pills above the catalog. Each pill borrows the accent of the
+   year it selects, so the colour coding is learned before it is used. */
+.grade-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 4px 22px;
+}
+.grade-pill {
+  --lv: #6b6250;
+  --lv-bg: #f2eee2;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 15px;
+  border: 1px solid #e2ddcd;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ink-soft);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+.grade-pill:hover {
+  border-color: color-mix(in srgb, var(--lv) 45%, #e2ddcd);
+  color: var(--lv);
+}
+.grade-pill.is-on {
+  border-color: var(--lv);
+  background: var(--lv-bg);
+  color: var(--lv);
+}
+.grade-pill-num {
+  min-width: 1.4em;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: var(--lv-bg);
+  color: var(--lv);
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-align: center;
+}
+.grade-pill.is-on .grade-pill-num {
+  background: color-mix(in srgb, var(--lv) 16%, #fff);
+}
+
+/* Section group — one curriculum "חלק" and the courses inside it */
+.cat-section {
+  margin-bottom: 34px;
+}
+.cat-section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin: 0 4px 4px;
+}
+.cat-section-title {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: var(--ink);
+  margin: 0;
+  /* a short chalk underline, echoing the hero's highlighter swipe */
+  border-bottom: 2px solid var(--marker);
+  padding-bottom: 2px;
+}
+.cat-section-count {
+  color: var(--ink-soft);
+  font-size: 0.84rem;
+  white-space: nowrap;
+}
+.cat-section-desc {
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+  line-height: 1.55;
+  margin: 8px 4px 16px;
+  max-width: 78ch;
+}
+
 /* Cards */
 .cat-grid {
   display: grid;
@@ -543,18 +609,6 @@ h1 {
   box-shadow: 0 1px 2px rgba(27, 42, 74, 0.04);
   color: var(--ink);
   transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
-}
-.cat-card.level-beginner {
-  --lv: #2f9e6a;         /* green */
-  --lv-bg: #e3f3ea;
-}
-.cat-card.level-intermediate {
-  --lv: #2f6fb0;         /* blue */
-  --lv-bg: #e6eefb;
-}
-.cat-card.level-advanced {
-  --lv: #e2685a;         /* warm coral */
-  --lv-bg: #fbe9e6;
 }
 .cat-card:hover {
   text-decoration: none;
@@ -647,6 +701,76 @@ h1 {
 }
 .cat-card:hover .cat-cta-arrow {
   transform: translateX(-4px);
+}
+
+/* Per-school-year accent. One ramp, green → coral, walking up the years, so a
+   card's colour tells you where it sits in the curriculum at a glance. Applies
+   to whole pages (.course-view) and to single cards/pills alike.
+
+   This block must stay BELOW every rule that declares its own --lv fallback
+   (.cat-card, .grade-pill): those are single-class selectors too, so at equal
+   specificity the later one wins — authored above them, the ramp never lands. */
+.grade-5 {
+  --lv: #2f9e6a;         /* green */
+  --lv-bg: #e3f3ea;
+}
+.grade-6 {
+  --lv: #2c8c8c;         /* teal */
+  --lv-bg: #e0f0f0;
+}
+.grade-7 {
+  --lv: #2f6fb0;         /* blue */
+  --lv-bg: #e6eefb;
+}
+.grade-8 {
+  --lv: #5a5fb0;         /* indigo */
+  --lv-bg: #eaeaf8;
+}
+.grade-hs {
+  --lv: #d2604f;         /* warm coral */
+  --lv-bg: #fbe9e6;
+}
+
+/* Tablet: cards get a smaller floor so two still fit side by side in portrait
+   rather than dropping to a single very wide column. */
+@media (max-width: 900px) {
+  .cat-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+  }
+  .cat-section {
+    margin-bottom: 28px;
+  }
+}
+
+@media (max-width: 560px) {
+  .cat-grid {
+    grid-template-columns: 1fr;
+  }
+  .cat-section-head {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .cat-section-desc {
+    /* the full "עולם ה…" blurb is a wall of text on a phone — keep the opening
+       line as orientation and let the cards below do the explaining */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+  /* Six pills need ~480px and a phone gives ~366, so one row is impossible.
+     They wrap to two rather than scroll sideways: a horizontal scroller hides
+     the last filter (תיכון) behind a gesture nobody discovers. */
+  .grade-filter {
+    gap: 7px;
+  }
+  .grade-pill {
+    flex: 0 0 auto;
+    padding: 7px 12px;
+    font-size: 0.86rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -886,6 +1010,21 @@ h4.prose-h {
 .prose-list li {
   padding-inline-start: 4px;
 }
+/* Callout ("> ..." in chapter content): a rule of thumb, or the word problem
+   a section works through. Accent rule sits on the inline-start edge so it
+   lands on the right in the RTL body. */
+.prose-quote {
+  margin: 0 0 20px;
+  padding: 14px 18px;
+  border-inline-start: 4px solid var(--marker);
+  border-radius: 10px;
+  background: var(--surface-2);
+  color: var(--text);
+}
+.prose-quote .katex {
+  font-size: 1em;
+}
+
 .prose-table-wrap {
   overflow-x: auto;
   margin: 0 0 16px;

@@ -13,12 +13,19 @@ import {
   IconCompass,
 } from '../components/icons.jsx'
 
-const levelHe = (level) =>
-  ({ beginner: 'מתחילים', intermediate: 'רמה בינונית', advanced: 'מתקדמים' }[
-    String(level || '').toLowerCase()
-  ] || level)
+// Matches the catalog: courses are labelled by school year, not by difficulty.
+const GRADE_LABELS = {
+  5: 'כיתה ה׳',
+  6: 'כיתה ו׳',
+  7: 'כיתה ז׳',
+  8: 'כיתה ח׳',
+  hs: 'תיכון',
+}
 
-const levelKey = (level) => String(level || '').toLowerCase()
+const gradeHe = (grade) => GRADE_LABELS[grade] || ''
+
+// Drives --lv for the whole page; unknown/absent grade keeps the default accent.
+const gradeClass = (grade) => (GRADE_LABELS[grade] ? ` grade-${grade}` : '')
 
 export default function CourseView() {
   const { id } = useParams()
@@ -53,7 +60,7 @@ export default function CourseView() {
   return (
     <section
       dir={isRtl ? 'rtl' : 'ltr'}
-      className={`course-view${isRtl ? ' rtl' : ''} level-${levelKey(meta.level)}`}
+      className={`course-view${isRtl ? ' rtl' : ''}${gradeClass(meta.grade)}`}
     >
       <p className="crumbs">
         <Link to="/" className="crumb-link">
@@ -67,10 +74,8 @@ export default function CourseView() {
         <MathDoodles className="hero-doodles" />
         <div className="course-hero-body">
           <div className="course-hero-tags">
-            {meta.level && (
-              <span className={`cat-chip level-${levelKey(meta.level)}`}>
-                {levelHe(meta.level)}
-              </span>
+            {gradeHe(meta.grade) && (
+              <span className="cat-chip">{gradeHe(meta.grade)}</span>
             )}
             {meta.language && <span className="lang-tag">{meta.language}</span>}
           </div>

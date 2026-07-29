@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useMemo, useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import api from '../api.js'
@@ -13,25 +13,47 @@ import {
   IconCompass,
 } from '../components/icons.jsx'
 
-const levelHe = (level) =>
-  ({ beginner: 'מתחילים', intermediate: 'רמה בינונית', advanced: 'מתקדמים' }[
-    String(level || '').toLowerCase()
-  ] || level)
+// School years, in curriculum order. `key` matches Course.grade on the server.
+const GRADES = [
+  { key: '5', chip: 'כיתה ה׳', pill: 'ה׳' },
+  { key: '6', chip: 'כיתה ו׳', pill: 'ו׳' },
+  { key: '7', chip: 'כיתה ז׳', pill: 'ז׳' },
+  { key: '8', chip: 'כיתה ח׳', pill: 'ח׳' },
+  { key: 'hs', chip: 'תיכון', pill: 'תיכון' },
+]
+const GRADE_BY_KEY = Object.fromEntries(GRADES.map((g) => [g.key, g]))
+const GRADE_ORDER = Object.fromEntries(GRADES.map((g, i) => [g.key, i]))
 
-const levelKey = (level) => String(level || '').toLowerCase()
+const courseCount = (n) => (n === 1 ? 'קורס אחד' : `${n} קורסים`)
+
+const gradeChip = (grade) => GRADE_BY_KEY[grade]?.chip || ''
+
+// Drives the card's --lv accent. Courses with no grade fall back to the
+// neutral default already defined on .cat-card.
+const gradeClass = (grade) => (GRADE_BY_KEY[grade] ? `grade-${grade}` : '')
 
 export default function CourseList() {
   const { user } = useAuth()
   const [courses, setCourses] = useState([])
+  const [sections, setSections] = useState([])
+  const [grade, setGrade] = useState('all')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
   const load = useCallback(() => {
     setLoading(true)
     setError(null)
-    api
-      .listCourses()
-      .then((data) => setCourses(Array.isArray(data) ? data : []))
+    // The catalog is grouped by section, but the course rows come from
+    // /courses — that is the endpoint carrying chapters_count and hours.
+    // A failing /sections degrades to one ungrouped list rather than an error.
+    Promise.all([
+      api.listCourses(),
+      api.listSections().catch(() => []),
+    ])
+      .then(([courseData, sectionData]) => {
+        setCourses(Array.isArray(courseData) ? courseData : [])
+        setSections(Array.isArray(sectionData) ? sectionData : [])
+      })
       .catch(setError)
       .finally(() => setLoading(false))
   }, [])
@@ -40,12 +62,59 @@ export default function CourseList() {
     load()
   }, [load])
 
+  // Only offer a grade pill when the catalog actually has courses for it.
+  const gradeCounts = useMemo(() => {
+    const counts = {}
+    for (const c of courses) {
+      if (c.grade) counts[c.grade] = (counts[c.grade] || 0) + 1
+    }
+    return counts
+  }, [courses])
+
+  const visible = useMemo(
+    () => (grade === 'all' ? courses : courses.filter((c) => c.grade === grade)),
+    [courses, grade]
+  )
+
+  // Sections in their curriculum order, then anything unassigned last, so a
+  // newly added course is always reachable even before it gets a section.
+  const groups = useMemo(() => {
+    const ordered = [...sections].sort(
+      (a, b) => (a.order ?? 0) - (b.order ?? 0) || a.id - b.id
+    )
+    const byId = new Map(ordered.map((s) => [s.id, []]))
+    const loose = []
+    for (const c of visible) {
+      const bucket = byId.get(c.section_id)
+      if (bucket) bucket.push(c)
+      else loose.push(c)
+    }
+    // Within a section, read the courses bottom-up by school year: a section
+    // spanning ז׳→תיכון should start at the entry point, not wherever the
+    // course ids happen to fall.
+    const byGrade = (a, b) =>
+      (GRADE_ORDER[a.grade] ?? 99) - (GRADE_ORDER[b.grade] ?? 99) || a.id - b.id
+    const out = ordered
+      .map((s) => ({ ...s, courses: byId.get(s.id).sort(byGrade) }))
+      .filter((s) => s.courses.length > 0)
+    if (loose.length) {
+      out.push({
+        id: 'loose',
+        title: 'קורסים נוספים',
+        description: null,
+        courses: loose.sort(byGrade),
+      })
+    }
+    return out
+  }, [sections, visible])
+
   if (loading) return <Loading label="טוען קורסים…" />
   if (error) return <ErrorBox error={error} onRetry={load} />
 
   const totalChapters = courses.reduce((s, c) => s + (c.chapters_count || 0), 0)
   const totalHours = courses.reduce((s, c) => s + (c.estimated_hours || 0), 0)
   const firstName = user ? user.full_name.split(' ')[0] : ''
+  const activeGrades = GRADES.filter((g) => gradeCounts[g.key])
 
   return (
     <section dir="rtl" className="catalog">
@@ -99,52 +168,101 @@ export default function CourseList() {
         <h2 className="cat-head-title">
           <IconCompass /> הקורסים שלך
         </h2>
-        <span className="cat-head-count">{courses.length} קורסים זמינים</span>
+        <span className="cat-head-count">
+          {visible.length !== courses.length
+            ? `${visible.length} מתוך ${courses.length} קורסים`
+            : courses.length === 1
+              ? 'קורס אחד זמין'
+              : `${courses.length} קורסים זמינים`}
+        </span>
       </div>
 
-      {courses.length === 0 ? (
-        <div className="card empty">
-          <p>אין קורסים עדיין. ייבאו קורס לשרת כדי לראותו כאן.</p>
-        </div>
-      ) : (
-        <div className="cat-grid">
-          {courses.map((c) => (
-            <Link
-              key={c.id}
-              to={`/courses/${c.id}`}
-              className={`cat-card level-${levelKey(c.level)}`}
+      {activeGrades.length > 1 && (
+        <div className="grade-filter" role="group" aria-label="סינון לפי כיתה">
+          <button
+            type="button"
+            className={`grade-pill${grade === 'all' ? ' is-on' : ''}`}
+            aria-pressed={grade === 'all'}
+            onClick={() => setGrade('all')}
+          >
+            הכול
+            <span className="grade-pill-num">{courses.length}</span>
+          </button>
+          {activeGrades.map((g) => (
+            <button
+              key={g.key}
+              type="button"
+              className={`grade-pill grade-${g.key}${grade === g.key ? ' is-on' : ''}`}
+              aria-pressed={grade === g.key}
+              onClick={() => setGrade(g.key)}
             >
-              <span className="cat-card-bar" aria-hidden="true" />
-              <div className="cat-card-top">
-                <span className="cat-medallion" aria-hidden="true">
-                  <IconLayers />
-                </span>
-                <span className={`cat-chip level-${levelKey(c.level)}`}>
-                  {levelHe(c.level)}
-                </span>
-              </div>
-
-              <h3 className="cat-card-title">{c.title}</h3>
-              <p className="cat-card-desc">{c.description}</p>
-
-              <div className="cat-meta">
-                <span className="cat-meta-item">
-                  <IconLayers /> {c.chapters_count ?? 0} פרקים
-                </span>
-                {c.estimated_hours != null && (
-                  <span className="cat-meta-item">
-                    <IconClock /> {c.estimated_hours} שעות
-                  </span>
-                )}
-              </div>
-
-              <span className="cat-cta">
-                התחילו ללמוד
-                <IconArrowStart className="cat-cta-arrow" />
-              </span>
-            </Link>
+              {g.pill}
+              <span className="grade-pill-num">{gradeCounts[g.key]}</span>
+            </button>
           ))}
         </div>
+      )}
+
+      {groups.length === 0 ? (
+        <div className="card empty">
+          <p>
+            {courses.length === 0
+              ? 'אין קורסים עדיין. ייבאו קורס לשרת כדי לראותו כאן.'
+              : 'אין קורסים בכיתה הזו.'}
+          </p>
+        </div>
+      ) : (
+        groups.map((section) => (
+          <div key={section.id} className="cat-section">
+            <div className="cat-section-head">
+              <h3 className="cat-section-title">{section.title}</h3>
+              <span className="cat-section-count">
+                {courseCount(section.courses.length)}
+              </span>
+            </div>
+            {section.description && (
+              <p className="cat-section-desc">{section.description}</p>
+            )}
+            <div className="cat-grid">
+              {section.courses.map((c) => (
+                <Link
+                  key={c.id}
+                  to={`/courses/${c.id}`}
+                  className={`cat-card ${gradeClass(c.grade)}`}
+                >
+                  <span className="cat-card-bar" aria-hidden="true" />
+                  <div className="cat-card-top">
+                    <span className="cat-medallion" aria-hidden="true">
+                      <IconLayers />
+                    </span>
+                    {gradeChip(c.grade) && (
+                      <span className="cat-chip">{gradeChip(c.grade)}</span>
+                    )}
+                  </div>
+
+                  <h4 className="cat-card-title">{c.title}</h4>
+                  <p className="cat-card-desc">{c.description}</p>
+
+                  <div className="cat-meta">
+                    <span className="cat-meta-item">
+                      <IconLayers /> {c.chapters_count ?? 0} פרקים
+                    </span>
+                    {c.estimated_hours != null && (
+                      <span className="cat-meta-item">
+                        <IconClock /> {c.estimated_hours} שעות
+                      </span>
+                    )}
+                  </div>
+
+                  <span className="cat-cta">
+                    התחילו ללמוד
+                    <IconArrowStart className="cat-cta-arrow" />
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        ))
       )}
     </section>
   )

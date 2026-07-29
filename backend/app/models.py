@@ -178,6 +178,10 @@ class Course(Base):
     title = Column(String, nullable=False)
     description = Column(String, nullable=False)
     level = Column(String, nullable=False)
+    # School year the course belongs to: "5".."8" or "hs" (תיכון). This is what
+    # the catalog badges and filters by — ``level`` is kept for the admin views
+    # only. Nullable so an admin-created course without one still renders.
+    grade = Column(String, nullable=True)
     language = Column(String, nullable=False)
     estimated_hours = Column(Float, nullable=True)
     word_count = Column(Integer, nullable=True)

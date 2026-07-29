@@ -488,6 +488,65 @@ def ensure_exams(db):
     print(f"  + Created {len(_EXAMS)} exams")
 
 
+# School year each course is taught in — the catalog's badge and filter.
+# Kept here rather than in courses/*.json on purpose: upsert_course() short-
+# circuits with "unchanged" when a file's content didn't move, so a value
+# carried in the JSON metadata would never reach an already-seeded course.
+# Mirrors the content/<grade>/ tree; "hs" = תיכון.
+COURSE_GRADES = {
+    "grade5-whole-numbers": "5",
+    "grade5-decimals": "5",
+    "grade5-simple-fractions": "5",
+    "divisibility-primes": "6",
+    "grade6-fractions-decimals": "6",
+    "grade6-percents": "6",
+    "grade6-ratio-rate": "6",
+    "arithmetic-laws": "7",
+    "directed-numbers": "7",
+    "grade7-algebra": "7",
+    "powers-and-exponents": "7",
+    "proportion-variation": "7",
+    "functions": "8",
+    "shortcut-formulas": "8",
+    "two-equations-two-unknowns": "8",
+    "quadratic-equations": "hs",
+    # These two carry an explicit Hebrew slug in their courses/*.json metadata,
+    # so they are NOT keyed by filename. Renaming them would orphan the videos
+    # already published against those slugs in production.
+    "טריגונומטריה-ממשולש-ישר-זווית-ועד-משפט-הקוסינוסים": "hs",  # trigonometry.json
+    "חשבון-דיפרנציאלי-נגזרות": "hs",                              # derivatives.json
+}
+
+
+def ensure_course_grades(db):
+    """Stamp every seeded course with its school year.
+
+    Re-applied on every run (like section membership) so production picks up
+    a re-classified course without any admin action.
+    """
+    changed = 0
+    for slug, grade in COURSE_GRADES.items():
+        course = db.query(Course).filter(Course.slug == slug).first()
+        if course is None:
+            print(f"  ! grade map: course {slug} not found — skipped")
+        elif course.grade != grade:
+            course.grade = grade
+            changed += 1
+    db.commit()
+    if changed:
+        print(f"  + Set grade on {changed} course(s)")
+    else:
+        print("  * Course grades already up to date.")
+
+    unlabelled = (
+        db.query(Course)
+        .filter(Course.seeded.is_(True), Course.grade.is_(None))
+        .all()
+    )
+    for course in unlabelled:
+        print(f"  ! course '{course.slug}' has no grade — add it to COURSE_GRADES")
+
+
 def ensure_sections(db):
     """Create curriculum sections (חלקים) and attach courses to them.
 
@@ -539,7 +598,7 @@ def ensure_sections(db):
             "title": "סדר פעולות וחוקי החשבון",
             "description": "עולם חוקי החשבון: מכללי סדר הפעולות, דרך חוקי החילוף, הקיבוץ והפילוג, חיסור סכום והפרש ותכונות החילוק, ועד חזקות עם מעריך טבעי ושורש ריבועי",
             "order": 6,
-            "course_slugs": ["arithmetic-laws"],
+            "course_slugs": ["arithmetic-laws", "powers-and-exponents"],
         },
         {
             "slug": "directed-numbers",
@@ -553,7 +612,12 @@ def ensure_sections(db):
             "title": "אלגברה",
             "description": "עולם האלגברה: ממשתנים וביטויים אלגבריים, דרך פתיחת סוגריים, הוצאת גורם משותף ונוסחאות הכפל המקוצר, ועד משוואות, אי-שוויונות, בעיות מילוליות, מערכות משוואות ומבוא לפונקציות",
             "order": 8,
-            "course_slugs": ["grade7-algebra", "shortcut-formulas"],
+            "course_slugs": [
+                "grade7-algebra",
+                "shortcut-formulas",
+                "two-equations-two-unknowns",
+                "quadratic-equations",
+            ],
         },
         {
             "slug": "functions",
@@ -561,6 +625,20 @@ def ensure_sections(db):
             "description": "עולם הפונקציות: ממערכת הצירים הקרטזית וקריאת גרפים מהחיים, דרך מושג הפונקציה, ייצוגיה ושרטוט גרפים, ועד עלייה וירידה, קצב השתנות, תחומי חיוביות ושליליות, הפונקציה הקווית וחקר בעיות מהחיים",
             "order": 9,
             "course_slugs": ["functions"],
+        },
+        {
+            "slug": "trigonometry",
+            "title": "טריגונומטריה",
+            "description": "עולם הטריגונומטריה: מהיחסים במשולש ישר-זווית — סינוס, קוסינוס וטנגנס — דרך מציאת צלעות וזוויות חסרות, ועד משפט הסינוסים ומשפט הקוסינוסים במשולש כללי",
+            "order": 10,
+            "course_slugs": ["טריגונומטריה-ממשולש-ישר-זווית-ועד-משפט-הקוסינוסים"],
+        },
+        {
+            "slug": "calculus",
+            "title": "חשבון דיפרנציאלי",
+            "description": "עולם הנגזרות: ממושג הגבול ושיפוע המשיק, דרך כללי הגזירה של פולינומים, מכפלה ומנה, ועד חקירת פונקציות — נקודות קיצון, תחומי עלייה וירידה ושרטוט הגרף",
+            "order": 11,
+            "course_slugs": ["חשבון-דיפרנציאלי-נגזרות"],
         },
     ]
     for spec in sections:
@@ -812,6 +890,10 @@ def run_light_migrations():
                     text("ALTER TABLE courses ADD COLUMN seeded BOOLEAN NOT NULL DEFAULT false")
                 )
             print("  ~ Migrated: added courses.seeded")
+        if "grade" not in cols:
+            with engine.begin() as conn:
+                conn.execute(text("ALTER TABLE courses ADD COLUMN grade VARCHAR"))
+            print("  ~ Migrated: added courses.grade")
 
     if "file_assets" in inspector.get_table_names():
         cols = {c["name"] for c in inspector.get_columns("file_assets")}
@@ -935,6 +1017,7 @@ def main():
         prune_orphan_courses(db, loaded_slugs)
 
         ensure_sections(db)
+        ensure_course_grades(db)
         ensure_course_assets(db)
         cleanup_orphaned_uploads(db)
     finally:
