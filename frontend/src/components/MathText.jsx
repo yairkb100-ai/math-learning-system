@@ -80,10 +80,16 @@ export function InlineMathText({ text }) {
 // `param` is kind-specific: most kinds use "n/d" (a fraction), some use a bare
 // number, and a few (grid, rect) use their own "RxC/n" / "WxH" grammar — see
 // FractionArt.jsx for how each kind interprets it.
-const ART_TOKEN = /\{\{([a-z-]+)(?::([^|}]+))?(?:\|([^}]*))?\}\}/g
+// The caption may itself contain braces — it is rendered through `renderInline`
+// and so routinely holds LaTeX like "$\frac{2}{3}$". It therefore matches any
+// run of characters up to the closing "}}", allowing a lone "}" through.
+const CAPTION = String.raw`(?:[^}]|\}(?!\}))*`
+const ART_TOKEN = new RegExp(
+  String.raw`\{\{([a-z-]+)(?::([^|}]+))?(?:\|(${CAPTION}))?\}\}`, 'g')
 // Anything left over that still *looks* like an unparsed art token — used to
 // avoid leaking raw "{{...}}" syntax into the page when authoring goes wrong.
-const ART_TOKEN_SHAPED = /\{\{[a-z-]+(?::[^|}]+)?(?:\|[^}]*)?\}\}/
+const ART_TOKEN_SHAPED = new RegExp(
+  String.raw`\{\{[a-z-]+(?::[^|}]+)?(?:\|${CAPTION})?\}\}`)
 
 function parseArtLine(line) {
   const items = []
@@ -176,6 +182,13 @@ export default function MathText({ text, className }) {
             </div>
           )
         }
+        if (block.type === 'quote') {
+          return (
+            <blockquote key={key} className="prose-quote">
+              {renderInline(block.text, key)}
+            </blockquote>
+          )
+        }
         if (block.type === 'table') {
           return (
             <div key={key} className="prose-table-wrap">
@@ -259,6 +272,21 @@ function parseBlocks(text) {
         i++
       }
       blocks.push({ type: 'table', header, rows })
+      continue
+    }
+
+    // callout ("> ..."): a highlighted aside — a rule of thumb, or the word
+    // problem a section is about. Without this the "> " fell through to a
+    // plain paragraph, where the marker rendered literally and BiDi pushed it
+    // to the wrong end of the Hebrew line.
+    if (/^\s*>\s+/.test(line)) {
+      flushPara()
+      const items = []
+      while (i < lines.length && /^\s*>\s*/.test(lines[i])) {
+        items.push(lines[i].replace(/^\s*>\s?/, ''))
+        i++
+      }
+      blocks.push({ type: 'quote', text: items.join(' ').trim() })
       continue
     }
 
