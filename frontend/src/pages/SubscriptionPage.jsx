@@ -56,7 +56,7 @@ export default function SubscriptionPage() {
             {access.expires_at && <> (עד {fmt(access.expires_at)})</>}
           </p>
           <p className="sub-note">
-            בתום תקופת ההתנסות יישארו פתוחים לך {freePct}% מכל קורס — הפרקים
+            בתום תקופת ההתנסות יישארו פתוחים לך כ-{freePct}% מכל קורס — הפרקים
             הראשונים, במלואם. את שאר הפרקים פותח מנוי מלא. רוצה להמשיך? שלח
             הודעה ונסדר את זה.
           </p>
@@ -92,7 +92,7 @@ export default function SubscriptionPage() {
           )}
           <p className="sub-line">
             <span className="status-ok">
-              {freePct}% מכל קורס פתוחים לך גם עכשיו
+              כ-{freePct}% מכל קורס פתוחים לך גם עכשיו
             </span>
           </p>
           <p className="sub-note">

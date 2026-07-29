@@ -116,7 +116,7 @@ export default function TrialWelcome() {
             </h2>
             <p className="welcome-lead">
               {ended
-                ? `תודה שהתנסית בלומדה! אני מקווה שנהנית והספקת ללמוד. הלומדה נשארת פתוחה לך — הפרקים הראשונים בכל קורס (${freePct}% מהתוכן) ממשיכים להיות זמינים. לפתיחת הקורסים במלואם צריך אישור גישה ממני.`
+                ? `תודה שהתנסית בלומדה! אני מקווה שנהנית והספקת ללמוד. הלומדה נשארת פתוחה לך — הפרקים הראשונים בכל קורס (כ-${freePct}% מהתוכן) ממשיכים להיות זמינים. לפתיחת הקורסים במלואם צריך אישור גישה ממני.`
                 : 'כאן תמצא קורסים מלאים, סרטוני הסבר, תרגול, מבחנים ומעקב התקדמות אישי. קח את הזמן, תהנה מהדרך — ותפיק מהלומדה את המקסימום.'}
             </p>
 
@@ -144,7 +144,7 @@ export default function TrialWelcome() {
                   </div>
                 </div>
                 <p className="welcome-note">
-                  בתום תקופת ההתנסות יישארו פתוחים לך {freePct}% מכל קורס, והפרקים
+                  בתום תקופת ההתנסות יישארו פתוחים לך כ-{freePct}% מכל קורס, והפרקים
                   המתקדמים נפתחים לתלמידים שאישרתי אישית — נשמח להמשיך יחד. תמיד
                   אפשר לפנות אליי בהודעה מתוך הלומדה.
                 </p>
@@ -152,7 +152,7 @@ export default function TrialWelcome() {
             ) : ended ? (
               <div className="welcome-trial welcome-trial-ended">
                 <div className="welcome-trial-head">
-                  <IconClock /> {freePct}% מכל קורס נשארים פתוחים לך
+                  <IconClock /> כ-{freePct}% מכל קורס נשארים פתוחים לך
                 </div>
                 <p className="welcome-note">
                   לפתיחת הפרקים המתקדמים שלח לי הודעה ונסדר את ההמשך.
@@ -185,7 +185,7 @@ export default function TrialWelcome() {
         <Link to="/subscription" className="trial-chip trial-chip-ended" dir="rtl">
           <IconClock />
           <span className="trial-chip-text">
-            ההתנסות הסתיימה — {freePct}% מכל קורס עדיין פתוחים
+            ההתנסות הסתיימה — כ-{freePct}% מכל קורס עדיין פתוחים
           </span>
         </Link>
       )}
