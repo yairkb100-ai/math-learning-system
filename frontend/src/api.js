@@ -46,9 +46,10 @@ async function request(path, options = {}) {
   }
 
   // Two flavours of 402:
-  //   chapter_locked          — the account is on the free tier and this
-  //                             chapter sits past the 42% preview. The page
-  //                             renders its own paywall, so throw and let it.
+  //   chapter_locked /        — the account is on the free tier and this
+  //   content_locked            chapter, exam or practice question sits past
+  //                             the ~42% preview. The page renders its own
+  //                             paywall, so throw and let it.
   //   no_active_subscription  — no content at all; bounce to "My subscription".
   if (res.status === 402) {
     let detail = 'no_active_subscription'
@@ -57,11 +58,12 @@ async function request(path, options = {}) {
     } catch {
       /* empty body — treat as the generic block */
     }
-    if (detail !== 'chapter_locked' && window.location.pathname !== '/subscription') {
+    const locked = detail === 'chapter_locked' || detail === 'content_locked'
+    if (!locked && window.location.pathname !== '/subscription') {
       window.location.href = '/subscription'
     }
     const err = new Error(`402 ${detail}`)
-    err.locked = detail === 'chapter_locked'
+    err.locked = locked
     throw err
   }
 

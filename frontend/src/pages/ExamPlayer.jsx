@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { Link, useParams, useNavigate } from 'react-router-dom'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
+import { IconLock } from '../components/icons.jsx'
 import '../styles/exams.css'
 
 const DIFFICULTY_HE = { easy: 'קל', medium: 'בינוני', hard: 'קשה' }
@@ -114,6 +115,31 @@ export default function ExamPlayer() {
     }
   }
 
+  // Reached by direct URL to a locked exam (free tier) — the list page never
+  // links here. Same in-place offer as a locked chapter, no error box.
+  if (error?.locked)
+    return (
+      <section dir="rtl">
+        <div className="locked-chapter card">
+          <span className="locked-chapter-icon" aria-hidden="true">
+            <IconLock />
+          </span>
+          <h2>המבחן הזה עדיין נעול</h2>
+          <p className="locked-chapter-lead">
+            המבחן נפתח עם מנוי מלא. חלק מהמבחנים פתוחים לך בחינם — כמו הפרקים
+            הראשונים בכל קורס.
+          </p>
+          <div className="sub-actions">
+            <Link to="/subscription" className="btn">
+              לפתיחת כל המבחנים
+            </Link>
+            <Link to="/exams" className="btn btn-secondary">
+              חזרה למבחנים הפתוחים
+            </Link>
+          </div>
+        </div>
+      </section>
+    )
   if (error) return <ErrorBox error={error} />
   if (!exam || !step || !step.question) return <Loading label="טוען מבחן…" />
 

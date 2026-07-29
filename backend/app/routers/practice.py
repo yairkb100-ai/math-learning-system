@@ -7,8 +7,9 @@ from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from app import models
+from app.access import FREE_CONTENT_RATIO, TIER_FREE, unlocked_practice_ids
 from app.database import get_db
-from app.dependencies import get_current_user
+from app.dependencies import get_current_user, user_access_tier
 from app.achievements import evaluate_achievements
 from app.schemas import (
     PracticeQuestionOut,
@@ -53,6 +54,10 @@ def list_questions(
         q = q.filter(models.PracticeQuestion.difficulty == difficulty)
     if topic:
         q = q.filter(models.PracticeQuestion.topic == topic)
+    # בדרגת free הדגימה נעשית רק מ~42% השאלות הפתוחות בכל נושא — אותו כלל
+    # שחל על פרקי הקורסים (ראה app.access).
+    if user_access_tier(db, current_user) == TIER_FREE:
+        q = q.filter(models.PracticeQuestion.id.in_(unlocked_practice_ids(db)))
     return q.order_by(func.random()).limit(limit).all()
 
 
@@ -69,6 +74,14 @@ def submit_attempt(
     )
     if question is None:
         raise HTTPException(status_code=404, detail="השאלה לא נמצאה")
+
+    # דלת צד: התשובה מגיעה עם הפתרון וההסבר, אז בלי הבדיקה הזו אפשר היה
+    # לרוקן את החלק הנעול של המאגר ע"י ניחוש מזהים.
+    if (
+        user_access_tier(db, current_user) == TIER_FREE
+        and question.id not in unlocked_practice_ids(db)
+    ):
+        raise HTTPException(status_code=402, detail="content_locked")
 
     is_correct = _normalize(payload.answer) == _normalize(question.correct_answer)
 
@@ -176,8 +189,19 @@ def topics(
         t for (t,) in db.query(models.PracticeQuestion.topic)
         .distinct().order_by(models.PracticeQuestion.topic).all() if t
     ]
+    # דרגת הגישה + כמה שאלות פתוחות, כדי שעמוד התרגול יוכל להציג לדרגת free
+    # כמה מהמאגר זמין לה בפועל (העיגול פר-נושא, אז האחוז האמיתי אינו בדיוק 42).
+    tier = user_access_tier(db, current_user)
+    total_questions = db.query(func.count(models.PracticeQuestion.id)).scalar() or 0
+    open_questions = (
+        len(unlocked_practice_ids(db)) if tier == TIER_FREE else total_questions
+    )
     return {
         "subjects": subjects,
         "topics": topic_list,
         "difficulties": ["easy", "medium", "hard"],
+        "access_tier": tier,
+        "free_ratio": FREE_CONTENT_RATIO,
+        "open_questions": open_questions,
+        "total_questions": total_questions,
     }

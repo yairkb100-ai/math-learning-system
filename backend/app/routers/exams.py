@@ -12,8 +12,9 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app import models
+from app.access import TIER_FREE, unlocked_exam_ids
 from app.database import get_db
-from app.dependencies import get_current_user
+from app.dependencies import get_current_user, user_access_tier
 from app.achievements import evaluate_achievements
 from app.schemas import (
     ExamListItem,
@@ -71,6 +72,20 @@ def _compute_next_difficulty(exam: models.Exam, history, db: Session) -> str:
         correct = _normalize(item.user_answer) == _normalize(q.correct_answer)
         level = _step(level, correct)
     return level
+
+
+def _ensure_exam_unlocked(
+    exam: models.Exam, db: Session, current_user: models.User
+) -> None:
+    """402 אם המבחן נעול לדרגת הגישה של המשתמש — ~42% מהמבחנים הראשונים בכל
+    מקצוע פתוחים ללא מנוי (ראה app.access). נבדק בכל נקודת כניסה למבחן:
+    הפרטים, השאלה הבאה וההגשה — אחרת אפשר היה לפתור מבחן נעול ישירות מה-API.
+    """
+    if (
+        user_access_tier(db, current_user) == TIER_FREE
+        and exam.id not in unlocked_exam_ids(db)
+    ):
+        raise HTTPException(status_code=402, detail="content_locked")
 
 
 def _pick_question(
@@ -158,6 +173,13 @@ def list_exams(
         if s.exam_id not in best or s.score > best[s.exam_id]:
             best[s.exam_id] = s.score
 
+    # מבחן נעול נשאר ברשימה (שיהיה ברור מה עוד יש) אבל מסומן, והכניסה אליו
+    # חסומה בנתיבי המבחן עצמם.
+    if user_access_tier(db, current_user) == TIER_FREE:
+        open_ids = unlocked_exam_ids(db)
+    else:
+        open_ids = {e.id for e in exams}
+
     out: List[ExamListItem] = []
     for e in exams:
         out.append(
@@ -175,6 +197,7 @@ def list_exams(
                 is_published=e.is_published,
                 best_score=best.get(e.id),
                 attempts_count=counts.get(e.id, 0),
+                locked=e.id not in open_ids,
             )
         )
     return out
@@ -251,6 +274,7 @@ def get_exam(
     exam = db.query(models.Exam).filter(models.Exam.id == exam_id).first()
     if exam is None:
         raise HTTPException(status_code=404, detail="המבחן לא נמצא")
+    _ensure_exam_unlocked(exam, db, current_user)
     return ExamOut.model_validate(exam)
 
 
@@ -268,6 +292,7 @@ def exam_next(
     exam = db.query(models.Exam).filter(models.Exam.id == exam_id).first()
     if exam is None:
         raise HTTPException(status_code=404, detail="המבחן לא נמצא")
+    _ensure_exam_unlocked(exam, db, current_user)
 
     history = payload.history or []
     index = len(history)
@@ -314,6 +339,7 @@ def submit_exam(
     exam = db.query(models.Exam).filter(models.Exam.id == exam_id).first()
     if exam is None:
         raise HTTPException(status_code=404, detail="המבחן לא נמצא")
+    _ensure_exam_unlocked(exam, db, current_user)
 
     details: List[ExamAnswerDetail] = []
     correct_count = 0

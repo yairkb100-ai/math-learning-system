@@ -7,6 +7,22 @@
   flex-direction: column;
   gap: 10px;
 }
+/* Locked to the free tier — same drained-paper look as a locked chapter row
+   (colors mirror .chapter-row.is-locked in index.css). */
+.exam-card.is-locked {
+  background: #faf8f3;
+  border: 1px dashed #ded8c8;
+}
+.exam-card.is-locked .exam-icon {
+  filter: grayscale(1);
+  opacity: 0.65;
+}
+.exam-card-top .chapter-locked-tag {
+  margin-inline-start: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
 .exam-card-top {
   display: flex;
   align-items: center;

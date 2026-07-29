@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
+import { IconLock } from '../components/icons.jsx'
 import '../styles/exams.css'
 
 const SUBJECT_HE = {
@@ -25,6 +26,10 @@ export default function Exams() {
   if (error) return <ErrorBox error={error} />
   if (!exams) return <Loading label="טוען מבחנים…" />
 
+  // Free tier: the server marks the exams past the ~42% preview as locked.
+  const openCount = exams.filter((e) => !e.locked).length
+  const anyLocked = openCount < exams.length
+
   return (
     <section dir="rtl">
       <div className="page-head">
@@ -34,15 +39,41 @@ export default function Exams() {
         </p>
       </div>
 
+      {anyLocked && (
+        <div className="free-note">
+          <span className="free-note-icon" aria-hidden="true">
+            <IconLock />
+          </span>
+          <div className="free-note-body">
+            <strong>
+              {openCount} מתוך {exams.length} מבחנים פתוחים לך
+            </strong>
+            <p>שאר המבחנים נפתחים עם מנוי מלא — כמו שאר פרקי הקורסים.</p>
+          </div>
+          <Link to="/subscription" className="btn free-note-btn">
+            לפתיחת כל המבחנים
+          </Link>
+        </div>
+      )}
+
       {exams.length === 0 ? (
         <div className="card empty">אין מבחנים זמינים כרגע.</div>
       ) : (
         <div className="grid">
           {exams.map((e) => (
-            <div key={e.id} className="card exam-card">
+            <div
+              key={e.id}
+              className={`card exam-card${e.locked ? ' is-locked' : ''}`}
+            >
               <div className="exam-card-top">
                 <span className="exam-icon">{e.icon}</span>
                 <h3 className="exam-card-title">{e.title}</h3>
+                {e.locked && (
+                  <span className="chapter-locked-tag">
+                    <IconLock className="chapter-lock-icon" />
+                    נעול
+                  </span>
+                )}
               </div>
               <p className="exam-card-desc">{e.description}</p>
               <div>
@@ -69,13 +100,23 @@ export default function Exams() {
                   ⭐ הציון הטוב ביותר: {e.best_score}% · {e.attempts_count} ניסיונות
                 </div>
               )}
-              <button
-                className="btn"
-                style={{ marginTop: 6 }}
-                onClick={() => navigate(`/exams/${e.id}`)}
-              >
-                התחל מבחן
-              </button>
+              {e.locked ? (
+                <Link
+                  to="/subscription"
+                  className="btn btn-secondary"
+                  style={{ marginTop: 6 }}
+                >
+                  נפתח עם מנוי מלא
+                </Link>
+              ) : (
+                <button
+                  className="btn"
+                  style={{ marginTop: 6 }}
+                  onClick={() => navigate(`/exams/${e.id}`)}
+                >
+                  התחל מבחן
+                </button>
+              )}
             </div>
           ))}
         </div>

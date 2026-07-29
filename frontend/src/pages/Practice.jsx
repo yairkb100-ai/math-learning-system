@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
+import { IconLock } from '../components/icons.jsx'
 import { celebrate } from '../lib/celebrate.js'
 import '../styles/practice.css'
 
@@ -192,6 +194,28 @@ export default function Practice() {
         <h1>מרכז התרגול</h1>
         <p className="muted">תרגלו שאלות לפי נושא ורמת קושי, וצברו רצף והישגים.</p>
       </div>
+
+      {/* free tier: the bank is sampled from the open ~42% of every topic */}
+      {meta?.access_tier === 'free' && (
+        <div className="free-note">
+          <span className="free-note-icon" aria-hidden="true">
+            <IconLock />
+          </span>
+          <div className="free-note-body">
+            <strong>
+              {meta.open_questions} מתוך {meta.total_questions} שאלות התרגול
+              פתוחות לך
+            </strong>
+            <p>
+              בכל נושא פתוח חלק מהשאלות — אפשר לתרגל הכול, בטעימות. מנוי מלא
+              פותח את כל המאגר.
+            </p>
+          </div>
+          <Link to="/subscription" className="btn free-note-btn">
+            לפתיחת כל המאגר
+          </Link>
+        </div>
+      )}
 
       {/* live stats strip */}
       <div className="practice-stats">

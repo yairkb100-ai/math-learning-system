@@ -18,10 +18,11 @@
 
 import math
 import re
+from collections import defaultdict
 
 from sqlalchemy.orm import Session
 
-from app.models import Chapter, FileAsset
+from app.models import Chapter, Exam, FileAsset, PracticeQuestion
 
 # חלק התוכן הפתוח למי שאין לו מנוי בתוקף.
 FREE_CONTENT_RATIO = 0.42
@@ -30,20 +31,26 @@ TIER_FULL = "full"
 TIER_FREE = "free"
 
 
-def free_chapter_quota(total_chapters: int) -> int:
-    """כמה פרקים פתוחים בקורס בן ``total_chapters`` פרקים ללא מנוי.
+def free_quota(total_items: int) -> int:
+    """כמה פריטים פתוחים מתוך קבוצה בת ``total_items`` ללא מנוי.
 
-    עיגול לקרוב: 42% הם היעד ולא תקרה, ועיגול כלפי מטה קיפח את הקורסים הקצרים
-    (קורס בן 4 פרקים קיבל פרק אחד — 25%). לכן קורס קצר עשוי לחרוג מעט כלפי
-    מעלה (4 פרקים → 2, כלומר 50%), וזו הכוונה. המינימום נשאר פרק אחד, אחרת
-    קורס בן 1–2 פרקים היה נפתח באפס ולא הייתה שום טעימה בכלל.
+    כלל אחד לכל סוגי התוכן — פרקים בקורס, שאלות בנושא תרגול, מבחנים במקצוע.
+
+    עיגול לקרוב: 42% הם היעד ולא תקרה, ועיגול כלפי מטה קיפח את הקבוצות הקצרות
+    (קורס בן 4 פרקים קיבל פרק אחד — 25%). לכן קבוצה קטנה עשויה לחרוג מעט כלפי
+    מעלה (4 פרקים → 2, כלומר 50%), וזו הכוונה. המינימום נשאר פריט אחד, אחרת
+    קבוצה בת 1–2 פריטים הייתה נפתחת באפס ולא הייתה שום טעימה בכלל.
 
     ``floor(x + 0.5)`` ולא ``round``: ל-``round`` של פייתון יש עיגול בנקאי
     (חצי לזוגי הקרוב), שהיה נותן החלטות לא עקביות בדיוק בנקודות האמצע.
     """
-    if total_chapters <= 0:
+    if total_items <= 0:
         return 0
-    return max(1, math.floor(total_chapters * FREE_CONTENT_RATIO + 0.5))
+    return max(1, math.floor(total_items * FREE_CONTENT_RATIO + 0.5))
+
+
+# השם ההיסטורי — נתיבי הקורסים מייבאים אותו כך.
+free_chapter_quota = free_quota
 
 
 def unlocked_chapter_numbers(db: Session, course_id: int) -> set[int]:
@@ -109,3 +116,45 @@ def asset_is_unlocked(
     if asset.course_id not in _cache:
         _cache[asset.course_id] = unlocked_chapter_numbers(db, asset.course_id)
     return number in _cache[asset.course_id]
+
+
+def unlocked_practice_ids(db: Session) -> set[int]:
+    """מזהי שאלות התרגול הפתוחות למי שאין לו מנוי.
+
+    אותו עיקרון של "הפרקים הראשונים בכל קורס", מוקרן על מאגר התרגול: בכל
+    צמד (מקצוע, נושא) פתוחות ~42% מהשאלות הראשונות לפי מזהה — כך שכל נושא
+    נשאר ניתן לטעימה (מינימום שאלה אחת) אבל המאגר כולו לא.
+
+    המאגר קטן (מאות בודדות), אז שליפת כולו לקיבוץ בזיכרון זולה משאילתת
+    חלון-לכל-קבוצה.
+    """
+    groups: dict[tuple, list[int]] = defaultdict(list)
+    for qid, subject, topic in (
+        db.query(
+            PracticeQuestion.id, PracticeQuestion.subject, PracticeQuestion.topic
+        )
+        .order_by(PracticeQuestion.id)
+        .all()
+    ):
+        groups[(subject, topic)].append(qid)
+    open_ids: set[int] = set()
+    for ids in groups.values():
+        open_ids.update(ids[: free_quota(len(ids))])
+    return open_ids
+
+
+def unlocked_exam_ids(db: Session) -> set[int]:
+    """מזהי המבחנים הפתוחים למי שאין לו מנוי — ~42% הראשונים מכל הרשימה.
+
+    המכסה גלובלית ולא פר-מקצוע בכוונה: הקטלוג בפועל מחזיק מבחן אחד לכל מקצוע,
+    וקיבוץ לפי מקצוע (עם מינימום פריט אחד לקבוצה) היה פותח את כולם — כלומר לא
+    נועל שום מבחן. רק מבחנים מפורסמים נספרים — טיוטה לא תופסת מקום במכסה.
+    """
+    ids = [
+        eid
+        for (eid,) in db.query(Exam.id)
+        .filter(Exam.is_published == True)  # noqa: E712
+        .order_by(Exam.id)
+        .all()
+    ]
+    return set(ids[: free_quota(len(ids))])
