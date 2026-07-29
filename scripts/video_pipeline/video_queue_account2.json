@@ -5,7 +5,7 @@
   "number": 9,
   "topic": "סוגריים מקוננים — סוגריים בתוך סוגריים",
   "output": "סרטון-פרק-9-סוגריים-מקוננים-סוגריים-בתוך-סוגריים.mp4",
-  "status": "generating",
+  "status": "done",
   "course": "arithmetic-laws",
   "artifact_id": "2e57ad28-1708-4890-8df0-b6f0313bac03",
   "submitted_at": 1785318340.882154
@@ -16,7 +16,7 @@
   "number": 1,
   "topic": "כפל וחילוק במאונך במספרים גדולים",
   "output": "סרטון-פרק-1-כפל-וחילוק-במאונך-במספרים-גדולים.mp4",
-  "status": "generating",
+  "status": "done",
   "course": "divisibility-primes",
   "artifact_id": "5c0fdb88-c754-42db-8a2b-c2164c427ceb",
   "submitted_at": 1785318347.010312
@@ -27,7 +27,7 @@
   "number": 2,
   "topic": "סימני התחלקות ב-2, ב-5 וב-10",
   "output": "סרטון-פרק-2-סימני-התחלקות-ב-2-ב-5-וב-10.mp4",
-  "status": "generating",
+  "status": "done",
   "course": "divisibility-primes",
   "artifact_id": "dd0e161d-ff35-4d73-b17c-26273eb424b8",
   "submitted_at": 1785318353.2294781
