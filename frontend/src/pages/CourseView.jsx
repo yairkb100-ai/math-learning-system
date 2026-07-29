@@ -11,6 +11,7 @@ import {
   IconLines,
   IconTarget,
   IconCompass,
+  IconLock,
 } from '../components/icons.jsx'
 
 // Matches the catalog: courses are labelled by school year, not by difficulty.
@@ -56,6 +57,12 @@ export default function CourseView() {
   const isRtl = meta.language === 'Hebrew'
   const chapters = course.chapters || []
   const objectives = course.learning_objectives || []
+
+  // Free tier: the server already stripped the locked chapters' content and
+  // told us how many it left open. Everything below only decides how to say so.
+  const isFree = course.access_tier === 'free'
+  const unlocked = course.unlocked_chapters ?? chapters.length
+  const freePct = Math.round((course.free_ratio ?? 0.42) * 100)
 
   return (
     <section
@@ -120,26 +127,63 @@ export default function CourseView() {
           <IconCompass /> {isRtl ? 'פרקים' : 'Chapters'}
         </h2>
         <span className="cat-head-count">
-          {chapters.length} {isRtl ? 'פרקים' : 'chapters'}
+          {isFree
+            ? `${unlocked} מתוך ${chapters.length} פרקים פתוחים`
+            : `${chapters.length} ${isRtl ? 'פרקים' : 'chapters'}`}
         </span>
       </div>
 
+      {isFree && (
+        <div className="free-note">
+          <span className="free-note-icon" aria-hidden="true">
+            <IconLock />
+          </span>
+          <div className="free-note-body">
+            <strong>הקורס פתוח לך עד {freePct}% מהתוכן</strong>
+            <p>
+              {unlocked === 1
+                ? 'הפרק הראשון פתוח לך במלואו'
+                : `${unlocked} הפרקים הראשונים פתוחים לך במלואם`}
+              , כולל הסרטונים, הדוגמאות והתרגילים. שאר הפרקים נפתחים עם מנוי מלא.
+            </p>
+          </div>
+          <Link to="/subscription" className="btn free-note-btn">
+            לפתיחת כל הקורס
+          </Link>
+        </div>
+      )}
+
       <ol className="chapter-list">
-        {chapters.map((ch) => (
-          <li key={ch.number}>
-            <Link
-              to={`/courses/${id}/chapters/${ch.number}`}
-              className="chapter-row"
-            >
-              <span className="chapter-num">{ch.number}</span>
-              <span className="chapter-title">{ch.title}</span>
-              <span className="chapter-go chapter-start-btn">
-                {isRtl ? 'התחל' : 'Start'}
-                <IconArrowStart className="chapter-go-arrow" />
-              </span>
-            </Link>
-          </li>
-        ))}
+        {chapters.map((ch) =>
+          ch.locked ? (
+            // Not a Link: a locked chapter has no content to show, and letting
+            // the row navigate would land the student on the 402 paywall.
+            <li key={ch.number}>
+              <div className="chapter-row is-locked">
+                <span className="chapter-num">{ch.number}</span>
+                <span className="chapter-title">{ch.title}</span>
+                <span className="chapter-go chapter-locked-tag">
+                  <IconLock className="chapter-lock-icon" />
+                  {isRtl ? 'נעול' : 'Locked'}
+                </span>
+              </div>
+            </li>
+          ) : (
+            <li key={ch.number}>
+              <Link
+                to={`/courses/${id}/chapters/${ch.number}`}
+                className="chapter-row"
+              >
+                <span className="chapter-num">{ch.number}</span>
+                <span className="chapter-title">{ch.title}</span>
+                <span className="chapter-go chapter-start-btn">
+                  {isRtl ? 'התחל' : 'Start'}
+                  <IconArrowStart className="chapter-go-arrow" />
+                </span>
+              </Link>
+            </li>
+          )
+        )}
       </ol>
     </section>
   )

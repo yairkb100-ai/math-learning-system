@@ -45,14 +45,24 @@ async function request(path, options = {}) {
     return
   }
 
-  // A 402 means the user has no active subscription (server's
-  // require_active_subscription). Send them to the friendly "My subscription"
-  // page instead of surfacing a raw error, unless they're already there.
+  // Two flavours of 402:
+  //   chapter_locked          — the account is on the free tier and this
+  //                             chapter sits past the 42% preview. The page
+  //                             renders its own paywall, so throw and let it.
+  //   no_active_subscription  — no content at all; bounce to "My subscription".
   if (res.status === 402) {
-    if (window.location.pathname !== '/subscription') {
+    let detail = 'no_active_subscription'
+    try {
+      detail = (await res.json()).detail || detail
+    } catch {
+      /* empty body — treat as the generic block */
+    }
+    if (detail !== 'chapter_locked' && window.location.pathname !== '/subscription') {
       window.location.href = '/subscription'
     }
-    throw new Error('402 no_active_subscription')
+    const err = new Error(`402 ${detail}`)
+    err.locked = detail === 'chapter_locked'
+    throw err
   }
 
   if (!res.ok) {

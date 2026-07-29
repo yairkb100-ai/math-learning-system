@@ -27,6 +27,8 @@ export default function SubscriptionPage() {
   if (loading) return <Loading label="טוען את פרטי המנוי…" />
 
   const state = access?.state
+  // Share of every course that stays open without a subscription.
+  const freePct = Math.round((access?.free_ratio ?? 0.42) * 100)
   const daysLeft =
     access?.seconds_left != null ? Math.floor(access.seconds_left / 86400) : null
   const hoursLeft =
@@ -54,8 +56,9 @@ export default function SubscriptionPage() {
             {access.expires_at && <> (עד {fmt(access.expires_at)})</>}
           </p>
           <p className="sub-note">
-            בתום תקופת ההתנסות הגישה ללומדה נשמרת לתלמידים שהמנהל אישר אישית.
-            רוצה להמשיך? שלח הודעה ונסדר את זה.
+            בתום תקופת ההתנסות יישארו פתוחים לך {freePct}% מכל קורס — הפרקים
+            הראשונים, במלואם. את שאר הפרקים פותח מנוי מלא. רוצה להמשיך? שלח
+            הודעה ונסדר את זה.
           </p>
           <div className="sub-actions">
             <Link to="/messages" className="btn">שליחת הודעה למנהל</Link>
@@ -78,7 +81,7 @@ export default function SubscriptionPage() {
         <>
           <p className="sub-line">
             <span className="status-off">
-              {state === 'trial_ended' ? 'תקופת ההתנסות הסתיימה' : 'אין גישה פעילה'}
+              {state === 'trial_ended' ? 'תקופת ההתנסות הסתיימה' : 'אין מנוי פעיל'}
             </span>
           </p>
           {access?.expires_at && (
@@ -87,12 +90,17 @@ export default function SubscriptionPage() {
               {fmt(access.expires_at)}
             </p>
           )}
+          <p className="sub-line">
+            <span className="status-ok">
+              {freePct}% מכל קורס פתוחים לך גם עכשיו
+            </span>
+          </p>
           <p className="sub-note">
             {state === 'trial_ended'
-              ? 'נהניתי שהיית כאן! להמשך הגישה ללומדה נדרש אישור אישי שלי כמנהל.'
-              : 'הגישה שלך ללומדה אינה פעילה כרגע.'}
+              ? 'נהניתי שהיית כאן! הפרקים הראשונים בכל קורס נשארים פתוחים לך במלואם — כולל הסרטונים, הדוגמאות והתרגילים.'
+              : 'הפרקים הראשונים בכל קורס פתוחים לך במלואם.'}
             <br />
-            שלח לי הודעה ואאשר לך את ההמשך.
+            לפתיחת הקורסים המלאים שלח לי הודעה ואאשר לך את ההמשך.
           </p>
           <div className="sub-actions">
             <Link to="/messages" className="btn">שליחת הודעה למנהל</Link>

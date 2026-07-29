@@ -2315,6 +2315,111 @@ h4.prose-h {
 }
 .chapter-row:hover .chapter-start-btn { background: var(--accent-2); }
 
+/* ===== free tier: the 42% preview ===== */
+
+/* A locked row still reads as part of the course — same size and rhythm, just
+   drained of colour — so the student sees what is waiting rather than a gap.
+   It is a <div>, not a link: nothing to open, nothing to hover. */
+.chapter-row.is-locked {
+  background: #faf8f3;
+  border-style: dashed;
+  border-color: #ded8c8;
+  color: var(--muted);
+  cursor: default;
+}
+.chapter-row.is-locked .chapter-num {
+  background: #efeade;
+  color: #a09883;
+}
+.chapter-row.is-locked .chapter-title { font-weight: 500; }
+.chapter-locked-tag {
+  flex: 0 0 auto;
+  font-size: 13px;
+  font-weight: 700;
+  color: #8d8571;
+  background: #efeade;
+  border-radius: 999px;
+  padding: 5px 14px;
+}
+.chapter-lock-icon { width: 15px; height: 15px; }
+
+/* Banner above the chapter list explaining what "42%" means here. */
+.free-note {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: linear-gradient(180deg, #fff 0%, var(--lv-bg) 220%);
+  border: 1px solid color-mix(in srgb, var(--lv) 32%, #e7e3d6);
+  border-radius: 16px;
+  padding: 14px 18px;
+  margin-bottom: 16px;
+}
+.free-note-icon {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--lv-bg);
+  color: var(--lv);
+}
+.free-note-icon svg { width: 21px; height: 21px; }
+.free-note-body { flex: 1; min-width: 0; }
+.free-note-body strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.02rem;
+  color: var(--lv);
+}
+.free-note-body p {
+  margin: 2px 0 0;
+  font-size: 0.92rem;
+  color: var(--muted);
+}
+.free-note-btn { flex: 0 0 auto; white-space: nowrap; }
+
+/* Standalone paywall page for a chapter opened straight from its URL. */
+.locked-chapter { text-align: center; }
+.locked-chapter-icon {
+  display: grid;
+  place-items: center;
+  width: 62px;
+  height: 62px;
+  margin: 4px auto 14px;
+  border-radius: 18px;
+  background: var(--lv-bg);
+  color: var(--lv);
+}
+.locked-chapter-icon svg { width: 30px; height: 30px; }
+.locked-chapter-lead {
+  max-width: 44ch;
+  margin: 0 auto 20px;
+  color: var(--muted);
+}
+/* .sub-actions only gets its flex layout under .subscription-card, so this
+   card has to lay its own buttons out. Wrapping keeps them side by side on a
+   desktop and one per line once they no longer fit. */
+.locked-chapter .sub-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 18px;
+}
+
+@media (max-width: 620px) {
+  /* Stack: at phone width the button beside two lines of text squeezes the
+     text to ~12 characters a line. */
+  .free-note {
+    flex-wrap: wrap;
+    gap: 10px 12px;
+    padding: 13px 15px;
+  }
+  .free-note-btn { width: 100%; text-align: center; }
+  .chapter-locked-tag { padding: 5px 11px; font-size: 12px; }
+}
+
 /* ===== chapter video ===== */
 .chapter-video {
   width: 100%;

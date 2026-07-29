@@ -183,6 +183,10 @@ class ChapterOut(BaseModel):
     examples: List[ExampleOut] = Field(default_factory=list)
     exercises: List[ExerciseOut] = Field(default_factory=list)
     quiz: List[QuizQuestionOut] = Field(default_factory=list)
+    # פרק שמעבר למכסת ה-42% של משתמש ללא מנוי. כשהוא True שאר השדות מגיעים
+    # ריקים — התוכן עצמו לא עוזב את השרת, אחרת אפשר היה לקרוא את כל הקורס
+    # מתוך תשובת ה-JSON ולעקוף את התשלום.
+    locked: bool = False
 
 
 class CourseMetadataOut(BaseModel):
@@ -202,6 +206,12 @@ class CourseDetail(BaseModel):
     metadata: CourseMetadataOut
     learning_objectives: List[str] = Field(default_factory=list)
     chapters: List[ChapterOut] = Field(default_factory=list)
+    # דרגת הגישה של המשתמש לקורס הזה: "full" (100%) או "free" (הטעימה).
+    access_tier: str = "full"
+    # כמה פרקים פתוחים לו בפועל, ואיזה חלק מהקורס זה — הפרונט מציג מזה את
+    # שורת "פתוחים לך X מתוך Y".
+    unlocked_chapters: int = 0
+    free_ratio: float = 0.42
 
 
 class CourseEnvelope(BaseModel):
@@ -450,6 +460,9 @@ class AccessStatusOut(BaseModel):
 
     ``state``: admin (גישה מלאה) | trial (בתקופת התנסות) | active (מנוי בתוקף
     שאושר ע"י מנהל) | trial_ended (ההתנסות נגמרה) | blocked (מנוי שפג/בוטל).
+
+    ``trial_ended`` ו-``blocked`` אינם חסימה מלאה: התלמיד ממשיך לראות
+    ``free_ratio`` מכל קורס (ראה ``app.access``).
     """
 
     state: str
@@ -458,7 +471,9 @@ class AccessStatusOut(BaseModel):
     seconds_left: Optional[int] = None  # שניות עד תום ההתנסות/המנוי (0 אם נגמר)
     trial_days: int
     is_trial: bool = False
+    # has_access = גישה *מלאה*. False פירושו דרגת free (42%), לא נעילה מוחלטת.
     has_access: bool = True
+    free_ratio: float = 0.42
     welcome_seen: bool = True
     server_time: datetime
 

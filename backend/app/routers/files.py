@@ -11,8 +11,9 @@ from sqlalchemy.orm import Session
 from starlette.background import BackgroundTask
 
 from app import bunny, models
+from app.access import TIER_FULL, asset_is_unlocked
 from app.database import get_db
-from app.dependencies import get_current_user
+from app.dependencies import get_current_user, user_access_tier
 
 router = APIRouter(prefix="/api/files", tags=["files"])
 
@@ -130,7 +131,14 @@ def list_files(
             (models.FileAsset.kind == "resource")
             | (models.FileAsset.uploader_id == current_user.id)
         )
-    return query.order_by(models.FileAsset.uploaded_at.desc()).all()
+    assets = query.order_by(models.FileAsset.uploaded_at.desc()).all()
+    # ...and on the free tier, only the material belonging to the chapters that
+    # are actually open — the explainer videos are the bulk of a course's value.
+    tier = user_access_tier(db, current_user)
+    if tier == TIER_FULL:
+        return assets
+    cache: dict[int, set[int]] = {}
+    return [a for a in assets if asset_is_unlocked(db, a, tier, cache)]
 
 
 @router.get("/{file_id}/download")
@@ -144,6 +152,8 @@ def download_file(
         raise HTTPException(status_code=404, detail="הקובץ לא נמצא")
     if not _can_access_asset(asset, current_user, db):
         raise HTTPException(status_code=403, detail="אין הרשאה לקובץ זה")
+    if not asset_is_unlocked(db, asset, user_access_tier(db, current_user)):
+        raise HTTPException(status_code=402, detail="chapter_locked")
     if asset.external_url:
         # Proxy the file from Bunny through our own origin. A plain redirect to
         # the CDN is unreadable by the browser's fetch() (no CORS headers on

@@ -85,6 +85,8 @@ export default function TrialWelcome() {
 
   const { days, hours, minutes, seconds } = breakdown(left)
   const ended = access.state === 'trial_ended' || access.state === 'blocked'
+  // Share of every course that stays open once the trial is over.
+  const freePct = Math.round((access.free_ratio ?? 0.42) * 100)
   const inTrial = access.state === 'trial' && !ended
   const onSubPage = location.pathname === '/subscription'
   const firstName = (user.full_name || '').split(' ')[0]
@@ -114,7 +116,7 @@ export default function TrialWelcome() {
             </h2>
             <p className="welcome-lead">
               {ended
-                ? 'תודה שהתנסית בלומדה! אני מקווה שנהנית והספקת ללמוד. כדי להמשיך מכאן צריך אישור גישה ממני.'
+                ? `תודה שהתנסית בלומדה! אני מקווה שנהנית והספקת ללמוד. הלומדה נשארת פתוחה לך — הפרקים הראשונים בכל קורס (${freePct}% מהתוכן) ממשיכים להיות זמינים. לפתיחת הקורסים במלואם צריך אישור גישה ממני.`
                 : 'כאן תמצא קורסים מלאים, סרטוני הסבר, תרגול, מבחנים ומעקב התקדמות אישי. קח את הזמן, תהנה מהדרך — ותפיק מהלומדה את המקסימום.'}
             </p>
 
@@ -142,16 +144,19 @@ export default function TrialWelcome() {
                   </div>
                 </div>
                 <p className="welcome-note">
-                  בתום תקופת ההתנסות הגישה ללומדה נשמרת רק לתלמידים שאישרתי אישית — נשמח
-                  להמשיך יחד. תמיד אפשר לפנות אליי בהודעה מתוך הלומדה.
+                  בתום תקופת ההתנסות יישארו פתוחים לך {freePct}% מכל קורס, והפרקים
+                  המתקדמים נפתחים לתלמידים שאישרתי אישית — נשמח להמשיך יחד. תמיד
+                  אפשר לפנות אליי בהודעה מתוך הלומדה.
                 </p>
               </div>
             ) : ended ? (
               <div className="welcome-trial welcome-trial-ended">
                 <div className="welcome-trial-head">
-                  <IconClock /> הגישה לתוכן חסומה עד לאישור
+                  <IconClock /> {freePct}% מכל קורס נשארים פתוחים לך
                 </div>
-                <p className="welcome-note">שלח לי הודעה ונסדר את ההמשך.</p>
+                <p className="welcome-note">
+                  לפתיחת הפרקים המתקדמים שלח לי הודעה ונסדר את ההמשך.
+                </p>
                 <Link to="/subscription" className="btn" onClick={dismiss}>
                   לפרטים ולפנייה למנהל
                 </Link>
@@ -179,7 +184,9 @@ export default function TrialWelcome() {
       {!showModal && !onSubPage && ended && (
         <Link to="/subscription" className="trial-chip trial-chip-ended" dir="rtl">
           <IconClock />
-          <span className="trial-chip-text">תקופת ההתנסות הסתיימה — לפרטים</span>
+          <span className="trial-chip-text">
+            ההתנסות הסתיימה — {freePct}% מכל קורס עדיין פתוחים
+          </span>
         </Link>
       )}
     </>

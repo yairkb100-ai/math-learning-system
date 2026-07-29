@@ -1,7 +1,8 @@
 """Subscription plans and per-user subscriptions (manual admin management).
 
-ניהול מנויים ידני: מנהל משייך/מאריך/מבטל מנוי לתלמיד. משתמש ללא מנוי בתוקף
-נחסם מהתוכן (HTTP 402 דרך require_active_subscription). אין סליקה אוטומטית.
+ניהול מנויים ידני: מנהל משייך/מאריך/מבטל מנוי לתלמיד. מנוי בתוקף = 100%
+מהתוכן; בלעדיו התלמיד יורד לדרגת ``free`` ורואה 42% מכל קורס (``app.access``).
+אין סליקה אוטומטית.
 """
 
 from datetime import datetime, timedelta
@@ -10,6 +11,7 @@ from fastapi import APIRouter, Depends, HTTPException, Response
 from sqlalchemy.orm import Session
 
 from app import models
+from app.access import FREE_CONTENT_RATIO
 from app.database import get_db
 from app.dependencies import get_current_user, require_admin
 from app.schemas import (
@@ -87,6 +89,7 @@ def my_access(
             trial_days=TRIAL_DAYS,
             has_access=True,
             welcome_seen=True,
+            free_ratio=FREE_CONTENT_RATIO,
             server_time=now,
         )
 
@@ -114,6 +117,7 @@ def my_access(
             is_trial=is_trial,
             has_access=True,
             welcome_seen=welcome_seen,
+            free_ratio=FREE_CONTENT_RATIO,
             server_time=now,
         )
 
@@ -134,6 +138,7 @@ def my_access(
         is_trial=trial_ended,
         has_access=False,
         welcome_seen=welcome_seen,
+        free_ratio=FREE_CONTENT_RATIO,
         server_time=now,
     )
 
@@ -241,8 +246,8 @@ def cancel_subscription(
     db: Session = Depends(get_db),
     _: models.User = Depends(require_admin),
 ) -> SubscriptionOut:
-    """מבטל מנוי — הגישה לתוכן נחסמת מיידית (require_active_subscription דורש
-    status='active'). ביטול בטעות ניתן לתיקון ע"י הארכה מחדש."""
+    """מבטל מנוי — הגישה המלאה נפסקת מיידית והתלמיד יורד ל-42% מכל קורס
+    (דרגת ``free``). ביטול בטעות ניתן לתיקון ע"י הארכה מחדש."""
     sub = db.query(models.Subscription).filter(models.Subscription.id == sub_id).first()
     if not sub:
         raise HTTPException(status_code=404, detail="מנוי לא נמצא")

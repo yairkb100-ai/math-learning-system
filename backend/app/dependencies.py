@@ -1,5 +1,6 @@
 """FastAPI dependencies for authentication and role enforcement."""
 
+from dataclasses import dataclass
 from datetime import datetime
 
 from fastapi import Depends, HTTPException
@@ -7,6 +8,7 @@ from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 
 from app import models
+from app.access import TIER_FREE, TIER_FULL
 from app.auth import decode_token
 from app.database import get_db
 from app.trials import start_trial_if_needed
@@ -59,21 +61,45 @@ def user_has_active_subscription(db: Session, user: models.User) -> bool:
     return sub is not None
 
 
-def require_active_subscription(
+def user_access_tier(db: Session, user: models.User) -> str:
+    """דרגת הגישה לתוכן: ``full`` (100%) או ``free`` (42% מכל קורס).
+
+    מנהל ומי שיש לו מנוי בתוקף — מלא. כל השאר — הטעימה. הנימוק לכלל הזה
+    (ולמה לא ``price_nis > 0``) מפורט ב-``app.access``.
+    """
+    if user.role == "admin":
+        return TIER_FULL
+    start_trial_if_needed(db, user)
+    return TIER_FULL if user_has_active_subscription(db, user) else TIER_FREE
+
+
+@dataclass
+class ContentAccess:
+    """מי המשתמש ואיזו דרגת גישה לתוכן יש לו — ראה ``app.access``."""
+
+    user: models.User
+    tier: str
+
+    @property
+    def is_full(self) -> bool:
+        return self.tier == TIER_FULL
+
+
+def require_content_access(
     current_user: models.User = Depends(get_current_user),
     db: Session = Depends(get_db),
-) -> models.User:
-    """חוסם גישה לתוכן למשתמש ללא מנוי בתוקף (HTTP 402). מנהל פטור מהבדיקה.
+) -> ContentAccess:
+    """דרגת הגישה לתוכן של המשתמש המחובר.
+
+    בניגוד לגרסה הקודמת (``require_active_subscription``, שהחזירה 402 והעיפה
+    את התלמיד מהלומדה כולה), כאן אף אחד לא נחסם בדלת: מי שאין לו מנוי בתוקף
+    נכנס בדרגת ``free`` ורואה את 42% הפרקים הראשונים בכל קורס. את החסימה
+    בפועל עושה כל נתיב תוכן בנפרד, ברמת הפרק.
 
     יש להריץ על נתיבי צריכת התוכן בלבד (קורס, פרק, פתרון, בדיקת בוחן) — לא על
-    התחברות/פרופיל/ניהול. הפרונט מזהה את ה-402 ומפנה לעמוד "המנוי שלי".
+    התחברות/פרופיל/ניהול.
 
-    תלמיד שאין לו שום היסטוריית מנויים מקבל כאן אוטומטית התנסות של שבועיים
+    תלמיד שאין לו שום היסטוריית מנויים מקבל כאן אוטומטית התנסות
     (רשת ביטחון לחשבונות שנוצרו בדרך שלא מפעילה התנסות בעצמה).
     """
-    if current_user.role == "admin":
-        return current_user
-    start_trial_if_needed(db, current_user)
-    if not user_has_active_subscription(db, current_user):
-        raise HTTPException(status_code=402, detail="no_active_subscription")
-    return current_user
+    return ContentAccess(user=current_user, tier=user_access_tier(db, current_user))

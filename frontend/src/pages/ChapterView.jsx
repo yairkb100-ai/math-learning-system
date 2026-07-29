@@ -19,9 +19,36 @@ import {
   IconPaperclip,
   IconFile,
   IconWarning,
+  IconLock,
 } from '../components/icons.jsx'
 
 const t = (rtl, he, en) => (rtl ? he : en)
+
+// Reached when a free-tier student opens a chapter past the 42% preview —
+// by typing the URL, or from a stale tab. The server refused to send the
+// content (402 chapter_locked), so there is nothing to render but the offer.
+function LockedChapter({ courseId, number }) {
+  return (
+    <section dir="rtl" className="card locked-chapter">
+      <span className="locked-chapter-icon" aria-hidden="true">
+        <IconLock />
+      </span>
+      <h1>פרק {number} עדיין נעול</h1>
+      <p className="locked-chapter-lead">
+        הפרקים הראשונים בקורס פתוחים לך במלואם. את שאר הפרקים — כולל הסרטונים,
+        הדוגמאות והתרגילים — פותחים עם מנוי מלא.
+      </p>
+      <div className="sub-actions">
+        <Link to="/subscription" className="btn btn-primary">
+          לפתיחת הקורס המלא
+        </Link>
+        <Link to={`/courses/${courseId}`} className="btn">
+          חזרה לפרקים הפתוחים
+        </Link>
+      </div>
+    </section>
+  )
+}
 
 // Chapter number encoded in a file name ("פרק-7", "פרק-11"), or null.
 // Exact numeric match — plain includes('פרק-1') would also catch פרק-10/11.
@@ -114,6 +141,9 @@ export default function ChapterView() {
   const [chapter, setChapter] = useState(null)
   const [language, setLanguage] = useState('English')
   const [chaptersCount, setChaptersCount] = useState(0)
+  // How many chapters this account may open. Equals chaptersCount on a full
+  // subscription; on the free tier it is the 42% preview quota.
+  const [unlockedCount, setUnlockedCount] = useState(0)
   const [progress, setProgress] = useState(null)
   const [marking, setMarking] = useState(false)
   const [loading, setLoading] = useState(true)
@@ -139,7 +169,9 @@ export default function ChapterView() {
         setChapter(ch)
         const course = courseData?.course ?? courseData
         if (course?.metadata?.language) setLanguage(course.metadata.language)
-        setChaptersCount((course?.chapters || []).length)
+        const all = course?.chapters || []
+        setChaptersCount(all.length)
+        setUnlockedCount(course?.unlocked_chapters ?? all.length)
         setProgress(progData)
         // Files whose name carries "פרק-N" belong to this chapter: the .mp4
         // becomes the opening video step, the rest (worksheets, question
@@ -204,10 +236,16 @@ export default function ChapterView() {
   }, [step, steps, completed, chapter, id])
 
   if (loading) return <Loading label="טוען פרק…" />
+  // A locked chapter is a paywall, not a failure — show the upsell in place of
+  // the red error box (api.js deliberately does not redirect for this one).
+  if (error?.locked) return <LockedChapter courseId={id} number={number} />
   if (error) return <ErrorBox error={error} onRetry={load} />
   if (!chapter || steps.length === 0) return null
 
   const nextNumber = Number(number) < chaptersCount ? Number(number) + 1 : null
+  // On the free tier the next chapter may be past the preview quota — offer
+  // the subscription instead of a link that would only hit the paywall.
+  const nextLocked = nextNumber != null && nextNumber > unlockedCount
   const current = steps[Math.min(step, steps.length - 1)]
   const isLast = step >= steps.length - 1
   const pct = Math.round((step / (steps.length - 1)) * 100)
@@ -275,6 +313,7 @@ export default function ChapterView() {
         marking={marking}
         markComplete={markComplete}
         nextNumber={nextNumber}
+        nextLocked={nextLocked}
         chapterFiles={chapterFiles}
       />
 
@@ -324,6 +363,7 @@ function StepBody({
   marking,
   markComplete,
   nextNumber,
+  nextLocked,
   chapterFiles,
 }) {
   if (step.kind === 'video') {
@@ -405,13 +445,19 @@ function StepBody({
               : t(rtl, 'סמן פרק כהושלם', 'Mark chapter complete')}
           </button>
         )}
-        {nextNumber && (
+        {nextNumber && !nextLocked && (
           <Link
             to={`/courses/${courseId}/chapters/${nextNumber}`}
             className="btn"
           >
             {t(rtl, 'לפרק הבא', 'Next chapter')}
             <IconArrowStart className="btn-arrow" />
+          </Link>
+        )}
+        {nextNumber && nextLocked && (
+          <Link to="/subscription" className="btn">
+            <IconLock className="btn-arrow" />
+            {t(rtl, 'לפתיחת שאר הקורס', 'Unlock the rest')}
           </Link>
         )}
       </div>
