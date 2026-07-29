@@ -45,7 +45,6 @@ ACCOUNTS = [
     ("video_queue_account2.json", "account2", "yairkahana71"),
     ("video_queue_account3.json", "account3", "hthrua100"),
     ("video_queue_account4.json", "account4", "mysport.mk"),
-    ("video_queue_account5.json", "account5", "yaelik333"),
 ]
 
 MAX_RETRIES = 3    # after this many resets an entry is parked as "failed"
