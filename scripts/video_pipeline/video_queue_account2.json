@@ -5,8 +5,10 @@
   "number": 9,
   "topic": "סוגריים מקוננים — סוגריים בתוך סוגריים",
   "output": "סרטון-פרק-9-סוגריים-מקוננים-סוגריים-בתוך-סוגריים.mp4",
-  "status": "staged",
-  "course": "arithmetic-laws"
+  "status": "generating",
+  "course": "arithmetic-laws",
+  "artifact_id": "2e57ad28-1708-4890-8df0-b6f0313bac03",
+  "submitted_at": 1785318340.882154
  },
  "divisibility-primes-ch01": {
   "notebook_id": "fe9fb250-7591-4687-bce9-0c59aa0d2a8c",
@@ -14,8 +16,10 @@
   "number": 1,
   "topic": "כפל וחילוק במאונך במספרים גדולים",
   "output": "סרטון-פרק-1-כפל-וחילוק-במאונך-במספרים-גדולים.mp4",
-  "status": "staged",
-  "course": "divisibility-primes"
+  "status": "generating",
+  "course": "divisibility-primes",
+  "artifact_id": "5c0fdb88-c754-42db-8a2b-c2164c427ceb",
+  "submitted_at": 1785318347.010312
  },
  "divisibility-primes-ch02": {
   "notebook_id": "175ce204-04d7-4af1-873d-094b0d4cc050",
@@ -23,8 +27,10 @@
   "number": 2,
   "topic": "סימני התחלקות ב-2, ב-5 וב-10",
   "output": "סרטון-פרק-2-סימני-התחלקות-ב-2-ב-5-וב-10.mp4",
-  "status": "staged",
-  "course": "divisibility-primes"
+  "status": "generating",
+  "course": "divisibility-primes",
+  "artifact_id": "dd0e161d-ff35-4d73-b17c-26273eb424b8",
+  "submitted_at": 1785318353.2294781
  },
  "divisibility-primes-ch03": {
   "notebook_id": "7033b714-8eae-49d1-80a8-ec6f7624c185",

@@ -5,8 +5,10 @@
   "number": 1,
   "topic": "פרופורציה — שוויון יחסים וכפל בהצלבה",
   "output": "סרטון-פרק-1-פרופורציה-שוויון-יחסים-וכפל-בהצלבה.mp4",
-  "status": "staged",
-  "course": "proportion-variation"
+  "status": "generating",
+  "course": "proportion-variation",
+  "artifact_id": "ca00b69a-8160-4ebb-967d-2c261a7191ca",
+  "submitted_at": 1785318557.835824
  },
  "proportion-variation-ch02": {
   "notebook_id": "b0de7976-e92c-4378-9114-4e4525156564",
@@ -14,8 +16,10 @@
   "number": 2,
   "topic": "השתנות ישרה — הקשר y = kx",
   "output": "סרטון-פרק-2-השתנות-ישרה-הקשר-y-kx.mp4",
-  "status": "staged",
-  "course": "proportion-variation"
+  "status": "generating",
+  "course": "proportion-variation",
+  "artifact_id": "63c1b881-e113-4a33-aa52-a4f6966175f2",
+  "submitted_at": 1785318564.0727327
  },
  "proportion-variation-ch03": {
   "notebook_id": "553a582b-c6f1-4545-93fc-a6f86a763c19",
@@ -23,8 +27,10 @@
   "number": 3,
   "topic": "השתנות הפוכה — הקשר y = k/x",
   "output": "סרטון-פרק-3-השתנות-הפוכה-הקשר-y-k-x.mp4",
-  "status": "staged",
-  "course": "proportion-variation"
+  "status": "generating",
+  "course": "proportion-variation",
+  "artifact_id": "8bd18e64-d7f9-4a45-a6e4-05fd9e456e81",
+  "submitted_at": 1785318569.8613079
  },
  "proportion-variation-ch04": {
   "notebook_id": "e88cd273-0aed-4ba6-894e-b647b85e56c9",

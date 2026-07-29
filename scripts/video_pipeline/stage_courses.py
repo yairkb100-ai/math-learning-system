@@ -43,7 +43,6 @@ QUEUE_OF = {
     "account1": "video_queue_account1.json",
     "account2": "video_queue_account2.json",
     "account3": "video_queue_account3.json",
-    "account4": "video_queue_account4.json",
 }
 
 # course slug -> content/<dir> holding chNN/source.md. Every course HAS a chapter

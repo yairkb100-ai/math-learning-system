@@ -42,7 +42,6 @@ ACCOUNTS = [
     ("video_queue_account1.json", "account1"),  # yairkb100
     ("video_queue_account2.json", "account2"),  # yairkahana71
     ("video_queue_account3.json", "account3"),  # hthrua100
-    ("video_queue_account4.json", "account4"),  # mysport.mk
 ]
 
 ap = argparse.ArgumentParser()
