@@ -114,6 +114,13 @@ def delete_user(
     db.query(models.Message).filter(
         (models.Message.sender_id == user.id) | (models.Message.recipient_id == user.id)
     ).delete(synchronize_session=False)
+    # Referral rows point at users twice (referrer + referred) and neither column
+    # is named user_id, so they can't ride the loop below — and leaving them
+    # behind makes the final db.delete(user) fail on the FK.
+    db.query(models.Referral).filter(
+        (models.Referral.referrer_id == user.id)
+        | (models.Referral.referred_user_id == user.id)
+    ).delete(synchronize_session=False)
     for Model in (
         models.LessonRequest,
         models.UserAchievement,

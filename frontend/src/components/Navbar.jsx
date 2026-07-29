@@ -104,6 +104,7 @@ export default function Navbar() {
                   <Link to="/analytics" className="nav-link">אנליטיקה</Link>
                   <Link to="/progress" className="nav-link">ההתקדמות שלי</Link>
                   <Link to="/lessons" className="nav-link">קביעת שיעור פרטי</Link>
+                  <Link to="/invite" className="nav-link">חבר מביא חבר</Link>
                   <Link to="/subscription" className="nav-link">המנוי שלי</Link>
                   {messagesLink}
                 </>

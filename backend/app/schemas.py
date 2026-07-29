@@ -15,6 +15,9 @@ class UserCreate(BaseModel):
     password: str
     full_name: str
     role: str = "student"  # student | admin
+    # קוד "חבר מביא חבר" מהקישור שדרכו הגיע. נקרא רק בהרשמה עצמית; קוד לא
+    # תקין מתעלמים ממנו במקום להכשיל את ההרשמה.
+    referral_code: Optional[str] = None
 
 
 class UserLogin(BaseModel):
@@ -609,6 +612,8 @@ class ExamOut(BaseModel):
 class ExamListItem(ExamOut):
     best_score: Optional[float] = None
     attempts_count: int = 0
+    # נעול לדרגת free — מוצג ברשימה אבל הכניסה אליו חסומה (402 content_locked).
+    locked: bool = False
 
 
 class ExamHistoryItem(BaseModel):
@@ -806,3 +811,84 @@ class LessonRequestOut(BaseModel):
     duration_min: Optional[int] = None
     student_name: Optional[str] = None
 ExamSubmitResult.model_rebuild()
+
+
+# ---------------------------------------------------------------------------
+# Pricing (admin-editable) & referrals
+# ---------------------------------------------------------------------------
+
+class PlanCreate(BaseModel):
+    code: str
+    name: str
+    price_nis: float = 0
+    duration_days: int = 30
+    is_active: bool = True
+
+
+class PlanUpdate(BaseModel):
+    """כל שדה אופציונלי — המנהל יכול לעדכן רק את המחיר בלי לשלוח את השאר."""
+
+    name: Optional[str] = None
+    price_nis: Optional[float] = None
+    duration_days: Optional[int] = None
+    is_active: Optional[bool] = None
+
+
+class SettingsIn(BaseModel):
+    lesson_price_nis: Optional[float] = None
+    referral_sub_discount_pct: Optional[float] = None
+    referral_lesson_discount_pct: Optional[float] = None
+
+
+class SettingsOut(BaseModel):
+    lesson_price_nis: float
+    referral_sub_discount_pct: float
+    referral_lesson_discount_pct: float
+
+
+class PricingOut(BaseModel):
+    """כל מה שצריך כדי להציג מחירים והטבות בצד הלקוח, בקריאה אחת."""
+
+    plans: List[PlanOut]
+    lesson_price_nis: float
+    referral_sub_discount_pct: float
+    referral_lesson_discount_pct: float
+
+
+class ReferralOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    status: str
+    created_at: datetime
+    qualified_at: Optional[datetime] = None
+    reward_kind: Optional[str] = None
+    reward_percent: Optional[float] = None
+    reward_used: bool = False
+    reward_used_at: Optional[datetime] = None
+    admin_note: Optional[str] = None
+    # enriched by the router
+    referred_name: Optional[str] = None
+    referrer_name: Optional[str] = None
+
+
+class MyReferralsOut(BaseModel):
+    code: str
+    join_path: str  # "/join/ABC123" — the frontend prefixes its own origin
+    total: int
+    pending: int
+    qualified: int
+    unredeemed: int  # זכאיות שעדיין לא נבחרה עבורן הטבה
+    sub_discount_pct: float
+    lesson_discount_pct: float
+    lesson_price_nis: float
+    referrals: List[ReferralOut]
+
+
+class RewardChoice(BaseModel):
+    kind: str  # subscription | lesson
+
+
+class ReferralCodeInfo(BaseModel):
+    valid: bool
+    referrer_name: Optional[str] = None

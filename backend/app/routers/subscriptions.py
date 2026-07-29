@@ -14,9 +14,12 @@ from app import models
 from app.access import FREE_CONTENT_RATIO
 from app.database import get_db
 from app.dependencies import get_current_user, require_admin
+from app.referrals import qualify_referral_for
 from app.schemas import (
     AccessStatusOut,
+    PlanCreate,
     PlanOut,
+    PlanUpdate,
     SubscriptionAssign,
     SubscriptionExtend,
     SubscriptionOut,
@@ -53,6 +56,117 @@ def list_plans(db: Session = Depends(get_db)) -> list[PlanOut]:
         .order_by(models.SubscriptionPlan.price_nis)
         .all()
     )
+
+
+@router.get("/admin/plans", response_model=list[PlanOut])
+def admin_list_plans(
+    db: Session = Depends(get_db),
+    _: models.User = Depends(require_admin),
+) -> list[PlanOut]:
+    """כל התוכניות, כולל כאלה שכובו — המנהל צריך לראות גם אותן כדי להחזירן."""
+    return (
+        db.query(models.SubscriptionPlan)
+        .order_by(models.SubscriptionPlan.price_nis)
+        .all()
+    )
+
+
+@router.post("/admin/plans", response_model=PlanOut, status_code=201)
+def admin_create_plan(
+    payload: PlanCreate,
+    db: Session = Depends(get_db),
+    _: models.User = Depends(require_admin),
+) -> PlanOut:
+    code = payload.code.strip()
+    if not code:
+        raise HTTPException(status_code=400, detail="חובה קוד לתוכנית")
+    if not payload.name.strip():
+        raise HTTPException(status_code=400, detail="חובה שם לתוכנית")
+    if payload.price_nis < 0 or payload.duration_days < 0:
+        raise HTTPException(status_code=400, detail="מחיר ומשך חייבים להיות אי-שליליים")
+    if db.query(models.SubscriptionPlan).filter(models.SubscriptionPlan.code == code).first():
+        raise HTTPException(status_code=409, detail="קוד התוכנית כבר קיים")
+    plan = models.SubscriptionPlan(
+        code=code,
+        name=payload.name.strip(),
+        price_nis=payload.price_nis,
+        duration_days=payload.duration_days,
+        is_active=payload.is_active,
+    )
+    db.add(plan)
+    db.commit()
+    db.refresh(plan)
+    return plan
+
+
+@router.patch("/admin/plans/{plan_id}", response_model=PlanOut)
+def admin_update_plan(
+    plan_id: int,
+    payload: PlanUpdate,
+    db: Session = Depends(get_db),
+    _: models.User = Depends(require_admin),
+) -> PlanOut:
+    """עדכון מחיר/שם/משך. ה-``code`` לעולם אינו משתנה — מנויים קיימים מצביעים
+    עליו כמחרוזת (``Subscription.plan_code``), ושינויו היה מנתק אותם."""
+    plan = (
+        db.query(models.SubscriptionPlan)
+        .filter(models.SubscriptionPlan.id == plan_id)
+        .first()
+    )
+    if not plan:
+        raise HTTPException(status_code=404, detail="תוכנית לא נמצאה")
+    if payload.price_nis is not None:
+        if payload.price_nis < 0:
+            raise HTTPException(status_code=400, detail="מחיר לא יכול להיות שלילי")
+        plan.price_nis = payload.price_nis
+    if payload.duration_days is not None:
+        if payload.duration_days < 0:
+            raise HTTPException(status_code=400, detail="משך לא יכול להיות שלילי")
+        plan.duration_days = payload.duration_days
+    if payload.name is not None:
+        if not payload.name.strip():
+            raise HTTPException(status_code=400, detail="שם התוכנית לא יכול להיות ריק")
+        plan.name = payload.name.strip()
+    if payload.is_active is not None:
+        plan.is_active = payload.is_active
+    db.commit()
+    db.refresh(plan)
+    return plan
+
+
+@router.delete("/admin/plans/{plan_id}", status_code=204)
+def admin_delete_plan(
+    plan_id: int,
+    db: Session = Depends(get_db),
+    _: models.User = Depends(require_admin),
+) -> Response:
+    """מחיקה מותרת רק לתוכנית שאיש אינו מנוי עליה — אחרת המנוי היה מאבד את
+    השם והמחיר שלו. תוכנית בשימוש אפשר רק לכבות (``is_active=false``)."""
+    plan = (
+        db.query(models.SubscriptionPlan)
+        .filter(models.SubscriptionPlan.id == plan_id)
+        .first()
+    )
+    if not plan:
+        raise HTTPException(status_code=404, detail="תוכנית לא נמצאה")
+    if plan.code in ("trial", "free"):
+        raise HTTPException(
+            status_code=400,
+            detail="אי אפשר למחוק את תוכניות ההתנסות/הגישה המאושרת — אפשר רק לערוך אותן",
+        )
+    in_use = (
+        db.query(models.Subscription)
+        .filter(models.Subscription.plan_code == plan.code)
+        .count()
+    )
+    if in_use:
+        raise HTTPException(
+            status_code=409,
+            detail=f"{in_use} מנויים משתמשים בתוכנית — כבה אותה במקום למחוק",
+        )
+    db.delete(plan)
+    db.commit()
+    return Response(status_code=204)
 
 
 @router.get("/me/subscription", response_model=SubscriptionOut | None)
@@ -186,6 +300,10 @@ def assign_subscription(
         raise HTTPException(status_code=404, detail="תוכנית מנוי לא נמצאה")
 
     now = datetime.utcnow()
+
+    # אישור מנוי אמיתי לתלמיד הוא אירוע ההמרה של "חבר מביא חבר": מכאן מי שהביא
+    # אותו זכאי להטבה. נעשה לפני ה-commit של המנוי כדי ששניהם ייכתבו יחד.
+    qualify_referral_for(db, user_id=user.id, plan_code=plan.code, now=now)
 
     # מנוי פעיל קיים → הארכה (במקום שורה כפולה)
     active = _active_sub_for(db, user.id)

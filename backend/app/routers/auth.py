@@ -11,6 +11,7 @@ from app.database import get_db
 from app.dependencies import get_current_user
 from app.device_utils import client_ip, device_label, get_max_devices
 from app.rate_limit import check_rate_limit, reset_rate_limit
+from app.referrals import register_referral
 from app.schemas import TokenResponse, UserCreate, UserLogin, UserOut
 from app.trials import start_trial_if_needed
 
@@ -150,6 +151,9 @@ def register(
     db.refresh(user)
     # שבועיים התנסות חינם מרגע ההרשמה; בתומם נדרש אישור מנהל.
     start_trial_if_needed(db, user)
+    # הגיע דרך קישור הזמנה? נרשום הפניה ממתינה. קוד שגוי לא מכשיל את ההרשמה.
+    if payload.referral_code:
+        register_referral(db, new_user=user, code=payload.referral_code)
     token = create_access_token({"sub": str(user.id), "role": user.role})
     return TokenResponse(access_token=token, user=UserOut.model_validate(user))
 

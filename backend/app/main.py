@@ -27,6 +27,7 @@ from app.routers import (
     analytics,
     exams,
     lessons,
+    referrals,
     search,
 )
 from app import achievements
@@ -105,6 +106,25 @@ def on_startup() -> None:
                 conn.execute(
                     text("ALTER TABLE users ADD COLUMN welcome_seen_at TIMESTAMP")
                 )
+        if "referral_code" not in cols:
+            # No UNIQUE in the ALTER: SQLite rejects adding a unique column to a
+            # populated table. Uniqueness is enforced by app.referrals._mint,
+            # which retries until the code is free.
+            with engine.begin() as conn:
+                conn.execute(
+                    text("ALTER TABLE users ADD COLUMN referral_code VARCHAR")
+                )
+        # Add the unique index separately — create_all only builds indexes for
+        # tables it creates, so an existing users table would never get one.
+        # NULLs don't collide in either SQLite or Postgres, so accounts that
+        # never minted a code are unaffected.
+        with engine.begin() as conn:
+            conn.execute(
+                text(
+                    "CREATE UNIQUE INDEX IF NOT EXISTS ix_users_referral_code "
+                    "ON users (referral_code)"
+                )
+            )
     if "exercises" in inspector.get_table_names():
         cols = {c["name"] for c in inspector.get_columns("exercises")}
         if "answer" not in cols:
@@ -129,4 +149,5 @@ app.include_router(analytics.router)
 app.include_router(exams.router)
 app.include_router(achievements.router)
 app.include_router(lessons.router)
+app.include_router(referrals.router)
 app.include_router(search.router)

@@ -320,6 +320,38 @@ export const api = {
   cancelSubscription: (subId) =>
     request(`/admin/subscriptions/${subId}/cancel`, { method: 'POST' }),
 
+  // Prices — plans are rows, the lesson price and referral % are settings.
+  pricing: () => request('/pricing'),
+  adminPlans: () => request('/admin/plans'),
+  adminCreatePlan: (plan) =>
+    request('/admin/plans', { method: 'POST', body: JSON.stringify(plan) }),
+  adminUpdatePlan: (planId, patch) =>
+    request(`/admin/plans/${planId}`, {
+      method: 'PATCH',
+      body: JSON.stringify(patch),
+    }),
+  adminDeletePlan: (planId) =>
+    request(`/admin/plans/${planId}`, { method: 'DELETE' }),
+  adminPricing: () => request('/admin/pricing'),
+  adminSavePricing: (values) =>
+    request('/admin/pricing', { method: 'PUT', body: JSON.stringify(values) }),
+
+  // חבר מביא חבר
+  myReferrals: () => request('/me/referrals'),
+  chooseReferralReward: (refId, kind) =>
+    request(`/me/referrals/${refId}/choose`, {
+      method: 'POST',
+      body: JSON.stringify({ kind }),
+    }),
+  referralCodeInfo: (code) => request(`/referral-code/${encodeURIComponent(code)}`),
+  adminReferrals: () => request('/admin/referrals'),
+  adminQualifyReferral: (refId) =>
+    request(`/admin/referrals/${refId}/qualify`, { method: 'POST' }),
+  adminMarkReferralUsed: (refId) =>
+    request(`/admin/referrals/${refId}/mark-used`, { method: 'POST' }),
+  adminCancelReferral: (refId) =>
+    request(`/admin/referrals/${refId}/cancel`, { method: 'POST' }),
+
   // Admin — devices & login audit
   adminDevices: () => request('/admin/devices'),
   adminDeleteDevice: (id) => request(`/admin/devices/${id}`, { method: 'DELETE' }),

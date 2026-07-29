@@ -1,0 +1,247 @@
+"""חבר מביא חבר — קישור הזמנה אישי, מעקב אחרי מי שהובא, וניהול ההטבות.
+
+על כל תלמיד שמישהו מביא הוא מקבל הטבה אחת, לבחירתו: אחוז הנחה על החודש הבא
+של המנוי, או אחוז הנחה על שיעור פרטי בזום. את שני האחוזים (ואת מחיר השיעור)
+המנהל קובע ב-``/api/admin/pricing``, ולכן הם נשמרים כ"תצלום" על ההטבה ברגע
+הבחירה — שינוי מחיר עתידי לא גורע ממי שכבר זכה.
+
+המימוש עצמו ידני, בדיוק כמו המנויים: המנהל רואה את ההטבות הזכאיות ומסמן
+"מומשה" אחרי שהחיל אותה. אין סליקה במערכת.
+"""
+
+from datetime import datetime
+
+from fastapi import APIRouter, Depends, HTTPException, Request
+from sqlalchemy.orm import Session
+
+from app import models, referrals as core, settings_store
+from app.database import get_db
+from app.dependencies import get_current_user, require_admin
+from app.device_utils import client_ip
+from app.rate_limit import check_rate_limit
+from app.schemas import (
+    MyReferralsOut,
+    PricingOut,
+    ReferralCodeInfo,
+    ReferralOut,
+    RewardChoice,
+    SettingsIn,
+    SettingsOut,
+)
+
+router = APIRouter(prefix="/api", tags=["referrals"])
+
+
+def _out(ref: models.Referral) -> ReferralOut:
+    return ReferralOut(
+        id=ref.id,
+        status=ref.status,
+        created_at=ref.created_at,
+        qualified_at=ref.qualified_at,
+        reward_kind=ref.reward_kind,
+        reward_percent=ref.reward_percent,
+        reward_used=bool(ref.reward_used),
+        reward_used_at=ref.reward_used_at,
+        admin_note=ref.admin_note,
+        referred_name=ref.referred_user.full_name if ref.referred_user else None,
+        referrer_name=ref.referrer.full_name if ref.referrer else None,
+    )
+
+
+# ---------------------------------------------------------------------------
+# Public — pricing + code lookup
+# ---------------------------------------------------------------------------
+
+@router.get("/pricing", response_model=PricingOut)
+def pricing(db: Session = Depends(get_db)) -> PricingOut:
+    """מחירים והטבות בקריאה אחת — מזין את עמוד המנוי ואת עמוד ההזמנה."""
+    plans = (
+        db.query(models.SubscriptionPlan)
+        .filter(models.SubscriptionPlan.is_active.is_(True))
+        .order_by(models.SubscriptionPlan.price_nis)
+        .all()
+    )
+    s = settings_store.all_settings(db)
+    return PricingOut(plans=plans, **s)
+
+
+@router.get("/referral-code/{code}", response_model=ReferralCodeInfo)
+def check_code(
+    code: str, request: Request, db: Session = Depends(get_db)
+) -> ReferralCodeInfo:
+    """מי הזמין אותי? נקרא מעמוד ההרשמה כדי להציג "הצטרפת דרך ...".
+
+    מחזיר שם בלבד — לא מזהה, לא שם משתמש — כי הנתיב פתוח ללא הזדהות. ובכל
+    זאת חסום בקצב: קוד תקין מחזיר שם של אדם אמיתי, ובלי חסימה אפשר היה לסרוק
+    קודים ולאסוף שמות. משתמש אמיתי קורא לנתיב פעם אחת, בטעינת טופס ההרשמה.
+    """
+    check_rate_limit(f"refcode:{client_ip(request)}", limit=20, window_seconds=600)
+    user = core.user_by_code(db, code)
+    if user is None:
+        return ReferralCodeInfo(valid=False)
+    return ReferralCodeInfo(valid=True, referrer_name=user.full_name)
+
+
+# ---------------------------------------------------------------------------
+# Student — my invite link and my rewards
+# ---------------------------------------------------------------------------
+
+@router.get("/me/referrals", response_model=MyReferralsOut)
+def my_referrals(
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user),
+) -> MyReferralsOut:
+    code = core.code_for(db, current_user)
+    rows = (
+        db.query(models.Referral)
+        .filter(models.Referral.referrer_id == current_user.id)
+        .order_by(models.Referral.created_at.desc())
+        .all()
+    )
+    s = settings_store.all_settings(db)
+    qualified = [r for r in rows if r.status == "qualified"]
+    return MyReferralsOut(
+        code=code,
+        join_path=f"/join/{code}",
+        total=len(rows),
+        pending=sum(1 for r in rows if r.status == "pending"),
+        qualified=len(qualified),
+        unredeemed=sum(1 for r in qualified if not r.reward_kind),
+        sub_discount_pct=s["referral_sub_discount_pct"],
+        lesson_discount_pct=s["referral_lesson_discount_pct"],
+        lesson_price_nis=s["lesson_price_nis"],
+        referrals=[_out(r) for r in rows],
+    )
+
+
+@router.post("/me/referrals/{ref_id}/choose", response_model=ReferralOut)
+def choose_reward(
+    ref_id: int,
+    payload: RewardChoice,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user),
+) -> ReferralOut:
+    """המפנה בוחר את ההטבה. הבחירה סופית עד שהמנהל מבטל אותה.
+
+    האחוז נשמר על השורה ולא נקרא מההגדרות בזמן המימוש — כך העלאת מחיר או שינוי
+    אחוז ההנחה בעתיד לא משנים רטרואקטיבית הטבה שכבר הובטחה.
+    """
+    if payload.kind not in core.REWARD_KINDS:
+        raise HTTPException(status_code=400, detail="סוג הטבה לא מוכר")
+    ref = db.query(models.Referral).filter(models.Referral.id == ref_id).first()
+    if not ref or ref.referrer_id != current_user.id:
+        raise HTTPException(status_code=404, detail="ההפניה לא נמצאה")
+    if ref.status != "qualified":
+        raise HTTPException(status_code=400, detail="ההטבה עוד לא זמינה למימוש")
+    if ref.reward_used:
+        raise HTTPException(status_code=400, detail="ההטבה כבר מומשה")
+    s = settings_store.all_settings(db)
+    ref.reward_kind = payload.kind
+    ref.reward_percent = (
+        s["referral_sub_discount_pct"]
+        if payload.kind == "subscription"
+        else s["referral_lesson_discount_pct"]
+    )
+    db.commit()
+    db.refresh(ref)
+    return _out(ref)
+
+
+# ---------------------------------------------------------------------------
+# Admin — settings & reward management
+# ---------------------------------------------------------------------------
+
+@router.get("/admin/pricing", response_model=SettingsOut)
+def admin_get_pricing(
+    db: Session = Depends(get_db),
+    _: models.User = Depends(require_admin),
+) -> SettingsOut:
+    return SettingsOut(**settings_store.all_settings(db))
+
+
+@router.put("/admin/pricing", response_model=SettingsOut)
+def admin_set_pricing(
+    payload: SettingsIn,
+    db: Session = Depends(get_db),
+    _: models.User = Depends(require_admin),
+) -> SettingsOut:
+    for field in ("referral_sub_discount_pct", "referral_lesson_discount_pct"):
+        value = getattr(payload, field)
+        if value is not None and not (0 <= value <= 100):
+            raise HTTPException(status_code=400, detail="אחוז הנחה חייב להיות בין 0 ל-100")
+    if payload.lesson_price_nis is not None and payload.lesson_price_nis < 0:
+        raise HTTPException(status_code=400, detail="מחיר לא יכול להיות שלילי")
+    return SettingsOut(
+        **settings_store.set_settings(db, payload.model_dump(exclude_none=True))
+    )
+
+
+@router.get("/admin/referrals", response_model=list[ReferralOut])
+def admin_list_referrals(
+    db: Session = Depends(get_db),
+    _: models.User = Depends(require_admin),
+) -> list[ReferralOut]:
+    rows = (
+        db.query(models.Referral)
+        .order_by(models.Referral.created_at.desc())
+        .all()
+    )
+    return [_out(r) for r in rows]
+
+
+@router.post("/admin/referrals/{ref_id}/qualify", response_model=ReferralOut)
+def admin_qualify(
+    ref_id: int,
+    db: Session = Depends(get_db),
+    _: models.User = Depends(require_admin),
+) -> ReferralOut:
+    """זיכוי ידני — למקרה שהתלמיד שילם/אושר מחוץ למסלול הרגיל."""
+    ref = db.query(models.Referral).filter(models.Referral.id == ref_id).first()
+    if not ref:
+        raise HTTPException(status_code=404, detail="ההפניה לא נמצאה")
+    if ref.status == "qualified":
+        return _out(ref)
+    ref.status = "qualified"
+    ref.qualified_at = datetime.utcnow()
+    db.commit()
+    db.refresh(ref)
+    return _out(ref)
+
+
+@router.post("/admin/referrals/{ref_id}/mark-used", response_model=ReferralOut)
+def admin_mark_used(
+    ref_id: int,
+    db: Session = Depends(get_db),
+    _: models.User = Depends(require_admin),
+) -> ReferralOut:
+    """המנהל מסמן שההנחה הוחלה בפועל (על החידוש או על השיעור)."""
+    ref = db.query(models.Referral).filter(models.Referral.id == ref_id).first()
+    if not ref:
+        raise HTTPException(status_code=404, detail="ההפניה לא נמצאה")
+    if ref.status != "qualified":
+        raise HTTPException(status_code=400, detail="ההפניה עוד לא זכאית להטבה")
+    if not ref.reward_kind:
+        raise HTTPException(
+            status_code=400, detail="התלמיד המפנה עוד לא בחר איזו הטבה הוא רוצה"
+        )
+    ref.reward_used = True
+    ref.reward_used_at = datetime.utcnow()
+    db.commit()
+    db.refresh(ref)
+    return _out(ref)
+
+
+@router.post("/admin/referrals/{ref_id}/cancel", response_model=ReferralOut)
+def admin_cancel(
+    ref_id: int,
+    db: Session = Depends(get_db),
+    _: models.User = Depends(require_admin),
+) -> ReferralOut:
+    """ביטול הפניה (כפילות, ניסיון להערים). ההטבה יורדת מהמניין."""
+    ref = db.query(models.Referral).filter(models.Referral.id == ref_id).first()
+    if not ref:
+        raise HTTPException(status_code=404, detail="ההפניה לא נמצאה")
+    ref.status = "canceled"
+    db.commit()
+    db.refresh(ref)
+    return _out(ref)

@@ -39,6 +39,10 @@ class User(Base):
     # When the student dismissed the one-time welcome / free-trial popup. Kept
     # server-side so the greeting doesn't reappear on another device.
     welcome_seen_at = Column(DateTime, nullable=True)
+    # Personal invite code ("חבר מביא חבר"). Minted lazily on first visit to the
+    # invite page — backfilling every existing row would burn codes on accounts
+    # that never share one. See app.referrals.code_for.
+    referral_code = Column(String, unique=True, nullable=True, index=True)
 
     enrollments = relationship(
         "UserCourseEnrollment",
@@ -557,3 +561,45 @@ class LessonRequest(Base):
 
     slot = relationship("LessonSlot", back_populates="requests")
     user = relationship("User")
+
+
+# ---------------------------------------------------------------------------
+# Referral programme ("חבר מביא חבר")
+# ---------------------------------------------------------------------------
+# The admin-tunable numbers it needs (lesson price, discount percentages) live
+# in the existing AppSetting key/value table above — see app.settings_store.
+
+class Referral(Base):
+    """One student brought in by another user's invite link.
+
+    A row is created the moment the invited student registers (``status
+    ='pending'``) and turns into a reward when the admin grants that student a
+    real subscription (``status='qualified'``) — there is no payment gateway, so
+    the admin's approval IS the conversion event.
+
+    The reward itself is deliberately unchosen at that point: the referrer picks
+    between the two offers (percent off the next month, or off a private lesson)
+    when they redeem it, and the admin marks it used once applied.
+    """
+
+    __tablename__ = "referrals"
+    # A student can only ever be credited to one referrer.
+    __table_args__ = (UniqueConstraint("referred_user_id"),)
+
+    id = Column(Integer, primary_key=True, index=True)
+    referrer_id = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
+    referred_user_id = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
+    code_used = Column(String, nullable=True)
+    status = Column(String, nullable=False, default="pending", index=True)  # pending|qualified|canceled
+    created_at = Column(DateTime, default=datetime.utcnow, index=True)
+    qualified_at = Column(DateTime, nullable=True)
+
+    # Reward, filled in after it qualifies.
+    reward_kind = Column(String, nullable=True)      # subscription | lesson
+    reward_percent = Column(Float, nullable=True)    # snapshot of the % at redemption time
+    reward_used = Column(Boolean, nullable=False, default=False)
+    reward_used_at = Column(DateTime, nullable=True)
+    admin_note = Column(Text, nullable=True)
+
+    referrer = relationship("User", foreign_keys=[referrer_id])
+    referred_user = relationship("User", foreign_keys=[referred_user_id])

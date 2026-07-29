@@ -11,6 +11,7 @@ import { Loading } from '../components/Status.jsx'
 export default function SubscriptionPage() {
   const { user } = useAuth()
   const [access, setAccess] = useState(null)
+  const [pricing, setPricing] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -19,6 +20,9 @@ export default function SubscriptionPage() {
       .then(setAccess)
       .catch(() => setAccess(null))
       .finally(() => setLoading(false))
+    // המחירים וההטבות נקבעים ע"י המנהל, ולכן נשלפים ולא כתובים בקוד. כישלון
+    // כאן רק מסתיר את כרטיס ההזמנה — מצב המנוי עצמו לא תלוי בו.
+    api.pricing().then(setPricing).catch(() => setPricing(null))
   }, [])
 
   const isAdmin = user?.role === 'admin'
@@ -106,6 +110,21 @@ export default function SubscriptionPage() {
             <Link to="/messages" className="btn">שליחת הודעה למנהל</Link>
           </div>
         </>
+      )}
+
+      {/* מי שנמצא בעמוד הזה חושב על מחיר — זה בדיוק הרגע להראות לו שיש דרך
+          להוריד אותו. למנהל אין מנוי ולכן גם אין הטבה להציג לו. */}
+      {!isAdmin && state !== 'admin' && pricing && (
+        <div className="sub-referral">
+          <h3>רוצה לשלם פחות?</h3>
+          <p>
+            על כל תלמיד שיצטרף דרך הקישור האישי שלך מגיעה לך{' '}
+            <strong>{Math.round(pricing.referral_sub_discount_pct)}% הנחה על החודש הבא</strong>{' '}
+            — או <strong>{Math.round(pricing.referral_lesson_discount_pct)}% הנחה על שיעור פרטי בזום</strong>,
+            לבחירתך.
+          </p>
+          <Link to="/invite" className="btn">לקישור שלי</Link>
+        </div>
       )}
     </section>
   )

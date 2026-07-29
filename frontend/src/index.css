@@ -3576,3 +3576,147 @@ h4.prose-h {
   .celebrate-toast-small { top: 70px; font-size: 0.88rem; padding: 8px 14px; }
   .celebrate-toast-big { top: 88px; font-size: 1.02rem; padding: 14px 18px; }
 }
+
+/* ---------- חבר מביא חבר ---------- */
+.referral-page .page-head p {
+  max-width: 62ch;
+}
+.referral-share h3 {
+  margin-top: 0;
+}
+.referral-link-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.referral-link {
+  flex: 1 1 260px;
+  min-width: 0;
+  /* The invite URL is a single unbreakable token; without this it pushes the
+     card wider than a 320px phone and the whole page scrolls sideways. */
+  overflow-wrap: anywhere;
+  direction: ltr;
+  text-align: left;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.92rem;
+  color: var(--text);
+}
+.btn-wa {
+  background: #25d366;
+  border-color: #1eb455;
+  color: #06331a;
+}
+.btn-wa:hover {
+  background: #1eb455;
+  color: #06331a;
+}
+.referral-stats {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 20px 0;
+}
+.referral-stat {
+  flex: 1 1 150px;
+  text-align: center;
+  padding: 18px 14px;
+}
+.referral-stat svg {
+  color: var(--accent);
+  width: 24px;
+  height: 24px;
+}
+.referral-stat strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.9rem;
+  color: var(--accent);
+  line-height: 1.2;
+}
+.referral-stat span {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+.referral-choose h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 0;
+}
+.referral-choose h3 svg {
+  width: 20px;
+  height: 20px;
+  color: var(--accent-2);
+}
+.referral-choice-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+.auth-invite {
+  background: var(--ok-bg);
+  color: var(--ok);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 0.95rem;
+  margin: 0 0 16px;
+}
+
+/* Inline editing inside admin tables (prices, plan names) */
+.cell-input {
+  width: 100%;
+  min-width: 90px;
+  padding: 7px 9px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.92rem;
+  background: var(--surface);
+  color: var(--text);
+}
+.cell-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.cell-num {
+  max-width: 110px;
+  /* Numbers stay LTR even inside the RTL table, or the minus/caret jumps sides. */
+  direction: ltr;
+  text-align: right;
+}
+
+@media (max-width: 560px) {
+  .referral-choice-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .referral-stat strong {
+    font-size: 1.6rem;
+  }
+}
+
+.sub-referral {
+  margin-top: 26px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.sub-referral h3 {
+  margin: 0 0 8px;
+  color: var(--accent);
+}
+.sub-referral p {
+  margin: 0 0 14px;
+  color: var(--muted);
+}

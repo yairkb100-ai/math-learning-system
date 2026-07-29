@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate, useParams } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext.jsx'
 import PrivateRoute from './components/PrivateRoute.jsx'
 import Navbar from './components/Navbar.jsx'
@@ -30,6 +30,7 @@ import ExamResults from './pages/ExamResults.jsx'
 import Achievements from './pages/Achievements.jsx'
 import LessonsBooking from './pages/LessonsBooking.jsx'
 import AdminLessons from './pages/AdminLessons.jsx'
+import ReferralPage from './pages/ReferralPage.jsx'
 
 export default function App() {
   return (
@@ -49,6 +50,9 @@ function AppRoutes() {
           {/* Public */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          {/* קישור ההזמנה ששותפו בוואטסאפ — קצר ובלי סימן שאלה, כדי שאפליקציות
+              לא יחתכו אותו. מכאן הוא נכנס לטופס ההרשמה כפרמטר. */}
+          <Route path="/join/:code" element={<JoinRedirect />} />
 
           {/* Student */}
           <Route
@@ -232,6 +236,14 @@ function AppRoutes() {
               </PrivateRoute>
             }
           />
+          <Route
+            path="/invite"
+            element={
+              <PrivateRoute>
+                <ReferralPage />
+              </PrivateRoute>
+            }
+          />
 
           <Route path="*" element={<NotFound />} />
         </Routes>
@@ -246,6 +258,13 @@ function AppRoutes() {
       </footer>
     </div>
   )
+}
+
+// /join/<קוד> → טופס ההרשמה עם הקוד. הקוד מנורמל לאותיות גדולות כי הוא מוקלד
+// ומועתק ידנית, ו-replace כדי שכפתור "אחורה" לא יחזיר אותנו להפניה.
+function JoinRedirect() {
+  const { code } = useParams()
+  return <Navigate to={`/register?ref=${encodeURIComponent((code || '').toUpperCase())}`} replace />
 }
 
 function NotFound() {

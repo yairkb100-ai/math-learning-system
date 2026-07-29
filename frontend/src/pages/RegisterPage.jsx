@@ -1,17 +1,30 @@
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import api from '../api.js'
 
 export default function RegisterPage() {
   const { login } = useAuth()
   const navigate = useNavigate()
+  const [params] = useSearchParams()
+  // הגיע דרך קישור "חבר מביא חבר" (/join/<קוד> → /register?ref=<קוד>).
+  const refCode = (params.get('ref') || '').trim()
+  const [referrer, setReferrer] = useState(null)
   const [fullName, setFullName] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [confirm, setConfirm] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    if (!refCode) return
+    // קוד שגוי לא מקלקל את הטופס — פשוט לא מוצג באנר.
+    api
+      .referralCodeInfo(refCode)
+      .then((r) => setReferrer(r?.valid ? r.referrer_name : null))
+      .catch(() => setReferrer(null))
+  }, [refCode])
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -30,6 +43,7 @@ export default function RegisterPage() {
         username: username.trim(),
         password,
         full_name: fullName.trim(),
+        referral_code: refCode || undefined,
       })
       login(res.access_token, res.user)
       navigate('/')
@@ -50,6 +64,12 @@ export default function RegisterPage() {
         <h1>לומדת מתמטיקה</h1>
         <p className="auth-tagline">מהיסודי ועד לתיכון</p>
         <h2>הרשמה למערכת</h2>
+
+        {referrer && (
+          <p className="auth-invite">
+            הוזמנת על ידי <strong>{referrer}</strong> — ברוך הבא!
+          </p>
+        )}
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
