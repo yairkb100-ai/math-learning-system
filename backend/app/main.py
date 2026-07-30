@@ -57,6 +57,11 @@ def on_startup() -> None:
     Base.metadata.create_all(bind=engine)
     # Patch older SQLite tables that predate newly-added columns (create_all
     # won't ALTER an existing table). Keep dev DBs usable without a reset.
+    #
+    # This block is the SECOND line of defence, not the first: production boots
+    # with `python seed.py && uvicorn ...`, so seed.run_light_migrations() runs
+    # before this hook and queries the new columns. A column added only here
+    # crashes the deploy inside seed. Add every new column to BOTH.
     from sqlalchemy import inspect, text
 
     inspector = inspect(engine)

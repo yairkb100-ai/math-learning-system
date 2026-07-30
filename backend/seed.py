@@ -869,11 +869,19 @@ def cleanup_orphaned_uploads(db):
 
 
 def run_light_migrations():
-    """Add columns that ``create_all`` won't add to pre-existing tables (SQLite).
+    """Add columns that ``create_all`` won't add to pre-existing tables.
 
     ``Base.metadata.create_all`` creates NEW tables but never ALTERs an existing
     one. When a column is added to a model after its table already exists, add it
     here so old dev databases stay usable without a full reset.
+
+    THIS is the migration that matters in production, not the near-identical
+    block in ``app.main.on_startup``: Railway boots with
+    ``python seed.py && uvicorn ...``, so seed runs FIRST and queries the new
+    column before the app's startup hook ever fires. Adding a column only to
+    main.py crashes the deploy here with "column ... does not exist" and the
+    site never comes up. Every column added to a model must be added in BOTH
+    places — and this one first.
     """
     from sqlalchemy import inspect, text
 
@@ -925,6 +933,20 @@ def run_light_migrations():
             with engine.begin() as conn:
                 conn.execute(text("ALTER TABLE users ADD COLUMN welcome_seen_at TIMESTAMP"))
             print("  ~ Migrated: added users.welcome_seen_at")
+        if "referral_code" not in cols:
+            # No UNIQUE in the ALTER — SQLite rejects adding a unique column to
+            # a populated table. The index below supplies it instead.
+            with engine.begin() as conn:
+                conn.execute(text("ALTER TABLE users ADD COLUMN referral_code VARCHAR"))
+            print("  ~ Migrated: added users.referral_code")
+        # create_all only builds indexes for tables it creates, so an existing
+        # users table would never get this one. NULLs don't collide in SQLite
+        # or Postgres, so accounts that never minted a code are unaffected.
+        with engine.begin() as conn:
+            conn.execute(text(
+                "CREATE UNIQUE INDEX IF NOT EXISTS ix_users_referral_code "
+                "ON users (referral_code)"
+            ))
 
     if "exercises" in inspector.get_table_names():
         cols = {c["name"] for c in inspector.get_columns("exercises")}
