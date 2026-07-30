@@ -57,9 +57,25 @@ function todayKey() {
   return `${n.getFullYear()}-${String(n.getMonth() + 1).padStart(2, '0')}-${String(n.getDate()).padStart(2, '0')}`
 }
 
+// A cleared number field reads as "" and Number("") is 0 — without this a stray
+// backspace would quietly save a price of zero.
+function num(value, label) {
+  const n = Number(value)
+  if (value === '' || value === null || Number.isNaN(n)) {
+    throw new Error(`${label}: יש למלא מספר`)
+  }
+  if (n < 0) throw new Error(`${label}: מספר לא יכול להיות שלילי`)
+  return n
+}
+
+const BLANK_TYPE = { duration_min: '', price_nis: '', label: '' }
+
 export default function AdminLessons() {
   const [slots, setSlots] = useState([])
   const [requests, setRequests] = useState([])
+  const [types, setTypes] = useState([]) // המחירון: משך → מחיר
+  const [typeDrafts, setTypeDrafts] = useState({}) // typeId -> {duration_min, price_nis, label}
+  const [newType, setNewType] = useState(BLANK_TYPE)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [busy, setBusy] = useState(false)
@@ -87,15 +103,19 @@ export default function AdminLessons() {
   })
   const [selectedDay, setSelectedDay] = useState(todayKey())
   const [panelDuration, setPanelDuration] = useState(45)
+  // "אחר…" — משך שאינו במחירון, מוקלד ידנית.
+  const [panelCustom, setPanelCustom] = useState(false)
   const [customTime, setCustomTime] = useState('')
 
   const load = useCallback(() => {
     setLoading(true)
     setError(null)
-    Promise.all([api.adminLessonSlots(), api.adminLessonRequests()])
-      .then(([s, r]) => {
+    Promise.all([api.adminLessonSlots(), api.adminLessonRequests(), api.adminLessonTypes()])
+      .then(([s, r, t]) => {
         setSlots(Array.isArray(s) ? s : [])
         setRequests(Array.isArray(r) ? r : [])
+        setTypes(Array.isArray(t) ? t : [])
+        setTypeDrafts({})
       })
       .catch(setError)
       .finally(() => setLoading(false))
@@ -104,6 +124,44 @@ export default function AdminLessons() {
   useEffect(() => {
     load()
   }, [load])
+
+  const activeTypes = useMemo(() => types.filter((t) => t.is_active), [types])
+
+  // The price the admin set for a given length — null when that length has no row.
+  const priceOf = useCallback(
+    (minutes) => {
+      const t = activeTypes.find((x) => x.duration_min === Number(minutes))
+      return t && t.price_nis > 0 ? t.price_nis : null
+    },
+    [activeTypes],
+  )
+  const durLabel = (minutes) => {
+    const p = priceOf(minutes)
+    return `${minutes} דק׳${p ? ` · ₪${Math.round(p)}` : ''}`
+  }
+  // Hint next to a hand-typed length, so a price-less duration can't slip through unnoticed.
+  const durHint = (minutes) => {
+    const p = priceOf(minutes)
+    return p ? `₪${Math.round(p)}` : 'לא במחירון'
+  }
+
+  // Land on a length the admin actually offers, instead of a hardcoded 45.
+  //
+  // Waits for the fetch: before it lands the list is empty, and acting on that
+  // would drop the picker into "אחר" on every single load. Skipped in "אחר" mode
+  // too — every slot added triggers a reload, and without that a hand-typed
+  // length would be reset right after its first use.
+  useEffect(() => {
+    if (loading) return
+    if (activeTypes.length === 0) {
+      setPanelCustom(true)
+      return
+    }
+    if (!panelCustom && !activeTypes.some((t) => t.duration_min === panelDuration)) {
+      setPanelDuration(activeTypes[0].duration_min)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTypes, loading])
 
   async function addSingle(e) {
     e.preventDefault()
@@ -170,6 +228,67 @@ export default function AdminLessons() {
     } finally {
       setBusy(false)
     }
+  }
+
+  // ----- price list (lesson lengths + prices) -----
+  const typeDraft = (t) =>
+    typeDrafts[t.id] ?? {
+      duration_min: t.duration_min,
+      price_nis: t.price_nis,
+      label: t.label || '',
+    }
+
+  const editType = (t, field, value) =>
+    setTypeDrafts((d) => ({ ...d, [t.id]: { ...typeDraft(t), [field]: value } }))
+
+  const typeDirty = (t) => {
+    const d = typeDrafts[t.id]
+    if (!d) return false
+    return (
+      Number(d.duration_min) !== t.duration_min ||
+      Number(d.price_nis) !== t.price_nis ||
+      d.label !== (t.label || '')
+    )
+  }
+
+  async function saveType(t) {
+    const d = typeDraft(t)
+    setBusy(true)
+    try {
+      await api.adminUpdateLessonType(t.id, {
+        duration_min: num(d.duration_min, 'משך'),
+        price_nis: num(d.price_nis, 'מחיר'),
+        label: d.label.trim(),
+      })
+      load()
+    } catch (err) {
+      alert(err.message)
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  async function addType(e) {
+    e.preventDefault()
+    setBusy(true)
+    try {
+      await api.adminCreateLessonType({
+        durationMin: num(newType.duration_min, 'משך'),
+        priceNis: num(newType.price_nis, 'מחיר'),
+        label: newType.label.trim() || null,
+      })
+      setNewType(BLANK_TYPE)
+      load()
+    } catch (err) {
+      alert(err.message)
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  async function removeType(t) {
+    if (!confirm(`למחוק את השיעור באורך ${t.duration_min} דק׳ מהמחירון?`)) return
+    await act(api.adminDeleteLessonType, t.id)
   }
 
   function toggleWeekday(v) {
@@ -253,9 +372,14 @@ export default function AdminLessons() {
 
   // Mark availability: create a bookable slot at day+time (or delete a free one).
   async function addSlotAt(key, hhmm) {
+    const dur = Number(panelDuration)
+    if (!dur || dur < 5) {
+      alert('בחרו משך שיעור תקין (לפחות 5 דקות).')
+      return
+    }
     setBusy(true)
     try {
-      await api.adminCreateLessonSlot({ startsAt: `${key}T${hhmm}`, durationMin: Number(panelDuration) || 45, note: null })
+      await api.adminCreateLessonSlot({ startsAt: `${key}T${hhmm}`, durationMin: dur, note: null })
       load()
     } catch (err) {
       alert(err.message)
@@ -333,6 +457,7 @@ export default function AdminLessons() {
                   <strong>{fmtTime(s.starts_at)}</strong>
                   <span>
                     {s.duration_min} דק׳
+                    {s.price_nis ? ` · ₪${Math.round(s.price_nis)}` : ''}
                     {s.note ? ` · ${s.note}` : ''}
                     {s.student_name ? ` · ${s.student_name}` : ''}
                   </span>
@@ -369,6 +494,13 @@ export default function AdminLessons() {
 
   return (
     <div dir="rtl" className="admin-lessons">
+      {/* Suggests the lengths from the price list in every hand-typed duration field. */}
+      <datalist id="lesson-durations">
+        {activeTypes.map((t) => (
+          <option key={t.id} value={t.duration_min} />
+        ))}
+      </datalist>
+
       <h1 className="page-title">שיעורים פרטיים — ניהול</h1>
       <p className="page-sub" style={{ marginTop: -2 }}>
         מאשרים בקשות, צופים בלוח לפי ימים, ופותחים זמינות חדשה.
@@ -387,7 +519,10 @@ export default function AdminLessons() {
               <div key={r.id} className="req-row is-pending">
                 <div className="req-when">
                   <strong>{r.student_name}</strong>
-                  <span>{r.starts_at ? fmtDateTime(r.starts_at) : '—'} · {r.duration_min} דק׳</span>
+                  <span>
+                    {r.starts_at ? fmtDateTime(r.starts_at) : '—'} · {r.duration_min} דק׳
+                    {r.price_nis ? ` · ₪${Math.round(r.price_nis)}` : ''}
+                  </span>
                   {r.student_note && <span className="req-note">“{r.student_note}”</span>}
                 </div>
                 <div className="req-actions">
@@ -404,7 +539,141 @@ export default function AdminLessons() {
         )}
       </section>
 
-      {/* 2 · Big availability calendar — the centerpiece */}
+      {/* 2 · Price list — the lengths offered and what each one costs */}
+      <section className="card lesson-section">
+        <h2 className="section-h">משכי שיעור ומחירים</h2>
+        <p className="page-sub" style={{ marginTop: -4 }}>
+          כאן קובעים אילו אורכי שיעור אתם מציעים וכמה כל אחד עולה. המשכים שתגדירו הם
+          אלה שיוצעו לכם בפתיחת זמינות, והמחיר מוצג לתלמידים בעמוד קביעת השיעור.
+          שינוי מחיר משפיע מיד — הוא אינו משנה שיעורים שכבר אושרו.
+        </p>
+
+        {types.length === 0 ? (
+          <p className="empty">
+            אין עדיין משכי שיעור. הוסיפו לפחות אחד — עד אז אפשר להקליד משך ידנית בכל
+            מקום שבו בוחרים אורך שיעור.
+          </p>
+        ) : (
+          <div className="lesson-type-list">
+            {types.map((t) => {
+              const d = typeDraft(t)
+              return (
+                <div key={t.id} className={`lesson-type-row${t.is_active ? '' : ' is-off'}`}>
+                  <label className="lt-field">
+                    משך (דק׳)
+                    <input
+                      type="number"
+                      min="5"
+                      max="480"
+                      step="5"
+                      value={d.duration_min}
+                      disabled={busy}
+                      onChange={(e) => editType(t, 'duration_min', e.target.value)}
+                    />
+                  </label>
+                  <label className="lt-field">
+                    מחיר (₪)
+                    <input
+                      type="number"
+                      min="0"
+                      step="5"
+                      value={d.price_nis}
+                      disabled={busy}
+                      onChange={(e) => editType(t, 'price_nis', e.target.value)}
+                    />
+                  </label>
+                  <label className="lt-field lt-label">
+                    תיאור (לא חובה)
+                    <input
+                      type="text"
+                      value={d.label}
+                      placeholder="למשל: שיעור העמקה"
+                      disabled={busy}
+                      onChange={(e) => editType(t, 'label', e.target.value)}
+                    />
+                  </label>
+                  <div className="lt-actions">
+                    <button
+                      type="button"
+                      className="btn-sm btn-primary"
+                      disabled={busy || !typeDirty(t)}
+                      onClick={() => saveType(t)}
+                    >
+                      שמור
+                    </button>
+                    <button
+                      type="button"
+                      className="btn-sm btn-ghost"
+                      disabled={busy}
+                      title={t.is_active ? 'להסתיר מהמחירון בלי למחוק' : 'להחזיר למחירון'}
+                      onClick={() =>
+                        act(api.adminUpdateLessonType, t.id, { is_active: !t.is_active })
+                      }
+                    >
+                      {t.is_active ? 'הסתרה' : 'הצגה'}
+                    </button>
+                    <button
+                      type="button"
+                      className="btn-sm btn-danger"
+                      disabled={busy}
+                      onClick={() => removeType(t)}
+                    >
+                      מחיקה
+                    </button>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        )}
+
+        <form className="lesson-type-row is-new" onSubmit={addType}>
+          <label className="lt-field">
+            משך (דק׳)
+            <input
+              type="number"
+              min="5"
+              max="480"
+              step="5"
+              value={newType.duration_min}
+              placeholder="50"
+              disabled={busy}
+              required
+              onChange={(e) => setNewType({ ...newType, duration_min: e.target.value })}
+            />
+          </label>
+          <label className="lt-field">
+            מחיר (₪)
+            <input
+              type="number"
+              min="0"
+              step="5"
+              value={newType.price_nis}
+              placeholder="180"
+              disabled={busy}
+              required
+              onChange={(e) => setNewType({ ...newType, price_nis: e.target.value })}
+            />
+          </label>
+          <label className="lt-field lt-label">
+            תיאור (לא חובה)
+            <input
+              type="text"
+              value={newType.label}
+              placeholder="למשל: שיעור כפול"
+              disabled={busy}
+              onChange={(e) => setNewType({ ...newType, label: e.target.value })}
+            />
+          </label>
+          <div className="lt-actions">
+            <button className="btn-sm btn-primary" disabled={busy}>
+              הוספת משך
+            </button>
+          </div>
+        </form>
+      </section>
+
+      {/* 3 · Big availability calendar — the centerpiece */}
       <section className="card lesson-section">
         <div className="section-head-row">
           <h2 className="section-h" style={{ margin: 0 }}>לוח הזמינות</h2>
@@ -450,11 +719,47 @@ export default function AdminLessons() {
             <strong>{fmtDayLabel(selectedDay)}</strong>
             <label className="cal-dur">
               משך שיעור:
-              <select value={panelDuration} disabled={busy} onChange={(e) => setPanelDuration(Number(e.target.value))}>
-                <option value={30}>30 דק׳</option>
-                <option value={45}>45 דק׳</option>
-                <option value={60}>60 דק׳</option>
+              <select
+                value={panelCustom ? 'custom' : panelDuration}
+                disabled={busy}
+                onChange={(e) => {
+                  if (e.target.value === 'custom') {
+                    setPanelCustom(true)
+                    return
+                  }
+                  setPanelCustom(false)
+                  setPanelDuration(Number(e.target.value))
+                }}
+              >
+                {activeTypes.map((t) => (
+                  <option key={t.id} value={t.duration_min}>
+                    {durLabel(t.duration_min)}
+                    {t.label ? ` · ${t.label}` : ''}
+                  </option>
+                ))}
+                <option value="custom">אחר…</option>
               </select>
+              {panelCustom && (
+                <input
+                  type="number"
+                  className="cal-dur-custom"
+                  min="5"
+                  max="480"
+                  step="5"
+                  value={panelDuration}
+                  disabled={busy}
+                  aria-label="משך השיעור בדקות"
+                  onChange={(e) => setPanelDuration(Number(e.target.value))}
+                />
+              )}
+              {panelCustom && (
+                <span className="cal-dur-note">
+                  דק׳
+                  {priceOf(panelDuration)
+                    ? ` · ₪${Math.round(priceOf(panelDuration))}`
+                    : ' · לא במחירון'}
+                </span>
+              )}
             </label>
           </div>
 
@@ -525,7 +830,7 @@ export default function AdminLessons() {
         </div>
       </section>
 
-      {/* 3 · The schedule, grouped by day */}
+      {/* 4 · The schedule, grouped by day */}
       <section className="card lesson-section">
         <div className="section-head-row">
           <h2 className="section-h" style={{ margin: 0 }}>
@@ -563,7 +868,7 @@ export default function AdminLessons() {
         )}
       </section>
 
-      {/* 3 · Open availability (collapsed by default to keep the view calm) */}
+      {/* 5 · Open availability (collapsed by default to keep the view calm) */}
       <section className="card lesson-section">
         <details className="avail-block">
           <summary className="avail-summary">＋ פתיחת זמינות ומועדים</summary>
@@ -643,10 +948,13 @@ export default function AdminLessons() {
                 <input
                   type="number"
                   min="5"
+                  max="480"
                   step="5"
                   value={avail.durationMin}
                   onChange={(e) => setAvail({ ...avail, durationMin: e.target.value })}
+                  list="lesson-durations"
                 />
+                <span className="dur-hint">{durHint(avail.durationMin)}</span>
               </label>
             </div>
 
@@ -690,10 +998,13 @@ export default function AdminLessons() {
                   <input
                     type="number"
                     min="5"
+                    max="480"
                     step="5"
                     value={single.durationMin}
                     onChange={(e) => setSingle({ ...single, durationMin: e.target.value })}
+                    list="lesson-durations"
                   />
+                  <span className="dur-hint">{durHint(single.durationMin)}</span>
                 </label>
                 <label>
                   הערה (לא חובה)
@@ -711,7 +1022,7 @@ export default function AdminLessons() {
         </details>
       </section>
 
-      {/* 4 · Decided history */}
+      {/* 6 · Decided history */}
       {decided.length > 0 && (
         <section className="card lesson-section">
           <details className="avail-block">

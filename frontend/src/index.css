@@ -3292,16 +3292,112 @@ h4.prose-h {
 .cal-dur {
   display: inline-flex;
   align-items: center;
+  flex-wrap: wrap; /* המשך + "אחר…" + הערת המחיר לא נדחסים לשורה אחת בטלפון צר */
   gap: 6px;
+  max-width: 100%;
   color: var(--muted);
   font-size: 0.9rem;
 }
-.cal-dur select {
+.cal-dur select,
+.cal-dur input {
   padding: 5px 8px;
   border: 1px solid var(--border);
   border-radius: 8px;
   background: var(--surface);
   font: inherit;
+}
+/* "אחר…" — משך שמוקלד ידנית, צר כדי לא לדחוק את התאריך לשורה נפרדת */
+.cal-dur-custom { width: 74px; }
+.cal-dur-note { white-space: nowrap; }
+
+/* ---- מחירון השיעורים הפרטיים (משך + מחיר) ---- */
+.lesson-type-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.lesson-type-row {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+}
+/* שורה מוסתרת מהמחירון — קיימת, אך אינה מוצעת לתלמידים */
+.lesson-type-row.is-off {
+  opacity: 0.62;
+  border-style: dashed;
+}
+.lesson-type-row.is-new {
+  background: #f7faf7;
+  border-style: dashed;
+}
+.lt-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+.lt-field input {
+  width: 92px;
+  padding: 7px 9px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  font: inherit;
+  color: var(--text);
+}
+.lt-label { flex: 1 1 180px; }
+.lt-label input { width: 100%; min-width: 150px; }
+.lt-actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-inline-start: auto;
+}
+/* המחיר שמתאים למשך שהוקלד ידנית, ליד השדה עצמו */
+.dur-hint {
+  display: block;
+  margin-top: 3px;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+/* ---- רצועת המחירון בעמוד קביעת השיעור (תלמיד) ---- */
+.lesson-price-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 14px;
+  margin: 0 0 16px;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #f4f8f4;
+  font-size: 0.92rem;
+}
+.lps-label { font-weight: 600; }
+.lps-note { color: var(--muted); }
+.lps-hint {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-inline-start: auto;
+}
+
+@media (max-width: 560px) {
+  .lesson-type-row { align-items: stretch; }
+  .lt-field input { width: 100%; }
+  .lt-field { flex: 1 1 100px; }
+  .lt-actions {
+    margin-inline-start: 0;
+    width: 100%;
+  }
+  .lps-hint { margin-inline-start: 0; }
 }
 .cal-hours {
   display: flex;

@@ -545,6 +545,28 @@ class LessonSlot(Base):
     )
 
 
+class LessonType(Base):
+    """One line in the admin's private-lesson price list: a length and its price.
+
+    המנהל קובע כאן אילו משכי שיעור הוא מציע וכמה כל אחד עולה. המחיר נגזר מהמשך
+    ואינו נשמר על המשבצת, בדיוק כמו מחירי המנויים: שינוי מחירון משפיע מיד על מה
+    שהתלמידים רואים. אין סליקה במערכת — התשלום נסגר מול המורה — ולכן אין טעם
+    "לנעול" מחיר על תור שנקבע.
+
+    ``duration_min`` ייחודי: המחיר נשלף לפי המשך, ושתי שורות לאותו משך היו הופכות
+    את השליפה לדו-משמעית.
+    """
+
+    __tablename__ = "lesson_types"
+
+    id = Column(Integer, primary_key=True, index=True)
+    duration_min = Column(Integer, nullable=False, unique=True, index=True)
+    price_nis = Column(Float, nullable=False, default=0)
+    label = Column(String, nullable=True)  # תיאור חופשי ("שיעור העמקה", "אונליין")
+    is_active = Column(Boolean, nullable=False, default=True)  # הוסר מהמחירון בלי למחוק
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
 class LessonRequest(Base):
     """A student's request to book a lesson slot, pending the admin's approval."""
 

@@ -774,6 +774,8 @@ class LessonSlotOut(BaseModel):
     # populated by the router (not columns): booking state for this slot
     status: str = "open"  # open | pending | booked | blocked | past
     student_name: Optional[str] = None  # who booked/requested it (admin view)
+    # מחיר לפי המשך, מהמחירון שהמנהל עורך. None = לא פורסם מחיר למשך הזה.
+    price_nis: Optional[float] = None
 
 
 class LessonSlotCreate(BaseModel):
@@ -817,6 +819,35 @@ class LessonRequestOut(BaseModel):
     starts_at: Optional[datetime] = None
     duration_min: Optional[int] = None
     student_name: Optional[str] = None
+    price_nis: Optional[float] = None
+
+
+class LessonTypeOut(BaseModel):
+    """שורה במחירון השיעורים הפרטיים — משך והמחיר שלו."""
+
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    duration_min: int
+    price_nis: float
+    label: Optional[str] = None
+    is_active: bool
+
+
+class LessonTypeCreate(BaseModel):
+    duration_min: int
+    price_nis: float = 0
+    label: Optional[str] = None
+    is_active: bool = True
+
+
+class LessonTypeUpdate(BaseModel):
+    """כל שדה אופציונלי — אפשר לעדכן רק את המחיר בלי לשלוח את השאר."""
+
+    duration_min: Optional[int] = None
+    price_nis: Optional[float] = None
+    label: Optional[str] = None
+    is_active: Optional[bool] = None
 ExamSubmitResult.model_rebuild()
 
 

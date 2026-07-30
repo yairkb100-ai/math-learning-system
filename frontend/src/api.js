@@ -430,6 +430,7 @@ export const api = {
 
   // Private lessons — student
   lessonSlots: () => request('/lessons/slots'),
+  lessonTypes: () => request('/lessons/types'),
   requestLesson: (slotId, studentNote = null) =>
     request('/lessons/requests', {
       method: 'POST',
@@ -441,6 +442,25 @@ export const api = {
 
   // Private lessons — admin
   adminLessonSlots: () => request('/admin/lessons/slots'),
+  // מחירון השיעורים: אילו משכים מוצעים וכמה כל אחד עולה.
+  adminLessonTypes: () => request('/admin/lessons/types'),
+  adminCreateLessonType: ({ durationMin, priceNis = 0, label = null, isActive = true }) =>
+    request('/admin/lessons/types', {
+      method: 'POST',
+      body: JSON.stringify({
+        duration_min: durationMin,
+        price_nis: priceNis,
+        label,
+        is_active: isActive,
+      }),
+    }),
+  adminUpdateLessonType: (typeId, patch) =>
+    request(`/admin/lessons/types/${typeId}`, {
+      method: 'PATCH',
+      body: JSON.stringify(patch),
+    }),
+  adminDeleteLessonType: (typeId) =>
+    request(`/admin/lessons/types/${typeId}`, { method: 'DELETE' }),
   adminCreateLessonSlot: ({ startsAt, durationMin = 45, note = null }) =>
     request('/admin/lessons/slots', {
       method: 'POST',

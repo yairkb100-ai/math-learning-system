@@ -35,6 +35,7 @@ from app.auth import hash_password  # noqa: E402
 from app.database import Base, SessionLocal, engine  # noqa: E402
 from app.achievements import ensure_achievements  # noqa: E402
 from app.models import (  # noqa: E402
+    AppSetting,
     Chapter,
     Course,
     Exam,
@@ -42,6 +43,7 @@ from app.models import (  # noqa: E402
     Exercise,
     FileAsset,
     LearningObjective,
+    LessonType,
     LoginEvent,
     PracticeQuestion,
     QuizQuestion,
@@ -277,6 +279,41 @@ def ensure_plans(db):
     db.add_all(plans)
     db.commit()
     print("  + Created 3 subscription plans (free / monthly / yearly)")
+
+
+# המשכים שהיו כתובים בקוד לפני שהמחירון הפך לניתן לעריכה.
+_DEFAULT_LESSON_DURATIONS = (30, 45, 60)
+_LESSON_TYPES_FLAG = "lesson_types_seeded"
+
+
+def ensure_lesson_types(db):
+    """יוצר את המחירון ההתחלתי של השיעורים הפרטיים — פעם אחת בלבד.
+
+    השורות הן שלושת המשכים שהיו נעולים בקוד (30/45/60), במחיר הבסיס שהמנהל כבר
+    הגדיר ב-``/admin/pricing`` — כך שאחרי הפריסה שום דבר לא נראה אחרת, אלא שעכשיו
+    אפשר לערוך.
+
+    הדגל ב-``app_settings`` הוא מה שמונע מהשורות לצוץ מחדש: מנהל שמחק את כולן
+    בכוונה (או מכר רק שיעורי 50 דק׳) לא יקבל אותן שוב בפריסה הבאה.
+    """
+    flag = db.get(AppSetting, _LESSON_TYPES_FLAG)
+    if flag is not None:
+        return
+    base = db.get(AppSetting, "lesson_price_nis")
+    try:
+        price = float(base.value) if base is not None and base.value else 0.0
+    except (TypeError, ValueError):
+        price = 0.0
+    existing = {t.duration_min for t in db.query(LessonType).all()}
+    created = 0
+    for minutes in _DEFAULT_LESSON_DURATIONS:
+        if minutes in existing:
+            continue
+        db.add(LessonType(duration_min=minutes, price_nis=price, is_active=True))
+        created += 1
+    db.add(AppSetting(key=_LESSON_TYPES_FLAG, value="1"))
+    db.commit()
+    print(f"  + Lesson price list: created {created} default length(s) at {price:.0f} NIS")
 
 
 def rollout_free_trial(db):
@@ -1031,6 +1068,7 @@ def main():
     try:
         ensure_admin(db)
         ensure_plans(db)
+        ensure_lesson_types(db)
         rollout_free_trial(db)
         ensure_practice_questions(db)
         ensure_exams(db)

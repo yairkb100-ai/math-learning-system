@@ -37,9 +37,12 @@ function fmtTime(iso) {
   })
 }
 
+const shekels = (n) => `₪${Math.round(n)}`
+
 export default function LessonsBooking() {
   const [slots, setSlots] = useState([])
   const [requests, setRequests] = useState([])
+  const [types, setTypes] = useState([]) // המחירון של המורה
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [busy, setBusy] = useState(false)
@@ -50,10 +53,11 @@ export default function LessonsBooking() {
   const load = useCallback(() => {
     setLoading(true)
     setError(null)
-    Promise.all([api.lessonSlots(), api.myLessonRequests()])
-      .then(([s, r]) => {
+    Promise.all([api.lessonSlots(), api.myLessonRequests(), api.lessonTypes()])
+      .then(([s, r, t]) => {
         setSlots(Array.isArray(s) ? s : [])
         setRequests(Array.isArray(r) ? r : [])
+        setTypes(Array.isArray(t) ? t : [])
       })
       .catch(setError)
       .finally(() => setLoading(false))
@@ -116,6 +120,7 @@ export default function LessonsBooking() {
 
   const activeReqs = requests.filter((r) => r.status !== 'canceled')
   const dayTimes = selectedDay ? slotsByDay.get(selectedDay) || [] : []
+  const priced = types.filter((t) => t.price_nis > 0)
 
   return (
     <div dir="rtl" className="lessons-page booking-page">
@@ -123,6 +128,20 @@ export default function LessonsBooking() {
       <p className="page-sub">
         בחרו יום ושעה שנוחים לכם ושלחו בקשה. הבקשה ממתינה לאישור המורה, ותקבלו עדכון כאן ברגע שתאושר.
       </p>
+
+      {/* המחירון של המורה — מוצג רק אם הוגדרו מחירים */}
+      {priced.length > 0 && (
+        <div className="lesson-price-strip">
+          <span className="lps-label">מחירי השיעורים:</span>
+          {priced.map((t) => (
+            <span key={t.id} className="lps-item">
+              <strong>{t.duration_min} דק׳</strong> — {shekels(t.price_nis)}
+              {t.label ? <span className="lps-note"> ({t.label})</span> : null}
+            </span>
+          ))}
+          <span className="lps-hint">התשלום נסגר ישירות עם המורה.</span>
+        </div>
+      )}
 
       {/* My requests */}
       {activeReqs.length > 0 && (
@@ -138,6 +157,7 @@ export default function LessonsBooking() {
                     <span>
                       {r.starts_at ? fmtTime(r.starts_at) : ''}
                       {r.duration_min ? ` · ${r.duration_min} דק׳` : ''}
+                      {r.price_nis ? ` · ${shekels(r.price_nis)}` : ''}
                     </span>
                     {r.student_note && (
                       <span className="req-note">“{r.student_note}”</span>
@@ -224,7 +244,10 @@ export default function LessonsBooking() {
                     title={s.note || ''}
                   >
                     {fmtTime(s.starts_at)}
-                    <span className="time-dur">{s.duration_min} דק׳</span>
+                    <span className="time-dur">
+                      {s.duration_min} דק׳
+                      {s.price_nis ? ` · ${shekels(s.price_nis)}` : ''}
+                    </span>
                   </button>
                 ))}
               </div>
@@ -236,6 +259,7 @@ export default function LessonsBooking() {
                     <strong>{fmtFullDate(pickedSlot.starts_at)}</strong>
                     <span>
                       {fmtTime(pickedSlot.starts_at)} · {pickedSlot.duration_min} דק׳
+                      {pickedSlot.price_nis ? ` · ${shekels(pickedSlot.price_nis)}` : ''}
                     </span>
                     {pickedSlot.note && <span className="slot-note">{pickedSlot.note}</span>}
                   </div>

@@ -311,9 +311,13 @@ export default function AdminPricing() {
           על כל תלמיד שמישהו מביא הוא בוחר הטבה אחת: אחוז הנחה על החודש הבא של
           המנוי, או אחוז הנחה על שיעור פרטי בזום.
         </p>
+        <p className="muted" style={{ marginTop: 0 }}>
+          מחיר לכל אורך שיעור בנפרד נקבע במסך <strong>שיעורים פרטיים — ניהול</strong>.
+          מחיר הבסיס כאן משמש רק לאורך שאין לו מחיר משלו שם, ולחישוב ההנחה.
+        </p>
         <form onSubmit={savePricing} className="inline-form">
           <div className="form-group">
-            <label>מחיר שיעור פרטי (₪)</label>
+            <label>מחיר בסיס לשיעור פרטי (₪)</label>
             <input
               type="number"
               min="0"
@@ -321,6 +325,7 @@ export default function AdminPricing() {
               onChange={(e) =>
                 setPricing({ ...pricing, lesson_price_nis: e.target.value })
               }
+              title="משמש למשך שאין לו מחיר משלו במחירון, ולחישוב ההנחה למטה"
             />
           </div>
           <div className="form-group">
