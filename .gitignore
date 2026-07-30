@@ -43,3 +43,4 @@ scripts/video_pipeline/_review/
 scripts/video_pipeline/_held/
 scripts/video_pipeline/pipeline_status.json
 scripts/video_pipeline/*.log
+scripts/video_pipeline/auth_keepalive.log

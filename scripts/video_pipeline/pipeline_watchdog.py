@@ -18,6 +18,12 @@ This wrapper closes that hole:
      when a human is actually needed — auth dead, or no progress for
      STALL_RUNS runs while work is still pending.
 
+This wrapper reports a dead session; it cannot prevent one. That job belongs to
+auth_keepalive.py, scheduled every 15 minutes ("NotebookLM Auth Keepalive"):
+without it an idle profile stales out within hours, so a login done in the
+evening was reliably dead before the next morning's run — which is why the
+backlog kept sitting still even though the accounts were never revoked.
+
 State lives in pipeline_status.json next to this file. Run it from Task
 Scheduler instead of daily_grind.py (daily_grind.bat already does).
 
