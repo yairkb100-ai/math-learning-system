@@ -97,7 +97,21 @@ def toast(title, body):
 
 
 def auth_ok(profile):
-    """True if the profile's session actually works against the API."""
+    """True only on positive proof that the session works against the API.
+
+    This used to decide by looking for two error phrases and returning True for
+    anything else — fail-OPEN. Any output the phrases didn't cover (a crashed
+    CLI, an empty pipe from a killed process, a differently-worded error) was
+    logged as "auth OK" for a session that could not do a thing, and the run
+    then burned its window on an account that was never going to work. The log
+    line nobody could explain — "auth account1: OK" two seconds before the run
+    died — came from exactly that path.
+
+    So: a live session is proven, not assumed. `list` exits 0 and prints JSON
+    without an error flag; everything else is dead. `notebooklm profile list`
+    and `doctor` are no use here — both report "authenticated" whenever
+    storage_state.json merely exists on disk, expired or not.
+    """
     try:
         r = subprocess.run(
             ["notebooklm", "-p", profile, "list", "--json"],
@@ -106,11 +120,30 @@ def auth_ok(profile):
         )
     except subprocess.TimeoutExpired:
         return False, "timeout"
-    out = (r.stdout or "") + (r.stderr or "")
-    if "Authentication expired" in out or "re-authenticate" in out:
-        return False, "auth expired"
-    if '"error": true' in out:
-        return False, out.strip()[:200]
+    except OSError as exc:               # CLI missing / not executable
+        return False, f"cannot run notebooklm: {exc}"
+
+    out = ((r.stdout or "") + (r.stderr or "")).strip()
+    if r.returncode != 0:
+        low = out.lower()
+        if ("authentication expired" in low or "re-authenticate" in low
+                or "auth_required" in low or "accounts.google.com" in low):
+            return False, "auth expired"
+        return False, f"exit {r.returncode}: {out[:160] or 'no output'}"
+    if not out:
+        return False, "no output from list"
+
+    start = out.find("{")
+    if start == -1:
+        start = out.find("[")
+    if start == -1:
+        return False, f"unparseable output: {out[:160]}"
+    try:
+        data = json.loads(out[start:])
+    except json.JSONDecodeError:
+        return False, f"unparseable output: {out[start:start + 160]}"
+    if isinstance(data, dict) and data.get("error"):
+        return False, str(data.get("message") or data)[:200]
     return True, "ok"
 
 
