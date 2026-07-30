@@ -10,6 +10,7 @@ export default function Navbar() {
   const location = useLocation()
   const [unread, setUnread] = useState(0)
   const [pendingLessons, setPendingLessons] = useState(0)
+  const [pendingRewards, setPendingRewards] = useState(0)
   const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
@@ -24,6 +25,12 @@ export default function Navbar() {
         api
           .adminLessonPendingCount()
           .then((r) => alive && setPendingLessons(r?.count || 0))
+          .catch(() => {})
+        // הטבות "חבר מביא חבר" שהתלמיד כבר בחר וממתינות שתחיל אותן. בלי המונה
+        // הזה אין שום סימן שמישהו מחכה להנחה — המסך נמצא בלשונית פנימית.
+        api
+          .adminReferralPendingCount()
+          .then((r) => alive && setPendingRewards(r?.count || 0))
           .catch(() => {})
       }
     }
@@ -72,8 +79,10 @@ export default function Navbar() {
             aria-expanded={menuOpen}
           >
             {menuOpen ? <IconX /> : <IconMenu />}
-            {!menuOpen && (unread > 0 || pendingLessons > 0) && (
-              <span className="nav-badge nav-toggle-badge">{unread + pendingLessons}</span>
+            {!menuOpen && (unread > 0 || pendingLessons > 0 || pendingRewards > 0) && (
+              <span className="nav-badge nav-toggle-badge">
+                {unread + pendingLessons + pendingRewards}
+              </span>
             )}
           </button>
         )}
@@ -88,7 +97,10 @@ export default function Navbar() {
                   <Link to="/admin/users" className="nav-link">ניהול תלמידים</Link>
                   <Link to="/admin/progress" className="nav-link">התקדמות</Link>
                   <Link to="/admin/chapter-views" className="nav-link">צפיות</Link>
-                  <Link to="/admin/subscriptions" className="nav-link">מנויים ומכשירים</Link>
+                  <Link to="/admin/subscriptions" className="nav-link">
+                    מנויים ומכשירים
+                    {pendingRewards > 0 && <span className="nav-badge">{pendingRewards}</span>}
+                  </Link>
                   <Link to="/admin/lessons" className="nav-link">
                     שיעורים פרטיים
                     {pendingLessons > 0 && <span className="nav-badge">{pendingLessons}</span>}

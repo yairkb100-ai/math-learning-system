@@ -347,6 +347,7 @@ export const api = {
     }),
   referralCodeInfo: (code) => request(`/referral-code/${encodeURIComponent(code)}`),
   adminReferrals: () => request('/admin/referrals'),
+  adminReferralPendingCount: () => request('/admin/referrals/pending-count'),
   adminQualifyReferral: (refId) =>
     request(`/admin/referrals/${refId}/qualify`, { method: 'POST' }),
   adminMarkReferralUsed: (refId) =>

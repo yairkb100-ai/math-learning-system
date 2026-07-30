@@ -189,6 +189,28 @@ def admin_list_referrals(
     return [_out(r) for r in rows]
 
 
+@router.get("/admin/referrals/pending-count", response_model=dict)
+def admin_pending_count(
+    db: Session = Depends(get_db),
+    _: models.User = Depends(require_admin),
+) -> dict:
+    """כמה הטבות ממתינות שהמנהל יחיל אותן בפועל — מזין את הבאדג' בתפריט.
+
+    נספרות רק כאלה שהתלמיד כבר בחר עבורן הטבה: לפני הבחירה אין מה להחיל, ולכן
+    ספירתן הייתה מציגה התראה שאי אפשר לטפל בה.
+    """
+    n = (
+        db.query(models.Referral)
+        .filter(
+            models.Referral.status == "qualified",
+            models.Referral.reward_kind.isnot(None),
+            models.Referral.reward_used.is_(False),
+        )
+        .count()
+    )
+    return {"count": n}
+
+
 @router.post("/admin/referrals/{ref_id}/qualify", response_model=ReferralOut)
 def admin_qualify(
     ref_id: int,
@@ -201,8 +223,8 @@ def admin_qualify(
         raise HTTPException(status_code=404, detail="ההפניה לא נמצאה")
     if ref.status == "qualified":
         return _out(ref)
-    ref.status = "qualified"
-    ref.qualified_at = datetime.utcnow()
+    # אותו מסלול כמו הזיכוי האוטומטי, כדי שגם כאן המפנה יקבל התראה.
+    core.mark_qualified(db, ref, datetime.utcnow())
     db.commit()
     db.refresh(ref)
     return _out(ref)

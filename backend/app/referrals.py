@@ -89,6 +89,51 @@ def register_referral(db: Session, *, new_user: models.User, code: str) -> model
     return ref
 
 
+def mark_qualified(db: Session, ref: models.Referral, now) -> models.Referral:
+    """מסמן הפניה כזכאית ומודיע למפנה. ללא commit — המבצע סוגר את הטרנזקציה.
+
+    ההודעה היא לא קישוט: ההטבה נפתחת בעקבות פעולה של המנהל, במסך אחר, ובלי
+    התראה המפנה לא יכול לדעת שמגיע לו משהו אלא אם ייכנס לעמוד ההזמנה מיוזמתו.
+    הודעה פנימית כבר מדליקה את המונה בתפריט, ולכן זו הדרך הזולה להסגיר את זה.
+    """
+    ref.status = "qualified"
+    ref.qualified_at = now
+    _notify_referrer(db, ref)
+    return ref
+
+
+def _notify_referrer(db: Session, ref: models.Referral) -> None:
+    """הודעה פנימית מהמנהל למפנה על הטבה שנפתחה.
+
+    ``Message.sender_id`` אינו nullable ולכן ההודעה נשלחת בשם המנהל הראשון; אם
+    אין מנהל (מסד ריק/בדיקות) פשוט מדלגים — הפניה זכאית חשובה יותר מהתראה,
+    ואסור שכישלון בשליחה יפיל את הענקת המנוי שהפעילה אותה.
+    """
+    from app import settings_store
+
+    admin = (
+        db.query(models.User)
+        .filter(models.User.role == "admin")
+        .order_by(models.User.id)
+        .first()
+    )
+    if admin is None or admin.id == ref.referrer_id:
+        return
+    s = settings_store.all_settings(db)
+    who = ref.referred_user.full_name if ref.referred_user else "תלמיד/ה שהזמנת"
+    db.add(models.Message(
+        sender_id=admin.id,
+        recipient_id=ref.referrer_id,
+        body=(
+            f"תודה! {who} הצטרף/ה ללומדה דרך הקישור שלך, וההטבה שלך נפתחה 🎉\n"
+            f"אפשר לבחור: {round(s['referral_sub_discount_pct'])}% הנחה על החודש "
+            f"הבא של המנוי, או {round(s['referral_lesson_discount_pct'])}% הנחה "
+            f"על שיעור פרטי בזום.\n"
+            f"הבחירה בעמוד \"חבר מביא חבר\" בתפריט."
+        ),
+    ))
+
+
 def qualify_referral_for(db: Session, *, user_id: int, plan_code: str, now) -> models.Referral | None:
     """הופך הפניה ממתינה ל'זכאית' כשהתלמיד המוזמן קיבל מנוי אמיתי.
 
@@ -108,6 +153,4 @@ def qualify_referral_for(db: Session, *, user_id: int, plan_code: str, now) -> m
     )
     if ref is None:
         return None
-    ref.status = "qualified"
-    ref.qualified_at = now
-    return ref
+    return mark_qualified(db, ref, now)
