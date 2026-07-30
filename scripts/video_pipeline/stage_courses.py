@@ -45,9 +45,14 @@ QUEUE_OF = {
     "account3": "video_queue_account3.json",
 }
 
-# course slug -> content/<dir> holding chNN/source.md. Every course HAS a chapter
-# directory; the six at the bottom simply have no narration scripts written yet
-# (chapter.json/assets.json only), which is what source_for() actually tests.
+# course slug -> content/<dir> holding chNN/source.md.
+#
+# A course missing from this map is INVISIBLE to the pipeline: source_for()
+# returns None and the chapter is reported as "NEEDS source.md" even when its
+# narration is sitting on disk, so it never gets staged and never gets a video.
+# That is exactly what happened to grade5-whole-numbers and grade5-decimals —
+# 11 written scripts the report kept listing as unwritten. Add every new course
+# here the moment it is created.
 COURSE_CONTENT = {
     "arithmetic-laws": "grade7/arithmetic-laws",
     "directed-numbers": "grade7/directed-numbers",
@@ -55,6 +60,8 @@ COURSE_CONTENT = {
     "grade6-percents": "grade6/percents",
     "grade6-ratio-rate": "grade6/ratio-rate",
     "grade5-simple-fractions": "grade5/simple-fractions",
+    "grade5-whole-numbers": "grade5/whole-numbers",
+    "grade5-decimals": "grade5/decimals",
     "grade6-fractions-decimals": "grade6/fractions-decimals",
     "powers-and-exponents": "grade7/powers-and-exponents",
     "two-equations-two-unknowns": "grade8/two-equations-two-unknowns",
@@ -147,6 +154,36 @@ def source_for(slug, number):
     return p if p.exists() else None
 
 
+def unmapped_courses():
+    """Course slugs with no COURSE_CONTENT entry, that nevertheless have scripts.
+
+    Distinguishes "nobody wrote the narration yet" from "the narration exists but
+    this map never learned about the course". The second reads identically in the
+    report and hides finished work indefinitely, so it is called out separately
+    instead of being folded into the NEEDS-source.md count.
+    """
+    mapped = set(COURSE_CONTENT.values())
+    # Only whole path segments are compared. Substring matching would tie
+    # "grade5-decimals" to grade6/fractions-decimals and report its scripts.
+    dirs = {
+        p.parent.parent for p in ROOT.glob("content/*/*/ch*/source.md")
+    }
+    out = []
+    for cf in sorted(ROOT.glob("courses/*.json")):
+        if cf.stem in COURSE_CONTENT:
+            continue
+        want = {w for w in cf.stem.split("-") if w not in ("grade5", "grade6", "grade7", "grade8")}
+        for d in sorted(dirs):
+            rel = d.relative_to(ROOT / "content")
+            if rel.as_posix() in mapped:
+                continue
+            if want and want <= set(rel.name.split("-")) | set(rel.parts[0].split("-")):
+                out.append((cf.stem, d.relative_to(ROOT),
+                            len(list(d.glob("ch*/source.md")))))
+                break
+    return out
+
+
 def output_name(number, title):
     """Must carry "פרק-<n>" — that is the ONLY thing tying a file to a chapter
     on the site (see fileChapterNumber in ChapterView.jsx)."""
@@ -193,6 +230,9 @@ def main():
         print(f"\n--- {len(rows)} chapters without a video: "
               f"{len(ready)} stageable now, {len(unauthored)} need an authored "
               f"narration script first ---")
+        for slug, path, n in unmapped_courses():
+            print(f"!!! {slug} is missing from COURSE_CONTENT but has {n} script(s) "
+                  f"in {path} — add it or those chapters stay invisible")
         if not ARGS.profile:
             print("(pass --profile <account> to stage the ready ones)")
         return
