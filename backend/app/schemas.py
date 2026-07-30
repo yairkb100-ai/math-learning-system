@@ -359,12 +359,19 @@ class CourseCreate(BaseModel):
     description: str
     level: str = "Intermediate"
     language: str = "Hebrew"
+    # "5".."8" או "hs". קורס בלי כיתה לא מקבל תג בקטלוג ולא נכנס לאף קבוצה
+    # בסינון, אז הטופס מבקש את זה — אבל השדה נשאר אופציונלי לתאימות לאחור.
+    grade: Optional[str] = None
     estimated_hours: Optional[float] = None
     section_id: Optional[int] = None
 
 
 class CourseSectionAssign(BaseModel):
     section_id: Optional[int] = None
+
+
+class CourseGradeAssign(BaseModel):
+    grade: Optional[str] = None  # "5".."8" | "hs" | None לניקוי
 
 
 # ---------------------------------------------------------------------------

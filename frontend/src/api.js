@@ -271,6 +271,11 @@ export const api = {
       method: 'PUT',
       body: JSON.stringify({ section_id: sectionId }),
     }),
+  setCourseGrade: (courseId, grade) =>
+    request(`/admin/courses/${courseId}/grade`, {
+      method: 'PUT',
+      body: JSON.stringify({ grade: grade || null }),
+    }),
   resetStudent: (userId) =>
     request(`/admin/users/${userId}/progress`, { method: 'DELETE' }),
 

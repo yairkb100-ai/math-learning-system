@@ -8,9 +8,20 @@ const emptyCourse = {
   description: '',
   level: 'Intermediate',
   language: 'Hebrew',
+  grade: '',
   estimated_hours: '',
   section_id: '',
 }
+
+// חייב להתאים ל-GRADES ב-CourseList.jsx ול-VALID_GRADES בשרת. קורס בלי כיתה
+// לא מקבל תג בקטלוג ולא נכנס לאף קבוצה בסינון.
+const GRADES = [
+  { key: '5', label: 'כיתה ה׳' },
+  { key: '6', label: 'כיתה ו׳' },
+  { key: '7', label: 'כיתה ז׳' },
+  { key: '8', label: 'כיתה ח׳' },
+  { key: 'hs', label: 'תיכון' },
+]
 
 export default function AdminSections() {
   const [sections, setSections] = useState([])
@@ -75,6 +86,7 @@ export default function AdminSections() {
         description: courseForm.description,
         level: courseForm.level,
         language: courseForm.language,
+        grade: courseForm.grade || null,
         estimated_hours: courseForm.estimated_hours
           ? Number(courseForm.estimated_hours)
           : null,
@@ -92,6 +104,15 @@ export default function AdminSections() {
   async function reassignCourse(course, sectionId) {
     try {
       await api.assignCourseSection(course.id, sectionId ? Number(sectionId) : null)
+      load()
+    } catch (err) {
+      alert(err.message)
+    }
+  }
+
+  async function changeGrade(course, grade) {
+    try {
+      await api.setCourseGrade(course.id, grade)
       load()
     } catch (err) {
       alert(err.message)
@@ -201,6 +222,25 @@ export default function AdminSections() {
                 </select>
               </div>
               <div className="form-group">
+                <label>כיתה</label>
+                <select
+                  value={courseForm.grade}
+                  onChange={(e) =>
+                    setCourseForm({ ...courseForm, grade: e.target.value })
+                  }
+                  required
+                >
+                  <option value="">— בחר כיתה —</option>
+                  {GRADES.map((g) => (
+                    <option key={g.key} value={g.key}>
+                      {g.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <div className="form-row">
+              <div className="form-group">
                 <label>שיוך לחלק</label>
                 <select
                   value={courseForm.section_id}
@@ -248,6 +288,7 @@ export default function AdminSections() {
             courses={s.courses || []}
             sections={sections}
             onReassign={reassignCourse}
+            onGrade={changeGrade}
             onDelete={deleteCourse}
           />
         </div>
@@ -262,6 +303,7 @@ export default function AdminSections() {
             courses={unassigned}
             sections={sections}
             onReassign={reassignCourse}
+            onGrade={changeGrade}
             onDelete={deleteCourse}
           />
         </div>
@@ -270,7 +312,7 @@ export default function AdminSections() {
   )
 }
 
-function CourseRows({ courses, sections, onReassign, onDelete }) {
+function CourseRows({ courses, sections, onReassign, onGrade, onDelete }) {
   if (courses.length === 0)
     return <p className="muted empty-msg">אין קורסים בחלק זה.</p>
   return (
@@ -279,6 +321,19 @@ function CourseRows({ courses, sections, onReassign, onDelete }) {
         <li key={c.id} className="section-course-row">
           <span className="section-course-title">{c.title}</span>
           <span className="muted">{c.chapters_count} פרקים</span>
+          <select
+            value={c.grade ?? ''}
+            onChange={(e) => onGrade(c, e.target.value)}
+            title="כיתה — קובעת את התג והסינון בקטלוג"
+            className={c.grade ? undefined : 'is-missing'}
+          >
+            <option value="">— ללא כיתה —</option>
+            {GRADES.map((g) => (
+              <option key={g.key} value={g.key}>
+                {g.label}
+              </option>
+            ))}
+          </select>
           <select
             value={c.section_id ?? ''}
             onChange={(e) => onReassign(c, e.target.value)}

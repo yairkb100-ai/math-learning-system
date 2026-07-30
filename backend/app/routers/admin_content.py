@@ -6,9 +6,17 @@ from sqlalchemy.orm import Session
 from app import crud, models
 from app.database import get_db
 from app.dependencies import require_admin
-from app.schemas import CourseCreate, CourseSectionAssign, CourseSummary
+from app.schemas import (
+    CourseCreate,
+    CourseGradeAssign,
+    CourseSectionAssign,
+    CourseSummary,
+)
 
 router = APIRouter(prefix="/api/admin", tags=["admin-content"])
+
+# כיתות הלימוד המוכרות לקטלוג — חייב להתאים ל-GRADES ב-CourseList.jsx.
+VALID_GRADES = {"5", "6", "7", "8", "hs"}
 
 
 def _course_summary(course: models.Course) -> CourseSummary:
@@ -17,6 +25,7 @@ def _course_summary(course: models.Course) -> CourseSummary:
         title=course.title,
         description=course.description,
         level=course.level,
+        grade=course.grade,
         language=course.language,
         chapters_count=len(course.chapters),
         estimated_hours=course.estimated_hours,
@@ -49,11 +58,14 @@ def create_course(
         )
         if not section:
             raise HTTPException(status_code=404, detail="חלק לא נמצא")
+    if payload.grade is not None and payload.grade not in VALID_GRADES:
+        raise HTTPException(status_code=422, detail="כיתה לא חוקית")
     course = models.Course(
         title=payload.title,
         description=payload.description,
         level=payload.level,
         language=payload.language,
+        grade=payload.grade or None,
         estimated_hours=payload.estimated_hours,
         word_count=0,
         section_id=payload.section_id,
@@ -84,6 +96,29 @@ def assign_course_section(
         if not section:
             raise HTTPException(status_code=404, detail="חלק לא נמצא")
     course.section_id = payload.section_id
+    db.commit()
+    db.refresh(course)
+    return _course_summary(course)
+
+
+@router.put("/courses/{course_id}/grade", response_model=CourseSummary)
+def set_course_grade(
+    course_id: int,
+    payload: CourseGradeAssign,
+    db: Session = Depends(get_db),
+    _: models.User = Depends(require_admin),
+) -> CourseSummary:
+    """שינוי הכיתה של קורס קיים.
+
+    בלי זה כיתה שגויה שנבחרה ביצירה הייתה בלתי ניתנת לתיקון מהממשק, והקורס
+    היה נופל מהסינון בקטלוג בלי דרך להחזיר אותו.
+    """
+    course = db.query(models.Course).filter(models.Course.id == course_id).first()
+    if not course:
+        raise HTTPException(status_code=404, detail="קורס לא נמצא")
+    if payload.grade is not None and payload.grade not in VALID_GRADES:
+        raise HTTPException(status_code=422, detail="כיתה לא חוקית")
+    course.grade = payload.grade or None
     db.commit()
     db.refresh(course)
     return _course_summary(course)

@@ -1822,6 +1822,12 @@ h4.prose-h {
   border-radius: 8px;
   color: var(--text);
 }
+/* A course with no grade is invisible to the catalog's grade filter — flag it
+   so it stands out in the list instead of quietly disappearing. */
+.section-course-row select.is-missing {
+  border-color: #d9a441;
+  background: #fdf6e6;
+}
 
 /* ---------- plans ---------- */
 .plans-row {

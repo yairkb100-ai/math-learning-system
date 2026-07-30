@@ -669,6 +669,30 @@ def ensure_sections(db):
     db.commit()
 
 
+def _slug_by_course_filename():
+    """Map ``derivatives`` (the courses/*.json basename) → the course's slug.
+
+    Most courses take their slug from the file name, but a few carry an
+    explicit Hebrew slug in the JSON (derivatives.json → חשבון-דיפרנציאלי-נגזרות).
+    For those, an assets folder named after the file — the obvious choice —
+    matched no course and every file in it was silently skipped. The slugs
+    themselves must not be renamed: the published videos are keyed to them.
+    """
+    mapping = {}
+    for path in glob.glob(os.path.join(COURSES_DIR, "*.json")):
+        stem = os.path.splitext(os.path.basename(path))[0]
+        try:
+            with open(path, encoding="utf-8") as f:
+                data = json.load(f)
+        except (OSError, json.JSONDecodeError):
+            continue
+        course_obj = data.get("course", data)
+        slug = course_obj.get("slug") or course_obj.get("metadata", {}).get("slug")
+        if slug and slug != stem:
+            mapping[stem] = slug
+    return mapping
+
+
 def ensure_course_assets(db):
     """Register downloadable course files from ``courses/assets/<slug>/``.
 
@@ -676,10 +700,14 @@ def ensure_course_assets(db):
     UPLOAD_DIR and registered as a FileAsset attached to that course, keyed
     idempotently by (course_id, original_name). This lets deployments ship
     worksheets/videos through git — the seed run on the server registers them.
+
+    The folder may also be named after the course's JSON file instead of its
+    slug — see ``_slug_by_course_filename``.
     """
     assets_root = os.path.join(COURSES_DIR, "assets")
     if not os.path.isdir(assets_root):
         return
+    slug_aliases = _slug_by_course_filename()
 
     from app import bunny
     from app.routers.files import UPLOAD_DIR
@@ -693,8 +721,13 @@ def ensure_course_assets(db):
         if not os.path.isdir(slug_dir):
             continue
         course = db.query(Course).filter(Course.slug == slug).first()
+        if course is None and slug in slug_aliases:
+            course = (
+                db.query(Course).filter(Course.slug == slug_aliases[slug]).first()
+            )
         if course is None:
-            print(f"  ! assets/{slug}: no course with this slug — skipped")
+            if os.listdir(slug_dir):
+                print(f"  ! assets/{slug}: no course with this slug — skipped")
             continue
         for name in sorted(os.listdir(slug_dir)):
             src = os.path.join(slug_dir, name)
