@@ -534,6 +534,13 @@ class LessonSlot(Base):
     id = Column(Integer, primary_key=True, index=True)
     starts_at = Column(DateTime, nullable=False, index=True)
     duration_min = Column(Integer, nullable=False, default=45)
+    # איזו שורה במחירון המשבצת מוכרת. זה מה שמאפשר שני סוגי שיעור באותו אורך
+    # במחירים שונים: המחיר נקבע ע"י הסוג, לא ע"י המספר בדקות. nullable כי
+    # משבצות שנוצרו לפני המחירון (ומשבצות שנוצרו בלי לבחור סוג) עדיין נופלות
+    # לחיפוש לפי משך, כמו קודם.
+    lesson_type_id = Column(
+        Integer, ForeignKey("lesson_types.id", ondelete="SET NULL"), nullable=True, index=True
+    )
     is_blocked = Column(Boolean, nullable=False, default=False)  # admin took it off the board
     note = Column(String, nullable=True)  # optional admin label ("שיעור אונליין" וכו')
     created_at = Column(DateTime, default=datetime.utcnow)
@@ -553,14 +560,15 @@ class LessonType(Base):
     שהתלמידים רואים. אין סליקה במערכת — התשלום נסגר מול המורה — ולכן אין טעם
     "לנעול" מחיר על תור שנקבע.
 
-    ``duration_min`` ייחודי: המחיר נשלף לפי המשך, ושתי שורות לאותו משך היו הופכות
-    את השליפה לדו-משמעית.
+    אותו אורך יכול להופיע כמה פעמים — "45 דק' רגיל" ו-"45 דק' העמקה" במחירים
+    שונים הם מקרה לגיטימי. מה שמונע דו-משמעות הוא ש``LessonSlot`` מצביע על השורה
+    הזו ישירות; משבצת בלי הצבעה נופלת לחיפוש לפי משך ולוקחת את הראשונה.
     """
 
     __tablename__ = "lesson_types"
 
     id = Column(Integer, primary_key=True, index=True)
-    duration_min = Column(Integer, nullable=False, unique=True, index=True)
+    duration_min = Column(Integer, nullable=False, index=True)
     price_nis = Column(Float, nullable=False, default=0)
     label = Column(String, nullable=True)  # תיאור חופשי ("שיעור העמקה", "אונליין")
     is_active = Column(Boolean, nullable=False, default=True)  # הוסר מהמחירון בלי למחוק

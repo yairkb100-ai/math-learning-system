@@ -41,23 +41,35 @@ MAX_DURATION = 480
 # ---------------------------------------------------------------------------
 
 def _price_lookup(db: Session):
-    """מחזיר פונקציה משך→מחיר, בשאילתה אחת לכל בקשה (ולא אחת לכל משבצת).
+    """מחזיר פונקציה (משך, מזהה-סוג)→מחיר, בשאילתה אחת לכל בקשה.
 
-    משך שאין לו שורה במחירון נופל למחיר הבסיס מ-``/admin/pricing``, ואם גם הוא 0
-    מוחזר ``None`` — "לא פורסם מחיר" — כדי שהממשק לא יציג ₪0 כאילו זה חינם.
+    הסוג קודם למשך: אותו אורך יכול להופיע כמה פעמים במחירון במחירים שונים, ולכן
+    משבצת שמצביעה על שורה מסוימת מקבלת בדיוק את המחיר שלה. משבצת ישנה שאינה
+    מצביעה על כלום נופלת לחיפוש לפי משך (הראשון שנמצא), ואחריו למחיר הבסיס
+    מ-``/admin/pricing``. אם גם הוא 0 מוחזר ``None`` — "לא פורסם מחיר" — כדי
+    שהממשק לא יציג ₪0 כאילו זה חינם.
     """
-    by_duration = {
-        t.duration_min: t.price_nis
-        for t in db.query(models.LessonType).filter(models.LessonType.is_active == True).all()
-    }
+    rows = db.query(models.LessonType).filter(models.LessonType.is_active == True).all()
+    by_id = {t.id: t.price_nis for t in rows}
+    by_duration = {}
+    for t in rows:                       # first row wins, matching the old behaviour
+        by_duration.setdefault(t.duration_min, t.price_nis)
+    labels = {t.id: (t.label or None) for t in rows}
     base = get_setting(db, "lesson_price_nis")
 
-    def price_for(duration_min: int | None):
-        if duration_min is None:
+    def price_for(duration_min: int | None, lesson_type_id: int | None = None):
+        if lesson_type_id is not None and lesson_type_id in by_id:
+            value = by_id[lesson_type_id]
+        elif duration_min is None:
             return None
-        value = by_duration.get(duration_min, base)
+        else:
+            value = by_duration.get(duration_min, base)
         return value if value and value > 0 else None
 
+    # התוויות נוסעות על אותה שליפה במקום שאילתה נוספת לכל משבצת. הן נחוצות רק
+    # מאז שאותו אורך יכול להופיע פעמיים — בלעדיהן שתי משבצות של 45 דק' במחירים
+    # שונים נראות זהות לתלמיד.
+    price_for.labels = labels
     return price_for
 
 
@@ -120,12 +132,15 @@ def _slot_out(slot: models.LessonSlot, now: datetime, *, with_student: bool, pri
         note=slot.note,
         status=status,
         student_name=student_name,
-        price_nis=price_for(slot.duration_min),
+        price_nis=price_for(slot.duration_min, slot.lesson_type_id),
+        lesson_type_id=slot.lesson_type_id,
+        type_label=getattr(price_for, "labels", {}).get(slot.lesson_type_id),
     )
 
 
 def _request_out(req: models.LessonRequest, price_for) -> LessonRequestOut:
     duration = req.slot.duration_min if req.slot else None
+    type_id = req.slot.lesson_type_id if req.slot else None
     return LessonRequestOut(
         id=req.id,
         slot_id=req.slot_id,
@@ -138,7 +153,7 @@ def _request_out(req: models.LessonRequest, price_for) -> LessonRequestOut:
         starts_at=req.slot.starts_at if req.slot else None,
         duration_min=duration,
         student_name=req.user.full_name if req.user else None,
-        price_nis=price_for(duration),
+        price_nis=price_for(duration, type_id),
     )
 
 
@@ -287,9 +302,16 @@ def admin_create_slot(
     _: models.User = Depends(require_admin),
 ) -> LessonSlotOut:
     _check_duration(payload.duration_min)
+    duration = payload.duration_min
+    if payload.lesson_type_id is not None:
+        # השורה במחירון היא מקור האמת למשך — אחרת אפשר היה ליצור משבצת של 40 דק׳
+        # שמוכרת שיעור של 60, והמחיר שהתלמיד רואה לא היה תואם את מה שהוא מקבל.
+        chosen = _type_or_404(payload.lesson_type_id, db)
+        duration = chosen.duration_min
     slot = models.LessonSlot(
         starts_at=payload.starts_at,
-        duration_min=payload.duration_min,
+        duration_min=duration,
+        lesson_type_id=payload.lesson_type_id,
         note=(payload.note or "").strip() or None,
     )
     db.add(slot)
@@ -318,6 +340,10 @@ def admin_generate_slots(
     if (end - start).days > 120:
         raise HTTPException(status_code=400, detail="טווח התאריכים גדול מדי (מקסימום 120 יום)")
     _check_duration(payload.duration_min)
+    # כמו ביצירה בודדת: שורת המחירון קובעת את המשך.
+    gen_duration = payload.duration_min
+    if payload.lesson_type_id is not None:
+        gen_duration = _type_or_404(payload.lesson_type_id, db).duration_min
 
     parsed_times = []
     for t in payload.times:
@@ -340,7 +366,11 @@ def admin_generate_slots(
                 when = datetime(day.year, day.month, day.day, hh, mm)
                 if when in existing:
                     continue
-                db.add(models.LessonSlot(starts_at=when, duration_min=payload.duration_min))
+                db.add(models.LessonSlot(
+                    starts_at=when,
+                    duration_min=gen_duration,
+                    lesson_type_id=payload.lesson_type_id,
+                ))
                 existing.add(when)
                 created += 1
         day += timedelta(days=1)
@@ -476,15 +506,6 @@ def _type_or_404(type_id: int, db: Session) -> models.LessonType:
     return row
 
 
-def _reject_duplicate_duration(db: Session, duration_min: int, *, exclude_id: int | None = None) -> None:
-    """משך אחד = שורה אחת. המחיר נשלף לפי המשך, וכפילות הייתה הופכת אותו לרנדומלי."""
-    q = db.query(models.LessonType).filter(models.LessonType.duration_min == duration_min)
-    if exclude_id is not None:
-        q = q.filter(models.LessonType.id != exclude_id)
-    if q.first() is not None:
-        raise HTTPException(status_code=409, detail=f"כבר קיים שיעור באורך {duration_min} דק׳")
-
-
 @router.get("/admin/lessons/types", response_model=list[LessonTypeOut])
 def admin_list_types(
     db: Session = Depends(get_db),
@@ -503,7 +524,6 @@ def admin_create_type(
     _check_duration(payload.duration_min)
     if payload.price_nis < 0:
         raise HTTPException(status_code=400, detail="מחיר לא יכול להיות שלילי")
-    _reject_duplicate_duration(db, payload.duration_min)
     row = models.LessonType(
         duration_min=payload.duration_min,
         price_nis=payload.price_nis,
@@ -526,7 +546,6 @@ def admin_update_type(
     row = _type_or_404(type_id, db)
     if payload.duration_min is not None:
         _check_duration(payload.duration_min)
-        _reject_duplicate_duration(db, payload.duration_min, exclude_id=row.id)
         row.duration_min = payload.duration_min
     if payload.price_nis is not None:
         if payload.price_nis < 0:

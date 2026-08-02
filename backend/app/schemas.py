@@ -774,14 +774,20 @@ class LessonSlotOut(BaseModel):
     # populated by the router (not columns): booking state for this slot
     status: str = "open"  # open | pending | booked | blocked | past
     student_name: Optional[str] = None  # who booked/requested it (admin view)
-    # מחיר לפי המשך, מהמחירון שהמנהל עורך. None = לא פורסם מחיר למשך הזה.
+    # מחיר מהמחירון שהמנהל עורך. None = לא פורסם מחיר.
     price_nis: Optional[float] = None
+    lesson_type_id: Optional[int] = None
+    # התווית של שורת המחירון, כדי שאפשר יהיה להבדיל בין שני שיעורים באותו אורך.
+    type_label: Optional[str] = None
 
 
 class LessonSlotCreate(BaseModel):
     starts_at: datetime
     duration_min: int = 45
     note: Optional[str] = None
+    # איזו שורה במחירון המשבצת מוכרת. כשהיא נשלחת, המשך נלקח מהשורה כדי ששניהם
+    # לא יסתרו זה את זה. בלעדיה ההתנהגות נשארת כשהייתה — מחיר לפי המשך.
+    lesson_type_id: Optional[int] = None
 
 
 class LessonSlotGenerate(BaseModel):
@@ -793,6 +799,7 @@ class LessonSlotGenerate(BaseModel):
     weekdays: List[int] = Field(default_factory=list)  # 0=Monday .. 6=Sunday (Python weekday())
     times: List[str] = Field(default_factory=list)  # ["16:00", "17:00", ...]
     duration_min: int = 45
+    lesson_type_id: Optional[int] = None
 
 
 class LessonRequestCreate(BaseModel):
@@ -856,7 +863,9 @@ ExamSubmitResult.model_rebuild()
 # ---------------------------------------------------------------------------
 
 class PlanCreate(BaseModel):
-    code: str
+    # מזהה פנימי בלבד. אם לא נשלח — נגזר מהשם ומקבל סיומת עד שהוא ייחודי, כדי
+    # שהוספת תוכנית לא תיכשל על התנגשות קוד שהמנהל בכלל לא אמור להכיר.
+    code: Optional[str] = None
     name: str
     price_nis: float = 0
     duration_days: int = 30

@@ -5,6 +5,7 @@
 אין סליקה אוטומטית.
 """
 
+import re
 from datetime import datetime, timedelta
 
 from fastapi import APIRouter, Depends, HTTPException, Response
@@ -58,6 +59,29 @@ def list_plans(db: Session = Depends(get_db)) -> list[PlanOut]:
     )
 
 
+def _unique_plan_code(db: Session, wanted: str | None, name: str) -> str:
+    """קוד פנימי ייחודי לתוכנית, בלי להטיל את זה על המנהל.
+
+    ה-``code`` הוא מפתח טכני ש-``Subscription.plan_code`` מצביע עליו כמחרוזת;
+    למנהל אין שום סיבה להמציא אותו, ולכן התנגשות עליו לא צריכה להיכשל אלא
+    להיפתר. נגזר מהשם (או מהקוד שנשלח), ואם תפוס — מקבל סיומת מספרית.
+    """
+    base = (wanted or "").strip() or _slug_code(name)
+    candidate, n = base, 2
+    while db.query(models.SubscriptionPlan).filter(
+        models.SubscriptionPlan.code == candidate
+    ).first() is not None:
+        candidate = f"{base}-{n}"
+        n += 1
+    return candidate
+
+
+def _slug_code(name: str) -> str:
+    """שם התוכנית → מזהה. שם עברי לא משאיר תווים לטיניים, ולכן יש נפילה ל-plan."""
+    slug = re.sub(r"[^a-z0-9]+", "-", (name or "").lower()).strip("-")
+    return slug or "plan"
+
+
 @router.get("/admin/plans", response_model=list[PlanOut])
 def admin_list_plans(
     db: Session = Depends(get_db),
@@ -77,15 +101,11 @@ def admin_create_plan(
     db: Session = Depends(get_db),
     _: models.User = Depends(require_admin),
 ) -> PlanOut:
-    code = payload.code.strip()
-    if not code:
-        raise HTTPException(status_code=400, detail="חובה קוד לתוכנית")
     if not payload.name.strip():
         raise HTTPException(status_code=400, detail="חובה שם לתוכנית")
     if payload.price_nis < 0 or payload.duration_days < 0:
         raise HTTPException(status_code=400, detail="מחיר ומשך חייבים להיות אי-שליליים")
-    if db.query(models.SubscriptionPlan).filter(models.SubscriptionPlan.code == code).first():
-        raise HTTPException(status_code=409, detail="קוד התוכנית כבר קיים")
+    code = _unique_plan_code(db, payload.code, payload.name)
     plan = models.SubscriptionPlan(
         code=code,
         name=payload.name.strip(),

@@ -103,6 +103,8 @@ export default function AdminLessons() {
   })
   const [selectedDay, setSelectedDay] = useState(todayKey())
   const [panelDuration, setPanelDuration] = useState(45)
+  // איזו שורת מחירון נמכרת. שני שיעורים באותו אורך נבדלים רק בזה.
+  const [panelTypeId, setPanelTypeId] = useState(null)
   // "אחר…" — משך שאינו במחירון, מוקלד ידנית.
   const [panelCustom, setPanelCustom] = useState(false)
   const [customTime, setCustomTime] = useState('')
@@ -157,8 +159,9 @@ export default function AdminLessons() {
       setPanelCustom(true)
       return
     }
-    if (!panelCustom && !activeTypes.some((t) => t.duration_min === panelDuration)) {
+    if (!panelCustom && !activeTypes.some((t) => t.id === panelTypeId)) {
       setPanelDuration(activeTypes[0].duration_min)
+      setPanelTypeId(activeTypes[0].id)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTypes, loading])
@@ -379,7 +382,12 @@ export default function AdminLessons() {
     }
     setBusy(true)
     try {
-      await api.adminCreateLessonSlot({ startsAt: `${key}T${hhmm}`, durationMin: dur, note: null })
+      await api.adminCreateLessonSlot({
+        startsAt: `${key}T${hhmm}`,
+        durationMin: dur,
+        note: null,
+        lessonTypeId: panelCustom ? null : panelTypeId,
+      })
       load()
     } catch (err) {
       alert(err.message)
@@ -720,20 +728,24 @@ export default function AdminLessons() {
             <label className="cal-dur">
               משך שיעור:
               <select
-                value={panelCustom ? 'custom' : panelDuration}
+                value={panelCustom ? 'custom' : String(panelTypeId ?? '')}
                 disabled={busy}
                 onChange={(e) => {
                   if (e.target.value === 'custom') {
                     setPanelCustom(true)
+                    setPanelTypeId(null)
                     return
                   }
+                  const t = activeTypes.find((x) => String(x.id) === e.target.value)
                   setPanelCustom(false)
-                  setPanelDuration(Number(e.target.value))
+                  setPanelTypeId(t ? t.id : null)
+                  if (t) setPanelDuration(t.duration_min)
                 }}
               >
                 {activeTypes.map((t) => (
-                  <option key={t.id} value={t.duration_min}>
-                    {durLabel(t.duration_min)}
+                  <option key={t.id} value={t.id}>
+                    {t.duration_min} דק׳
+                    {t.price_nis > 0 ? ` · ₪${Math.round(t.price_nis)}` : ' · לא במחירון'}
                     {t.label ? ` · ${t.label}` : ''}
                   </option>
                 ))}
@@ -749,7 +761,10 @@ export default function AdminLessons() {
                   value={panelDuration}
                   disabled={busy}
                   aria-label="משך השיעור בדקות"
-                  onChange={(e) => setPanelDuration(Number(e.target.value))}
+                  onChange={(e) => {
+                    setPanelDuration(Number(e.target.value))
+                    setPanelTypeId(null)
+                  }}
                 />
               )}
               {panelCustom && (

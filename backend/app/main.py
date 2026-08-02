@@ -130,6 +130,35 @@ def on_startup() -> None:
                     "ON users (referral_code)"
                 )
             )
+
+    if "lesson_types" in inspector.get_table_names():
+        # המשך חדל להיות ייחודי: אותו אורך יכול להימכר בכמה מחירים. המסד עדיין
+        # אוכף את האינדקס הייחודי שנוצר עם הטבלה, ולכן הסרת הבדיקה מהקוד לבדה
+        # הייתה מחזירה IntegrityError במקום ה-409 — צריך להחליף את האינדקס עצמו.
+        with engine.begin() as conn:
+            conn.execute(text("DROP INDEX IF EXISTS ix_lesson_types_duration_min"))
+            conn.execute(text(
+                "CREATE INDEX IF NOT EXISTS ix_lesson_types_duration_min "
+                "ON lesson_types (duration_min)"
+            ))
+        # Postgres מייצר גם אילוץ UNIQUE נפרד כשהעמודה הוגדרה unique=True בלי
+        # index; ב-SQLite אין DROP CONSTRAINT ולכן זה נכשל בשקט ולא מפריע.
+        try:
+            with engine.begin() as conn:
+                conn.execute(text(
+                    "ALTER TABLE lesson_types DROP CONSTRAINT IF EXISTS "
+                    "lesson_types_duration_min_key"
+                ))
+        except Exception:  # noqa: BLE001 — SQLite has no DROP CONSTRAINT
+            pass
+        print("  ~ Migrated: lesson_types.duration_min is no longer unique")
+
+    if "lesson_slots" in inspector.get_table_names():
+        cols = {c["name"] for c in inspector.get_columns("lesson_slots")}
+        if "lesson_type_id" not in cols:
+            with engine.begin() as conn:
+                conn.execute(text("ALTER TABLE lesson_slots ADD COLUMN lesson_type_id INTEGER"))
+
     if "exercises" in inspector.get_table_names():
         cols = {c["name"] for c in inspector.get_columns("exercises")}
         if "answer" not in cols:

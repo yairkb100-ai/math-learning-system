@@ -461,12 +461,17 @@ export const api = {
     }),
   adminDeleteLessonType: (typeId) =>
     request(`/admin/lessons/types/${typeId}`, { method: 'DELETE' }),
-  adminCreateLessonSlot: ({ startsAt, durationMin = 45, note = null }) =>
+  adminCreateLessonSlot: ({ startsAt, durationMin = 45, note = null, lessonTypeId = null }) =>
     request('/admin/lessons/slots', {
       method: 'POST',
-      body: JSON.stringify({ starts_at: startsAt, duration_min: durationMin, note }),
+      body: JSON.stringify({
+        starts_at: startsAt,
+        duration_min: durationMin,
+        note,
+        lesson_type_id: lessonTypeId,
+      }),
     }),
-  adminGenerateLessonSlots: ({ startDate, endDate, weekdays, times, durationMin = 45 }) =>
+  adminGenerateLessonSlots: ({ startDate, endDate, weekdays, times, durationMin = 45, lessonTypeId = null }) =>
     request('/admin/lessons/slots/generate', {
       method: 'POST',
       body: JSON.stringify({
@@ -475,6 +480,7 @@ export const api = {
         weekdays,
         times,
         duration_min: durationMin,
+        lesson_type_id: lessonTypeId,
       }),
     }),
   adminToggleLessonSlotBlock: (slotId) =>
