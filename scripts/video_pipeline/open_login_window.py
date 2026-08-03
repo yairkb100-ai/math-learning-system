@@ -13,6 +13,7 @@ Usage:  python open_login_window.py <profile> [minutes]
 import sys
 import time
 from pathlib import Path
+from urllib.parse import urlparse
 
 from playwright.sync_api import sync_playwright
 
@@ -21,6 +22,21 @@ BASE = "https://notebooklm.google.com"
 # Google now serves the product from notebook.google.com and redirects the old
 # host to it, so a signed-in tab may sit on either one.
 HOSTS = ("notebooklm.google.com", "notebook.google.com")
+
+
+def signed_in(url):
+    """True only when the tab's HOST is the product.
+
+    Must compare the parsed hostname, not search the whole URL: the Google
+    sign-in page carries the destination in its own query string
+    (``accounts.google.com/...?continue=https%3A%2F%2Fnotebook.google.com%2F``),
+    so a substring test reports success on the very page that proves the
+    profile is signed OUT.
+    """
+    try:
+        return urlparse(url or "").hostname in HOSTS
+    except ValueError:
+        return False
 
 
 def main():
@@ -57,7 +73,7 @@ def main():
         # `notebooklm login` reports a timeout after a sign-in that worked.
         while time.monotonic() < deadline:
             try:
-                if any(h in (pg.url or "") for pg in context.pages for h in HOSTS):
+                if any(signed_in(pg.url) for pg in context.pages):
                     print("SIGNED IN — a tab is on the NotebookLM host", flush=True)
                     time.sleep(5)  # let cookies flush to the profile
                     break
