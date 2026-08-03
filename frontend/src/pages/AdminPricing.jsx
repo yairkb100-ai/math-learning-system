@@ -7,8 +7,9 @@ import { Loading, ErrorBox } from '../components/Status.jsx'
 // שתי משפחות של מספרים: לכל תוכנית מנוי יש שורה משלה (שם/מחיר/משך), ולצידן
 // מחיר השיעור הפרטי ואחוזי ההנחה של "חבר מביא חבר", שאין להם שורה ולכן הם
 // יושבים בטבלת ההגדרות. ה-``code`` של תוכנית לא ניתן לעריכה בכוונה — מנויים
-// קיימים מצביעים עליו כמחרוזת, ושינויו היה מנתק אותם מהתוכנית.
-const BLANK = { name: '', price_nis: 0, duration_days: 30 }
+// קיימים מצביעים עליו כמחרוזת, ושינויו היה מנתק אותם מהתוכנית. אין צורך להמציא
+// אותו: אם משאירים את השדה ריק הוא נוצר בשרת מהשם, ומאותו רגע קפוא כמו כל קוד.
+const BLANK = { code: '', name: '', price_nis: 0, duration_days: 30 }
 
 // A cleared number field reads as "" and Number("") is 0 — without this a
 // stray backspace + "שמור" would quietly set a price to zero.
@@ -122,6 +123,7 @@ export default function AdminPricing() {
     try {
       await api.adminCreatePlan({
         ...newPlan,
+        code: newPlan.code.trim() || null,
         price_nis: num(newPlan.price_nis, 'מחיר'),
         duration_days: num(newPlan.duration_days, 'משך'),
       })
@@ -260,6 +262,14 @@ export default function AdminPricing() {
       <div className="card form-card">
         <h3>תוכנית חדשה</h3>
         <form onSubmit={addPlan} className="inline-form">
+          <div className="form-group">
+            <label>קוד (לא חובה — ייווצר אוטומטית)</label>
+            <input
+              value={newPlan.code}
+              onChange={(e) => setNewPlan({ ...newPlan, code: e.target.value })}
+              placeholder="ייווצר מהשם"
+            />
+          </div>
           <div className="form-group">
             <label>שם</label>
             <input

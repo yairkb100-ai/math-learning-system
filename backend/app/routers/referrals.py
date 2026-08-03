@@ -24,6 +24,7 @@ from app.schemas import (
     PricingOut,
     ReferralCodeInfo,
     ReferralOut,
+    ReferralSummaryOut,
     RewardChoice,
     SettingsIn,
     SettingsOut,
@@ -85,6 +86,34 @@ def check_code(
 # ---------------------------------------------------------------------------
 # Student — my invite link and my rewards
 # ---------------------------------------------------------------------------
+
+@router.get("/me/referrals/summary", response_model=ReferralSummaryOut)
+def my_referrals_summary(
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user),
+) -> ReferralSummaryOut:
+    """אותם מונים כמו ``/me/referrals``, בלי הרשימה.
+
+    הבאנר במסך הבית והבאדג' בתפריט (שנסקר כל 20 שניות) צריכים רק מספרים; גרירת
+    כל ההפניות בכל סקר הייתה מתייקרת בדיוק אצל התלמידים שהכי מפנים.
+    """
+    code = core.code_for(db, current_user)
+    base = db.query(models.Referral).filter(
+        models.Referral.referrer_id == current_user.id
+    )
+    qualified_q = base.filter(models.Referral.status == "qualified")
+    s = settings_store.all_settings(db)
+    return ReferralSummaryOut(
+        code=code,
+        join_path=f"/join/{code}",
+        total=base.count(),
+        qualified=qualified_q.count(),
+        unredeemed=qualified_q.filter(models.Referral.reward_kind.is_(None)).count(),
+        sub_discount_pct=s["referral_sub_discount_pct"],
+        lesson_discount_pct=s["referral_lesson_discount_pct"],
+        lesson_price_nis=s["lesson_price_nis"],
+    )
+
 
 @router.get("/me/referrals", response_model=MyReferralsOut)
 def my_referrals(

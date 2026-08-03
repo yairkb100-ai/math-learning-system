@@ -296,3 +296,25 @@ export function IconClipboard(props) {
     </svg>
   )
 }
+
+export function IconShare(props) {
+  return (
+    <svg {...base} {...props}>
+      <circle cx="18" cy="5.5" r="2.5" />
+      <circle cx="6" cy="12" r="2.5" />
+      <circle cx="18" cy="18.5" r="2.5" />
+      <path d="m8.2 10.8 7.6-4M8.2 13.2l7.6 4" />
+    </svg>
+  )
+}
+
+export function IconGift(props) {
+  return (
+    <svg {...base} {...props}>
+      <rect x="3.5" y="9.5" width="17" height="11" rx="1.6" />
+      <path d="M2.5 9.5h19M12 9.5V20.5" />
+      <path d="M12 9.5C10.6 7 9.4 5.2 7.8 5.2a2.1 2.1 0 0 0 0 4.3H12Z" />
+      <path d="M12 9.5c1.4-2.5 2.6-4.3 4.2-4.3a2.1 2.1 0 0 1 0 4.3H12Z" />
+    </svg>
+  )
+}

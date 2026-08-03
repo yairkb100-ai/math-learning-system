@@ -374,6 +374,12 @@ class CourseGradeAssign(BaseModel):
     grade: Optional[str] = None  # "5".."8" | "hs" | None לניקוי
 
 
+class CourseRename(BaseModel):
+    # בלי אילוצי pydantic — הוולידציה נעשית ברouter כדי שההודעה תחזור בעברית.
+    title: str
+    description: Optional[str] = None  # None = להשאיר את התיאור הקיים
+
+
 # ---------------------------------------------------------------------------
 # Files
 # ---------------------------------------------------------------------------
@@ -771,23 +777,21 @@ class LessonSlotOut(BaseModel):
     duration_min: int
     is_blocked: bool
     note: Optional[str] = None
+    # המסלול שעבורו נפתחה המשבצת. None = משבצת ישנה או אורך חד-פעמי.
+    lesson_type_id: Optional[int] = None
     # populated by the router (not columns): booking state for this slot
     status: str = "open"  # open | pending | booked | blocked | past
     student_name: Optional[str] = None  # who booked/requested it (admin view)
-    # מחיר מהמחירון שהמנהל עורך. None = לא פורסם מחיר.
+    lesson_type_name: Optional[str] = None  # שם המסלול להצגה
+    # מחיר מהמחירון שהמנהל עורך. None = לא פורסם מחיר למשבצת הזו.
     price_nis: Optional[float] = None
-    lesson_type_id: Optional[int] = None
-    # התווית של שורת המחירון, כדי שאפשר יהיה להבדיל בין שני שיעורים באותו אורך.
-    type_label: Optional[str] = None
 
 
 class LessonSlotCreate(BaseModel):
     starts_at: datetime
     duration_min: int = 45
-    note: Optional[str] = None
-    # איזו שורה במחירון המשבצת מוכרת. כשהיא נשלחת, המשך נלקח מהשורה כדי ששניהם
-    # לא יסתרו זה את זה. בלעדיה ההתנהגות נשארת כשהייתה — מחיר לפי המשך.
     lesson_type_id: Optional[int] = None
+    note: Optional[str] = None
 
 
 class LessonSlotGenerate(BaseModel):
@@ -826,11 +830,12 @@ class LessonRequestOut(BaseModel):
     starts_at: Optional[datetime] = None
     duration_min: Optional[int] = None
     student_name: Optional[str] = None
+    lesson_type_name: Optional[str] = None
     price_nis: Optional[float] = None
 
 
 class LessonTypeOut(BaseModel):
-    """שורה במחירון השיעורים הפרטיים — משך והמחיר שלו."""
+    """מסלול במחירון השיעורים הפרטיים — שם, משך ומחיר."""
 
     model_config = ConfigDict(from_attributes=True)
 
@@ -838,6 +843,7 @@ class LessonTypeOut(BaseModel):
     duration_min: int
     price_nis: float
     label: Optional[str] = None
+    name: str  # ``label`` או ברירת מחדל לפי המשך (מ-``LessonType.name``)
     is_active: bool
 
 
@@ -863,8 +869,7 @@ ExamSubmitResult.model_rebuild()
 # ---------------------------------------------------------------------------
 
 class PlanCreate(BaseModel):
-    # מזהה פנימי בלבד. אם לא נשלח — נגזר מהשם ומקבל סיומת עד שהוא ייחודי, כדי
-    # שהוספת תוכנית לא תיכשל על התנגשות קוד שהמנהל בכלל לא אמור להכיר.
+    # ריק = ייווצר אוטומטית מהשם. אחרי היצירה הקוד קפוא לעד.
     code: Optional[str] = None
     name: str
     price_nis: float = 0
@@ -917,6 +922,23 @@ class ReferralOut(BaseModel):
     # enriched by the router
     referred_name: Optional[str] = None
     referrer_name: Optional[str] = None
+
+
+class ReferralSummaryOut(BaseModel):
+    """מונים בלבד, בלי רשימת ההפניות.
+
+    התפריט העליון והבאנר במסך הבית שואלים כל 20 שניות רק "כמה" — משיכת הרשימה
+    המלאה עבור כל תלמיד בכל סקר הייתה בזבוז שגדל עם מספר ההפניות.
+    """
+
+    code: str
+    join_path: str
+    total: int
+    qualified: int
+    unredeemed: int
+    sub_discount_pct: float
+    lesson_discount_pct: float
+    lesson_price_nis: float
 
 
 class MyReferralsOut(BaseModel):

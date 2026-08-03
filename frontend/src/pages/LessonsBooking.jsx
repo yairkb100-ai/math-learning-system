@@ -135,8 +135,11 @@ export default function LessonsBooking() {
           <span className="lps-label">מחירי השיעורים:</span>
           {priced.map((t) => (
             <span key={t.id} className="lps-item">
-              <strong>{t.duration_min} דק׳</strong> — {shekels(t.price_nis)}
-              {t.label ? <span className="lps-note"> ({t.label})</span> : null}
+              {/* השם הוא המזהה של המסלול — שני מסלולים יכולים לחלוק אורך ומחיר. */}
+              <strong>{t.name}</strong>
+              <span className="lps-note">
+                {t.duration_min} דק׳ — {shekels(t.price_nis)}
+              </span>
             </span>
           ))}
           <span className="lps-hint">התשלום נסגר ישירות עם המורה.</span>
@@ -156,6 +159,7 @@ export default function LessonsBooking() {
                     <strong>{r.starts_at ? fmtFullDate(r.starts_at) : '—'}</strong>
                     <span>
                       {r.starts_at ? fmtTime(r.starts_at) : ''}
+                      {r.lesson_type_name ? ` · ${r.lesson_type_name}` : ''}
                       {r.duration_min ? ` · ${r.duration_min} דק׳` : ''}
                       {r.price_nis ? ` · ${shekels(r.price_nis)}` : ''}
                     </span>
@@ -244,6 +248,7 @@ export default function LessonsBooking() {
                     title={s.note || ''}
                   >
                     {fmtTime(s.starts_at)}
+                    {s.lesson_type_name && <span className="time-track">{s.lesson_type_name}</span>}
                     <span className="time-dur">
                       {s.duration_min} דק׳
                       {s.price_nis ? ` · ${shekels(s.price_nis)}` : ''}
@@ -257,6 +262,9 @@ export default function LessonsBooking() {
                 <div className="booking-confirm">
                   <div className="confirm-when">
                     <strong>{fmtFullDate(pickedSlot.starts_at)}</strong>
+                    {pickedSlot.lesson_type_name && (
+                      <span className="confirm-track">{pickedSlot.lesson_type_name}</span>
+                    )}
                     <span>
                       {fmtTime(pickedSlot.starts_at)} · {pickedSlot.duration_min} דק׳
                       {pickedSlot.price_nis ? ` · ${shekels(pickedSlot.price_nis)}` : ''}

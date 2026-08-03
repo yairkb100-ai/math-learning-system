@@ -5,6 +5,7 @@ import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
 import MathDoodles from '../components/MathDoodles.jsx'
 import SearchBar from '../components/SearchBar.jsx'
+import InviteBanner from '../components/InviteBanner.jsx'
 import {
   IconLayers,
   IconClock,
@@ -162,6 +163,9 @@ export default function CourseList() {
           </div>
         </div>
       </div>
+
+      {/* "חבר מביא חבר" — יושב בתוך .catalog כדי לרשת את משתני הלוח/הגיר. */}
+      <InviteBanner />
 
       {/* Catalog */}
       <div className="cat-head">

@@ -193,6 +193,10 @@ class Course(Base):
     # True when the course was loaded from a courses/*.json file by seed.py.
     # Admin-created courses stay False so the orphan-cleanup never deletes them.
     seeded = Column(Boolean, nullable=False, default=False)
+    # True after an admin renamed the course from the UI. seed.py must then stop
+    # treating the JSON title as the truth — otherwise the next deploy would both
+    # revert the name AND rebuild the course, wiping every student's progress.
+    title_overridden = Column(Boolean, nullable=False, default=False)
 
     section = relationship("Section", back_populates="courses")
     chapters = relationship(
@@ -534,12 +538,13 @@ class LessonSlot(Base):
     id = Column(Integer, primary_key=True, index=True)
     starts_at = Column(DateTime, nullable=False, index=True)
     duration_min = Column(Integer, nullable=False, default=45)
-    # איזו שורה במחירון המשבצת מוכרת. זה מה שמאפשר שני סוגי שיעור באותו אורך
-    # במחירים שונים: המחיר נקבע ע"י הסוג, לא ע"י המספר בדקות. nullable כי
-    # משבצות שנוצרו לפני המחירון (ומשבצות שנוצרו בלי לבחור סוג) עדיין נופלות
-    # לחיפוש לפי משך, כמו קודם.
+    # המסלול שעבורו נפתחה המשבצת. מתאפס ל-NULL במחיקת מסלול ולא מוחק את
+    # המשבצת: שיעור שכבר נקבע לא ייעלם בגלל עריכת מחירון.
     lesson_type_id = Column(
-        Integer, ForeignKey("lesson_types.id", ondelete="SET NULL"), nullable=True, index=True
+        Integer,
+        ForeignKey("lesson_types.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
     )
     is_blocked = Column(Boolean, nullable=False, default=False)  # admin took it off the board
     note = Column(String, nullable=True)  # optional admin label ("שיעור אונליין" וכו')
@@ -553,16 +558,16 @@ class LessonSlot(Base):
 
 
 class LessonType(Base):
-    """One line in the admin's private-lesson price list: a length and its price.
+    """מסלול אחד במחירון השיעורים הפרטיים: שם, משך ומחיר.
 
-    המנהל קובע כאן אילו משכי שיעור הוא מציע וכמה כל אחד עולה. המחיר נגזר מהמשך
-    ואינו נשמר על המשבצת, בדיוק כמו מחירי המנויים: שינוי מחירון משפיע מיד על מה
-    שהתלמידים רואים. אין סליקה במערכת — התשלום נסגר מול המורה — ולכן אין טעם
-    "לנעול" מחיר על תור שנקבע.
+    המסלול הוא מוצר בעל שם — "שיעור יחיד", "שיעור בזוג" — ולא סתם מספר דקות.
+    כמה מסלולים רשאים לחלוק אותו משך, אותו מחיר או את שניהם; ההבחנה ביניהם היא
+    השם. לכן המחיר אינו נשלף עוד לפי המשך בלבד: המשבצת זוכרת עבור איזה מסלול
+    נפתחה (``LessonSlot.lesson_type_id``).
 
-    אותו אורך יכול להופיע כמה פעמים — "45 דק' רגיל" ו-"45 דק' העמקה" במחירים
-    שונים הם מקרה לגיטימי. מה שמונע דו-משמעות הוא ש``LessonSlot`` מצביע על השורה
-    הזו ישירות; משבצת בלי הצבעה נופלת לחיפוש לפי משך ולוקחת את הראשונה.
+    המחיר אינו נשמר על המשבצת, בדיוק כמו מחירי המנויים: שינוי מחירון משפיע מיד
+    על מה שהתלמידים רואים. אין סליקה במערכת — התשלום נסגר מול המורה — ולכן אין
+    טעם "לנעול" מחיר על תור שנקבע.
     """
 
     __tablename__ = "lesson_types"
@@ -570,9 +575,14 @@ class LessonType(Base):
     id = Column(Integer, primary_key=True, index=True)
     duration_min = Column(Integer, nullable=False, index=True)
     price_nis = Column(Float, nullable=False, default=0)
-    label = Column(String, nullable=True)  # תיאור חופשי ("שיעור העמקה", "אונליין")
+    label = Column(String, nullable=True)  # שם המסלול ("שיעור בזוג", "שיעור העמקה")
     is_active = Column(Boolean, nullable=False, default=True)  # הוסר מהמחירון בלי למחוק
     created_at = Column(DateTime, default=datetime.utcnow)
+
+    @property
+    def name(self) -> str:
+        """שם להצגה. שורות ותיקות נוצרו בלי שם ואסור שיוצגו ריקות."""
+        return (self.label or "").strip() or f"שיעור {self.duration_min} דק׳"
 
 
 class LessonRequest(Base):

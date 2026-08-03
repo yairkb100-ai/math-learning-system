@@ -77,6 +77,14 @@ def on_startup() -> None:
                 conn.execute(
                     text("ALTER TABLE courses ADD COLUMN seeded BOOLEAN NOT NULL DEFAULT false")
                 )
+        if "title_overridden" not in cols:
+            with engine.begin() as conn:
+                conn.execute(
+                    text(
+                        "ALTER TABLE courses ADD COLUMN title_overridden "
+                        "BOOLEAN NOT NULL DEFAULT false"
+                    )
+                )
     if "file_assets" in inspector.get_table_names():
         cols = {c["name"] for c in inspector.get_columns("file_assets")}
         if "kind" not in cols:
@@ -130,35 +138,6 @@ def on_startup() -> None:
                     "ON users (referral_code)"
                 )
             )
-
-    if "lesson_types" in inspector.get_table_names():
-        # המשך חדל להיות ייחודי: אותו אורך יכול להימכר בכמה מחירים. המסד עדיין
-        # אוכף את האינדקס הייחודי שנוצר עם הטבלה, ולכן הסרת הבדיקה מהקוד לבדה
-        # הייתה מחזירה IntegrityError במקום ה-409 — צריך להחליף את האינדקס עצמו.
-        with engine.begin() as conn:
-            conn.execute(text("DROP INDEX IF EXISTS ix_lesson_types_duration_min"))
-            conn.execute(text(
-                "CREATE INDEX IF NOT EXISTS ix_lesson_types_duration_min "
-                "ON lesson_types (duration_min)"
-            ))
-        # Postgres מייצר גם אילוץ UNIQUE נפרד כשהעמודה הוגדרה unique=True בלי
-        # index; ב-SQLite אין DROP CONSTRAINT ולכן זה נכשל בשקט ולא מפריע.
-        try:
-            with engine.begin() as conn:
-                conn.execute(text(
-                    "ALTER TABLE lesson_types DROP CONSTRAINT IF EXISTS "
-                    "lesson_types_duration_min_key"
-                ))
-        except Exception:  # noqa: BLE001 — SQLite has no DROP CONSTRAINT
-            pass
-        print("  ~ Migrated: lesson_types.duration_min is no longer unique")
-
-    if "lesson_slots" in inspector.get_table_names():
-        cols = {c["name"] for c in inspector.get_columns("lesson_slots")}
-        if "lesson_type_id" not in cols:
-            with engine.begin() as conn:
-                conn.execute(text("ALTER TABLE lesson_slots ADD COLUMN lesson_type_id INTEGER"))
-
     if "exercises" in inspector.get_table_names():
         cols = {c["name"] for c in inspector.get_columns("exercises")}
         if "answer" not in cols:
@@ -166,6 +145,49 @@ def on_startup() -> None:
                 conn.execute(
                     text("ALTER TABLE exercises ADD COLUMN answer VARCHAR")
                 )
+    if "lesson_slots" in inspector.get_table_names():
+        # כמו ב-seed.py: תקלת DDL לא תפיל את עליית האפליקציה.
+        try:
+            cols = {c["name"] for c in inspector.get_columns("lesson_slots")}
+            if "lesson_type_id" not in cols:
+                with engine.begin() as conn:
+                    conn.execute(
+                        text(
+                            "ALTER TABLE lesson_slots ADD COLUMN lesson_type_id INTEGER "
+                            "REFERENCES lesson_types(id) ON DELETE SET NULL"
+                        )
+                    )
+            with engine.begin() as conn:
+                conn.execute(
+                    text(
+                        "CREATE INDEX IF NOT EXISTS ix_lesson_slots_lesson_type_id "
+                        "ON lesson_slots (lesson_type_id)"
+                    )
+                )
+        except Exception as e:  # noqa: BLE001
+            print(f"  ! lesson_slots.lesson_type_id migration skipped: {e}")
+    if "lesson_types" in inspector.get_table_names():
+        # כמה מסלולים רשאים לחלוק אותו משך, ולכן האינדקס הייחודי הישן יורד.
+        # ה-try הוא כדי שתקלת DDL לא תפיל את עליית האפליקציה.
+        try:
+            unique = any(
+                ix["name"] == "ix_lesson_types_duration_min" and ix.get("unique")
+                for ix in inspector.get_indexes("lesson_types")
+            )
+            if unique:
+                with engine.begin() as conn:
+                    conn.execute(
+                        text("DROP INDEX IF EXISTS ix_lesson_types_duration_min")
+                    )
+                with engine.begin() as conn:
+                    conn.execute(
+                        text(
+                            "CREATE INDEX IF NOT EXISTS ix_lesson_types_duration_min "
+                            "ON lesson_types (duration_min)"
+                        )
+                    )
+        except Exception as e:  # noqa: BLE001
+            print(f"  ! lesson_types duration index rebuild skipped: {e}")
 
 
 app.include_router(courses.router)

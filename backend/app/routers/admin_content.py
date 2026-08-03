@@ -9,6 +9,7 @@ from app.dependencies import require_admin
 from app.schemas import (
     CourseCreate,
     CourseGradeAssign,
+    CourseRename,
     CourseSectionAssign,
     CourseSummary,
 )
@@ -17,6 +18,10 @@ router = APIRouter(prefix="/api/admin", tags=["admin-content"])
 
 # כיתות הלימוד המוכרות לקטלוג — חייב להתאים ל-GRADES ב-CourseList.jsx.
 VALID_GRADES = {"5", "6", "7", "8", "hs"}
+
+# תקרות שפויות לשם ולתיאור — שם ארוך מדי שובר את שורות הרשימה ואת כרטיס הקטלוג.
+COURSE_TITLE_MAX = 120
+COURSE_DESCRIPTION_MAX = 400
 
 
 def _course_summary(course: models.Course) -> CourseSummary:
@@ -119,6 +124,47 @@ def set_course_grade(
     if payload.grade is not None and payload.grade not in VALID_GRADES:
         raise HTTPException(status_code=422, detail="כיתה לא חוקית")
     course.grade = payload.grade or None
+    db.commit()
+    db.refresh(course)
+    return _course_summary(course)
+
+
+@router.put("/courses/{course_id}/title", response_model=CourseSummary)
+def rename_course(
+    course_id: int,
+    payload: CourseRename,
+    db: Session = Depends(get_db),
+    _: models.User = Depends(require_admin),
+) -> CourseSummary:
+    """שינוי שם הקורס (ובאופן אופציונלי גם התיאור).
+
+    שתי עובדות קריטיות:
+    1. ה-slug לא משתנה כאן ואסור שישתנה — סרטוני Bunny ותיקיות
+       courses/assets/<slug>/ ממופים לפיו, ושינוי שלו מנתק אותם בשקט.
+    2. title_overridden מסמן ל-seed.py לא לדרוס את השם מ-courses/*.json בפריסה
+       הבאה. הדגל מגן על השם בלבד — אם התוכן עצמו ישתנה ב-JSON הקורס עדיין
+       ייבנה מחדש (והפרקים יקבלו מזהים חדשים), רק שהשם שהמנהל בחר יישמר.
+    """
+    course = db.query(models.Course).filter(models.Course.id == course_id).first()
+    if not course:
+        raise HTTPException(status_code=404, detail="קורס לא נמצא")
+    title = (payload.title or "").strip()
+    if not title:
+        raise HTTPException(status_code=422, detail="שם הקורס לא יכול להיות ריק")
+    if len(title) > COURSE_TITLE_MAX:
+        raise HTTPException(
+            status_code=422, detail=f"שם הקורס ארוך מדי (עד {COURSE_TITLE_MAX} תווים)"
+        )
+    if payload.description is not None:
+        description = payload.description.strip()
+        if len(description) > COURSE_DESCRIPTION_MAX:
+            raise HTTPException(
+                status_code=422,
+                detail=f"התיאור ארוך מדי (עד {COURSE_DESCRIPTION_MAX} תווים)",
+            )
+        course.description = description
+    course.title = title
+    course.title_overridden = True
     db.commit()
     db.refresh(course)
     return _course_summary(course)

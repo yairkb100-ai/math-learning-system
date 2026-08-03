@@ -276,6 +276,12 @@ export const api = {
       method: 'PUT',
       body: JSON.stringify({ grade: grade || null }),
     }),
+  // שינוי שם בלבד — ה-slug בשרת נשאר כמו שהוא (סרטונים וקבצים ממופים לפיו).
+  renameCourse: (courseId, title, description = null) =>
+    request(`/admin/courses/${courseId}/title`, {
+      method: 'PUT',
+      body: JSON.stringify({ title, description }),
+    }),
   resetStudent: (userId) =>
     request(`/admin/users/${userId}/progress`, { method: 'DELETE' }),
 
@@ -345,6 +351,8 @@ export const api = {
 
   // חבר מביא חבר
   myReferrals: () => request('/me/referrals'),
+  // מונים בלבד — לבאנר במסך הבית ולבאדג' בתפריט, שנסקר כל 20 שניות.
+  myReferralSummary: () => request('/me/referrals/summary'),
   chooseReferralReward: (refId, kind) =>
     request(`/me/referrals/${refId}/choose`, {
       method: 'POST',
@@ -442,7 +450,8 @@ export const api = {
 
   // Private lessons — admin
   adminLessonSlots: () => request('/admin/lessons/slots'),
-  // מחירון השיעורים: אילו משכים מוצעים וכמה כל אחד עולה.
+  // מחירון השיעורים: אילו מסלולים מוצעים, כמה כל אחד אורך וכמה הוא עולה.
+  // ``label`` הוא שם המסלול ("שיעור בזוג") — כמה מסלולים רשאים לחלוק אורך ומחיר.
   adminLessonTypes: () => request('/admin/lessons/types'),
   adminCreateLessonType: ({ durationMin, priceNis = 0, label = null, isActive = true }) =>
     request('/admin/lessons/types', {
@@ -461,6 +470,7 @@ export const api = {
     }),
   adminDeleteLessonType: (typeId) =>
     request(`/admin/lessons/types/${typeId}`, { method: 'DELETE' }),
+  // ``lessonTypeId`` = המסלול שעבורו נפתחת המשבצת. null = אורך חד-פעמי בלי מסלול.
   adminCreateLessonSlot: ({ startsAt, durationMin = 45, note = null, lessonTypeId = null }) =>
     request('/admin/lessons/slots', {
       method: 'POST',
@@ -471,7 +481,14 @@ export const api = {
         lesson_type_id: lessonTypeId,
       }),
     }),
-  adminGenerateLessonSlots: ({ startDate, endDate, weekdays, times, durationMin = 45, lessonTypeId = null }) =>
+  adminGenerateLessonSlots: ({
+    startDate,
+    endDate,
+    weekdays,
+    times,
+    durationMin = 45,
+    lessonTypeId = null,
+  }) =>
     request('/admin/lessons/slots/generate', {
       method: 'POST',
       body: JSON.stringify({

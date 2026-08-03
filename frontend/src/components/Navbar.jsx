@@ -11,6 +11,7 @@ export default function Navbar() {
   const [unread, setUnread] = useState(0)
   const [pendingLessons, setPendingLessons] = useState(0)
   const [pendingRewards, setPendingRewards] = useState(0)
+  const [myRewards, setMyRewards] = useState(0)
   const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
@@ -31,6 +32,13 @@ export default function Navbar() {
         api
           .adminReferralPendingCount()
           .then((r) => alive && setPendingRewards(r?.count || 0))
+          .catch(() => {})
+      } else {
+        // הטבות שנפתחו וממתינות שהתלמיד יבחר ביניהן. ההטבה נפתחת מפעולה של
+        // המנהל במסך אחר, ולכן בלי הבאדג' לתלמיד אין שום דרך לדעת שמחכה לו משהו.
+        api
+          .myReferralSummary()
+          .then((r) => alive && setMyRewards(r?.unredeemed || 0))
           .catch(() => {})
       }
     }
@@ -79,11 +87,12 @@ export default function Navbar() {
             aria-expanded={menuOpen}
           >
             {menuOpen ? <IconX /> : <IconMenu />}
-            {!menuOpen && (unread > 0 || pendingLessons > 0 || pendingRewards > 0) && (
-              <span className="nav-badge nav-toggle-badge">
-                {unread + pendingLessons + pendingRewards}
-              </span>
-            )}
+            {!menuOpen &&
+              (unread > 0 || pendingLessons > 0 || pendingRewards > 0 || myRewards > 0) && (
+                <span className="nav-badge nav-toggle-badge">
+                  {unread + pendingLessons + pendingRewards + myRewards}
+                </span>
+              )}
           </button>
         )}
 
@@ -116,7 +125,12 @@ export default function Navbar() {
                   <Link to="/analytics" className="nav-link">אנליטיקה</Link>
                   <Link to="/progress" className="nav-link">ההתקדמות שלי</Link>
                   <Link to="/lessons" className="nav-link">קביעת שיעור פרטי</Link>
-                  <Link to="/invite" className="nav-link">חבר מביא חבר</Link>
+                  <Link to="/invite" className="nav-link nav-link-accent">
+                    חבר מביא חבר
+                    {myRewards > 0 && (
+                      <span className="nav-badge nav-badge-reward">{myRewards}</span>
+                    )}
+                  </Link>
                   <Link to="/subscription" className="nav-link">המנוי שלי</Link>
                   {messagesLink}
                 </>

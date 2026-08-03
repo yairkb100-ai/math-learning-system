@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState } from 'react'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
-import { IconUsers, IconCheck, IconClock, IconSpark } from '../components/icons.jsx'
+import { IconUsers, IconCheck, IconClock, IconSpark, IconShare } from '../components/icons.jsx'
+import { waHref, copyLink as copyToClipboard, shareInvite } from '../lib/invite.js'
 
 // "חבר מביא חבר" — הקישור האישי של התלמיד, מי שהוא כבר הביא, וההטבות שמגיעות לו.
 //
@@ -38,23 +39,20 @@ export default function ReferralPage() {
   const lessonPct = Math.round(data.lesson_discount_pct)
   const lessonPrice = data.lesson_price_nis
 
-  // ההודעה נשלחת מוכנה כדי שהשיתוף יהיה לחיצה אחת. בישראל זה וואטסאפ, ולכן
-  // wa.me ולא mailto — ובלי קוד להקליד, קישור בלבד.
-  const waText = encodeURIComponent(
-    `היי! הבן/בת שלי לומד/ת מתמטיקה בלומדה הזאת והיא ממש עוזרת.\n` +
-      `אפשר להתחיל עם תקופת התנסות חינם דרך הקישור הזה:\n${link}`
-  )
-  const waHref = `https://wa.me/?text=${waText}`
+  function flashCopied() {
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2500)
+  }
 
   async function copyLink() {
-    try {
-      await navigator.clipboard.writeText(link)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2500)
-    } catch {
-      // דפדפן ישן / הרשאה נדחתה — הקישור ממילא מוצג ככיתוב שאפשר לסמן ידנית.
-      setCopied(false)
-    }
+    if (await copyToClipboard(link)) flashCopied()
+    else setCopied(false)
+  }
+
+  async function share() {
+    // בשולחן העבודה אין navigator.share ו-shareInvite נופל להעתקה — מציגים
+    // את אותו משוב, אחרת הכפתור נראה מת בדיוק בדפדפן שבו בודקים.
+    if ((await shareInvite(link)) === 'copied') flashCopied()
   }
 
   async function choose(refId, kind) {
@@ -95,9 +93,14 @@ export default function ReferralPage() {
             {copied ? 'הועתק ✓' : 'העתקה'}
           </button>
         </div>
-        <a className="btn btn-wa" href={waHref} target="_blank" rel="noreferrer">
-          שליחה בוואטסאפ
-        </a>
+        <div className="referral-share-actions">
+          <a className="btn btn-wa" href={waHref(link)} target="_blank" rel="noreferrer">
+            שליחה בוואטסאפ
+          </a>
+          <button type="button" className="btn" onClick={share}>
+            <IconShare /> שיתוף
+          </button>
+        </div>
         <p className="sub-note">
           מי שנרשם דרך הקישור מתחיל בתקופת התנסות חינם. ההטבה שלך נפתחת כשהוא
           ממשיך למנוי מלא — כך שאין טעם לפתוח חשבונות ריקים.

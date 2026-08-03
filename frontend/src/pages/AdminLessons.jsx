@@ -68,7 +68,12 @@ function num(value, label) {
   return n
 }
 
-const BLANK_TYPE = { duration_min: '', price_nis: '', label: '' }
+const BLANK_TYPE = { label: '', duration_min: '', price_nis: '' }
+
+// שורה אחת בבוחר המסלולים. שם המסלול קודם — הוא מה שמבדיל בין שני מסלולים
+// באותו אורך ("45 דק׳ יחיד" מול "45 דק׳ בזוג").
+const trackOption = (t) =>
+  `${t.name} · ${t.duration_min} דק׳${t.price_nis > 0 ? ` · ₪${Math.round(t.price_nis)}` : ''}`
 
 export default function AdminLessons() {
   const [slots, setSlots] = useState([])
@@ -81,8 +86,9 @@ export default function AdminLessons() {
   const [busy, setBusy] = useState(false)
   const [showPast, setShowPast] = useState(false)
 
-  // single-slot form
-  const [single, setSingle] = useState({ startsAt: '', durationMin: 45, note: '' })
+  // single-slot form. ``typeId``: מזהה מסלול, 'custom' לאורך חד-פעמי, ו-null עד
+  // שהמחירון נטען ונבחר עבורו מסלול ברירת מחדל.
+  const [single, setSingle] = useState({ startsAt: '', durationMin: 45, note: '', typeId: null })
   // availability window → the system fills a slot every `everyMin` minutes
   // between fromTime and toTime, on each chosen weekday across the date range.
   const [avail, setAvail] = useState({
@@ -93,6 +99,7 @@ export default function AdminLessons() {
     toTime: '20:00',
     everyMin: 5,
     durationMin: 45,
+    typeId: null,
   })
 
   // Big calendar: which month is shown, which day is selected, and the
@@ -102,10 +109,11 @@ export default function AdminLessons() {
     return new Date(n.getFullYear(), n.getMonth(), 1)
   })
   const [selectedDay, setSelectedDay] = useState(todayKey())
-  const [panelDuration, setPanelDuration] = useState(45)
-  // איזו שורת מחירון נמכרת. שני שיעורים באותו אורך נבדלים רק בזה.
+  // המסלול שעבורו נפתחת זמינות. המשך נגזר ממנו — לכן panelDuration משמש רק
+  // במצב "אחר…".
   const [panelTypeId, setPanelTypeId] = useState(null)
-  // "אחר…" — משך שאינו במחירון, מוקלד ידנית.
+  const [panelDuration, setPanelDuration] = useState(45)
+  // "אחר…" — משך שאינו במחירון, מוקלד ידנית וללא מסלול.
   const [panelCustom, setPanelCustom] = useState(false)
   const [customTime, setCustomTime] = useState('')
 
@@ -129,25 +137,13 @@ export default function AdminLessons() {
 
   const activeTypes = useMemo(() => types.filter((t) => t.is_active), [types])
 
-  // The price the admin set for a given length — null when that length has no row.
-  const priceOf = useCallback(
-    (minutes) => {
-      const t = activeTypes.find((x) => x.duration_min === Number(minutes))
-      return t && t.price_nis > 0 ? t.price_nis : null
-    },
+  // המסלול שנבחר בטופס. 'custom'/null = אורך חד-פעמי, בלי מסלול.
+  const trackOf = useCallback(
+    (typeId) => activeTypes.find((t) => t.id === Number(typeId)) || null,
     [activeTypes],
   )
-  const durLabel = (minutes) => {
-    const p = priceOf(minutes)
-    return `${minutes} דק׳${p ? ` · ₪${Math.round(p)}` : ''}`
-  }
-  // Hint next to a hand-typed length, so a price-less duration can't slip through unnoticed.
-  const durHint = (minutes) => {
-    const p = priceOf(minutes)
-    return p ? `₪${Math.round(p)}` : 'לא במחירון'
-  }
 
-  // Land on a length the admin actually offers, instead of a hardcoded 45.
+  // Land on a track the admin actually offers, instead of a hardcoded 45.
   //
   // Waits for the fetch: before it lands the list is empty, and acting on that
   // would drop the picker into "אחר" on every single load. Skipped in "אחר" mode
@@ -160,9 +156,11 @@ export default function AdminLessons() {
       return
     }
     if (!panelCustom && !activeTypes.some((t) => t.id === panelTypeId)) {
-      setPanelDuration(activeTypes[0].duration_min)
       setPanelTypeId(activeTypes[0].id)
     }
+    // null = הטופס עוד לא ראה מחירון; 'custom' הוא בחירה מפורשת ולא נוגעים בה.
+    if (avail.typeId === null) setAvail((a) => ({ ...a, typeId: activeTypes[0].id }))
+    if (single.typeId === null) setSingle((s) => ({ ...s, typeId: activeTypes[0].id }))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTypes, loading])
 
@@ -170,13 +168,15 @@ export default function AdminLessons() {
     e.preventDefault()
     if (!single.startsAt) return
     setBusy(true)
+    const track = trackOf(single.typeId)
     try {
       await api.adminCreateLessonSlot({
         startsAt: single.startsAt,
-        durationMin: Number(single.durationMin) || 45,
+        durationMin: track ? track.duration_min : Number(single.durationMin) || 45,
         note: single.note.trim() || null,
+        lessonTypeId: track ? track.id : null,
       })
-      setSingle({ startsAt: '', durationMin: 45, note: '' })
+      setSingle({ startsAt: '', durationMin: 45, note: '', typeId: single.typeId })
       load()
     } catch (err) {
       alert(err.message)
@@ -216,13 +216,15 @@ export default function AdminLessons() {
     const est = times.length * avail.weekdays.length
     if (est > 300 && !confirm(`הפעולה תיצור בערך ${est} תורים. להמשיך?`)) return
     setBusy(true)
+    const track = trackOf(avail.typeId)
     try {
       const res = await api.adminGenerateLessonSlots({
         startDate: avail.startDate,
         endDate: avail.endDate,
         weekdays: avail.weekdays,
         times,
-        durationMin: Number(avail.durationMin) || 45,
+        durationMin: track ? track.duration_min : Number(avail.durationMin) || 45,
+        lessonTypeId: track ? track.id : null,
       })
       alert(`נוצרו ${res.created} תורים פנויים.`)
       load()
@@ -290,7 +292,7 @@ export default function AdminLessons() {
   }
 
   async function removeType(t) {
-    if (!confirm(`למחוק את השיעור באורך ${t.duration_min} דק׳ מהמחירון?`)) return
+    if (!confirm(`למחוק את המסלול "${t.name}" (${t.duration_min} דק׳) מהמחירון?\nתורים שכבר נפתחו עבורו יישארו, ללא שם מסלול.`)) return
     await act(api.adminDeleteLessonType, t.id)
   }
 
@@ -375,9 +377,10 @@ export default function AdminLessons() {
 
   // Mark availability: create a bookable slot at day+time (or delete a free one).
   async function addSlotAt(key, hhmm) {
-    const dur = Number(panelDuration)
+    const track = panelCustom ? null : trackOf(panelTypeId)
+    const dur = track ? track.duration_min : Number(panelDuration)
     if (!dur || dur < 5) {
-      alert('בחרו משך שיעור תקין (לפחות 5 דקות).')
+      alert('בחרו מסלול, או משך שיעור תקין (לפחות 5 דקות).')
       return
     }
     setBusy(true)
@@ -386,7 +389,7 @@ export default function AdminLessons() {
         startsAt: `${key}T${hhmm}`,
         durationMin: dur,
         note: null,
-        lessonTypeId: panelCustom ? null : panelTypeId,
+        lessonTypeId: track ? track.id : null,
       })
       load()
     } catch (err) {
@@ -464,6 +467,7 @@ export default function AdminLessons() {
                 <div className="slot-when">
                   <strong>{fmtTime(s.starts_at)}</strong>
                   <span>
+                    {s.lesson_type_name ? `${s.lesson_type_name} · ` : ''}
                     {s.duration_min} דק׳
                     {s.price_nis ? ` · ₪${Math.round(s.price_nis)}` : ''}
                     {s.note ? ` · ${s.note}` : ''}
@@ -528,7 +532,8 @@ export default function AdminLessons() {
                 <div className="req-when">
                   <strong>{r.student_name}</strong>
                   <span>
-                    {r.starts_at ? fmtDateTime(r.starts_at) : '—'} · {r.duration_min} דק׳
+                    {r.starts_at ? fmtDateTime(r.starts_at) : '—'}
+                    {r.lesson_type_name ? ` · ${r.lesson_type_name}` : ''} · {r.duration_min} דק׳
                     {r.price_nis ? ` · ₪${Math.round(r.price_nis)}` : ''}
                   </span>
                   {r.student_note && <span className="req-note">“{r.student_note}”</span>}
@@ -549,17 +554,19 @@ export default function AdminLessons() {
 
       {/* 2 · Price list — the lengths offered and what each one costs */}
       <section className="card lesson-section">
-        <h2 className="section-h">משכי שיעור ומחירים</h2>
+        <h2 className="section-h">מסלולי שיעור ומחירים</h2>
         <p className="page-sub" style={{ marginTop: -4 }}>
-          כאן קובעים אילו אורכי שיעור אתם מציעים וכמה כל אחד עולה. המשכים שתגדירו הם
-          אלה שיוצעו לכם בפתיחת זמינות, והמחיר מוצג לתלמידים בעמוד קביעת השיעור.
+          כאן קובעים אילו מסלולי שיעור אתם מציעים — לכל מסלול שם, אורך ומחיר. כמה
+          מסלולים יכולים לחלוק אותו אורך, אותו מחיר או את שניהם (למשל "45 דק׳ יחיד"
+          ו"45 דק׳ בזוג"); השם הוא מה שמבדיל ביניהם. המסלולים שתגדירו הם אלה שיוצעו
+          לכם בפתיחת זמינות, והשם והמחיר מוצגים לתלמידים בעמוד קביעת השיעור.
           שינוי מחיר משפיע מיד — הוא אינו משנה שיעורים שכבר אושרו.
         </p>
 
         {types.length === 0 ? (
           <p className="empty">
-            אין עדיין משכי שיעור. הוסיפו לפחות אחד — עד אז אפשר להקליד משך ידנית בכל
-            מקום שבו בוחרים אורך שיעור.
+            אין עדיין מסלולי שיעור. הוסיפו לפחות אחד — עד אז אפשר להקליד משך ידנית בכל
+            מקום שבו בוחרים מסלול.
           </p>
         ) : (
           <div className="lesson-type-list">
@@ -567,6 +574,16 @@ export default function AdminLessons() {
               const d = typeDraft(t)
               return (
                 <div key={t.id} className={`lesson-type-row${t.is_active ? '' : ' is-off'}`}>
+                  <label className="lt-field lt-label">
+                    שם המסלול
+                    <input
+                      type="text"
+                      value={d.label}
+                      placeholder="למשל: שיעור בזוג"
+                      disabled={busy}
+                      onChange={(e) => editType(t, 'label', e.target.value)}
+                    />
+                  </label>
                   <label className="lt-field">
                     משך (דק׳)
                     <input
@@ -588,16 +605,6 @@ export default function AdminLessons() {
                       value={d.price_nis}
                       disabled={busy}
                       onChange={(e) => editType(t, 'price_nis', e.target.value)}
-                    />
-                  </label>
-                  <label className="lt-field lt-label">
-                    תיאור (לא חובה)
-                    <input
-                      type="text"
-                      value={d.label}
-                      placeholder="למשל: שיעור העמקה"
-                      disabled={busy}
-                      onChange={(e) => editType(t, 'label', e.target.value)}
                     />
                   </label>
                   <div className="lt-actions">
@@ -636,6 +643,17 @@ export default function AdminLessons() {
         )}
 
         <form className="lesson-type-row is-new" onSubmit={addType}>
+          <label className="lt-field lt-label">
+            שם המסלול
+            <input
+              type="text"
+              value={newType.label}
+              placeholder="למשל: שיעור בזוג"
+              disabled={busy}
+              required
+              onChange={(e) => setNewType({ ...newType, label: e.target.value })}
+            />
+          </label>
           <label className="lt-field">
             משך (דק׳)
             <input
@@ -663,19 +681,9 @@ export default function AdminLessons() {
               onChange={(e) => setNewType({ ...newType, price_nis: e.target.value })}
             />
           </label>
-          <label className="lt-field lt-label">
-            תיאור (לא חובה)
-            <input
-              type="text"
-              value={newType.label}
-              placeholder="למשל: שיעור כפול"
-              disabled={busy}
-              onChange={(e) => setNewType({ ...newType, label: e.target.value })}
-            />
-          </label>
           <div className="lt-actions">
             <button className="btn-sm btn-primary" disabled={busy}>
-              הוספת משך
+              הוספת מסלול
             </button>
           </div>
         </form>
@@ -726,27 +734,22 @@ export default function AdminLessons() {
           <div className="cal-day-head">
             <strong>{fmtDayLabel(selectedDay)}</strong>
             <label className="cal-dur">
-              משך שיעור:
+              מסלול:
               <select
-                value={panelCustom ? 'custom' : String(panelTypeId ?? '')}
+                value={panelCustom ? 'custom' : panelTypeId ?? ''}
                 disabled={busy}
                 onChange={(e) => {
                   if (e.target.value === 'custom') {
                     setPanelCustom(true)
-                    setPanelTypeId(null)
                     return
                   }
-                  const t = activeTypes.find((x) => String(x.id) === e.target.value)
                   setPanelCustom(false)
-                  setPanelTypeId(t ? t.id : null)
-                  if (t) setPanelDuration(t.duration_min)
+                  setPanelTypeId(Number(e.target.value))
                 }}
               >
                 {activeTypes.map((t) => (
                   <option key={t.id} value={t.id}>
-                    {t.duration_min} דק׳
-                    {t.price_nis > 0 ? ` · ₪${Math.round(t.price_nis)}` : ' · לא במחירון'}
-                    {t.label ? ` · ${t.label}` : ''}
+                    {trackOption(t)}
                   </option>
                 ))}
                 <option value="custom">אחר…</option>
@@ -761,20 +764,10 @@ export default function AdminLessons() {
                   value={panelDuration}
                   disabled={busy}
                   aria-label="משך השיעור בדקות"
-                  onChange={(e) => {
-                    setPanelDuration(Number(e.target.value))
-                    setPanelTypeId(null)
-                  }}
+                  onChange={(e) => setPanelDuration(Number(e.target.value))}
                 />
               )}
-              {panelCustom && (
-                <span className="cal-dur-note">
-                  דק׳
-                  {priceOf(panelDuration)
-                    ? ` · ₪${Math.round(priceOf(panelDuration))}`
-                    : ' · לא במחירון'}
-                </span>
-              )}
+              {panelCustom && <span className="cal-dur-note">דק׳ · ללא מסלול</span>}
             </label>
           </div>
 
@@ -794,7 +787,12 @@ export default function AdminLessons() {
                       type="button"
                       className={`hour-chip on ${st.cls}`}
                       disabled={busy || locked}
-                      title={locked ? `${st.he}${slot.student_name ? ' · ' + slot.student_name : ''}` : 'לחצו כדי להסיר'}
+                      title={[
+                        slot.lesson_type_name || `${slot.duration_min} דק׳`,
+                        locked
+                          ? `${st.he}${slot.student_name ? ' · ' + slot.student_name : ''}`
+                          : 'לחצו כדי להסיר',
+                      ].join(' · ')}
                       onClick={() => {
                         if (locked) return
                         if (confirm(`להסיר את הזמינות בשעה ${h}?`)) act(api.adminDeleteLessonSlot, slot.id)
@@ -959,18 +957,34 @@ export default function AdminLessons() {
                 />
               </label>
               <label>
-                משך שיעור (דק׳)
-                <input
-                  type="number"
-                  min="5"
-                  max="480"
-                  step="5"
-                  value={avail.durationMin}
-                  onChange={(e) => setAvail({ ...avail, durationMin: e.target.value })}
-                  list="lesson-durations"
-                />
-                <span className="dur-hint">{durHint(avail.durationMin)}</span>
+                מסלול
+                <select
+                  value={avail.typeId === null ? 'custom' : avail.typeId}
+                  onChange={(e) => setAvail({ ...avail, typeId: e.target.value === 'custom' ? 'custom' : Number(e.target.value) })}
+                >
+                  {activeTypes.map((t) => (
+                    <option key={t.id} value={t.id}>
+                      {trackOption(t)}
+                    </option>
+                  ))}
+                  <option value="custom">אחר…</option>
+                </select>
               </label>
+              {!trackOf(avail.typeId) && (
+                <label>
+                  משך שיעור (דק׳)
+                  <input
+                    type="number"
+                    min="5"
+                    max="480"
+                    step="5"
+                    value={avail.durationMin}
+                    onChange={(e) => setAvail({ ...avail, durationMin: e.target.value })}
+                    list="lesson-durations"
+                  />
+                  <span className="dur-hint">ללא מסלול</span>
+                </label>
+              )}
             </div>
 
             <div className="gen-preview">
@@ -1009,18 +1023,34 @@ export default function AdminLessons() {
                   />
                 </label>
                 <label>
-                  משך (דק׳)
-                  <input
-                    type="number"
-                    min="5"
-                    max="480"
-                    step="5"
-                    value={single.durationMin}
-                    onChange={(e) => setSingle({ ...single, durationMin: e.target.value })}
-                    list="lesson-durations"
-                  />
-                  <span className="dur-hint">{durHint(single.durationMin)}</span>
+                  מסלול
+                  <select
+                    value={single.typeId === null ? 'custom' : single.typeId}
+                    onChange={(e) => setSingle({ ...single, typeId: e.target.value === 'custom' ? 'custom' : Number(e.target.value) })}
+                  >
+                    {activeTypes.map((t) => (
+                      <option key={t.id} value={t.id}>
+                        {trackOption(t)}
+                      </option>
+                    ))}
+                    <option value="custom">אחר…</option>
+                  </select>
                 </label>
+                {!trackOf(single.typeId) && (
+                  <label>
+                    משך (דק׳)
+                    <input
+                      type="number"
+                      min="5"
+                      max="480"
+                      step="5"
+                      value={single.durationMin}
+                      onChange={(e) => setSingle({ ...single, durationMin: e.target.value })}
+                      list="lesson-durations"
+                    />
+                    <span className="dur-hint">ללא מסלול</span>
+                  </label>
+                )}
                 <label>
                   הערה (לא חובה)
                   <input
@@ -1049,7 +1079,10 @@ export default function AdminLessons() {
                   <div key={r.id} className="req-row">
                     <div className="req-when">
                       <strong>{r.student_name}</strong>
-                      <span>{r.starts_at ? fmtDateTime(r.starts_at) : '—'}</span>
+                      <span>
+                        {r.starts_at ? fmtDateTime(r.starts_at) : '—'}
+                        {r.lesson_type_name ? ` · ${r.lesson_type_name}` : ''}
+                      </span>
                       {r.admin_note && <span className="req-admin-note">הערה: {r.admin_note}</span>}
                     </div>
                     <span className={`lesson-badge ${st.cls}`}>{st.he}</span>

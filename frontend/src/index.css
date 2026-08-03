@@ -1810,6 +1810,18 @@ h4.prose-h {
   min-width: 0;
   font-weight: 600;
 }
+/* Same shrink behaviour as the selects, so a long name wraps the row instead of
+   overflowing the page at 320px. */
+.section-course-rename {
+  flex: 1 1 140px;
+  min-width: 0;
+  max-width: 100%;
+  padding: 5px 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+}
 .section-course-row select {
   /* min-width:0 lets it shrink below a long section-title option's intrinsic
      width instead of forcing the whole row (and page) to overflow. */
@@ -3093,6 +3105,16 @@ h4.prose-h {
   font-size: 0.72rem;
   opacity: 0.8;
 }
+/* שם המסלול שעבורו נפתחה המשבצת — הוא, ולא מספר הדקות, מבדיל בין שני מסלולים
+   באותו אורך. חתוך בשורה אחת כדי שלא יפרק את רשת השעות. */
+.time-slot .time-track {
+  font-weight: 600;
+  font-size: 0.74rem;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .time-slot:disabled {
   opacity: 0.5;
   cursor: default;
@@ -3118,6 +3140,10 @@ h4.prose-h {
 .booking-confirm .confirm-when span {
   color: var(--muted);
   font-size: 0.88rem;
+}
+.booking-confirm .confirm-track {
+  color: var(--text);
+  font-weight: 600;
 }
 .booking-confirm .text-input {
   width: 100%;
@@ -3382,7 +3408,13 @@ h4.prose-h {
   font-size: 0.92rem;
 }
 .lps-label { font-weight: 600; }
-.lps-note { color: var(--muted); }
+/* כל מסלול הוא שם ומתחתיו האורך והמחיר — שני מסלולים יכולים לחלוק את שניהם. */
+.lps-item {
+  display: inline-flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+.lps-note { color: var(--muted); font-size: 0.85rem; }
 .lps-hint {
   color: var(--muted);
   font-size: 0.85rem;
@@ -3767,6 +3799,211 @@ h4.prose-h {
   border-radius: 10px;
   margin-bottom: 10px;
 }
+.referral-share-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.referral-share-actions .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+/* הבאנר במסך הבית — אותו "לוח גיר" של ה-hero בקטלוג. הוא יושב בתוך .catalog
+   ולכן --board/--chalk/--marker כבר מוגדרים עליו. */
+.invite-banner {
+  position: relative;
+  /* אין כאן תפריט נפתח שצריך לחרוג, ולכן אפשר לגזור את הקישוטים לפינות. */
+  overflow: hidden;
+  border: 1px solid var(--board-edge);
+  border-radius: 22px;
+  background:
+    linear-gradient(var(--chalk-line) 1px, transparent 1px) 0 0 / 30px 30px,
+    linear-gradient(90deg, var(--chalk-line) 1px, transparent 1px) 0 0 / 30px 30px,
+    radial-gradient(130% 120% at 85% -18%, rgba(47, 158, 106, 0.20), transparent 52%),
+    var(--board);
+  box-shadow: inset 0 0 70px rgba(0, 0, 0, 0.30);
+  margin: 0 0 28px;
+}
+.invite-doodles {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  overflow: hidden;
+  color: var(--chalk);
+  /* חלש יותר מה-hero: כאן יש טקסט הסבר צפוף שחייב להישאר קריא. */
+  opacity: 0.16;
+  pointer-events: none;
+}
+.invite-body {
+  position: relative;
+  z-index: 1;
+  padding: 24px 26px;
+  color: var(--chalk);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+.invite-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--chalk);
+  background: rgba(244, 242, 233, 0.08);
+  border: 1px solid var(--chalk-line);
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 999px;
+}
+.invite-eyebrow svg {
+  font-size: 1.05em;
+  color: var(--marker);
+}
+.invite-banner h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.15rem, 2.6vw, 1.6rem);
+  line-height: 1.2;
+  color: var(--chalk);
+  margin: 0;
+}
+.invite-accent {
+  color: var(--marker);
+}
+.invite-sub {
+  color: var(--chalk-dim);
+  max-width: 62ch;
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+.invite-link-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+}
+.invite-link {
+  flex: 1 1 240px;
+  min-width: 0;
+  /* כתובת ההזמנה היא מילה אחת בלי רווחים; בלי זה היא דוחפת את הלוח מעבר
+     לרוחב מסך של 320px וכל העמוד נגלל לצדדים. */
+  overflow-wrap: anywhere;
+  direction: ltr;
+  text-align: left;
+  background: rgba(244, 242, 233, 0.08);
+  border: 1px solid var(--chalk-line);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.88rem;
+  color: var(--chalk);
+  box-sizing: border-box;
+}
+.invite-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  flex: 0 0 auto;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 1px solid var(--chalk-line);
+  background: rgba(244, 242, 233, 0.08);
+  color: var(--chalk);
+  font-family: inherit;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: background 0.12s, color 0.12s;
+}
+.invite-btn:hover {
+  background: rgba(244, 242, 233, 0.16);
+}
+.invite-btn-primary {
+  background: var(--accent-2);
+  border-color: var(--accent-2);
+  color: #06331a;
+}
+.invite-btn-primary:hover {
+  background: #37b57b;
+  border-color: #37b57b;
+}
+.invite-stats {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  color: var(--chalk-dim);
+  font-size: 0.9rem;
+}
+.invite-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.invite-reward-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--marker);
+  color: #2a2103;
+  border-radius: 999px;
+  padding: 7px 15px;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+.invite-reward-cta:hover {
+  text-decoration: none;
+  color: #2a2103;
+  filter: brightness(1.06);
+}
+.invite-more {
+  color: var(--chalk-dim);
+  font-size: 0.9rem;
+  text-decoration: underline;
+}
+.invite-more:hover {
+  color: var(--chalk);
+}
+@media (max-width: 720px) {
+  .invite-body {
+    padding: 20px 18px;
+  }
+}
+@media (max-width: 480px) {
+  /* מתחת לרוחב הזה שני הכפתורים נדחסים ליד הכתובת ונקטעים — עדיף שיירדו שורה. */
+  .invite-link-row .invite-btn {
+    flex: 1 1 100%;
+  }
+}
+
+/* הקישור המודגש בתפריט + באדג' של הטבה שממתינה לתלמיד */
+.nav-link-accent {
+  color: var(--accent-2);
+  font-weight: 700;
+  background: rgba(47, 158, 106, 0.10);
+  border: 1px solid rgba(47, 158, 106, 0.28);
+  box-sizing: border-box;
+}
+.nav-link-accent:hover {
+  color: var(--accent-2);
+  background: rgba(47, 158, 106, 0.18);
+}
+.nav-badge-reward {
+  /* צהוב ולא אדום: זו הטבה שמחכה, לא התראה דחופה. */
+  background: var(--marker, #f2b134);
+  color: #2a2103;
+}
+
 .auth-invite {
   background: var(--ok-bg);
   color: var(--ok);

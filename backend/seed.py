@@ -72,11 +72,15 @@ def _course_unchanged(existing, course_obj, metadata):
     Recreating a course deletes its chapters and with them all student
     progress rows, so we only replace when the content actually changed.
     """
-    if (
+    # A course renamed by an admin is EXPECTED to differ from the JSON title, so
+    # comparing them would report a false "changed" on every deploy and rebuild
+    # the course — deleting its chapters and all the progress hanging off them.
+    if not existing.title_overridden and (
         existing.title != metadata.get("title", "")
         or existing.description != metadata.get("description", "")
-        or existing.word_count != metadata.get("word_count")
     ):
+        return False
+    if existing.word_count != metadata.get("word_count"):
         return False
     chapters = course_obj.get("chapters", []) or []
     if len(existing.chapters) != len(chapters):
@@ -134,6 +138,8 @@ def upsert_course(db, data):
     # changed — a delete cascades to chapters and wipes student progress.
     existing = db.query(Course).filter(Course.slug == slug).first()
     relink_files = []
+    keep_title = None
+    keep_description = None
     if existing is not None:
         # Mark it as JSON-seeded even when unchanged, so the orphan cleanup can
         # tell seeded courses apart from admin-created ones.
@@ -144,6 +150,12 @@ def upsert_course(db, data):
         # FileAssets reference the course by FK. On Postgres a plain course
         # delete violates that FK and crashes the seed (and the deploy).
         # Detach them first and re-link to the replacement course below.
+        # The replacement row is built from the JSON, so an admin rename would be
+        # silently reverted the first time the course's content genuinely changes.
+        # Carry the overridden name across the delete.
+        if existing.title_overridden:
+            keep_title = existing.title
+            keep_description = existing.description
         relink_files = (
             db.query(FileAsset).filter(FileAsset.course_id == existing.id).all()
         )
@@ -154,8 +166,13 @@ def upsert_course(db, data):
         db.flush()
 
     course = Course(
-        title=metadata.get("title", ""),
-        description=metadata.get("description", ""),
+        title=keep_title if keep_title is not None else metadata.get("title", ""),
+        description=(
+            keep_description
+            if keep_title is not None
+            else metadata.get("description", "")
+        ),
+        title_overridden=keep_title is not None,
         level=metadata.get("level", ""),
         language=metadata.get("language", ""),
         estimated_hours=metadata.get("estimated_hours"),
@@ -284,6 +301,7 @@ def ensure_plans(db):
 # המשכים שהיו כתובים בקוד לפני שהמחירון הפך לניתן לעריכה.
 _DEFAULT_LESSON_DURATIONS = (30, 45, 60)
 _LESSON_TYPES_FLAG = "lesson_types_seeded"
+_LESSON_NAMES_FLAG = "lesson_type_names_backfilled"
 
 
 def ensure_lesson_types(db):
@@ -296,6 +314,7 @@ def ensure_lesson_types(db):
     הדגל ב-``app_settings`` הוא מה שמונע מהשורות לצוץ מחדש: מנהל שמחק את כולן
     בכוונה (או מכר רק שיעורי 50 דק׳) לא יקבל אותן שוב בפריסה הבאה.
     """
+    backfill_lesson_type_names(db)
     flag = db.get(AppSetting, _LESSON_TYPES_FLAG)
     if flag is not None:
         return
@@ -309,11 +328,36 @@ def ensure_lesson_types(db):
     for minutes in _DEFAULT_LESSON_DURATIONS:
         if minutes in existing:
             continue
-        db.add(LessonType(duration_min=minutes, price_nis=price, is_active=True))
+        db.add(LessonType(
+            duration_min=minutes,
+            price_nis=price,
+            label=f"שיעור {minutes} דק׳",
+            is_active=True,
+        ))
         created += 1
     db.add(AppSetting(key=_LESSON_TYPES_FLAG, value="1"))
     db.commit()
     print(f"  + Lesson price list: created {created} default length(s) at {price:.0f} NIS")
+
+
+def backfill_lesson_type_names(db):
+    """נותן שם למסלולים ותיקים שנוצרו כשהמחירון היה רק "משך → מחיר" — פעם אחת.
+
+    נוגע רק בשורות בלי שם, כדי שלא לדרוס שם שהמנהל כתב בעצמו (למשל "שיעור בזוג
+    (המחיר הינו ליחיד)", שהיה עד היום הדרך היחידה להבחין בין שני מסלולים באותו
+    אורך). הדגל מונע ריצה חוזרת — מנהל שינקה שם בכוונה לא יקבל אותו שוב.
+    """
+    if db.get(AppSetting, _LESSON_NAMES_FLAG) is not None:
+        return
+    renamed = 0
+    for t in db.query(LessonType).all():
+        if not (t.label or "").strip():
+            t.label = f"שיעור {t.duration_min} דק׳"
+            renamed += 1
+    db.add(AppSetting(key=_LESSON_NAMES_FLAG, value="1"))
+    db.commit()
+    if renamed:
+        print(f"  ~ Lesson price list: named {renamed} unnamed track(s)")
 
 
 def rollout_free_trial(db):
@@ -972,6 +1016,14 @@ def run_light_migrations():
             with engine.begin() as conn:
                 conn.execute(text("ALTER TABLE courses ADD COLUMN grade VARCHAR"))
             print("  ~ Migrated: added courses.grade")
+        if "title_overridden" not in cols:
+            # NOT NULL DEFAULT false backfills the legacy rows in the same
+            # statement, so _course_unchanged never sees a NULL here.
+            with engine.begin() as conn:
+                conn.execute(
+                    text("ALTER TABLE courses ADD COLUMN title_overridden BOOLEAN NOT NULL DEFAULT false")
+                )
+            print("  ~ Migrated: added courses.title_overridden")
 
     if "file_assets" in inspector.get_table_names():
         cols = {c["name"] for c in inspector.get_columns("file_assets")}
@@ -1018,42 +1070,53 @@ def run_light_migrations():
                 "ON users (referral_code)"
             ))
 
-
-    if "lesson_types" in inspector.get_table_names():
-        # המשך חדל להיות ייחודי: אותו אורך יכול להימכר בכמה מחירים. המסד עדיין
-        # אוכף את האינדקס הייחודי שנוצר עם הטבלה, ולכן הסרת הבדיקה מהקוד לבדה
-        # הייתה מחזירה IntegrityError במקום ה-409 — צריך להחליף את האינדקס עצמו.
-        with engine.begin() as conn:
-            conn.execute(text("DROP INDEX IF EXISTS ix_lesson_types_duration_min"))
-            conn.execute(text(
-                "CREATE INDEX IF NOT EXISTS ix_lesson_types_duration_min "
-                "ON lesson_types (duration_min)"
-            ))
-        # Postgres מייצר גם אילוץ UNIQUE נפרד כשהעמודה הוגדרה unique=True בלי
-        # index; ב-SQLite אין DROP CONSTRAINT ולכן זה נכשל בשקט ולא מפריע.
-        try:
-            with engine.begin() as conn:
-                conn.execute(text(
-                    "ALTER TABLE lesson_types DROP CONSTRAINT IF EXISTS "
-                    "lesson_types_duration_min_key"
-                ))
-        except Exception:  # noqa: BLE001 — SQLite has no DROP CONSTRAINT
-            pass
-        print("  ~ Migrated: lesson_types.duration_min is no longer unique")
-
-    if "lesson_slots" in inspector.get_table_names():
-        cols = {c["name"] for c in inspector.get_columns("lesson_slots")}
-        if "lesson_type_id" not in cols:
-            with engine.begin() as conn:
-                conn.execute(text("ALTER TABLE lesson_slots ADD COLUMN lesson_type_id INTEGER"))
-            print("  ~ Migrated: added lesson_slots.lesson_type_id")
-
     if "exercises" in inspector.get_table_names():
         cols = {c["name"] for c in inspector.get_columns("exercises")}
         if "answer" not in cols:
             with engine.begin() as conn:
                 conn.execute(text("ALTER TABLE exercises ADD COLUMN answer VARCHAR"))
             print("  ~ Migrated: added exercises.answer")
+
+    if "lesson_slots" in inspector.get_table_names():
+        # ה-try אינו קישוט: seed רץ לפני uvicorn, וחריגה כאן משאירה את האתר
+        # כולו למטה. עדיף עמוד שיעורים שבור מאשר מערכת שלא עולה.
+        try:
+            cols = {c["name"] for c in inspector.get_columns("lesson_slots")}
+            if "lesson_type_id" not in cols:
+                with engine.begin() as conn:
+                    conn.execute(text(
+                        "ALTER TABLE lesson_slots ADD COLUMN lesson_type_id INTEGER "
+                        "REFERENCES lesson_types(id) ON DELETE SET NULL"
+                    ))
+                print("  ~ Migrated: added lesson_slots.lesson_type_id")
+            with engine.begin() as conn:
+                conn.execute(text(
+                    "CREATE INDEX IF NOT EXISTS ix_lesson_slots_lesson_type_id "
+                    "ON lesson_slots (lesson_type_id)"
+                ))
+        except Exception as e:  # noqa: BLE001
+            print(f"  ! lesson_slots.lesson_type_id migration skipped: {e}")
+
+    if "lesson_types" in inspector.get_table_names():
+        # המשך אינו מזהה עוד מסלול — כמה מסלולים רשאים לחלוק אותו אורך, ולכן
+        # האינדקס הייחודי הישן חייב לרדת. עטוף ב-try כי תקלת DDL אסור שתפיל
+        # את העלייה: הכי גרוע האינדקס שורד ויצירת מסלול כפול תיכשל ב-409.
+        try:
+            unique = any(
+                ix["name"] == "ix_lesson_types_duration_min" and ix.get("unique")
+                for ix in inspector.get_indexes("lesson_types")
+            )
+            if unique:
+                with engine.begin() as conn:
+                    conn.execute(text("DROP INDEX IF EXISTS ix_lesson_types_duration_min"))
+                with engine.begin() as conn:
+                    conn.execute(text(
+                        "CREATE INDEX IF NOT EXISTS ix_lesson_types_duration_min "
+                        "ON lesson_types (duration_min)"
+                    ))
+                print("  ~ Migrated: lesson_types.duration_min index is no longer unique")
+        except Exception as e:  # noqa: BLE001
+            print(f"  ! lesson_types duration index rebuild skipped: {e}")
 
 
 def prune_orphan_courses(db, loaded_slugs):

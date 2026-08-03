@@ -5,7 +5,6 @@
 אין סליקה אוטומטית.
 """
 
-import re
 from datetime import datetime, timedelta
 
 from fastapi import APIRouter, Depends, HTTPException, Response
@@ -48,6 +47,27 @@ def _active_sub_for(db: Session, user_id: int) -> models.Subscription | None:
     )
 
 
+def _generate_plan_code(db: Session, name: str) -> str:
+    """קוד ייחודי לתוכנית, מתוך שמה.
+
+    הקוד אינו מידע שהמנהל צריך להמציא, אבל הוא כן חייב להיות ייחודי: מנויים
+    מצביעים עליו כמחרוזת. שם בעברית נשחק ל-ASCII לכלום, ולכן יש בסיס ברירת
+    מחדל; הסיומת -2/-3 רצה עד שאין התנגשות, כך שגם קודים שמורים כמו ``free``
+    או ``trial`` לא ייחטפו מתחת לרגליים של מי שכבר משתמש בהם.
+    """
+    slug = "".join(c if c.isascii() and c.isalnum() else "-" for c in name.lower())
+    slug = "-".join(part for part in slug.split("-") if part)[:40]
+    base = slug or "plan"
+    candidate = base
+    n = 1
+    while db.query(models.SubscriptionPlan).filter(
+        models.SubscriptionPlan.code == candidate
+    ).first():
+        n += 1
+        candidate = f"{base}-{n}"
+    return candidate
+
+
 @router.get("/plans", response_model=list[PlanOut])
 def list_plans(db: Session = Depends(get_db)) -> list[PlanOut]:
     """Public: active plans, cheapest first."""
@@ -57,29 +77,6 @@ def list_plans(db: Session = Depends(get_db)) -> list[PlanOut]:
         .order_by(models.SubscriptionPlan.price_nis)
         .all()
     )
-
-
-def _unique_plan_code(db: Session, wanted: str | None, name: str) -> str:
-    """קוד פנימי ייחודי לתוכנית, בלי להטיל את זה על המנהל.
-
-    ה-``code`` הוא מפתח טכני ש-``Subscription.plan_code`` מצביע עליו כמחרוזת;
-    למנהל אין שום סיבה להמציא אותו, ולכן התנגשות עליו לא צריכה להיכשל אלא
-    להיפתר. נגזר מהשם (או מהקוד שנשלח), ואם תפוס — מקבל סיומת מספרית.
-    """
-    base = (wanted or "").strip() or _slug_code(name)
-    candidate, n = base, 2
-    while db.query(models.SubscriptionPlan).filter(
-        models.SubscriptionPlan.code == candidate
-    ).first() is not None:
-        candidate = f"{base}-{n}"
-        n += 1
-    return candidate
-
-
-def _slug_code(name: str) -> str:
-    """שם התוכנית → מזהה. שם עברי לא משאיר תווים לטיניים, ולכן יש נפילה ל-plan."""
-    slug = re.sub(r"[^a-z0-9]+", "-", (name or "").lower()).strip("-")
-    return slug or "plan"
 
 
 @router.get("/admin/plans", response_model=list[PlanOut])
@@ -101,11 +98,18 @@ def admin_create_plan(
     db: Session = Depends(get_db),
     _: models.User = Depends(require_admin),
 ) -> PlanOut:
+    code = (payload.code or "").strip()
     if not payload.name.strip():
         raise HTTPException(status_code=400, detail="חובה שם לתוכנית")
     if payload.price_nis < 0 or payload.duration_days < 0:
         raise HTTPException(status_code=400, detail="מחיר ומשך חייבים להיות אי-שליליים")
-    code = _unique_plan_code(db, payload.code, payload.name)
+    if code:
+        if db.query(models.SubscriptionPlan).filter(models.SubscriptionPlan.code == code).first():
+            raise HTTPException(status_code=409, detail="קוד התוכנית כבר קיים")
+    else:
+        # הקוד אינו מידע שהמנהל צריך להמציא. הוא נוצר פעם אחת מהשם ומכאן קפוא
+        # כמו כל קוד אחר, כי ``Subscription.plan_code`` מצביע עליו כמחרוזת.
+        code = _generate_plan_code(db, payload.name)
     plan = models.SubscriptionPlan(
         code=code,
         name=payload.name.strip(),

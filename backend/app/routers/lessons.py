@@ -8,6 +8,7 @@
 from datetime import datetime, timedelta
 
 from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from app import models
@@ -40,37 +41,44 @@ MAX_DURATION = 480
 # helpers
 # ---------------------------------------------------------------------------
 
-def _price_lookup(db: Session):
-    """מחזיר פונקציה (משך, מזהה-סוג)→מחיר, בשאילתה אחת לכל בקשה.
+def _slot_pricing(db: Session):
+    """מחזיר פונקציה משבצת→(מחיר, שם מסלול), בשאילתה אחת לכל בקשה.
 
-    הסוג קודם למשך: אותו אורך יכול להופיע כמה פעמים במחירון במחירים שונים, ולכן
-    משבצת שמצביעה על שורה מסוימת מקבלת בדיוק את המחיר שלה. משבצת ישנה שאינה
-    מצביעה על כלום נופלת לחיפוש לפי משך (הראשון שנמצא), ואחריו למחיר הבסיס
-    מ-``/admin/pricing``. אם גם הוא 0 מוחזר ``None`` — "לא פורסם מחיר" — כדי
-    שהממשק לא יציג ₪0 כאילו זה חינם.
+    סדר הפתרון, לפי סדר יורד של ודאות:
+      1. המסלול שהמשבצת נפתחה עבורו, אם הוא עדיין קיים;
+      2. אחרת — אם יש בדיוק מסלול פעיל אחד באורך הזה, הוא;
+      3. אחרת — מחיר הבסיס מ-``/admin/pricing``;
+      4. ואם גם הוא 0 — ``None``, "לא פורסם מחיר", כדי שהממשק לא יציג ₪0
+         כאילו השיעור חינם.
+
+    כלל 2 קיים בשביל משבצות ותיקות, שנפתחו לפני שהיו מסלולים ואין להן
+    ``lesson_type_id``.
     """
-    rows = db.query(models.LessonType).filter(models.LessonType.is_active == True).all()
-    by_id = {t.id: t.price_nis for t in rows}
-    by_duration = {}
-    for t in rows:                       # first row wins, matching the old behaviour
-        by_duration.setdefault(t.duration_min, t.price_nis)
-    labels = {t.id: (t.label or None) for t in rows}
+    all_types = db.query(models.LessonType).all()
+    by_id = {t.id: t for t in all_types}
+    active_by_duration: dict[int, list[models.LessonType]] = {}
+    for t in all_types:
+        if t.is_active:
+            active_by_duration.setdefault(t.duration_min, []).append(t)
     base = get_setting(db, "lesson_price_nis")
 
-    def price_for(duration_min: int | None, lesson_type_id: int | None = None):
-        if lesson_type_id is not None and lesson_type_id in by_id:
-            value = by_id[lesson_type_id]
-        elif duration_min is None:
-            return None
-        else:
-            value = by_duration.get(duration_min, base)
+    def _clean(value):
         return value if value and value > 0 else None
 
-    # התוויות נוסעות על אותה שליפה במקום שאילתה נוספת לכל משבצת. הן נחוצות רק
-    # מאז שאותו אורך יכול להופיע פעמיים — בלעדיהן שתי משבצות של 45 דק' במחירים
-    # שונים נראות זהות לתלמיד.
-    price_for.labels = labels
-    return price_for
+    def info_for(slot) -> tuple[float | None, str | None]:
+        if slot is None:
+            return None, None
+        # הסתרת מסלול מורידה אותו מהמחירון החדש אך אינה מוחקת את המחיר
+        # ממשבצת שכבר נפתחה עבורו — המנהל כבר פרסם אותה בשם ובמחיר האלה.
+        track = by_id.get(slot.lesson_type_id) if slot.lesson_type_id else None
+        if track is not None:
+            return _clean(track.price_nis), track.name
+        same = active_by_duration.get(slot.duration_min, [])
+        if len(same) == 1:
+            return _clean(same[0].price_nis), same[0].name
+        return _clean(base), None
+
+    return info_for
 
 
 def _check_duration(duration_min: int) -> None:
@@ -79,6 +87,16 @@ def _check_duration(duration_min: int) -> None:
             status_code=400,
             detail=f"משך השיעור חייב להיות בין {MIN_DURATION} ל-{MAX_DURATION} דקות",
         )
+
+
+def _track_or_404(db: Session, type_id: int | None) -> models.LessonType | None:
+    """המסלול שהמשבצת נפתחת עבורו. ``None`` = משך חד-פעמי, בלי מסלול."""
+    if type_id is None:
+        return None
+    row = db.query(models.LessonType).filter(models.LessonType.id == type_id).first()
+    if row is None:
+        raise HTTPException(status_code=404, detail="מסלול השיעור לא נמצא")
+    return row
 
 
 def _holding_request(slot: models.LessonSlot):
@@ -117,30 +135,30 @@ def _slot_status(slot: models.LessonSlot, now: datetime) -> str:
     return "open"
 
 
-def _slot_out(slot: models.LessonSlot, now: datetime, *, with_student: bool, price_for) -> LessonSlotOut:
+def _slot_out(slot: models.LessonSlot, now: datetime, *, with_student: bool, info_for) -> LessonSlotOut:
     status = _slot_status(slot, now)
     student_name = None
     if with_student:
         held = _holding_request(slot)
         if held is not None and held.user is not None:
             student_name = held.user.full_name
+    price, track_name = info_for(slot)
     return LessonSlotOut(
         id=slot.id,
         starts_at=slot.starts_at,
         duration_min=slot.duration_min,
+        lesson_type_id=slot.lesson_type_id,
         is_blocked=slot.is_blocked,
         note=slot.note,
         status=status,
         student_name=student_name,
-        price_nis=price_for(slot.duration_min, slot.lesson_type_id),
-        lesson_type_id=slot.lesson_type_id,
-        type_label=getattr(price_for, "labels", {}).get(slot.lesson_type_id),
+        lesson_type_name=track_name,
+        price_nis=price,
     )
 
 
-def _request_out(req: models.LessonRequest, price_for) -> LessonRequestOut:
-    duration = req.slot.duration_min if req.slot else None
-    type_id = req.slot.lesson_type_id if req.slot else None
+def _request_out(req: models.LessonRequest, info_for) -> LessonRequestOut:
+    price, track_name = info_for(req.slot)
     return LessonRequestOut(
         id=req.id,
         slot_id=req.slot_id,
@@ -151,9 +169,10 @@ def _request_out(req: models.LessonRequest, price_for) -> LessonRequestOut:
         created_at=req.created_at,
         decided_at=req.decided_at,
         starts_at=req.slot.starts_at if req.slot else None,
-        duration_min=duration,
+        duration_min=req.slot.duration_min if req.slot else None,
         student_name=req.user.full_name if req.user else None,
-        price_nis=price_for(duration, type_id),
+        lesson_type_name=track_name,
+        price_nis=price,
     )
 
 
@@ -172,7 +191,7 @@ def available_slots(
     # slot still blocks the times it covers.
     slots = db.query(models.LessonSlot).order_by(models.LessonSlot.starts_at).all()
     held = _held_intervals(slots)
-    price_for = _price_lookup(db)
+    info_for = _slot_pricing(db)
     out = []
     for s in slots:
         if s.is_blocked or s.starts_at <= now:
@@ -182,7 +201,7 @@ def available_slots(
         s_end = _slot_end(s)
         if any(_overlaps(s.starts_at, s_end, hs, he) for hs, he in held):
             continue  # overlaps a slot that's already taken
-        out.append(_slot_out(s, now, with_student=False, price_for=price_for))
+        out.append(_slot_out(s, now, with_student=False, info_for=info_for))
     return out
 
 
@@ -191,11 +210,14 @@ def lesson_types(
     db: Session = Depends(get_db),
     current_user: models.User = Depends(get_current_user),
 ) -> list[LessonTypeOut]:
-    """המחירון שהתלמיד רואה — רק משכים שהמנהל הפעיל, לפי אורך."""
+    """המחירון שהתלמיד רואה — רק מסלולים שהמנהל הפעיל.
+
+    ממוינים לפי אורך ואז לפי id, כדי ששני מסלולים באותו אורך יופיעו תמיד באותו
+    סדר ולא יתחלפו בין טעינות."""
     rows = (
         db.query(models.LessonType)
         .filter(models.LessonType.is_active == True)
-        .order_by(models.LessonType.duration_min)
+        .order_by(models.LessonType.duration_min, models.LessonType.id)
         .all()
     )
     return [LessonTypeOut.model_validate(r) for r in rows]
@@ -239,7 +261,7 @@ def request_lesson(
     db.add(req)
     db.commit()
     db.refresh(req)
-    return _request_out(req, _price_lookup(db))
+    return _request_out(req, _slot_pricing(db))
 
 
 @router.get("/lessons/my-requests", response_model=list[LessonRequestOut])
@@ -253,8 +275,8 @@ def my_requests(
         .order_by(models.LessonRequest.created_at.desc())
         .all()
     )
-    price_for = _price_lookup(db)
-    return [_request_out(r, price_for) for r in reqs]
+    info_for = _slot_pricing(db)
+    return [_request_out(r, info_for) for r in reqs]
 
 
 @router.post("/lessons/requests/{req_id}/cancel", response_model=LessonRequestOut)
@@ -277,7 +299,7 @@ def cancel_my_request(
     req.decided_at = datetime.utcnow()
     db.commit()
     db.refresh(req)
-    return _request_out(req, _price_lookup(db))
+    return _request_out(req, _slot_pricing(db))
 
 
 # ---------------------------------------------------------------------------
@@ -291,8 +313,8 @@ def admin_list_slots(
 ) -> list[LessonSlotOut]:
     now = datetime.utcnow()
     slots = db.query(models.LessonSlot).order_by(models.LessonSlot.starts_at).all()
-    price_for = _price_lookup(db)
-    return [_slot_out(s, now, with_student=True, price_for=price_for) for s in slots]
+    info_for = _slot_pricing(db)
+    return [_slot_out(s, now, with_student=True, info_for=info_for) for s in slots]
 
 
 @router.post("/admin/lessons/slots", response_model=LessonSlotOut, status_code=201)
@@ -301,23 +323,20 @@ def admin_create_slot(
     db: Session = Depends(get_db),
     _: models.User = Depends(require_admin),
 ) -> LessonSlotOut:
-    _check_duration(payload.duration_min)
-    duration = payload.duration_min
-    if payload.lesson_type_id is not None:
-        # השורה במחירון היא מקור האמת למשך — אחרת אפשר היה ליצור משבצת של 40 דק׳
-        # שמוכרת שיעור של 60, והמחיר שהתלמיד רואה לא היה תואם את מה שהוא מקבל.
-        chosen = _type_or_404(payload.lesson_type_id, db)
-        duration = chosen.duration_min
+    # כשנבחר מסלול, המשך נלקח ממנו — כך שהשניים לא יוכלו לסתור זה את זה.
+    track = _track_or_404(db, payload.lesson_type_id)
+    duration = track.duration_min if track is not None else payload.duration_min
+    _check_duration(duration)
     slot = models.LessonSlot(
         starts_at=payload.starts_at,
         duration_min=duration,
-        lesson_type_id=payload.lesson_type_id,
+        lesson_type_id=track.id if track is not None else None,
         note=(payload.note or "").strip() or None,
     )
     db.add(slot)
     db.commit()
     db.refresh(slot)
-    return _slot_out(slot, datetime.utcnow(), with_student=True, price_for=_price_lookup(db))
+    return _slot_out(slot, datetime.utcnow(), with_student=True, info_for=_slot_pricing(db))
 
 
 @router.post("/admin/lessons/slots/generate", response_model=dict)
@@ -339,11 +358,9 @@ def admin_generate_slots(
         raise HTTPException(status_code=400, detail="יש לבחור לפחות יום אחד ושעה אחת")
     if (end - start).days > 120:
         raise HTTPException(status_code=400, detail="טווח התאריכים גדול מדי (מקסימום 120 יום)")
-    _check_duration(payload.duration_min)
-    # כמו ביצירה בודדת: שורת המחירון קובעת את המשך.
-    gen_duration = payload.duration_min
-    if payload.lesson_type_id is not None:
-        gen_duration = _type_or_404(payload.lesson_type_id, db).duration_min
+    track = _track_or_404(db, payload.lesson_type_id)
+    duration = track.duration_min if track is not None else payload.duration_min
+    _check_duration(duration)
 
     parsed_times = []
     for t in payload.times:
@@ -368,8 +385,8 @@ def admin_generate_slots(
                     continue
                 db.add(models.LessonSlot(
                     starts_at=when,
-                    duration_min=gen_duration,
-                    lesson_type_id=payload.lesson_type_id,
+                    duration_min=duration,
+                    lesson_type_id=track.id if track is not None else None,
                 ))
                 existing.add(when)
                 created += 1
@@ -391,7 +408,7 @@ def admin_toggle_block(
     slot.is_blocked = not slot.is_blocked
     db.commit()
     db.refresh(slot)
-    return _slot_out(slot, datetime.utcnow(), with_student=True, price_for=_price_lookup(db))
+    return _slot_out(slot, datetime.utcnow(), with_student=True, info_for=_slot_pricing(db))
 
 
 @router.delete("/admin/lessons/slots/{slot_id}", status_code=204)
@@ -421,8 +438,8 @@ def admin_list_requests(
     if status:
         q = q.filter(models.LessonRequest.status == status)
     reqs = q.order_by(models.LessonRequest.created_at.desc()).all()
-    price_for = _price_lookup(db)
-    return [_request_out(r, price_for) for r in reqs]
+    info_for = _slot_pricing(db)
+    return [_request_out(r, info_for) for r in reqs]
 
 
 @router.get("/admin/lessons/pending-count", response_model=dict)
@@ -471,7 +488,7 @@ def admin_approve(
         o.admin_note = "המשבצת אושרה לתלמיד אחר"
     db.commit()
     db.refresh(req)
-    return _request_out(req, _price_lookup(db))
+    return _request_out(req, _slot_pricing(db))
 
 
 @router.post("/admin/lessons/requests/{req_id}/decline", response_model=LessonRequestOut)
@@ -492,7 +509,7 @@ def admin_decline(
     req.decided_at = datetime.utcnow()
     db.commit()
     db.refresh(req)
-    return _request_out(req, _price_lookup(db))
+    return _request_out(req, _slot_pricing(db))
 
 
 # ---------------------------------------------------------------------------
@@ -506,12 +523,32 @@ def _type_or_404(type_id: int, db: Session) -> models.LessonType:
     return row
 
 
+def _commit_type(db: Session, row: models.LessonType) -> None:
+    """שומר מסלול ומתרגם התנגשות אינדקס לשגיאה קריאה.
+
+    אם אינדקס הייחודיות הישן על ``duration_min`` שרד את המיגרציה, מסלול שני
+    באותו אורך היה נופל כאן ב-IntegrityError סתום במקום בהודעה בעברית."""
+    try:
+        db.commit()
+    except IntegrityError:
+        db.rollback()
+        raise HTTPException(
+            status_code=409,
+            detail="לא ניתן לשמור את המסלול — נראה שאינדקס ישן עדיין מונע שני מסלולים באותו אורך",
+        )
+    db.refresh(row)
+
+
 @router.get("/admin/lessons/types", response_model=list[LessonTypeOut])
 def admin_list_types(
     db: Session = Depends(get_db),
     _: models.User = Depends(require_admin),
 ) -> list[LessonTypeOut]:
-    rows = db.query(models.LessonType).order_by(models.LessonType.duration_min).all()
+    rows = (
+        db.query(models.LessonType)
+        .order_by(models.LessonType.duration_min, models.LessonType.id)
+        .all()
+    )
     return [LessonTypeOut.model_validate(r) for r in rows]
 
 
@@ -527,12 +564,12 @@ def admin_create_type(
     row = models.LessonType(
         duration_min=payload.duration_min,
         price_nis=payload.price_nis,
-        label=(payload.label or "").strip() or None,
+        # מסלול בלי שם היה מוצג ריק לתלמיד; שם ברירת המחדל לפחות אומר משהו.
+        label=(payload.label or "").strip() or f"שיעור {payload.duration_min} דק׳",
         is_active=payload.is_active,
     )
     db.add(row)
-    db.commit()
-    db.refresh(row)
+    _commit_type(db, row)
     return LessonTypeOut.model_validate(row)
 
 
@@ -552,11 +589,13 @@ def admin_update_type(
             raise HTTPException(status_code=400, detail="מחיר לא יכול להיות שלילי")
         row.price_nis = payload.price_nis
     if payload.label is not None:
-        row.label = payload.label.strip() or None
+        # שם ריק אינו מחיקה של השם אלא כמעט תמיד טעות — המסלול מזוהה בשמו.
+        if not payload.label.strip():
+            raise HTTPException(status_code=400, detail="שם המסלול לא יכול להיות ריק")
+        row.label = payload.label.strip()
     if payload.is_active is not None:
         row.is_active = payload.is_active
-    db.commit()
-    db.refresh(row)
+    _commit_type(db, row)
     return LessonTypeOut.model_validate(row)
 
 
@@ -566,7 +605,14 @@ def admin_delete_type(
     db: Session = Depends(get_db),
     _: models.User = Depends(require_admin),
 ) -> None:
-    """מוחק שורה מהמחירון. תורים שכבר נפתחו באורך הזה נשארים — הם פשוט חוזרים
-    להיות מוצגים במחיר הבסיס (או בלי מחיר, אם אין כזה)."""
-    db.delete(_type_or_404(type_id, db))
+    """מוחק מסלול מהמחירון. תורים שכבר נפתחו עבורו נשארים — הם פשוט חוזרים
+    להיות מוצגים במחיר הבסיס (או בלי מחיר, אם אין כזה).
+
+    הניתוק נעשה כאן במפורש ולא נסמך על ``ON DELETE SET NULL``: ה-SQLite של
+    הפיתוח אינו אוכף מפתחות זרים, ובלי זה הפיתוח והייצור היו מתנהגים אחרת."""
+    row = _type_or_404(type_id, db)
+    db.query(models.LessonSlot).filter(
+        models.LessonSlot.lesson_type_id == row.id
+    ).update({"lesson_type_id": None}, synchronize_session=False)
+    db.delete(row)
     db.commit()

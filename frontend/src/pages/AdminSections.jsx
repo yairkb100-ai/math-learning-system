@@ -119,6 +119,15 @@ export default function AdminSections() {
     }
   }
 
+  async function renameCourse(course, title) {
+    try {
+      await api.renameCourse(course.id, title)
+      load()
+    } catch (err) {
+      alert(err.message)
+    }
+  }
+
   async function deleteCourse(course) {
     if (!confirm(`למחוק את הקורס "${course.title}"? פעולה בלתי הפיכה.`)) return
     try {
@@ -289,6 +298,7 @@ export default function AdminSections() {
             sections={sections}
             onReassign={reassignCourse}
             onGrade={changeGrade}
+            onRename={renameCourse}
             onDelete={deleteCourse}
           />
         </div>
@@ -304,6 +314,7 @@ export default function AdminSections() {
             sections={sections}
             onReassign={reassignCourse}
             onGrade={changeGrade}
+            onRename={renameCourse}
             onDelete={deleteCourse}
           />
         </div>
@@ -312,45 +323,103 @@ export default function AdminSections() {
   )
 }
 
-function CourseRows({ courses, sections, onReassign, onGrade, onDelete }) {
+function CourseRows({ courses, sections, onReassign, onGrade, onRename, onDelete }) {
   if (courses.length === 0)
     return <p className="muted empty-msg">אין קורסים בחלק זה.</p>
   return (
     <ul className="section-course-list">
       {courses.map((c) => (
-        <li key={c.id} className="section-course-row">
-          <span className="section-course-title">{c.title}</span>
-          <span className="muted">{c.chapters_count} פרקים</span>
-          <select
-            value={c.grade ?? ''}
-            onChange={(e) => onGrade(c, e.target.value)}
-            title="כיתה — קובעת את התג והסינון בקטלוג"
-            className={c.grade ? undefined : 'is-missing'}
-          >
-            <option value="">— ללא כיתה —</option>
-            {GRADES.map((g) => (
-              <option key={g.key} value={g.key}>
-                {g.label}
-              </option>
-            ))}
-          </select>
-          <select
-            value={c.section_id ?? ''}
-            onChange={(e) => onReassign(c, e.target.value)}
-            title="העבר לחלק אחר"
-          >
-            <option value="">— ללא חלק —</option>
-            {sections.map((s) => (
-              <option key={s.id} value={s.id}>
-                {s.title}
-              </option>
-            ))}
-          </select>
-          <button className="btn-sm btn-danger" onClick={() => onDelete(c)}>
-            מחק
-          </button>
-        </li>
+        <CourseRow
+          key={c.id}
+          course={c}
+          sections={sections}
+          onReassign={onReassign}
+          onGrade={onGrade}
+          onRename={onRename}
+          onDelete={onDelete}
+        />
       ))}
     </ul>
+  )
+}
+
+// שורת קורס עם עריכת שם במקום. השם בלבד משתנה — ה-slug נשאר, ולכן הסרטונים
+// והקבצים של הקורס ממשיכים להיטען.
+function CourseRow({ course: c, sections, onReassign, onGrade, onRename, onDelete }) {
+  const [editing, setEditing] = useState(false)
+  const [draft, setDraft] = useState(c.title)
+
+  function startEdit() {
+    setDraft(c.title)
+    setEditing(true)
+  }
+
+  function save() {
+    const title = draft.trim()
+    setEditing(false)
+    if (!title || title === c.title) return
+    onRename(c, title)
+  }
+
+  return (
+    <li className="section-course-row">
+      {editing ? (
+        <>
+          <input
+            className="section-course-rename"
+            value={draft}
+            maxLength={120}
+            autoFocus
+            onChange={(e) => setDraft(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') save()
+              if (e.key === 'Escape') setEditing(false)
+            }}
+          />
+          <button className="btn-sm" onClick={save}>
+            שמור
+          </button>
+          <button className="btn-sm" onClick={() => setEditing(false)}>
+            ביטול
+          </button>
+        </>
+      ) : (
+        <>
+          <span className="section-course-title">{c.title}</span>
+          <button className="btn-sm" onClick={startEdit} title="שינוי שם הקורס">
+            שנה שם
+          </button>
+        </>
+      )}
+      <span className="muted">{c.chapters_count} פרקים</span>
+      <select
+        value={c.grade ?? ''}
+        onChange={(e) => onGrade(c, e.target.value)}
+        title="כיתה — קובעת את התג והסינון בקטלוג"
+        className={c.grade ? undefined : 'is-missing'}
+      >
+        <option value="">— ללא כיתה —</option>
+        {GRADES.map((g) => (
+          <option key={g.key} value={g.key}>
+            {g.label}
+          </option>
+        ))}
+      </select>
+      <select
+        value={c.section_id ?? ''}
+        onChange={(e) => onReassign(c, e.target.value)}
+        title="העבר לחלק אחר"
+      >
+        <option value="">— ללא חלק —</option>
+        {sections.map((s) => (
+          <option key={s.id} value={s.id}>
+            {s.title}
+          </option>
+        ))}
+      </select>
+      <button className="btn-sm btn-danger" onClick={() => onDelete(c)}>
+        מחק
+      </button>
+    </li>
   )
 }
