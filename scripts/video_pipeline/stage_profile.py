@@ -71,6 +71,10 @@ def source_path(entry):
         return ROOT / "content/grade5/decimals" / f"ch{num:02d}" / "source.md"
     if entry.get("course") == "grade5-simple-fractions":
         return ROOT / "content/grade5/simple-fractions" / f"ch{num:02d}" / "source.md"
+    if entry.get("course") == "powers-and-exponents":
+        return ROOT / "content/grade7/powers-and-exponents" / f"ch{num:02d}" / "source.md"
+    if entry.get("course") == "two-equations-two-unknowns":
+        return ROOT / "content/grade8/two-equations-two-unknowns" / f"ch{num:02d}" / "source.md"
     if entry.get("course") == "quadratic-equations":
         return ROOT / "content/highschool/quadratic-equations" / f"ch{num:02d}" / "source.md"
     if entry.get("course") == "חשבון-דיפרנציאלי-נגזרות":
