@@ -120,6 +120,7 @@ export default function Navbar() {
               ) : (
                 <>
                   <Link to="/" className="nav-link">קורסים</Link>
+                  <Link to="/subscription" className="nav-link">המנוי שלי</Link>
                   <Link to="/practice" className="nav-link">תרגול</Link>
                   <Link to="/exams" className="nav-link">מבחנים</Link>
                   <Link to="/analytics" className="nav-link">אנליטיקה</Link>
@@ -131,7 +132,6 @@ export default function Navbar() {
                       <span className="nav-badge nav-badge-reward">{myRewards}</span>
                     )}
                   </Link>
-                  <Link to="/subscription" className="nav-link">המנוי שלי</Link>
                   {messagesLink}
                 </>
               )}

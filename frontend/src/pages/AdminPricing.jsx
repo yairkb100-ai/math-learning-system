@@ -146,6 +146,7 @@ export default function AdminPricing() {
         referral_sub_discount_pct: num(pricing.referral_sub_discount_pct, 'הנחה על החודש הבא'),
         referral_lesson_discount_pct: num(
           pricing.referral_lesson_discount_pct, 'הנחה על שיעור פרטי'),
+        payment_phone: (pricing.payment_phone || '').trim(),
       })
       setPricing(next)
       flash('ההגדרות נשמרו')
@@ -339,6 +340,17 @@ export default function AdminPricing() {
               onChange={(e) =>
                 setPricing({ ...pricing, referral_sub_discount_pct: e.target.value })
               }
+            />
+          </div>
+          <div className="form-group">
+            <label>טלפון לתשלום</label>
+            <input
+              type="tel"
+              inputMode="tel"
+              placeholder="050-0000000"
+              value={pricing?.payment_phone ?? ''}
+              onChange={(e) => setPricing({ ...pricing, payment_phone: e.target.value })}
+              title="מוצג לתלמיד בעמוד המנוי. ריק = לא מוצג."
             />
           </div>
           <div className="form-group">

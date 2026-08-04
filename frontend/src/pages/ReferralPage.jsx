@@ -1,14 +1,24 @@
 import { useCallback, useEffect, useState } from 'react'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
-import { IconUsers, IconCheck, IconClock, IconSpark, IconShare } from '../components/icons.jsx'
+import MathDoodles from '../components/MathDoodles.jsx'
+import {
+  IconUsers,
+  IconCheck,
+  IconClock,
+  IconSpark,
+  IconShare,
+  IconGift,
+  IconClipboard,
+} from '../components/icons.jsx'
 import { waHref, copyLink as copyToClipboard, shareInvite } from '../lib/invite.js'
 
 // "חבר מביא חבר" — הקישור האישי של התלמיד, מי שהוא כבר הביא, וההטבות שמגיעות לו.
 //
-// ההטבה נפתחת רק כשהתלמיד שהובא מקבל מנוי בפועל (המנהל מאשר), לא בהרשמה — אחרת
-// די בפתיחת חשבונות ריקים. את שני האחוזים ואת מחיר השיעור המנהל קובע, ולכן הם
-// מגיעים מהשרת ולא כתובים כאן.
+// הדף מוביל עם מה שהתלמיד מרוויח ולא עם טובה שהוא עושה למישהו: זו הסיבה
+// שבגללה מישהו באמת משתף. ההטבה נפתחת רק כשהמוזמן מקבל מנוי בפועל (המנהל
+// מאשר), לא בהרשמה — אחרת די בפתיחת חשבונות ריקים. האחוזים ומחיר השיעור
+// מגיעים מהשרת ואינם כתובים כאן; המנהל משנה אותם ב-/admin/pricing.
 export default function ReferralPage() {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -38,6 +48,7 @@ export default function ReferralPage() {
   const subPct = Math.round(data.sub_discount_pct)
   const lessonPct = Math.round(data.lesson_discount_pct)
   const lessonPrice = data.lesson_price_nis
+  const lessonSaving = Math.round((lessonPrice * lessonPct) / 100)
 
   function flashCopied() {
     setCopied(true)
@@ -74,45 +85,69 @@ export default function ReferralPage() {
 
   return (
     <section dir="rtl" className="referral-page">
-      <div className="page-head">
-        <h1>חבר מביא חבר</h1>
-        <p className="muted">
-          על כל תלמיד שיצטרף דרך הקישור שלך מגיעה לך הטבה — לבחירתך:{' '}
-          <strong>{subPct}% הנחה על החודש הבא</strong> של המנוי, או{' '}
-          <strong>{lessonPct}% הנחה על שיעור פרטי בזום</strong>
-          {lessonPrice > 0 && <> (חיסכון של כ-₪{Math.round((lessonPrice * lessonPct) / 100)})</>}.
-        </p>
+      {/* לוח הפתיחה — ההצעה מנוסחת כרווח, ומיד לצידה הקישור עצמו */}
+      <div className="invite-banner referral-hero">
+        <MathDoodles className="invite-doodles" />
+        <div className="invite-body">
+          <span className="invite-eyebrow">
+            <IconGift /> חבר מביא חבר
+          </span>
+          <h2>
+            שלחו את הקישור וקבלו <span className="invite-accent">{subPct}% הנחה</span> על החודש הבא
+          </h2>
+          <p className="invite-sub">
+            כל מי שיצטרף דרך הקישור שלכם וימשיך למנוי מלא מזכה אתכם בהטבה, ואין
+            הגבלה על מספר החברים.
+          </p>
+
+          <div className="invite-link-row">
+            <code className="invite-link">{link}</code>
+            <a
+              className="invite-btn invite-btn-wa"
+              href={waHref(link)}
+              target="_blank"
+              rel="noreferrer"
+            >
+              שליחה בוואטסאפ
+            </a>
+            <button type="button" className="invite-btn invite-btn-primary" onClick={copyLink}>
+              <IconClipboard /> {copied ? 'הועתק' : 'העתקה'}
+            </button>
+            <button type="button" className="invite-btn" onClick={share}>
+              <IconShare /> שיתוף
+            </button>
+          </div>
+        </div>
       </div>
 
-      {/* Share card */}
-      <div className="card referral-share">
-        <h3>הקישור האישי שלך</h3>
-        <div className="referral-link-row">
-          <code className="referral-link">{link}</code>
-          <button className="btn-sm" onClick={copyLink}>
-            {copied ? 'הועתק ✓' : 'העתקה'}
-          </button>
+      {/* שתי ההטבות, מוצגות כהצעות ולא כשורה בטבלה */}
+      <div className="reward-cards">
+        <div className="reward-card">
+          <span className="reward-badge">{subPct}%</span>
+          <h3>הנחה על החודש הבא</h3>
+          <p>יורדת מהחידוש הקרוב של המנוי שלכם.</p>
         </div>
-        <div className="referral-share-actions">
-          <a className="btn btn-wa" href={waHref(link)} target="_blank" rel="noreferrer">
-            שליחה בוואטסאפ
-          </a>
-          <button type="button" className="btn" onClick={share}>
-            <IconShare /> שיתוף
-          </button>
+        <div className="reward-card">
+          <span className="reward-badge">{lessonPct}%</span>
+          <h3>הנחה על שיעור פרטי בזום</h3>
+          <p>
+            {lessonPrice > 0
+              ? `חיסכון של כ-₪${lessonSaving} על שיעור אחד מול המורה.`
+              : 'שעה ממוקדת מול המורה, במחיר מוזל.'}
+          </p>
         </div>
-        <p className="sub-note">
-          מי שנרשם דרך הקישור מתחיל בתקופת התנסות חינם. ההטבה שלך נפתחת כשהוא
-          ממשיך למנוי מלא — כך שאין טעם לפתוח חשבונות ריקים.
-        </p>
       </div>
+      <p className="reward-note">
+        על כל חבר בוחרים אחת מהשתיים. ההטבה נפתחת כשהוא ממשיך למנוי מלא — לא
+        בהרשמה עצמה.
+      </p>
 
       {/* Counters */}
       <div className="referral-stats">
         <div className="card referral-stat">
           <IconUsers />
           <strong>{data.total}</strong>
-          <span>נרשמו דרכך</span>
+          <span>נרשמו דרככם</span>
         </div>
         <div className="card referral-stat">
           <IconClock />
@@ -130,7 +165,10 @@ export default function ReferralPage() {
       {waiting.length > 0 && (
         <div className="card referral-choose">
           <h3>
-            <IconSpark /> יש לך {waiting.length === 1 ? 'הטבה שממתינה' : `${waiting.length} הטבות שממתינות`} לבחירה
+            <IconSpark />{' '}
+            {waiting.length === 1
+              ? 'הרווחתם הטבה — בחרו מה לקחת'
+              : `הרווחתם ${waiting.length} הטבות — בחרו מה לקחת`}
           </h3>
           {waiting.map((r) => (
             <div key={r.id} className="referral-choice-row">
@@ -143,21 +181,21 @@ export default function ReferralPage() {
                   disabled={busy}
                   onClick={() => choose(r.id, 'subscription')}
                 >
-                  {subPct}% הנחה על החודש הבא
+                  {subPct}% על החודש הבא
                 </button>
                 <button
                   className="btn-sm"
                   disabled={busy}
                   onClick={() => choose(r.id, 'lesson')}
                 >
-                  {lessonPct}% הנחה על שיעור פרטי
+                  {lessonPct}% על שיעור פרטי
                 </button>
               </div>
             </div>
           ))}
           <p className="sub-note">
             אחרי הבחירה ההנחה מוחלת ידנית — היא תופיע בחידוש הבא או בשיעור הבא
-            שתקבע. הבחירה סופית, אז שווה לחשוב רגע מה משתלם לך יותר.
+            שתקבעו. הבחירה סופית, אז שווה לחשוב רגע מה משתלם לכם יותר.
           </p>
         </div>
       )}
@@ -165,7 +203,7 @@ export default function ReferralPage() {
       {/* Full list */}
       {data.referrals.length > 0 ? (
         <div className="table-wrap card">
-          <h3>מי הצטרף דרכך</h3>
+          <h3>מי הצטרף דרככם</h3>
           <table className="data-table">
             <thead>
               <tr>
@@ -197,7 +235,7 @@ export default function ReferralPage() {
                       : r.reward_kind === 'lesson'
                       ? `${Math.round(r.reward_percent)}% על שיעור פרטי — ממתינה למימוש`
                       : r.status === 'qualified'
-                      ? 'בחר הטבה למעלה'
+                      ? 'בחרו הטבה למעלה'
                       : 'תיפתח כשימשיך למנוי'}
                   </td>
                 </tr>
@@ -206,10 +244,17 @@ export default function ReferralPage() {
           </table>
         </div>
       ) : (
-        <div className="card">
-          <p className="muted empty-msg">
-            עוד לא הצטרף אף אחד דרך הקישור שלך. שלח אותו למי שלדעתך זה יעזור לו.
+        <div className="card referral-empty">
+          <IconGift />
+          <p>
+            <strong>הקישור מוכן — נשאר רק לשלוח אותו.</strong>
+            <br />
+            מהרגע שחבר מצטרף דרככם וממשיך למנוי, מגיעה לכם הנחה של {subPct}% על
+            החודש הבא — או {lessonPct}% על שיעור פרטי.
           </p>
+          <a className="btn btn-wa" href={waHref(link)} target="_blank" rel="noreferrer">
+            שליחה בוואטסאפ
+          </a>
         </div>
       )}
     </section>

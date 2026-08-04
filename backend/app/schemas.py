@@ -890,12 +890,14 @@ class SettingsIn(BaseModel):
     lesson_price_nis: Optional[float] = None
     referral_sub_discount_pct: Optional[float] = None
     referral_lesson_discount_pct: Optional[float] = None
+    payment_phone: Optional[str] = None
 
 
 class SettingsOut(BaseModel):
     lesson_price_nis: float
     referral_sub_discount_pct: float
     referral_lesson_discount_pct: float
+    payment_phone: str = ""
 
 
 class PricingOut(BaseModel):
@@ -905,6 +907,7 @@ class PricingOut(BaseModel):
     lesson_price_nis: float
     referral_sub_discount_pct: float
     referral_lesson_discount_pct: float
+    payment_phone: str = ""
 
 
 class ReferralOut(BaseModel):

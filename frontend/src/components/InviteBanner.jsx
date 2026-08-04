@@ -91,7 +91,9 @@ export default function InviteBanner() {
           </div>
         ) : (
           <div className="invite-stats">
-            <span>עוד לא הצטרף אף אחד דרך הקישור שלכם — שלחו אותו למי שזה יעזור לו.</span>
+            <span>
+              שלחו את הקישור — כל חבר שיצטרף מזכה אתכם ב-{subPct}% הנחה.
+            </span>
           </div>
         )}
 

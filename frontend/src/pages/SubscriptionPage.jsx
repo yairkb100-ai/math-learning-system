@@ -33,6 +33,12 @@ export default function SubscriptionPage() {
   const state = access?.state
   // Share of every course that stays open without a subscription.
   const freePct = Math.round((access?.free_ratio ?? 0.42) * 100)
+  // התוכניות שאפשר לקנות בפועל. "free" היא הגישה שהמנהל מאשר ידנית ו-"trial"
+  // ניתנת אוטומטית — שתיהן לא נמכרות, ולכן אין להן מקום במחירון של התלמיד.
+  const paidPlans = (pricing?.plans || []).filter(
+    (p) => p.price_nis > 0 && !['free', 'trial'].includes(p.code)
+  )
+  const monthly = paidPlans.find((p) => p.duration_days === 30)
   const daysLeft =
     access?.seconds_left != null ? Math.floor(access.seconds_left / 86400) : null
   const hoursLeft =
@@ -110,6 +116,54 @@ export default function SubscriptionPage() {
             <Link to="/messages" className="btn">שליחת הודעה למנהל</Link>
           </div>
         </>
+      )}
+
+      {/* התוכניות שאפשר לקנות, והדרך לשלם. אין סליקה במערכת — התשלום נסגר
+          ישירות מול המורה — ולכן המספר חייב להופיע כאן, אחרת התלמיד מגיע עד
+          לרגע הקנייה ואין לו מה לעשות איתו. הטלפון מגיע מההגדרות, כדי שלא
+          יהיה מספר קשיח בקוד. */}
+      {!isAdmin && state !== 'admin' && paidPlans.length > 0 && (
+        <div className="sub-plans">
+          <h3>תוכניות המנוי</h3>
+          <div className="plan-cards">
+            {paidPlans.map((p) => (
+              <div key={p.id} className="plan-offer">
+                <h4>{p.name}</h4>
+                <div className="plan-offer-price">
+                  ₪{Math.round(p.price_nis)}
+                  {p.duration_days > 0 && (
+                    <span className="plan-offer-per">
+                      {' '}
+                      / {p.duration_days === 30 ? 'חודש' : `${p.duration_days} ימים`}
+                    </span>
+                  )}
+                </div>
+                {p.duration_days === 365 && monthly && p.price_nis < monthly.price_nis * 12 && (
+                  <span className="plan-offer-save">
+                    חיסכון של ₪{Math.round(monthly.price_nis * 12 - p.price_nis)} בשנה
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {pricing?.payment_phone ? (
+            <p className="sub-pay">
+              לרכישה או לחידוש: העבירו את התשלום ל־
+              <a className="sub-pay-phone" href={`tel:${pricing.payment_phone}`}>
+                {pricing.payment_phone}
+              </a>{' '}
+              (ביט / פייבוקס), ושלחו לי הודעה — ואפתח לכם את הגישה המלאה.
+            </p>
+          ) : (
+            <p className="sub-pay">
+              לרכישה או לחידוש שלחו לי הודעה ונסגור את זה.
+            </p>
+          )}
+          <div className="sub-actions">
+            <Link to="/messages" className="btn">שליחת הודעה למנהל</Link>
+          </div>
+        </div>
       )}
 
       {/* מי שנמצא בעמוד הזה חושב על מחיר — זה בדיוק הרגע להראות לו שיש דרך
