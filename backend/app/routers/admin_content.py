@@ -7,6 +7,8 @@ from app import crud, models
 from app.database import get_db
 from app.dependencies import require_admin
 from app.schemas import (
+    ChapterRename,
+    ChapterTitleOut,
     CourseCreate,
     CourseGradeAssign,
     CourseRename,
@@ -22,6 +24,8 @@ VALID_GRADES = {"5", "6", "7", "8", "hs"}
 # תקרות שפויות לשם ולתיאור — שם ארוך מדי שובר את שורות הרשימה ואת כרטיס הקטלוג.
 COURSE_TITLE_MAX = 120
 COURSE_DESCRIPTION_MAX = 400
+# שם פרק מופיע בתוכן העניינים ובכותרת העמוד; ארוך מזה שובר את הפריסה.
+CHAPTER_TITLE_MAX = 160
 
 
 def _course_summary(course: models.Course) -> CourseSummary:
@@ -168,6 +172,71 @@ def rename_course(
     db.commit()
     db.refresh(course)
     return _course_summary(course)
+
+
+@router.get("/courses/{course_id}/chapters", response_model=list[ChapterTitleOut])
+def list_course_chapters(
+    course_id: int,
+    db: Session = Depends(get_db),
+    _: models.User = Depends(require_admin),
+) -> list[ChapterTitleOut]:
+    """הפרקים של קורס, לפי סדר — הרשימה שממנה המנהל עורך שמות."""
+    course = db.query(models.Course).filter(models.Course.id == course_id).first()
+    if not course:
+        raise HTTPException(status_code=404, detail="קורס לא נמצא")
+    rows = (
+        db.query(models.Chapter)
+        .filter(models.Chapter.course_id == course_id)
+        .order_by(models.Chapter.number)
+        .all()
+    )
+    return [
+        ChapterTitleOut(
+            id=c.id,
+            number=c.number,
+            title=c.title,
+            title_overridden=bool(c.title_overridden),
+        )
+        for c in rows
+    ]
+
+
+@router.put("/chapters/{chapter_id}/title", response_model=ChapterTitleOut)
+def rename_chapter(
+    chapter_id: int,
+    payload: ChapterRename,
+    db: Session = Depends(get_db),
+    _: models.User = Depends(require_admin),
+) -> ChapterTitleOut:
+    """שינוי שם פרק.
+
+    ``title_overridden`` מסמן ל-seed.py לא לדרוס את השם מ-courses/*.json
+    בפריסה הבאה, ולא לספור את ההבדל כ"התוכן השתנה" — אחרת כל פריסה הייתה בונה
+    את הקורס מחדש ומוחקת איתו את התקדמות התלמידים.
+
+    מספר הפרק אינו משתנה כאן ואסור שישתנה: סרטוני Bunny ממופים לפי "פרק-<n>"
+    בשם הקובץ, ושינוי המספר מנתק אותם בשקט.
+    """
+    chapter = db.query(models.Chapter).filter(models.Chapter.id == chapter_id).first()
+    if not chapter:
+        raise HTTPException(status_code=404, detail="פרק לא נמצא")
+    title = (payload.title or "").strip()
+    if not title:
+        raise HTTPException(status_code=422, detail="שם הפרק לא יכול להיות ריק")
+    if len(title) > CHAPTER_TITLE_MAX:
+        raise HTTPException(
+            status_code=422, detail=f"שם הפרק ארוך מדי (עד {CHAPTER_TITLE_MAX} תווים)"
+        )
+    chapter.title = title
+    chapter.title_overridden = True
+    db.commit()
+    db.refresh(chapter)
+    return ChapterTitleOut(
+        id=chapter.id,
+        number=chapter.number,
+        title=chapter.title,
+        title_overridden=True,
+    )
 
 
 @router.delete("/users/{user_id}/progress", status_code=204)

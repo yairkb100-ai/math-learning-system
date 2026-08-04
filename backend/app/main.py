@@ -138,6 +138,14 @@ def on_startup() -> None:
                     "ON users (referral_code)"
                 )
             )
+    if "chapters" in inspector.get_table_names():
+        cols = {c["name"] for c in inspector.get_columns("chapters")}
+        if "title_overridden" not in cols:
+            with engine.begin() as conn:
+                conn.execute(text(
+                    "ALTER TABLE chapters ADD COLUMN title_overridden "
+                    "BOOLEAN NOT NULL DEFAULT false"
+                ))
     if "exercises" in inspector.get_table_names():
         cols = {c["name"] for c in inspector.get_columns("exercises")}
         if "answer" not in cols:

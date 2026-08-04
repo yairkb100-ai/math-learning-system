@@ -374,6 +374,19 @@ class CourseGradeAssign(BaseModel):
     grade: Optional[str] = None  # "5".."8" | "hs" | None לניקוי
 
 
+class ChapterRename(BaseModel):
+    title: str
+
+
+class ChapterTitleOut(BaseModel):
+    """מה שהמנהל צריך כדי לערוך את שמות הפרקים של קורס."""
+
+    id: int
+    number: int
+    title: str
+    title_overridden: bool = False
+
+
 class CourseRename(BaseModel):
     # בלי אילוצי pydantic — הוולידציה נעשית ברouter כדי שההודעה תחזור בעברית.
     title: str

@@ -88,7 +88,11 @@ def _course_unchanged(existing, course_obj, metadata):
     db_chapters = {ch.number: ch for ch in existing.chapters}
     for ch in chapters:
         db_ch = db_chapters.get(ch.get("number"))
-        if db_ch is None or db_ch.title != ch.get("title", "") or db_ch.content != ch.get("content", ""):
+        if db_ch is None or db_ch.content != ch.get("content", ""):
+            return False
+        # פרק ששמו שונה ידנית אמור להיות שונה מה-JSON — השוואה שלו הייתה מדווחת
+        # "השתנה" בכל פריסה ובונה את הקורס מחדש, כלומר מוחקת את ההתקדמות.
+        if not db_ch.title_overridden and db_ch.title != ch.get("title", ""):
             return False
         db_examples = [
             (e.title, e.type, e.content, e.language) for e in db_ch.examples
@@ -138,6 +142,7 @@ def upsert_course(db, data):
     # changed — a delete cascades to chapters and wipes student progress.
     existing = db.query(Course).filter(Course.slug == slug).first()
     relink_files = []
+    keep_chapter_titles = {}
     keep_title = None
     keep_description = None
     if existing is not None:
@@ -156,6 +161,11 @@ def upsert_course(db, data):
         if existing.title_overridden:
             keep_title = existing.title
             keep_description = existing.description
+        # אותה בעיה ברמת הפרק: השורה החדשה נבנית מה-JSON, ולכן שם שהמנהל בחר
+        # היה נמחק בפעם הראשונה שתוכן הקורס באמת משתנה. נשמר לפי מספר הפרק.
+        keep_chapter_titles = {
+            c.number: c.title for c in existing.chapters if c.title_overridden
+        }
         relink_files = (
             db.query(FileAsset).filter(FileAsset.course_id == existing.id).all()
         )
@@ -185,9 +195,11 @@ def upsert_course(db, data):
         course.objectives.append(LearningObjective(text=text))
 
     for ch in course_obj.get("chapters", []) or []:
+        kept = keep_chapter_titles.get(ch.get("number"))
         chapter = Chapter(
             number=ch.get("number"),
-            title=ch.get("title", ""),
+            title=kept if kept is not None else ch.get("title", ""),
+            title_overridden=kept is not None,
             content=ch.get("content", ""),
         )
 
@@ -1024,6 +1036,16 @@ def run_light_migrations():
                     text("ALTER TABLE courses ADD COLUMN title_overridden BOOLEAN NOT NULL DEFAULT false")
                 )
             print("  ~ Migrated: added courses.title_overridden")
+
+    if "chapters" in inspector.get_table_names():
+        cols = {c["name"] for c in inspector.get_columns("chapters")}
+        if "title_overridden" not in cols:
+            with engine.begin() as conn:
+                conn.execute(text(
+                    "ALTER TABLE chapters ADD COLUMN title_overridden "
+                    "BOOLEAN NOT NULL DEFAULT false"
+                ))
+            print("  ~ Migrated: added chapters.title_overridden")
 
     if "file_assets" in inspector.get_table_names():
         cols = {c["name"] for c in inspector.get_columns("file_assets")}

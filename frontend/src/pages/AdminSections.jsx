@@ -348,6 +348,7 @@ function CourseRows({ courses, sections, onReassign, onGrade, onRename, onDelete
 function CourseRow({ course: c, sections, onReassign, onGrade, onRename, onDelete }) {
   const [editing, setEditing] = useState(false)
   const [draft, setDraft] = useState(c.title)
+  const [openChapters, setOpenChapters] = useState(false)
 
   function startEdit() {
     setDraft(c.title)
@@ -391,7 +392,14 @@ function CourseRow({ course: c, sections, onReassign, onGrade, onRename, onDelet
           </button>
         </>
       )}
-      <span className="muted">{c.chapters_count} פרקים</span>
+      <button
+        className="btn-sm"
+        onClick={() => setOpenChapters((o) => !o)}
+        title="שינוי שמות הפרקים"
+        aria-expanded={openChapters}
+      >
+        {c.chapters_count} פרקים {openChapters ? '▲' : '▼'}
+      </button>
       <select
         value={c.grade ?? ''}
         onChange={(e) => onGrade(c, e.target.value)}
@@ -420,6 +428,96 @@ function CourseRow({ course: c, sections, onReassign, onGrade, onRename, onDelet
       <button className="btn-sm btn-danger" onClick={() => onDelete(c)}>
         מחק
       </button>
+      {openChapters && <ChapterRows courseId={c.id} />}
     </li>
+  )
+}
+
+// שמות הפרקים של קורס, לעריכה במקום. נטען רק כשפותחים — קורס עם 20 פרקים
+// בכל שורה היה הופך את המסך לעשרות בקשות בטעינה אחת.
+//
+// המספר של הפרק לא ניתן לעריכה בכוונה: סרטוני Bunny ממופים לפי "פרק-<n>" בשם
+// הקובץ, ושינוי המספר היה מנתק את הסרטון מהפרק בשקט.
+function ChapterRows({ courseId }) {
+  const [rows, setRows] = useState(null)
+  const [error, setError] = useState(null)
+  const [editingId, setEditingId] = useState(null)
+  const [draft, setDraft] = useState('')
+
+  const load = useCallback(() => {
+    api
+      .adminCourseChapters(courseId)
+      .then(setRows)
+      .catch((e) => setError(e.message))
+  }, [courseId])
+
+  useEffect(() => {
+    load()
+  }, [load])
+
+  async function save(ch) {
+    const title = draft.trim()
+    setEditingId(null)
+    if (!title || title === ch.title) return
+    try {
+      await api.renameChapter(ch.id, title)
+      load()
+    } catch (err) {
+      alert(err.message)
+    }
+  }
+
+  if (error) return <p className="muted chapter-rows-msg">{error}</p>
+  if (!rows) return <p className="muted chapter-rows-msg">טוען פרקים…</p>
+  if (rows.length === 0)
+    return <p className="muted chapter-rows-msg">אין פרקים בקורס הזה.</p>
+
+  return (
+    <ul className="chapter-rows">
+      {rows.map((ch) => (
+        <li key={ch.id}>
+          <span className="chapter-num">{ch.number}</span>
+          {editingId === ch.id ? (
+            <>
+              <input
+                className="section-course-rename"
+                value={draft}
+                maxLength={160}
+                autoFocus
+                onChange={(e) => setDraft(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') save(ch)
+                  if (e.key === 'Escape') setEditingId(null)
+                }}
+              />
+              <button className="btn-sm" onClick={() => save(ch)}>
+                שמור
+              </button>
+              <button className="btn-sm" onClick={() => setEditingId(null)}>
+                ביטול
+              </button>
+            </>
+          ) : (
+            <>
+              <span className="chapter-title">{ch.title}</span>
+              {ch.title_overridden && (
+                <span className="chapter-renamed" title="שם שנקבע ידנית — לא יידרס בפריסה">
+                  שונה ידנית
+                </span>
+              )}
+              <button
+                className="btn-sm"
+                onClick={() => {
+                  setDraft(ch.title)
+                  setEditingId(ch.id)
+                }}
+              >
+                שנה שם
+              </button>
+            </>
+          )}
+        </li>
+      ))}
+    </ul>
   )
 }

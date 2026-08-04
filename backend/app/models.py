@@ -234,6 +234,9 @@ class Chapter(Base):
     course_id = Column(Integer, ForeignKey("courses.id"), nullable=False)
     number = Column(Integer, nullable=False)
     title = Column(String, nullable=False)
+    # שם שהמנהל שינה ידנית. מסמן ל-seed.py לא לדרוס אותו מ-courses/*.json
+    # בפריסה הבאה — בדיוק כמו Course.title_overridden.
+    title_overridden = Column(Boolean, nullable=False, default=False)
     content = Column(Text, nullable=False)
 
     course = relationship("Course", back_populates="chapters")

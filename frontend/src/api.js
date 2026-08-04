@@ -282,6 +282,13 @@ export const api = {
       method: 'PUT',
       body: JSON.stringify({ title, description }),
     }),
+  adminCourseChapters: (courseId) =>
+    request(`/admin/courses/${courseId}/chapters`),
+  renameChapter: (chapterId, title) =>
+    request(`/admin/chapters/${chapterId}/title`, {
+      method: 'PUT',
+      body: JSON.stringify({ title }),
+    }),
   resetStudent: (userId) =>
     request(`/admin/users/${userId}/progress`, { method: 'DELETE' }),
 
