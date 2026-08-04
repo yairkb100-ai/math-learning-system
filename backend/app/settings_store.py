@@ -15,7 +15,8 @@ from app import models
 # key -> (default, parser). הפרסר גם מגן מפני ערך פגום שנשמר ידנית ב-DB.
 # הערכים אינם בהכרח מספרים — טלפון התשלום הוא מחרוזת, ולכן הטיפוס רחב.
 DEFAULTS: dict[str, tuple[object, type]] = {
-    # מחיר שיעור פרטי בזום (₪). 0 = "לא פורסם מחיר" — ואז ההנחה מוצגת באחוזים בלבד.
+    # מחיר שיעור פרטי בזום (₪), לחישוב שווי ההנחה של "חבר מביא חבר".
+    # 0 = להיגזר אוטומטית ממחירון השיעורים; ראה effective_lesson_price.
     "lesson_price_nis": (0.0, float),
     # ההטבה על כל תלמיד שהובא: אחוז הנחה על החודש הבא של המנוי.
     "referral_sub_discount_pct": (20.0, float),
@@ -54,3 +55,26 @@ def set_settings(db: Session, values: dict) -> dict:
         row.value = str(value)
     db.commit()
     return all_settings(db)
+
+
+def effective_lesson_price(db: Session) -> float:
+    """המחיר שממנו מחושב שווי ההנחה על שיעור פרטי.
+
+    ``lesson_price_nis`` הוא עקיפה ידנית. כשהוא 0 — ברירת המחדל — המחיר נגזר
+    ממחירון השיעורים שהמנהל כבר מתחזק, במקום להיות מספר שני שמישהו צריך לזכור
+    לעדכן. מספר כפול כזה נשאר נכון בדיוק עד השינוי הראשון במחירון, ומאותו רגע
+    הלומדה מפרסמת חיסכון שגוי.
+
+    נבחר המחיר הזול מבין השיעורים הפעילים: הסכום מוצג כ"חיסכון של כ-...", ועדיף
+    שתלמיד יופתע לטובה מאשר יגלה שההנחה קטנה ממה שהובטח לו.
+    """
+    explicit = get_setting(db, "lesson_price_nis")
+    if explicit and explicit > 0:
+        return float(explicit)
+    cheapest = (
+        db.query(models.LessonType.price_nis)
+        .filter(models.LessonType.is_active.is_(True), models.LessonType.price_nis > 0)
+        .order_by(models.LessonType.price_nis)
+        .first()
+    )
+    return float(cheapest[0]) if cheapest else 0.0

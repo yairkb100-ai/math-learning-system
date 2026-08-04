@@ -63,6 +63,8 @@ def pricing(db: Session = Depends(get_db)) -> PricingOut:
         .all()
     )
     s = settings_store.all_settings(db)
+    # המחיר שמוצג הוא הנגזר, לא הערך הגולמי — ראה effective_lesson_price.
+    s["lesson_price_nis"] = settings_store.effective_lesson_price(db)
     return PricingOut(plans=plans, **s)
 
 
@@ -111,7 +113,7 @@ def my_referrals_summary(
         unredeemed=qualified_q.filter(models.Referral.reward_kind.is_(None)).count(),
         sub_discount_pct=s["referral_sub_discount_pct"],
         lesson_discount_pct=s["referral_lesson_discount_pct"],
-        lesson_price_nis=s["lesson_price_nis"],
+        lesson_price_nis=settings_store.effective_lesson_price(db),
     )
 
 
@@ -138,7 +140,7 @@ def my_referrals(
         unredeemed=sum(1 for r in qualified if not r.reward_kind),
         sub_discount_pct=s["referral_sub_discount_pct"],
         lesson_discount_pct=s["referral_lesson_discount_pct"],
-        lesson_price_nis=s["lesson_price_nis"],
+        lesson_price_nis=settings_store.effective_lesson_price(db),
         referrals=[_out(r) for r in rows],
     )
 

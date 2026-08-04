@@ -327,8 +327,9 @@ export default function AdminPricing() {
               onChange={(e) =>
                 setPricing({ ...pricing, lesson_price_nis: e.target.value })
               }
-              title="משמש למשך שאין לו מחיר משלו במחירון, ולחישוב ההנחה למטה"
+              title="0 = ייגזר אוטומטית מהמחירון. מלא רק אם רוצים לקבע מספר אחר."
             />
+            <span className="field-hint">0 = לפי המחירון</span>
           </div>
           <div className="form-group">
             <label>הנחה על החודש הבא (%)</label>
@@ -369,11 +370,16 @@ export default function AdminPricing() {
             שמור
           </button>
         </form>
-        {lessonPrice > 0 && (
+        {lessonPrice > 0 ? (
           <p className="muted">
             שיעור פרטי עם ההנחה: ₪{Math.round(lessonPrice * (1 - lessonPct / 100))}{' '}
             במקום ₪{Math.round(lessonPrice)} — הנחה של ₪
             {Math.round((lessonPrice * lessonPct) / 100)}.
+          </p>
+        ) : (
+          <p className="muted">
+            מחיר הבסיס ריק, ולכן שווי ההנחה נגזר אוטומטית מהשיעור הזול במחירון
+            שבלשונית "שיעורים פרטיים" — כך שהוא לא יתיישן כשתעדכן שם מחיר.
           </p>
         )}
         <p className="muted">
