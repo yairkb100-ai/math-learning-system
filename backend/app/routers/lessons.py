@@ -45,7 +45,7 @@ def _slot_pricing(db: Session):
     """מחזיר פונקציה משבצת→(מחיר, שם מסלול), בשאילתה אחת לכל בקשה.
 
     סדר הפתרון, לפי סדר יורד של ודאות:
-      1. המסלול שהמשבצת נפתחה עבורו, אם הוא עדיין קיים;
+      1. המסלול שהמשבצת נפתחה עבורו, אם הוא עדיין קיים **ופעיל**;
       2. אחרת — אם יש בדיוק מסלול פעיל אחד באורך הזה, הוא;
       3. אחרת — מחיר הבסיס מ-``/admin/pricing``;
       4. ואם גם הוא 0 — ``None``, "לא פורסם מחיר", כדי שהממשק לא יציג ₪0
@@ -53,6 +53,11 @@ def _slot_pricing(db: Session):
 
     כלל 2 קיים בשביל משבצות ותיקות, שנפתחו לפני שהיו מסלולים ואין להן
     ``lesson_type_id``.
+
+    רק מסלול פעיל מתמחר ומכנה משבצת. הסתרה היא הדרך להוציא מסלול מהמכירה, והיא
+    חלה גם על תורים שכבר נפתחו עבורו — אחרת מסלול שהוסתר היה ממשיך להימכר בלוח
+    עד שכל תוריו יימחקו ידנית. מסיבה זו נופל גם השם ולא רק המחיר: "שיעור בזוג"
+    לצד מחיר הבסיס הוא הבטחה שכבר אינה בתוקף.
     """
     all_types = db.query(models.LessonType).all()
     by_id = {t.id: t for t in all_types}
@@ -68,10 +73,8 @@ def _slot_pricing(db: Session):
     def info_for(slot) -> tuple[float | None, str | None]:
         if slot is None:
             return None, None
-        # הסתרת מסלול מורידה אותו מהמחירון החדש אך אינה מוחקת את המחיר
-        # ממשבצת שכבר נפתחה עבורו — המנהל כבר פרסם אותה בשם ובמחיר האלה.
         track = by_id.get(slot.lesson_type_id) if slot.lesson_type_id else None
-        if track is not None:
+        if track is not None and track.is_active:
             return _clean(track.price_nis), track.name
         same = active_by_duration.get(slot.duration_min, [])
         if len(same) == 1:
@@ -90,12 +93,18 @@ def _check_duration(duration_min: int) -> None:
 
 
 def _track_or_404(db: Session, type_id: int | None) -> models.LessonType | None:
-    """המסלול שהמשבצת נפתחת עבורו. ``None`` = משך חד-פעמי, בלי מסלול."""
+    """המסלול שהמשבצת נפתחת עבורו. ``None`` = משך חד-פעמי, בלי מסלול.
+
+    מסלול מוסתר נדחה: הוא כבר לא מתמחר משבצות, ולכן פתיחת תור חדש עבורו הייתה
+    יוצרת מיד תור בלי מחיר.
+    """
     if type_id is None:
         return None
     row = db.query(models.LessonType).filter(models.LessonType.id == type_id).first()
     if row is None:
         raise HTTPException(status_code=404, detail="מסלול השיעור לא נמצא")
+    if not row.is_active:
+        raise HTTPException(status_code=400, detail="המסלול מוסתר — יש להציג אותו לפני פתיחת תורים")
     return row
 
 
