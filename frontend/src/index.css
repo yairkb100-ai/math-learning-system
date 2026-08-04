@@ -3016,6 +3016,14 @@ h4.prose-h {
   gap: 22px;
   align-items: start;
 }
+/* פריט ב-grid מקבל ``min-width: auto``, כלומר רוחב המינימום של תוכנו — ורצועת
+   הימים היא שורה של כרטיסים בני 130px שאינה נשברת. בלי האיפוס הזה
+   ה-``overflow-x: auto`` שלמטה חסר משמעות: המכל עצמו לא מסוגל להיות צר מתוכנו,
+   והעמוד כולו נגלל הצידה בטלפון. */
+.booking-days,
+.booking-times {
+  min-width: 0;
+}
 @media (max-width: 640px) {
   .booking-grid {
     grid-template-columns: 1fr;
