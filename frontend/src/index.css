@@ -3162,6 +3162,16 @@ h4.prose-h {
   gap: 8px;
   flex-wrap: wrap;
 }
+/* ``btn-sm`` נותן כפתור בגובה 25px — סביר לעכבר, קטן מדי לאצבע. זו פעולת
+   המפתח של העמוד, ובטלפון היא מקבלת יעד מגע מלא ורוחב מלא. */
+@media (max-width: 640px) {
+  .confirm-actions button {
+    flex: 1 1 100%;
+    min-height: 44px;
+    padding: 10px 16px;
+    font-size: 0.95rem;
+  }
+}
 .booking-empty {
   text-align: center;
   padding: 26px 10px;
