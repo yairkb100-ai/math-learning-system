@@ -3939,6 +3939,10 @@ h4.prose-h {
   font-family: inherit;
   font-size: 0.92rem;
   font-weight: 700;
+  /* וואטסאפ הוא <a> והשאר <button>: בלי line-height מפורש הקישור יורש 1.6
+     מהגוף והכפתורים מקבלים normal מהדפדפן, והכפתור הירוק יוצא גבוה ב-5px
+     משכניו בדיוק בשורה שבה שלושתם עומדים זה לצד זה. */
+  line-height: 1.25;
   cursor: pointer;
   box-sizing: border-box;
   transition: background 0.12s, color 0.12s;
