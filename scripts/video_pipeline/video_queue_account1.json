@@ -75,21 +75,13 @@
   "number": 1,
   "topic": "כללי סדר פעולות החשבון (חזרה)",
   "output": "סרטון-פרק-1-סדר-פעולות-חזרה.mp4",
-  "status": "staged",
+  "status": "done",
   "course": "arithmetic-laws",
   "grade": null,
   "qa_rejections": 2,
-  "requeue_reason": "slide mirrored: 2^3-6=8-6=2 rendered as 2 = 6 - 8 = 6 - 3^2 (false, wrong power)"
- },
- "al-ch02": {
-  "notebook_id": "f72d1d6a-73fc-48f8-a412-a0efd479146e",
-  "source_id": "99b433a8-8c41-42dd-98e9-5105fd00c19c",
-  "number": 2,
-  "topic": "חוק החילוף וחוק הקיבוץ של פעולת החיבור",
-  "output": "סרטון-פרק-2-חילוף-וקיבוץ-בחיבור.mp4",
-  "status": "staged",
-  "course": "arithmetic-laws",
-  "grade": null
+  "requeue_reason": "slide mirrored: 2^3-6=8-6=2 rendered as 2 = 6 - 8 = 6 - 3^2 (false, wrong power)",
+  "artifact_id": "e9d3eb55-4031-4a63-9452-97bc66812179",
+  "submitted_at": 1785724439.918478
  },
  "al-ch03": {
   "notebook_id": "95897da5-b8fb-48f9-a8ee-fd5ab371cf6c",
@@ -101,64 +93,16 @@
   "course": "arithmetic-laws",
   "grade": null
  },
- "al-ch04": {
-  "notebook_id": "63ccec1f-92de-4f57-9538-cf2721f70096",
-  "source_id": "9432f490-11ed-4b39-92a7-b7298ed7db42",
-  "number": 4,
-  "topic": "חוק הפילוג",
-  "output": "סרטון-פרק-4-חוק-הפילוג.mp4",
-  "status": "staged",
-  "course": "arithmetic-laws",
-  "grade": null
- },
- "al-ch05": {
-  "notebook_id": "8f572870-a3f4-4d75-b0ca-de6fef1fa8f1",
-  "source_id": "feaea1af-b607-4b11-8930-a656218804ab",
-  "number": 5,
-  "topic": "חיסור של סכום ושל הפרש",
-  "output": "סרטון-פרק-5-חיסור-סכום-והפרש.mp4",
-  "status": "staged",
-  "course": "arithmetic-laws",
-  "grade": null
- },
- "al-ch06": {
-  "notebook_id": "8828bd32-e2b6-437e-a830-ff6f8af24a9e",
-  "source_id": "cba79f86-51a5-402e-b853-fab73c03a335",
-  "number": 6,
-  "topic": "הכפלת המחלק וחילוק המחלק",
-  "output": "סרטון-פרק-6-תכונות-החילוק.mp4",
-  "status": "staged",
-  "course": "arithmetic-laws",
-  "grade": null
- },
- "al-ch07": {
-  "notebook_id": "a729dbeb-b916-42d9-9dd0-2c9420989b17",
-  "source_id": "7fd52689-a56a-4136-a122-d420c67e48e5",
-  "number": 7,
-  "topic": "חזקות עם מעריך טבעי",
-  "output": "סרטון-פרק-7-חזקות.mp4",
-  "status": "staged",
-  "course": "arithmetic-laws",
-  "grade": null
- },
- "al-ch08": {
-  "notebook_id": "2f86adf5-8eae-4512-8ffc-48adb738551a",
-  "source_id": "6a69ad55-b4d2-43fa-b587-912f4281ff29",
-  "number": 8,
-  "topic": "שורש ריבועי",
-  "output": "סרטון-פרק-8-שורש-ריבועי.mp4",
-  "status": "staged",
-  "course": "arithmetic-laws",
-  "grade": null
- },
  "directed-numbers-ch07": {
   "notebook_id": "375e981b-b22b-4731-a7d9-827ede794613",
   "source_id": "6c779ea7-eb81-4ba2-9583-8c8f6261266b",
   "number": 7,
   "topic": "חילוק מספרים מכוונים",
   "output": "סרטון-פרק-7-חילוק-מספרים-מכוונים.mp4",
-  "status": "staged",
-  "course": "directed-numbers"
+  "status": "done",
+  "course": "directed-numbers",
+  "artifact_id": "6f3a9e1c-4143-4f82-a0e0-b3af6cf0528d",
+  "submitted_at": 1785724447.3706257
  },
  "grade7-algebra-ch14": {
   "notebook_id": "c7fff4c9-9f70-491a-b346-c01a1f4ebdba",
@@ -169,22 +113,65 @@
   "status": "done",
   "course": "grade7-algebra"
  },
- "grade7-algebra-ch15": {
-  "notebook_id": "04ba886b-50ff-4dca-a44e-61fa722e5637",
-  "source_id": "f18c7800-0539-4e58-98ff-09fbd8c43a84",
-  "number": 15,
-  "topic": "קריאת גרפים מהחיים, השתנות פונקציה וקצב שינוי",
-  "output": "סרטון-פרק-15-קריאת-גרפים-מהחיים-השתנות-פונקציה-וקצב-שינוי.mp4",
+ "g6-ch11": {
+  "notebook_id": "8f28ea97-0e07-4fb8-b47f-bb1c138e9780",
+  "source_id": "002e9ee0-f79a-4d22-be58-99909a745143",
+  "number": 11,
+  "topic": "שבר עשרוני מחזורי",
+  "output": "סרטון-פרק-11-שבר-עשרוני-מחזורי.mp4",
   "status": "staged",
-  "course": "grade7-algebra"
+  "course": null,
+  "grade": null,
+  "standalone_slug": null
  },
- "grade7-algebra-ch16": {
-  "notebook_id": "439781a9-767b-4a2d-86b2-3ef6ad380f05",
-  "source_id": "288c1c80-0a86-490f-9c71-e9ae2d341bc4",
-  "number": 16,
-  "topic": "פתרון משוואות בדרך גרפית — נקודת המפגש של שני גרפים",
-  "output": "סרטון-פרק-16-פתרון-משוואות-בדרך-גרפית-נקודת-המפגש-של-שני-גרפים.mp4",
+ "g6-ch12": {
+  "notebook_id": "283d97aa-1f16-44a3-b3b5-564cb8c7a0f9",
+  "source_id": "1e39fe75-53eb-4b96-a74d-3307a81bbb0e",
+  "number": 12,
+  "topic": "חיבור וחיסור מספרים עשרוניים",
+  "output": "סרטון-פרק-12-חיבור-וחיסור-עשרוניים.mp4",
   "status": "staged",
-  "course": "grade7-algebra"
+  "course": null,
+  "grade": null,
+  "standalone_slug": null
+ },
+ "g6-ch13": {
+  "notebook_id": "4fca6fb5-a88f-40cb-bb60-a0ac6aa892d7",
+  "source_id": "b6bab230-2617-474e-b04a-983e8a82d8bd",
+  "number": 13,
+  "topic": "השלמה וחקר של סדרות שברים",
+  "output": "סרטון-פרק-13-סדרות-של-שברים.mp4",
+  "status": "staged",
+  "course": null,
+  "grade": null,
+  "standalone_slug": null
+ },
+ "dv-ch01": {
+  "notebook_id": "7a3323aa-ecee-4a0f-9ae6-4f8c1769f133",
+  "source_id": "daf82246-6d47-44ae-9da5-d6b3de1d3889",
+  "number": 1,
+  "topic": "כפל וחילוק במאונך במספרים גדולים",
+  "output": "סרטון-פרק-1-כפל-וחילוק-במאונך.mp4",
+  "status": "done",
+  "course": "divisibility-primes",
+  "grade": null,
+  "standalone_slug": null,
+  "submitted_at": 1786080624.2864225,
+  "watchdog_retries": 1,
+  "artifact_id": "3cf656bd-471e-481c-abb3-0b344f452027"
+ },
+ "dv-ch02": {
+  "notebook_id": "04b9286b-c455-45f2-b0b4-096a020b0356",
+  "source_id": "02a9f4da-f201-44fa-8225-36b7853b9b9e",
+  "number": 2,
+  "topic": "סימני התחלקות ב-2, ב-5 וב-10",
+  "output": "סרטון-פרק-2-סימני-התחלקות-2-5-10.mp4",
+  "status": "done",
+  "course": "divisibility-primes",
+  "grade": null,
+  "standalone_slug": null,
+  "submitted_at": 1786080632.2271607,
+  "watchdog_retries": 1,
+  "artifact_id": "22eb7446-8777-4884-8005-c7a1884205e6"
  }
 }

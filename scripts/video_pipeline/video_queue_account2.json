@@ -10,109 +10,6 @@
   "artifact_id": "2e57ad28-1708-4890-8df0-b6f0313bac03",
   "submitted_at": 1785318340.882154
  },
- "divisibility-primes-ch01": {
-  "notebook_id": "fe9fb250-7591-4687-bce9-0c59aa0d2a8c",
-  "source_id": "d835c0ab-8d29-4b98-b0e6-9e6aa78dd811",
-  "number": 1,
-  "topic": "כפל וחילוק במאונך במספרים גדולים",
-  "output": "סרטון-פרק-1-כפל-וחילוק-במאונך-במספרים-גדולים.mp4",
-  "status": "done",
-  "course": "divisibility-primes",
-  "artifact_id": "5c0fdb88-c754-42db-8a2b-c2164c427ceb",
-  "submitted_at": 1785318347.010312
- },
- "divisibility-primes-ch02": {
-  "notebook_id": "175ce204-04d7-4af1-873d-094b0d4cc050",
-  "source_id": "07a57478-27ed-42d8-8715-7ce7d811b1a4",
-  "number": 2,
-  "topic": "סימני התחלקות ב-2, ב-5 וב-10",
-  "output": "סרטון-פרק-2-סימני-התחלקות-ב-2-ב-5-וב-10.mp4",
-  "status": "done",
-  "course": "divisibility-primes",
-  "artifact_id": "dd0e161d-ff35-4d73-b17c-26273eb424b8",
-  "submitted_at": 1785318353.2294781
- },
- "divisibility-primes-ch03": {
-  "notebook_id": "7033b714-8eae-49d1-80a8-ec6f7624c185",
-  "source_id": "278ea2fc-7a3b-4d2c-a3c6-acda10932ca9",
-  "number": 3,
-  "topic": "סימני התחלקות ב-3 וב-9",
-  "output": "סרטון-פרק-3-סימני-התחלקות-ב-3-וב-9.mp4",
-  "status": "staged",
-  "course": "divisibility-primes"
- },
- "divisibility-primes-ch04": {
-  "notebook_id": "da9db270-8f66-4f25-9a95-9b2226f89a7c",
-  "source_id": "82dda918-88c3-4e8c-a254-0810ce15c69f",
-  "number": 4,
-  "topic": "מספרים ראשוניים ומספרים מורכבים",
-  "output": "סרטון-פרק-4-מספרים-ראשוניים-ומספרים-מורכבים.mp4",
-  "status": "staged",
-  "course": "divisibility-primes"
- },
- "divisibility-primes-ch05": {
-  "notebook_id": "ab2fa98f-e5e3-4583-bf25-fa0213eeece1",
-  "source_id": "3a0089e0-fd9e-4ec2-8fa6-2ef265ebed23",
-  "number": 5,
-  "topic": "פירוק לגורמים ראשוניים",
-  "output": "סרטון-פרק-5-פירוק-לגורמים-ראשוניים.mp4",
-  "status": "staged",
-  "course": "divisibility-primes"
- },
- "divisibility-primes-ch06": {
-  "notebook_id": "1600de33-919b-4bec-8881-419933df5561",
-  "source_id": "29c53018-fb5b-487f-b7a9-a0d27684aa23",
-  "number": 6,
-  "topic": "מחלק משותף מקסימלי וכפולה משותפת מינימלית",
-  "output": "סרטון-פרק-6-מחלק-משותף-מקסימלי-וכפולה-משותפת-מינימלית.mp4",
-  "status": "staged",
-  "course": "divisibility-primes"
- },
- "shortcut-formulas-ch01": {
-  "notebook_id": "3abf38d8-bacc-4244-9b1e-bdaf55de758d",
-  "source_id": "26d7830c-57fa-4a77-9187-c4d35afa9f8b",
-  "number": 1,
-  "topic": "כפל רב-איבר ברב-איבר",
-  "output": "סרטון-פרק-1-כפל-רב-איבר-ברב-איבר.mp4",
-  "status": "staged",
-  "course": "shortcut-formulas"
- },
- "shortcut-formulas-ch02": {
-  "notebook_id": "c605a2b4-e59c-43fc-a2f7-f331d441aae8",
-  "source_id": "034721d8-9156-485c-a291-db1dc7afb756",
-  "number": 2,
-  "topic": "ריבוע של סכום",
-  "output": "סרטון-פרק-2-ריבוע-של-סכום.mp4",
-  "status": "staged",
-  "course": "shortcut-formulas"
- },
- "shortcut-formulas-ch03": {
-  "notebook_id": "c639a4bc-7802-4504-a569-4ab4a941762b",
-  "source_id": "ce11273d-888e-4b37-8414-6a813aa43d29",
-  "number": 3,
-  "topic": "ריבוע של הפרש",
-  "output": "סרטון-פרק-3-ריבוע-של-הפרש.mp4",
-  "status": "staged",
-  "course": "shortcut-formulas"
- },
- "shortcut-formulas-ch04": {
-  "notebook_id": "0a06a761-3c43-4662-a1b1-49f7b4d0e8a5",
-  "source_id": "118378a0-425e-40af-8e8a-1a4bc5b555e8",
-  "number": 4,
-  "topic": "הפרש ריבועים",
-  "output": "סרטון-פרק-4-הפרש-ריבועים.mp4",
-  "status": "staged",
-  "course": "shortcut-formulas"
- },
- "shortcut-formulas-ch05": {
-  "notebook_id": "e27261e8-04d2-4bbf-9c78-fe1874e69355",
-  "source_id": "74310c1b-d635-42f3-922f-c67a6ce2e0da",
-  "number": 5,
-  "topic": "פירוק לגורמים בעזרת הנוסחאות",
-  "output": "סרטון-פרק-5-פירוק-לגורמים-בעזרת-הנוסחאות.mp4",
-  "status": "staged",
-  "course": "shortcut-formulas"
- },
  "g6-ch05": {
   "notebook_id": "10e3b507-cf66-49a9-be3d-e6d9f77b9f21",
   "source_id": "7606700e-066b-45c2-bde8-a7811741ac48",
@@ -239,26 +136,6 @@
   "artifact_id": "275a9c64-e0d4-4eb1-8e6b-0f7ac792e3b7",
   "submitted_at": 1784537708.4035335
  },
- "pct-ch05": {
-  "notebook_id": "2c37c828-026e-4565-8408-987e34d0bb39",
-  "source_id": "61c3930c-3600-4cdf-a992-a40f7304e862",
-  "number": 5,
-  "topic": "הנחה, התייקרות ומע\"מ",
-  "output": "סרטון-פרק-5-הנחה-התייקרות-ומעמ.mp4",
-  "status": "staged",
-  "course": "grade6-percents",
-  "grade": null
- },
- "pct-ch06": {
-  "notebook_id": "ed6ad921-52e7-4757-883d-d61c33cf4d90",
-  "source_id": "368b7368-70b0-4fd5-a09c-05f0e79d6859",
-  "number": 6,
-  "topic": "אחוזים מעל 100 ובעיות רב-שלביות",
-  "output": "סרטון-פרק-6-אחוזים-מעל-100.mp4",
-  "status": "staged",
-  "course": "grade6-percents",
-  "grade": null
- },
  "g6-ch12": {
   "notebook_id": "67d5d468-a44d-4d2b-bbad-d8baf33b7ef2",
   "source_id": "60c59a52-260a-4ca0-9b93-840f7882b681",
@@ -321,15 +198,6 @@
   "number": 3,
   "topic": "איברים דומים וכינוס איברים דומים",
   "output": "סרטון-פרק-3-איברים-דומים-וכינוסם.mp4",
-  "status": "done",
-  "course": "grade7-algebra"
- },
- "g7-ch04": {
-  "notebook_id": "63f02bfc-ab12-49bc-b33f-32d8379c3c3b",
-  "source_id": "63564ab2-1502-4845-ac75-181d8a4a6266",
-  "number": 4,
-  "topic": "פתיחת סוגריים בביטוי אלגברי",
-  "output": "סרטון-פרק-4-פתיחת-סוגריים.mp4",
   "status": "done",
   "course": "grade7-algebra"
  },
@@ -422,28 +290,6 @@
   "artifact_id": "7fe5d186-4df3-4237-a5d1-ce50e25dbb39",
   "submitted_at": 1784872476.7957144
  },
- "sys-2eq": {
-  "notebook_id": "791b093a-1f5a-4f7b-aa65-d3cf6d0b511d",
-  "source_id": "78503205-649c-46a1-9ff9-29a85a2542d1",
-  "number": 1,
-  "topic": "מערכת שתי משוואות בשני נעלמים: פתרון בשיטות הצבה, השוואה וחיבור-חיסור, פתרון גרפי, מספר הפתרונות ובעיות מילוליות",
-  "output": "סרטון-מערכת-שתי-משוואות-בשני-נעלמים.mp4",
-  "status": "staged",
-  "course": "two-equations-two-unknowns",
-  "grade": null,
-  "standalone_slug": "two-equations-two-unknowns"
- },
- "dn-ch01": {
-  "notebook_id": "1e421b2e-e390-4f76-83b7-49a4c5cd8c16",
-  "source_id": "2660d528-c729-42bc-befd-bbbd2653aa4b",
-  "number": 1,
-  "topic": "פעולות החשבון במספרים טבעיים וסדר הפעולות",
-  "output": "סרטון-פרק-1-סדר-פעולות-החשבון.mp4",
-  "status": "done",
-  "course": "directed-numbers",
-  "grade": null,
-  "standalone_slug": null
- },
  "dn-ch02": {
   "notebook_id": "236884cb-a03f-497a-8fc9-14659397d439",
   "source_id": "445edafa-52da-4cc2-a1ac-5489716b9686",
@@ -509,42 +355,6 @@
   "artifact_id": "c4a61c7d-19d8-44b5-97f2-2da50e24f6b9",
   "submitted_at": 1785052824.4948606
  },
- "dn-ch08": {
-  "notebook_id": "8714e515-f144-4ebc-b4d9-dd272931b266",
-  "source_id": "f5da0472-1c6e-48d3-abf8-64eec9863133",
-  "number": 8,
-  "topic": "פעולות מעורבות וסדר פעולות במספרים מכוונים",
-  "output": "סרטון-פרק-8-פעולות-מעורבות.mp4",
-  "status": "done",
-  "course": "directed-numbers",
-  "grade": null,
-  "standalone_slug": null
- },
- "dn-ch09": {
-  "notebook_id": "53362eeb-e060-451d-bb3c-22130ebab4f8",
-  "source_id": "8cf7bf2b-f5a9-4878-8dce-4db10ee10c9a",
-  "number": 9,
-  "topic": "חזקות ובעיות מילוליות במספרים מכוונים",
-  "output": "סרטון-פרק-9-חזקות-ובעיות-מילוליות.mp4",
-  "status": "done",
-  "course": "directed-numbers",
-  "grade": null,
-  "standalone_slug": null
- },
- "al-ch01": {
-  "notebook_id": "ea0a542f-822f-43ce-bc3a-2914c7a540f6",
-  "source_id": "b305645b-b737-4d23-b49a-6593deb282f9",
-  "number": 1,
-  "topic": "כללי סדר פעולות החשבון (חזרה)",
-  "output": "סרטון-פרק-1-סדר-פעולות-חזרה.mp4",
-  "status": "staged",
-  "course": "arithmetic-laws",
-  "grade": null,
-  "standalone_slug": null,
-  "qa_rejections": 2,
-  "submitted_at": 1785225611.26968,
-  "requeue_reason": "slide mirrored: 2^3-6=8-6=2 rendered as 2 = 6 - 8 = 6 - 3^2 (false, wrong power)"
- },
  "al-ch02": {
   "notebook_id": "f7b60d62-39dc-43bc-b57c-6c7517b31b17",
   "source_id": "629224ca-a34f-443d-864a-374bad162ea0",
@@ -557,17 +367,6 @@
   "standalone_slug": null,
   "artifact_id": "7ded0ef9-245e-4f70-b101-4c210810ff4e",
   "submitted_at": 1785143317.5983565
- },
- "al-ch03": {
-  "notebook_id": "b0f17b57-dcbc-4481-ad03-3670c1088d30",
-  "source_id": "22c1cd84-6095-4d7b-b6b3-86c14f9c8047",
-  "number": 3,
-  "topic": "חוק החילוף וחוק הקיבוץ של פעולת הכפל",
-  "output": "סרטון-פרק-3-חילוף-וקיבוץ-בכפל.mp4",
-  "status": "done",
-  "course": "arithmetic-laws",
-  "grade": null,
-  "standalone_slug": null
  },
  "al-ch04": {
   "notebook_id": "99c50eb9-745f-47f9-b881-d3cb957333f9",
@@ -594,104 +393,6 @@
   "standalone_slug": null,
   "artifact_id": "7d751d2f-3692-4ec7-85b1-e69d1b5c8895",
   "submitted_at": 1785143351.2410536
- },
- "al-ch06": {
-  "notebook_id": "9e2c477d-6fab-41ee-864f-35b22a6afbbe",
-  "source_id": "f01a9ceb-18e2-46d6-8125-8b74a7952bbc",
-  "number": 6,
-  "topic": "הכפלת המחלק וחילוק המחלק",
-  "output": "סרטון-פרק-6-תכונות-החילוק.mp4",
-  "status": "staged",
-  "course": "arithmetic-laws",
-  "grade": null,
-  "standalone_slug": null
- },
- "al-ch07": {
-  "notebook_id": "083af79a-96d4-4353-9250-7471861b92eb",
-  "source_id": "4c014331-5022-4bf2-83cd-f19007e64b32",
-  "number": 7,
-  "topic": "חזקות עם מעריך טבעי",
-  "output": "סרטון-פרק-7-חזקות.mp4",
-  "status": "staged",
-  "course": "arithmetic-laws",
-  "grade": null,
-  "standalone_slug": null
- },
- "al-ch08": {
-  "notebook_id": "f498100f-733e-4221-ad7d-a25dd0c9485c",
-  "source_id": "4a15f6d8-97e2-4964-8a59-695b97f4bbd9",
-  "number": 8,
-  "topic": "שורש ריבועי",
-  "output": "סרטון-פרק-8-שורש-ריבועי.mp4",
-  "status": "staged",
-  "course": "arithmetic-laws",
-  "grade": null,
-  "standalone_slug": null
- },
- "sys-powers": {
-  "notebook_id": "68c2f011-5b17-4491-b039-fd228bd55fbd",
-  "source_id": "40acda46-26a1-4edb-ac10-874858f0c23c",
-  "number": 1,
-  "topic": "חזקות: מהמושג הבסיסי (בסיס ומעריך) דרך חוקי החזקות, חזקה 0 וחזקות שליליות, כתיב מדעי, בסיס שלילי, ועד שורשים כחזקות עם מעריך שברי",
-  "output": "סרטון-חזקות-מהיסוד-ועד-כיתה-י.mp4",
-  "status": "staged",
-  "course": "powers-and-exponents",
-  "grade": null,
-  "standalone_slug": "powers-and-exponents"
- },
- "directed-numbers-ch07": {
-  "notebook_id": "1e50bd45-65a7-4b26-847d-74c5c04abc40",
-  "source_id": "7cc42bba-8089-4f7c-8c12-ff9d31aa3102",
-  "number": 7,
-  "topic": "חילוק מספרים מכוונים",
-  "output": "סרטון-פרק-7-חילוק-מספרים-מכוונים.mp4",
-  "status": "staged",
-  "course": "directed-numbers",
-  "grade": null,
-  "submitted_at": 1785225617.0474548,
-  "qa_rejections": 1,
-  "requeue_reason": "slide mirrored: -12/4=-3 rendered with trailing minus signs"
- },
- "grade7-algebra-ch14": {
-  "notebook_id": "9feadd46-31b7-4ad3-ba84-34d1ad8f1141",
-  "source_id": "1648cb2c-d779-4046-8ed4-c90417281de2",
-  "number": 14,
-  "topic": "הכללה של תבניות ורצפים מספריים לביטוי אלגברי",
-  "output": "סרטון-פרק-14-הכללה-של-תבניות-ורצפים-מספריים-לביטוי-אלגברי.mp4",
-  "status": "done",
-  "course": "grade7-algebra",
-  "grade": null,
-  "artifact_id": "193bdb47-7d47-4994-b09c-de8659c83b34",
-  "submitted_at": 1785225622.4816887
- },
- "grade7-algebra-ch15": {
-  "notebook_id": "6199f22e-d835-4b9f-aa3d-195426e12626",
-  "source_id": "a43a5630-1233-4eee-b003-beac07c7b04e",
-  "number": 15,
-  "topic": "קריאת גרפים מהחיים, השתנות פונקציה וקצב שינוי",
-  "output": "סרטון-פרק-15-קריאת-גרפים-מהחיים-השתנות-פונקציה-וקצב-שינוי.mp4",
-  "status": "staged",
-  "course": "grade7-algebra",
-  "grade": null
- },
- "grade7-algebra-ch16": {
-  "notebook_id": "3a2327b6-f2f8-4f1f-b6e3-a0f5efe1f7bf",
-  "source_id": "7a4353c8-3345-4d8f-be58-88b4bcb1dcb8",
-  "number": 16,
-  "topic": "פתרון משוואות בדרך גרפית — נקודת המפגש של שני גרפים",
-  "output": "סרטון-פרק-16-פתרון-משוואות-בדרך-גרפית-נקודת-המפגש-של-שני-גרפים.mp4",
-  "status": "staged",
-  "course": "grade7-algebra",
-  "grade": null
- },
- "derivatives-ch01": {
-  "notebook_id": "a9e8a6bc-714c-4785-b3a9-2568c899c07a",
-  "source_id": "9bc59b13-b47d-4a65-aa34-b4162745a317",
-  "number": 1,
-  "topic": "מושג הגבול והגדרת הנגזרת",
-  "output": "סרטון-פרק-1-מושג-הגבול-והגדרת-הנגזרת.mp4",
-  "status": "staged",
-  "course": "derivatives"
  },
  "derivatives-ch02": {
   "notebook_id": "d27cc7b1-57d8-444a-aa4a-958098a6e9aa",
@@ -737,5 +438,16 @@
   "output": "סרטון-פרק-2-קריאת-גרפים-מהחיים-גרפים-שמספרים-סיפור.mp4",
   "status": "staged",
   "course": "functions"
+ },
+ "sf-ch05": {
+  "notebook_id": "3fc67225-ec5f-470c-8273-d535ebd24020",
+  "source_id": "1a2d3190-e9eb-4ce8-85af-af4f0105ea54",
+  "number": 5,
+  "topic": "פירוק לגורמים בעזרת הנוסחאות",
+  "output": "סרטון-פרק-5-פירוק-לגורמים-בנוסחאות.mp4",
+  "status": "staged",
+  "course": "shortcut-formulas",
+  "grade": null,
+  "standalone_slug": null
  }
 }
