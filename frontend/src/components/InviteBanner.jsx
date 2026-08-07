@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import api from '../api.js'
 import MathDoodles from './MathDoodles.jsx'
-import { copyLink, shareInvite } from '../lib/invite.js'
+import { waHref, copyLink, shareInvite } from '../lib/invite.js'
 import { IconGift, IconClipboard, IconShare, IconSpark } from './icons.jsx'
 
-// הכניסה הראשית ל"חבר מביא חבר" — לוח קטן במסך הבית עם הקישור האישי, העתקה
-// בלחיצה ושיתוף מקורי. האחוזים מגיעים מהשרת ולא כתובים כאן: המנהל משנה אותם
+// הכניסה הראשית ל"חבר מביא חבר" — לוח קטן במסך הבית עם הקישור האישי ושלוש
+// פעולות השיתוף, כמו בעמוד ההזמנה ובכפתור הצף: וואטסאפ, העתקה ושיתוף מקורי.
+// האחוזים מגיעים מהשרת ולא כתובים כאן: המנהל משנה אותם
 // ב-/admin/pricing, ומספר קבוע כאן היה הופך למודעה כוזבת.
 //
 // כשהקריאה נכשלת הרכיב לא מציג דבר. באנר משני שמציג שגיאה על מסך הבית מזיק
@@ -74,10 +75,20 @@ export default function InviteBanner() {
           {lessonPrice > 0 && <> (חיסכון של כ-₪{lessonSaving})</>}.
         </p>
 
+        {/* וואטסאפ ראשון ובירוק המלא: זו הפעולה שכמעט כולם יבחרו, והבאנר הזה
+            היה המקום היחיד שנשאר בלעדיה — העתקה ושיתוף הן הנפילה לאחור. */}
         <div className="invite-link-row">
           <code className="invite-link">{link}</code>
-          <button type="button" className="invite-btn invite-btn-primary" onClick={onCopy}>
-            <IconClipboard /> {copied ? 'הועתק' : 'העתקת הקישור'}
+          <a
+            className="invite-btn invite-btn-wa"
+            href={waHref(link)}
+            target="_blank"
+            rel="noreferrer"
+          >
+            שליחה בוואטסאפ
+          </a>
+          <button type="button" className="invite-btn" onClick={onCopy}>
+            <IconClipboard /> {copied ? 'הועתק' : 'העתקה'}
           </button>
           <button type="button" className="invite-btn" onClick={onShare}>
             <IconShare /> שיתוף
