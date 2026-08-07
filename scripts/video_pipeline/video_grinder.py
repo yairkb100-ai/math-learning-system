@@ -153,10 +153,24 @@ def main():
         if key in skip:
             print(f"{key}: busy on another account — skipping")
             continue
-        res, raw = nlm(
-            "generate", "video", PROMPT.format(topic=e["topic"]),
-            "--notebook", e["notebook_id"], "--json", timeout=300,
-        )
+        try:
+            res, raw = nlm(
+                "generate", "video", PROMPT.format(topic=e["topic"]),
+                "--notebook", e["notebook_id"], "--json", timeout=300,
+            )
+        except subprocess.TimeoutExpired:
+            # The CLI call not returning within 300s does not mean the
+            # request was rejected — "generate" often really does take that
+            # long to ack. An uncaught TimeoutExpired here used to crash the
+            # whole pass, silently dropping every later entry in this loop
+            # (and leaving this one's status stuck on "staged" with no
+            # artifact_id, so a rerun submits it again without knowing
+            # whether the first attempt actually landed). Skip to the next
+            # entry instead of dying; status genuinely is unknown, so leave
+            # it "staged" for a human/rerun to reconcile rather than guessing.
+            print(f"{key}: generate call exceeded 300s locally — request may "
+                  f"still have been accepted server-side; leaving as staged")
+            continue
         if res.get("code") == "RATE_LIMITED" or "RATE_LIMITED" in raw:
             print(f"{key}: rate limited — stopping submissions this pass")
             rate_limited = True
