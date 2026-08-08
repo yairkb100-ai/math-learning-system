@@ -4,6 +4,7 @@ import PrivateRoute from './components/PrivateRoute.jsx'
 import Navbar from './components/Navbar.jsx'
 import BookLessonFab from './components/BookLessonFab.jsx'
 import InviteFab from './components/InviteFab.jsx'
+import UpdateBar from './components/UpdateBar.jsx'
 import TrialWelcome from './components/TrialWelcome.jsx'
 import Celebration from './components/Celebration.jsx'
 
@@ -252,6 +253,7 @@ function AppRoutes() {
 
       <BookLessonFab />
       <InviteFab />
+      <UpdateBar />
       <TrialWelcome />
       <Celebration />
 

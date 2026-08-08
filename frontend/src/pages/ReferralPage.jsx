@@ -129,7 +129,7 @@ export default function ReferralPage() {
         <div className="reward-card">
           <span className="reward-badge">{lessonPct}%</span>
           <h3>הנחה על שיעור פרטי בזום</h3>
-          <p>שעה ממוקדת מול המורה, במחיר מוזל.</p>
+          <p>שיעור פרטי בהנחה על כל חבר!</p>
         </div>
       </div>
       <p className="reward-note">
