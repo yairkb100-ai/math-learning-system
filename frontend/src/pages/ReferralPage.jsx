@@ -17,8 +17,9 @@ import { waHref, copyLink as copyToClipboard, shareInvite } from '../lib/invite.
 //
 // הדף מוביל עם מה שהתלמיד מרוויח ולא עם טובה שהוא עושה למישהו: זו הסיבה
 // שבגללה מישהו באמת משתף. ההטבה נפתחת רק כשהמוזמן מקבל מנוי בפועל (המנהל
-// מאשר), לא בהרשמה — אחרת די בפתיחת חשבונות ריקים. האחוזים ומחיר השיעור
-// מגיעים מהשרת ואינם כתובים כאן; המנהל משנה אותם ב-/admin/pricing.
+// מאשר), לא בהרשמה — אחרת די בפתיחת חשבונות ריקים. האחוזים מגיעים מהשרת
+// ואינם כתובים כאן; המנהל משנה אותם ב-/admin/pricing. סכום החיסכון בשקלים
+// לא מוצג — ההטבה מנוסחת באחוזים בלבד.
 export default function ReferralPage() {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -47,8 +48,6 @@ export default function ReferralPage() {
   const link = `${window.location.origin}${data.join_path}`
   const subPct = Math.round(data.sub_discount_pct)
   const lessonPct = Math.round(data.lesson_discount_pct)
-  const lessonPrice = data.lesson_price_nis
-  const lessonSaving = Math.round((lessonPrice * lessonPct) / 100)
 
   function flashCopied() {
     setCopied(true)
@@ -130,11 +129,7 @@ export default function ReferralPage() {
         <div className="reward-card">
           <span className="reward-badge">{lessonPct}%</span>
           <h3>הנחה על שיעור פרטי בזום</h3>
-          <p>
-            {lessonPrice > 0
-              ? `חיסכון של כ-₪${lessonSaving} על שיעור אחד מול המורה.`
-              : 'שעה ממוקדת מול המורה, במחיר מוזל.'}
-          </p>
+          <p>שעה ממוקדת מול המורה, במחיר מוזל.</p>
         </div>
       </div>
       <p className="reward-note">

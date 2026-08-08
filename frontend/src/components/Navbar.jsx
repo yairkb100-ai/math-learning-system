@@ -121,17 +121,19 @@ export default function Navbar() {
                 <>
                   <Link to="/" className="nav-link">קורסים</Link>
                   <Link to="/subscription" className="nav-link">המנוי שלי</Link>
-                  <Link to="/practice" className="nav-link">תרגול</Link>
-                  <Link to="/exams" className="nav-link">מבחנים</Link>
-                  <Link to="/analytics" className="nav-link">אנליטיקה</Link>
-                  <Link to="/progress" className="nav-link">ההתקדמות שלי</Link>
-                  <Link to="/lessons" className="nav-link">קביעת שיעור פרטי</Link>
+                  {/* מיד אחרי "המנוי שלי": ההטבה היא הנחה על המנוי, וזה המקום
+                      שבו התלמיד חושב על מה שהוא משלם. */}
                   <Link to="/invite" className="nav-link nav-link-accent">
                     חבר מביא חבר
                     {myRewards > 0 && (
                       <span className="nav-badge nav-badge-reward">{myRewards}</span>
                     )}
                   </Link>
+                  <Link to="/practice" className="nav-link">תרגול</Link>
+                  <Link to="/exams" className="nav-link">מבחנים</Link>
+                  <Link to="/analytics" className="nav-link">אנליטיקה</Link>
+                  <Link to="/progress" className="nav-link">ההתקדמות שלי</Link>
+                  <Link to="/lessons" className="nav-link">קביעת שיעור פרטי</Link>
                   {messagesLink}
                 </>
               )}

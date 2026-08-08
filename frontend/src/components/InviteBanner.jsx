@@ -38,8 +38,6 @@ export default function InviteBanner() {
   const link = `${window.location.origin}${data.join_path}`
   const subPct = Math.round(data.sub_discount_pct)
   const lessonPct = Math.round(data.lesson_discount_pct)
-  const lessonPrice = data.lesson_price_nis
-  const lessonSaving = Math.round((lessonPrice * lessonPct) / 100)
 
   function flashCopied() {
     setCopied(true)
@@ -71,8 +69,7 @@ export default function InviteBanner() {
         <p className="invite-sub">
           מי שנרשם דרך הקישור שלכם מתחיל בתקופת התנסות חינם, וההטבה שלכם נפתחת
           כשהוא ממשיך למנוי מלא. אז אפשר לבחור: {subPct}% הנחה על החודש הבא של
-          המנוי, או {lessonPct}% הנחה על שיעור פרטי בזום
-          {lessonPrice > 0 && <> (חיסכון של כ-₪{lessonSaving})</>}.
+          המנוי, או {lessonPct}% הנחה על שיעור פרטי בזום.
         </p>
 
         {/* וואטסאפ ראשון ובירוק המלא: זו הפעולה שכמעט כולם יבחרו, והבאנר הזה
