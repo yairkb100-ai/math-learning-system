@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import api from '../api.js'
 import { IconClock, IconSpark } from './icons.jsx'
+
+// כל כמה זמן בודקים מחדש מול השרת אם הגישה עדיין בתוקף, כדי לתפוס תלמיד
+// שנשאר עם הלשונית פתוחה בדיוק כשהמנוי/ההתנסות פוקעים בלי לרענן בעצמו.
+const ACCESS_POLL_MS = 60_000
 
 // חלון "ברוכים הבאים" צף + טיימר תקופת ההתנסות.
 //
@@ -30,6 +34,7 @@ const pad = (n) => String(n).padStart(2, '0')
 export default function TrialWelcome() {
   const { user } = useAuth()
   const location = useLocation()
+  const navigate = useNavigate()
   const [access, setAccess] = useState(null)
   const [showModal, setShowModal] = useState(false)
   const [left, setLeft] = useState(null) // שניות שנותרו, יורד בזמן אמת
@@ -60,6 +65,28 @@ export default function TrialWelcome() {
     }
   }, [isStudent, user?.id])
 
+  // בדיקה חוזרת מול השרת: תלמיד שמשאיר לשונית פתוחה בלי לרענן (ולכן לא עובר
+  // דרך שום קריאת API חדשה שתיתקל ב-402) לא אמור להישאר "תקוע" עם הרשאה
+  // שכבר פגה עד שהוא ינווט לאנשהו. ברגע שהגישה נופלת ל-false מפנים מיד
+  // ל"המנוי שלי" — בלי לחכות לפעולה הבאה שלו.
+  useEffect(() => {
+    if (!isStudent) return
+    const id = setInterval(() => {
+      api
+        .myAccess()
+        .then((a) => {
+          if (!a) return
+          setAccess(a)
+          setLeft(a.seconds_left)
+          if (!a.has_access && location.pathname !== '/subscription') {
+            navigate('/subscription')
+          }
+        })
+        .catch(() => {})
+    }, ACCESS_POLL_MS)
+    return () => clearInterval(id)
+  }, [isStudent, user?.id, location.pathname, navigate])
+
   // טיק של שנייה לטיימר (רק כשיש ספירה לאחור פעילה)
   const ticking = left != null && left > 0
   useEffect(() => {
@@ -85,8 +112,6 @@ export default function TrialWelcome() {
 
   const { days, hours, minutes, seconds } = breakdown(left)
   const ended = access.state === 'trial_ended' || access.state === 'blocked'
-  // Share of every course that stays open once the trial is over.
-  const freePct = Math.round((access.free_ratio ?? 0.42) * 100)
   const inTrial = access.state === 'trial' && !ended
   const onSubPage = location.pathname === '/subscription'
   const firstName = (user.full_name || '').split(' ')[0]
@@ -116,7 +141,7 @@ export default function TrialWelcome() {
             </h2>
             <p className="welcome-lead">
               {ended
-                ? `תודה שהתנסית בלומדה! אני מקווה שנהנית והספקת ללמוד. הלומדה נשארת פתוחה לך — הפרקים הראשונים בכל קורס (כ-${freePct}% מהתוכן) ממשיכים להיות זמינים. לפתיחת הקורסים במלואם צריך אישור גישה ממני.`
+                ? 'תודה שהתנסית בלומדה! אני מקווה שנהנית והספקת ללמוד. הגישה לתוכן חסומה עכשיו — לחידוש הגישה צריך לפנות אליי.'
                 : 'כאן תמצא קורסים מלאים, סרטוני הסבר, תרגול, מבחנים ומעקב התקדמות אישי. קח את הזמן, תהנה מהדרך — ותפיק מהלומדה את המקסימום.'}
             </p>
 
@@ -144,18 +169,17 @@ export default function TrialWelcome() {
                   </div>
                 </div>
                 <p className="welcome-note">
-                  בתום תקופת ההתנסות יישארו פתוחים לך כ-{freePct}% מכל קורס, והפרקים
-                  המתקדמים נפתחים לתלמידים שאישרתי אישית — נשמח להמשיך יחד. תמיד
-                  אפשר לפנות אליי בהודעה מתוך הלומדה.
+                  בתום תקופת ההתנסות הגישה לתוכן תיחסם עד לאישור גישה שלי —
+                  נשמח להמשיך יחד. תמיד אפשר לפנות אליי בהודעה מתוך הלומדה.
                 </p>
               </div>
             ) : ended ? (
               <div className="welcome-trial welcome-trial-ended">
                 <div className="welcome-trial-head">
-                  <IconClock /> כ-{freePct}% מכל קורס נשארים פתוחים לך
+                  <IconClock /> הגישה לתוכן חסומה כעת
                 </div>
                 <p className="welcome-note">
-                  לפתיחת הפרקים המתקדמים שלח לי הודעה ונסדר את ההמשך.
+                  לחידוש הגישה שלח לי הודעה ונסדר את ההמשך.
                 </p>
                 <Link to="/subscription" className="btn" onClick={dismiss}>
                   לפרטים ולפנייה למנהל
@@ -185,7 +209,7 @@ export default function TrialWelcome() {
         <Link to="/subscription" className="trial-chip trial-chip-ended" dir="rtl">
           <IconClock />
           <span className="trial-chip-text">
-            ההתנסות הסתיימה — כ-{freePct}% מכל קורס עדיין פתוחים
+            ההתנסות הסתיימה — הגישה לתוכן חסומה
           </span>
         </Link>
       )}

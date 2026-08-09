@@ -61,14 +61,48 @@ def user_has_active_subscription(db: Session, user: models.User) -> bool:
     return sub is not None
 
 
+def user_has_expired_subscription(db: Session, user: models.User) -> models.Subscription | None:
+    """בדוק אם למשתמש יש מנוי כלשהו שפג — כולל התנסות חינמית.
+
+    "פג" = שורה עם status='active' ותאריך תפוגה שכבר עבר. זה כולל גם מנוי
+    בתשלום (חודשי/שנתי) וגם מנוי מסוג 'trial': לפי דרישת המשתמש, סיום
+    ההתנסות חוסם לגמרי בדיוק כמו סיום מנוי בתשלום — אין יותר "טעימה" של 42%
+    למי שהזמן שהוקצה לו נגמר.
+
+    מחזיר את שורת המנוי אם יש כזו, None אם אין.
+    """
+    now = datetime.utcnow()
+    sub = (
+        db.query(models.Subscription)
+        .filter(
+            models.Subscription.user_id == user.id,
+            models.Subscription.status == "active",
+            models.Subscription.expires_at.isnot(None),
+            models.Subscription.expires_at <= now,
+        )
+        .first()
+    )
+    return sub
+
+
 def user_access_tier(db: Session, user: models.User) -> str:
     """דרגת הגישה לתוכן: ``full`` (100%) או ``free`` (42% מכל קורס).
 
     מנהל ומי שיש לו מנוי בתוקף — מלא. כל השאר — הטעימה. הנימוק לכלל הזה
     (ולמה לא ``price_nis > 0``) מפורט ב-``app.access``.
+
+    מי שיש לו מנוי כלשהו שפג (כולל התנסות חינמית שהסתיימה) נחסם כאן לגמרי
+    (402 ``no_active_subscription``, אותו קוד ש-api.js בפרונט כבר יודע להפנות
+    ממנו ל-/subscription) ולא מקבל אפילו את דרגת ה-free — זו הפונקציה שכל
+    נתיבי התוכן (קורסים, פרקים, קבצים, תרגול, בחנים, פסיכומטרי) קוראים לה כדי
+    לקבוע גישה, אז זה המקום היחיד הדרוש לחסימה גורפת. דרגת ה-free נשארת
+    רלוונטית רק למי שאין לו שום היסטוריית מנויים עדיין (רשת ביטחון עד
+    ש-``start_trial_if_needed`` מפעיל התנסות).
     """
     if user.role == "admin":
         return TIER_FULL
+    if user_has_expired_subscription(db, user):
+        raise HTTPException(status_code=402, detail="no_active_subscription")
     start_trial_if_needed(db, user)
     return TIER_FULL if user_has_active_subscription(db, user) else TIER_FREE
 
@@ -91,15 +125,12 @@ def require_content_access(
 ) -> ContentAccess:
     """דרגת הגישה לתוכן של המשתמש המחובר.
 
-    בניגוד לגרסה הקודמת (``require_active_subscription``, שהחזירה 402 והעיפה
-    את התלמיד מהלומדה כולה), כאן אף אחד לא נחסם בדלת: מי שאין לו מנוי בתוקף
-    נכנס בדרגת ``free`` ורואה את 42% הפרקים הראשונים בכל קורס. את החסימה
-    בפועל עושה כל נתיב תוכן בנפרד, ברמת הפרק.
+    אם למשתמש יש מנוי שפג (כולל התנסות שהסתיימה) — הם חסומים מיידית (402)
+    ומופנים לעדכן את המנוי. מנהל — תמיד יש גישה מלאה. מי שאין לו שום
+    היסטוריית מנויים מקבל התנסות אוטומטית (ורואה 42% אם ההתנסות טרם הופעלה
+    מסיבה כלשהי).
 
     יש להריץ על נתיבי צריכת התוכן בלבד (קורס, פרק, פתרון, בדיקת בוחן) — לא על
-    התחברות/פרופיל/ניהול.
-
-    תלמיד שאין לו שום היסטוריית מנויים מקבל כאן אוטומטית התנסות
-    (רשת ביטחון לחשבונות שנוצרו בדרך שלא מפעילה התנסות בעצמה).
+    התחברות/פרופיל/ניהול. חסימת מנוי שפג נעשית בתוך ``user_access_tier`` עצמה.
     """
     return ContentAccess(user=current_user, tier=user_access_tier(db, current_user))

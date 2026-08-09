@@ -31,8 +31,6 @@ export default function SubscriptionPage() {
   if (loading) return <Loading label="טוען את פרטי המנוי…" />
 
   const state = access?.state
-  // Share of every course that stays open without a subscription.
-  const freePct = Math.round((access?.free_ratio ?? 0.42) * 100)
   // התוכניות שאפשר לקנות בפועל. "free" היא הגישה שהמנהל מאשר ידנית ו-"trial"
   // ניתנת אוטומטית — שתיהן לא נמכרות, ולכן אין להן מקום במחירון של התלמיד.
   const paidPlans = (pricing?.plans || []).filter(
@@ -66,9 +64,8 @@ export default function SubscriptionPage() {
             {access.expires_at && <> (עד {fmt(access.expires_at)})</>}
           </p>
           <p className="sub-note">
-            בתום תקופת ההתנסות יישארו פתוחים לך כ-{freePct}% מכל קורס — הפרקים
-            הראשונים, במלואם. את שאר הפרקים פותח מנוי מלא. רוצה להמשיך? שלח
-            הודעה ונסדר את זה.
+            בתום תקופת ההתנסות הגישה לתוכן תיחסם עד לחידוש מנוי. רוצה להמשיך?
+            שלח הודעה ונסדר את זה מראש.
           </p>
           <div className="sub-actions">
             <Link to="/messages" className="btn">שליחת הודעה למנהל</Link>
@@ -87,30 +84,35 @@ export default function SubscriptionPage() {
             )}
           </p>
         </>
+      ) : state === 'trial_ended' ? (
+        <>
+          <p className="sub-line">
+            <span className="status-off">תקופת ההתנסות הסתיימה</span>
+          </p>
+          {access?.expires_at && (
+            <p className="muted">ההתנסות הסתיימה ב-{fmt(access.expires_at)}</p>
+          )}
+          <p className="sub-note">
+            נהניתי שהיית כאן! הגישה לתוכן חסומה עד לחידוש מנוי.
+            <br />
+            רוצה להמשיך? שלח הודעה ואאשר לך את ההמשך.
+          </p>
+          <div className="sub-actions">
+            <Link to="/messages" className="btn">שליחת הודעה למנהל</Link>
+          </div>
+        </>
       ) : (
         <>
           <p className="sub-line">
-            <span className="status-off">
-              {state === 'trial_ended' ? 'תקופת ההתנסות הסתיימה' : 'אין מנוי פעיל'}
-            </span>
+            <span className="status-off">המנוי החודשי שלך פג</span>
           </p>
           {access?.expires_at && (
-            <p className="muted">
-              {state === 'trial_ended' ? 'ההתנסות הסתיימה ב-' : 'תוקף המנוי הסתיים ב-'}
-              {fmt(access.expires_at)}
-            </p>
+            <p className="muted">תוקף המנוי הסתיים ב-{fmt(access.expires_at)}</p>
           )}
-          <p className="sub-line">
-            <span className="status-ok">
-              כ-{freePct}% מכל קורס פתוחים לך גם עכשיו
-            </span>
-          </p>
           <p className="sub-note">
-            {state === 'trial_ended'
-              ? 'נהניתי שהיית כאן! הפרקים הראשונים בכל קורס נשארים פתוחים לך במלואם — כולל הסרטונים, הדוגמאות והתרגילים.'
-              : 'הפרקים הראשונים בכל קורס פתוחים לך במלואם.'}
+            כדי להמשיך בלימודים יש לחדש את המנוי — הגישה לתוכן חסומה עד אז.
             <br />
-            לפתיחת הקורסים המלאים שלח לי הודעה ואאשר לך את ההמשך.
+            לחידוש שלח לי הודעה ואסדר את זה מולך.
           </p>
           <div className="sub-actions">
             <Link to="/messages" className="btn">שליחת הודעה למנהל</Link>
