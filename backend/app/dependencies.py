@@ -61,28 +61,27 @@ def user_has_active_subscription(db: Session, user: models.User) -> bool:
     return sub is not None
 
 
-def user_has_expired_subscription(db: Session, user: models.User) -> models.Subscription | None:
-    """בדוק אם למשתמש יש מנוי כלשהו שפג — כולל התנסות חינמית.
+def user_has_lapsed_subscription(db: Session, user: models.User) -> bool:
+    """בדוק אם למשתמש יש היסטוריית מנוי, אבל שום מנוי בתוקף כרגע.
 
-    "פג" = שורה עם status='active' ותאריך תפוגה שכבר עבר. זה כולל גם מנוי
-    בתשלום (חודשי/שנתי) וגם מנוי מסוג 'trial': לפי דרישת המשתמש, סיום
-    ההתנסות חוסם לגמרי בדיוק כמו סיום מנוי בתשלום — אין יותר "טעימה" של 42%
-    למי שהזמן שהוקצה לו נגמר.
-
-    מחזיר את שורת המנוי אם יש כזו, None אם אין.
+    לא בודקים ``status == 'active'`` בכוונה: מנוי שהמנהל ביטל ידנית
+    (``cancel_subscription``) עובר ל-status='canceled', ומנוי/התנסות שפג
+    זמנו נשאר לפעמים עם status='active' ותאריך תפוגה שעבר. שני המקרים
+    צריכים להוביל לאותה תוצאה — חסימה מלאה — ולכן הכלל הוא הפוך:
+    "יש היסטוריית מנוי כלשהי" וגם "אף שורה לא נחשבת בתוקף כרגע"
+    (``user_has_active_subscription`` מחזיר False). זה בדיוק אותו היגיון
+    שכבר משמש את ``/api/me/access`` (``state='trial_ended'/'blocked'``) —
+    שם אין תלות ב-status בכלל, רק "לא נמצא מנוי בתוקף".
     """
-    now = datetime.utcnow()
-    sub = (
-        db.query(models.Subscription)
-        .filter(
-            models.Subscription.user_id == user.id,
-            models.Subscription.status == "active",
-            models.Subscription.expires_at.isnot(None),
-            models.Subscription.expires_at <= now,
-        )
+    if user_has_active_subscription(db, user):
+        return False
+    has_history = (
+        db.query(models.Subscription.id)
+        .filter(models.Subscription.user_id == user.id)
         .first()
+        is not None
     )
-    return sub
+    return has_history
 
 
 def user_access_tier(db: Session, user: models.User) -> str:
@@ -91,17 +90,18 @@ def user_access_tier(db: Session, user: models.User) -> str:
     מנהל ומי שיש לו מנוי בתוקף — מלא. כל השאר — הטעימה. הנימוק לכלל הזה
     (ולמה לא ``price_nis > 0``) מפורט ב-``app.access``.
 
-    מי שיש לו מנוי כלשהו שפג (כולל התנסות חינמית שהסתיימה) נחסם כאן לגמרי
-    (402 ``no_active_subscription``, אותו קוד ש-api.js בפרונט כבר יודע להפנות
-    ממנו ל-/subscription) ולא מקבל אפילו את דרגת ה-free — זו הפונקציה שכל
-    נתיבי התוכן (קורסים, פרקים, קבצים, תרגול, בחנים, פסיכומטרי) קוראים לה כדי
-    לקבוע גישה, אז זה המקום היחיד הדרוש לחסימה גורפת. דרגת ה-free נשארת
-    רלוונטית רק למי שאין לו שום היסטוריית מנויים עדיין (רשת ביטחון עד
-    ש-``start_trial_if_needed`` מפעיל התנסות).
+    מי שיש לו היסטוריית מנוי כלשהי בלי מנוי בתוקף כרגע (מנוי/התנסות שפגו,
+    או מנוי שהמנהל ביטל) נחסם כאן לגמרי (402 ``no_active_subscription``,
+    אותו קוד ש-api.js בפרונט כבר יודע להפנות ממנו ל-/subscription) ולא מקבל
+    אפילו את דרגת ה-free — זו הפונקציה שכל נתיבי התוכן (קורסים, פרקים,
+    קבצים, תרגול, בחנים, פסיכומטרי) קוראים לה כדי לקבוע גישה, אז זה המקום
+    היחיד הדרוש לחסימה גורפת. דרגת ה-free נשארת רלוונטית רק למי שאין לו שום
+    היסטוריית מנויים עדיין (רשת ביטחון עד ש-``start_trial_if_needed`` מפעיל
+    התנסות).
     """
     if user.role == "admin":
         return TIER_FULL
-    if user_has_expired_subscription(db, user):
+    if user_has_lapsed_subscription(db, user):
         raise HTTPException(status_code=402, detail="no_active_subscription")
     start_trial_if_needed(db, user)
     return TIER_FULL if user_has_active_subscription(db, user) else TIER_FREE

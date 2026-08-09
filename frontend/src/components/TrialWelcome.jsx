@@ -41,6 +41,11 @@ export default function TrialWelcome() {
 
   const isStudent = Boolean(user) && user.role !== 'admin'
 
+  // המרכיב הזה יושב פעם אחת ברמת המעטפת (App.jsx), אז ה-effect הזה לא רץ
+  // מחדש בניווט פנימי בין דפים — רק בטעינה ראשונית / רענון / החלפת משתמש.
+  // דף תוכן שנטען בזמן שהגישה כבר חסומה (למשל ניווט SPA לקורס שהנתונים שלו
+  // עדיין בזיכרון מלפני שהמנוי פג) חייב להיחסם כאן מיד, לא רק בטיק הבא של
+  // הפולינג למטה — אחרת רואים לרגע גרסה "פתוחה" מיושנת של הפרק.
   useEffect(() => {
     if (!isStudent) {
       setAccess(null)
@@ -58,11 +63,15 @@ export default function TrialWelcome() {
         if (!a.welcome_seen && localStorage.getItem(DISMISS_KEY) !== '1') {
           setShowModal(true)
         }
+        if (!a.has_access && location.pathname !== '/subscription') {
+          navigate('/subscription', { replace: true })
+        }
       })
       .catch(() => {})
     return () => {
       alive = false
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isStudent, user?.id])
 
   // בדיקה חוזרת מול השרת: תלמיד שמשאיר לשונית פתוחה בלי לרענן (ולכן לא עובר
