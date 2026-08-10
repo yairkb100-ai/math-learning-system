@@ -29,6 +29,7 @@ from app.routers import (
     lessons,
     referrals,
     search,
+    psy,
 )
 from app import achievements
 
@@ -85,6 +86,26 @@ def on_startup() -> None:
                         "BOOLEAN NOT NULL DEFAULT false"
                     )
                 )
+        if "track" not in cols:
+            with engine.begin() as conn:
+                conn.execute(
+                    text("ALTER TABLE courses ADD COLUMN track VARCHAR NOT NULL DEFAULT 'school'")
+                )
+    if "sections" in inspector.get_table_names():
+        cols = {c["name"] for c in inspector.get_columns("sections")}
+        if "track" not in cols:
+            with engine.begin() as conn:
+                conn.execute(
+                    text("ALTER TABLE sections ADD COLUMN track VARCHAR NOT NULL DEFAULT 'school'")
+                )
+    if "psy_attempts" in inspector.get_table_names():
+        cols = {c["name"] for c in inspector.get_columns("psy_attempts")}
+        if "score_percent" not in cols:
+            with engine.begin() as conn:
+                conn.execute(text("ALTER TABLE psy_attempts ADD COLUMN score_percent FLOAT"))
+        if "domain_scores" not in cols:
+            with engine.begin() as conn:
+                conn.execute(text("ALTER TABLE psy_attempts ADD COLUMN domain_scores JSON"))
     if "file_assets" in inspector.get_table_names():
         cols = {c["name"] for c in inspector.get_columns("file_assets")}
         if "kind" not in cols:
@@ -215,3 +236,4 @@ app.include_router(achievements.router)
 app.include_router(lessons.router)
 app.include_router(referrals.router)
 app.include_router(search.router)
+app.include_router(psy.router)

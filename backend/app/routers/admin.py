@@ -126,6 +126,8 @@ def delete_user(
         models.UserAchievement,
         models.ExamSubmission,
         models.PracticeAttempt,
+        models.PsyAttempt,
+        models.PsyDrillAttempt,
         models.Subscription,
         models.ChapterProgress,
         models.UserCourseEnrollment,

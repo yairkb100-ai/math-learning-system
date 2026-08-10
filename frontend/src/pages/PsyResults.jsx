@@ -1,0 +1,249 @@
+import { useEffect, useMemo, useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
+import api from '../api.js'
+import MathText from '../components/MathText.jsx'
+import { Loading, ErrorBox } from '../components/Status.jsx'
+import '../styles/psy.css'
+
+const OPTION_LETTERS = ['א', 'ב', 'ג', 'ד', 'ה']
+const DOMAIN_HE = {
+  verbal: 'מילולי',
+  quantitative: 'כמותי',
+  figural: 'צורני',
+  english: 'אנגלית',
+}
+const DOMAIN_ORDER = ['verbal', 'quantitative', 'figural', 'english']
+
+function pct(n) {
+  return `${Math.round(n * 100)}%`
+}
+
+export default function PsyResults() {
+  const { attemptId } = useParams()
+  const [data, setData] = useState(null)
+  const [error, setError] = useState(null)
+  const [filter, setFilter] = useState('wrong') // wrong | all | flagged-slow
+
+  useEffect(() => {
+    let alive = true
+    api
+      .psyResults(attemptId)
+      .then((d) => alive && setData(d))
+      .catch((e) => alive && setError(e))
+    return () => {
+      alive = false
+    }
+  }, [attemptId])
+
+  const review = useMemo(() => {
+    if (!data) return []
+    if (filter === 'all') return data.review
+    if (filter === 'slow') {
+      // Right but over the target time — the weakness a raw score hides.
+      return data.review.filter((r) => r.is_correct && r.seconds > r.target_seconds * 1.5)
+    }
+    return data.review.filter((r) => !r.is_correct)
+  }, [data, filter])
+
+  if (error) return <ErrorBox error={error} />
+  if (!data) return <Loading />
+
+  const prior = data.history.filter((h) => h.attempt_id !== data.attempt_id)
+  const previous = prior.length ? prior[prior.length - 1] : null
+  const delta =
+    previous && data.score_percent != null && previous.score_percent != null
+      ? data.score_percent - previous.score_percent
+      : null
+  const totalCorrect = Object.values(data.domain_scores).reduce((a, d) => a + d.correct, 0)
+  const totalAsked = Object.values(data.domain_scores).reduce((a, d) => a + d.total, 0)
+
+  return (
+    <div className="psy-results" dir="rtl">
+      <header className="psy-results-head">
+        <h1>{data.simulation_title}</h1>
+        <Link to="/psy" className="psy-link">חזרה להכנה לקרני</Link>
+      </header>
+
+      <section className="psy-score-card">
+        <div className="psy-score-main">
+          <div className="psy-score-label">אחוז הצלחה בסימולציה</div>
+          <div className="psy-score-value">
+            {data.score_percent != null ? `${data.score_percent}%` : '—'}
+          </div>
+          <div className="psy-score-scale">
+            {totalCorrect} תשובות נכונות מתוך {totalAsked}
+          </div>
+          <div className="psy-gauge" aria-hidden="true">
+            <div
+              className="psy-gauge-fill"
+              style={{ width: `${data.score_percent ?? 0}%` }}
+            />
+          </div>
+          {data.readiness && <div className="psy-readiness">{data.readiness.label}</div>}
+          {delta != null && (
+            <div className={`psy-delta${delta >= 0 ? ' is-up' : ' is-down'}`}>
+              {delta >= 0 ? '▲' : '▼'} {Math.abs(Math.round(delta * 10) / 10)} נקודות אחוז מהסימולציה הקודמת
+            </div>
+          )}
+        </div>
+
+        <div className="psy-score-domains">
+          {DOMAIN_ORDER.filter((d) => data.domain_scores[d]).map((domain) => {
+            const d = data.domain_scores[domain]
+            return (
+              <div key={domain} className="psy-domain-score">
+                <div className="psy-domain-name">{DOMAIN_HE[domain]}</div>
+                <div className="psy-domain-value">{d.percent != null ? `${Math.round(d.percent)}%` : '—'}</div>
+                <div className="psy-domain-scale">{d.correct}/{d.total}</div>
+              </div>
+            )
+          })}
+        </div>
+      </section>
+
+      <p className="psy-disclaimer">
+        מכון קרני אינו מפרסם טבלת המרה לציון, וכל בית ספר קובע לעצמו את רף הקבלה. לכן מוצג כאן אחוז
+        ההצלחה בפועל ולא ציון חזוי — הוא נועד להשוואה מול הסימולציות הקודמות שלך ולאיתור הנושאים
+        שדורשים עבודה.
+      </p>
+
+      <section className="psy-panel">
+        <h2>לפי פרק</h2>
+        <table className="psy-table">
+          <thead>
+            <tr>
+              <th>פרק</th>
+              <th>נכונות</th>
+              <th>לא נענו</th>
+              <th>זמן</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.sections.map((s) => (
+              <tr key={s.section_index}>
+                <td>{s.title}</td>
+                <td>
+                  {s.total ? `${s.correct}/${s.total}` : '—'}
+                </td>
+                <td>{s.unanswered}</td>
+                <td>{Math.round(s.seconds / 60)} דק׳</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+
+      {data.topics.length > 0 && (
+        <section className="psy-panel">
+          <h2>לפי נושא</h2>
+          <ul className="psy-topic-list">
+            {data.topics.map((t) => (
+              <li key={`${t.domain}-${t.topic}`} className="psy-topic-row">
+                <div className="psy-topic-name">
+                  {t.topic}
+                  <span className="psy-topic-domain">{DOMAIN_HE[t.domain]}</span>
+                </div>
+                <div className="psy-topic-bar" aria-hidden="true">
+                  <div
+                    className={`psy-topic-fill${t.accuracy < 0.6 ? ' is-weak' : ''}`}
+                    style={{ width: pct(t.accuracy) }}
+                  />
+                </div>
+                <div className="psy-topic-stat">
+                  {t.correct}/{t.answered} · {Math.round(t.avg_seconds)} שנ׳ לשאלה
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      <section className="psy-panel">
+        <div className="psy-panel-head">
+          <h2>סקירת שאלות</h2>
+          <div className="psy-filter" role="group" aria-label="סינון שאלות">
+            {[
+              ['wrong', 'שגויות'],
+              ['slow', 'נכונות אך איטיות'],
+              ['all', 'הכול'],
+            ].map(([key, label]) => (
+              <button
+                key={key}
+                type="button"
+                className={`psy-chip${filter === key ? ' is-on' : ''}`}
+                onClick={() => setFilter(key)}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {review.length === 0 ? (
+          <p className="psy-empty">אין שאלות בקטגוריה הזו.</p>
+        ) : (
+          <ol className="psy-review">
+            {review.map((r) => (
+              <li key={r.ref} className={`psy-review-item${r.is_correct ? ' is-correct' : ' is-wrong'}`}>
+                <div className="psy-review-meta">
+                  <span>{r.topic}</span>
+                  <span>רמה {r.difficulty}</span>
+                  <span className={r.seconds > r.target_seconds ? 'is-slow' : ''}>
+                    {r.seconds} שנ׳ (יעד {r.target_seconds})
+                  </span>
+                </div>
+                {r.passage && (
+                  <details className="psy-review-passage">
+                    <summary>הצג את קטע הקריאה</summary>
+                    <MathText text={r.passage.body} />
+                  </details>
+                )}
+                <div className="psy-stem">
+                  <MathText text={r.stem} />
+                </div>
+                {r.figure && (
+                  <div className="psy-figure">
+                    <MathText text={r.figure} />
+                  </div>
+                )}
+                <ul className="psy-review-options">
+                  {r.options.map((opt, i) => (
+                    <li
+                      key={i}
+                      className={[
+                        'psy-review-option',
+                        i === r.correct_index ? 'is-key' : '',
+                        i === r.chosen && i !== r.correct_index ? 'is-yours' : '',
+                      ]
+                        .filter(Boolean)
+                        .join(' ')}
+                    >
+                      <span className="psy-option-letter">{OPTION_LETTERS[i]}</span>
+                      <MathText text={opt} />
+                      {i === r.correct_index && <span className="psy-tag">התשובה הנכונה</span>}
+                      {i === r.chosen && i !== r.correct_index && (
+                        <span className="psy-tag psy-tag-bad">התשובה שלך</span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+                {r.chosen == null && <div className="psy-note">לא נענתה</div>}
+                {r.explanation && (
+                  <div className="psy-explanation">
+                    <MathText text={r.explanation} />
+                  </div>
+                )}
+                {r.solution && (
+                  <details className="psy-solution">
+                    <summary>איך חושבים על זה</summary>
+                    <MathText text={r.solution} />
+                  </details>
+                )}
+              </li>
+            ))}
+          </ol>
+        )}
+      </section>
+    </div>
+  )
+}

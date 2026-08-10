@@ -1,0 +1,325 @@
+{
+  "_comment": "מאגר קרני — סדרות צורניות ומטריצות (מנה 13). תשעה פריטים qtype=series עם {{figrow:...}} ושבעה פריטים qtype=matrix עם {{figmatrix:...}} בן שלוש שורות. התכונות שנבדקות: כמות, מילוי, סיבוב, מספר צלעות, גודל, מיקום סמן, ושילובים של שתי תכונות. התבניות נבחרו כך שלא יחזרו על psy_bank_02_figural.json.",
+  "items": [
+    {
+      "ref": "k-fs-01",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "כמות יורדת",
+      "stem": "מהי הצורה שצריכה לבוא במקום סימן השאלה?",
+      "figure": "{{figrow:shape=square,n=6;shape=square,n=5;shape=square,n=4;shape=square,n=3;?}}",
+      "options": [
+        "{{figcell:shape=square,n=4}}",
+        "{{figcell:shape=square,n=1}}",
+        "{{figcell:shape=square,n=2}}",
+        "{{figcell:shape=square,n=3}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 1,
+      "target_seconds": 30,
+      "explanation": "מספר הריבועים יורד באחד בכל שלב: 6, 5, 4, 3 — ולכן בתא החסר יהיו שני ריבועים.",
+      "solution": "סדרה צורנית אינה חייבת לעלות. כשהצורה, המילוי והגודל קבועים לחלוטין, ספרו את הפריטים לפי סדר התאים, מימין לשמאל, ובדקו גם ירידה. המסיח עם ריבוע אחד תופס את מי שקפץ ישר לסוף הספירה במקום להוריד צעד אחד בלבד."
+    },
+    {
+      "ref": "k-fs-02",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "מחזור מילוי בן שלושה מצבים",
+      "stem": "מהי הצורה שצריכה לבוא במקום סימן השאלה?",
+      "figure": "{{figrow:shape=hexagon,fill=dots;shape=hexagon,fill=stripes;shape=hexagon,fill=grid;shape=hexagon,fill=dots;?}}",
+      "options": [
+        "{{figcell:shape=hexagon,fill=stripes}}",
+        "{{figcell:shape=hexagon,fill=grid}}",
+        "{{figcell:shape=hexagon,fill=dots}}",
+        "{{figcell:shape=hexagon,fill=solid}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 2,
+      "target_seconds": 40,
+      "explanation": "המילוי חוזר במחזור קבוע של שלושה: נקודות, פסים, רשת, ושוב נקודות. אחרי הנקודות מגיעים הפסים.",
+      "solution": "כשהמילוי מתחלף בלי סדר של ״יותר״ ו״פחות״, ספרו כמה מצבים שונים יש ובדקו אם המצב הרביעי זהה לראשון. אם כן — מצאתם מחזור, והתשובה היא פשוט המצב שבא אחרי הראשון. המילוי המלא אינו מופיע כלל בסדרה, ולכן אינו יכול להיות ההמשך."
+    },
+    {
+      "ref": "k-fs-03",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "סיבוב שמשלים סיבוב שלם",
+      "stem": "מהי הצורה שצריכה לבוא במקום סימן השאלה?",
+      "figure": "{{figrow:shape=halfcircle,rot=0;shape=halfcircle,rot=90;shape=halfcircle,rot=180;shape=halfcircle,rot=270;?}}",
+      "options": [
+        "{{figcell:shape=halfcircle,rot=180}}",
+        "{{figcell:shape=halfcircle,rot=0}}",
+        "{{figcell:shape=halfcircle,rot=270}}",
+        "{{figcell:shape=halfcircle,rot=45}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 2,
+      "target_seconds": 40,
+      "explanation": "חצי העיגול מסתובב 90° בכל שלב: 0°, 90°, 180°, 270°. עוד 90° משלימים סיבוב שלם, והצורה חוזרת למצב ההתחלתי.",
+      "solution": "בסדרת סיבוב שווה לזכור ש-360° זה כמו 0°. כשהתא האחרון עומד על 270°, הצעד הבא אינו ״עוד יותר״ אלא חזרה למצב הראשון. מי שמחפש זווית גדולה עוד יותר בוחר במסיח של 45°, שאינו בכלל כפולה של 90°."
+    },
+    {
+      "ref": "k-fs-04",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "מספר צלעות יורד",
+      "stem": "מהי הצורה שצריכה לבוא במקום סימן השאלה?",
+      "figure": "{{figrow:shape=hexagon;shape=pentagon;shape=diamond;?}}",
+      "options": [
+        "{{figcell:shape=circle}}",
+        "{{figcell:shape=star}}",
+        "{{figcell:shape=square}}",
+        "{{figcell:shape=triangle}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 2,
+      "target_seconds": 40,
+      "explanation": "מספר הצלעות יורד באחת: משושה 6, מחומש 5, מעוין 4 — ולכן הבא הוא משולש, בעל 3 צלעות.",
+      "solution": "כשכל תא מציג צורה אחרת, התכונה שמתקדמת היא מספר הצלעות. ספרו אותן בקול. המסיח המסוכן הוא הריבוע: גם לו ארבע צלעות, בדיוק כמו למעוין שכבר הופיע, ולכן הוא עוצר את הסדרה במקום להמשיך אותה. העיגול, שאין לו צלעות כלל, אינו ממשיך את הספירה."
+    },
+    {
+      "ref": "k-fs-05",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "מחזור גודל וסמן שנע",
+      "stem": "מהי הצורה שצריכה לבוא במקום סימן השאלה?",
+      "figure": "{{figrow:shape=star,size=s,dot=tl;shape=star,size=m,dot=tr;shape=star,size=l,dot=br;shape=star,size=s,dot=bl;?}}",
+      "options": [
+        "{{figcell:shape=star,size=m,dot=tl}}",
+        "{{figcell:shape=star,size=l,dot=tl}}",
+        "{{figcell:shape=star,size=s,dot=tl}}",
+        "{{figcell:shape=star,size=m,dot=bl}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 3,
+      "target_seconds": 50,
+      "explanation": "הגודל רץ במחזור קטן, בינוני, גדול ואז שוב קטן, ולכן אחרי הכוכב הקטן מגיע כוכב בינוני; הנקודה נעה בכיוון השעון על פינות המסגרת, ואחרי הפינה השמאלית התחתונה היא חוזרת לפינה השמאלית העליונה.",
+      "solution": "כששתי תכונות רצות יחד, הכריעו בכל אחת בנפרד ורק אז חפשו את האפשרות שמקיימת את שתיהן. גודל היא תכונה עם שלושה מצבים בלבד ולכן היא כמעט תמיד מחזורית: התא הרביעי, שחזר להיות קטן כמו הראשון, מסגיר את המחזור. המסיח עם הכוכב הגדול ממשיך להגדיל במקום לפתוח מחזור חדש, והמסיח שהנקודה בו נשארה בפינה השמאלית התחתונה נכון בגודל אך שכח להזיז את הסמן."
+    },
+    {
+      "ref": "k-fs-06",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "סיבוב ומילוי יחד",
+      "stem": "מהי הצורה שצריכה לבוא במקום סימן השאלה?",
+      "figure": "{{figrow:shape=arrow,rot=0,fill=solid;shape=arrow,rot=45,fill=none;shape=arrow,rot=90,fill=solid;shape=arrow,rot=135,fill=none;?}}",
+      "options": [
+        "{{figcell:shape=arrow,rot=180,fill=none}}",
+        "{{figcell:shape=arrow,rot=135,fill=solid}}",
+        "{{figcell:shape=arrow,rot=225,fill=solid}}",
+        "{{figcell:shape=arrow,rot=180,fill=solid}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 3,
+      "target_seconds": 50,
+      "explanation": "שתי תכונות רצות יחד: הסיבוב גדל ב-45° בכל שלב (0°, 45°, 90°, 135° ← 180°), והמילוי מתחלף מלא, ריק, מלא, ריק ← מלא.",
+      "solution": "בסדרה עם שתי תכונות פותרים כל תכונה בנפרד וכותבים לעצמכם את שתי התשובות לפני שמסתכלים באפשרויות. ארבעת התאים מראים את חילופי המילוי פעמיים, ולכן ברור שמדובר בהחלפה בין שני מצבים ולא במחזור ארוך יותר. כל אחד משלושת המסיחים נכון בתכונה אחת בלבד: אחד שומר על הזווית הנכונה ומפספס את המילוי, אחד שומר על המילוי אך נשאר בזווית של התא הקודם, ואחד מסובב שני צעדים במקום אחד."
+    },
+    {
+      "ref": "k-fs-07",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "סמן שנע בין פינות",
+      "stem": "מהי הצורה שצריכה לבוא במקום סימן השאלה?",
+      "figure": "{{figrow:shape=square,dot=tl;shape=square,dot=tr;shape=square,dot=br;shape=square,dot=bl;?}}",
+      "options": [
+        "{{figcell:shape=square,dot=br}}",
+        "{{figcell:shape=square,dot=tl}}",
+        "{{figcell:shape=square,dot=c}}",
+        "{{figcell:shape=square,dot=tr}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 3,
+      "target_seconds": 45,
+      "explanation": "הנקודה הקטנה נעה בכיוון השעון על פינות המסגרת: שמאל־עליון, ימין־עליון, ימין־תחתון, שמאל־תחתון — והצעד הבא מחזיר אותה לפינה שמאל־עליון.",
+      "solution": "כשהצורה עצמה אינה משתנה כלל, התכונה שנבדקת היא מיקום. עקבו אחרי הפריט הקטן ורשמו את מסלולו במילים: ״ימינה, למטה, שמאלה״ — כלומר סיבוב בכיוון השעון שמשלים מעגל וחוזר להתחלה. המסיח שממקם את הנקודה במרכז מפתה כי הוא ״שונה״, אבל המרכז אינו פינה ואינו חלק מהמסלול."
+    },
+    {
+      "ref": "k-fs-08",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "שתי סדרות לסירוגין",
+      "stem": "מהי הצורה שצריכה לבוא במקום סימן השאלה?",
+      "figure": "{{figrow:shape=circle,n=1;shape=star,n=1;shape=circle,n=2;shape=star,n=2;?}}",
+      "options": [
+        "{{figcell:shape=star,n=3}}",
+        "{{figcell:shape=circle,n=2}}",
+        "{{figcell:shape=circle,n=3}}",
+        "{{figcell:shape=circle,n=4}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 3,
+      "target_seconds": 50,
+      "explanation": "התאים מתחלפים עיגול, כוכב, עיגול, כוכב, ולכן התא החסר הוא עיגול. סדרת העיגולים מונה 1 ואחר כך 2, ולכן עכשיו 3.",
+      "solution": "כשהצורה מתחלפת כל תא, אל תקראו את הסדרה כרצף אחד — פצלו אותה לשתי סדרות נפרדות, אחת לתאי העיגול ואחת לתאי הכוכב, ופתרו רק את זו ששייכת לתא החסר. המסיח עם שלושה כוכבים ממשיך נכון את הספירה אבל בסדרה הלא נכונה, וזו הטעות השכיחה בתבנית הזאת."
+    },
+    {
+      "ref": "k-fs-09",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "כמות וסיבוב יחד",
+      "stem": "מהי הצורה שצריכה לבוא במקום סימן השאלה?",
+      "figure": "{{figrow:shape=trapezoid,n=1,rot=0;shape=trapezoid,n=2,rot=45;shape=trapezoid,n=3,rot=90;shape=trapezoid,n=4,rot=135;?}}",
+      "options": [
+        "{{figcell:shape=trapezoid,n=5,rot=180}}",
+        "{{figcell:shape=trapezoid,n=4,rot=180}}",
+        "{{figcell:shape=trapezoid,n=5,rot=135}}",
+        "{{figcell:shape=trapezoid,n=5,rot=225}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 4,
+      "target_seconds": 55,
+      "explanation": "שתי תכונות מתקדמות יחד: מספר הטרפזים גדל באחד — 1, 2, 3, 4 ← 5 — והסיבוב גדל ב-45° בכל שלב — 0°, 45°, 90°, 135° ← 180°. לכן דרושים חמישה טרפזים המסובבים 180°.",
+      "solution": "כשכל תא שונה מקודמו ביותר מדבר אחד, יש כאן שתי סדרות שרצות במקביל ויש לפתור כל אחת לחוד ולרשום את שתי התשובות לפני שמסתכלים באפשרויות. הכמות בולטת לעין הרבה יותר מהזווית, ולכן דווקא הסיבוב הוא זה שנשכח: המסיח עם חמישה טרפזים בזווית 135° מקדם רק את הכמות ומשאיר את הזווית של התא הקודם. מסיח אחר מסובב נכון אך נשאר בארבעה טרפזים, והשלישי מקפיץ את הזווית שני צעדים ל-225°."
+    },
+    {
+      "ref": "k-fs-10",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "שורה קובעת גודל, עמודה קובעת צורה",
+      "stem": "איזו צורה מתאימה למקום הריק במטריצה?",
+      "figure": "{{figmatrix:shape=circle,size=s;shape=triangle,size=s;shape=square,size=s/shape=circle,size=m;shape=triangle,size=m;shape=square,size=m/shape=circle,size=l;shape=triangle,size=l;?}}",
+      "options": [
+        "{{figcell:shape=square,size=m}}",
+        "{{figcell:shape=triangle,size=l}}",
+        "{{figcell:shape=square,size=l}}",
+        "{{figcell:shape=square,size=s}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 2,
+      "target_seconds": 45,
+      "explanation": "השורה קובעת את הגודל — שורה ראשונה קטנה, שנייה בינונית, שלישית גדולה — והעמודה קובעת את הצורה: עיגול, משולש, ריבוע. המקום הריק הוא בשורה השלישית ובעמודה השלישית, כלומר ריבוע גדול.",
+      "solution": "במטריצה שואלים תמיד שתי שאלות נפרדות: מה קבוע לאורך השורה ומה קבוע לאורך העמודה. התשובה היא ההצטלבות של שתי התשובות. כאן כל מסיח מקיים רק תנאי אחד — למשל הריבוע הבינוני נכון בעמודה ושגוי בשורה."
+    },
+    {
+      "ref": "k-fs-11",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "שורה קובעת כמות, עמודה קובעת מילוי",
+      "stem": "איזו צורה מתאימה למקום הריק במטריצה?",
+      "figure": "{{figmatrix:shape=hexagon,n=1,fill=none;shape=hexagon,n=1,fill=half;shape=hexagon,n=1,fill=solid/shape=hexagon,n=2,fill=none;shape=hexagon,n=2,fill=half;shape=hexagon,n=2,fill=solid/shape=hexagon,n=3,fill=none;shape=hexagon,n=3,fill=half;?}}",
+      "options": [
+        "{{figcell:shape=hexagon,n=2,fill=solid}}",
+        "{{figcell:shape=hexagon,n=3,fill=solid}}",
+        "{{figcell:shape=hexagon,n=3,fill=half}}",
+        "{{figcell:shape=hexagon,n=1,fill=solid}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 2,
+      "target_seconds": 45,
+      "explanation": "השורה קובעת את הכמות — אחד, שניים, שלושה — והעמודה קובעת את המילוי — ריק, חצי, מלא. המקום הריק נמצא בשורה השלישית ובעמודה השלישית, ולכן דרושים שלושה משושים מלאים.",
+      "solution": "כדאי לנסח את שני הכללים במילים לפני שמסתכלים באפשרויות: ״שורה שלישית פירושה שלוש צורות״ ו״עמודה שלישית פירושה מילוי מלא״. מי שקורא רק את השורה בוחר בשלושה משושים בחצי מילוי, ומי שקורא רק את העמודה בוחר במשושה מלא יחיד."
+    },
+    {
+      "ref": "k-fs-12",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "שורה קובעת סיבוב, עמודה קובעת כמות",
+      "stem": "איזו צורה מתאימה למקום הריק במטריצה?",
+      "figure": "{{figmatrix:shape=arrow,rot=0,n=1;shape=arrow,rot=0,n=2;shape=arrow,rot=0,n=3/shape=arrow,rot=90,n=1;shape=arrow,rot=90,n=2;shape=arrow,rot=90,n=3/shape=arrow,rot=180,n=1;shape=arrow,rot=180,n=2;?}}",
+      "options": [
+        "{{figcell:shape=arrow,rot=90,n=3}}",
+        "{{figcell:shape=arrow,rot=180,n=2}}",
+        "{{figcell:shape=arrow,rot=0,n=3}}",
+        "{{figcell:shape=arrow,rot=180,n=3}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 3,
+      "target_seconds": 50,
+      "explanation": "השורה קובעת את כיוון החץ — למעלה בשורה הראשונה, הצידה בשנייה, למטה בשלישית — והעמודה קובעת את מספר החצים: אחד, שניים, שלושה. במקום הריק דרושים שלושה חצים הפונים למטה.",
+      "solution": "כשבכל תא יש כמה עותקים של אותה צורה, בדקו קודם את הכיוון ורק אחר כך ספרו, כי העין נוטה לספור ולשכוח לבדוק לאן הצורה פונה. שני מסיחים כאן שומרים על הכמות הנכונה אך על כיוון של שורה אחרת, ואחד חוזר בדיוק על התא שלידו."
+    },
+    {
+      "ref": "k-fs-13",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "כל צורה מופיעה פעם אחת בשורה ובעמודה",
+      "stem": "איזו צורה מתאימה למקום הריק במטריצה?",
+      "figure": "{{figmatrix:shape=circle;shape=square;shape=triangle/shape=square;shape=triangle;shape=circle/shape=triangle;shape=circle;?}}",
+      "options": [
+        "{{figcell:shape=triangle}}",
+        "{{figcell:shape=square}}",
+        "{{figcell:shape=circle}}",
+        "{{figcell:shape=star}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 3,
+      "target_seconds": 50,
+      "explanation": "בכל שורה מופיעות שלוש הצורות פעם אחת בדיוק, וכך גם בכל עמודה. בשורה השלישית כבר יש משולש ועיגול, ובעמודה השלישית כבר יש משולש ועיגול — ולכן החסר הוא ריבוע.",
+      "solution": "לא כל מטריצה בנויה מתכונה שגדלה. יש מטריצות שבהן שלוש הצורות פשוט מתחלפות בסיבוב, וסימן ההיכר הוא שאותן שלוש צורות חוזרות בכל שורה בסדר אחר. הפתרון הוא בשיטת ההשמטה: מוחקים מהרשימה את מה שכבר קיים בשורה ובעמודה, ומה שנשאר הוא התשובה. הכוכב פסול מיד משום שאינו מופיע באף תא במטריצה."
+    },
+    {
+      "ref": "k-fs-14",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "שורה קובעת מילוי, עמודה קובעת מספר צלעות",
+      "stem": "איזו צורה מתאימה למקום הריק במטריצה?",
+      "figure": "{{figmatrix:shape=triangle,fill=none;shape=square,fill=none;shape=pentagon,fill=none/shape=triangle,fill=dots;shape=square,fill=dots;shape=pentagon,fill=dots/shape=triangle,fill=solid;shape=square,fill=solid;?}}",
+      "options": [
+        "{{figcell:shape=hexagon,fill=solid}}",
+        "{{figcell:shape=pentagon,fill=dots}}",
+        "{{figcell:shape=pentagon,fill=solid}}",
+        "{{figcell:shape=square,fill=solid}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 3,
+      "target_seconds": 50,
+      "explanation": "השורה קובעת את המילוי — ריק, מנוקד, מלא — והעמודה קובעת את מספר הצלעות: שלוש, ארבע, חמש. המקום הריק הוא בשורה השלישית ובעמודה השלישית, כלומר מחומש מלא.",
+      "solution": "כשהצורות משתנות לאורך העמודה, ספרו צלעות במקום לזהות שמות: כך מגלים שהעמודות מתקדמות 3, 4, 5. המסיח עם המשושה ממשיך את ספירת הצלעות צעד אחד רחוק מדי — הוא מתאים לעמודה רביעית שאינה קיימת."
+    },
+    {
+      "ref": "k-fs-15",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "סיבוב שמצטבר בשורה ובעמודה",
+      "stem": "איזו צורה מתאימה למקום הריק במטריצה?",
+      "figure": "{{figmatrix:shape=arrow,rot=0;shape=arrow,rot=45;shape=arrow,rot=90/shape=arrow,rot=90;shape=arrow,rot=135;shape=arrow,rot=180/shape=arrow,rot=180;shape=arrow,rot=225;?}}",
+      "options": [
+        "{{figcell:shape=arrow,rot=270}}",
+        "{{figcell:shape=arrow,rot=225}}",
+        "{{figcell:shape=arrow,rot=315}}",
+        "{{figcell:shape=arrow,rot=180}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 4,
+      "target_seconds": 60,
+      "explanation": "כל צעד לאורך השורה מוסיף 45° לסיבוב, וכל צעד לאורך העמודה מוסיף 90°. השורה השלישית היא 180°, 225°, ולכן התא החסר הוא 270° — וזה מתאים גם לעמודה השלישית, שבה 90°, 180°, 270°.",
+      "solution": "כאן שתי התכונות אינן שונות זו מזו אלא זהות: אותו סיבוב, בשני קצבים שונים. שיטת העבודה היא לחשב את התשובה פעם אחת לפי השורה, פעם אחת לפי העמודה, ולוודא ששתי הדרכים נותנות אותה זווית — אם לא, טעיתם בקצב. מי שמוסיף לתא האחרון בשורה 90° במקום 45° מקבל 315°, וזה בדיוק המסיח שהוכן לו."
+    },
+    {
+      "ref": "k-fs-16",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "שורה קובעת מיקום סמן, עמודה קובעת צורה",
+      "stem": "איזו צורה מתאימה למקום הריק במטריצה?",
+      "figure": "{{figmatrix:shape=circle,dot=tl;shape=square,dot=tl;shape=triangle,dot=tl/shape=circle,dot=c;shape=square,dot=c;shape=triangle,dot=c/shape=circle,dot=br;shape=square,dot=br;?}}",
+      "options": [
+        "{{figcell:shape=triangle,dot=c}}",
+        "{{figcell:shape=square,dot=br}}",
+        "{{figcell:shape=triangle,dot=tl}}",
+        "{{figcell:shape=triangle,dot=br}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 3,
+      "target_seconds": 50,
+      "explanation": "השורה קובעת את מיקום הנקודה — פינה שמאלית עליונה, מרכז, פינה ימנית תחתונה — והעמודה קובעת את הצורה: עיגול, ריבוע, משולש. במקום הריק דרוש משולש עם נקודה בפינה הימנית התחתונה.",
+      "solution": "פרט קטן בתוך התא הוא תכונה לכל דבר, בדיוק כמו מילוי או גודל. סרקו את המטריצה פעמיים: פעם אחת התעלמו מהנקודה ובדקו רק את הצורות, ופעם שנייה התעלמו מהצורות ועקבו רק אחרי הנקודה. שלושת המסיחים בנויים כך שכל אחד מהם מקיים רק אחד משני הכללים."
+    }
+  ]
+}

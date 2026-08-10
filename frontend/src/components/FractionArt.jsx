@@ -1,6 +1,8 @@
 // Cute SVG illustrations for fraction content, aimed at young learners.
 // Used via {{kind:n/d|caption}} tokens inside course content (see MathText).
 
+import { FIGURE_KINDS } from './FigureArt.jsx'
+
 const NAVY = '#14306b'
 const FILL = '#8ecae6'
 const TOMATO = '#e8574b'

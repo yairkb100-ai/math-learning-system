@@ -107,8 +107,13 @@ def health() -> HealthResult:
 
 
 @router.get("/courses", response_model=list[CourseSummary])
-def list_courses(db: Session = Depends(get_db)) -> list[CourseSummary]:
-    courses = crud.list_courses(db)
+def list_courses(
+    track: str = "school",
+    db: Session = Depends(get_db),
+) -> list[CourseSummary]:
+    # Defaults to the school curriculum, so the catalog and its grade pills stay
+    # exactly as they were; the הכנה לקרני area passes ?track=psy.
+    courses = [c for c in crud.list_courses(db) if c.track == track]
     return [
         CourseSummary(
             id=c.id,

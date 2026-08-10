@@ -115,6 +115,11 @@ export default function Navbar() {
                     {pendingLessons > 0 && <span className="nav-badge">{pendingLessons}</span>}
                   </Link>
                   <Link to="/files" className="nav-link">קבצים</Link>
+                  {/* The admin and student branches are mutually exclusive, so
+                      anything that lives only in the student list is unreachable
+                      for an admin. הכנה לקרני is content an admin has to be able
+                      to open and check, so it appears in both. */}
+                  <Link to="/psy" className="nav-link">הכנה לקרני</Link>
                   {messagesLink}
                 </>
               ) : (
@@ -130,6 +135,7 @@ export default function Navbar() {
                     )}
                   </Link>
                   <Link to="/practice" className="nav-link">תרגול</Link>
+                  <Link to="/psy" className="nav-link">הכנה לקרני</Link>
                   <Link to="/exams" className="nav-link">מבחנים</Link>
                   <Link to="/analytics" className="nav-link">אנליטיקה</Link>
                   <Link to="/progress" className="nav-link">ההתקדמות שלי</Link>

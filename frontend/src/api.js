@@ -524,6 +524,50 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ admin_note: adminNote }),
     }),
+  // ---------------------------------------------------------------------
+  // הכנה לקרני
+  // ---------------------------------------------------------------------
+  // The course endpoints default to the school catalog server-side, so the
+  // psychometric area has to ask for its track explicitly.
+  psyCourses: () => request('/courses?track=psy'),
+  psySections: () => request('/sections?track=psy'),
+
+  psyOverview: () => request('/psy/overview'),
+  psySimulations: () => request('/psy/simulations'),
+  psyStartSimulation: (slug) =>
+    request(`/psy/simulations/${slug}/start`, { method: 'POST' }),
+  psySection: (attemptId) => request(`/psy/attempts/${attemptId}/section`),
+  // Periodic save so a crashed tab doesn't cost the student the section.
+  psySaveSection: (attemptId, payload) =>
+    request(`/psy/attempts/${attemptId}/save`, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    }),
+  psySubmitSection: (attemptId, payload) =>
+    request(`/psy/attempts/${attemptId}/section`, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    }),
+  psyFinishAttempt: (attemptId) =>
+    request(`/psy/attempts/${attemptId}/finish`, { method: 'POST' }),
+  psyResults: (attemptId) => request(`/psy/attempts/${attemptId}/results`),
+  psyAttempts: () => request('/psy/attempts'),
+
+  psyTopics: (domain = null) =>
+    request(`/psy/topics${domain ? `?domain=${encodeURIComponent(domain)}` : ''}`),
+  psyDrill: ({ domain, topic, difficulty, limit = 10 } = {}) => {
+    const p = new URLSearchParams()
+    if (domain) p.set('domain', domain)
+    if (topic) p.set('topic', topic)
+    if (difficulty) p.set('difficulty', difficulty)
+    p.set('limit', limit)
+    return request(`/psy/drill?${p.toString()}`)
+  },
+  psyDrillAnswer: (ref, chosen, seconds) =>
+    request('/psy/drill/answer', {
+      method: 'POST',
+      body: JSON.stringify({ ref, chosen, seconds }),
+    }),
 }
 
 export default api

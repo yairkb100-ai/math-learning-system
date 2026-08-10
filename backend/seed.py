@@ -46,6 +46,10 @@ from app.models import (  # noqa: E402
     LessonType,
     LoginEvent,
     PracticeQuestion,
+    PsyItem,
+    PsyPassage,
+    PsySimSection,
+    PsySimulation,
     QuizQuestion,
     Section,
     SubscriptionPlan,
@@ -150,6 +154,13 @@ def upsert_course(db, data):
         # tell seeded courses apart from admin-created ones.
         if not existing.seeded:
             existing.seeded = True
+        # Track is metadata, not content — patch it in place rather than letting
+        # a re-tag count as "changed" and rebuild the course, which would delete
+        # its chapters and every progress row hanging off them.
+        wanted_track = metadata.get("track", "school")
+        if existing.track != wanted_track:
+            existing.track = wanted_track
+            print(f'  ~ {slug}: track → {wanted_track}')
         if _course_unchanged(existing, course_obj, metadata):
             return slug, "unchanged"
         # FileAssets reference the course by FK. On Postgres a plain course
@@ -189,6 +200,9 @@ def upsert_course(db, data):
         word_count=metadata.get("word_count"),
         slug=slug,
         seeded=True,
+        # Product area. Karni course JSON carries "track": "psy" in its
+        # metadata; everything else is school curriculum.
+        track=metadata.get("track", "school"),
     )
 
     for text in course_obj.get("learning_objectives", []) or []:
@@ -632,9 +646,16 @@ def ensure_course_grades(db):
     else:
         print("  * Course grades already up to date.")
 
+    # `grade` is a school-catalog concept (the כיתה pills). Karni courses are
+    # grouped by exam section instead, so a missing grade there is correct —
+    # warning about it would cry wolf on every single deploy.
     unlabelled = (
         db.query(Course)
-        .filter(Course.seeded.is_(True), Course.grade.is_(None))
+        .filter(
+            Course.seeded.is_(True),
+            Course.grade.is_(None),
+            Course.track == "school",
+        )
         .all()
     )
     for course in unlabelled:
@@ -1037,6 +1058,35 @@ def run_light_migrations():
                     text("ALTER TABLE courses ADD COLUMN title_overridden BOOLEAN NOT NULL DEFAULT false")
                 )
             print("  ~ Migrated: added courses.title_overridden")
+        if "track" not in cols:
+            # Everything that existed before the הכנה לקרני area is school
+            # curriculum, so the default backfills every legacy row correctly.
+            with engine.begin() as conn:
+                conn.execute(
+                    text("ALTER TABLE courses ADD COLUMN track VARCHAR NOT NULL DEFAULT 'school'")
+                )
+            print("  ~ Migrated: added courses.track")
+
+    if "sections" in inspector.get_table_names():
+        cols = {c["name"] for c in inspector.get_columns("sections")}
+        if "track" not in cols:
+            with engine.begin() as conn:
+                conn.execute(
+                    text("ALTER TABLE sections ADD COLUMN track VARCHAR NOT NULL DEFAULT 'school'")
+                )
+            print("  ~ Migrated: added sections.track")
+
+    if "psy_attempts" in inspector.get_table_names():
+        cols = {c["name"] for c in inspector.get_columns("psy_attempts")}
+        if "score_percent" not in cols:
+            with engine.begin() as conn:
+                conn.execute(text("ALTER TABLE psy_attempts ADD COLUMN score_percent FLOAT"))
+            print("  ~ Migrated: added psy_attempts.score_percent")
+        if "domain_scores" not in cols:
+            with engine.begin() as conn:
+                conn.execute(text("ALTER TABLE psy_attempts ADD COLUMN domain_scores JSON"))
+            print("  ~ Migrated: added psy_attempts.domain_scores")
+
 
     if "chapters" in inspector.get_table_names():
         cols = {c["name"] for c in inspector.get_columns("chapters")}
@@ -1142,6 +1192,403 @@ def run_light_migrations():
             print(f"  ! lesson_types duration index rebuild skipped: {e}")
 
 
+# ---------------------------------------------------------------------------
+# פסיכוטכני (מבחן קרני) — sections, item bank & simulations
+# ---------------------------------------------------------------------------
+# Same tables as the school curriculum, separated by track so neither catalog
+# can see the other's courses.
+
+_PSY_SECTIONS = [
+    {
+        "slug": "psy-verbal",
+        "title": "חשיבה מילולית",
+        "description": "אנלוגיות, השלמת משפטים, יוצא דופן, אוצר מילים והבנת הנקרא — הפרק שבו נבחנת היכולת לזהות קשר בין מילים ולקרוא מהר ומדויק",
+        "order": 1,
+        "course_slugs": [
+            "karni-verbal-analogies",
+            "karni-verbal-completion",
+            "karni-verbal-odd-one-out",
+            "karni-verbal-reading",
+        ],
+    },
+    {
+        "slug": "psy-quantitative",
+        "title": "חשיבה כמותית",
+        "description": "חשבון, שברים ואחוזים, יחס, אלגברה בסיסית, גאומטריה וקריאת נתונים — ברמת חומר חטיבת הביניים ובקצב של מבחן קבלה",
+        "order": 2,
+        "course_slugs": [
+            "karni-quant-numbers",
+            "karni-quant-word-problems",
+            "karni-quant-geometry",
+            "karni-quant-strategies",
+        ],
+    },
+    {
+        "slug": "psy-series",
+        "title": "סדרות מספרים ואותיות",
+        "description": "חוקיות של מספרים ושל אותיות: הפרש קבוע ועולה, כפל, סדרות משולבות לסירוגין, ריבועים, וקפיצות באלפבית — נושא שחוזר גם בפרק הכמותי וגם במילולי",
+        "order": 3,
+        "course_slugs": ["karni-series"],
+    },
+    {
+        "slug": "psy-figural",
+        "title": "חשיבה צורנית",
+        "description": "חוקיות של צורות: מטריצות, סדרות צורות, אנלוגיות צורניות ויוצא דופן — הפרק שאי אפשר ללמוד בעל פה, רק לאמן את העין",
+        "order": 4,
+        "course_slugs": [
+            "karni-figural-basics",
+            "karni-figural-series",
+            "karni-figural-matrices",
+            "karni-figural-analogies",
+        ],
+    },
+    {
+        "slug": "psy-english",
+        "title": "אנגלית",
+        "description": "אוצר מילים, השלמת משפטים ודקדוק בסיסי ברמת חטיבת הביניים",
+        "order": 5,
+        "course_slugs": ["karni-english-vocabulary", "karni-english-grammar"],
+    },
+]
+
+
+def ensure_psy_sections(db):
+    """Create the פסיכוטכני sections and attach their courses.
+
+    Mirrors ensure_sections(), but stamps track="psy" so /api/sections?track=school
+    (the existing catalog) never sees them.
+    """
+    for spec in _PSY_SECTIONS:
+        section = db.query(Section).filter(Section.slug == spec["slug"]).first()
+        if section is None:
+            section = Section(
+                slug=spec["slug"],
+                title=spec["title"],
+                description=spec["description"],
+                order=spec["order"],
+                track="psy",
+            )
+            db.add(section)
+            db.commit()
+            db.refresh(section)
+            print(f'  + Created psy section "{spec["title"]}"')
+        else:
+            if section.track != "psy":
+                section.track = "psy"
+            if section.order != spec["order"]:
+                section.order = spec["order"]
+        for cslug in spec["course_slugs"]:
+            course = db.query(Course).filter(Course.slug == cslug).first()
+            if course is None:
+                continue  # course JSON not written yet — expected while content is in progress
+            if course.section_id != section.id:
+                course.section_id = section.id
+                print(f'  + Attached {cslug} to psy section "{spec["title"]}"')
+    db.commit()
+
+
+def _load_psy_bank_files():
+    """Yield (passages, items) from every ``data/psy_bank_*.json`` file.
+
+    Each file is ``{"passages": [...], "items": [...]}``; either key may be
+    absent. Items are keyed by ``ref`` — a stable content-side id, so a fixed
+    typo updates the row instead of creating a twin.
+    """
+    pattern = os.path.join(_BACKEND_DIR, "data", "psy_bank_*.json")
+    for path in sorted(glob.glob(pattern)):
+        try:
+            with open(path, encoding="utf-8") as fh:
+                data = json.load(fh)
+        except (OSError, ValueError) as exc:
+            print(f"  ! Could not read psy bank {path}: {exc}")
+            continue
+        yield data.get("passages", []) or [], data.get("items", []) or []
+
+
+def ensure_psy_items(db):
+    """Upsert the psychometric item bank from ``data/psy_bank_*.json``.
+
+    Upsert rather than insert-only (unlike the practice bank, which is keyed by
+    question text): a psychometric item's explanation gets revised as the
+    material is proofread, and re-running the seed should pick that up without
+    orphaning the drill history attached to the old row.
+    """
+    added = updated = 0
+    for passages, items in _load_psy_bank_files():
+        for p in passages:
+            row = db.query(PsyPassage).filter(PsyPassage.slug == p["slug"]).first()
+            if row is None:
+                row = PsyPassage(slug=p["slug"])
+                db.add(row)
+                added += 1
+            row.title = p.get("title")
+            row.kind = p.get("kind", "reading")
+            row.body = p["body"]
+            row.figure = p.get("figure")
+            row.source = p.get("source")
+            row.word_count = p.get("word_count")
+        db.commit()
+
+        for it in items:
+            row = db.query(PsyItem).filter(PsyItem.ref == it["ref"]).first()
+            if row is None:
+                row = PsyItem(ref=it["ref"])
+                db.add(row)
+                added += 1
+            else:
+                updated += 1
+            passage = None
+            if it.get("passage"):
+                passage = (
+                    db.query(PsyPassage).filter(PsyPassage.slug == it["passage"]).first()
+                )
+                if passage is None:
+                    print(f'  ! item {it["ref"]}: passage {it["passage"]} not found')
+            row.domain = it["domain"]
+            row.qtype = it["qtype"]
+            row.topic = it.get("topic")
+            row.subtopic = it.get("subtopic")
+            row.passage_id = passage.id if passage else None
+            row.passage_order = it.get("passage_order")
+            row.stem = it["stem"]
+            row.figure = it.get("figure")
+            row.options = it["options"]
+            row.correct_index = it["correct_index"]
+            row.explanation = it.get("explanation")
+            row.solution = it.get("solution")
+            row.difficulty = it.get("difficulty", 3)
+            row.target_seconds = it.get("target_seconds", 60)
+            row.tags = it.get("tags")
+            row.source = it.get("source")
+            row.is_active = it.get("is_active", True)
+        db.commit()
+
+    # Drop items no bank file defines any more. Without this, retiring a question
+    # leaves it live in the drill and in every future simulation draw — which is
+    # exactly what happened when the area was repointed from פסיכומטרי to קרני.
+    # PsyItem cascades to psy_drill_attempts, so the history goes with it.
+    wanted_refs = set()
+    wanted_passages = set()
+    for passages, items in _load_psy_bank_files():
+        wanted_passages.update(p["slug"] for p in passages)
+        wanted_refs.update(i["ref"] for i in items)
+    removed = 0
+    if wanted_refs:
+        for row in db.query(PsyItem).filter(~PsyItem.ref.in_(wanted_refs)).all():
+            db.delete(row)
+            removed += 1
+        for row in db.query(PsyPassage).filter(~PsyPassage.slug.in_(wanted_passages or {""})).all():
+            db.delete(row)
+            removed += 1
+        db.commit()
+
+    total = db.query(PsyItem).count()
+    if added or updated or removed:
+        print(
+            f"  + Psy bank: {added} new, {updated} refreshed, "
+            f"{removed} retired — {total} items total"
+        )
+    else:
+        print("  * Psy bank: nothing to load yet.")
+
+
+# Simulations. Question counts and minutes are DATA, not code, on purpose:
+# מכון קרני does not publish the exact per-section breakdown, and each school
+# gets its own form. The public description is "about 100 questions in about two
+# hours" — roughly half a minute to a minute per question — and the split below
+# is our working reconstruction of that. Correcting it later is a seed edit.
+_PSY_SIMULATIONS = [
+    {
+        "slug": "karni-mini-verbal",
+        "title": "מיני-תרגול מילולי",
+        "description": "עשר שאלות מילוליות עם טיימר — לטעימה מהקצב",
+        "kind": "mini",
+        "order": 1,
+        "free_preview": True,
+        "sections": [
+            {"order": 0, "domain": "verbal", "title": "חשיבה מילולית",
+             "minutes": 8, "num_questions": 10, "blueprint": [{"count": 10}]},
+        ],
+    },
+    {
+        "slug": "karni-mini-figural",
+        "title": "מיני-תרגול צורני",
+        "description": "עשר שאלות של חוקיות צורות — מטריצות, סדרות ויוצא דופן",
+        "kind": "mini",
+        "order": 2,
+        "free_preview": True,
+        "sections": [
+            {"order": 0, "domain": "figural", "title": "חשיבה צורנית",
+             "minutes": 8, "num_questions": 10, "blueprint": [{"count": 10}]},
+        ],
+    },
+    {
+        "slug": "karni-mini-series",
+        "title": "מיני-תרגול סדרות",
+        "description": "עשר סדרות עם טיימר — שמונה סדרות מספרים ושתי סדרות אותיות",
+        "kind": "mini",
+        "order": 3,
+        "free_preview": True,
+        "sections": [
+            # שני פרקים כי סדרות מספרים שייכות לתחום הכמותי וסדרות אותיות למילולי,
+            # ולפרק יש תחום אחד. התלמיד חווה זאת כרצף אחד של עשר שאלות.
+            {"order": 0, "domain": "quantitative", "title": "סדרות מספרים",
+             "minutes": 7, "num_questions": 8,
+             "blueprint": [{"count": 8, "topic": "סדרות מספרים ואותיות"}]},
+            {"order": 1, "domain": "verbal", "title": "סדרות אותיות",
+             "minutes": 3, "num_questions": 2,
+             "blueprint": [{"count": 2, "topic": "סדרות מספרים ואותיות"}]},
+        ],
+    },
+    {
+        "slug": "karni-mini-quant",
+        "title": "מיני-תרגול כמותי",
+        "description": "עשר שאלות כמותיות עם טיימר",
+        "kind": "mini",
+        "order": 4,
+        "free_preview": True,
+        "sections": [
+            {"order": 0, "domain": "quantitative", "title": "חשיבה כמותית",
+             "minutes": 10, "num_questions": 10, "blueprint": [{"count": 10}]},
+        ],
+    },
+    {
+        "slug": "karni-mini-english",
+        "title": "מיני-תרגול אנגלית",
+        "description": "עשר שאלות אנגלית — אוצר מילים והשלמת משפטים",
+        "kind": "mini",
+        "order": 5,
+        "free_preview": True,
+        "sections": [
+            {"order": 0, "domain": "english", "title": "אנגלית",
+             "minutes": 8, "num_questions": 10, "blueprint": [{"count": 10}]},
+        ],
+    },
+    {
+        "slug": "karni-section-verbal-1",
+        "title": "פרק מילולי מלא",
+        "description": "פרק מילולי בתנאי מבחן — 30 שאלות ב-25 דקות",
+        "kind": "section",
+        "order": 10,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "verbal", "title": "חשיבה מילולית",
+             "minutes": 25, "num_questions": 30, "blueprint": [{"count": 30}]},
+        ],
+    },
+    {
+        "slug": "karni-section-figural-1",
+        "title": "פרק צורני מלא",
+        "description": "פרק צורני בתנאי מבחן — 25 שאלות ב-25 דקות",
+        "kind": "section",
+        "order": 11,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "figural", "title": "חשיבה צורנית",
+             "minutes": 25, "num_questions": 25, "blueprint": [{"count": 25}]},
+        ],
+    },
+    {
+        "slug": "karni-section-quant-1",
+        "title": "פרק כמותי מלא",
+        "description": "פרק כמותי בתנאי מבחן — 25 שאלות ב-30 דקות",
+        "kind": "section",
+        "order": 12,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "quantitative", "title": "חשיבה כמותית",
+             "minutes": 30, "num_questions": 25, "blueprint": [{"count": 25}]},
+        ],
+    },
+    {
+        "slug": "karni-full-1",
+        "title": "סימולציה מלאה 1",
+        "description": "מבחן קרני שלם בתנאי אמת: מילולי, כמותי, צורני ואנגלית — כ-100 שאלות, עם דוח מפורט בסוף",
+        "kind": "full",
+        "order": 20,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "verbal", "title": "חשיבה מילולית",
+             "minutes": 25, "num_questions": 30, "blueprint": [{"count": 30}]},
+            {"order": 1, "domain": "quantitative", "title": "חשיבה כמותית",
+             "minutes": 30, "num_questions": 25, "blueprint": [{"count": 25}]},
+            {"order": 2, "domain": "figural", "title": "חשיבה צורנית",
+             "minutes": 25, "num_questions": 25, "blueprint": [{"count": 25}]},
+            {"order": 3, "domain": "english", "title": "אנגלית",
+             "minutes": 20, "num_questions": 20, "blueprint": [{"count": 20}]},
+        ],
+    },
+]
+
+
+def ensure_psy_simulations(db):
+    """Upsert simulations and their sections, keyed by slug.
+
+    Sections are rewritten wholesale on change. That is safe because an attempt
+    freezes its own form and its own section results at start time, so a live
+    attempt is unaffected by a reshaped simulation.
+    """
+    added = 0
+    for spec in _PSY_SIMULATIONS:
+        sim = db.query(PsySimulation).filter(PsySimulation.slug == spec["slug"]).first()
+        if sim is None:
+            sim = PsySimulation(slug=spec["slug"])
+            db.add(sim)
+            added += 1
+        sim.title = spec["title"]
+        sim.description = spec.get("description")
+        sim.kind = spec.get("kind", "full")
+        sim.order = spec.get("order", 0)
+        sim.free_preview = spec.get("free_preview", False)
+        sim.is_published = spec.get("is_published", True)
+        db.commit()
+        db.refresh(sim)
+
+        wanted = {s["order"]: s for s in spec["sections"]}
+        for row in list(sim.sections):
+            if row.order not in wanted:
+                db.delete(row)
+        db.flush()
+        for order, s in wanted.items():
+            row = next((r for r in sim.sections if r.order == order), None)
+            if row is None:
+                row = PsySimSection(simulation_id=sim.id, order=order)
+                db.add(row)
+            row.domain = s["domain"]
+            row.title = s["title"]
+            row.minutes = s["minutes"]
+            row.num_questions = s["num_questions"]
+            row.is_pilot = s.get("is_pilot", False)
+            row.item_refs = s.get("item_refs")
+            row.blueprint = s.get("blueprint")
+        db.commit()
+
+    # Same reasoning as the item prune: a simulation dropped from the list must
+    # disappear from the catalog, not linger unlisted-but-startable. Attempts
+    # cascade with it, which is correct — the paper no longer exists.
+    wanted = {spec["slug"] for spec in _PSY_SIMULATIONS}
+    retired = 0
+    for row in db.query(PsySimulation).filter(~PsySimulation.slug.in_(wanted)).all():
+        db.delete(row)
+        retired += 1
+    wanted_sections = {spec["slug"] for spec in _PSY_SECTIONS}
+    for row in (
+        db.query(Section)
+        .filter(Section.track == "psy", ~Section.slug.in_(wanted_sections))
+        .all()
+    ):
+        for course in row.courses:
+            course.section_id = None
+        db.delete(row)
+        retired += 1
+    db.commit()
+
+    if added or retired:
+        print(f"  + Psy simulations: {added} added, {retired} retired")
+    else:
+        print("  * Psy simulations already up to date.")
+
+
 def prune_orphan_courses(db, loaded_slugs):
     """Delete courses that were once seeded from a courses/*.json file that no
     longer exists (e.g. after a slug rename or a removed course).
@@ -1226,6 +1673,9 @@ def main():
         prune_orphan_courses(db, loaded_slugs)
 
         ensure_sections(db)
+        ensure_psy_sections(db)
+        ensure_psy_items(db)
+        ensure_psy_simulations(db)
         ensure_course_grades(db)
         ensure_course_assets(db)
         cleanup_orphaned_uploads(db)

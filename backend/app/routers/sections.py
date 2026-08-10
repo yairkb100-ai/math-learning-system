@@ -43,9 +43,20 @@ def _unique_slug(db: Session, title: str) -> str:
 
 
 @router.get("/sections", response_model=list[SectionWithCourses])
-def list_sections(db: Session = Depends(get_db)) -> list[SectionWithCourses]:
+def list_sections(
+    track: str = "school",
+    db: Session = Depends(get_db),
+) -> list[SectionWithCourses]:
+    """Sections for one product area.
+
+    Defaults to the school curriculum so the existing catalog keeps behaving
+    exactly as before; the הכנה לקרני hub asks for ``?track=psy``. Courses are
+    filtered by track too, not just their section, so a course attached to the
+    wrong section can't leak across areas.
+    """
     sections = (
         db.query(models.Section)
+        .filter(models.Section.track == track)
         .order_by(models.Section.order, models.Section.id)
         .all()
     )
@@ -56,7 +67,7 @@ def list_sections(db: Session = Depends(get_db)) -> list[SectionWithCourses]:
             description=s.description,
             order=s.order,
             slug=s.slug,
-            courses=[_course_summary(c) for c in s.courses],
+            courses=[_course_summary(c) for c in s.courses if c.track == track],
         )
         for s in sections
     ]

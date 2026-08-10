@@ -166,6 +166,10 @@ class Section(Base):
     description = Column(String, nullable=True)
     order = Column(Integer, nullable=False, default=0)
     slug = Column(String, unique=True, nullable=False, index=True)
+    # Which product area the section belongs to: "school" (the graded math
+    # curriculum) or "psy" (the הכנה לקרני area). The school catalog filters on
+    # this so the Karni tracks never leak into the grade pills.
+    track = Column(String, nullable=False, default="school", index=True)
 
     courses = relationship(
         "Course",
@@ -186,6 +190,9 @@ class Course(Base):
     # the catalog badges and filters by — ``level`` is kept for the admin views
     # only. Nullable so an admin-created course without one still renders.
     grade = Column(String, nullable=True)
+    # "school" | "psy" — see Section.track. Karni courses reuse the whole
+    # chapter/video/worksheet stack, they just live in a different catalog.
+    track = Column(String, nullable=False, default="school", index=True)
     language = Column(String, nullable=False)
     estimated_hours = Column(Float, nullable=True)
     word_count = Column(Integer, nullable=True)
@@ -646,3 +653,227 @@ class Referral(Base):
 
     referrer = relationship("User", foreign_keys=[referrer_id])
     referred_user = relationship("User", foreign_keys=[referred_user_id])
+
+
+# ---------------------------------------------------------------------------
+# פסיכוטכני — psychometric item bank, simulations & attempts
+# ---------------------------------------------------------------------------
+#
+# Deliberately separate from PracticeQuestion/Exam. A psychometric item is a
+# different shape (fixed 4 distractors, a 1-5 difficulty, a target time, an
+# optional shared reading passage, an optional figure) and a simulation is a
+# multi-section timed form rather than the single adaptive stream Exam models.
+# Overloading the existing tables would have bent both out of shape.
+
+# The four sections of the מכון קרני entrance exam (כיתה ח' → ט'), the test
+# used by the yeshiva high schools this area targets. There is no essay: Karni
+# is a timed multiple-choice cognitive screen of roughly 100 questions.
+PSY_DOMAINS = ("verbal", "quantitative", "figural", "english")
+
+
+class PsyPassage(Base):
+    """A reading-comprehension text that several items hang off of.
+
+    Also used for the shared stimulus of a data-inference cluster (a table or a
+    chart that three questions all refer to).
+    """
+
+    __tablename__ = "psy_passages"
+
+    id = Column(Integer, primary_key=True, index=True)
+    slug = Column(String, unique=True, nullable=False, index=True)
+    title = Column(String, nullable=True)
+    # reading | data — a prose text vs. a table/chart stimulus.
+    kind = Column(String, nullable=False, default="reading")
+    body = Column(Text, nullable=False)
+    # Illustration token (the syntax the chapter renderer already understands),
+    # for passages whose stimulus is a figure rather than prose.
+    figure = Column(Text, nullable=True)
+    source = Column(String, nullable=True)
+    word_count = Column(Integer, nullable=True)
+
+    items = relationship(
+        "PsyItem",
+        back_populates="passage",
+        cascade="all, delete-orphan",
+        order_by="PsyItem.id",
+    )
+
+
+class PsyItem(Base):
+    """One psychometric question in the bank."""
+
+    __tablename__ = "psy_items"
+
+    id = Column(Integer, primary_key=True, index=True)
+    # Stable content-side identifier so re-seeding updates rather than duplicates.
+    ref = Column(String, unique=True, nullable=False, index=True)
+
+    domain = Column(String, nullable=False, index=True)  # see PSY_DOMAINS
+    # Question family, e.g. analogy | sentence-completion | logic |
+    # reading-comprehension | word-problem | geometry | data-inference |
+    # quantitative-comparison.
+    qtype = Column(String, nullable=False, index=True)
+    topic = Column(String, nullable=True, index=True)
+    subtopic = Column(String, nullable=True)
+
+    passage_id = Column(Integer, ForeignKey("psy_passages.id"), nullable=True, index=True)
+    # Position of this item inside its passage cluster, so the player keeps the
+    # authored order instead of whatever the DB hands back.
+    passage_order = Column(Integer, nullable=True)
+
+    stem = Column(Text, nullable=False)
+    figure = Column(Text, nullable=True)  # illustration token, for shape questions
+    options = Column(JSON, nullable=False)  # list[str], 4 distractors by convention
+    correct_index = Column(Integer, nullable=False)
+    explanation = Column(Text, nullable=True)
+    # Worked solution shown after a drill answer — longer than `explanation`.
+    solution = Column(Text, nullable=True)
+
+    difficulty = Column(Integer, nullable=False, default=3, index=True)  # 1..5
+    target_seconds = Column(Integer, nullable=False, default=60)
+    # Strategy labels ("plug-in-numbers", "eliminate", "back-from-answers") used
+    # by the study plan to recommend the right theory chapter.
+    tags = Column(JSON, nullable=True)
+    source = Column(String, nullable=True)
+    is_active = Column(Boolean, nullable=False, default=True, index=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    passage = relationship("PsyPassage", back_populates="items")
+    # Without this cascade, re-seeding a passage (which deletes its items) fails
+    # the FK from psy_drill_attempts and takes the whole boot down with it —
+    # the same trap chapter_views sprang on us. The drill log is per-item, so it
+    # goes with the item.
+    drill_attempts = relationship(
+        "PsyDrillAttempt",
+        back_populates="item",
+        cascade="all, delete-orphan",
+    )
+
+
+class PsySimulation(Base):
+    """A timed form: a full mock exam, a single-domain section, or a mini drill."""
+
+    __tablename__ = "psy_simulations"
+
+    id = Column(Integer, primary_key=True, index=True)
+    slug = Column(String, unique=True, nullable=False, index=True)
+    title = Column(String, nullable=False)
+    description = Column(Text, nullable=True)
+    kind = Column(String, nullable=False, default="full")  # full | section | mini
+    order = Column(Integer, nullable=False, default=0)
+    is_published = Column(Boolean, nullable=False, default=True, index=True)
+    # Full mocks are the premium draw; minis stay open so a trial user can taste
+    # the engine. Enforced in the router, stored here so admins can flip it.
+    free_preview = Column(Boolean, nullable=False, default=False)
+
+    sections = relationship(
+        "PsySimSection",
+        back_populates="simulation",
+        cascade="all, delete-orphan",
+        order_by="PsySimSection.order",
+    )
+    attempts = relationship(
+        "PsyAttempt",
+        back_populates="simulation",
+        cascade="all, delete-orphan",
+    )
+
+
+class PsySimSection(Base):
+    """One timed section inside a simulation.
+
+    Question count and minutes live here rather than in code on purpose: the
+    exact post-December-2026 per-section numbers still need confirming against
+    the official NITE guide, and this keeps that a seed edit rather than a code
+    change. See PSY_PLAN.md section 1.
+    """
+
+    __tablename__ = "psy_sim_sections"
+
+    id = Column(Integer, primary_key=True, index=True)
+    simulation_id = Column(Integer, ForeignKey("psy_simulations.id"), nullable=False, index=True)
+    order = Column(Integer, nullable=False, default=0)
+    domain = Column(String, nullable=False)
+    title = Column(String, nullable=False)
+    minutes = Column(Integer, nullable=False, default=20)
+    num_questions = Column(Integer, nullable=False, default=20)
+    # Pilot sections are presented but excluded from scoring, exactly as in the
+    # real exam where the candidate cannot tell which one it is.
+    is_pilot = Column(Boolean, nullable=False, default=False)
+    # Optional fixed form: list of PsyItem.ref. When null, the section is drawn
+    # at start time from `blueprint` — a list of
+    # {topic?, qtype?, difficulty?, count} rows.
+    item_refs = Column(JSON, nullable=True)
+    blueprint = Column(JSON, nullable=True)
+
+    simulation = relationship("PsySimulation", back_populates="sections")
+
+
+class PsyAttempt(Base):
+    """A student's run through a simulation.
+
+    The section clock is authoritative on the server (``section_started_at``);
+    a browser-side timer alone would make the simulation worthless.
+    """
+
+    __tablename__ = "psy_attempts"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
+    simulation_id = Column(Integer, ForeignKey("psy_simulations.id"), nullable=False, index=True)
+    simulation_title = Column(String, nullable=True)
+
+    status = Column(String, nullable=False, default="in_progress", index=True)  # in_progress|completed|abandoned
+    # Index into the simulation's ordered sections. There is no going back.
+    current_section = Column(Integer, nullable=False, default=0)
+    section_started_at = Column(DateTime, nullable=True)
+    started_at = Column(DateTime, default=datetime.utcnow, index=True)
+    finished_at = Column(DateTime, nullable=True)
+
+    # form: [{section_index, domain, item_refs: [...]}] — frozen at start so a
+    # bank edit mid-attempt cannot change the paper under the student.
+    form = Column(JSON, nullable=True)
+    # answers: {item_ref: {chosen, correct, seconds, flagged}}
+    answers = Column(JSON, nullable=True)
+    # section_results: [{section_index, domain, correct, total, seconds, is_pilot}]
+    section_results = Column(JSON, nullable=True)
+
+    # Karni does not publish a conversion table, so inventing a scaled score
+    # would be dressing up a guess. The report is percent-correct overall and
+    # per domain — honest, comparable between attempts, and what actually tells
+    # a 14-year-old where to put the next hour of work.
+    score_percent = Column(Float, nullable=True)
+    # domain_scores: {domain: {correct, total, percent}}
+    domain_scores = Column(JSON, nullable=True)
+
+    user = relationship("User")
+    simulation = relationship("PsySimulation", back_populates="attempts")
+
+
+class PsyDrillAttempt(Base):
+    """One answered question in the untimed topic drill.
+
+    Separate from PracticeAttempt, which is bound by FK to practice_questions.
+    This is what the study plan reads to decide which topic a student is
+    weakest in — including *pace*, which on this exam matters as much as
+    accuracy, hence storing seconds against the item's target.
+    """
+
+    __tablename__ = "psy_drill_attempts"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
+    item_id = Column(Integer, ForeignKey("psy_items.id"), nullable=False, index=True)
+    chosen = Column(Integer, nullable=True)  # null = skipped
+    is_correct = Column(Boolean, nullable=False, default=False)
+    seconds = Column(Integer, nullable=False, default=0)
+    # Snapshotted so the stats query stays a single table scan, and so history
+    # survives a later re-tagging of the item.
+    domain = Column(String, nullable=True, index=True)
+    topic = Column(String, nullable=True, index=True)
+    difficulty = Column(Integer, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow, index=True)
+
+    user = relationship("User")
+    item = relationship("PsyItem", back_populates="drill_attempts")

@@ -33,6 +33,10 @@ import Achievements from './pages/Achievements.jsx'
 import LessonsBooking from './pages/LessonsBooking.jsx'
 import AdminLessons from './pages/AdminLessons.jsx'
 import ReferralPage from './pages/ReferralPage.jsx'
+import PsyHome from './pages/PsyHome.jsx'
+import PsyDrill from './pages/PsyDrill.jsx'
+import PsySimPlayer from './pages/PsySimPlayer.jsx'
+import PsyResults from './pages/PsyResults.jsx'
 
 export default function App() {
   return (
@@ -97,6 +101,41 @@ function AppRoutes() {
               </PrivateRoute>
             }
           />
+
+          {/* הכנה לקרני — Karni entrance-exam prep */}
+          <Route
+            path="/psy"
+            element={
+              <PrivateRoute>
+                <PsyHome />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/psy/drill"
+            element={
+              <PrivateRoute>
+                <PsyDrill />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/psy/sim/:slug"
+            element={
+              <PrivateRoute>
+                <PsySimPlayer />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/psy/results/:attemptId"
+            element={
+              <PrivateRoute>
+                <PsyResults />
+              </PrivateRoute>
+            }
+          />
+
           <Route
             path="/analytics"
             element={

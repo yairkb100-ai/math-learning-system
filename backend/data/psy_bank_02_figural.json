@@ -1,0 +1,340 @@
+{
+  "_comment": "מאגר קרני — הפרק הצורני. הצורות מצוירות מתוך spec (ראה frontend/src/components/FigureArt.jsx): פסיק בין תכונות של תא, נקודה-פסיק בין תאים, לוכסן בין שורות של מטריצה. בשאלות 'יוצא דופן' אין figure — ארבע התשובות עצמן הן המועמדות.",
+  "items": [
+    {
+      "ref": "k-fig-ser-01",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "כמות עולה",
+      "stem": "מהי הצורה שצריכה לבוא במקום סימן השאלה?",
+      "figure": "{{figrow:shape=circle,n=1;shape=circle,n=2;shape=circle,n=3;?}}",
+      "options": [
+        "{{figcell:shape=circle,n=4}}",
+        "{{figcell:shape=circle,n=5}}",
+        "{{figcell:shape=circle,n=2}}",
+        "{{figcell:shape=circle,n=1}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 1,
+      "target_seconds": 35,
+      "explanation": "מספר העיגולים גדל באחד בכל שלב: 1, 2, 3, ולכן הבא הוא 4.",
+      "solution": "בסדרת צורות בודקים תכונה אחת בכל פעם: כמות, צורה, מילוי, סיבוב וגודל. כאן הצורה והמילוי קבועים ורק הכמות משתנה — וזה כל הסיפור."
+    },
+    {
+      "ref": "k-fig-ser-02",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "סיבוב קבוע",
+      "stem": "מהי הצורה שצריכה לבוא במקום סימן השאלה?",
+      "figure": "{{figrow:shape=arrow,rot=0;shape=arrow,rot=45;shape=arrow,rot=90;?}}",
+      "options": [
+        "{{figcell:shape=arrow,rot=180}}",
+        "{{figcell:shape=arrow,rot=135}}",
+        "{{figcell:shape=arrow,rot=90}}",
+        "{{figcell:shape=arrow,rot=0}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 2,
+      "target_seconds": 40,
+      "explanation": "החץ מסתובב 45° בכל שלב: 0°, 45°, 90°, ולכן הבא הוא 135°.",
+      "solution": "כשהצורה זהה בכל התאים, חפשו סיבוב. מדדו את ההפרש בין שני תאים עוקבים פעם אחת, ואז ודאו שאותו הפרש חוזר גם בין השני לשלישי — אחרת זו לא סדרת סיבוב."
+    },
+    {
+      "ref": "k-fig-ser-03",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "מחזור מילוי",
+      "stem": "מהי הצורה שצריכה לבוא במקום סימן השאלה?",
+      "figure": "{{figrow:shape=square,fill=none;shape=square,fill=half;shape=square,fill=solid;?}}",
+      "options": [
+        "{{figcell:shape=square,fill=solid}}",
+        "{{figcell:shape=square,fill=half}}",
+        "{{figcell:shape=square,fill=none}}",
+        "{{figcell:shape=square,fill=dots}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 2,
+      "target_seconds": 40,
+      "explanation": "המילוי מתקדם ריק ← חצי ← מלא, ואז המחזור מתחיל מחדש: ריק.",
+      "solution": "מחזור הוא לא רק עלייה. אם התכונה הגיעה לקצה שלה (כאן ״מלא״), בדקו אם היא חוזרת להתחלה — זו תבנית שכיחה מאוד בפרק הצורני."
+    },
+    {
+      "ref": "k-fig-ser-04",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "מספר צלעות עולה",
+      "stem": "מהי הצורה שצריכה לבוא במקום סימן השאלה?",
+      "figure": "{{figrow:shape=triangle;shape=diamond;shape=pentagon;?}}",
+      "options": [
+        "{{figcell:shape=star}}",
+        "{{figcell:shape=circle}}",
+        "{{figcell:shape=pentagon}}",
+        "{{figcell:shape=hexagon}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 3,
+      "target_seconds": 45,
+      "explanation": "מספר הצלעות גדל באחת: משולש 3, מרובע 4, מחומש 5 — ולכן הבא הוא משושה, 6 צלעות.",
+      "solution": "כשהצורות שונות זו מזו, אל תחפשו סיבוב או מילוי — ספרו צלעות. סדרת צלעות עולה היא אחת התבניות הבסיסיות, והמלכודת בה היא הכוכב, שנראה ״מסובך יותר״ אבל אינו ממשיך את הספירה."
+    },
+    {
+      "ref": "k-fig-ser-05",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "שתי תכונות במקביל",
+      "stem": "מהי הצורה שצריכה לבוא במקום סימן השאלה?",
+      "figure": "{{figrow:shape=triangle,n=1,fill=none;shape=triangle,n=2,fill=solid;shape=triangle,n=3,fill=none;?}}",
+      "options": [
+        "{{figcell:shape=triangle,n=4,fill=none}}",
+        "{{figcell:shape=triangle,n=4,fill=solid}}",
+        "{{figcell:shape=triangle,n=3,fill=solid}}",
+        "{{figcell:shape=triangle,n=5,fill=solid}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 3,
+      "target_seconds": 50,
+      "explanation": "שתי תכונות רצות במקביל: הכמות עולה 1, 2, 3 ← 4, והמילוי מתחלף ריק, מלא, ריק ← מלא.",
+      "solution": "כששתי תכונות משתנות יחד, בדקו כל אחת בנפרד ורק אז חברו. כאן שלוש מהתשובות נכונות בתכונה אחת בלבד — בדיוק כדי לתפוס מי שבדק רק את הכמות או רק את המילוי."
+    },
+    {
+      "ref": "k-fig-ser-06",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "סיבוב של 90 מעלות",
+      "stem": "מהי הצורה שצריכה לבוא במקום סימן השאלה?",
+      "figure": "{{figrow:shape=trapezoid,rot=0;shape=trapezoid,rot=90;shape=trapezoid,rot=180;?}}",
+      "options": [
+        "{{figcell:shape=trapezoid,rot=0}}",
+        "{{figcell:shape=trapezoid,rot=90}}",
+        "{{figcell:shape=trapezoid,rot=270}}",
+        "{{figcell:shape=trapezoid,rot=180}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 2,
+      "target_seconds": 40,
+      "explanation": "הטרפז מסתובב 90° בכל שלב: 0°, 90°, 180°, ולכן הבא הוא 270°.",
+      "solution": "בצורה לא סימטרית כמו טרפז אפשר לעקוב אחרי הצלע הקצרה: היא עוברת מלמעלה לצד, ללמטה, ולצד השני."
+    },
+    {
+      "ref": "k-fig-mat-01",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "שורה קובעת צורה, עמודה קובעת כמות",
+      "stem": "איזו צורה מתאימה למקום הריק במטריצה?",
+      "figure": "{{figmatrix:shape=circle,n=1;shape=circle,n=2;shape=circle,n=3/shape=square,n=1;shape=square,n=2;shape=square,n=3/shape=triangle,n=1;shape=triangle,n=2;?}}",
+      "options": [
+        "{{figcell:shape=triangle,n=3}}",
+        "{{figcell:shape=triangle,n=2}}",
+        "{{figcell:shape=square,n=3}}",
+        "{{figcell:shape=circle,n=3}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 2,
+      "target_seconds": 45,
+      "explanation": "כל שורה שומרת על אותה צורה, וכל עמודה שומרת על אותה כמות. השורה השלישית היא משולשים והעמודה השלישית היא שלוש — כלומר שלושה משולשים.",
+      "solution": "במטריצה תמיד שואלים שתי שאלות: מה משותף לשורה, ומה משותף לעמודה. התשובה היא הצטלבות של שתיהן. כאן כל מסיח מקיים רק אחת מהן."
+    },
+    {
+      "ref": "k-fig-mat-02",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "שורה קובעת צורה, עמודה קובעת מילוי",
+      "stem": "איזו צורה מתאימה למקום הריק במטריצה?",
+      "figure": "{{figmatrix:shape=circle,fill=none;shape=circle,fill=half;shape=circle,fill=solid/shape=square,fill=none;shape=square,fill=half;shape=square,fill=solid/shape=star,fill=none;shape=star,fill=half;?}}",
+      "options": [
+        "{{figcell:shape=star,fill=none}}",
+        "{{figcell:shape=square,fill=solid}}",
+        "{{figcell:shape=star,fill=solid}}",
+        "{{figcell:shape=star,fill=half}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 2,
+      "target_seconds": 45,
+      "explanation": "השורה קובעת את הצורה (כאן כוכב) והעמודה קובעת את המילוי (העמודה השלישית מלאה). לכן: כוכב מלא.",
+      "solution": "אותו כלל של הצטלבות, אבל התכונה המשתנה היא מילוי ולא כמות. שימו לב שכל מסיח נכון בדיוק בחצי — זה סימן שאתם במסלול הנכון."
+    },
+    {
+      "ref": "k-fig-mat-03",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "שתי תכונות: סיבוב ומילוי",
+      "stem": "איזו צורה מתאימה למקום הריק במטריצה?",
+      "figure": "{{figmatrix:shape=arrow,rot=0,fill=none;shape=arrow,rot=45,fill=none;shape=arrow,rot=90,fill=none/shape=arrow,rot=0,fill=half;shape=arrow,rot=45,fill=half;shape=arrow,rot=90,fill=half/shape=arrow,rot=0,fill=solid;shape=arrow,rot=45,fill=solid;?}}",
+      "options": [
+        "{{figcell:shape=arrow,rot=45,fill=solid}}",
+        "{{figcell:shape=arrow,rot=90,fill=half}}",
+        "{{figcell:shape=arrow,rot=0,fill=solid}}",
+        "{{figcell:shape=arrow,rot=90,fill=solid}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 3,
+      "target_seconds": 55,
+      "explanation": "העמודה קובעת את הסיבוב (0°, 45°, 90°) והשורה קובעת את המילוי (ריק, חצי, מלא). המקום הריק הוא עמודה שלישית ושורה שלישית: חץ מסובב 90° ומלא.",
+      "solution": "כשיש שתי תכונות, פתרו אותן בנפרד: קודם ״מה עושה העמודה״, אחר כך ״מה עושה השורה״. אל תנסו לראות את שתיהן בבת אחת — כך נוצרות טעויות."
+    },
+    {
+      "ref": "k-fig-ana-01",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "שינוי מילוי",
+      "stem": "השלימו את האנלוגיה הצורנית: הצורה הראשונה משתנה לשנייה — איך תשתנה השלישית?",
+      "figure": "{{figpair:shape=circle,fill=none;shape=circle,fill=solid/shape=square,fill=none;?}}",
+      "options": [
+        "{{figcell:shape=square,fill=half}}",
+        "{{figcell:shape=square,fill=solid}}",
+        "{{figcell:shape=circle,fill=solid}}",
+        "{{figcell:shape=square,fill=none}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 2,
+      "target_seconds": 40,
+      "explanation": "בזוג הראשון הצורה נשארת והמילוי עובר מריק למלא. לכן הריבוע הריק הופך לריבוע מלא.",
+      "solution": "באנלוגיה צורנית מנסחים במילים מה קרה בזוג הראשון — ״אותה צורה, נצבעה במלואה״ — ומיישמים בדיוק את זה על השלישית. המסיח המסוכן הוא זה ששומר על המילוי הנכון אבל מחליף את הצורה."
+    },
+    {
+      "ref": "k-fig-ana-02",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "הכפלת כמות",
+      "stem": "השלימו את האנלוגיה הצורנית: הצורה הראשונה משתנה לשנייה — איך תשתנה השלישית?",
+      "figure": "{{figpair:shape=star,n=1;shape=star,n=2/shape=star,n=3;?}}",
+      "options": [
+        "{{figcell:shape=star,n=2}}",
+        "{{figcell:shape=star,n=5}}",
+        "{{figcell:shape=star,n=6}}",
+        "{{figcell:shape=star,n=3}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 3,
+      "target_seconds": 45,
+      "explanation": "בזוג הראשון הכמות הוכפלה: מ-1 ל-2. הכפלה של 3 נותנת 6.",
+      "solution": "בזוג הראשון הכמות עברה מ-1 ל-2, ואפשר לקרוא זאת גם כ״הוסף אחד״ וגם כ״הכפל פי שניים״. התשובות מכריעות: ״הוסף אחד״ היה נותן 4, ו-4 אינו מופיע כלל. כשיש שתי קריאות, בדקו איזו מהן בכלל אפשרית לפי התשובות — זה חוסך התלבטות."
+    },
+    {
+      "ref": "k-fig-ana-03",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "סיבוב",
+      "stem": "השלימו את האנלוגיה הצורנית: הצורה הראשונה משתנה לשנייה — איך תשתנה השלישית?",
+      "figure": "{{figpair:shape=arrow,rot=0;shape=arrow,rot=90/shape=trapezoid,rot=0;?}}",
+      "options": [
+        "{{figcell:shape=trapezoid,rot=180}}",
+        "{{figcell:shape=trapezoid,rot=45}}",
+        "{{figcell:shape=arrow,rot=90}}",
+        "{{figcell:shape=trapezoid,rot=90}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 2,
+      "target_seconds": 40,
+      "explanation": "בזוג הראשון הצורה הסתובבה 90°. לכן הטרפז מסתובב גם הוא 90°.",
+      "solution": "שימו לב שהצורה עצמה אינה חלק מהכלל — רק הפעולה שנעשתה עליה. מי שמעתיק את החץ מהזוג הראשון נופל במסיח הקלאסי."
+    },
+    {
+      "ref": "k-fig-odd-01",
+      "domain": "figural",
+      "qtype": "odd-one-out",
+      "topic": "יוצא דופן צורני",
+      "subtopic": "מספר צלעות",
+      "stem": "איזו צורה שונה מכל האחרות?",
+      "options": [
+        "{{figcell:shape=square}}",
+        "{{figcell:shape=diamond}}",
+        "{{figcell:shape=trapezoid}}",
+        "{{figcell:shape=triangle}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 2,
+      "target_seconds": 35,
+      "explanation": "לריבוע, למעוין ולטרפז יש ארבע צלעות. למשולש יש שלוש — הוא היוצא דופן.",
+      "solution": "ביוצא דופן מחפשים תכונה שמשותפת לשלוש ולא לרביעית. עברו על הרשימה בסדר קבוע: מספר צלעות, מילוי, כמות, סיבוב, גודל — כך לא מפספסים."
+    },
+    {
+      "ref": "k-fig-odd-02",
+      "domain": "figural",
+      "qtype": "odd-one-out",
+      "topic": "יוצא דופן צורני",
+      "subtopic": "מילוי",
+      "stem": "איזו צורה שונה מכל האחרות?",
+      "options": [
+        "{{figcell:shape=circle,fill=solid}}",
+        "{{figcell:shape=triangle,fill=none}}",
+        "{{figcell:shape=square,fill=solid}}",
+        "{{figcell:shape=star,fill=solid}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 2,
+      "target_seconds": 35,
+      "explanation": "כל הצורות שונות זו מזו, ולכן הצורה עצמה אינה יכולה להיות הכלל. מה שמשותף לשלוש הוא שהן מלאות — והמשולש ריק.",
+      "solution": "טריק חשוב: אם כל ארבע הצורות שונות, סימן שהתשובה נמצאת בתכונה אחרת לגמרי — מילוי, כמות או כיוון. אל תבזבזו זמן על השוואת הצורות."
+    },
+    {
+      "ref": "k-fig-odd-03",
+      "domain": "figural",
+      "qtype": "odd-one-out",
+      "topic": "יוצא דופן צורני",
+      "subtopic": "כמות",
+      "stem": "איזו צורה שונה מכל האחרות?",
+      "options": [
+        "{{figcell:shape=circle,n=2}}",
+        "{{figcell:shape=square,n=2}}",
+        "{{figcell:shape=triangle,n=3}}",
+        "{{figcell:shape=star,n=2}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 2,
+      "target_seconds": 35,
+      "explanation": "בשלוש מהתשובות מופיעות שתי צורות, ובאחת שלוש — היא היוצאת דופן.",
+      "solution": "כשהצורות שונות והמילוי זהה, ספרו. כמות היא התכונה שהכי קל לפספס כי העין קופצת קודם לצורה עצמה."
+    },
+    {
+      "ref": "k-fig-odd-04",
+      "domain": "figural",
+      "qtype": "odd-one-out",
+      "topic": "יוצא דופן צורני",
+      "subtopic": "זווית סיבוב",
+      "stem": "איזו צורה שונה מכל האחרות?",
+      "options": [
+        "{{figcell:shape=arrow,rot=0}}",
+        "{{figcell:shape=arrow,rot=90}}",
+        "{{figcell:shape=arrow,rot=45}}",
+        "{{figcell:shape=arrow,rot=180}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 3,
+      "target_seconds": 40,
+      "explanation": "שלושה מהחצים מסובבים בכפולות של 90° — 0°, 90° ו-180° — ולכן הם מצביעים למעלה, לצדדים או למטה. החץ המסובב 45° הוא היחיד באלכסון.",
+      "solution": "כשכל הצורות זהות, התכונה היחידה שנותרה היא הכיוון. חפשו את הכלל המדויק — כאן ״כפולה של 90°״ — ולא סתם ״נראה אחרת״."
+    },
+    {
+      "ref": "k-fig-odd-05",
+      "domain": "figural",
+      "qtype": "odd-one-out",
+      "topic": "יוצא דופן צורני",
+      "subtopic": "סימטריית סיבוב",
+      "stem": "איזו צורה שונה מכל האחרות?",
+      "options": [
+        "{{figcell:shape=circle}}",
+        "{{figcell:shape=square}}",
+        "{{figcell:shape=trapezoid}}",
+        "{{figcell:shape=hexagon}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 4,
+      "target_seconds": 50,
+      "explanation": "עיגול, ריבוע ומשושה נראים בדיוק אותו דבר גם אחרי סיבוב חלקי — לעיגול זה נכון בכל זווית, לריבוע כל 90° ולמשושה כל 60°. הטרפז חוזר לעצמו רק אחרי סיבוב שלם, והוא היוצא דופן.",
+      "solution": "זו שאלה ברמה גבוהה כי הכלל אינו מספר צלעות אלא סימטריה. כשאף כלל פשוט לא עובד, שאלו את עצמכם: אם אסובב את הצורה, האם היא תיראה אותו דבר?"
+    }
+  ]
+}
