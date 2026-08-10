@@ -1,9 +1,10 @@
 """תקופת התנסות חינם לכל תלמיד — ואחריה גישה רק באישור מנהל.
 
-כל תלמיד חדש מקבל אוטומטית מנוי מסוג ``trial`` שתוקפו ``TRIAL_DAYS`` ימים מרגע
-ההרשמה, ובמהלכם הלומדה פתוחה לו ב-100%. בתום התקופה המנוי פג והוא יורד לדרגת
-``free`` — 42% מכל קורס (ראה ``app.access``). להחזרת הגישה המלאה נדרשת הענקה/
-הארכה ידנית של המנהל (``/api/admin/subscriptions``). אין סליקה אוטומטית.
+כל תלמיד חדש מקבל אוטומטית מנוי מסוג ``trial`` שתוקפו כמספר הימים שהמנהל הגדיר
+לתוכנית הזו (עורכים דרך /admin/plans — ``PATCH /api/admin/plans/{id}``), ובמהלכם
+הלומדה פתוחה לו ב-100%. בתום התקופה המנוי פג והתלמיד נחסם לגמרי (ראה
+``app.dependencies.user_access_tier``). להחזרת הגישה נדרשת הענקה/הארכה ידנית של
+המנהל (``/api/admin/subscriptions``). אין סליקה אוטומטית.
 
 הפונקציה ``start_trial_if_needed`` היא נקודת הכניסה היחידה ליצירת התנסות: היא
 נקראת בהרשמה, ביצירת תלמיד ע"י מנהל, ובבדיקת הגישה — כך שאף מסלול יצירה לא
@@ -18,16 +19,21 @@ from sqlalchemy.orm import Session
 from app import models
 
 TRIAL_PLAN_CODE = "trial"
-TRIAL_DAYS = 10
-TRIAL_PLAN_NAME = f"התנסות חינם ({TRIAL_DAYS} ימים)"
+# ברירת המחדל הזו משמשת רק להקמה הראשונה של תוכנית ה-trial (כשעדיין אין שורה
+# במסד בכלל). מאותו רגע המשך בפועל הוא לגמרי בהחלטת המנהל — מאוחסן על
+# SubscriptionPlan.duration_days ונקרא משם בכל הפעלת התנסות חדשה
+# (``trial_duration_days``), לא מהקבוע הזה.
+DEFAULT_TRIAL_DAYS = 10
+_DEFAULT_TRIAL_PLAN_NAME = f"התנסות חינם ({DEFAULT_TRIAL_DAYS} ימים)"
 
 
 def ensure_trial_plan(db: Session) -> models.SubscriptionPlan:
-    """יוצר את תוכנית ההתנסות אם אינה קיימת, ומסנכרן שם/משך אם ``TRIAL_DAYS`` השתנה.
+    """מוודא שתוכנית ה-``trial`` קיימת, ויוצר אותה בברירת המחדל אם עוד לא.
 
-    מנויי התנסות שכבר פעילים אינם נוגעים — הסנכרון משפיע רק על תלמידים חדשים
-    (``start_trial_if_needed`` משתמש ב-``TRIAL_DAYS`` ישירות) ועל התצוגה של
-    התוכנית עצמה (שם/מספר הימים המוצג בכרטיסי המנהל).
+    לעולם לא דורס תוכנית קיימת: ברגע שהיא נוצרה, השם והמשך שלה בהחלטת המנהל
+    בלבד (עריכה דרך /admin/plans) — אחרת כל שינוי שהוא עשה היה נעלם בהפעלה
+    הבאה של הפונקציה הזו (זו הייתה ההתנהגות הישנה, והיא באג: היא דרסה בשקט
+    כל עריכה ידנית של משך ההתנסות בחזרה לברירת המחדל הקשיחה).
     """
     plan = (
         db.query(models.SubscriptionPlan)
@@ -35,17 +41,12 @@ def ensure_trial_plan(db: Session) -> models.SubscriptionPlan:
         .first()
     )
     if plan:
-        if plan.name != TRIAL_PLAN_NAME or plan.duration_days != TRIAL_DAYS:
-            plan.name = TRIAL_PLAN_NAME
-            plan.duration_days = TRIAL_DAYS
-            db.commit()
-            db.refresh(plan)
         return plan
     plan = models.SubscriptionPlan(
         code=TRIAL_PLAN_CODE,
-        name=TRIAL_PLAN_NAME,
+        name=_DEFAULT_TRIAL_PLAN_NAME,
         price_nis=0,
-        duration_days=TRIAL_DAYS,
+        duration_days=DEFAULT_TRIAL_DAYS,
     )
     db.add(plan)
     db.commit()
@@ -53,8 +54,13 @@ def ensure_trial_plan(db: Session) -> models.SubscriptionPlan:
     return plan
 
 
+def trial_duration_days(db: Session) -> int:
+    """משך ההתנסות הנוכחי, ימים — כפי שהמנהל הגדיר אותו (/admin/plans)."""
+    return ensure_trial_plan(db).duration_days
+
+
 def start_trial_if_needed(db: Session, user: models.User) -> models.Subscription | None:
-    """מפעיל התנסות של ``TRIAL_DAYS`` ימים לתלמיד שאין לו שום היסטוריית מנויים.
+    """מפעיל התנסות לתלמיד שאין לו שום היסטוריית מנויים, לפי המשך שהמנהל הגדיר כרגע.
 
     מחזיר את שורת ההתנסות שנוצרה, או None אם לא נדרשה (מנהל / כבר היה מנוי).
     בטוח לקריאה חוזרת — לתלמיד שההתנסות שלו פגה יש שורת מנוי ולכן לא ייצור חדשה.
@@ -75,7 +81,7 @@ def start_trial_if_needed(db: Session, user: models.User) -> models.Subscription
         plan_code=TRIAL_PLAN_CODE,
         status="active",
         started_at=now,
-        expires_at=now + timedelta(days=TRIAL_DAYS),
+        expires_at=now + timedelta(days=trial_duration_days(db)),
     )
     db.add(sub)
     db.commit()

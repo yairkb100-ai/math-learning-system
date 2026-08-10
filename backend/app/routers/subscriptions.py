@@ -24,7 +24,7 @@ from app.schemas import (
     SubscriptionExtend,
     SubscriptionOut,
 )
-from app.trials import TRIAL_DAYS, TRIAL_PLAN_CODE, start_trial_if_needed
+from app.trials import TRIAL_PLAN_CODE, start_trial_if_needed, trial_duration_days
 
 router = APIRouter(prefix="/api", tags=["subscriptions"])
 
@@ -224,7 +224,7 @@ def my_access(
     if current_user.role == "admin":
         return AccessStatusOut(
             state="admin",
-            trial_days=TRIAL_DAYS,
+            trial_days=trial_duration_days(db),
             has_access=True,
             welcome_seen=True,
             free_ratio=FREE_CONTENT_RATIO,
@@ -241,9 +241,10 @@ def my_access(
             if sub.expires_at
             else None
         )
-        # trial_days הוא המשך האישי של המשתמש, לא הקבוע הגלובלי — מי שנרשם
-        # כשההתנסות הייתה 14 יום ימשיך לראות 14, ומצטרף חדש יראה 10.
-        personal_days = TRIAL_DAYS
+        # trial_days הוא המשך האישי של המשתמש, לא ההגדרה הנוכחית של המנהל —
+        # מי שנרשם כשההתנסות הייתה למשל 14 יום ימשיך לראות 14, גם אם המנהל
+        # שינה אחר כך את ברירת המחדל למי שנרשם מעכשיו.
+        personal_days = trial_duration_days(db)
         if is_trial and sub.expires_at and sub.started_at:
             personal_days = max(1, round((sub.expires_at - sub.started_at).total_seconds() / 86400))
         return AccessStatusOut(
@@ -272,7 +273,7 @@ def my_access(
         plan_code=last.plan_code if last else None,
         expires_at=last.expires_at if last else None,
         seconds_left=0,
-        trial_days=TRIAL_DAYS,
+        trial_days=trial_duration_days(db),
         is_trial=trial_ended,
         has_access=False,
         welcome_seen=welcome_seen,

@@ -373,33 +373,34 @@ def backfill_lesson_type_names(db):
 
 
 def rollout_free_trial(db):
-    """השקה חד-פעמית של תקופת ההתנסות (``TRIAL_DAYS`` ימים חינם) לכל התלמידים.
+    """השקה חד-פעמית של תקופת ההתנסות (ברירת המחדל בהקמה, ימים חינם) לכל התלמידים.
 
     נקודת ההשקה מזוהה ע"י *היעדר* תוכנית ``trial`` במסד — כלומר הבלוק הזה רץ
     בפריסה הראשונה שכוללת את הפיצ'ר, ומאותו רגע נדלג עליו. מה שהוא עושה:
 
-    1. יוצר את תוכנית ``trial`` (``TRIAL_DAYS`` ימים, ללא תשלום).
+    1. יוצר את תוכנית ``trial`` (``DEFAULT_TRIAL_DAYS`` ימים, ללא תשלום) —
+       מכאן ואילך המשך שלה בהחלטת המנהל בלבד, ראה ``app.trials``.
     2. הופך כל מנוי "חינם ללא הגבלת זמן" קיים (ה-backfill שניתן לתלמידים
-       הראשונים) להתנסות שנגמרת בעוד ``TRIAL_DAYS`` ימים — כך שגם התלמידים
+       הראשונים) להתנסות שנגמרת בעוד אותו מספר ימים — כך שגם התלמידים
        הקיימים מקבלים את אותה תקופה מעכשיו, ואחריה נדרש אישור מנהל.
     3. מפעיל התנסות לתלמידים שאין להם שום שורת מנוי.
 
     מנויים בתשלום (monthly/yearly) ומנויים עם תאריך תפוגה אינם נוגעים.
     """
     from app.models import Subscription
-    from app.trials import TRIAL_DAYS, TRIAL_PLAN_CODE, ensure_trial_plan, start_trial_if_needed
+    from app.trials import TRIAL_PLAN_CODE, ensure_trial_plan, start_trial_if_needed
 
     already = (
         db.query(SubscriptionPlan)
         .filter(SubscriptionPlan.code == TRIAL_PLAN_CODE)
         .first()
     )
-    ensure_trial_plan(db)
+    plan = ensure_trial_plan(db)
     if already:
         return  # ההשקה כבר בוצעה בפריסה קודמת
 
     now = datetime.utcnow()
-    trial_end = now + timedelta(days=TRIAL_DAYS)
+    trial_end = now + timedelta(days=plan.duration_days)
 
     legacy = (
         db.query(Subscription)
@@ -433,7 +434,7 @@ def rollout_free_trial(db):
 
     print(
         f"  + Free-trial rollout: {converted} unlimited sub(s) converted to a "
-        f"{TRIAL_DAYS}-day trial, {started} student(s) started fresh "
+        f"{plan.duration_days}-day trial, {started} student(s) started fresh "
         f"(ends {trial_end:%Y-%m-%d %H:%M} UTC)"
     )
 
