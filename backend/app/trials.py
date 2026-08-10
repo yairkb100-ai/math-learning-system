@@ -54,7 +54,7 @@ def ensure_trial_plan(db: Session) -> models.SubscriptionPlan:
 
 
 def start_trial_if_needed(db: Session, user: models.User) -> models.Subscription | None:
-    """מפעיל התנסות של שבועיים לתלמיד שאין לו שום היסטוריית מנויים.
+    """מפעיל התנסות של ``TRIAL_DAYS`` ימים לתלמיד שאין לו שום היסטוריית מנויים.
 
     מחזיר את שורת ההתנסות שנוצרה, או None אם לא נדרשה (מנהל / כבר היה מנוי).
     בטוח לקריאה חוזרת — לתלמיד שההתנסות שלו פגה יש שורת מנוי ולכן לא ייצור חדשה.

@@ -48,7 +48,7 @@ export default function AdminSubscriptions() {
 
   const userName = (id) => users.find((u) => u.id === id)?.full_name || `#${id}`
   const planName = (code) => plans.find((p) => p.code === code)?.name || code
-  const trialDays = plans.find((p) => p.code === 'trial')?.duration_days ?? 14
+  const trialDays = plans.find((p) => p.code === 'trial')?.duration_days ?? 10
 
   async function assign(e) {
     e.preventDefault()

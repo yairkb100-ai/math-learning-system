@@ -149,7 +149,7 @@ def register(
     db.add(user)
     db.commit()
     db.refresh(user)
-    # שבועיים התנסות חינם מרגע ההרשמה; בתומם נדרש אישור מנהל.
+    # התנסות חינם (TRIAL_DAYS ימים) מרגע ההרשמה; בתומה נדרש אישור מנהל.
     start_trial_if_needed(db, user)
     # הגיע דרך קישור הזמנה? נרשום הפניה ממתינה. קוד שגוי לא מכשיל את ההרשמה.
     if payload.referral_code:
