@@ -190,7 +190,7 @@
       "stem": "איזו צורה מתאימה למקום הריק במטריצה?",
       "figure": "{{figmatrix:shape=circle,size=s;shape=triangle,size=s;shape=square,size=s/shape=circle,size=m;shape=triangle,size=m;shape=square,size=m/shape=circle,size=l;shape=triangle,size=l;?}}",
       "options": [
-        "{{figcell:shape=square,size=m}}",
+        "{{figcell:shape=diamond,size=l}}",
         "{{figcell:shape=triangle,size=l}}",
         "{{figcell:shape=square,size=l}}",
         "{{figcell:shape=square,size=s}}"
@@ -210,7 +210,7 @@
       "stem": "איזו צורה מתאימה למקום הריק במטריצה?",
       "figure": "{{figmatrix:shape=hexagon,n=1,fill=none;shape=hexagon,n=1,fill=half;shape=hexagon,n=1,fill=solid/shape=hexagon,n=2,fill=none;shape=hexagon,n=2,fill=half;shape=hexagon,n=2,fill=solid/shape=hexagon,n=3,fill=none;shape=hexagon,n=3,fill=half;?}}",
       "options": [
-        "{{figcell:shape=hexagon,n=2,fill=solid}}",
+        "{{figcell:shape=hexagon,n=4,fill=solid}}",
         "{{figcell:shape=hexagon,n=3,fill=solid}}",
         "{{figcell:shape=hexagon,n=3,fill=half}}",
         "{{figcell:shape=hexagon,n=1,fill=solid}}"
@@ -230,7 +230,7 @@
       "stem": "איזו צורה מתאימה למקום הריק במטריצה?",
       "figure": "{{figmatrix:shape=arrow,rot=0,n=1;shape=arrow,rot=0,n=2;shape=arrow,rot=0,n=3/shape=arrow,rot=90,n=1;shape=arrow,rot=90,n=2;shape=arrow,rot=90,n=3/shape=arrow,rot=180,n=1;shape=arrow,rot=180,n=2;?}}",
       "options": [
-        "{{figcell:shape=arrow,rot=90,n=3}}",
+        "{{figcell:shape=arrow,n=4,rot=180}}",
         "{{figcell:shape=arrow,rot=180,n=2}}",
         "{{figcell:shape=arrow,rot=0,n=3}}",
         "{{figcell:shape=arrow,rot=180,n=3}}"
@@ -250,7 +250,7 @@
       "stem": "איזו צורה מתאימה למקום הריק במטריצה?",
       "figure": "{{figmatrix:shape=circle;shape=square;shape=triangle/shape=square;shape=triangle;shape=circle/shape=triangle;shape=circle;?}}",
       "options": [
-        "{{figcell:shape=triangle}}",
+        "{{figcell:shape=diamond}}",
         "{{figcell:shape=square}}",
         "{{figcell:shape=circle}}",
         "{{figcell:shape=star}}"
@@ -310,7 +310,7 @@
       "stem": "איזו צורה מתאימה למקום הריק במטריצה?",
       "figure": "{{figmatrix:shape=circle,dot=tl;shape=square,dot=tl;shape=triangle,dot=tl/shape=circle,dot=c;shape=square,dot=c;shape=triangle,dot=c/shape=circle,dot=br;shape=square,dot=br;?}}",
       "options": [
-        "{{figcell:shape=triangle,dot=c}}",
+        "{{figcell:shape=diamond,dot=br}}",
         "{{figcell:shape=square,dot=br}}",
         "{{figcell:shape=triangle,dot=tl}}",
         "{{figcell:shape=triangle,dot=br}}"

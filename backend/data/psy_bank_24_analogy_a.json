@@ -26,7 +26,7 @@
       "domain": "figural",
       "qtype": "figural-analogy",
       "topic": "אנלוגיות צורניות",
-      "subtopic": "הקטנה",
+      "subtopic": "הקטנת הצורה",
       "stem": "בדקו מה נשמר ומה השתנה בזוג הראשון, והשלימו את הזוג השני.",
       "figure": "{{figpair:shape=star,size=l;shape=star,size=s/shape=heart,size=l;?}}",
       "options": [

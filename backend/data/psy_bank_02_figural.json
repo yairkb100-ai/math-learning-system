@@ -131,7 +131,7 @@
       "figure": "{{figmatrix:shape=circle,n=1;shape=circle,n=2;shape=circle,n=3/shape=square,n=1;shape=square,n=2;shape=square,n=3/shape=triangle,n=1;shape=triangle,n=2;?}}",
       "options": [
         "{{figcell:shape=triangle,n=3}}",
-        "{{figcell:shape=triangle,n=2}}",
+        "{{figcell:shape=diamond,n=3}}",
         "{{figcell:shape=square,n=3}}",
         "{{figcell:shape=circle,n=3}}"
       ],
@@ -150,7 +150,7 @@
       "stem": "איזו צורה מתאימה למקום הריק במטריצה?",
       "figure": "{{figmatrix:shape=circle,fill=none;shape=circle,fill=half;shape=circle,fill=solid/shape=square,fill=none;shape=square,fill=half;shape=square,fill=solid/shape=star,fill=none;shape=star,fill=half;?}}",
       "options": [
-        "{{figcell:shape=star,fill=none}}",
+        "{{figcell:shape=triangle,fill=solid}}",
         "{{figcell:shape=square,fill=solid}}",
         "{{figcell:shape=star,fill=solid}}",
         "{{figcell:shape=star,fill=half}}"
@@ -170,7 +170,7 @@
       "stem": "איזו צורה מתאימה למקום הריק במטריצה?",
       "figure": "{{figmatrix:shape=arrow,rot=0,fill=none;shape=arrow,rot=45,fill=none;shape=arrow,rot=90,fill=none/shape=arrow,rot=0,fill=half;shape=arrow,rot=45,fill=half;shape=arrow,rot=90,fill=half/shape=arrow,rot=0,fill=solid;shape=arrow,rot=45,fill=solid;?}}",
       "options": [
-        "{{figcell:shape=arrow,rot=45,fill=solid}}",
+        "{{figcell:shape=arrow,fill=dots,rot=90}}",
         "{{figcell:shape=arrow,rot=90,fill=half}}",
         "{{figcell:shape=arrow,rot=0,fill=solid}}",
         "{{figcell:shape=arrow,rot=90,fill=solid}}"
