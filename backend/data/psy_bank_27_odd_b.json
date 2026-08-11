@@ -1,0 +1,405 @@
+{
+  "_comment": "מאגר קרני — יוצא דופן צורני, מנה ב'. אין figure: ארבע האפשרויות עצמן הן המועמדות. בכל פריט הכלל מפריד שלוש מול אחת, וכל שאר התכונות מתחלקות 2-2, ארבע-שונות או זהות לגמרי — כדי שלא תיווצר חלוקה מתחרה. הפריטים כאן קשים מאלה שב-psy_bank_26_odd_a.json: אותן משפחות כללים אך עם רעש מכוון.",
+  "items": [
+    {
+      "ref": "k-odb-01",
+      "domain": "figural",
+      "qtype": "odd-one-out",
+      "topic": "יוצא דופן צורני",
+      "subtopic": "מספר צלעות",
+      "stem": "איזו צורה שונה מכל האחרות?",
+      "options": [
+        "{{figcell:shape=square,rot=0}}",
+        "{{figcell:shape=triangle,rot=45}}",
+        "{{figcell:shape=square,rot=45}}",
+        "{{figcell:shape=square,rot=30}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 2,
+      "target_seconds": 30,
+      "explanation": "לשלוש מהצורות ארבע צלעות — כולן ריבועים, רק בזוויות שונות — ולמשולש שלוש. זווית הסיבוב אינה מפרידה, כי הזווית 45° מופיעה בשני תאים.",
+      "solution": "ספרו קודם צלעות ורק אחר כך הביטו בזווית. המלכודת היא הריבוע שהוטה 45°: הוא נראה כמו מעוין ומפתה לבחור בו, אבל מספר הצלעות שלו עדיין ארבע.",
+      "tags": ["ספירת צלעות", "התעלמות מסיבוב"]
+    },
+    {
+      "ref": "k-odb-02",
+      "domain": "figural",
+      "qtype": "odd-one-out",
+      "topic": "יוצא דופן צורני",
+      "subtopic": "כמות",
+      "stem": "איזה תא אינו מתאים לשלושת האחרים?",
+      "options": [
+        "{{figcell:shape=square,n=1,fill=none}}",
+        "{{figcell:shape=triangle,n=2,fill=solid}}",
+        "{{figcell:shape=triangle,n=1,fill=none}}",
+        "{{figcell:shape=square,n=1,fill=solid}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 2,
+      "target_seconds": 30,
+      "explanation": "בשלושה תאים יש צורה אחת ובתא אחד יש שתיים. הצורה אינה מפרידה — שני ריבועים ושני משולשים — וגם המילוי מתחלק שניים־שניים.",
+      "solution": "ספירה היא הבדיקה הזולה ביותר, ולכן כדאי לעשות אותה ראשונה. הצורה והמילוי כאן משתנים בכוונה כדי למשוך את העין, אבל שניהם מתחלקים שווה בשווה ולכן אינם יכולים לשמש כלל.",
+      "tags": ["ספירה", "פסילת תכונה"]
+    },
+    {
+      "ref": "k-odb-03",
+      "domain": "figural",
+      "qtype": "odd-one-out",
+      "topic": "יוצא דופן צורני",
+      "subtopic": "קיום מילוי",
+      "stem": "איזו צורה שונה מכל האחרות?",
+      "options": [
+        "{{figcell:shape=hexagon,fill=dots}}",
+        "{{figcell:shape=hexagon,fill=stripes}}",
+        "{{figcell:shape=hexagon,fill=grid}}",
+        "{{figcell:shape=hexagon,fill=none}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 3,
+      "target_seconds": 35,
+      "explanation": "בשלוש הצורות יש דוגמת מילוי כלשהי — נקודות, פסים ורשת — והרביעית ריקה לגמרי. סוג הדוגמה אינו יכול להיות הכלל, שכן שלוש הדוגמאות שונות זו מזו.",
+      "solution": "אל תשוו דוגמה לדוגמה, אלא שאלו קודם שאלה פשוטה: האם יש בכלל משהו בתוך הצורה. תלמידים רבים מנסים לדרג נקודות מול פסים מול רשת ומבזבזים זמן, בעוד ההבדל האמיתי הוא בין ״מלא במשהו״ ל״ריק״.",
+      "tags": ["מילוי", "שאלה בינארית"]
+    },
+    {
+      "ref": "k-odb-04",
+      "domain": "figural",
+      "qtype": "odd-one-out",
+      "topic": "יוצא דופן צורני",
+      "subtopic": "מילוי חלקי מול צורה ריקה",
+      "stem": "איזו צורה שונה מכל האחרות?",
+      "options": [
+        "{{figcell:shape=pentagon,fill=none}}",
+        "{{figcell:shape=diamond,fill=half}}",
+        "{{figcell:shape=triangle,fill=half}}",
+        "{{figcell:shape=hexagon,fill=half}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 3,
+      "target_seconds": 40,
+      "explanation": "בשלוש מהצורות חצי הצורה צבוע, והמחומש ריק לגמרי. הצורה עצמה אינה מפרידה: לכל אחת מארבע הצורות מספר צלעות אחר — 3, 4, 5 ו-6.",
+      "solution": "הבחינו בין ״כמה צבוע״ לבין ״האם צבוע בכלל״. כאן ההבדל אינו בין חצי למלא אלא בין חצי לכלום, ומי שמחפש בטעות צורה מלאה יסרוק את ארבעת התאים ולא ימצא דבר.",
+      "tags": ["מילוי", "ניסוח מדויק של הכלל"]
+    },
+    {
+      "ref": "k-odb-05",
+      "domain": "figural",
+      "qtype": "odd-one-out",
+      "topic": "יוצא דופן צורני",
+      "subtopic": "מילוי מול צבע",
+      "stem": "איזו צורה שונה מכל האחרות?",
+      "options": [
+        "{{figcell:shape=square,fill=solid,color=ink}}",
+        "{{figcell:shape=triangle,fill=solid,color=accent}}",
+        "{{figcell:shape=pentagon,fill=solid,color=ink}}",
+        "{{figcell:shape=hexagon,fill=none,color=accent}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 3,
+      "target_seconds": 40,
+      "explanation": "בשלושה תאים הצורה צבועה במלואה ובתא אחד היא ריקה. הצבע אינו מפריד: שתי צורות בגוון הכהה ושתיים בגוון התכלת.",
+      "solution": "צבע בולט לעין ומושך את תשומת הלב, ולכן כדאי לספור אותו מיד: תכונה שמתחלקת שניים־שניים לעולם אינה יכולה להיות הכלל. אחרי שפסלתם את הצבע ואת הצורה נשאר רק המילוי.",
+      "tags": ["מילוי", "צבע כמסיח"]
+    },
+    {
+      "ref": "k-odb-06",
+      "domain": "figural",
+      "qtype": "odd-one-out",
+      "topic": "יוצא דופן צורני",
+      "subtopic": "הטיה קלה",
+      "stem": "איזה תא אינו מתאים לשלושת האחרים?",
+      "options": [
+        "{{figcell:shape=trapezoid,rot=0,fill=none}}",
+        "{{figcell:shape=arrow,rot=0,fill=solid}}",
+        "{{figcell:shape=arrow,rot=20,fill=none}}",
+        "{{figcell:shape=trapezoid,rot=0,fill=solid}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 3,
+      "target_seconds": 35,
+      "explanation": "שלוש הצורות עומדות ישר ואחת מוטה מעט הצידה. הצורה אינה מפרידה — שני טרפזים ושני חצים — וגם המילוי אינו מפריד, שניים מלאים ושניים ריקים.",
+      "solution": "הטיה של כמה מעלות קל מאוד לפספס. השוו כל צורה למסגרת של התא: אם הצלע התחתונה אינה מקבילה לקו המסגרת, הצורה מוטה. זו בדיקה של שנייה אחת שמגלה כלל שכמעט בלתי נראה מרחוק.",
+      "tags": ["סיבוב", "השוואה למסגרת"]
+    },
+    {
+      "ref": "k-odb-07",
+      "domain": "figural",
+      "qtype": "odd-one-out",
+      "topic": "יוצא דופן צורני",
+      "subtopic": "כיוון החץ",
+      "stem": "איזה חץ שונה מכל האחרים?",
+      "options": [
+        "{{figcell:shape=arrow,rot=45}}",
+        "{{figcell:shape=arrow,rot=90}}",
+        "{{figcell:shape=arrow,rot=270}}",
+        "{{figcell:shape=arrow,rot=135}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 3,
+      "target_seconds": 40,
+      "explanation": "שלושה חצים פונים לצד ימין — למעלה-ימינה, ימינה ולמטה-ימינה — וחץ אחד פונה שמאלה. ״ישר מול אלכסון״ אינו מפריד כאן: שני חצים מצביעים בכיוון ישר ושניים באלכסון.",
+      "solution": "סמנו לעצמכם את קצה החץ ושאלו לאיזה חצי של התא הוא פונה, ימין או שמאל. זו החלוקה השכיחה ביותר בשאלות חצים, והמסיחים בנויים בדיוק כדי לפתות אתכם לדרג זוויות במקום לקבוע צד.",
+      "tags": ["כיוון", "ימין מול שמאל"]
+    },
+    {
+      "ref": "k-odb-08",
+      "domain": "figural",
+      "qtype": "odd-one-out",
+      "topic": "יוצא דופן צורני",
+      "subtopic": "סיבוב שאינו נראה לעין",
+      "stem": "איזו צורה שונה מכל האחרות?",
+      "options": [
+        "{{figcell:shape=square,rot=0}}",
+        "{{figcell:shape=square,rot=90}}",
+        "{{figcell:shape=square,rot=180}}",
+        "{{figcell:shape=square,rot=45}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 3,
+      "target_seconds": 45,
+      "explanation": "הריבוע חוזר לעצמו אחרי כל סיבוב של 90°, ולכן שלושת הריבועים הראשונים נראים זהים לחלוטין. רק הסיבוב של 45° משנה את המראה. הגודל והמילוי אינם מפרידים — הם זהים בארבעת התאים.",
+      "solution": "לפני שאתם מחפשים כלל מתוחכם, בדקו מה בכלל נראה שונה בעין. בצורה סימטרית יש סיבובים ש״לא נראים״, ולכן שלוש אפשרויות יכולות להיות שונות זו מזו במספרים וזהות לגמרי במראה.",
+      "tags": ["סימטריית סיבוב", "מה נראה שונה"]
+    },
+    {
+      "ref": "k-odb-09",
+      "domain": "figural",
+      "qtype": "odd-one-out",
+      "topic": "יוצא דופן צורני",
+      "subtopic": "סימטריית סיבוב של הכוכב",
+      "stem": "איזו צורה שונה מכל האחרות?",
+      "options": [
+        "{{figcell:shape=star,rot=36}}",
+        "{{figcell:shape=star,rot=0}}",
+        "{{figcell:shape=star,rot=72}}",
+        "{{figcell:shape=star,rot=144}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 4,
+      "target_seconds": 45,
+      "explanation": "לכוכב חמישה קצוות, ולכן הוא חוזר לעצמו בכל סיבוב של 72°: שלושת התאים בזוויות 0°, 72° ו-144° נראים זהים. רק הסיבוב של 36°, חצי מרווח, מזיז את הקצוות ומשנה את המראה. כל שאר התכונות זהות בארבעת התאים.",
+      "solution": "בצורה בעלת קצוות חוזרים, בחרו קצה אחד וסמנו לאן הוא מצביע בכל תא — למעלה או למטה. שלוש פעמים תקבלו את אותה תשובה ופעם אחת תשובה הפוכה, וזה הכלל.",
+      "tags": ["סימטריית סיבוב", "נקודת ייחוס"]
+    },
+    {
+      "ref": "k-odb-10",
+      "domain": "figural",
+      "qtype": "odd-one-out",
+      "topic": "יוצא דופן צורני",
+      "subtopic": "קמירות",
+      "stem": "איזו צורה שונה מכל האחרות?",
+      "options": [
+        "{{figcell:shape=square,fill=solid}}",
+        "{{figcell:shape=star,fill=none}}",
+        "{{figcell:shape=triangle,fill=solid}}",
+        "{{figcell:shape=pentagon,fill=none}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 4,
+      "target_seconds": 45,
+      "explanation": "הריבוע, המשולש והמחומש קמורים — כל הפינות שלהם פונות החוצה — ואילו לכוכב יש שקעים בין הקצוות. המילוי אינו מפריד: שני תאים מלאים ושניים ריקים.",
+      "solution": "מתחו קו דמיוני בין שתי פינות רחוקות של הצורה: אם הקו יוצא אל מחוץ לצורה, יש שם שקע. שימו לב שספירת צלעות לא תעזור כאן — לשלוש הצורות הקמורות מספרי צלעות שונים לגמרי, ולכן הספירה אינה יכולה לשמש כלל.",
+      "tags": ["קמירות", "פסילת תכונה"]
+    },
+    {
+      "ref": "k-odb-11",
+      "domain": "figural",
+      "qtype": "odd-one-out",
+      "topic": "יוצא דופן צורני",
+      "subtopic": "צורה סדירה",
+      "stem": "איזו צורה שונה מכל האחרות?",
+      "options": [
+        "{{figcell:shape=trapezoid,fill=none}}",
+        "{{figcell:shape=hexagon,fill=solid}}",
+        "{{figcell:shape=pentagon,fill=solid}}",
+        "{{figcell:shape=diamond,fill=none}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 4,
+      "target_seconds": 50,
+      "explanation": "למשושה, למחומש ולמעוין כל הצלעות שוות באורכן, ואילו לטרפז יש בסיס רחב וצלע עליונה קצרה. מספר הצלעות אינו מפריד, כי גם למעוין וגם לטרפז ארבע צלעות, והמילוי מתחלק שניים־שניים.",
+      "solution": "כשספירת הצלעות אינה מכריעה, עברו לאורכי הצלעות. צורה שכל צלעותיה שוות נראית מאוזנת מכל כיוון, והטרפז הוא הצורה שקל ביותר לזהות לפי הבסיס הרחב שלה — אבל רק אם זוכרים לבדוק אורכים בכלל.",
+      "tags": ["סדירות", "אורכי צלעות"]
+    },
+    {
+      "ref": "k-odb-12",
+      "domain": "figural",
+      "qtype": "odd-one-out",
+      "topic": "יוצא דופן צורני",
+      "subtopic": "כמות מול מספר צלעות",
+      "stem": "איזה תא אינו מתאים לשלושת האחרים?",
+      "options": [
+        "{{figcell:shape=triangle,n=3}}",
+        "{{figcell:shape=square,n=4}}",
+        "{{figcell:shape=hexagon,n=5}}",
+        "{{figcell:shape=pentagon,n=5}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 4,
+      "target_seconds": 55,
+      "explanation": "בשלושה תאים מספר הצורות שווה למספר הצלעות: שלושה משולשים, ארבעה ריבועים וחמישה מחומשים. בתא הנותר יש חמישה משושים, ולפי הכלל היו צריכים להיות שישה. הכמות לבדה אינה מפרידה, כי המספר 5 מופיע בשני תאים.",
+      "solution": "כשאף תכונה בודדת אינה מסתדרת, חפשו קשר בין שתי תכונות — וקשר של כמות מול מספר צלעות הוא השכיח ביותר. עבדו תא-תא: קודם ספרו כמה צלעות יש לצורה, אחר כך כמה עותקים יש בתא, ורק אז השוו בין שני המספרים.",
+      "tags": ["קשר בין תכונות", "ספירה כפולה"]
+    },
+    {
+      "ref": "k-odb-13",
+      "domain": "figural",
+      "qtype": "odd-one-out",
+      "topic": "יוצא דופן צורני",
+      "subtopic": "ספירת צלעות בתוך רעש",
+      "stem": "איזו צורה שונה מכל האחרות?",
+      "options": [
+        "{{figcell:shape=pentagon,rot=30,fill=none}}",
+        "{{figcell:shape=hexagon,rot=0,fill=none}}",
+        "{{figcell:shape=hexagon,rot=30,fill=solid}}",
+        "{{figcell:shape=hexagon,rot=0,fill=solid}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 4,
+      "target_seconds": 45,
+      "explanation": "בשלושה תאים הצורה היא משושה בעל שש צלעות, ובתא אחד מחומש בעל חמש. המילוי אינו מפריד — שני תאים מלאים ושניים ריקים — וגם הסיבוב אינו מפריד: שני תאים מסובבים ושניים אינם.",
+      "solution": "כשכל התאים נראים דומים מאוד, ספרו צלעות בפועל במקום להסתמך על תחושה. הסיבוב נועד להקשות: משושה עם צלע ישרה למעלה נראה אחרת ממשושה עם חוד למעלה, אבל מספר הצלעות אינו משתנה בסיבוב.",
+      "tags": ["ספירת צלעות", "רעש מכוון"]
+    },
+    {
+      "ref": "k-odb-14",
+      "domain": "figural",
+      "qtype": "odd-one-out",
+      "topic": "יוצא דופן צורני",
+      "subtopic": "ארבע צלעות בזוויות שונות",
+      "stem": "איזו צורה שונה מכל האחרות?",
+      "options": [
+        "{{figcell:shape=square,rot=0}}",
+        "{{figcell:shape=diamond,rot=30}}",
+        "{{figcell:shape=square,rot=30}}",
+        "{{figcell:shape=pentagon,rot=0}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 4,
+      "target_seconds": 45,
+      "explanation": "לשלוש מהצורות ארבע צלעות, גם אם אחת מהן מוטה ונראית כמעוין, ולמחומש חמש. הזווית אינה מפרידה: שתי צורות עומדות ישר ושתיים מסובבות.",
+      "solution": "סיבוב הוא התחפושת השכיחה בפרק הצורני: ריבוע מוטה נראה כצורה אחרת לגמרי, אבל ספירת הפינות חושפת אותו מיד. ספרו פינות בכל תא לפני שאתם מסיקים משהו מהזווית.",
+      "tags": ["ספירת צלעות", "התעלמות מסיבוב"]
+    },
+    {
+      "ref": "k-odb-15",
+      "domain": "figural",
+      "qtype": "odd-one-out",
+      "topic": "יוצא דופן צורני",
+      "subtopic": "כמות אחידה",
+      "stem": "איזה תא אינו מתאים לשלושת האחרים?",
+      "options": [
+        "{{figcell:shape=triangle,n=3,fill=none}}",
+        "{{figcell:shape=hexagon,n=2,fill=solid}}",
+        "{{figcell:shape=square,n=3,fill=solid}}",
+        "{{figcell:shape=pentagon,n=3,fill=none}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 3,
+      "target_seconds": 40,
+      "explanation": "בשלושה תאים יש שלוש צורות ובתא אחד רק שתיים. הצורה אינה מפרידה — משולש, משושה, ריבוע ומחומש, כולן שונות — וגם המילוי מתחלק שניים־שניים.",
+      "solution": "בתא עמוס העין קולטת ״הרבה צורות״ בלי לספור, וכאן בדיוק נופלים. ספרו בפועל בכל אחד מארבעת התאים ורשמו לעצמכם את המספרים לפני שאתם מחליטים.",
+      "tags": ["ספירה", "פסילת תכונה"]
+    },
+    {
+      "ref": "k-odb-16",
+      "domain": "figural",
+      "qtype": "odd-one-out",
+      "topic": "יוצא דופן צורני",
+      "subtopic": "צבע מול גודל",
+      "stem": "איזה עיגול שונה מכל האחרים?",
+      "options": [
+        "{{figcell:shape=circle,fill=solid,color=accent,size=s}}",
+        "{{figcell:shape=circle,fill=solid,color=accent,size=l}}",
+        "{{figcell:shape=circle,fill=solid,color=warm,size=m}}",
+        "{{figcell:shape=circle,fill=solid,color=accent,size=m}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 3,
+      "target_seconds": 35,
+      "explanation": "שלושה עיגולים צבועים בגוון התכלת ואחד בגוון הכתום. הגודל אינו מפריד: יש עיגול קטן, יש גדול ויש שניים בינוניים — חלוקה של 1-1-2 ולא של 3 מול 1.",
+      "solution": "כששתי תכונות משתנות בבת אחת, בדקו איזו מהן מתחלקת שלוש מול אחת ואיזו לא. הגודל כאן מתפצל לשלוש קבוצות ולכן אינו יכול לשמש כלל; רק הצבע יוצר קבוצה של שלושה מול יחיד.",
+      "tags": ["צבע", "פסילת תכונה"]
+    },
+    {
+      "ref": "k-odb-17",
+      "domain": "figural",
+      "qtype": "odd-one-out",
+      "topic": "יוצא דופן צורני",
+      "subtopic": "גודל",
+      "stem": "איזה תא אינו מתאים לשלושת האחרים?",
+      "options": [
+        "{{figcell:shape=triangle,n=2,size=s}}",
+        "{{figcell:shape=square,n=1,size=l}}",
+        "{{figcell:shape=square,n=2,size=l}}",
+        "{{figcell:shape=triangle,n=1,size=l}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 3,
+      "target_seconds": 40,
+      "explanation": "בשלושה תאים הצורות גדולות וממלאות כמעט את המקום שלהן, ובתא אחד הן קטנות ורחוקות מהמסגרת. הצורה אינה מפרידה — שני תאים של ריבועים ושניים של משולשים — וגם הכמות אינה מפרידה, בשניים צורה אחת ובשניים שתיים.",
+      "solution": "גודל נמדד ביחס למקום שהצורה מקבלת בתא, לא ביחס לתא אחר: תא ובו שתי צורות תמיד ייראה ״קטן יותר״ מתא ובו צורה אחת. השוו רק בין תאים בעלי אותה כמות, וההבדל האמיתי יקפוץ מיד.",
+      "tags": ["גודל", "השוואה הוגנת"]
+    },
+    {
+      "ref": "k-odb-18",
+      "domain": "figural",
+      "qtype": "odd-one-out",
+      "topic": "יוצא דופן צורני",
+      "subtopic": "מיקום הנקודה",
+      "stem": "איזה תא אינו מתאים לשלושת האחרים?",
+      "options": [
+        "{{figcell:shape=square,dot=tl,fill=none}}",
+        "{{figcell:shape=hexagon,dot=tl,fill=solid}}",
+        "{{figcell:shape=square,dot=tr,fill=solid}}",
+        "{{figcell:shape=hexagon,dot=tl,fill=none}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 3,
+      "target_seconds": 40,
+      "explanation": "בשלושה תאים הנקודה נמצאת בפינה השמאלית העליונה ובתא אחד בפינה הימנית העליונה. ״נקודה למעלה״ אינו כלל מפריד, כי בכל ארבעת התאים הנקודה בחלק העליון; הצורה והמילוי מתחלקים שניים־שניים.",
+      "solution": "נקודה קטנה נבלעת ליד צורה גדולה, ולכן סרקו קודם את הפינות של כל התאים ורק אחר כך את הצורות. נסחו את הכלל ברזולוציה הנכונה: כאן ״למעלה״ משותף לכולם, וההבדל הוא ימין מול שמאל.",
+      "tags": ["סימן נוסף", "רזולוציית הכלל"]
+    },
+    {
+      "ref": "k-odb-19",
+      "domain": "figural",
+      "qtype": "odd-one-out",
+      "topic": "יוצא דופן צורני",
+      "subtopic": "קו מעוגל מול קווים ישרים",
+      "stem": "איזו צורה שונה מכל האחרות?",
+      "options": [
+        "{{figcell:shape=square}}",
+        "{{figcell:shape=pentagon}}",
+        "{{figcell:shape=trapezoid}}",
+        "{{figcell:shape=halfcircle}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 3,
+      "target_seconds": 40,
+      "explanation": "שלוש הצורות בנויות מקווים ישרים בלבד, ולחצי-העיגול יש קשת מעוגלת. הסדירות אינה מפרידה: שתי צורות סדירות, ריבוע ומחומש, מול שתיים שאינן סדירות — טרפז וחצי-עיגול.",
+      "solution": "העבירו את המבט לאורך קו המתאר של כל צורה ושאלו אם הוא מתעקל אי-פעם. כדאי לעשות את הבדיקה הזו לפני ספירת צלעות, כי בצורה מעוגלת אין בכלל מה לספור — וכך לא מתחילים בכיוון שאין בו כלל.",
+      "tags": ["קו מעוגל", "סדר הבדיקות"]
+    },
+    {
+      "ref": "k-odb-20",
+      "domain": "figural",
+      "qtype": "odd-one-out",
+      "topic": "יוצא דופן צורני",
+      "subtopic": "צד הצביעה",
+      "stem": "איזו צורה שונה מכל האחרות?",
+      "options": [
+        "{{figcell:shape=square,fill=half}}",
+        "{{figcell:shape=hexagon,fill=half,rot=180}}",
+        "{{figcell:shape=diamond,fill=half}}",
+        "{{figcell:shape=hexagon,fill=half}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 4,
+      "target_seconds": 50,
+      "explanation": "בשלוש הצורות החצי הצבוע הוא השמאלי ובאחת הימני. הצורה אינה מפרידה — שני משושים, ריבוע ומעוין — והמשושה המסובב נראה במתאר שלו זהה למשושה השני, כך שההבדל היחיד שנותר הוא צד הצביעה.",
+      "solution": "כשמופיע מילוי של חצי צורה, בדקו תמיד באיזה צד הוא נמצא; זו תכונה שקל לראות אבל קל עוד יותר להתעלם ממנה ולסכם ״כולן חצי צבועות״. סיבוב של צורה סימטרית משנה רק את מיקום הצבע ולא את קו המתאר.",
+      "tags": ["מילוי חצי", "כיוון פנימי"]
+    }
+  ]
+}

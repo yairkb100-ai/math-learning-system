@@ -1508,6 +1508,359 @@ _PSY_SIMULATIONS = [
              "minutes": 30, "num_questions": 25, "blueprint": [{"count": 25}]},
         ],
     },
+    # Five timed papers per topic. The bank is drawn at start time and a paper
+    # never repeats a question inside itself, so five sittings on one topic give
+    # five different sets as long as the bank holds 5 x num_questions items.
+    {
+        "slug": "karni-test-fig-series-1",
+        "title": "סדרות צורות — מבחן 1",
+        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 41,
+        "free_preview": True,
+        "sections": [
+            {"order": 0, "domain": "figural", "title": "סדרות צורות",
+             "minutes": 6, "num_questions": 10,
+             "blueprint": [{"count": 10, "topic": "סדרות צורות"}]},
+        ],
+    },
+    {
+        "slug": "karni-test-fig-series-2",
+        "title": "סדרות צורות — מבחן 2",
+        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 42,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "figural", "title": "סדרות צורות",
+             "minutes": 6, "num_questions": 10,
+             "blueprint": [{"count": 10, "topic": "סדרות צורות"}]},
+        ],
+    },
+    {
+        "slug": "karni-test-fig-series-3",
+        "title": "סדרות צורות — מבחן 3",
+        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 43,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "figural", "title": "סדרות צורות",
+             "minutes": 6, "num_questions": 10,
+             "blueprint": [{"count": 10, "topic": "סדרות צורות"}]},
+        ],
+    },
+    {
+        "slug": "karni-test-fig-series-4",
+        "title": "סדרות צורות — מבחן 4",
+        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 44,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "figural", "title": "סדרות צורות",
+             "minutes": 6, "num_questions": 10,
+             "blueprint": [{"count": 10, "topic": "סדרות צורות"}]},
+        ],
+    },
+    {
+        "slug": "karni-test-fig-series-5",
+        "title": "סדרות צורות — מבחן 5",
+        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 45,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "figural", "title": "סדרות צורות",
+             "minutes": 6, "num_questions": 10,
+             "blueprint": [{"count": 10, "topic": "סדרות צורות"}]},
+        ],
+    },
+    {
+        "slug": "karni-test-fig-matrix-1",
+        "title": "מטריצות — מבחן 1",
+        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 51,
+        "free_preview": True,
+        "sections": [
+            {"order": 0, "domain": "figural", "title": "מטריצות",
+             "minutes": 7, "num_questions": 10,
+             "blueprint": [{"count": 10, "topic": "מטריצות"}]},
+        ],
+    },
+    {
+        "slug": "karni-test-fig-matrix-2",
+        "title": "מטריצות — מבחן 2",
+        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 52,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "figural", "title": "מטריצות",
+             "minutes": 7, "num_questions": 10,
+             "blueprint": [{"count": 10, "topic": "מטריצות"}]},
+        ],
+    },
+    {
+        "slug": "karni-test-fig-matrix-3",
+        "title": "מטריצות — מבחן 3",
+        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 53,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "figural", "title": "מטריצות",
+             "minutes": 7, "num_questions": 10,
+             "blueprint": [{"count": 10, "topic": "מטריצות"}]},
+        ],
+    },
+    {
+        "slug": "karni-test-fig-matrix-4",
+        "title": "מטריצות — מבחן 4",
+        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 54,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "figural", "title": "מטריצות",
+             "minutes": 7, "num_questions": 10,
+             "blueprint": [{"count": 10, "topic": "מטריצות"}]},
+        ],
+    },
+    {
+        "slug": "karni-test-fig-matrix-5",
+        "title": "מטריצות — מבחן 5",
+        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 55,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "figural", "title": "מטריצות",
+             "minutes": 7, "num_questions": 10,
+             "blueprint": [{"count": 10, "topic": "מטריצות"}]},
+        ],
+    },
+    {
+        "slug": "karni-test-fig-analogy-1",
+        "title": "אנלוגיות צורניות — מבחן 1",
+        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 61,
+        "free_preview": True,
+        "sections": [
+            {"order": 0, "domain": "figural", "title": "אנלוגיות צורניות",
+             "minutes": 6, "num_questions": 10,
+             "blueprint": [{"count": 10, "topic": "אנלוגיות צורניות"}]},
+        ],
+    },
+    {
+        "slug": "karni-test-fig-analogy-2",
+        "title": "אנלוגיות צורניות — מבחן 2",
+        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 62,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "figural", "title": "אנלוגיות צורניות",
+             "minutes": 6, "num_questions": 10,
+             "blueprint": [{"count": 10, "topic": "אנלוגיות צורניות"}]},
+        ],
+    },
+    {
+        "slug": "karni-test-fig-analogy-3",
+        "title": "אנלוגיות צורניות — מבחן 3",
+        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 63,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "figural", "title": "אנלוגיות צורניות",
+             "minutes": 6, "num_questions": 10,
+             "blueprint": [{"count": 10, "topic": "אנלוגיות צורניות"}]},
+        ],
+    },
+    {
+        "slug": "karni-test-fig-analogy-4",
+        "title": "אנלוגיות צורניות — מבחן 4",
+        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 64,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "figural", "title": "אנלוגיות צורניות",
+             "minutes": 6, "num_questions": 10,
+             "blueprint": [{"count": 10, "topic": "אנלוגיות צורניות"}]},
+        ],
+    },
+    {
+        "slug": "karni-test-fig-analogy-5",
+        "title": "אנלוגיות צורניות — מבחן 5",
+        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 65,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "figural", "title": "אנלוגיות צורניות",
+             "minutes": 6, "num_questions": 10,
+             "blueprint": [{"count": 10, "topic": "אנלוגיות צורניות"}]},
+        ],
+    },
+    {
+        "slug": "karni-test-fig-odd-1",
+        "title": "יוצא דופן צורני — מבחן 1",
+        "description": "10 שאלות ב-5 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 71,
+        "free_preview": True,
+        "sections": [
+            {"order": 0, "domain": "figural", "title": "יוצא דופן צורני",
+             "minutes": 5, "num_questions": 10,
+             "blueprint": [{"count": 10, "topic": "יוצא דופן צורני"}]},
+        ],
+    },
+    {
+        "slug": "karni-test-fig-odd-2",
+        "title": "יוצא דופן צורני — מבחן 2",
+        "description": "10 שאלות ב-5 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 72,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "figural", "title": "יוצא דופן צורני",
+             "minutes": 5, "num_questions": 10,
+             "blueprint": [{"count": 10, "topic": "יוצא דופן צורני"}]},
+        ],
+    },
+    {
+        "slug": "karni-test-fig-odd-3",
+        "title": "יוצא דופן צורני — מבחן 3",
+        "description": "10 שאלות ב-5 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 73,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "figural", "title": "יוצא דופן צורני",
+             "minutes": 5, "num_questions": 10,
+             "blueprint": [{"count": 10, "topic": "יוצא דופן צורני"}]},
+        ],
+    },
+    {
+        "slug": "karni-test-fig-odd-4",
+        "title": "יוצא דופן צורני — מבחן 4",
+        "description": "10 שאלות ב-5 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 74,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "figural", "title": "יוצא דופן צורני",
+             "minutes": 5, "num_questions": 10,
+             "blueprint": [{"count": 10, "topic": "יוצא דופן צורני"}]},
+        ],
+    },
+    {
+        "slug": "karni-test-fig-odd-5",
+        "title": "יוצא דופן צורני — מבחן 5",
+        "description": "10 שאלות ב-5 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 75,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "figural", "title": "יוצא דופן צורני",
+             "minutes": 5, "num_questions": 10,
+             "blueprint": [{"count": 10, "topic": "יוצא דופן צורני"}]},
+        ],
+    },
+    {
+        "slug": "karni-test-series-1",
+        "title": "סדרות מספרים ואותיות — מבחן 1",
+        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 81,
+        "free_preview": True,
+        "sections": [
+            # Letter series are tagged verbal and number series quantitative,
+            # but they are one topic to a student — so the paper draws both.
+            {"order": 0, "domain": "quantitative", "title": "סדרות מספרים ואותיות",
+             "minutes": 7, "num_questions": 10,
+             "blueprint": [
+                 {"count": 7, "topic": "סדרות מספרים ואותיות", "domain": "quantitative"},
+                 {"count": 3, "topic": "סדרות מספרים ואותיות", "domain": "verbal"},
+             ]},
+        ],
+    },
+    {
+        "slug": "karni-test-series-2",
+        "title": "סדרות מספרים ואותיות — מבחן 2",
+        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 82,
+        "free_preview": False,
+        "sections": [
+            # Letter series are tagged verbal and number series quantitative,
+            # but they are one topic to a student — so the paper draws both.
+            {"order": 0, "domain": "quantitative", "title": "סדרות מספרים ואותיות",
+             "minutes": 7, "num_questions": 10,
+             "blueprint": [
+                 {"count": 7, "topic": "סדרות מספרים ואותיות", "domain": "quantitative"},
+                 {"count": 3, "topic": "סדרות מספרים ואותיות", "domain": "verbal"},
+             ]},
+        ],
+    },
+    {
+        "slug": "karni-test-series-3",
+        "title": "סדרות מספרים ואותיות — מבחן 3",
+        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 83,
+        "free_preview": False,
+        "sections": [
+            # Letter series are tagged verbal and number series quantitative,
+            # but they are one topic to a student — so the paper draws both.
+            {"order": 0, "domain": "quantitative", "title": "סדרות מספרים ואותיות",
+             "minutes": 7, "num_questions": 10,
+             "blueprint": [
+                 {"count": 7, "topic": "סדרות מספרים ואותיות", "domain": "quantitative"},
+                 {"count": 3, "topic": "סדרות מספרים ואותיות", "domain": "verbal"},
+             ]},
+        ],
+    },
+    {
+        "slug": "karni-test-series-4",
+        "title": "סדרות מספרים ואותיות — מבחן 4",
+        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 84,
+        "free_preview": False,
+        "sections": [
+            # Letter series are tagged verbal and number series quantitative,
+            # but they are one topic to a student — so the paper draws both.
+            {"order": 0, "domain": "quantitative", "title": "סדרות מספרים ואותיות",
+             "minutes": 7, "num_questions": 10,
+             "blueprint": [
+                 {"count": 7, "topic": "סדרות מספרים ואותיות", "domain": "quantitative"},
+                 {"count": 3, "topic": "סדרות מספרים ואותיות", "domain": "verbal"},
+             ]},
+        ],
+    },
+    {
+        "slug": "karni-test-series-5",
+        "title": "סדרות מספרים ואותיות — מבחן 5",
+        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 85,
+        "free_preview": False,
+        "sections": [
+            # Letter series are tagged verbal and number series quantitative,
+            # but they are one topic to a student — so the paper draws both.
+            {"order": 0, "domain": "quantitative", "title": "סדרות מספרים ואותיות",
+             "minutes": 7, "num_questions": 10,
+             "blueprint": [
+                 {"count": 7, "topic": "סדרות מספרים ואותיות", "domain": "quantitative"},
+                 {"count": 3, "topic": "סדרות מספרים ואותיות", "domain": "verbal"},
+             ]},
+        ],
+    },
     {
         "slug": "karni-full-1",
         "title": "סימולציה מלאה 1",
@@ -1623,6 +1976,70 @@ def ensure_psy_simulations(db):
         print("  * Psy simulations already up to date.")
 
 
+
+def assign_topic_test_forms(db):
+    """Give the five per-topic tests disjoint fixed papers.
+
+    A blueprint draw is random per attempt, so sitting "מבחן 1" and "מבחן 2" on
+    the same topic can hand back overlapping questions — which defeats the point
+    of having five of them. Once a topic holds enough items, the five papers are
+    instead cut from one deterministic ordering, so they share nothing.
+
+    Ordering is by ref, not random: re-running the seed must not reshuffle the
+    papers under a student who is working through them. A live attempt is
+    unaffected either way, since it freezes its own form at start.
+    """
+    import re as _re
+
+    changed = short = 0
+    groups = {}
+    for sim in (
+        db.query(PsySimulation)
+        .filter(PsySimulation.slug.like("karni-test-%"))
+        .order_by(PsySimulation.slug)
+        .all()
+    ):
+        m = _re.match(r"karni-test-(.+)-(\d+)$", sim.slug)
+        if m:
+            groups.setdefault(m.group(1), []).append((int(m.group(2)), sim))
+
+    for family, sims in groups.items():
+        sims.sort()
+        sections = [sim.sections[0] for _, sim in sims if sim.sections]
+        if not sections:
+            continue
+        topic = (sections[0].blueprint or [{}])[0].get("topic")
+        per = sections[0].num_questions
+        if not topic:
+            continue
+        refs = [
+            r for (r,) in db.query(PsyItem.ref)
+            .filter(PsyItem.topic == topic, PsyItem.is_active.is_(True))
+            .order_by(PsyItem.ref)
+            .all()
+        ]
+        if len(refs) < per * len(sims):
+            # Not enough yet — leave these papers on the random draw, which at
+            # least fills them, and say so rather than shipping short papers.
+            short += 1
+            print(
+                f"  ! {topic}: {len(refs)} items, need {per * len(sims)} for "
+                f"{len(sims)} disjoint papers — still drawing at random"
+            )
+            continue
+        for i, (_, sim) in enumerate(sims):
+            slice_ = refs[i * per:(i + 1) * per]
+            section = sim.sections[0]
+            if section.item_refs != slice_:
+                section.item_refs = slice_
+                changed += 1
+    db.commit()
+    if changed:
+        print(f"  + Fixed {changed} topic test paper(s) to disjoint question sets")
+    elif not short:
+        print("  * Topic test papers already assigned.")
+
+
 def prune_orphan_courses(db, loaded_slugs):
     """Delete courses that were once seeded from a courses/*.json file that no
     longer exists (e.g. after a slug rename or a removed course).
@@ -1710,6 +2127,7 @@ def main():
         ensure_psy_sections(db)
         ensure_psy_items(db)
         ensure_psy_simulations(db)
+        assign_topic_test_forms(db)
         ensure_course_grades(db)
         ensure_course_assets(db)
         cleanup_orphaned_uploads(db)

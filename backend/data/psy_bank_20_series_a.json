@@ -1,0 +1,425 @@
+{
+  "_comment": "קרני — סדרות צורות, מקבץ א'. 20 פריטים צורניים מסוג series: מחזורים חוזרים (מילוי, צורה, גודל, צבע, סמן), סיבוב בצעד קבוע ולאחור, וצירופים של שתי תכונות במקביל. כל פריט פתיר במבט אחד בתוך כ-40 שניות.",
+  "items": [
+    {
+      "ref": "k-sea-01",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "מחזור מילוי חוזר",
+      "stem": "התבוננו בסדרה. איזו צורה צריכה לבוא במקום סימן השאלה?",
+      "figure": "{{figrow:shape=heart,fill=none;shape=heart,fill=half;shape=heart,fill=solid;shape=heart,fill=none;?}}",
+      "options": [
+        "{{figcell:shape=heart,fill=solid}}",
+        "{{figcell:shape=heart,fill=half}}",
+        "{{figcell:shape=heart,fill=none}}",
+        "{{figcell:shape=heart,fill=dots}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 1,
+      "target_seconds": 35,
+      "explanation": "המילוי חוזר במחזור ריק ← חצי ← מלא. התא הרביעי כבר ריק, ולכן החמישי הוא חצי מלא.",
+      "solution": "כשכל התאים הם אותה צורה, התכונה המשתנה היחידה היא המילוי — סמנו את רצף המילויים וחפשו חזרה. כאן המחזור באורך שלושה, והתא הרביעי הוא כבר תחילת מחזור חדש. המלכודת היא לענות 'מלא' מתוך הרגל להמשיך את הרצף ריק-חצי-מלא, בלי לשים לב שהתא הרביעי החזיר אותנו להתחלה.",
+      "tags": ["מחזור", "מילוי"]
+    },
+    {
+      "ref": "k-sea-02",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "מחזור צורות",
+      "stem": "איזו צורה משלימה את הסדרה?",
+      "figure": "{{figrow:shape=circle;shape=square;shape=triangle;shape=circle;?}}",
+      "options": [
+        "{{figcell:shape=triangle}}",
+        "{{figcell:shape=circle}}",
+        "{{figcell:shape=square}}",
+        "{{figcell:shape=star}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 1,
+      "target_seconds": 30,
+      "explanation": "שלוש הצורות עיגול, ריבוע ומשולש חוזרות באותו סדר. אחרי העיגול שבתא הרביעי מגיע ריבוע.",
+      "solution": "כשאין שינוי בכמות, בגודל או במילוי, בדקו אם רשימת הצורות פשוט חוזרת על עצמה. ספרו את אורך המחזור — כאן שלושה — והמשיכו ממנו. מי שעונה 'משולש' המשיך את התא השלישי במקום את התא הרביעי.",
+      "tags": ["מחזור", "רצף צורות"]
+    },
+    {
+      "ref": "k-sea-03",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "סמן שנע נגד כיוון השעון",
+      "stem": "הנקודה הכתומה נעה בסדרה. היכן היא תופיע בתא הבא?",
+      "figure": "{{figrow:shape=circle,dot=tr;shape=circle,dot=tl;shape=circle,dot=bl;shape=circle,dot=br;?}}",
+      "options": [
+        "{{figcell:shape=circle,dot=tr}}",
+        "{{figcell:shape=circle,dot=bl}}",
+        "{{figcell:shape=circle,dot=br}}",
+        "{{figcell:shape=circle,dot=c}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 1,
+      "target_seconds": 35,
+      "explanation": "הנקודה עוברת מפינה לפינה נגד כיוון השעון, וארבעה צעדים מחזירים אותה לפינה שממנה יצאה — הפינה הימנית העליונה.",
+      "solution": "בפריטי סמן, התעלמו מהצורה עצמה ועקבו רק אחרי הנקודה. קבעו קודם את כיוון התנועה משני התאים הראשונים, ורק אז המשיכו. מי שבוחר את הפינה הימנית התחתונה פשוט חזר על התא האחרון במקום להתקדם צעד נוסף.",
+      "tags": ["סמן", "מחזור"]
+    },
+    {
+      "ref": "k-sea-04",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "מחזור גודל",
+      "stem": "איזו צורה מתאימה במקום סימן השאלה?",
+      "figure": "{{figrow:shape=cross,size=s;shape=cross,size=m;shape=cross,size=l;shape=cross,size=s;?}}",
+      "options": [
+        "{{figcell:shape=cross,size=l}}",
+        "{{figcell:shape=cross,size=s}}",
+        "{{figcell:shape=circle,size=m}}",
+        "{{figcell:shape=cross,size=m}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 1,
+      "target_seconds": 35,
+      "explanation": "הגודל עולה קטן ← בינוני ← גדול ואז מתחיל מחדש. אחרי הצלב הקטן שבתא הרביעי מגיע צלב בינוני.",
+      "solution": "כשגודל הוא התכונה המשתנה, תרגמו את הסדרה לשלוש מילים — קטן, בינוני, גדול — ובדקו אם היא חוזרת להתחלה. אם התא האחרון קטן שוב, המחזור התחיל מחדש. שימו לב שהצורה עצמה חייבת להישאר קבועה: תשובה עם עיגול בגודל הנכון פסולה כי הצורה השתנתה.",
+      "tags": ["גודל", "מחזור"]
+    },
+    {
+      "ref": "k-sea-05",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "מחזור צבע",
+      "stem": "איזו צורה ממשיכה את הסדרה?",
+      "figure": "{{figrow:shape=star,color=ink;shape=star,color=accent;shape=star,color=warm;shape=star,color=ink;?}}",
+      "options": [
+        "{{figcell:shape=star,color=warm}}",
+        "{{figcell:shape=star,color=accent}}",
+        "{{figcell:shape=star,color=ink}}",
+        "{{figcell:shape=hexagon,color=accent}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 1,
+      "target_seconds": 35,
+      "explanation": "שלושת הצבעים חוזרים באותו סדר: כהה, תכלת, כתום. אחרי הכוכב הכהה שבתא הרביעי מגיע כוכב תכלת.",
+      "solution": "צבע הוא תכונה שקל לפספס כי העין מחפשת שינוי בצורה. אם כל התאים זהים בצורתם, בדקו מיד אם הצבע מתחלף לפי מחזור וספרו את אורכו. המשושה בצבע הנכון הוא מלכודת: הוא ממשיך את הצבע אבל שובר את הצורה הקבועה של הסדרה.",
+      "tags": ["צבע", "מחזור"]
+    },
+    {
+      "ref": "k-sea-06",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "סיבוב בצעד של 60 מעלות",
+      "stem": "החץ מסתובב בכל צעד באותה זווית. איך ייראה החץ הבא?",
+      "figure": "{{figrow:shape=arrow,rot=0;shape=arrow,rot=60;shape=arrow,rot=120;?}}",
+      "options": [
+        "{{figcell:shape=arrow,rot=240}}",
+        "{{figcell:shape=arrow,rot=90}}",
+        "{{figcell:shape=arrow,rot=180}}",
+        "{{figcell:shape=arrow,rot=120}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 2,
+      "target_seconds": 40,
+      "explanation": "כל צעד מסובב את החץ ב-60 מעלות עם כיוון השעון, ולכן אחרי 120 מעלות מגיע חץ המופנה כלפי מטה — 180 מעלות.",
+      "solution": "בסדרות סיבוב חשבו במונחי זווית ולא במונחי 'איך זה נראה': מדדו את ההפרש בין התא הראשון לשני, וודאו שאותו הפרש חוזר בין השני לשלישי. אחר כך הוסיפו אותו פעם אחת בלבד. התשובה של 240 מעלות היא הקפיצה הנפוצה — היא מוסיפה שני צעדים במקום אחד.",
+      "tags": ["סיבוב", "זווית"]
+    },
+    {
+      "ref": "k-sea-07",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "סיבוב בכיוון הפוך",
+      "stem": "איזו צורה משלימה את הסדרה?",
+      "figure": "{{figrow:shape=trapezoid,rot=270;shape=trapezoid,rot=180;shape=trapezoid,rot=90;?}}",
+      "options": [
+        "{{figcell:shape=trapezoid,rot=0}}",
+        "{{figcell:shape=trapezoid,rot=180}}",
+        "{{figcell:shape=trapezoid,rot=45}}",
+        "{{figcell:shape=trapezoid,rot=90}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 2,
+      "target_seconds": 40,
+      "explanation": "הזווית יורדת ב-90 מעלות בכל צעד: 270, 180, 90 — ולכן התא הבא הוא 0 מעלות, הטרפז במצבו הרגיל.",
+      "solution": "לפני שמחשבים את התא החסר, קבעו את כיוון הסיבוב: אם הצורה חוזרת אחורה, הזווית קטֵנה ולא גדֵלה. חסרו את אותו צעד שוב. מי שעונה 90 מעלות פשוט העתיק את התא האחרון במקום להתקדם צעד נוסף אחורה.",
+      "tags": ["סיבוב", "כיוון"]
+    },
+    {
+      "ref": "k-sea-08",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "מילוי וסמן יחד",
+      "stem": "בסדרה משתנות שתי תכונות בבת אחת. איזו צורה באה במקום סימן השאלה?",
+      "figure": "{{figrow:shape=pentagon,fill=none,dot=tl;shape=pentagon,fill=solid,dot=tr;shape=pentagon,fill=none,dot=br;?}}",
+      "options": [
+        "{{figcell:shape=pentagon,fill=solid,dot=br}}",
+        "{{figcell:shape=pentagon,fill=solid,dot=bl}}",
+        "{{figcell:shape=pentagon,fill=none,dot=bl}}",
+        "{{figcell:shape=pentagon,fill=half,dot=bl}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 2,
+      "target_seconds": 50,
+      "explanation": "המילוי מתחלף ריק ומלא לסירוגין, והנקודה נעה עם כיוון השעון. לכן התא הבא מלא והנקודה בפינה השמאלית התחתונה.",
+      "solution": "כששתי תכונות משתנות יחד, פתרו כל אחת בנפרד וכתבו לעצמכם את שתי התשובות לפני שמסתכלים באפשרויות. אחר כך חפשו את האפשרות היחידה שמקיימת את שתיהן. שלושת המסיחים מקיימים תכונה אחת בלבד — למשל מחומש מלא שבו הנקודה לא זזה.",
+      "tags": ["שתי תכונות", "מילוי", "סמן"]
+    },
+    {
+      "ref": "k-sea-09",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "כמות עולה ומחזור מילוי",
+      "stem": "איזו צורה ממשיכה את הסדרה?",
+      "figure": "{{figrow:shape=hexagon,n=1,fill=none;shape=hexagon,n=2,fill=half;shape=hexagon,n=3,fill=solid;?}}",
+      "options": [
+        "{{figcell:shape=hexagon,n=4,fill=solid}}",
+        "{{figcell:shape=hexagon,n=3,fill=none}}",
+        "{{figcell:shape=hexagon,n=4,fill=none}}",
+        "{{figcell:shape=hexagon,n=5,fill=none}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 2,
+      "target_seconds": 50,
+      "explanation": "מספר המשושים עולה באחד בכל צעד, והמילוי חוזר במחזור ריק, חצי, מלא. לכן בתא הבא ארבעה משושים ריקים.",
+      "solution": "ספרו קודם את הצורות בכל תא ורק אחר כך הביטו במילוי — שתי הבדיקות מהירות בנפרד ומבלבלות יחד. מחזור מילוי בן שלושה מצבים חוזר להתחלה בדיוק בתא הרביעי. המסיח עם ארבעה משושים מלאים תופס נכון את הכמות אבל ממשיך את המילוי במקום להתחיל מחזור חדש.",
+      "tags": ["שתי תכונות", "כמות", "מחזור"]
+    },
+    {
+      "ref": "k-sea-10",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "סיבוב וצבע לסירוגין",
+      "stem": "איזו צורה מתאימה במקום סימן השאלה?",
+      "figure": "{{figrow:shape=arrow,rot=0,color=ink;shape=arrow,rot=90,color=accent;shape=arrow,rot=180,color=ink;?}}",
+      "options": [
+        "{{figcell:shape=arrow,rot=270,color=ink}}",
+        "{{figcell:shape=arrow,rot=0,color=accent}}",
+        "{{figcell:shape=arrow,rot=180,color=accent}}",
+        "{{figcell:shape=arrow,rot=270,color=accent}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 2,
+      "target_seconds": 45,
+      "explanation": "החץ מסתובב ב-90 מעלות בכל צעד, והצבע מתחלף כהה ותכלת לסירוגין. לכן התא הבא הוא חץ ב-270 מעלות בצבע תכלת.",
+      "solution": "טפלו בסיבוב ובצבע כשתי סדרות נפרדות הרצות זו לצד זו: הזווית מתקדמת בצעד קבוע, והצבע פשוט מתחלף כל תא. רק אפשרות אחת מקיימת את שתיהן. המסיח הכהה ב-270 מעלות הוא הנפוץ — הוא מוכיח שנעצרתם אחרי התכונה הראשונה.",
+      "tags": ["שתי תכונות", "סיבוב", "צבע"]
+    },
+    {
+      "ref": "k-sea-11",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "מספר צלעות עולה ומילוי לסירוגין",
+      "stem": "איזו צורה משלימה את הסדרה?",
+      "figure": "{{figrow:shape=triangle,fill=none;shape=square,fill=solid;shape=pentagon,fill=none;?}}",
+      "options": [
+        "{{figcell:shape=hexagon,fill=solid}}",
+        "{{figcell:shape=hexagon,fill=none}}",
+        "{{figcell:shape=pentagon,fill=solid}}",
+        "{{figcell:shape=star,fill=solid}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 3,
+      "target_seconds": 50,
+      "explanation": "מספר הצלעות עולה באחת בכל צעד — שלוש, ארבע, חמש — והמילוי מתחלף ריק ומלא. לכן התא הבא הוא משושה מלא.",
+      "solution": "כשהצורה מתחלפת בכל תא, ספרו צלעות במקום לזהות שם: שלוש, ארבע, חמש מובילות לשש. במקביל בדקו את המילוי, שכאן מתחלף בכל צעד. הכוכב המלא הוא מלכודת — הוא נראה כמו 'הצורה הבאה בקושי' אך אינו בעל שש צלעות.",
+      "tags": ["שתי תכונות", "צלעות", "מילוי"]
+    },
+    {
+      "ref": "k-sea-12",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "כמות עולה וסמן שנע",
+      "stem": "בסדרה משתנות הכמות ומיקום הנקודה. מה בא בתא הבא?",
+      "figure": "{{figrow:shape=square,n=1,dot=tl;shape=square,n=2,dot=tr;shape=square,n=3,dot=br;?}}",
+      "options": [
+        "{{figcell:shape=square,n=4,dot=br}}",
+        "{{figcell:shape=square,n=5,dot=bl}}",
+        "{{figcell:shape=square,n=4,dot=bl}}",
+        "{{figcell:shape=square,n=3,dot=bl}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 2,
+      "target_seconds": 45,
+      "explanation": "מספר הריבועים עולה באחד בכל צעד, והנקודה מתקדמת פינה אחת עם כיוון השעון. לכן בתא הבא ארבעה ריבועים והנקודה בפינה השמאלית התחתונה.",
+      "solution": "בפריט עם שתי תכונות כדאי לנסח לעצמכם משפט אחד: 'עוד ריבוע, ועוד פינה'. אחר כך פסלו כל אפשרות שמקיימת רק חצי מהמשפט. חמישה ריבועים עם נקודה נכונה הוא מסיח קלאסי של מי שספר את התאים במקום את הצורות.",
+      "tags": ["שתי תכונות", "כמות", "סמן"]
+    },
+    {
+      "ref": "k-sea-13",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "מחזור נקודה בן שלושה מצבים",
+      "stem": "איזו צורה ממשיכה את הסדרה?",
+      "figure": "{{figrow:shape=triangle,dot=tl;shape=triangle,dot=c;shape=triangle,dot=br;shape=triangle,dot=tl;?}}",
+      "options": [
+        "{{figcell:shape=triangle,dot=br}}",
+        "{{figcell:shape=triangle,dot=tl}}",
+        "{{figcell:shape=triangle,dot=tr}}",
+        "{{figcell:shape=triangle,dot=c}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 1,
+      "target_seconds": 35,
+      "explanation": "הנקודה נעה באלכסון בשלוש תחנות — פינה שמאלית עליונה, מרכז, פינה ימנית תחתונה — וחוזרת חלילה. אחרי התחנה הראשונה מגיע המרכז.",
+      "solution": "כשמחזור התנועה קצר משלושה תאים לא כדאי לנחש כיוון; פשוט מספרו את התחנות ובדקו איזו תחנה מגיעה אחרי זו שבתא האחרון. אם התא האחרון זהה לראשון, אתם בתחילת מחזור חדש. הפינה הימנית התחתונה היא הפיתוי של מי שהמשיך את התא השלישי.",
+      "tags": ["סמן", "מחזור"]
+    },
+    {
+      "ref": "k-sea-14",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "שתי צורות לסירוגין",
+      "stem": "איזו צורה באה במקום סימן השאלה?",
+      "figure": "{{figrow:shape=star;shape=hexagon;shape=star;shape=hexagon;?}}",
+      "options": [
+        "{{figcell:shape=hexagon}}",
+        "{{figcell:shape=star}}",
+        "{{figcell:shape=pentagon}}",
+        "{{figcell:shape=circle}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 1,
+      "target_seconds": 30,
+      "explanation": "הכוכב והמשושה מתחלפים לסירוגין. אחרי המשושה שבתא הרביעי מגיע כוכב.",
+      "solution": "סדרה לסירוגין מזוהה בשנייה אחת: התאים במקומות האי-זוגיים זהים זה לזה, וכך גם הזוגיים. בדקו רק את התא שנמצא שני מקומות אחורה. מי שעונה משושה חזר על התא האחרון במקום להתקדם.",
+      "tags": ["לסירוגין", "רצף צורות"]
+    },
+    {
+      "ref": "k-sea-15",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "סיבוב וסמן יחד",
+      "stem": "הטרפז מסתובב והנקודה נעה. איזה תא בא אחר כך?",
+      "figure": "{{figrow:shape=trapezoid,rot=0,dot=tl;shape=trapezoid,rot=90,dot=tr;shape=trapezoid,rot=180,dot=br;?}}",
+      "options": [
+        "{{figcell:shape=trapezoid,rot=270,dot=bl}}",
+        "{{figcell:shape=trapezoid,rot=270,dot=br}}",
+        "{{figcell:shape=trapezoid,rot=0,dot=bl}}",
+        "{{figcell:shape=trapezoid,rot=180,dot=bl}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 2,
+      "target_seconds": 50,
+      "explanation": "בכל צעד הטרפז מסתובב ב-90 מעלות והנקודה עוברת לפינה הבאה עם כיוון השעון, ולכן בתא הבא הזווית 270 מעלות והנקודה בפינה השמאלית התחתונה.",
+      "solution": "כאן שתי התכונות מתקדמות באותו קצב, וזה בדיוק מה שמסתיר טעות: קל להזיז אחת מהן ולשכוח את השנייה. ודאו במפורש שגם הזווית וגם הפינה התקדמו צעד אחד. האפשרות עם 270 מעלות ונקודה שנשארה בפינה הימנית התחתונה היא הבדיקה לכך.",
+      "tags": ["שתי תכונות", "סיבוב", "סמן"]
+    },
+    {
+      "ref": "k-sea-16",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "כמות יורדת ומילוי לסירוגין",
+      "stem": "איזו צורה משלימה את הסדרה?",
+      "figure": "{{figrow:shape=star,n=5,fill=none;shape=star,n=4,fill=solid;shape=star,n=3,fill=none;?}}",
+      "options": [
+        "{{figcell:shape=star,n=2,fill=none}}",
+        "{{figcell:shape=star,n=3,fill=solid}}",
+        "{{figcell:shape=star,n=2,fill=solid}}",
+        "{{figcell:shape=star,n=1,fill=solid}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 2,
+      "target_seconds": 45,
+      "explanation": "מספר הכוכבים יורד באחד בכל צעד, והמילוי מתחלף ריק ומלא. לכן בתא הבא שני כוכבים מלאים.",
+      "solution": "בסדרה יורדת ספרו את הצורות מימין לשמאל וּודאו שההפרש קבוע לפני שממשיכים. אחר כך הוסיפו את התכונה השנייה — כאן מילוי שמתחלף בכל תא. כוכב אחד מלא הוא מסיח של מי שהוריד שתיים במקום אחת.",
+      "tags": ["שתי תכונות", "כמות יורדת", "מילוי"]
+    },
+    {
+      "ref": "k-sea-17",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "מילוי לסירוגין",
+      "stem": "איזו צורה ממשיכה את הסדרה?",
+      "figure": "{{figrow:shape=circle,fill=solid;shape=circle,fill=none;shape=circle,fill=solid;shape=circle,fill=none;?}}",
+      "options": [
+        "{{figcell:shape=circle,fill=solid}}",
+        "{{figcell:shape=circle,fill=none}}",
+        "{{figcell:shape=circle,fill=half}}",
+        "{{figcell:shape=circle,fill=dots}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 1,
+      "target_seconds": 30,
+      "explanation": "העיגולים מתחלפים מלא וריק לסירוגין, ולכן אחרי העיגול הריק מגיע עיגול מלא.",
+      "solution": "בסדרה של שני מצבים בלבד אין צורך לחשב: הסתכלו על התא האחרון וקחו את המצב ההפוך. אל תחפשו מצב שלישי — עיגול חצי מלא או מנוקד אינו מופיע כלל בסדרה, ולכן אינו יכול להיות ההמשך.",
+      "tags": ["לסירוגין", "מילוי"]
+    },
+    {
+      "ref": "k-sea-18",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "כמות עולה ומחזור צבע",
+      "stem": "בסדרה משתנות הכמות והצבע. איזו אפשרות מתאימה במקום סימן השאלה?",
+      "figure": "{{figrow:shape=square,n=1,color=ink;shape=square,n=2,color=accent;shape=square,n=3,color=warm;shape=square,n=4,color=ink;?}}",
+      "options": [
+        "{{figcell:shape=square,n=5,color=warm}}",
+        "{{figcell:shape=square,n=5,color=accent}}",
+        "{{figcell:shape=square,n=6,color=accent}}",
+        "{{figcell:shape=square,n=5,color=ink}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 3,
+      "target_seconds": 55,
+      "explanation": "מספר הריבועים עולה באחד בכל צעד, והצבע חוזר במחזור כהה, תכלת, כתום. אחרי ארבעה ריבועים כהים מגיעים חמישה ריבועים תכולים.",
+      "solution": "כששתי תכונות רצות בקצב שונה — הכמות בצעד קבוע והצבע במחזור בן שלושה — טפלו בהן בשני מעברים נפרדים על הסדרה. קבעו קודם את הכמות, ואז את הצבע. חמישה ריבועים כתומים הם המסיח של מי שהמשיך את הצבע מהתא השלישי ולא מהתא הרביעי.",
+      "tags": ["שתי תכונות", "כמות", "צבע"]
+    },
+    {
+      "ref": "k-sea-19",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "היפוך כיוון לסירוגין",
+      "stem": "איזה חץ בא במקום סימן השאלה?",
+      "figure": "{{figrow:shape=arrow,rot=0;shape=arrow,rot=180;shape=arrow,rot=0;shape=arrow,rot=180;?}}",
+      "options": [
+        "{{figcell:shape=arrow,rot=180}}",
+        "{{figcell:shape=arrow,rot=90}}",
+        "{{figcell:shape=arrow,rot=270}}",
+        "{{figcell:shape=arrow,rot=0}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 1,
+      "target_seconds": 30,
+      "explanation": "החץ מתהפך למעלה ולמטה לסירוגין, ולכן אחרי חץ הפונה מטה מגיע חץ הפונה מעלה.",
+      "solution": "היפוך של 180 מעלות אינו סיבוב מתקדם אלא החלפה בין שני מצבים בלבד — ודאו זאת לפני שאתם מחפשים זווית ביניים. חצים ב-90 או ב-270 מעלות אינם מופיעים בסדרה כלל, ולכן אינם יכולים להיות ההמשך שלה.",
+      "tags": ["לסירוגין", "סיבוב"]
+    },
+    {
+      "ref": "k-sea-20",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "סיבוב וגודל לסירוגין",
+      "stem": "איזו צורה משלימה את הסדרה?",
+      "figure": "{{figrow:shape=halfcircle,rot=0,size=s;shape=halfcircle,rot=90,size=l;shape=halfcircle,rot=180,size=s;?}}",
+      "options": [
+        "{{figcell:shape=halfcircle,rot=270,size=s}}",
+        "{{figcell:shape=halfcircle,rot=0,size=l}}",
+        "{{figcell:shape=halfcircle,rot=270,size=l}}",
+        "{{figcell:shape=halfcircle,rot=180,size=l}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 3,
+      "target_seconds": 55,
+      "explanation": "חצי העיגול מסתובב ב-90 מעלות בכל צעד, והגודל מתחלף קטן וגדול. לכן התא הבא הוא חצי עיגול גדול בזווית 270 מעלות.",
+      "solution": "שימו לב שגודל אינו חייב לגדול בהדרגה — לעיתים הוא רק מתחלף בין שני ערכים, וזו תכונה נפרדת לגמרי מהסיבוב. קבעו את הזווית הבאה ואת הגודל הבא בנפרד ואז חפשו התאמה מלאה. חצי העיגול הקטן ב-270 מעלות מקיים רק את הסיבוב ולכן נפסל.",
+      "tags": ["שתי תכונות", "סיבוב", "גודל"]
+    }
+  ]
+}

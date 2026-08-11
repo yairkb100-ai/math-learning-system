@@ -1,0 +1,405 @@
+{
+  "_comment": "מאגר קרני — אנלוגיות צורניות, מקבץ א. עשרים פריטים בטוקן figpair: איבר A משתנה ל-B, ועל התלמיד להחיל את אותה פעולה על C. הפעולות מגוונות — תבניות מילוי, גודל, סיבוב, צבע, כמות, נקודת סימון, מספר צלעות ושילובים של שתי פעולות. המסיח ״העתקה של איבר B״ מופיע בחלק מהפריטים בלבד וממוקם באינדקסים משתנים, כדי שלא ניתן יהיה לצמצם את השאלות מכניזם קבוע; בפריטים 05, 08, 10 ו-16 אין מסיח כזה כלל. בכל פריט נבדק שאף מסיח אינו מקיים את הכלל שנוסח ב-explanation.",
+  "items": [
+    {
+      "ref": "k-fana-01",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "מעבר בין תבניות מילוי",
+      "stem": "השלימו את האנלוגיה הצורנית: הצורה הראשונה משתנה לשנייה — איך תשתנה השלישית?",
+      "figure": "{{figpair:shape=circle,fill=dots;shape=circle,fill=grid/shape=square,fill=dots;?}}",
+      "options": [
+        "{{figcell:shape=square,fill=grid}}",
+        "{{figcell:shape=square,fill=stripes}}",
+        "{{figcell:shape=square,fill=dots}}",
+        "{{figcell:shape=circle,fill=grid}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 2,
+      "target_seconds": 35,
+      "explanation": "בזוג הראשון הצורה נשארה עיגול ותבנית המילוי עברה מנקודות לרשת. לכן הריבוע נשאר ריבוע, ותבנית הנקודות שלו מתחלפת באותה רשת.",
+      "solution": "כשהצורה עצמה אינה משתנה, ההבדל מסתתר בתבנית שממלאת אותה — התקרבו והשוו את התבניות עצמן ולא רק את ״מלא מול ריק״. המסיח בתבנית הפסים מייצג תלמיד שקלט ״התבנית התחלפה״ אך לא בדק לאיזו תבנית בדיוק, המסיח שנשאר בנקודות הוא אי-הפעלה של הכלל, והמסיח עם העיגול הוא העתקה של האיבר השני עצמו."
+    },
+    {
+      "ref": "k-fana-02",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "הקטנה",
+      "stem": "בדקו מה נשמר ומה השתנה בזוג הראשון, והשלימו את הזוג השני.",
+      "figure": "{{figpair:shape=star,size=l;shape=star,size=s/shape=heart,size=l;?}}",
+      "options": [
+        "{{figcell:shape=star,size=s}}",
+        "{{figcell:shape=heart,size=l}}",
+        "{{figcell:shape=heart,size=s,fill=solid}}",
+        "{{figcell:shape=heart,size=s}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 1,
+      "target_seconds": 30,
+      "explanation": "בזוג הראשון הצורה נשמרת והגודל עובר מגדול לקטן, בלי שום שינוי אחר. לכן הלב הגדול הופך ללב קטן.",
+      "solution": "כשכל התכונות זהות מלבד אחת, קִבעו קודם את כיוון השינוי — כאן הקטנה ולא הגדלה — ואז ודאו שלא נוספה בתשובה פעולה שלא הייתה בזוג הראשון. המסיח של הלב הקטן והמלא מייצג בדיוק את הטעות הזאת: הגודל נכון, אבל נוספה צביעה שאיש לא ביקש. המסיח של הלב הגדול הוא אי-הפעלה של הכלל, והמסיח של הכוכב הקטן הוא העתקה של האיבר השני עצמו."
+    },
+    {
+      "ref": "k-fana-03",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "סיבוב של רבע סיבוב",
+      "stem": "הצורה הראשונה עברה שינוי והפכה לשנייה. איזו תשובה מתקבלת כשמחילים את אותו שינוי על השלישית?",
+      "figure": "{{figpair:shape=heart,rot=0;shape=heart,rot=90/shape=halfcircle,rot=180;?}}",
+      "options": [
+        "{{figcell:shape=halfcircle,rot=270}}",
+        "{{figcell:shape=halfcircle,rot=0}}",
+        "{{figcell:shape=heart,rot=90}}",
+        "{{figcell:shape=halfcircle,rot=180}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 2,
+      "target_seconds": 40,
+      "explanation": "בזוג הראשון הצורה הסתובבה ברבע סיבוב, 90°. חצי-העיגול מתחיל ב-180°, ולכן אחרי תוספת של 90° הוא מגיע ל-270°.",
+      "solution": "האנלוגיה מתארת פעולה ולא תוצאה: לא ״הגיע ל-90°״ אלא ״הוסיפו 90°״. מדדו את ההפרש בין שני איברי הזוג הראשון והוסיפו אותו לזווית ההתחלתית של האיבר השלישי. המסיח שהגיע ל-0° מייצג תלמיד שסובב חצי סיבוב במקום רבע, המסיח שנשאר ב-180° הוא אי-הפעלה של הכלל, והלב הוא העתקה של האיבר השני עצמו."
+    },
+    {
+      "ref": "k-fana-04",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "מעבר לצבע חם",
+      "stem": "השלימו את האנלוגיה הצורנית: הצורה הראשונה משתנה לשנייה — איך תשתנה השלישית?",
+      "figure": "{{figpair:shape=triangle,fill=solid,color=accent;shape=triangle,fill=solid,color=warm/shape=cross,fill=solid,color=accent;?}}",
+      "options": [
+        "{{figcell:shape=cross,fill=solid,color=ink}}",
+        "{{figcell:shape=cross,fill=solid,color=accent}}",
+        "{{figcell:shape=cross,fill=solid,color=warm}}",
+        "{{figcell:shape=triangle,fill=solid,color=warm}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 1,
+      "target_seconds": 30,
+      "explanation": "בזוג הראשון השתנה רק הצבע — מצבע ההדגשה לצבע החם — והצורה נשארה מלאה כשהייתה. לכן הצלב נשאר צלב מלא ומקבל את אותו צבע חם.",
+      "solution": "כשרק תכונה אחת זזה, אתרו אותה ואל תיגעו בשאר. המסיח בצבע הדיו מייצג תלמיד שראה ״הצבע התחלף״ אך לא בדק לאיזה צבע בדיוק, המסיח בצבע ההדגשה הוא אי-הפעלה של הכלל, והמסיח של המשולש החם הוא העתקה של האיבר השני עצמו במקום שמירה על הצורה השלישית."
+    },
+    {
+      "ref": "k-fana-05",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "הוספת נקודת סימון",
+      "stem": "מהו היחס בין שתי הצורות הראשונות? החילו אותו יחס על הצורה השלישית.",
+      "figure": "{{figpair:shape=pentagon;shape=pentagon,dot=tr/shape=diamond;?}}",
+      "options": [
+        "{{figcell:shape=diamond}}",
+        "{{figcell:shape=diamond,dot=tr}}",
+        "{{figcell:shape=diamond,dot=c}}",
+        "{{figcell:shape=diamond,dot=br}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 1,
+      "target_seconds": 35,
+      "explanation": "בזוג הראשון נוספה נקודה בפינה הימנית-העליונה, והצורה עצמה לא השתנתה. לכן למעוין נוספת נקודה באותה פינה בדיוק.",
+      "solution": "לפעמים הפעולה אינה שינוי של תכונה אלא הוספה של סימן חדש. כאן כל ארבע התשובות הן אותו מעוין, ולכן אין ברירה אלא להכריע לפי מיקום הנקודה: המסיחים שמניחים אותה בפינה התחתונה או במרכז מייצגים תלמיד שזיהה ״נוספה נקודה״ ועצר שם, והמעוין החשוף הוא אי-הפעלה של הכלל."
+    },
+    {
+      "ref": "k-fana-06",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "הזזת הנקודה לצד השני",
+      "stem": "בדקו מה נשמר ומה השתנה בזוג הראשון, והשלימו את הזוג השני.",
+      "figure": "{{figpair:shape=square,dot=tl;shape=square,dot=tr/shape=circle,dot=bl;?}}",
+      "options": [
+        "{{figcell:shape=circle,dot=br}}",
+        "{{figcell:shape=circle,dot=tr}}",
+        "{{figcell:shape=square,dot=tr}}",
+        "{{figcell:shape=circle,dot=bl}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 2,
+      "target_seconds": 40,
+      "explanation": "הנקודה עברה מהפינה השמאלית-העליונה לפינה הימנית-העליונה, כלומר זזה לצד השני ונשארה באותו גובה. בעיגול הנקודה מתחילה למטה משמאל, ולכן היא עוברת למטה מימין.",
+      "solution": "תארו תנועה של נקודה בשני צירים בנפרד: כאן היא זזה הצידה ולא זזה למעלה או למטה. המסיח שמניח את הנקודה למעלה מימין הוא העתקה של המיקום הסופי מהזוג הראשון — טעות של מי שחושב על התוצאה במקום על הפעולה. המסיח עם הריבוע הוא העתקה של האיבר השני כולו."
+    },
+    {
+      "ref": "k-fana-07",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "הקטנה יחד עם מילוי",
+      "stem": "שימו לב ליותר מתכונה אחת: הצורה הראשונה משתנה לשנייה — מה יבוא במקום סימן השאלה?",
+      "figure": "{{figpair:shape=circle,size=l,fill=none;shape=circle,size=s,fill=solid/shape=trapezoid,size=l,fill=none;?}}",
+      "options": [
+        "{{figcell:shape=circle,size=s,fill=solid}}",
+        "{{figcell:shape=trapezoid,size=s,fill=none}}",
+        "{{figcell:shape=trapezoid,size=l,fill=solid}}",
+        "{{figcell:shape=trapezoid,size=s,fill=solid}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 2,
+      "target_seconds": 45,
+      "explanation": "בזוג הראשון קרו שני דברים יחד: הצורה התכווצה לגודל קטן וגם נצבעה במלואה. לכן הטרפז הגדול והריק הופך לטרפז קטן ומלא.",
+      "solution": "כששתי תכונות זזות יחד, נסחו אותן כמשפט אחד — ״התכווץ וגם נצבע״ — ובדקו כל תשובה מול שני חלקי המשפט. שני מסיחים כאן מבצעים חצי מהלך בלבד: אחד רק מקטין ואחד רק צובע, ושניהם נראים נכונים למי שבדק רק את התכונה הראשונה שקפצה לעין. המסיח עם העיגול הוא העתקה של האיבר השני עצמו."
+    },
+    {
+      "ref": "k-fana-08",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "שתי צלעות נוספות",
+      "stem": "מהו היחס בין שתי הצורות הראשונות? החילו אותו יחס על הצורה השלישית.",
+      "figure": "{{figpair:shape=triangle;shape=pentagon/shape=diamond;?}}",
+      "options": [
+        "{{figcell:shape=diamond}}",
+        "{{figcell:shape=hexagon}}",
+        "{{figcell:shape=pentagon}}",
+        "{{figcell:shape=triangle}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 2,
+      "target_seconds": 40,
+      "explanation": "למשולש שלוש צלעות ולמחומש חמש, כלומר נוספו שתי צלעות. למעוין ארבע צלעות, ולכן מתקבל משושה בעל שש צלעות.",
+      "solution": "כששתי הצורות בזוג הראשון שונות זו מזו, ספרו צלעות וכתבו לעצמכם את ההפרש המדויק — כאן שתיים ולא אחת. המסיח של המחומש מייצג תלמיד שהוסיף צלע אחת בלבד, המעוין הוא אי-הפעלה של הכלל, והמשולש הוא חזרה אל הצורה הראשונה במקום החלת הכלל על השלישית."
+    },
+    {
+      "ref": "k-fana-09",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "החלפת צבע יחד עם הוספת נקודה",
+      "stem": "שימו לב ליותר מתכונה אחת: הצורה הראשונה משתנה לשנייה — מה יבוא במקום סימן השאלה?",
+      "figure": "{{figpair:shape=hexagon,fill=solid,color=ink;shape=hexagon,fill=solid,color=accent,dot=tr/shape=star,fill=solid,color=ink;?}}",
+      "options": [
+        "{{figcell:shape=hexagon,fill=solid,color=accent,dot=tr}}",
+        "{{figcell:shape=star,fill=solid,color=accent}}",
+        "{{figcell:shape=star,fill=solid,color=ink,dot=tr}}",
+        "{{figcell:shape=star,fill=solid,color=accent,dot=tr}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 3,
+      "target_seconds": 50,
+      "explanation": "בזוג הראשון קרו שני דברים: הצורה החליפה את צבעה לצבע ההדגשה, וגם נוספה לה נקודה בפינה הימנית-העליונה. לכן הכוכב מקבל את צבע ההדגשה וגם נקודה באותה פינה.",
+      "solution": "כשפעולה אחת בולטת לעין, המשיכו לחפש פעולה שנייה חבויה — שינוי צבע על כל שטח הצורה מסתיר בקלות תוספת קטנה כמו נקודה בפינה. סרקו כל תא בסדר קבוע: קודם הצורה, אחר כך הצבע והמילוי, ולבסוף סימנים נוספים. שני מסיחים כאן מבצעים מחצית מהפעולה — אחד רק מחליף צבע ואחד רק מוסיף נקודה — והמסיח עם המשושה הוא העתקה של האיבר השני עצמו."
+    },
+    {
+      "ref": "k-fana-10",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "תוספת של שלוש צורות",
+      "stem": "הצורה הראשונה עברה שינוי והפכה לשנייה. איזו תשובה מתקבלת כשמחילים את אותו שינוי על השלישית?",
+      "figure": "{{figpair:shape=star,n=2;shape=star,n=5/shape=triangle,n=1;?}}",
+      "options": [
+        "{{figcell:shape=triangle,n=2}}",
+        "{{figcell:shape=triangle,n=3}}",
+        "{{figcell:shape=triangle,n=4}}",
+        "{{figcell:shape=triangle,n=5}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 2,
+      "target_seconds": 45,
+      "explanation": "בזוג הראשון הכמות עלתה משניים לחמישה, כלומר נוספו שלוש צורות. למשולש הבודד נוספים שלושה ומתקבלים ארבעה משולשים.",
+      "solution": "כשכמות עולה, בדקו קודם אם מדובר בכפל: חמישה אינו מתחלק בשניים, ולכן הכלל היחיד האפשרי כאן הוא תוספת קבועה של שלוש. המסיח של חמישה מעתיק את הכמות הסופית מהזוג הראשון, המסיח של שלושה מייצג ספירה חפוזה שמוסיפה שתיים בלבד, והמסיח של שניים מוסיף אחד בלבד."
+    },
+    {
+      "ref": "k-fana-11",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "סיבוב יחד עם מילוי",
+      "stem": "שימו לב ליותר מתכונה אחת: הצורה הראשונה משתנה לשנייה — מה יבוא במקום סימן השאלה?",
+      "figure": "{{figpair:shape=arrow,rot=0,fill=none;shape=arrow,rot=90,fill=solid/shape=trapezoid,rot=0,fill=none;?}}",
+      "options": [
+        "{{figcell:shape=trapezoid,rot=90,fill=none}}",
+        "{{figcell:shape=trapezoid,rot=90,fill=solid}}",
+        "{{figcell:shape=arrow,rot=90,fill=solid}}",
+        "{{figcell:shape=trapezoid,rot=0,fill=solid}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 2,
+      "target_seconds": 50,
+      "explanation": "בזוג הראשון קרו שני דברים יחד: הצורה הסתובבה ב-90° וגם נצבעה במלואה. לכן הטרפז מסתובב ב-90° וגם מתמלא.",
+      "solution": "כששתי תכונות זזות יחד, בדקו כל אחת בנפרד ורק אז חַברו אותן לתשובה אחת. שני מסיחים כאן מבצעים חצי מהמהלך בלבד — אחד רק מסובב ואחד רק צובע — והמסיח השלישי הוא העתקה של החץ מהזוג הראשון, כלומר של האיבר השני עצמו."
+    },
+    {
+      "ref": "k-fana-12",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "הגדלה יחד עם החלפת צבע",
+      "stem": "שימו לב ליותר מתכונה אחת: הצורה הראשונה משתנה לשנייה — מה יבוא במקום סימן השאלה?",
+      "figure": "{{figpair:shape=hexagon,size=s,color=ink;shape=hexagon,size=l,color=accent/shape=heart,size=s,color=ink;?}}",
+      "options": [
+        "{{figcell:shape=heart,size=l,color=ink}}",
+        "{{figcell:shape=heart,size=s,color=accent}}",
+        "{{figcell:shape=hexagon,size=l,color=accent}}",
+        "{{figcell:shape=heart,size=l,color=accent}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 2,
+      "target_seconds": 45,
+      "explanation": "בזוג הראשון הצורה גדלה וגם החליפה את צבעה לצבע ההדגשה. לכן הלב הקטן בצבע הדיו הופך ללב גדול בצבע ההדגשה.",
+      "solution": "כשיש שתי פעולות, נסחו אותן כמשפט אחד — ״גדל וגם החליף צבע״ — ובדקו כל תשובה מול שני חלקי המשפט. מסיח שמקיים רק חצי מהמשפט הוא עדיין שגוי, ולכן אין טעם להסתפק בבדיקת התכונה הראשונה שקופצת לעין. המסיח עם המשושה הוא העתקה של האיבר השני עצמו."
+    },
+    {
+      "ref": "k-fana-13",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "צורה אחת נוספת וגם מילוי",
+      "stem": "שימו לב ליותר מתכונה אחת: הצורה הראשונה משתנה לשנייה — מה יבוא במקום סימן השאלה?",
+      "figure": "{{figpair:shape=square,n=2,fill=none;shape=square,n=3,fill=solid/shape=triangle,n=4,fill=none;?}}",
+      "options": [
+        "{{figcell:shape=triangle,n=5,fill=solid}}",
+        "{{figcell:shape=triangle,n=5,fill=none}}",
+        "{{figcell:shape=triangle,n=4,fill=solid}}",
+        "{{figcell:shape=square,n=3,fill=solid}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 2,
+      "target_seconds": 50,
+      "explanation": "בזוג הראשון נוספה צורה אחת, משניים לשלושה, וגם המילוי עבר מריק למלא. לכן ארבעת המשולשים הריקים הופכים לחמישה משולשים מלאים.",
+      "solution": "ספרו קודם ורק אחר כך הביטו במילוי — שני שינויים שנעשים יחד קל לפספס כשמסתכלים על התא כמכלול. שני מסיחים כאן מיישמים רק אחד מהשניים, והמסיח הרביעי מעתיק את האיבר השני עצמו במקום להחיל את הכלל על המשולשים."
+    },
+    {
+      "ref": "k-fana-14",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "הנקודה עוברת למרכז",
+      "stem": "השלימו את האנלוגיה הצורנית: הצורה הראשונה משתנה לשנייה — איך תשתנה השלישית?",
+      "figure": "{{figpair:shape=square,dot=tl;shape=square,dot=c/shape=star,dot=br;?}}",
+      "options": [
+        "{{figcell:shape=star,dot=br}}",
+        "{{figcell:shape=star,dot=c}}",
+        "{{figcell:shape=star,dot=tl}}",
+        "{{figcell:shape=square,dot=c}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 1,
+      "target_seconds": 35,
+      "explanation": "בזוג הראשון הנקודה עזבה את הפינה ועברה למרכז התא. לכן הנקודה שבפינת הכוכב עוברת גם היא למרכז.",
+      "solution": "כשהפעולה היא מעבר ליעד קבוע, לא חשוב מהיכן הנקודה יצאה — חשוב לאן היא מגיעה. המסיח שמניח את הנקודה בפינה השמאלית-העליונה מעתיק דווקא את נקודת המוצא של הזוג הראשון, והמסיח עם הריבוע הוא העתקה של האיבר השני עצמו."
+    },
+    {
+      "ref": "k-fana-15",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "צבע ומילוי יחד",
+      "stem": "שימו לב ליותר מתכונה אחת: הצורה הראשונה משתנה לשנייה — מה יבוא במקום סימן השאלה?",
+      "figure": "{{figpair:shape=star,color=ink,fill=none;shape=star,color=accent,fill=solid/shape=cross,color=ink,fill=none;?}}",
+      "options": [
+        "{{figcell:shape=cross,color=ink,fill=solid}}",
+        "{{figcell:shape=cross,color=accent,fill=none}}",
+        "{{figcell:shape=cross,color=accent,fill=solid}}",
+        "{{figcell:shape=star,color=accent,fill=solid}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 2,
+      "target_seconds": 45,
+      "explanation": "בזוג הראשון הצורה גם החליפה צבע לצבע ההדגשה וגם התמלאה במלואה. לכן הצלב הריק בצבע הדיו הופך לצלב מלא בצבע ההדגשה.",
+      "solution": "שינוי צבע ושינוי מילוי נראים דומים לעין אבל הם שתי תכונות נפרדות: הצבע הוא איזה גוון, והמילוי הוא כמה שטח נצבע. בדקו את שתיהן בנפרד — שני מסיחים כאן מקיימים רק אחת מהן, והרביעי הוא העתקה של הכוכב, כלומר של האיבר השני עצמו."
+    },
+    {
+      "ref": "k-fana-16",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "סיבוב של שמינית סיבוב",
+      "stem": "הצורה הראשונה עברה שינוי והפכה לשנייה. איזו תשובה מתקבלת כשמחילים את אותו שינוי על השלישית?",
+      "figure": "{{figpair:shape=heart,rot=0;shape=heart,rot=45/shape=arrow,rot=135;?}}",
+      "options": [
+        "{{figcell:shape=arrow,rot=180}}",
+        "{{figcell:shape=arrow,rot=45}}",
+        "{{figcell:shape=arrow,rot=225}}",
+        "{{figcell:shape=arrow,rot=135}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 2,
+      "target_seconds": 45,
+      "explanation": "בזוג הראשון הצורה הוטתה ב-45°, שמינית סיבוב. החץ מתחיל ב-135°, ולכן אחרי תוספת של 45° הוא מגיע ל-180° ומצביע כלפי מטה.",
+      "solution": "בסיבוב קטן קל להתבלבל בין הזווית שהתקבלה לבין הזווית שנוספה: מדדו את ההפרש בזוג הראשון והוסיפו אותו לזווית ההתחלתית של האיבר השלישי. המסיח של החץ ב-45° מעתיק את הזווית הסופית של הזוג הראשון, המסיח ב-225° מוסיף רבע סיבוב במקום שמינית, והמסיח ב-135° הוא אי-הפעלה של הכלל."
+    },
+    {
+      "ref": "k-fana-17",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "תוספת לכמות יחד עם מעבר הנקודה למרכז",
+      "stem": "שימו לב ליותר מתכונה אחת: הצורה הראשונה משתנה לשנייה — מה יבוא במקום סימן השאלה?",
+      "figure": "{{figpair:shape=circle,n=3,dot=tr;shape=circle,n=5,dot=c/shape=square,n=1,dot=tr;?}}",
+      "options": [
+        "{{figcell:shape=square,n=3,dot=tr}}",
+        "{{figcell:shape=square,n=1,dot=c}}",
+        "{{figcell:shape=square,n=3,dot=c}}",
+        "{{figcell:shape=circle,n=5,dot=c}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 3,
+      "target_seconds": 50,
+      "explanation": "בזוג הראשון נוספו שתי צורות, משלוש לחמש, וגם הנקודה עברה מהפינה אל מרכז התא. לכן הריבוע הבודד הופך לשלושה ריבועים והנקודה שלו עוברת למרכז.",
+      "solution": "ספרו קודם את הכמות ורק אחר כך אתרו את הנקודה — שני שינויים שנעשים יחד קל לפספס. חמישה אינו כפולה של שלושה, ולכן הכלל בכמות הוא תוספת של שתיים ולא כפל. שני מסיחים מבצעים חצי מהלך בלבד — אחד רק מוסיף צורות ואחד רק מזיז את הנקודה — והרביעי הוא העתקה של האיבר השני עצמו."
+    },
+    {
+      "ref": "k-fana-18",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "הסרת נקודת הסימון",
+      "stem": "בדקו מה נשמר ומה השתנה בזוג הראשון, והשלימו את הזוג השני.",
+      "figure": "{{figpair:shape=circle,dot=tr;shape=circle/shape=trapezoid,dot=bl;?}}",
+      "options": [
+        "{{figcell:shape=circle}}",
+        "{{figcell:shape=trapezoid,dot=tr}}",
+        "{{figcell:shape=trapezoid,dot=bl}}",
+        "{{figcell:shape=trapezoid}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 1,
+      "target_seconds": 35,
+      "explanation": "בזוג הראשון הנקודה נעלמה והצורה נשארה כשהייתה. לכן הטרפז נשאר טרפז והנקודה שלו מוסרת.",
+      "solution": "לא כל פעולה מוסיפה משהו — לפעמים הפעולה היא הסרה. שאלו ״מה יש בראשונה ואין בשנייה״ לפני שאתם מחפשים שינוי בתכונות. המסיח שמעביר את הנקודה לפינה אחרת מייצג תלמיד שהניח שנקודה תמיד זזה ולא נעלמת, והמסיח עם העיגול הוא העתקה של האיבר השני עצמו."
+    },
+    {
+      "ref": "k-fana-19",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "מילוי של חצי הצורה",
+      "stem": "השלימו את האנלוגיה הצורנית: הצורה הראשונה משתנה לשנייה — איך תשתנה השלישית?",
+      "figure": "{{figpair:shape=square,fill=none;shape=square,fill=half/shape=star,fill=none;?}}",
+      "options": [
+        "{{figcell:shape=star,fill=half}}",
+        "{{figcell:shape=star,fill=solid}}",
+        "{{figcell:shape=square,fill=half}}",
+        "{{figcell:shape=square,fill=none}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 1,
+      "target_seconds": 30,
+      "explanation": "בזוג הראשון נצבע חצי מהצורה בלבד, לא כולה. לכן הכוכב הריק הופך לכוכב שחציו צבוע.",
+      "solution": "אחרי שזיהיתם שהצורה נצבעת, בדקו כמה ממנה נצבע — זו כמעט אותה טעות בכל פעם. המסיח של הכוכב המלא מייצג תלמיד שקלט את הכיוון אך לא את המידה, ושני המסיחים בצורת הריבוע מעתיקים את איברי הזוג הראשון במקום להחיל את הפעולה על הכוכב."
+    },
+    {
+      "ref": "k-fana-20",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "שתי צלעות פחות",
+      "stem": "מהו היחס בין שתי הצורות הראשונות? החילו אותו יחס על הצורה השלישית.",
+      "figure": "{{figpair:shape=hexagon;shape=diamond/shape=pentagon;?}}",
+      "options": [
+        "{{figcell:shape=circle}}",
+        "{{figcell:shape=triangle}}",
+        "{{figcell:shape=diamond}}",
+        "{{figcell:shape=pentagon}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 3,
+      "target_seconds": 50,
+      "explanation": "למשושה שש צלעות ולמעוין ארבע, כלומר ירדו שתי צלעות. למחומש חמש צלעות, ולכן מתקבל משולש בעל שלוש צלעות.",
+      "solution": "אל תסתפקו ב״יש פחות צלעות״ — ספרו בדיוק כמה ירדו, כי ההפרש הוא הכלל. המעוין הוא המסיח החזק כאן: הוא גם העתקה של האיבר השני עצמו וגם התשובה של מי שהוריד צלע אחת בלבד. העיגול מפתה כ״צורה הפשוטה ביותר״, אך אין לו צלעות כלל והוא אינו ממשיך את הספירה."
+    }
+  ]
+}

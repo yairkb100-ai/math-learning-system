@@ -1,0 +1,485 @@
+{
+  "_comment": "מאגר קרני — מטריצות 3x3 מבוססות הצטלבות (מנה 23). בכל פריט השורה קובעת תכונה אחת והעמודה תכונה אחרת, והתשובה היא ההצטלבות ביניהן. עשרים צמדי תכונות שונים מתוך shape / n / fill / rot / size / color / dot. כל מסיח מקיים בדיוק אחד משני הכללים.",
+  "items": [
+    {
+      "ref": "k-mab-01",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "שורה קובעת צבע, עמודה קובעת צורה",
+      "stem": "איזו צורה מתאימה למקום הריק במטריצה?",
+      "figure": "{{figmatrix:shape=diamond,color=ink;shape=hexagon,color=ink;shape=star,color=ink/shape=diamond,color=accent;shape=hexagon,color=accent;shape=star,color=accent/shape=diamond,color=warm;shape=hexagon,color=warm;?}}",
+      "options": [
+        "{{figcell:shape=star,color=ink}}",
+        "{{figcell:shape=star,color=accent}}",
+        "{{figcell:shape=star,color=warm}}",
+        "{{figcell:shape=diamond,color=warm}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 2,
+      "target_seconds": 35,
+      "explanation": "השורות קובעות את הצבע: כהה, טורקיז וכתום. העמודות קובעות את הצורה: מעוין, משושה וכוכב. התא החסר הוא בשורה השלישית ובעמודה השלישית, ולכן דרוש כוכב בצבע כתום.",
+      "solution": "במטריצה תמיד מפרידים בין שתי שאלות: מה משותף לכל השורה, ומה משותף לכל העמודה. כאן כל שורה צבועה בצבע אחד וכל עמודה מחזיקה צורה אחת, ולכן התשובה היא המפגש בין השניים. הכוכב הכהה הוא מלכודת: הצורה נכונה אבל הצבע שייך לשורה הראשונה.",
+      "tags": [
+        "מטריצה",
+        "הצטלבות שורה ועמודה"
+      ]
+    },
+    {
+      "ref": "k-mab-02",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "שורה קובעת מילוי, עמודה קובעת צבע",
+      "stem": "איזו צורה מתאימה למקום הריק במטריצה?",
+      "figure": "{{figmatrix:shape=hexagon,fill=none,color=ink;shape=hexagon,fill=none,color=accent;shape=hexagon,fill=none,color=warm/shape=hexagon,fill=half,color=ink;shape=hexagon,fill=half,color=accent;shape=hexagon,fill=half,color=warm/shape=hexagon,fill=solid,color=ink;shape=hexagon,fill=solid,color=accent;?}}",
+      "options": [
+        "{{figcell:shape=hexagon,fill=solid,color=warm}}",
+        "{{figcell:shape=hexagon,fill=solid,color=ink}}",
+        "{{figcell:shape=hexagon,fill=solid,color=accent}}",
+        "{{figcell:shape=hexagon,fill=none,color=warm}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 2,
+      "target_seconds": 35,
+      "explanation": "השורות קובעות את המילוי: ריק, חצי מלא ומלא. העמודות קובעות את הצבע: כהה, טורקיז וכתום. התא החסר הוא בשורה השלישית ובעמודה השלישית, ולכן דרוש משושה מלא בצבע כתום.",
+      "solution": "כשכל התאים הם אותה צורה, סימן שהצורה אינה חלק מהכלל וצריך להתעלם ממנה. מה שנשאר הוא שתי תכונות בלבד — מילוי וצבע — ואחת מהן נשלטת בידי השורה והשנייה בידי העמודה. המשושה המלא הטורקיז מקיים את כלל השורה ונופל בעמודה.",
+      "tags": [
+        "מטריצה",
+        "הצטלבות שורה ועמודה"
+      ]
+    },
+    {
+      "ref": "k-mab-03",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "שורה קובעת צבע, עמודה קובעת כמות",
+      "stem": "איזו צורה מתאימה למקום הריק במטריצה?",
+      "figure": "{{figmatrix:shape=cross,n=2,color=ink;shape=cross,n=3,color=ink;shape=cross,n=4,color=ink/shape=cross,n=2,color=accent;shape=cross,n=3,color=accent;shape=cross,n=4,color=accent/shape=cross,n=2,color=warm;shape=cross,n=3,color=warm;?}}",
+      "options": [
+        "{{figcell:shape=cross,n=4,color=ink}}",
+        "{{figcell:shape=cross,n=4,color=accent}}",
+        "{{figcell:shape=cross,n=2,color=warm}}",
+        "{{figcell:shape=cross,n=4,color=warm}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 3,
+      "target_seconds": 45,
+      "explanation": "השורות קובעות את הצבע: כהה, טורקיז וכתום. העמודות קובעות את הכמות: שתיים, שלוש וארבע. התא החסר הוא בשורה השלישית ובעמודה השלישית, ולכן דרוש ארבעה צלבים בצבע כתום.",
+      "solution": "ספירה וצבע הן שתי תכונות בלתי תלויות, ולכן כדאי לסרוק את המטריצה פעמיים: פעם אחת סופרים בלבד ופעם אחת מסתכלים רק על הצבע. המסיח עם ארבעה צלבים כהים סופר נכון אך לוקח את צבע השורה הראשונה. השגיאה השכיחה היא להיאחז בתכונה הבולטת יותר ולשכוח את השנייה.",
+      "tags": [
+        "מטריצה",
+        "הצטלבות שורה ועמודה"
+      ]
+    },
+    {
+      "ref": "k-mab-04",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "שורה קובעת צבע, עמודה קובעת סיבוב",
+      "stem": "איזו צורה מתאימה למקום הריק במטריצה?",
+      "figure": "{{figmatrix:shape=heart,rot=0,color=ink;shape=heart,rot=90,color=ink;shape=heart,rot=180,color=ink/shape=heart,rot=0,color=accent;shape=heart,rot=90,color=accent;shape=heart,rot=180,color=accent/shape=heart,rot=0,color=warm;shape=heart,rot=90,color=warm;?}}",
+      "options": [
+        "{{figcell:shape=heart,rot=0,color=warm}}",
+        "{{figcell:shape=heart,rot=180,color=warm}}",
+        "{{figcell:shape=heart,rot=90,color=warm}}",
+        "{{figcell:shape=heart,rot=180,color=ink}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 3,
+      "target_seconds": 45,
+      "explanation": "השורות קובעות את הצבע: כהה, טורקיז וכתום. העמודות קובעות את זווית הסיבוב: בלי סיבוב, מסובב ב-90 מעלות ומסובב ב-180 מעלות. התא החסר הוא בשורה השלישית ובעמודה השלישית, ולכן דרוש לב בצבע כתום מסובב ב-180 מעלות.",
+      "solution": "כשצורה מסתובבת, קבעו קודם את הזווית ורק אחר כך את הצבע — שתי התכונות אינן מפריעות זו לזו. בעמודה השלישית הלב עומד הפוך לגמרי, ובשורה השלישית הצבע כתום. לב כתום וזקוף מקיים את כלל השורה בלבד, ולכן הוא פסול.",
+      "tags": [
+        "מטריצה",
+        "הצטלבות שורה ועמודה"
+      ]
+    },
+    {
+      "ref": "k-mab-05",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "שורה קובעת גודל, עמודה קובעת צבע",
+      "stem": "איזו צורה מתאימה למקום הריק במטריצה?",
+      "figure": "{{figmatrix:shape=pentagon,size=s,color=ink;shape=pentagon,size=s,color=accent;shape=pentagon,size=s,color=warm/shape=pentagon,size=m,color=ink;shape=pentagon,size=m,color=accent;shape=pentagon,size=m,color=warm/shape=pentagon,size=l,color=ink;shape=pentagon,size=l,color=accent;?}}",
+      "options": [
+        "{{figcell:shape=pentagon,size=s,color=warm}}",
+        "{{figcell:shape=pentagon,size=m,color=warm}}",
+        "{{figcell:shape=pentagon,size=l,color=warm}}",
+        "{{figcell:shape=pentagon,size=l,color=ink}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 3,
+      "target_seconds": 40,
+      "explanation": "השורות קובעות את הגודל: קטן, בינוני וגדול. העמודות קובעות את הצבע: כהה, טורקיז וכתום. התא החסר הוא בשורה השלישית ובעמודה השלישית, ולכן דרוש מחומש גדול בצבע כתום.",
+      "solution": "גודל הוא תכונה יחסית, ולכן משווים אותה לאורך העמודה ולא לתא בודד. המחומשים גדלים כלפי מטה בכל עמודה ומחליפים צבע כלפי הצד בכל שורה. מסיח שמציג מחומש כתום בגודל בינוני נכון בעמודה בלבד.",
+      "tags": [
+        "מטריצה",
+        "הצטלבות שורה ועמודה"
+      ]
+    },
+    {
+      "ref": "k-mab-06",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "שורה קובעת צבע, עמודה קובעת מיקום הנקודה",
+      "stem": "איזו צורה מתאימה למקום הריק במטריצה?",
+      "figure": "{{figmatrix:shape=star,color=ink,dot=tl;shape=star,color=ink,dot=c;shape=star,color=ink,dot=br/shape=star,color=accent,dot=tl;shape=star,color=accent,dot=c;shape=star,color=accent,dot=br/shape=star,color=warm,dot=tl;shape=star,color=warm,dot=c;?}}",
+      "options": [
+        "{{figcell:shape=star,color=warm,dot=br}}",
+        "{{figcell:shape=star,color=warm,dot=tl}}",
+        "{{figcell:shape=star,color=warm,dot=c}}",
+        "{{figcell:shape=star,color=ink,dot=br}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 3,
+      "target_seconds": 45,
+      "explanation": "השורות קובעות את הצבע: כהה, טורקיז וכתום. העמודות קובעות את מיקום הנקודה: פינה שמאלית עליונה, מרכז ופינה ימנית תחתונה. התא החסר הוא בשורה השלישית ובעמודה השלישית, ולכן דרוש כוכב בצבע כתום עם נקודה בפינה הימנית התחתונה.",
+      "solution": "פרט זעיר כמו נקודה בפינה הוא תכונה מלאה לכל דבר, ובמבחן קל לפסוח עליו. בדקו תחילה לאן נודדת הנקודה לאורך העמודות, ואז חזרו אל הצבע לאורך השורות. הכוכב הכתום עם נקודה במרכז נכון בשורה ושגוי בעמודה.",
+      "tags": [
+        "מטריצה",
+        "הצטלבות שורה ועמודה"
+      ]
+    },
+    {
+      "ref": "k-mab-07",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "שורה קובעת כמות, עמודה קובעת גודל",
+      "stem": "איזו צורה מתאימה למקום הריק במטריצה?",
+      "figure": "{{figmatrix:shape=circle,n=2,size=s;shape=circle,n=2,size=m;shape=circle,n=2,size=l/shape=circle,n=3,size=s;shape=circle,n=3,size=m;shape=circle,n=3,size=l/shape=circle,n=4,size=s;shape=circle,n=4,size=m;?}}",
+      "options": [
+        "{{figcell:shape=circle,n=2,size=l}}",
+        "{{figcell:shape=circle,n=3,size=l}}",
+        "{{figcell:shape=circle,n=4,size=s}}",
+        "{{figcell:shape=circle,n=4,size=l}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 3,
+      "target_seconds": 45,
+      "explanation": "השורות קובעות את הכמות: שתיים, שלוש וארבע. העמודות קובעות את הגודל: קטן, בינוני וגדול. התא החסר הוא בשורה השלישית ובעמודה השלישית, ולכן דרוש ארבעה עיגולים גדולים.",
+      "solution": "כמות וגודל נראים דומים במבט ראשון, ולכן קודם סופרים את הצורות ורק אחר כך שואלים כמה גדולה כל אחת מהן. השורה קובעת כמה, העמודה קובעת כמה גדול. שלושה עיגולים גדולים סופרים לפי השורה השנייה ולכן אינם מתאימים.",
+      "tags": [
+        "מטריצה",
+        "הצטלבות שורה ועמודה"
+      ]
+    },
+    {
+      "ref": "k-mab-08",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "שורה קובעת מילוי, עמודה קובעת גודל",
+      "stem": "איזו צורה מתאימה למקום הריק במטריצה?",
+      "figure": "{{figmatrix:shape=heart,fill=none,size=s;shape=heart,fill=none,size=m;shape=heart,fill=none,size=l/shape=heart,fill=dots,size=s;shape=heart,fill=dots,size=m;shape=heart,fill=dots,size=l/shape=heart,fill=solid,size=s;shape=heart,fill=solid,size=m;?}}",
+      "options": [
+        "{{figcell:shape=heart,fill=solid,size=s}}",
+        "{{figcell:shape=heart,fill=solid,size=l}}",
+        "{{figcell:shape=heart,fill=solid,size=m}}",
+        "{{figcell:shape=heart,fill=none,size=l}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 3,
+      "target_seconds": 45,
+      "explanation": "השורות קובעות את המילוי: ריק, נקודות ומלא. העמודות קובעות את הגודל: קטן, בינוני וגדול. התא החסר הוא בשורה השלישית ובעמודה השלישית, ולכן דרוש לב גדול מלא.",
+      "solution": "מילוי נקודות ומילוי מלא הם שני מצבים שונים לגמרי, אף שמרחוק שניהם נראים כהים — התקרבו לפני שאתם בוחרים. השורה מכתיבה את סוג המילוי והעמודה את הגודל. הלב הגדול והריק מקיים את העמודה בלבד, כי הריק שייך לשורה הראשונה.",
+      "tags": [
+        "מטריצה",
+        "הצטלבות שורה ועמודה"
+      ]
+    },
+    {
+      "ref": "k-mab-09",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "שורה קובעת גודל, עמודה קובעת מיקום הנקודה",
+      "stem": "איזו צורה מתאימה למקום הריק במטריצה?",
+      "figure": "{{figmatrix:shape=diamond,size=s,dot=tr;shape=diamond,size=s,dot=c;shape=diamond,size=s,dot=bl/shape=diamond,size=m,dot=tr;shape=diamond,size=m,dot=c;shape=diamond,size=m,dot=bl/shape=diamond,size=l,dot=tr;shape=diamond,size=l,dot=c;?}}",
+      "options": [
+        "{{figcell:shape=diamond,size=s,dot=bl}}",
+        "{{figcell:shape=diamond,size=m,dot=bl}}",
+        "{{figcell:shape=diamond,size=l,dot=bl}}",
+        "{{figcell:shape=diamond,size=l,dot=tr}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 4,
+      "target_seconds": 50,
+      "explanation": "השורות קובעות את הגודל: קטן, בינוני וגדול. העמודות קובעות את מיקום הנקודה: פינה ימנית עליונה, מרכז ופינה שמאלית תחתונה. התא החסר הוא בשורה השלישית ובעמודה השלישית, ולכן דרוש מעוין גדול עם נקודה בפינה השמאלית התחתונה.",
+      "solution": "כאן שתי התכונות שקטות: אף אחת מהן אינה משנה את הצורה עצמה. עקבו קודם אחרי הנקודה שנעה מפינה עליונה למרכז ולפינה תחתונה, ואחר כך אחרי הגדילה כלפי מטה. מעוין קטן עם נקודה בפינה השמאלית התחתונה נכון בעמודה ושגוי בשורה.",
+      "tags": [
+        "מטריצה",
+        "הצטלבות שורה ועמודה"
+      ]
+    },
+    {
+      "ref": "k-mab-10",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "שורה קובעת סיבוב, עמודה קובעת גודל",
+      "stem": "איזו צורה מתאימה למקום הריק במטריצה?",
+      "figure": "{{figmatrix:shape=arrow,rot=45,size=s;shape=arrow,rot=45,size=m;shape=arrow,rot=45,size=l/shape=arrow,rot=135,size=s;shape=arrow,rot=135,size=m;shape=arrow,rot=135,size=l/shape=arrow,rot=225,size=s;shape=arrow,rot=225,size=m;?}}",
+      "options": [
+        "{{figcell:shape=arrow,rot=225,size=l}}",
+        "{{figcell:shape=arrow,rot=225,size=s}}",
+        "{{figcell:shape=arrow,rot=225,size=m}}",
+        "{{figcell:shape=arrow,rot=45,size=l}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 4,
+      "target_seconds": 50,
+      "explanation": "השורות קובעות את זווית הסיבוב: מסובב ב-45 מעלות, מסובב ב-135 מעלות ומסובב ב-225 מעלות. העמודות קובעות את הגודל: קטן, בינוני וגדול. התא החסר הוא בשורה השלישית ובעמודה השלישית, ולכן דרוש חץ גדול מסובב ב-225 מעלות.",
+      "solution": "כשהזוויות אינן עגולות, אל תנסו למדוד אותן — די לזהות לאן מצביע החץ: אלכסון עולה, אלכסון יורד, וחזרה כלפי מטה־שמאלה. הכיוון נקבע בשורה והגודל בעמודה. חץ באותו כיוון בדיוק אך בגודל קטן שומר על כלל השורה ונכשל בעמודה.",
+      "tags": [
+        "מטריצה",
+        "הצטלבות שורה ועמודה"
+      ]
+    },
+    {
+      "ref": "k-mab-11",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "שורה קובעת מיקום הנקודה, עמודה קובעת כמות",
+      "stem": "איזו צורה מתאימה למקום הריק במטריצה?",
+      "figure": "{{figmatrix:shape=triangle,n=1,dot=tl;shape=triangle,n=2,dot=tl;shape=triangle,n=3,dot=tl/shape=triangle,n=1,dot=tr;shape=triangle,n=2,dot=tr;shape=triangle,n=3,dot=tr/shape=triangle,n=1,dot=br;shape=triangle,n=2,dot=br;?}}",
+      "options": [
+        "{{figcell:shape=triangle,n=3,dot=tl}}",
+        "{{figcell:shape=triangle,n=3,dot=tr}}",
+        "{{figcell:shape=triangle,n=1,dot=br}}",
+        "{{figcell:shape=triangle,n=3,dot=br}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 3,
+      "target_seconds": 45,
+      "explanation": "השורות קובעות את מיקום הנקודה: פינה שמאלית עליונה, פינה ימנית עליונה ופינה ימנית תחתונה. העמודות קובעות את הכמות: צורה אחת, שתיים ושלוש. התא החסר הוא בשורה השלישית ובעמודה השלישית, ולכן דרוש שלושה משולשים עם נקודה בפינה הימנית התחתונה.",
+      "solution": "כשהנקודה נשארת קבועה לאורך שורה שלמה, ברור שהיא נשלטת בידי השורה ולא בידי העמודה. הספירה, לעומת זאת, קבועה לאורך העמודה. שלושה משולשים עם נקודה בפינה השמאלית העליונה סופרים נכון אך שאולים משורה אחרת.",
+      "tags": [
+        "מטריצה",
+        "הצטלבות שורה ועמודה"
+      ]
+    },
+    {
+      "ref": "k-mab-12",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "שורה קובעת מילוי, עמודה קובעת מיקום הנקודה",
+      "stem": "איזו צורה מתאימה למקום הריק במטריצה?",
+      "figure": "{{figmatrix:shape=circle,fill=none,dot=tr;shape=circle,fill=none,dot=c;shape=circle,fill=none,dot=bl/shape=circle,fill=stripes,dot=tr;shape=circle,fill=stripes,dot=c;shape=circle,fill=stripes,dot=bl/shape=circle,fill=solid,dot=tr;shape=circle,fill=solid,dot=c;?}}",
+      "options": [
+        "{{figcell:shape=circle,fill=solid,dot=tr}}",
+        "{{figcell:shape=circle,fill=solid,dot=bl}}",
+        "{{figcell:shape=circle,fill=solid,dot=c}}",
+        "{{figcell:shape=circle,fill=none,dot=bl}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 4,
+      "target_seconds": 50,
+      "explanation": "השורות קובעות את המילוי: ריק, פסים ומלא. העמודות קובעות את מיקום הנקודה: פינה ימנית עליונה, מרכז ופינה שמאלית תחתונה. התא החסר הוא בשורה השלישית ובעמודה השלישית, ולכן דרוש עיגול מלא עם נקודה בפינה השמאלית התחתונה.",
+      "solution": "העיגול זהה בכל תשעת התאים, ולכן כל המידע מוסתר בשני פרטים: מה בתוך העיגול ואיפה הנקודה. אחד מהם קבוע בשורה והשני קבוע בעמודה. עיגול ריק עם נקודה בפינה השמאלית התחתונה נכון בעמודה בלבד, כי המילוי הריק שייך לשורה הראשונה.",
+      "tags": [
+        "מטריצה",
+        "הצטלבות שורה ועמודה"
+      ]
+    },
+    {
+      "ref": "k-mab-13",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "שורה קובעת סיבוב, עמודה קובעת מיקום הנקודה",
+      "stem": "איזו צורה מתאימה למקום הריק במטריצה?",
+      "figure": "{{figmatrix:shape=halfcircle,rot=0,dot=bl;shape=halfcircle,rot=0,dot=c;shape=halfcircle,rot=0,dot=tr/shape=halfcircle,rot=90,dot=bl;shape=halfcircle,rot=90,dot=c;shape=halfcircle,rot=90,dot=tr/shape=halfcircle,rot=180,dot=bl;shape=halfcircle,rot=180,dot=c;?}}",
+      "options": [
+        "{{figcell:shape=halfcircle,rot=0,dot=tr}}",
+        "{{figcell:shape=halfcircle,rot=90,dot=tr}}",
+        "{{figcell:shape=halfcircle,rot=180,dot=tr}}",
+        "{{figcell:shape=halfcircle,rot=180,dot=bl}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 4,
+      "target_seconds": 50,
+      "explanation": "השורות קובעות את זווית הסיבוב: בלי סיבוב, מסובב ב-90 מעלות ומסובב ב-180 מעלות. העמודות קובעות את מיקום הנקודה: פינה שמאלית תחתונה, מרכז ופינה ימנית עליונה. התא החסר הוא בשורה השלישית ובעמודה השלישית, ולכן דרוש חצי־עיגול מסובב ב-180 מעלות עם נקודה בפינה הימנית העליונה.",
+      "solution": "חצי־עיגול מסובב ב-180 מעלות פונה כלפי מטה, וזה ההבדל שקל לזהות במבט. הנקודה נעה משמאל־למטה אל המרכז ואל ימין־למעלה לאורך העמודות. מסיח שמסובב נכון אך משאיר את הנקודה בפינה השמאלית התחתונה מקיים רק את כלל השורה.",
+      "tags": [
+        "מטריצה",
+        "הצטלבות שורה ועמודה"
+      ]
+    },
+    {
+      "ref": "k-mab-14",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "שורה קובעת צורה, עמודה קובעת כמות",
+      "stem": "איזו צורה מתאימה למקום הריק במטריצה?",
+      "figure": "{{figmatrix:shape=heart,n=2;shape=heart,n=4;shape=heart,n=6/shape=cross,n=2;shape=cross,n=4;shape=cross,n=6/shape=hexagon,n=2;shape=hexagon,n=4;?}}",
+      "options": [
+        "{{figcell:shape=hexagon,n=6}}",
+        "{{figcell:shape=hexagon,n=2}}",
+        "{{figcell:shape=hexagon,n=4}}",
+        "{{figcell:shape=heart,n=6}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 3,
+      "target_seconds": 45,
+      "explanation": "השורות קובעות את הצורה: לב, צלב ומשושה. העמודות קובעות את הכמות: שתיים, ארבע ושש. התא החסר הוא בשורה השלישית ובעמודה השלישית, ולכן דרוש שישה משושים.",
+      "solution": "כשהכמויות קופצות בשתיים בכל עמודה, סופרים פעם אחת בלבד ומיד יודעים באיזו עמודה נמצאים. הצורה נלמדת מהשורה. ארבעה משושים סופרים לפי העמודה השנייה, ולכן הם מסיח ולא תשובה.",
+      "tags": [
+        "מטריצה",
+        "הצטלבות שורה ועמודה"
+      ]
+    },
+    {
+      "ref": "k-mab-15",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "שורה קובעת צורה, עמודה קובעת מילוי",
+      "stem": "איזו צורה מתאימה למקום הריק במטריצה?",
+      "figure": "{{figmatrix:shape=triangle,fill=half;shape=triangle,fill=stripes;shape=triangle,fill=solid/shape=diamond,fill=half;shape=diamond,fill=stripes;shape=diamond,fill=solid/shape=hexagon,fill=half;shape=hexagon,fill=stripes;?}}",
+      "options": [
+        "{{figcell:shape=triangle,fill=solid}}",
+        "{{figcell:shape=diamond,fill=solid}}",
+        "{{figcell:shape=hexagon,fill=half}}",
+        "{{figcell:shape=hexagon,fill=solid}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 3,
+      "target_seconds": 45,
+      "explanation": "השורות קובעות את הצורה: משולש, מעוין ומשושה. העמודות קובעות את המילוי: חצי מלא, פסים ומלא. התא החסר הוא בשורה השלישית ובעמודה השלישית, ולכן דרוש משושה מלא.",
+      "solution": "חצי מלא, מפוספס ומלא לגמרי נראים דומים כשמסתכלים במהירות, ולכן כדאי לבדוק אם רואים קווים בפנים ואם החלק הריק נמצא בצד אחד בלבד. הצורה נקבעת בשורה והמילוי בעמודה. המשולש המלא מקיים את העמודה ונכשל בשורה.",
+      "tags": [
+        "מטריצה",
+        "הצטלבות שורה ועמודה"
+      ]
+    },
+    {
+      "ref": "k-mab-16",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "שורה קובעת סיבוב, עמודה קובעת צורה",
+      "stem": "איזו צורה מתאימה למקום הריק במטריצה?",
+      "figure": "{{figmatrix:shape=trapezoid,rot=0;shape=heart,rot=0;shape=triangle,rot=0/shape=trapezoid,rot=45;shape=heart,rot=45;shape=triangle,rot=45/shape=trapezoid,rot=90;shape=heart,rot=90;?}}",
+      "options": [
+        "{{figcell:shape=trapezoid,rot=90}}",
+        "{{figcell:shape=triangle,rot=90}}",
+        "{{figcell:shape=heart,rot=90}}",
+        "{{figcell:shape=triangle,rot=0}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 4,
+      "target_seconds": 50,
+      "explanation": "השורות קובעות את זווית הסיבוב: בלי סיבוב, מסובב ב-45 מעלות ומסובב ב-90 מעלות. העמודות קובעות את הצורה: טרפז, לב ומשולש. התא החסר הוא בשורה השלישית ובעמודה השלישית, ולכן דרוש משולש מסובב ב-90 מעלות.",
+      "solution": "כאן גם הצורה וגם הזווית משתנות, ולכן קל להתבלבל. הטריק הוא לבחור עמודה אחת ולעקוב אחריה מלמעלה למטה: אותה צורה בדיוק, רק מוטה יותר בכל שורה. טרפז המוטה ברבע סיבוב שומר על זווית השורה אך שייך לעמודה אחרת.",
+      "tags": [
+        "מטריצה",
+        "הצטלבות שורה ועמודה"
+      ]
+    },
+    {
+      "ref": "k-mab-17",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "שורה קובעת מילוי, עמודה קובעת סיבוב",
+      "stem": "איזו צורה מתאימה למקום הריק במטריצה?",
+      "figure": "{{figmatrix:shape=trapezoid,fill=dots,rot=0;shape=trapezoid,fill=dots,rot=90;shape=trapezoid,fill=dots,rot=180/shape=trapezoid,fill=stripes,rot=0;shape=trapezoid,fill=stripes,rot=90;shape=trapezoid,fill=stripes,rot=180/shape=trapezoid,fill=grid,rot=0;shape=trapezoid,fill=grid,rot=90;?}}",
+      "options": [
+        "{{figcell:shape=trapezoid,fill=dots,rot=180}}",
+        "{{figcell:shape=trapezoid,fill=stripes,rot=180}}",
+        "{{figcell:shape=trapezoid,fill=grid,rot=180}}",
+        "{{figcell:shape=trapezoid,fill=grid,rot=0}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 4,
+      "target_seconds": 50,
+      "explanation": "השורות קובעות את המילוי: נקודות, פסים ורשת. העמודות קובעות את זווית הסיבוב: בלי סיבוב, מסובב ב-90 מעלות ומסובב ב-180 מעלות. התא החסר הוא בשורה השלישית ובעמודה השלישית, ולכן דרוש טרפז במילוי רשת מסובב ב-180 מעלות.",
+      "solution": "מילוי אינו מסתובב עם הצורה, ולכן אפשר לקרוא אותו בנפרד לחלוטין מן הזווית. קבעו קודם את המילוי לפי השורה, ואז את הכיוון לפי העמודה. הטרפז המפוספס וההפוך נכון בעמודה בלבד.",
+      "tags": [
+        "מטריצה",
+        "הצטלבות שורה ועמודה"
+      ]
+    },
+    {
+      "ref": "k-mab-18",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "שורה קובעת כמות, עמודה קובעת סיבוב",
+      "stem": "איזו צורה מתאימה למקום הריק במטריצה?",
+      "figure": "{{figmatrix:shape=pentagon,n=1,rot=0;shape=pentagon,n=1,rot=90;shape=pentagon,n=1,rot=180/shape=pentagon,n=2,rot=0;shape=pentagon,n=2,rot=90;shape=pentagon,n=2,rot=180/shape=pentagon,n=3,rot=0;shape=pentagon,n=3,rot=90;?}}",
+      "options": [
+        "{{figcell:shape=pentagon,n=3,rot=180}}",
+        "{{figcell:shape=pentagon,n=3,rot=0}}",
+        "{{figcell:shape=pentagon,n=3,rot=90}}",
+        "{{figcell:shape=pentagon,n=1,rot=180}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 4,
+      "target_seconds": 50,
+      "explanation": "השורות קובעות את הכמות: צורה אחת, שתיים ושלוש. העמודות קובעות את זווית הסיבוב: בלי סיבוב, מסובב ב-90 מעלות ומסובב ב-180 מעלות. התא החסר הוא בשורה השלישית ובעמודה השלישית, ולכן דרוש שלושה מחומשים מסובבים ב-180 מעלות.",
+      "solution": "כשיש כמה עותקים בתא, כולם מסובבים באותה זווית — ולכן די להסתכל על עותק אחד כדי לקבוע את העמודה. הספירה נותנת את השורה. שלושה מחומשים זקופים סופרים נכון אך לוקחים את הזווית של העמודה הראשונה.",
+      "tags": [
+        "מטריצה",
+        "הצטלבות שורה ועמודה"
+      ]
+    },
+    {
+      "ref": "k-mab-19",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "שורה קובעת כמות, עמודה קובעת מילוי",
+      "stem": "איזו צורה מתאימה למקום הריק במטריצה?",
+      "figure": "{{figmatrix:shape=star,n=2,fill=none;shape=star,n=2,fill=dots;shape=star,n=2,fill=solid/shape=star,n=3,fill=none;shape=star,n=3,fill=dots;shape=star,n=3,fill=solid/shape=star,n=4,fill=none;shape=star,n=4,fill=dots;?}}",
+      "options": [
+        "{{figcell:shape=star,n=2,fill=solid}}",
+        "{{figcell:shape=star,n=3,fill=solid}}",
+        "{{figcell:shape=star,n=4,fill=none}}",
+        "{{figcell:shape=star,n=4,fill=solid}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 3,
+      "target_seconds": 45,
+      "explanation": "השורות קובעות את הכמות: שתיים, שלוש וארבע. העמודות קובעות את המילוי: ריק, נקודות ומלא. התא החסר הוא בשורה השלישית ובעמודה השלישית, ולכן דרוש ארבעה כוכבים מלאים.",
+      "solution": "שימו לב שהספירה מתחילה בשתיים ולא באחת — אל תניחו שהשורה הראשונה היא תמיד המינימום. הכמות עולה באחד בכל שורה, והמילוי מתחזק בכל עמודה. שלושה כוכבים מלאים נכונים בעמודה ושגויים בשורה.",
+      "tags": [
+        "מטריצה",
+        "הצטלבות שורה ועמודה"
+      ]
+    },
+    {
+      "ref": "k-mab-20",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "שורה קובעת צורה, עמודה קובעת גודל",
+      "stem": "איזו צורה מתאימה למקום הריק במטריצה?",
+      "figure": "{{figmatrix:shape=diamond,size=s;shape=diamond,size=m;shape=diamond,size=l/shape=hexagon,size=s;shape=hexagon,size=m;shape=hexagon,size=l/shape=arrow,size=s;shape=arrow,size=m;?}}",
+      "options": [
+        "{{figcell:shape=arrow,size=s}}",
+        "{{figcell:shape=arrow,size=l}}",
+        "{{figcell:shape=arrow,size=m}}",
+        "{{figcell:shape=diamond,size=l}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 4,
+      "target_seconds": 55,
+      "explanation": "השורות קובעות את הצורה: מעוין, משושה וחץ. העמודות קובעות את הגודל: קטן, בינוני וגדול. התא החסר הוא בשורה השלישית ובעמודה השלישית, ולכן דרוש חץ גדול.",
+      "solution": "גודל נמדד רק בהשוואה בתוך העמודה, כי צורות שונות תופסות שטח שונה גם כשהן באותה מידה. קבעו את הצורה לפי השורה ואת הגודל לפי מקום העמודה. החץ הבינוני נכון בשורה ושגוי בעמודה, והמעוין הגדול הוא ההפך המדויק שלו — נכון בעמודה ושגוי בשורה.",
+      "tags": [
+        "מטריצה",
+        "הצטלבות שורה ועמודה"
+      ]
+    }
+  ]
+}
