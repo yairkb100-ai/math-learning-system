@@ -5,6 +5,25 @@ import { celebrate } from '../lib/celebrate.js'
 
 const t = (rtl, he, en) => (rtl ? he : en)
 
+// An answer option that is nothing but an illustration token, e.g.
+// "{{figcell:shape=star,n=3}}" — the figural questions answer with a drawing,
+// not with words.
+const ART_ONLY = /^\s*\{\{[a-z-]+(?::[^|}]+)?(?:\|(?:[^}]|\}(?!\}))*)?\}\}\s*$/
+
+/** Renders an option, drawing it when the option IS a figure.
+ *
+ * InlineMathText deliberately strips art tokens out of running prose, so an
+ * option like "{{figcell:…}}" used to render as an empty label — which made
+ * shape-answer questions unanswerable. MathText's block path is the one that
+ * actually draws a token, so art-only options go through that instead.
+ */
+function OptionText({ text }) {
+  if (ART_ONLY.test(String(text ?? ''))) {
+    return <MathText text={text} />
+  }
+  return <InlineMathText text={text} />
+}
+
 export default function Quiz({ questions, chapterId, rtl }) {
   return (
     <div className="quiz">
@@ -79,7 +98,7 @@ function QuizQuestion({ question, chapterId, rtl }) {
                 onChange={(e) => setAnswer(e.target.value)}
                 disabled={loading}
               />
-              <span><InlineMathText text={opt} /></span>
+              <span><OptionText text={opt} /></span>
             </label>
           ))}
         </div>
@@ -112,7 +131,7 @@ function QuizQuestion({ question, chapterId, rtl }) {
               {result.correct_answer != null && (
                 <span className="correct-answer">
                   {t(rtl, 'התשובה הנכונה: ', 'Correct answer: ')}
-                  <InlineMathText text={result.correct_answer} />
+                  <OptionText text={result.correct_answer} />
                 </span>
               )}
             </>

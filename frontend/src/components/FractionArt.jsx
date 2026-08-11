@@ -821,6 +821,376 @@ function FuncLine({ param }) {
   )
 }
 
+// Categorical palette for the chart kinds below — enough distinct colors for a
+// statistics diagram, wrapping round if a data set is longer.
+const PALETTE = [FILL, '#f7d354', TOMATO, '#7fbf7f', '#b39ddb', '#f0a868', '#6fd3d0']
+
+// "label=value;label=value" → [{label, value}], dropping malformed pairs.
+function parsePairs(param, fallback) {
+  const pairs = String(param || fallback)
+    .split(';')
+    .map((s) => s.split('='))
+    .filter((p) => p.length === 2 && p[0].trim() && Number.isFinite(Number(p[1])))
+    .map((p) => ({ label: p[0].trim(), value: Number(p[1]) }))
+  return pairs.length ? pairs : null
+}
+
+// A single angle of a given measure, e.g. {{angle:130|זווית קהה}}. param =
+// degrees (1–359). Draws both rays from one vertex, an arc between them and the
+// measure; exactly 90° gets the square right-angle marker instead of an arc.
+function Angle({ param }) {
+  const raw = Number(param)
+  const deg = Number.isFinite(raw) ? Math.min(359, Math.max(1, raw)) : 60
+  const rad = (deg * Math.PI) / 180
+  const R = 130
+  const r = 36
+  // Work in math coordinates around the vertex (0,0), y up, then fit the box.
+  const A = [R, 0]
+  const B = [R * Math.cos(rad), R * Math.sin(rad)]
+  const mid = [(r + 22) * Math.cos(rad / 2), (r + 22) * Math.sin(rad / 2)]
+  const pts = [[0, 0], A, B, mid]
+  const pad = 24
+  const minX = Math.min(...pts.map((p) => p[0]))
+  const maxX = Math.max(...pts.map((p) => p[0]))
+  const minY = Math.min(...pts.map((p) => p[1]))
+  const maxY = Math.max(...pts.map((p) => p[1]))
+  const W = maxX - minX + pad * 2
+  const H = maxY - minY + pad * 2
+  const px = (p) => pad + (p[0] - minX)
+  const py = (p) => pad + (maxY - p[1])
+  const V = [0, 0]
+  const arcFrom = [r, 0]
+  const arcTo = [r * Math.cos(rad), r * Math.sin(rad)]
+  const large = deg > 180 ? 1 : 0
+  const square = 20
+  return (
+    <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`}>
+      <line x1={px(V)} y1={py(V)} x2={px(A)} y2={py(A)} stroke={NAVY} strokeWidth="2.5" strokeLinecap="round" />
+      <line x1={px(V)} y1={py(V)} x2={px(B)} y2={py(B)} stroke={NAVY} strokeWidth="2.5" strokeLinecap="round" />
+      {deg === 90 ? (
+        <path
+          d={`M${px(V) + square} ${py(V)} L${px(V) + square} ${py(V) - square} L${px(V)} ${py(V) - square}`}
+          fill="none" stroke={TOMATO} strokeWidth="2" />
+      ) : (
+        <path
+          d={`M${px(arcFrom)} ${py(arcFrom)} A${r} ${r} 0 ${large} 0 ${px(arcTo)} ${py(arcTo)}`}
+          fill="none" stroke={TOMATO} strokeWidth="2.2" />
+      )}
+      <text x={px(mid)} y={py(mid) + 5} textAnchor="middle" fontSize="14" fill={TOMATO} fontWeight="700">{deg}°</text>
+      <circle cx={px(V)} cy={py(V)} r="4" fill={NAVY} />
+    </svg>
+  )
+}
+
+// Two parallel lines cut by a transversal, e.g. {{angles:50|זוויות מתאימות}}.
+// param = the measure of angle ① (the one above-right of the upper crossing);
+// the transversal is drawn at exactly that slant and the other seven angles are
+// numbered ②–⑧ so corresponding / alternate / co-interior pairs can be named.
+function Angles({ param }) {
+  const raw = Number(param)
+  const deg = Number.isFinite(raw) ? Math.min(160, Math.max(20, raw)) : 60
+  const a = (deg * Math.PI) / 180
+  const W = 320
+  const H = 220
+  const y1 = 62
+  const y2 = 158
+  const gap = y2 - y1
+  const P1 = [190, y1]
+  const P2 = [190 - gap / Math.tan(a), y2]
+  // Unit vectors: along the parallel lines, and up the transversal (svg y-down).
+  const u = [Math.cos(a), -Math.sin(a)]
+  const ext = 78
+  const norm = (v) => {
+    const L = Math.hypot(v[0], v[1]) || 1
+    return [v[0] / L, v[1] / L]
+  }
+  // Region bisectors around a crossing, in the numbering order used below.
+  const dirs = [
+    norm([1 + u[0], u[1]]),
+    norm([-1 + u[0], u[1]]),
+    norm([-1 - u[0], -u[1]]),
+    norm([1 - u[0], -u[1]]),
+  ]
+  const chevron = (x, y) =>
+    `M${x - 5} ${y - 5} L${x} ${y} L${x - 5} ${y + 5}`
+  const labels = []
+  ;[P1, P2].forEach((P, i) => {
+    dirs.forEach((d, j) => {
+      const n = i * 4 + j + 1
+      const lx = P[0] + d[0] * 27
+      const ly = P[1] + d[1] * 27 + 5
+      labels.push(
+        <text key={`l${n}`} x={lx} y={ly} textAnchor="middle" fontSize="13"
+          fill={n === 1 ? TOMATO : NAVY} fontWeight="700">
+          {n === 1 ? `${deg}°` : n}
+        </text>
+      )
+    })
+  })
+  return (
+    <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`}>
+      <line x1={16} y1={y1} x2={W - 16} y2={y1} stroke={NAVY} strokeWidth="2.5" strokeLinecap="round" />
+      <line x1={16} y1={y2} x2={W - 16} y2={y2} stroke={NAVY} strokeWidth="2.5" strokeLinecap="round" />
+      {/* chevrons marking the two lines as parallel */}
+      <path d={chevron(60, y1)} fill="none" stroke={FILL} strokeWidth="2.4" />
+      <path d={chevron(60, y2)} fill="none" stroke={FILL} strokeWidth="2.4" />
+      <line
+        x1={P1[0] + u[0] * ext} y1={P1[1] + u[1] * ext}
+        x2={P2[0] - u[0] * ext} y2={P2[1] - u[1] * ext}
+        stroke={TOMATO} strokeWidth="2.5" strokeLinecap="round" />
+      <circle cx={P1[0]} cy={P1[1]} r="3.5" fill={NAVY} />
+      <circle cx={P2[0]} cy={P2[1]} r="3.5" fill={NAVY} />
+      {labels}
+    </svg>
+  )
+}
+
+// A named quadrilateral, e.g. {{quad:parallelogram|מקבילית}}. param = one of
+// square / rectangle / rhombus / parallelogram / trapezoid / kite / general.
+// Equal sides get matching tick marks and right angles get the square marker,
+// so the defining properties of each shape are visible in the drawing itself.
+const QUADS = {
+  square: { pts: [[0, 0], [140, 0], [140, 140], [0, 140]], ticks: [1, 1, 1, 1], right: [0, 1, 2, 3] },
+  rectangle: { pts: [[0, 0], [190, 0], [190, 110], [0, 110]], ticks: [1, 2, 1, 2], right: [0, 1, 2, 3] },
+  rhombus: { pts: [[45, 0], [190, 0], [145, 120], [0, 120]], ticks: [1, 1, 1, 1], right: [] },
+  parallelogram: { pts: [[50, 0], [200, 0], [150, 110], [0, 110]], ticks: [1, 2, 1, 2], right: [] },
+  trapezoid: { pts: [[55, 0], [165, 0], [210, 115], [0, 115]], ticks: [0, 0, 0, 0], right: [] },
+  kite: { pts: [[95, 0], [190, 85], [95, 200], [0, 85]], ticks: [1, 1, 2, 2], right: [] },
+  general: { pts: [[40, 0], [200, 30], [160, 130], [0, 100]], ticks: [0, 0, 0, 0], right: [] },
+}
+function Quad({ param }) {
+  const spec = QUADS[String(param || 'general').trim()] || QUADS.general
+  const pad = 28
+  const xs = spec.pts.map((p) => p[0])
+  const ys = spec.pts.map((p) => p[1])
+  const W = Math.max(...xs) + pad * 2
+  const H = Math.max(...ys) + pad * 2
+  const P = spec.pts.map((p) => [p[0] + pad, p[1] + pad])
+  const names = ['A', 'B', 'C', 'D']
+  const cx = P.reduce((s, p) => s + p[0], 0) / 4
+  const cy = P.reduce((s, p) => s + p[1], 0) / 4
+  const marks = []
+  P.forEach((p, i) => {
+    const q = P[(i + 1) % 4]
+    const k = spec.ticks[i]
+    if (!k) return
+    const mx = (p[0] + q[0]) / 2
+    const my = (p[1] + q[1]) / 2
+    const dx = q[0] - p[0]
+    const dy = q[1] - p[1]
+    const L = Math.hypot(dx, dy) || 1
+    // tick strokes perpendicular to the side, k of them side by side
+    const nx = (-dy / L) * 6
+    const ny = (dx / L) * 6
+    for (let t = 0; t < k; t++) {
+      const off = (t - (k - 1) / 2) * 6
+      const ox = (dx / L) * off
+      const oy = (dy / L) * off
+      marks.push(
+        <line key={`t${i}-${t}`} x1={mx + ox - nx} y1={my + oy - ny} x2={mx + ox + nx} y2={my + oy + ny}
+          stroke={TOMATO} strokeWidth="2" />
+      )
+    }
+  })
+  spec.right.forEach((i) => {
+    const p = P[i]
+    const prev = P[(i + 3) % 4]
+    const next = P[(i + 1) % 4]
+    const d1 = [(prev[0] - p[0]) / Math.hypot(prev[0] - p[0], prev[1] - p[1]),
+      (prev[1] - p[1]) / Math.hypot(prev[0] - p[0], prev[1] - p[1])]
+    const d2 = [(next[0] - p[0]) / Math.hypot(next[0] - p[0], next[1] - p[1]),
+      (next[1] - p[1]) / Math.hypot(next[0] - p[0], next[1] - p[1])]
+    const s = 14
+    marks.push(
+      <path key={`r${i}`}
+        d={`M${p[0] + d1[0] * s} ${p[1] + d1[1] * s} L${p[0] + (d1[0] + d2[0]) * s} ${p[1] + (d1[1] + d2[1]) * s} L${p[0] + d2[0] * s} ${p[1] + d2[1] * s}`}
+        fill="none" stroke={NAVY} strokeWidth="1.5" />
+    )
+  })
+  return (
+    <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`}>
+      <polygon points={P.map((p) => p.join(',')).join(' ')} fill={FILL} stroke={NAVY} strokeWidth="2.5"
+        strokeLinejoin="round" />
+      {marks}
+      {P.map((p, i) => {
+        const ox = p[0] - cx
+        const oy = p[1] - cy
+        const L = Math.hypot(ox, oy) || 1
+        return (
+          <text key={`v${i}`} x={p[0] + (ox / L) * 15} y={p[1] + (oy / L) * 15 + 5} textAnchor="middle"
+            fontSize="13" fill={NAVY} fontWeight="700">{names[i]}</text>
+        )
+      })}
+    </svg>
+  )
+}
+
+// Rectangular box (תיבה) drawn in oblique projection, e.g. {{box:5,3,4}}.
+// param = "length,width,height" — the three edge labels, also used (loosely) to
+// set the drawn proportions, for surface-area and volume problems.
+function Box({ param }) {
+  const n = String(param || '4,2,3').split(',').map(Number)
+  const l = n[0] > 0 ? n[0] : 4
+  const w = n[1] > 0 ? n[1] : 2
+  const h = n[2] > 0 ? n[2] : 3
+  const s = 105 / Math.max(l, w, h)
+  const bw = l * s
+  const bh = h * s
+  const dx = w * s * 0.55
+  const dy = w * s * 0.42
+  const pad = 30
+  const W = bw + dx + pad * 2
+  const H = bh + dy + pad * 2
+  const x0 = pad
+  const y0 = pad + dy
+  const fmt = (v) => (Number.isInteger(v) ? v : v.toFixed(1))
+  return (
+    <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`}>
+      {/* hidden back edges */}
+      <path d={`M${x0 + dx} ${y0 + bh - dy} L${x0} ${y0 + bh} M${x0 + dx} ${y0 + bh - dy} L${x0 + dx} ${y0 - dy} M${x0 + dx} ${y0 + bh - dy} L${x0 + bw + dx} ${y0 + bh - dy}`}
+        fill="none" stroke={NAVY} strokeWidth="1.2" strokeDasharray="4 3" opacity="0.55" />
+      <polygon points={`${x0},${y0} ${x0 + bw},${y0} ${x0 + bw},${y0 + bh} ${x0},${y0 + bh}`}
+        fill={FILL} stroke={NAVY} strokeWidth="2" />
+      <polygon points={`${x0},${y0} ${x0 + dx},${y0 - dy} ${x0 + bw + dx},${y0 - dy} ${x0 + bw},${y0}`}
+        fill="#bfe3f2" stroke={NAVY} strokeWidth="2" />
+      <polygon points={`${x0 + bw},${y0} ${x0 + bw + dx},${y0 - dy} ${x0 + bw + dx},${y0 + bh - dy} ${x0 + bw},${y0 + bh}`}
+        fill="#a9d8ec" stroke={NAVY} strokeWidth="2" />
+      <text x={x0 + bw / 2} y={y0 + bh + 16} textAnchor="middle" fontSize="13" fill={TOMATO} fontWeight="700">{fmt(l)}</text>
+      <text x={x0 - 9} y={y0 + bh / 2} textAnchor="middle" fontSize="13" fill={TOMATO} fontWeight="700"
+        transform={`rotate(-90 ${x0 - 9} ${y0 + bh / 2})`}>{fmt(h)}</text>
+      <text x={x0 + bw + dx / 2 + 12} y={y0 + bh - dy / 2 + 14} textAnchor="middle" fontSize="13" fill={TOMATO} fontWeight="700">{fmt(w)}</text>
+    </svg>
+  )
+}
+
+// Cylinder for surface-area / volume work, e.g. {{cylinder:3,8|r=3, h=8}}.
+// param = "radius,height" — labels the radius on the top face and the height on
+// the side; the hidden half of the bottom rim is dashed.
+function Cylinder({ param }) {
+  const n = String(param || '3,6').split(',').map(Number)
+  const r = n[0] > 0 ? n[0] : 3
+  const h = n[1] > 0 ? n[1] : 6
+  const s = Math.min(70 / r, 150 / h)
+  const rx = r * s
+  const ry = rx * 0.32
+  const bh = h * s
+  const pad = 30
+  const W = rx * 2 + pad * 2
+  const H = bh + ry * 2 + pad * 2
+  const cx = pad + rx
+  const topY = pad + ry
+  const botY = topY + bh
+  const fmt = (v) => (Number.isInteger(v) ? v : v.toFixed(1))
+  return (
+    <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`}>
+      <path d={`M${cx - rx} ${topY} L${cx - rx} ${botY} A${rx} ${ry} 0 0 0 ${cx + rx} ${botY} L${cx + rx} ${topY} Z`}
+        fill={FILL} stroke={NAVY} strokeWidth="2" />
+      <path d={`M${cx - rx} ${botY} A${rx} ${ry} 0 0 1 ${cx + rx} ${botY}`}
+        fill="none" stroke={NAVY} strokeWidth="1.2" strokeDasharray="4 3" opacity="0.55" />
+      <ellipse cx={cx} cy={topY} rx={rx} ry={ry} fill="#bfe3f2" stroke={NAVY} strokeWidth="2" />
+      <line x1={cx} y1={topY} x2={cx + rx} y2={topY} stroke={TOMATO} strokeWidth="1.8" />
+      <text x={cx + rx / 2} y={topY - 6} textAnchor="middle" fontSize="12" fill={TOMATO} fontWeight="700">{fmt(r)}</text>
+      <line x1={cx + rx + 12} y1={topY} x2={cx + rx + 12} y2={botY} stroke={TOMATO} strokeWidth="1.8" />
+      <text x={cx + rx + 22} y={(topY + botY) / 2} textAnchor="middle" fontSize="12" fill={TOMATO} fontWeight="700"
+        transform={`rotate(-90 ${cx + rx + 22} ${(topY + botY) / 2})`}>{fmt(h)}</text>
+    </svg>
+  )
+}
+
+// Bar chart for statistics, e.g. {{barchart:כדורגל=8;שחייה=5;ריצה=3}}.
+// param = semicolon-separated "label=value" pairs. Draws a labeled y-axis, one
+// colored bar per category and the value on top of each bar.
+function BarChart({ param }) {
+  const data = parsePairs(param, 'א=4;ב=7;ג=3')
+  if (!data) return null
+  const max = Math.max(...data.map((d) => d.value), 1)
+  const bw = 40
+  const gapW = 18
+  const plotH = 140
+  const padL = 34
+  const padR = 16
+  const padT = 22
+  const padB = 34
+  const W = padL + data.length * bw + (data.length - 1) * gapW + padR
+  const H = padT + plotH + padB
+  const base = padT + plotH
+  // A round-ish tick step so the axis reads cleanly for small whole-number data.
+  const step = max <= 5 ? 1 : max <= 10 ? 2 : Math.ceil(max / 5)
+  const ticks = []
+  for (let v = 0; v <= max; v += step) {
+    const y = base - (v / max) * plotH
+    ticks.push(<line key={`g${v}`} x1={padL} y1={y} x2={W - padR} y2={y} stroke="#e6ebf5" strokeWidth="1" />)
+    ticks.push(
+      <text key={`n${v}`} x={padL - 7} y={y + 4} textAnchor="end" fontSize="11" fill={NAVY}>{v}</text>
+    )
+  }
+  return (
+    <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`}>
+      {ticks}
+      <line x1={padL} y1={padT} x2={padL} y2={base} stroke={NAVY} strokeWidth="1.8" />
+      <line x1={padL} y1={base} x2={W - padR} y2={base} stroke={NAVY} strokeWidth="1.8" />
+      {data.map((d, i) => {
+        const x = padL + i * (bw + gapW) + gapW / 2
+        const bhh = (d.value / max) * plotH
+        return (
+          <g key={i}>
+            <rect x={x} y={base - bhh} width={bw} height={bhh} fill={PALETTE[i % PALETTE.length]}
+              stroke={NAVY} strokeWidth="1.6" rx="2" />
+            <text x={x + bw / 2} y={base - bhh - 6} textAnchor="middle" fontSize="12" fill={NAVY} fontWeight="700">{d.value}</text>
+            <text x={x + bw / 2} y={base + 16} textAnchor="middle" fontSize="11" fill={NAVY}>{d.label}</text>
+          </g>
+        )
+      })}
+    </svg>
+  )
+}
+
+// Pie chart for statistics, e.g. {{piechart:כדורגל=8;שחייה=5;ריצה=3}}.
+// param = semicolon-separated "label=value" pairs. Each slice is drawn in
+// proportion to its share of the total and labeled with its rounded percentage;
+// a legend on the side carries the category names.
+function PieChart({ param }) {
+  const data = parsePairs(param, 'א=4;ב=7;ג=3')
+  if (!data) return null
+  const total = data.reduce((s, d) => s + d.value, 0)
+  if (total <= 0) return null
+  const R = 78
+  const cx = R + 16
+  const cy = R + 16
+  const legendW = 110
+  const W = R * 2 + 32 + legendW
+  const H = Math.max(R * 2 + 32, data.length * 22 + 20)
+  let acc = 0
+  const slices = data.map((d, i) => {
+    const a0 = (acc / total) * 360
+    acc += d.value
+    const a1 = (acc / total) * 360
+    const midA = (a0 + a1) / 2
+    const [lx, ly] = polar(cx, cy, R * 0.62, midA)
+    const pct = Math.round((d.value / total) * 100)
+    return (
+      <g key={i}>
+        <path d={wedge(cx, cy, R, a0, a1)} fill={PALETTE[i % PALETTE.length]} stroke={NAVY} strokeWidth="1.8" />
+        {pct >= 8 && (
+          <text x={lx} y={ly + 4} textAnchor="middle" fontSize="12" fill={NAVY} fontWeight="700">{pct}%</text>
+        )}
+      </g>
+    )
+  })
+  return (
+    <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`}>
+      {slices}
+      {data.map((d, i) => (
+        <g key={`lg${i}`}>
+          <rect x={R * 2 + 34} y={14 + i * 22} width={13} height={13} fill={PALETTE[i % PALETTE.length]}
+            stroke={NAVY} strokeWidth="1.4" rx="2" />
+          <text x={R * 2 + 53} y={25 + i * 22} fontSize="12" fill={NAVY}>{d.label}</text>
+        </g>
+      ))}
+    </svg>
+  )
+}
+
 const KINDS = {
   pizza: Pizza,
   circle: CirclePlain,
@@ -842,6 +1212,17 @@ const KINDS = {
   triangle: Triangle,
   inequality: Inequality,
   tangent: Tangent,
+  angle: Angle,
+  angles: Angles,
+  quad: Quad,
+  box: Box,
+  cylinder: Cylinder,
+  barchart: BarChart,
+  piechart: PieChart,
+  // Figural-reasoning tokens for the קרני area (matrices, shape series,
+  // figural analogies, odd-one-out). Registered here so MathText routes them
+  // like any other illustration — see FigureArt.jsx for the spec grammar.
+  ...FIGURE_KINDS,
 }
 
 export default function FractionArt({ kind, n = 1, d = 4, param, caption }) {
