@@ -89,7 +89,8 @@
               "את הזיכרון של רשימת הצורות ושמותיהן",
               "את מהירות הציור ביד חופשית"
             ],
-            "correct_answer": "את היכולת למצוא כלל בכמות קטנה של מידע ולהחיל אותו במדויק"
+            "correct_answer": "את היכולת למצוא כלל בכמות קטנה של מידע ולהחיל אותו במדויק",
+            "explanation": "בפרק הצורני אין חומר לשנן: כל שאלה מציגה כמות קטנה מאוד של מידע, והמשימה היא למצוא בו כלל ולהחיל אותו במדויק — לא בערך. גאומטריה, שמות צורות ומהירות ציור אינם נבדקים כאן כלל."
           },
           {
             "number": 2,
@@ -101,19 +102,21 @@
               "{{figcell:shape=hexagon,n=6}}",
               "{{figcell:shape=pentagon,n=3}}"
             ],
-            "correct_answer": "{{figcell:shape=pentagon,n=6}}"
+            "correct_answer": "{{figcell:shape=pentagon,n=6}}",
+            "explanation": "הצורה קבועה — מחומש בכל תא — וזזה רק הכמות: 3, 4, 5, בהפרש קבוע של אחד שחוזר בשני המעברים. הניבוי: שישה מחומשים. חמישה מחומשים הם חזרה על התא האחרון בלי ליישם כלום, והמשושים מחליפים את הצורה ללא שום עדות לכך בסדרה."
           },
           {
             "number": 3,
             "type": "multiple-choice",
-            "question": "לאיזה מארבעת סוגי השאלות שייך האיור הזה, ואיפה מחפשים בו את הכלל?\n\n{{figmatrix:shape=circle,dot=tl;shape=circle,dot=tr;shape=circle,dot=br/shape=star,dot=tl;shape=star,dot=tr;shape=star,dot=br/shape=cross,dot=tl;shape=cross,dot=tr;?}}",
+            "question": "מה חסר בתא הריק? שאלו קודם מה עושה השורה, ואחר כך מה עושה העמודה.\n\n{{figmatrix:shape=circle,dot=tl;shape=circle,dot=tr;shape=circle,dot=br/shape=star,dot=tl;shape=star,dot=tr;shape=star,dot=br/shape=cross,dot=tl;shape=cross,dot=tr;?}}",
             "options": [
-              "מטריצה, והכלל נמצא בשורה ובעמודה יחד",
-              "סדרת צורות, והכלל במעבר מתא לתא",
-              "אנלוגיה צורנית, והכלל בפעולה שבזוג הראשון",
-              "יוצא דופן, והכלל משותף לשלוש תשובות"
+              "{{figcell:shape=cross,dot=tl}}",
+              "{{figcell:shape=cross,dot=tr}}",
+              "{{figcell:shape=cross,dot=br}}",
+              "{{figcell:shape=star,dot=br}}"
             ],
-            "correct_answer": "מטריצה, והכלל נמצא בשורה ובעמודה יחד"
+            "correct_answer": "{{figcell:shape=cross,dot=br}}",
+            "explanation": "שתי שאלות נפרדות. השורה קובעת את הצורה, והשורה השלישית כולה צלבים. העמודה קובעת את מיקום הנקודה, ובעמודה השלישית הנקודה יושבת בפינה הימנית התחתונה. ההצטלבות: צלב עם נקודה ימנית תחתונה. מי שקרא רק את העמודה בוחר בכוכב, ומי שקרא רק את השורה בוחר בצלב עם הנקודה במקום הלא נכון."
           },
           {
             "number": 4,
@@ -123,21 +126,23 @@
               "{{figcell:shape=star,fill=solid}}",
               "{{figcell:shape=cross,fill=none}}",
               "{{figcell:shape=pentagon,fill=solid}}",
-              "{{figcell:shape=circle,fill=solid}}"
+              "{{figcell:shape=hexagon,fill=solid}}"
             ],
-            "correct_answer": "{{figcell:shape=cross,fill=none}}"
+            "correct_answer": "{{figcell:shape=cross,fill=none}}",
+            "explanation": "ארבע הצורות שונות זו מזו ואינן מתחלקות שלוש מול אחת, ולכן עוברים לתכונה הבאה. הכלל במשפט חיובי: שלוש מהצורות מלאות — הכוכב, המחומש והמשושה. אימות על כל ארבעת התאים: בדיוק אחד אינו מקיים את הכלל — הצלב הריק."
           },
           {
             "number": 5,
-            "question": "למה אי אפשר ללמוד את הפרק הצורני בעל פה, ומה כן נשמר מפתרון לפתרון?",
+            "question": "מה יבוא במקום סימן השאלה? נסחו את הכלל במילים לפני שאתם מסתכלים באפשרויות.\n\n{{figrow:shape=square,fill=none;shape=square,fill=dots;shape=square,fill=stripes;shape=square,fill=none;?}}",
             "type": "multiple-choice",
             "options": [
-              "הכללים משתנים בכל שנה, ולכן צריך מאגר עדכני של שאלות",
-              "הכלל מומצא מחדש בכל שאלה, ולכן מה שנלמד הוא סדר הסריקה והנוהל",
-              "אין שום דבר שנשמר, וההצלחה תלויה במזל",
-              "הכללים קבועים, אבל הם רבים מדי מכדי לזכור את כולם"
+              "{{figcell:shape=square,fill=none}}",
+              "{{figcell:shape=square,fill=stripes}}",
+              "{{figcell:shape=square,fill=solid}}",
+              "{{figcell:shape=square,fill=dots}}"
             ],
-            "correct_answer": "הכלל מומצא מחדש בכל שאלה, ולכן מה שנלמד הוא סדר הסריקה והנוהל"
+            "correct_answer": "{{figcell:shape=square,fill=dots}}",
+            "explanation": "המילוי רץ במחזור בן שלושה שלבים: ריק, מנוקד, מפוספס — ואז מתחיל מחדש. התא הרביעי ריק, כלומר המחזור אכן התחיל שוב, ולכן החמישי מנוקד. המילוי המלא אינו מופיע בסדרה כלל, ולכן אינו חלק מהמחזור."
           }
         ]
       },
@@ -215,7 +220,8 @@
               "כמות, גודל, סיבוב, צורה, מילוי",
               "צורה, כמות, מילוי, סיבוב, גודל"
             ],
-            "correct_answer": "צורה, כמות, מילוי, סיבוב, גודל"
+            "correct_answer": "צורה, כמות, מילוי, סיבוב, גודל",
+            "explanation": "סדר הסריקה הקבוע הוא צורה, כמות, מילוי, סיבוב, גודל — צ-כ-מ-ס-ג. היתרון שלו אינו בסדר עצמו אלא בכך שהוא קבוע: כך אתם תמיד יודעים מה כבר נבדק ומה עוד נשאר."
           },
           {
             "number": 2,
@@ -227,19 +233,21 @@
               "{{figcell:shape=heart,rot=180,fill=solid}}",
               "{{figcell:shape=heart,rot=90,fill=solid}}"
             ],
-            "correct_answer": "{{figcell:shape=heart,rot=270,fill=solid}}"
+            "correct_answer": "{{figcell:shape=heart,rot=270,fill=solid}}",
+            "explanation": "שתי תכונות זזות, ופותרים כל אחת בנפרד. סיבוב: 0, 90, 180 — עלייה של 90 מעלות שחוזרת, ולכן הבא הוא 270. מילוי: ריק, מלא, ריק — מתחלף בכל שלב, ולכן הבא מלא. חיבור השניים: לב מלא ב-270 מעלות. כל מסיח כאן נכון בתכונה אחת בלבד — בדיוק כדי לתפוס סריקה חלקית."
           },
           {
             "number": 3,
-            "question": "בסדרה כל התאים מכילים צורות שונות זו מזו. באיזו תכונה נכון להתמקד?",
+            "question": "כאן זזות שתי תכונות — הצורה והנקודה. פתרו כל אחת בנפרד עד הסוף, ורק אז חברו לניבוי אחד.\n\n{{figrow:shape=triangle,dot=tl;shape=square,dot=tr;shape=pentagon,dot=br;?}}",
             "type": "multiple-choice",
             "options": [
-              "בזווית הסיבוב של כל צורה",
-              "בגודל היחסי של הצורות",
-              "במספר הצלעות של כל צורה",
-              "בסוג המילוי של כל צורה"
+              "{{figcell:shape=hexagon,dot=bl}}",
+              "{{figcell:shape=hexagon,dot=br}}",
+              "{{figcell:shape=pentagon,dot=bl}}",
+              "{{figcell:shape=star,dot=bl}}"
             ],
-            "correct_answer": "במספר הצלעות של כל צורה"
+            "correct_answer": "{{figcell:shape=hexagon,dot=bl}}",
+            "explanation": "שתי תכונות, כל אחת עד הסוף. צורה: מספר הצלעות עולה באחת — משולש 3, ריבוע 4, מחומש 5 — ולכן הבאה היא צורה בת שש צלעות, משושה. נקודה: שמאלית עליונה, ימנית עליונה, ימנית תחתונה — פינה אחת בכל שלב עם כיוון השעון, ולכן הבאה היא השמאלית התחתונה. הכוכב מפתה כי הוא נראה המשך מסובך, אבל אינו ממשיך ספירת צלעות."
           },
           {
             "number": 4,
@@ -251,19 +259,21 @@
               "{{figcell:shape=trapezoid,n=2,size=l}}",
               "{{figcell:shape=trapezoid,n=4,size=l}}"
             ],
-            "correct_answer": "{{figcell:shape=trapezoid,n=3,size=l}}"
+            "correct_answer": "{{figcell:shape=trapezoid,n=3,size=l}}",
+            "explanation": "העמודה קובעת את הכמות: אחד, שניים, שלושה — והתא החסר בעמודה השלישית, כלומר שלושה. השורה קובעת את הגודל: קטן, בינוני, גדול — והתא החסר בשורה השלישית, כלומר גדול. ההצטלבות: שלושה טרפזים גדולים. ארבעה טרפזים הם המשך של הספירה מעבר לגבול המטריצה, ואינם קריאה של העמודה."
           },
           {
             "number": 5,
             "type": "multiple-choice",
-            "question": "בסדרה מצאתם שהכמות עולה באחד, וגם שהמילוי מתחלף בכל שלב. מה הנוהל הנכון מכאן?",
+            "question": "כאן זזות שתי תכונות. פתרו כל אחת בנפרד עד הסוף, ורק אז חברו לניבוי אחד.\n\n{{figrow:shape=diamond,n=1,fill=none;shape=diamond,n=2,fill=solid;shape=diamond,n=3,fill=none;?}}",
             "options": [
-              "לבחור את התכונה הבולטת יותר ולהתעלם מהשנייה",
-              "לפתור כל תכונה בנפרד עד הסוף, ורק אז לחבר את שני הממצאים לניבוי אחד",
-              "לחפש תשובה שמתאימה לפחות לתכונה אחת מהשתיים",
-              "להתחיל את הסריקה מחדש, כי שתי תכונות שזזות מעידות על שאלה פגומה"
+              "{{figcell:shape=diamond,n=4,fill=none}}",
+              "{{figcell:shape=diamond,n=4,fill=solid}}",
+              "{{figcell:shape=diamond,n=3,fill=solid}}",
+              "{{figcell:shape=diamond,n=5,fill=solid}}"
             ],
-            "correct_answer": "לפתור כל תכונה בנפרד עד הסוף, ורק אז לחבר את שני הממצאים לניבוי אחד"
+            "correct_answer": "{{figcell:shape=diamond,n=4,fill=solid}}",
+            "explanation": "כמות: 1, 2, 3 — עולה באחד בשני המעברים, ולכן הבאה היא ארבעה. מילוי: ריק, מלא, ריק — מתחלף, ולכן הבא מלא. הניבוי המלא: ארבעה מעוינים מלאים. ארבעה ריקים הם פתרון של הכמות בלבד, ושלושה מלאים הם פתרון של המילוי בלבד."
           }
         ]
       },
@@ -333,27 +343,29 @@
         "quiz": [
           {
             "number": 1,
-            "question": "מהי ההגדרה המדויקת של יוצא דופן?",
+            "question": "מי היוצא דופן? הצורות עצמן אינן מתחלקות שלוש מול אחת, ולכן חפשו את הכלל בתכונה אחרת.",
             "type": "multiple-choice",
             "options": [
-              "התא שנראה הכי שונה במבט ראשון",
-              "התא שהצורה שבו מופיעה פעם אחת בלבד",
-              "התא שבו הכמות הגדולה או הקטנה ביותר",
-              "התא היחיד שאינו מקיים כלל שמשותף לשלושת האחרים"
+              "{{figcell:shape=hexagon,fill=solid}}",
+              "{{figcell:shape=diamond,fill=stripes}}",
+              "{{figcell:shape=trapezoid,fill=solid}}",
+              "{{figcell:shape=pentagon,fill=solid}}"
             ],
-            "correct_answer": "התא היחיד שאינו מקיים כלל שמשותף לשלושת האחרים"
+            "correct_answer": "{{figcell:shape=diamond,fill=stripes}}",
+            "explanation": "הצורות כולן שונות, ולכן ספירת הצלעות אינה הכלל. המילוי נותן שלוש מול אחת: הכלל במשפט חיובי הוא ששלוש מהצורות צבועות בצבע אטום, והמעוין ממולא בתבנית פסים שרואים דרכה את הרקע."
           },
           {
             "number": 2,
             "type": "multiple-choice",
-            "question": "בארבע התשובות מופיעות ארבע צורות שונות במספר הצלעות. מה זה אומר?",
+            "question": "מי היוצא דופן? ארבע הצורות שונות זו מזו, ולכן ספירת הצלעות אינה הכלל — בדקו את שאר התכונות.",
             "options": [
-              "שספירת הצלעות אינה הכלל; עוברים לתכונות האחרות, ואם גם הן לא נותנות חוזרים לצורה ברמת קטגוריה",
-              "שהצורה אינה יכולה להיות הכלל בשום מצב, ואסור לחזור אליה",
-              "שהצורה בעלת הכי הרבה צלעות היא היוצאת דופן",
-              "שהשאלה פגומה ואפשר לדלג עליה"
+              "{{figcell:shape=arrow,rot=180}}",
+              "{{figcell:shape=halfcircle,rot=180}}",
+              "{{figcell:shape=heart,rot=180}}",
+              "{{figcell:shape=trapezoid,rot=0}}"
             ],
-            "correct_answer": "שספירת הצלעות אינה הכלל; עוברים לתכונות האחרות, ואם גם הן לא נותנות חוזרים לצורה ברמת קטגוריה"
+            "correct_answer": "{{figcell:shape=trapezoid,rot=0}}",
+            "explanation": "כל שאר התכונות זהות, ולכן הכלל הוא בסיבוב: שלוש מהצורות מסובבות ב-180 מעלות, והטרפז נשאר ב-0. הצורות עצמן שונות זו מזו בכוונה, כדי שתבזבזו זמן על ספירת צלעות שאינה מפרידה שלוש מול אחת."
           },
           {
             "number": 3,
@@ -365,7 +377,8 @@
               "{{figcell:shape=halfcircle,rot=45}}",
               "{{figcell:shape=halfcircle,rot=270}}"
             ],
-            "correct_answer": "{{figcell:shape=halfcircle,rot=45}}"
+            "correct_answer": "{{figcell:shape=halfcircle,rot=45}}",
+            "explanation": "כל ארבע הזוויות שונות, ולכן בודקים תכונה של הזווית ולא את ערכה: 90, 180 ו-270 הן כפולות של 90 מעלות, ולכן שלוש הצורות עומדות ישר — לצד, למטה, לצד השני. 45 אינה כפולה של 90, ולכן זו הצורה היחידה שעומדת באלכסון."
           },
           {
             "number": 4,
@@ -377,19 +390,21 @@
               "{{figcell:shape=diamond,n=3,fill=none}}",
               "{{figcell:shape=diamond,n=4,fill=solid}}"
             ],
-            "correct_answer": "{{figcell:shape=diamond,n=3,fill=none}}"
+            "correct_answer": "{{figcell:shape=diamond,n=3,fill=none}}",
+            "explanation": "הכמות עולה בסדר רץ — אחד, שניים, שלושה, ארבעה — וכל ערך מופיע פעם אחת בלבד, ולכן היא אינה מפרידה שלוש מול אחת. התכונה שכן מפרידה היא המילוי: שלוש מהתשובות מלאות, ורק שלושת המעוינים ריקים. הסדרה הרצה נשתלה כרעש בלבד."
           },
           {
             "number": 5,
             "type": "multiple-choice",
-            "question": "מי היוצא דופן?\n\n{{figodd:shape=cross,n=3;shape=cross,n=5;shape=cross,n=6;shape=cross,n=1}}",
+            "question": "מי היוצא דופן? כל ארבע הכמויות שונות זו מזו, ולכן בדקו תכונה של המספר ולא את המספר עצמו.",
             "options": [
-              "ששת הצלבים, כי בשלוש התשובות האחרות מספר העצמים אי-זוגי",
-              "צלב אחד, כי זו הכמות הקטנה ביותר",
-              "חמישה הצלבים, כי זה המספר היחיד שאינו מתחלק בשלוש",
-              "אין יוצא דופן, כי כל הכמויות שונות"
+              "{{figcell:shape=cross,n=3}}",
+              "{{figcell:shape=cross,n=5}}",
+              "{{figcell:shape=cross,n=6}}",
+              "{{figcell:shape=cross,n=1}}"
             ],
-            "correct_answer": "ששת הצלבים, כי בשלוש התשובות האחרות מספר העצמים אי-זוגי"
+            "correct_answer": "{{figcell:shape=cross,n=6}}",
+            "explanation": "ספירה ישירה אינה נותנת שלוש כמויות זהות, ולכן בודקים תכונה של המספר עצמו: 3, 5 ו-1 הם אי-זוגיים, ורק 6 זוגי. הכלל במשפט חיובי: בשלוש מהתשובות מספר העצמים אי-זוגי. שימו לב שהצלב הבודד אינו התשובה: \"הכמות הקטנה ביותר\" היא קיצון ולא כלל."
           }
         ]
       },
@@ -467,43 +482,47 @@
               "{{figcell:shape=heart,rot=150}}",
               "{{figcell:shape=arrow,rot=90}}"
             ],
-            "correct_answer": "{{figcell:shape=arrow,rot=150}}"
+            "correct_answer": "{{figcell:shape=arrow,rot=150}}",
+            "explanation": "בזוג הראשון זז רק הסיבוב, מ-0 ל-60 מעלות. הפעולה בלשון ציווי: סובבו את הצורה בעוד 60 מעלות. החץ מתחיל ב-90, ולכן התשובה היא חץ ב-150. החץ ב-60 מעתיק את הערך הסופי של הזוג הראשון במקום את ההפרש, הלב מעתיק את הצורה, והחץ ב-90 אינו מיישם כלום."
           },
           {
             "number": 2,
-            "question": "מה בדיוק צריך לנסח במילים בזוג הראשון של אנלוגיה?",
+            "question": "נסחו את הפעולה בלשון ציווי, ואז בחרו את התשובה.\n\n{{figpair:shape=trapezoid,size=s;shape=trapezoid,size=l/shape=pentagon,size=s;?}}",
             "type": "multiple-choice",
             "options": [
-              "את המראה הסופי של הצורה השנייה",
-              "את הפעולה שנעשתה על הצורה, בלשון ציווי",
-              "את שמות שתי הצורות שבזוג",
-              "את מספר התכונות שנשארו זהות"
+              "{{figcell:shape=pentagon,size=m}}",
+              "{{figcell:shape=pentagon,size=l}}",
+              "{{figcell:shape=pentagon,size=s}}",
+              "{{figcell:shape=trapezoid,size=l}}"
             ],
-            "correct_answer": "את הפעולה שנעשתה על הצורה, בלשון ציווי"
+            "correct_answer": "{{figcell:shape=pentagon,size=l}}",
+            "explanation": "בזוג הראשון זז רק הגודל: מקטן לגדול. הפעולה בלשון ציווי: הגדילו את הצורה מקטן לגדול — לא \"הגדילו בשלב אחד\", שהייתה נותנת בינוני. הפעולה חלה על הצורה השלישית ואינה מחליפה את זהותה, ולכן התשובה היא מחומש גדול."
           },
           {
             "number": 3,
-            "question": "בזוג הראשון אפשר לקרוא את הפעולה גם כהוספה של שניים וגם כהכפלה פי שלושה. איך מכריעים?\n\n{{figpair:shape=cross,n=1;shape=cross,n=3/shape=cross,n=2;?}}",
+            "question": "בזוג הראשון אפשר לקרוא את הפעולה גם כהוספה של שניים וגם כהכפלה פי שלושה. הסתכלו באפשרויות ובדקו איזו קריאה בכלל אפשרית כאן.\n\n{{figpair:shape=cross,n=1;shape=cross,n=3/shape=cross,n=2;?}}",
             "type": "multiple-choice",
             "options": [
-              "בוחרים תמיד בהוספה, כי היא הפעולה הפשוטה יותר",
-              "בוחרים תמיד בהכפלה, כי היא הפעולה השכיחה יותר",
-              "מדלגים על השאלה, כי יש בה שתי תשובות נכונות",
-              "בודקים אילו תשובות בכלל מוצעות, כי רק קריאה אחת מהן אפשרית"
+              "{{figcell:shape=cross,n=6}}",
+              "{{figcell:shape=cross,n=3}}",
+              "{{figcell:shape=cross,n=5}}",
+              "{{figcell:shape=cross,n=2}}"
             ],
-            "correct_answer": "בודקים אילו תשובות בכלל מוצעות, כי רק קריאה אחת מהן אפשרית"
+            "correct_answer": "{{figcell:shape=cross,n=6}}",
+            "explanation": "הזוג הראשון מאפשר שתי קריאות: מ-1 ל-3 הוא גם \"הוסיפו שניים\" וגם \"הכפילו פי שלושה\". על שני צלבים הראשונה נותנת ארבעה והשנייה שישה. ארבעה צלבים אינם מוצעים כלל, ולכן קריאת ההוספה יורדת מהשולחן ונשארת ההכפלה: שישה צלבים. שלושה צלבים הם העתקת הערך הסופי, ושניים הם אי-יישום של הפעולה."
           },
           {
             "number": 4,
-            "question": "באנלוגיה השתנה בזוג הראשון רק הצבע. מה קורה לצורה של האיבר השלישי בתשובה?",
+            "question": "בזוג הראשון השתנה רק הצבע. קבעו במפורש מהי הצורה שבתשובה, ואז בחרו.\n\n{{figpair:shape=pentagon,color=ink,fill=solid;shape=pentagon,color=warm,fill=solid/shape=square,color=ink,fill=solid;?}}",
             "type": "multiple-choice",
             "options": [
-              "היא נשארת בדיוק כפי שהיא, והפעולה נוגעת רק לצבע",
-              "היא מוחלפת בצורה שהופיעה בזוג הראשון",
-              "היא משנה גם את גודלה, כדי להתאים לצבע החדש",
-              "היא מאבדת צלע אחת יחד עם שינוי הצבע"
+              "{{figcell:shape=square,color=warm,fill=solid}}",
+              "{{figcell:shape=pentagon,color=warm,fill=solid}}",
+              "{{figcell:shape=square,color=ink,fill=solid}}",
+              "{{figcell:shape=square,color=accent,fill=solid}}"
             ],
-            "correct_answer": "היא נשארת בדיוק כפי שהיא, והפעולה נוגעת רק לצבע"
+            "correct_answer": "{{figcell:shape=square,color=warm,fill=solid}}",
+            "explanation": "בזוג הראשון השתנה רק הצבע, מצבע הדיו לצבע החם. הפעולה חלה על הצורה השלישית ואינה נוגעת בזהותה, ולכן התשובה חייבת להיות ריבוע — ריבוע בצבע החם. המחומש מעתיק את הצורה מהזוג הראשון, הריבוע בצבע הדיו אינו מיישם כלום, והריבוע בצבע ההדגשה קלט ש\"הצבע משתנה\" אך לא בדק לאיזה צבע בדיוק."
           },
           {
             "number": 5,
@@ -515,7 +534,8 @@
               "{{figcell:shape=star,dot=tl}}",
               "{{figcell:shape=square,dot=tr}}"
             ],
-            "correct_answer": "{{figcell:shape=star,dot=tr}}"
+            "correct_answer": "{{figcell:shape=star,dot=tr}}",
+            "explanation": "הנקודה עברה מהפינה השמאלית התחתונה לימנית העליונה, כלומר קרו שני דברים: עלייה למעלה ומעבר לצד. על הכוכב צריך להתרחש אותו מהלך בשני הצירים, ולכן הנקודה עוברת לפינה הימנית העליונה. שני המסיחים האחרים מבצעים רק חצי מהמהלך, והרביעי מעתיק את הצורה מהזוג הראשון."
           }
         ]
       },
@@ -588,19 +608,21 @@
               "מנחשים מיד את התשובה הראשונה ולא חוזרים אליה",
               "משאירים אותה ריקה ועוברים לפרק הבא"
             ],
-            "correct_answer": "מסמנים אותה בשוליים, עוברים הלאה, וחוזרים אליה במעבר השני"
+            "correct_answer": "מסמנים אותה בשוליים, עוברים הלאה, וחוזרים אליה במעבר השני",
+            "explanation": "שיטת שני המעברים: שאלה שאין עליה כלל מנוסח תוך כ-40 שניות מסומנת בשוליים ועוברים הלאה, וחוזרים אליה במעבר השני. כל דקה של היתקעות עולה שתי שאלות אחרות, שכנראה היו קלות יותר, ובפרק הצורני כל השאלות שווות אותו דבר."
           },
           {
             "number": 2,
-            "question": "נתקעתם בשאלה. מהי אסטרטגיית התשובות?",
+            "question": "הפעילו את אסטרטגיית התשובות: ארבע האפשרויות נבדלות רק בזווית, ולכן השאלה נבנתה סביב הסיבוב. מדדו את ההפרש בין שני תאים עוקבים ובחרו.\n\n{{figrow:shape=trapezoid,rot=0;shape=trapezoid,rot=60;shape=trapezoid,rot=120;?}}",
             "type": "multiple-choice",
             "options": [
-              "בוחרים את התשובה שנראית הכי מוכרת מתרגולים קודמים",
-              "בוחרים תמיד את התשובה הארוכה או המורכבת ביותר",
-              "בודקים במה ארבע התשובות נבדלות זו מזו, כי זה מסגיר את התכונה שהשאלה נבנתה סביבה",
-              "פוסלים את התשובה הראשונה, כי היא לרוב מסיח"
+              "{{figcell:shape=trapezoid,rot=0}}",
+              "{{figcell:shape=trapezoid,rot=60}}",
+              "{{figcell:shape=trapezoid,rot=180}}",
+              "{{figcell:shape=trapezoid,rot=240}}"
             ],
-            "correct_answer": "בודקים במה ארבע התשובות נבדלות זו מזו, כי זה מסגיר את התכונה שהשאלה נבנתה סביבה"
+            "correct_answer": "{{figcell:shape=trapezoid,rot=180}}",
+            "explanation": "ההפרש בין שני תאים עוקבים הוא 60 מעלות, והוא חוזר בשני המעברים — 0, 60, 120. הניבוי: 180 מעלות. הערך 240 הוא קפיצה של שני שלבים, ו-0 ו-60 הם חזרה לתאים שכבר הופיעו."
           },
           {
             "number": 3,
@@ -612,7 +634,8 @@
               "{{figcell:shape=star,fill=grid}}",
               "{{figcell:shape=trapezoid,fill=dots}}"
             ],
-            "correct_answer": "{{figcell:shape=trapezoid,fill=grid}}"
+            "correct_answer": "{{figcell:shape=trapezoid,fill=grid}}",
+            "explanation": "צמצום לפני פתרון: הכוכב המשובץ מעתיק את הצורה מהזוג הראשון, והטרפז הריק הוא הצורה השלישית בלי שום שינוי. נשארו שתיים, והפעולה מכריעה ביניהן: בזוג הראשון המילוי הפך מריק לרשת, ולכן התשובה היא טרפז במילוי רשת, ולא במילוי מנוקד."
           },
           {
             "number": 4,
@@ -624,19 +647,21 @@
               "{{figcell:shape=diamond,n=6}}",
               "{{figcell:shape=cross,n=2}}"
             ],
-            "correct_answer": "{{figcell:shape=cross,n=6}}"
+            "correct_answer": "{{figcell:shape=cross,n=6}}",
+            "explanation": "בזוג הראשון הכמות עלתה מאחד לחמישה, כלומר ההפרש הוא ארבעה. על שני צלבים הפעולה נותנת שישה. חמישה צלבים הם העתקת הערך הסופי, ששה מעוינים הם העתקת הצורה מהזוג הראשון, ושני צלבים הם אי-יישום."
           },
           {
             "number": 5,
-            "question": "מתי נכון לשנות תשובה שכבר סימנתם?",
+            "question": "מה חסר בתא הריק? זהירות: אחת האפשרויות מקיימת את כלל העמודה אך מפרה את כלל השורה.\n\n{{figmatrix:shape=pentagon,fill=none;shape=pentagon,fill=half;shape=pentagon,fill=solid/shape=star,fill=none;shape=star,fill=half;shape=star,fill=solid/shape=arrow,fill=none;shape=arrow,fill=half;?}}",
             "type": "multiple-choice",
             "options": [
-              "כשנשאר זמן והתשובה לא מרגישה נכונה",
-              "כשסימנתם את אותו מיקום בכמה שאלות ברצף",
-              "כשהתשובה שבחרתם היא הראשונה ברשימה",
-              "רק כשמצאתם טעות קונקרטית שאפשר לנסח אותה במילים"
+              "{{figcell:shape=star,fill=solid}}",
+              "{{figcell:shape=arrow,fill=half}}",
+              "{{figcell:shape=arrow,fill=none}}",
+              "{{figcell:shape=arrow,fill=solid}}"
             ],
-            "correct_answer": "רק כשמצאתם טעות קונקרטית שאפשר לנסח אותה במילים"
+            "correct_answer": "{{figcell:shape=arrow,fill=solid}}",
+            "explanation": "השורה קובעת את הצורה — השורה השלישית כולה חצים; העמודה קובעת את המילוי — העמודה השלישית כולה מלאה. ההצטלבות: חץ מלא. הכוכב המלא הוא המלכודת שהשאלה מזהירה ממנה: הוא מקיים את כלל העמודה אך מפר את כלל השורה."
           }
         ]
       }

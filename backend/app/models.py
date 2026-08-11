@@ -325,6 +325,10 @@ class QuizQuestion(Base):
     type = Column(String, nullable=False)  # multiple-choice | true-false | open
     options = Column(JSON, nullable=True)
     correct_answer = Column(String, nullable=False)
+    # Shown AFTER the student answers — the reasoning behind the correct answer.
+    # Never part of ``QuizQuestionOut``: it would hand out the answer with the
+    # question. It is returned only by the quiz-check endpoint.
+    explanation = Column(Text, nullable=True)
 
     chapter = relationship("Chapter", back_populates="quiz")
 
@@ -665,10 +669,24 @@ class Referral(Base):
 # multi-section timed form rather than the single adaptive stream Exam models.
 # Overloading the existing tables would have bent both out of shape.
 
-# The four sections of the מכון קרני entrance exam (כיתה ח' → ט'), the test
-# used by the yeshiva high schools this area targets. There is no essay: Karni
-# is a timed multiple-choice cognitive screen of roughly 100 questions.
-PSY_DOMAINS = ("verbal", "quantitative", "figural", "english")
+# The domains of the מכון קרני entrance exam (כיתה ח' → ט'). There is no essay:
+# Karni is a timed multiple-choice cognitive screen of 100+ questions in about
+# two hours, split across roughly TEN short sections — some of them paced at
+# about half a minute per question.
+#
+# "logic", "spatial" and "speed" were added after reading the published format
+# for the Maarava paper, which lists six subject areas plus a זריזות ודיוק
+# (speed-and-accuracy) section. A domain with no items yet simply draws nothing,
+# so adding them here is safe ahead of the content.
+PSY_DOMAINS = (
+    "verbal",
+    "quantitative",
+    "figural",
+    "logic",
+    "spatial",
+    "speed",
+    "english",
+)
 
 
 class PsyPassage(Base):

@@ -174,6 +174,13 @@ def on_startup() -> None:
                 conn.execute(
                     text("ALTER TABLE exercises ADD COLUMN answer VARCHAR")
                 )
+    if "quiz_questions" in inspector.get_table_names():
+        cols = {c["name"] for c in inspector.get_columns("quiz_questions")}
+        if "explanation" not in cols:
+            with engine.begin() as conn:
+                conn.execute(
+                    text("ALTER TABLE quiz_questions ADD COLUMN explanation TEXT")
+                )
     if "lesson_slots" in inspector.get_table_names():
         # כמו ב-seed.py: תקלת DDL לא תפיל את עליית האפליקציה.
         try:

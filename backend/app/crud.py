@@ -93,7 +93,8 @@ def check_quiz(
 ) -> Optional[dict]:
     """Check an answer against the stored correct_answer.
 
-    Returns ``{"correct": bool, "correct_answer": str}`` or ``None`` if the
+    Returns ``{"correct": bool, "correct_answer": str, "explanation": str|None}``
+    or ``None`` if the
     question does not exist. Comparison is case-insensitive and trims
     surrounding whitespace so students aren't penalised for formatting.
     """
@@ -113,6 +114,9 @@ def check_quiz(
     return {
         "correct": given == expected,
         "correct_answer": question.correct_answer,
+        # Sent on right AND wrong answers: a student who guessed right still
+        # needs to know why.
+        "explanation": question.explanation,
     }
 
 
@@ -228,6 +232,7 @@ def import_course(db: Session, payload: CourseImport) -> Course:
                     type=q.type,
                     options=q.options,
                     correct_answer=q.correct_answer,
+                    explanation=q.explanation,
                 )
             )
         course.chapters.append(chapter)

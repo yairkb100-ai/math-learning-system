@@ -97,55 +97,60 @@
               "לספור כמה תאים יש בסדרה",
               "לבחור את התשובה שנראית הכי שונה מהשאר"
             ],
-            "correct_answer": "לבנות בראש את התא החסר לפי הכלל שניסחתם"
+            "correct_answer": "לבנות בראש את התא החסר לפי הכלל שניסחתם",
+            "explanation": "הסדר הנכון הוא: לקרוא את הסדרה, לנסח כלל, לבנות בראש את התא החסר, ורק אז לקרוא את התשובות. מי שקורא קודם את התשובות מאמץ בלי משים לב את הכלל שהמסיחים מציעים, ונגרר אחריהם."
           },
           {
             "number": 2,
-            "question": "בסדרה כל התאים ריבועים ריקים, וההבדל היחיד ביניהם הוא מספר הריבועים. איזו תשובה אפשר לפסול בלי לספור בכלל?",
+            "question": "כל התאים בסדרה הם ריבועים ריקים, וההבדל היחיד ביניהם הוא הכמות. איזו צורה משלימה את הסדרה? שימו לב שאחת התשובות נפסלת עוד לפני שספרתם.\n\n{{figrow:shape=square,n=2;shape=square,n=3;shape=square,n=4;?}}",
             "type": "multiple-choice",
             "options": [
-              "תשובה שבה הריבועים מלאים",
-              "תשובה שבה יש ארבעה ריבועים",
-              "תשובה שבה יש שני ריבועים",
-              "תשובה שבה יש חמישה ריבועים"
+              "{{figcell:shape=square,n=5}}",
+              "{{figcell:shape=square,n=5,fill=solid}}",
+              "{{figcell:shape=square,n=4}}",
+              "{{figcell:shape=square,n=6}}"
             ],
-            "correct_answer": "תשובה שבה הריבועים מלאים"
+            "correct_answer": "{{figcell:shape=square,n=5}}",
+            "explanation": "הכמות עולה באחד: 2, 3, 4 — ולכן התא החסר הוא חמישה ריבועים ריקים. התשובה עם חמישה ריבועים מלאים נפסלת לפני הספירה — המילוי קבוע בכל הסדרה, ומה שקבוע חייב להישאר קבוע גם בתשובה."
           },
           {
             "number": 3,
-            "question": "מדוע לא מספיק לבדוק את המעבר בין התא הראשון לתא השני?",
+            "question": "המעבר הראשון בסדרה מתאים ליותר מכלל אחד, ורק המעבר השני מכריע ביניהם. איזו צורה משלימה את הסדרה?\n\n{{figrow:shape=arrow,rot=45;shape=arrow,rot=90;shape=arrow,rot=135;?}}",
             "type": "multiple-choice",
             "options": [
-              "כי מעבר יחיד יכול להתאים ליותר מכלל אחד",
-              "כי התא הראשון בסדרה תמיד יוצא דופן",
-              "כי הכלל תמיד מתחיל רק מהתא השני",
-              "כי בסדרות צורניות אין כללים קבועים"
+              "{{figcell:shape=arrow,rot=180}}",
+              "{{figcell:shape=arrow,rot=270}}",
+              "{{figcell:shape=arrow,rot=225}}",
+              "{{figcell:shape=arrow,rot=135}}"
             ],
-            "correct_answer": "כי מעבר יחיד יכול להתאים ליותר מכלל אחד"
+            "correct_answer": "{{figcell:shape=arrow,rot=180}}",
+            "explanation": "המעבר מ-45 ל-90 מתאים גם ל״עוד 45 מעלות״ וגם ל״כפול את הזווית״. המעבר השני, 90 ל-135, פוסל את ההכפלה ומשאיר קפיצות של 45 מעלות, ולכן התא החסר הוא 180."
           },
           {
             "number": 4,
-            "question": "כל התאים בסדרה זהים לחלוטין בצורה, בגודל, במילוי ובכמות. איזו תכונה סביר שנבדקת?",
+            "question": "כל התאים בסדרה זהים לחלוטין בצורה, בגודל, במילוי ובכמות. איזו צורה משלימה את הסדרה?\n\n{{figrow:shape=circle,dot=tl;shape=circle,dot=tr;shape=circle,dot=br;?}}",
             "type": "multiple-choice",
             "options": [
-              "סיבוב או מיקום של פרט קטן בתוך התא",
-              "מספר הצלעות של הצורה",
-              "צבע הרקע של התא",
-              "מספר התאים בסדרה"
+              "{{figcell:shape=circle,dot=bl}}",
+              "{{figcell:shape=circle,dot=tl}}",
+              "{{figcell:shape=circle,dot=tr}}",
+              "{{figcell:shape=circle,dot=c}}"
             ],
-            "correct_answer": "סיבוב או מיקום של פרט קטן בתוך התא"
+            "correct_answer": "{{figcell:shape=circle,dot=bl}}",
+            "explanation": "כשכל התכונות הגדולות קבועות, הכלל מוכרח להיות בפרט הקטן. הנקודה נעה עם כיוון השעון: שמאל-עליון, ימין-עליון, ימין-תחתון — ולכן הבא הוא שמאל-תחתון."
           },
           {
             "number": 5,
-            "question": "אחת התשובות היא העתק מדויק של תא שכבר מופיע בסדרה. מה נכון לומר עליה בדרך כלל?",
+            "question": "אחת התשובות היא העתק מדויק של תא שכבר מופיע בסדרה, והסדרה אינה עוצרת במקום. איזו צורה משלימה את הסדרה?\n\n{{figrow:shape=star,n=1;shape=star,n=2;shape=star,n=3;?}}",
             "type": "multiple-choice",
             "options": [
-              "היא מסיח, כי הסדרה מתקדמת ואינה עוצרת במקום",
-              "היא התשובה הנכונה, כי היא מוכרת מהסדרה",
-              "היא נכונה רק אם הסדרה יורדת",
-              "היא נכונה רק אם יש בסדרה ארבעה תאים"
+              "{{figcell:shape=star,n=4}}",
+              "{{figcell:shape=star,n=3}}",
+              "{{figcell:shape=star,n=5}}",
+              "{{figcell:shape=star,n=4,fill=solid}}"
             ],
-            "correct_answer": "היא מסיח, כי הסדרה מתקדמת ואינה עוצרת במקום"
+            "correct_answer": "{{figcell:shape=star,n=4}}",
+            "explanation": "הכמות עולה באחד: 1, 2, 3 — ולכן ארבעה כוכבים ריקים. התשובה עם שלושה היא העתק של התא האחרון, וסדרה עולה אינה עוצרת במקום; התשובה המלאה משנה תכונה שנשארה קבועה."
           }
         ]
       },
@@ -216,63 +221,68 @@
         "quiz": [
           {
             "number": 1,
-            "question": "כל התאים בסדרה מציגים צורות שונות זו מזו. מה סביר שסופרים?",
+            "question": "כל התאים בסדרה מציגים צורה אחת, והצורות שונות זו מזו. איזו צורה משלימה את הסדרה?\n\n{{figrow:shape=triangle;shape=square;shape=pentagon;?}}",
             "type": "multiple-choice",
             "options": [
-              "את מספר הצלעות של כל צורה",
-              "את מספר העותקים בכל תא",
-              "את זווית הסיבוב של כל צורה",
-              "את מספר התאים בסדרה"
+              "{{figcell:shape=hexagon}}",
+              "{{figcell:shape=pentagon}}",
+              "{{figcell:shape=trapezoid}}",
+              "{{figcell:shape=star}}"
             ],
-            "correct_answer": "את מספר הצלעות של כל צורה"
+            "correct_answer": "{{figcell:shape=hexagon}}",
+            "explanation": "מספר הצלעות עולה באחת: משולש 3, ריבוע 4, מחומש 5 — ולכן הבא הוא משושה עם 6 צלעות. טרפז וכוכב הם צורות חדשות לעין אבל הם אינם יושבים על סולם הצלעות."
           },
           {
             "number": 2,
-            "question": "בסדרת צלעות הופיע מעוין. איזו צורה לא תוכל להמשיך אותה בשום מקרה?",
+            "question": "לפניכם סדרת צלעות. אחת התשובות נראית כמו צורה חדשה, אבל מספר הצלעות שלה כבר הופיע בסדרה. איזו צורה משלימה את הסדרה?\n\n{{figrow:shape=hexagon,fill=solid;shape=pentagon,fill=solid;shape=diamond,fill=solid;?}}",
             "type": "multiple-choice",
             "options": [
-              "ריבוע, כי גם לו ארבע צלעות",
-              "משולש, כי יש לו שלוש צלעות",
-              "מחומש, כי יש לו חמש צלעות",
-              "משושה, כי יש לו שש צלעות"
+              "{{figcell:shape=triangle,fill=solid}}",
+              "{{figcell:shape=square,fill=solid}}",
+              "{{figcell:shape=pentagon,fill=solid}}",
+              "{{figcell:shape=hexagon,fill=solid}}"
             ],
-            "correct_answer": "ריבוע, כי גם לו ארבע צלעות"
+            "correct_answer": "{{figcell:shape=triangle,fill=solid}}",
+            "explanation": "ספרו צלעות ולא שמות: משושה 6, מחומש 5, מעוין 4 — ירידה של אחת בכל צעד, ולכן הבא הוא 3 צלעות, זאת אומרת משולש. ריבוע נראה כמו צורה חדשה, אבל 4 הצלעות שלו כבר הופיעו במעוין."
           },
           {
             "number": 3,
-            "question": "בסדרת כמות המספרים הם 6, 5, 4, 3. מהו התא החסר?",
+            "question": "איזו צורה משלימה את הסדרה?\n\n{{figrow:shape=circle,n=6;shape=circle,n=5;shape=circle,n=4;?}}",
             "type": "multiple-choice",
             "options": [
-              "שניים",
-              "אחד",
-              "ארבעה",
-              "שבעה"
+              "{{figcell:shape=circle,n=3}}",
+              "{{figcell:shape=circle,n=4}}",
+              "{{figcell:shape=circle,n=5}}",
+              "{{figcell:shape=circle,n=2}}"
             ],
-            "correct_answer": "שניים"
+            "correct_answer": "{{figcell:shape=circle,n=3}}",
+            "explanation": "הצורה קבועה ורק הכמות משתנה: 6, 5, 4 — ירידה של אחד בכל צעד, ולכן התא החסר הוא 3 עיגולים. התשובה 4 היא העתק של התא האחרון, והתשובה 2 מדלגת צעד שלם."
           },
           {
             "number": 4,
-            "question": "בכל תא בסדרה יש שני עותקים של הצורה, והצורות משתנות מתא לתא. איפה נמצא הכלל?",
+            "question": "בכל תא בסדרה יש שני עותקים של הצורה, והכמות אינה משתנה. איזו צורה משלימה את הסדרה?\n\n{{figrow:shape=triangle,n=2;shape=square,n=2;shape=pentagon,n=2;?}}",
             "type": "multiple-choice",
             "options": [
-              "במספר הצלעות, כי הכמות קבועה",
-              "בכמות, כי היא בולטת לעין",
-              "במילוי, כי הוא התכונה היחידה שנשארה",
-              "אין כאן כלל, כי הכמות אינה משתנה"
+              "{{figcell:shape=hexagon,n=2}}",
+              "{{figcell:shape=hexagon,n=3}}",
+              "{{figcell:shape=pentagon,n=2}}",
+              "{{figcell:shape=triangle,n=2}}"
             ],
-            "correct_answer": "במספר הצלעות, כי הכמות קבועה"
+            "correct_answer": "{{figcell:shape=hexagon,n=2}}",
+            "explanation": "הכמות קבועה — שני עותקים בכל תא — ולכן הכלל חייב להיות במספר הצלעות: 3, 4, 5 ולכן 6, זאת אומרת שני משושים. שלושה משושים נפסלים כי הם משנים את הכמות הקבועה, שני מחומשים הם העתק של התא האחרון, ושני משולשים חוזרים להתחלת הסדרה."
           },
           {
             "number": 5,
-            "question": "בסדרה 1, 2, 4 של עותקים, איזה כלל שורד את שני המעברים?",
+            "question": "בזוג הראשון הכמות הוכפלה פי שניים. הפעילו את אותה פעולה על הזוג השני — מה יבוא במקום סימן השאלה?\n\n{{figpair:shape=circle,n=1;shape=circle,n=2/shape=circle,n=3;?}}",
             "type": "multiple-choice",
             "options": [
-              "הכפלה פי שניים",
-              "הוספת אחד",
-              "הוספת שניים",
-              "הפרש יורד"
+              "{{figcell:shape=circle,n=6}}",
+              "{{figcell:shape=circle,n=4}}",
+              "{{figcell:shape=circle,n=5}}",
+              "{{figcell:shape=circle,n=3}}"
             ],
-            "correct_answer": "הכפלה פי שניים"
+            "correct_answer": "{{figcell:shape=circle,n=6}}",
+            "explanation": "בזוג הראשון 1 הפך ל-2, והשאלה אומרת במפורש שהפעולה היא הכפלה פי שניים. הפעלת אותה פעולה על 3 נותנת 6. התשובה 5 מפעילה ״הוסף שניים״, שהיא קריאה אחרת שנפסלה כאן."
           }
         ]
       },
@@ -343,39 +353,42 @@
         "quiz": [
           {
             "number": 1,
-            "question": "בסדרת סיבוב הקפיצה היא 90 מעלות והתא האחרון עומד על 270 מעלות. איך ייראה התא החסר?",
+            "question": "בסדרה שלפניכם החץ מסתובב בקפיצות קבועות. איזו צורה משלימה את הסדרה?\n\n{{figrow:shape=arrow,rot=90;shape=arrow,rot=180;shape=arrow,rot=270;?}}",
             "type": "multiple-choice",
             "options": [
-              "בדיוק כמו התא הראשון, כי הסיבוב הושלם",
-              "בזווית 315 מעלות",
-              "בזווית 360 מעלות, שנראית שונה מ-0",
-              "בזווית 180 מעלות, כי הסדרה מתהפכת"
+              "{{figcell:shape=arrow,rot=0}}",
+              "{{figcell:shape=arrow,rot=315}}",
+              "{{figcell:shape=arrow,rot=180}}",
+              "{{figcell:shape=arrow,rot=45}}"
             ],
-            "correct_answer": "בדיוק כמו התא הראשון, כי הסיבוב הושלם"
+            "correct_answer": "{{figcell:shape=arrow,rot=0}}",
+            "explanation": "הקפיצה היא 90 מעלות בכל צעד: 90, 180, 270 — והבא הוא 360, שהוא בדיוק 0. סיבוב הוא מחזור: כשהוא עובר את 360 הוא חוזר להתחלה ולא ממשיך למספרים גדולים יותר."
           },
           {
             "number": 2,
-            "question": "בסדרה מופיעים המילויים נקודות, פסים, רשת, נקודות. מה אורך המחזור ומה בא אחרי הנקודות?",
+            "question": "הצורה, הגודל והכמות קבועים, ורק המילוי משתנה. איזו צורה משלימה את הסדרה?\n\n{{figrow:shape=square,fill=dots;shape=square,fill=stripes;shape=square,fill=grid;shape=square,fill=dots;?}}",
             "type": "multiple-choice",
             "options": [
-              "אורך שלושה, ואחרי נקודות באים פסים",
-              "אורך ארבעה, ואחרי נקודות באה רשת",
-              "אורך שניים, ואחרי נקודות בא מילוי מלא",
-              "אין מחזור, המילוי מתקדם מריק למלא"
+              "{{figcell:shape=square,fill=stripes}}",
+              "{{figcell:shape=square,fill=grid}}",
+              "{{figcell:shape=square,fill=dots}}",
+              "{{figcell:shape=square,fill=solid}}"
             ],
-            "correct_answer": "אורך שלושה, ואחרי נקודות באים פסים"
+            "correct_answer": "{{figcell:shape=square,fill=stripes}}",
+            "explanation": "המחזור הוא נקודות, פסים, רשת — וחוזר חלילה. התא הרביעי הוא שוב נקודות, כלומר תחילת מחזור חדש, ולכן אחריו באים פסים. מילוי מלא כלל אינו חלק מהמחזור."
           },
           {
             "number": 3,
-            "question": "מדוע מילוי שאינו מופיע באף תא בסדרה אינו יכול להיות התשובה?",
+            "question": "מחזור חוזר על מצבים שכבר מופיעים בסדרה ואינו ממציא מצבים חדשים. איזו צורה משלימה את הסדרה?\n\n{{figrow:shape=circle,fill=none;shape=circle,fill=half;shape=circle,fill=solid;shape=circle,fill=none;?}}",
             "type": "multiple-choice",
             "options": [
-              "כי מחזור חוזר על מצבים קיימים ואינו ממציא חדשים",
-              "כי מילוי חייב תמיד להיות ריק או מלא",
-              "כי במבחן יש רק שלושה סוגי מילוי",
-              "כי הוא תמיד נראה שונה מדי משאר התאים"
+              "{{figcell:shape=circle,fill=half}}",
+              "{{figcell:shape=circle,fill=solid}}",
+              "{{figcell:shape=circle,fill=none}}",
+              "{{figcell:shape=circle,fill=grid}}"
             ],
-            "correct_answer": "כי מחזור חוזר על מצבים קיימים ואינו ממציא חדשים"
+            "correct_answer": "{{figcell:shape=circle,fill=half}}",
+            "explanation": "המחזור הוא ריק, חצי, מלא. התא הרביעי חזר לריק, ולכן אחריו בא חצי. מילוי רשת לא הופיע בסדרה בכלל, ומחזור אינו ממציא מצבים חדשים."
           },
           {
             "number": 4,
@@ -387,19 +400,21 @@
               "כי עיגול שמור לשאלות של כמות בלבד",
               "כי עיגול מסתובב תמיד ב-360 מעלות"
             ],
-            "correct_answer": "כי עיגול נראה אותו דבר בכל זווית ואי אפשר לראות בו סיבוב"
+            "correct_answer": "כי עיגול נראה אותו דבר בכל זווית ואי אפשר לראות בו סיבוב",
+            "explanation": "עיגול סימטרי לחלוטין סביב מרכזו, ולכן אחרי כל סיבוב הוא נראה בדיוק אותו דבר. שאלת סיבוב דורשת צורה עם כיוון גלוי לעין, כמו חץ או משולש."
           },
           {
             "number": 5,
-            "question": "בסדרת חצים הזוויות הן 0, 45, 90 מעלות. איזו תשובה נפסלת מיד כי אינה על סולם הקפיצות?",
+            "question": "מדדו את הקפיצה בין התאים, ואז בדקו אילו תשובות בכלל יושבות על סולם הקפיצות הזה. איזו צורה משלימה את הסדרה?\n\n{{figrow:shape=arrow,rot=0;shape=arrow,rot=60;shape=arrow,rot=120;?}}",
             "type": "multiple-choice",
             "options": [
-              "זווית 120 מעלות",
-              "זווית 135 מעלות",
-              "זווית 180 מעלות",
-              "זווית 45 מעלות"
+              "{{figcell:shape=arrow,rot=180}}",
+              "{{figcell:shape=arrow,rot=150}}",
+              "{{figcell:shape=arrow,rot=240}}",
+              "{{figcell:shape=arrow,rot=120}}"
             ],
-            "correct_answer": "זווית 120 מעלות"
+            "correct_answer": "{{figcell:shape=arrow,rot=180}}",
+            "explanation": "הקפיצה היא 60 מעלות: 0, 60, 120 — ולכן התא החסר הוא 180. שיםו לב ש-150 ו-240 אינם יושבים על סולם הקפיצות של 60 מעלות מאפס, ולכן נפסלים מיד."
           }
         ]
       },
@@ -470,39 +485,42 @@
         "quiz": [
           {
             "number": 1,
-            "question": "בסדרה התאים מתחלפים עיגול, כוכב, עיגול, כוכב. מה השלב הראשון בפתרון?",
+            "question": "לפניכם שתי סדרות שזורות זו בזו. קבעו קודם לאיזו מהן שייך התא החסר. איזו צורה משלימה את הסדרה?\n\n{{figrow:shape=circle;shape=star;shape=circle;shape=star;?}}",
             "type": "multiple-choice",
             "options": [
-              "לקבוע לאיזו משתי הסדרות שייך התא החסר",
-              "לספור את כל הצורות בכל התאים יחד",
-              "לחפש כלל אחד שמסביר את כל התאים ברצף",
-              "לבדוק את המילוי של התא האחרון בלבד"
+              "{{figcell:shape=circle}}",
+              "{{figcell:shape=star}}",
+              "{{figcell:shape=circle,fill=solid}}",
+              "{{figcell:shape=square}}"
             ],
-            "correct_answer": "לקבוע לאיזו משתי הסדרות שייך התא החסר"
+            "correct_answer": "{{figcell:shape=circle}}",
+            "explanation": "הסדרה מתחלפת עיגול-כוכב: במקומות האי-זוגיים עיגולים ובזוגיים כוכבים. התא החסר הוא החמישי, זאת אומרת שהוא שייך לסדרת העיגולים, ולכן עיגול ריק. העיגול המלא נפסל כי המילוי קבוע בכל הסדרה, והכוכב ממשיך את הסדרה השנייה."
           },
           {
             "number": 2,
-            "question": "בסדרת שתי תכונות, מהי הצורה השכיחה של שלושת המסיחים?",
+            "question": "בסדרה שתי תכונות משתנות במקביל, וכל אחד משלושת המסיחים מקיים בדיוק אחת מהן. איזו צורה משלימה את הסדרה?\n\n{{figrow:shape=pentagon,n=1,fill=solid;shape=pentagon,n=2,fill=none;shape=pentagon,n=3,fill=solid;?}}",
             "type": "multiple-choice",
             "options": [
-              "כל אחד מהם מקיים תכונה אחת ומפר את השנייה",
-              "כולם מפרים את שתי התכונות",
-              "כולם זהים לתא הראשון בסדרה",
-              "כולם מציגים צורה שלא הופיעה בסדרה"
+              "{{figcell:shape=pentagon,n=4,fill=none}}",
+              "{{figcell:shape=pentagon,n=4,fill=solid}}",
+              "{{figcell:shape=pentagon,n=3,fill=none}}",
+              "{{figcell:shape=pentagon,n=5,fill=none}}"
             ],
-            "correct_answer": "כל אחד מהם מקיים תכונה אחת ומפר את השנייה"
+            "correct_answer": "{{figcell:shape=pentagon,n=4,fill=none}}",
+            "explanation": "שתי תכונות רצות במקביל: הכמות עולה 1, 2, 3 ולכן 4; והמילוי מתחלף מלא-ריק-מלא ולכן ריק. רק תשובה שמקיימת את שתי הסדרות בבת אחת נכונה — כל מסיח כאן מקיים רק אחת מהן."
           },
           {
             "number": 3,
-            "question": "הכמות בסדרה עולה 1, 2, 3, 4 והזווית גדלה 0, 45, 90, 135. מהו התא החסר?",
+            "question": "בנו טבלה: שורה אחת לכמות ושורה אחת לזווית. איזו צורה משלימה את הסדרה?\n\n{{figrow:shape=arrow,n=1,rot=0;shape=arrow,n=2,rot=45;shape=arrow,n=3,rot=90;?}}",
             "type": "multiple-choice",
             "options": [
-              "חמש צורות בזווית 180 מעלות",
-              "חמש צורות בזווית 135 מעלות",
-              "ארבע צורות בזווית 180 מעלות",
-              "חמש צורות בזווית 225 מעלות"
+              "{{figcell:shape=arrow,n=4,rot=135}}",
+              "{{figcell:shape=arrow,n=4,rot=180}}",
+              "{{figcell:shape=arrow,n=3,rot=135}}",
+              "{{figcell:shape=arrow,n=5,rot=135}}"
             ],
-            "correct_answer": "חמש צורות בזווית 180 מעלות"
+            "correct_answer": "{{figcell:shape=arrow,n=4,rot=135}}",
+            "explanation": "הטבלה מראה שתי שורות: כמות 1, 2, 3 ולכן 4; זווית 0, 45, 90 ולכן 135. התשובה חייבת לקיים את שתי השורות יחד, ולכן 4 חצים בזווית 135."
           },
           {
             "number": 4,
@@ -514,19 +532,21 @@
               "האם המילוי בתא הראשון ריק או מלא",
               "האם הצורה בתא האחרון סימטרית"
             ],
-            "correct_answer": "האם התא השלישי דומה לראשון יותר משהוא דומה לשני"
+            "correct_answer": "האם התא השלישי דומה לראשון יותר משהוא דומה לשני",
+            "explanation": "בשתי תכונות מקבילות כל תא ממשיך את זה שלפניו; בשתי סדרות לסירוגין כל תא ממשיך דווקא את זה ששני מקומות לפניו. לכן השאלה המכריעה היא אם התא השלישי דומה לראשון יותר משהוא דומה לשני."
           },
           {
             "number": 5,
-            "question": "בסדרות לסירוגין, מהו המסיח המסוכן ביותר?",
+            "question": "אחת התשובות היא המשך נכון לגמרי — אבל של הסדרה השנייה, זו שאינה שייכת לתא החסר. איזו צורה משלימה את הסדרה?\n\n{{figrow:shape=triangle,n=1;shape=square,n=5;shape=triangle,n=2;shape=square,n=4;shape=triangle,n=3;?}}",
             "type": "multiple-choice",
             "options": [
-              "המשך נכון לגמרי של הסדרה השנייה",
-              "העתק מדויק של התא הראשון",
-              "צורה שלא הופיעה בסדרה כלל",
-              "תא שבו המילוי שונה מכל השאר"
+              "{{figcell:shape=square,n=3}}",
+              "{{figcell:shape=triangle,n=4}}",
+              "{{figcell:shape=square,n=4}}",
+              "{{figcell:shape=square,n=5}}"
             ],
-            "correct_answer": "המשך נכון לגמרי של הסדרה השנייה"
+            "correct_answer": "{{figcell:shape=square,n=3}}",
+            "explanation": "סדרת המשולשים עולה 1, 2, 3 וסדרת הריבועים יורדת 5, 4. המקום החסר הוא מקום של ריבוע, ולכן 3 ריבועים. ארבעה משולשים הוא המשך נכון לגמרי — אבל של הסדרה הלא נכונה."
           }
         ]
       },
@@ -597,15 +617,16 @@
         "quiz": [
           {
             "number": 1,
-            "question": "מהו התא החסר במטריצה, במונחי שני הכללים?",
+            "question": "במטריצה שלפניכם השורה קובעת תכונה אחת והעמודה קובעת תכונה אחרת. איזו צורה משלימה את התא החסר?\n\n{{figmatrix:shape=circle,n=1;shape=circle,n=2;shape=circle,n=3/shape=star,n=1;shape=star,n=2;shape=star,n=3/shape=triangle,n=1;shape=triangle,n=2;?}}",
             "type": "multiple-choice",
             "options": [
-              "ההצטלבות של כלל השורה עם כלל העמודה",
-              "המשך של כלל השורה בלבד",
-              "המשך של כלל העמודה בלבד",
-              "העתק של התא שמימינו"
+              "{{figcell:shape=triangle,n=3}}",
+              "{{figcell:shape=triangle,n=2}}",
+              "{{figcell:shape=star,n=3}}",
+              "{{figcell:shape=circle,n=3}}"
             ],
-            "correct_answer": "ההצטלבות של כלל השורה עם כלל העמודה"
+            "correct_answer": "{{figcell:shape=triangle,n=3}}",
+            "explanation": "השורה קובעת את הצורה והעמודה קובעת את הכמות. התא החסר נמצא בשורת המשולשים ובעמודה השלישית, שבה הכמות היא 3 — ולכן שלושה משולשים. כל מסיח מפר אחת משתי הדרישות."
           },
           {
             "number": 2,
@@ -617,43 +638,47 @@
               "תמיד מהשורה השלישית",
               "מהשורה הקצרה ביותר"
             ],
-            "correct_answer": "משורה מלאה שאין בה תא ריק"
+            "correct_answer": "משורה מלאה שאין בה תא ריק",
+            "explanation": "כלל השורה נגזר משורה שרואים בה את כל המידע — כלומר שורה מלאה. בשורה שבה יש תא ריק חסר בדיוק המידע שאתם מנסים להשלים, ולכן אי אפשר לבסס עליה את הכלל."
           },
           {
             "number": 3,
-            "question": "במטריצה כל צעד לאורך השורה מוסיף 45 מעלות וכל צעד למטה מוסיף 90 מעלות. איך מוודאים את התשובה?",
+            "question": "חשבו את התא החסר פעם אחת לפי השורה ופעם אחת לפי העמודה, וּודאו ששתי הדרכים מסכימות. איזו צורה משלימה את התא החסר?\n\n{{figmatrix:shape=arrow,rot=45;shape=arrow,rot=90;shape=arrow,rot=135/shape=arrow,rot=135;shape=arrow,rot=180;shape=arrow,rot=225/shape=arrow,rot=225;shape=arrow,rot=270;?}}",
             "type": "multiple-choice",
             "options": [
-              "מחשבים אותה גם לפי השורה וגם לפי העמודה ובודקים שהן מסכימות",
-              "מחשבים רק לפי הקצב הגדול יותר",
-              "מחשבים לפי האלכסון של המטריצה",
-              "בוחרים את הזווית הגדולה מבין התשובות"
+              "{{figcell:shape=arrow,rot=315}}",
+              "{{figcell:shape=arrow,rot=0}}",
+              "{{figcell:shape=arrow,rot=270}}",
+              "{{figcell:shape=arrow,rot=180}}"
             ],
-            "correct_answer": "מחשבים אותה גם לפי השורה וגם לפי העמודה ובודקים שהן מסכימות"
+            "correct_answer": "{{figcell:shape=arrow,rot=315}}",
+            "explanation": "לפי השורה החץ מסתובב 45 מעלות ימינה בכל צעד: 225, 270 ולכן 315. לפי העמודה הוא מסתובב 90 מעלות בכל שורה: 135, 225 ולכן 315. שתי הדרכים מסכימות, וזו הבדיקה."
           },
           {
             "number": 4,
-            "question": "אותן שלוש צורות חוזרות בכל שורה ובכל עמודה בסדר שונה. איזו שיטה מתאימה?",
+            "question": "אותן שלוש צורות חוזרות בכל שורה ובכל עמודה, בסדר שונה. מחקו את מה שכבר קיים בשורה ובעמודה. איזו צורה משלימה את התא החסר?\n\n{{figmatrix:shape=star;shape=hexagon;shape=arrow/shape=hexagon;shape=arrow;shape=star/shape=arrow;shape=star;?}}",
             "type": "multiple-choice",
             "options": [
-              "השמטה: מוחקים מה שכבר קיים בשורה ובעמודה ומה שנשאר הוא התשובה",
-              "ספירת צלעות של הצורות בשורה",
-              "מדידת זווית הסיבוב בכל עמודה",
-              "חישוב ההפרש בין מספר הצורות בשורות"
+              "{{figcell:shape=hexagon}}",
+              "{{figcell:shape=star}}",
+              "{{figcell:shape=arrow}}",
+              "{{figcell:shape=circle}}"
             ],
-            "correct_answer": "השמטה: מוחקים מה שכבר קיים בשורה ובעמודה ומה שנשאר הוא התשובה"
+            "correct_answer": "{{figcell:shape=hexagon}}",
+            "explanation": "בשורה האחרונה כבר יש חץ וכוכב, ובעמודה השלישית כבר יש חץ וכוכב. הצורה היחידה שנותרה היא המשושה. עיגול אינו מופיע במטריצה בכלל ולכן נפסל מיד."
           },
           {
             "number": 5,
-            "question": "התשובה שבחרתם מקיימת את כלל העמודה אבל לא את כלל השורה. מה נכון לעשות?",
+            "question": "אחת התשובות מקיימת את כלל העמודה אך מפרה את כלל השורה, ולכן היא נפסלת. איזו צורה משלימה את התא החסר?\n\n{{figmatrix:shape=square,n=1,fill=none;shape=square,n=1,fill=half;shape=square,n=1,fill=solid/shape=square,n=2,fill=none;shape=square,n=2,fill=half;shape=square,n=2,fill=solid/shape=square,n=3,fill=none;shape=square,n=3,fill=half;?}}",
             "type": "multiple-choice",
             "options": [
-              "לפסול אותה ולחפש תשובה שמקיימת את שני הכללים",
-              "לבחור בה, כי מספיק שכלל אחד מתקיים",
-              "לבחור בה רק אם התא הריק בשורה השלישית",
-              "לבחור את התשובה שנראית הכי דומה לתא שמעליה"
+              "{{figcell:shape=square,n=3,fill=solid}}",
+              "{{figcell:shape=square,n=2,fill=solid}}",
+              "{{figcell:shape=square,n=3,fill=half}}",
+              "{{figcell:shape=square,n=1,fill=none}}"
             ],
-            "correct_answer": "לפסול אותה ולחפש תשובה שמקיימת את שני הכללים"
+            "correct_answer": "{{figcell:shape=square,n=3,fill=solid}}",
+            "explanation": "השורה קובעת את הכמות והעמודה קובעת את המילוי. התא החסר בשורה של שלושה ובעמודה של מילוי מלא, ולכן שלושה ריבועים מלאים. התשובה עם שניים מלאים מקיימת את כלל העמודה אך מפרה את כלל השורה."
           }
         ]
       },
@@ -724,63 +749,68 @@
         "quiz": [
           {
             "number": 1,
-            "question": "מהו הצעד הראשון בפתרון אנלוגיה צורנית?",
+            "question": "נסחו במילים את הפעולה שהופעלה בזוג הראשון, והפעילו אותה על הצורה השלישית. מה יבוא במקום סימן השאלה?\n\n{{figpair:shape=square,fill=none;shape=square,fill=solid/shape=triangle,fill=none;?}}",
             "type": "multiple-choice",
             "options": [
-              "לנסח בפועל מדויק את הפעולה שהופעלה בזוג הראשון",
-              "לבדוק איזו מהתשובות דומה ביותר לצורה השלישית",
-              "לספור כמה צורות שונות מופיעות בשאלה",
-              "לחפש כלל שמסביר את ארבע הצורות יחד"
+              "{{figcell:shape=triangle,fill=solid}}",
+              "{{figcell:shape=square,fill=solid}}",
+              "{{figcell:shape=triangle,fill=half}}",
+              "{{figcell:shape=triangle,fill=none}}"
             ],
-            "correct_answer": "לנסח בפועל מדויק את הפעולה שהופעלה בזוג הראשון"
+            "correct_answer": "{{figcell:shape=triangle,fill=solid}}",
+            "explanation": "הפעולה בזוג הראשון היא ״מלא את הצורה, והשאר אותה עצמה״. הפעלתה על משולש ריק נותנת משולש מלא. הריבוע המלא מעתיק את התוצאה מהזוג הראשון במקום להפעיל את הפעולה."
           },
           {
             "number": 2,
-            "question": "בזוג הראשון מופיע חץ ובזוג השני מופיע טרפז. מה נכון לגבי התשובה?",
+            "question": "הפעולה חלה על התכונות ולא על שם הצורה. מה יבוא במקום סימן השאלה?\n\n{{figpair:shape=arrow,rot=45;shape=arrow,rot=135/shape=trapezoid,rot=0;?}}",
             "type": "multiple-choice",
             "options": [
-              "היא תהיה טרפז, כי הפעולה חלה על התכונות ולא על שם הצורה",
-              "היא תהיה חץ, כי הזוג הראשון קובע את הצורה",
-              "היא תהיה צורה שלישית שלא הופיעה בשאלה",
-              "אי אפשר לדעת בלי לקרוא את התשובות"
+              "{{figcell:shape=trapezoid,rot=90}}",
+              "{{figcell:shape=arrow,rot=135}}",
+              "{{figcell:shape=trapezoid,rot=45}}",
+              "{{figcell:shape=trapezoid,rot=0}}"
             ],
-            "correct_answer": "היא תהיה טרפז, כי הפעולה חלה על התכונות ולא על שם הצורה"
+            "correct_answer": "{{figcell:shape=trapezoid,rot=90}}",
+            "explanation": "בזוג הראשון הזווית גדלה ב-90 מעלות (מ-45 ל-135) ושם הצורה לא השתנה. הפעלת אותה פעולה על טרפז בזווית 0 נותנת טרפז בזווית 90. מי שבוחר חץ העתיק את הצורה במקום את התכונה."
           },
           {
             "number": 3,
-            "question": "בשאלת יוצא דופן ארבע הצורות שונות זו מזו. מה המסקנה המיידית?",
+            "question": "ארבע הצורות שלפניכם שונות זו מזו, ואין שלוש שמסכימות על אותו מספר צלעות — ולכן הצורה עצמה אינה הכלל. איזו מהן יוצאת הדופן?\n\n{{figodd:shape=diamond,fill=solid;shape=star,fill=solid;shape=trapezoid,fill=solid;shape=hexagon,fill=none}}",
             "type": "multiple-choice",
             "options": [
-              "הכלל אינו הצורה, ויש לעבור לכמות, למילוי ולכיוון",
-              "התשובה היא הצורה בעלת מספר הצלעות הגדול ביותר",
-              "השאלה פגומה, כי חייבות להיות שלוש צורות זהות",
-              "התשובה היא הצורה שנראית הכי מסובכת"
+              "{{figcell:shape=hexagon,fill=none}}",
+              "{{figcell:shape=diamond,fill=solid}}",
+              "{{figcell:shape=star,fill=solid}}",
+              "{{figcell:shape=trapezoid,fill=solid}}"
             ],
-            "correct_answer": "הכלל אינו הצורה, ויש לעבור לכמות, למילוי ולכיוון"
+            "correct_answer": "{{figcell:shape=hexagon,fill=none}}",
+            "explanation": "שלוש מהצורות מלאות ואחת ריקה, ולכן המילוי הוא התכונה שמפצלת שלוש מול אחת — המשושה הריק יוצא הדופן. שם הצורה אינו יכול לשמש כלל, כי כל ארבע הצורות שונות זו מזו."
           },
           {
             "number": 4,
-            "question": "מה הופך מועמדת ליוצאת דופן?",
+            "question": "ירדו ברשימה — צורה, כמות, מילוי, כיוון — ומצאו את התכונה שמפצלת שלוש מול אחת. איזו מהן יוצאת הדופן?\n\n{{figodd:shape=star,n=2;shape=diamond,n=3;shape=cross,n=3;shape=pentagon,n=3}}",
             "type": "multiple-choice",
             "options": [
-              "תכונה אחת שמשותפת לשלוש האחרות והיא היחידה שמפרה אותה",
-              "העובדה שהיא הצורה היחידה שאינה סימטרית",
-              "העובדה שהיא הגדולה מבין הארבע",
-              "כל הבדל שאפשר לראות בינה לבין אחת האחרות"
+              "{{figcell:shape=star,n=2}}",
+              "{{figcell:shape=diamond,n=3}}",
+              "{{figcell:shape=cross,n=3}}",
+              "{{figcell:shape=pentagon,n=3}}"
             ],
-            "correct_answer": "תכונה אחת שמשותפת לשלוש האחרות והיא היחידה שמפרה אותה"
+            "correct_answer": "{{figcell:shape=star,n=2}}",
+            "explanation": "הצורות כולן שונות זו מזו, המילוי זהה בכולן ואין כיוון — ולכן הכלל נמצא בכמות: שלוש מהתשובות מראות שלושה עותקים והכוכב מראה שניים. העובדה שהכוכב נראה הכי שונה אינה נימוק בפני עצמה; הכמות היא."
           },
           {
             "number": 5,
-            "question": "באנלוגיה הכמות עברה מ-2 ל-4. מדוע דווקא כאן מותר להיעזר ברשימת התשובות?",
+            "question": "המעבר בזוג הראשון מתאים גם ל״הוסף שניים״ וגם ל״הכפל פי שניים״. בדקו איזו משתי הקריאות בכלל מופיעה ברשימת התשובות — מה יבוא במקום סימן השאלה?\n\n{{figpair:shape=circle,n=2;shape=circle,n=4/shape=circle,n=3;?}}",
             "type": "multiple-choice",
             "options": [
-              "כי באנלוגיה יש מעבר יחיד ואין מעבר שני שיכריע בין שתי הקריאות",
-              "כי באנלוגיה התשובות תמיד מסודרות לפי גודל",
-              "כי בכל שאלה צורנית עדיף להתחיל מקריאת התשובות",
-              "כי הכפלה תמיד עדיפה על הוספה"
+              "{{figcell:shape=circle,n=6}}",
+              "{{figcell:shape=circle,n=4}}",
+              "{{figcell:shape=circle,n=3}}",
+              "{{figcell:shape=circle,n=2}}"
             ],
-            "correct_answer": "כי באנלוגיה יש מעבר יחיד ואין מעבר שני שיכריע בין שתי הקריאות"
+            "correct_answer": "{{figcell:shape=circle,n=6}}",
+            "explanation": "בזוג הראשון 2 הפך ל-4, ולכן שתי הקריאות ההגיוניות הן הוספת שניים או הכפלה פי שניים. על 3 הן נותנות 5 או 6. באנלוגיה יש מעבר יחיד ואין מעבר שני שיכריע, ולכן רשימת התשובות היא שמכריעה: 5 אינו מוצע, 6 מוצע — ולכן הקריאה הנכונה היא הכפלה, והתשובה היא 6."
           }
         ]
       }

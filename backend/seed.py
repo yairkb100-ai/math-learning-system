@@ -118,11 +118,11 @@ def _course_unchanged(existing, course_obj, metadata):
         if db_exercises != json_exercises:
             return False
         db_quiz = [
-            (q.number, q.question, q.type, q.options, q.correct_answer)
+            (q.number, q.question, q.type, q.options, q.correct_answer, q.explanation)
             for q in db_ch.quiz
         ]
         json_quiz = [
-            (q.get("number"), q.get("question", ""), q.get("type", ""), q.get("options"), q.get("correct_answer", ""))
+            (q.get("number"), q.get("question", ""), q.get("type", ""), q.get("options"), q.get("correct_answer", ""), q.get("explanation"))
             for q in ch.get("quiz", []) or []
         ]
         if db_quiz != json_quiz:
@@ -247,6 +247,7 @@ def upsert_course(db, data):
                     type=q.get("type", ""),
                     options=q.get("options"),
                     correct_answer=q.get("correct_answer", ""),
+                    explanation=q.get("explanation"),
                 )
             )
 
@@ -1098,6 +1099,13 @@ def run_light_migrations():
                 ))
             print("  ~ Migrated: added chapters.title_overridden")
 
+    if "quiz_questions" in inspector.get_table_names():
+        cols = {c["name"] for c in inspector.get_columns("quiz_questions")}
+        if "explanation" not in cols:
+            with engine.begin() as conn:
+                conn.execute(text("ALTER TABLE quiz_questions ADD COLUMN explanation TEXT"))
+            print("  ~ Migrated: added quiz_questions.explanation")
+
     if "file_assets" in inspector.get_table_names():
         cols = {c["name"] for c in inspector.get_columns("file_assets")}
         if "kind" not in cols:
@@ -1503,19 +1511,45 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-full-1",
         "title": "סימולציה מלאה 1",
-        "description": "מבחן קרני שלם בתנאי אמת: מילולי, כמותי, צורני ואנגלית — כ-100 שאלות, עם דוח מפורט בסוף",
+        "description": "מבחן קרני שלם בתנאי אמת — עשרה פרקים קצרים ברצף, כ-100 שאלות בכשעתיים, בדיוק כמו במבחן",
         "kind": "full",
         "order": 20,
         "free_preview": False,
+        # TEN short sections, not four. The published format for the Maarava
+        # paper describes "about ten sections" and 100+ questions in roughly two
+        # hours, with some sections paced at about half a minute per question —
+        # the intensity of switching subject every few minutes IS part of what
+        # the test measures, so a four-block paper would not rehearse it.
+        # Minutes below are set from that pacing, not invented per section.
         "sections": [
-            {"order": 0, "domain": "verbal", "title": "חשיבה מילולית",
-             "minutes": 25, "num_questions": 30, "blueprint": [{"count": 30}]},
-            {"order": 1, "domain": "quantitative", "title": "חשיבה כמותית",
-             "minutes": 30, "num_questions": 25, "blueprint": [{"count": 25}]},
-            {"order": 2, "domain": "figural", "title": "חשיבה צורנית",
-             "minutes": 25, "num_questions": 25, "blueprint": [{"count": 25}]},
-            {"order": 3, "domain": "english", "title": "אנגלית",
-             "minutes": 20, "num_questions": 20, "blueprint": [{"count": 20}]},
+            {"order": 0, "domain": "verbal", "title": "אנלוגיות",
+             "minutes": 6, "num_questions": 12,
+             "blueprint": [{"count": 12, "topic": "אנלוגיות"}]},
+            {"order": 1, "domain": "quantitative", "title": "חשיבה כמותית — חלק א",
+             "minutes": 10, "num_questions": 12, "blueprint": [{"count": 12}]},
+            {"order": 2, "domain": "figural", "title": "מטריצות וסדרות צורות",
+             "minutes": 8, "num_questions": 12,
+             "blueprint": [{"count": 6, "topic": "מטריצות"}, {"count": 6, "topic": "סדרות צורות"}]},
+            {"order": 3, "domain": "verbal", "title": "השלמת משפטים",
+             "minutes": 6, "num_questions": 10,
+             "blueprint": [{"count": 10, "topic": "השלמת משפטים"}]},
+            {"order": 4, "domain": "quantitative", "title": "סדרות מספרים",
+             "minutes": 6, "num_questions": 10,
+             "blueprint": [{"count": 10, "topic": "סדרות מספרים ואותיות"}]},
+            {"order": 5, "domain": "figural", "title": "אנלוגיות צורניות ויוצא דופן",
+             "minutes": 8, "num_questions": 12,
+             "blueprint": [{"count": 6, "topic": "אנלוגיות צורניות"}, {"count": 6, "topic": "יוצא דופן צורני"}]},
+            {"order": 6, "domain": "english", "title": "אנגלית — אוצר מילים",
+             "minutes": 5, "num_questions": 9,
+             "blueprint": [{"count": 9, "topic": "אוצר מילים"}]},
+            {"order": 7, "domain": "quantitative", "title": "חשיבה כמותית — חלק ב",
+             "minutes": 10, "num_questions": 11, "blueprint": [{"count": 11}]},
+            {"order": 8, "domain": "verbal", "title": "יוצא דופן וסדרות אותיות",
+             "minutes": 6, "num_questions": 10,
+             "blueprint": [{"count": 6, "topic": "יוצא דופן"}, {"count": 4, "topic": "סדרות מספרים ואותיות"}]},
+            {"order": 9, "domain": "english", "title": "אנגלית — דקדוק והשלמת משפטים",
+             "minutes": 6, "num_questions": 11,
+             "blueprint": [{"count": 7, "topic": "דקדוק"}, {"count": 4, "topic": "השלמת משפטים"}]},
         ],
     },
 ]

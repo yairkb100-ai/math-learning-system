@@ -16,12 +16,23 @@ from typing import Dict, List, Optional
 
 # Sections that count toward the report. All four Karni sections are scored;
 # a pilot section (if a form ever includes one) is excluded by the caller.
-SCORED_DOMAINS = ("verbal", "quantitative", "figural", "english")
+SCORED_DOMAINS = (
+    "verbal",
+    "quantitative",
+    "figural",
+    "logic",
+    "spatial",
+    "speed",
+    "english",
+)
 
 DOMAIN_HE = {
     "verbal": "מילולי",
     "quantitative": "כמותי",
     "figural": "צורני",
+    "logic": "לוגי",
+    "spatial": "מרחבי",
+    "speed": "זריזות ודיוק",
     "english": "אנגלית",
 }
 

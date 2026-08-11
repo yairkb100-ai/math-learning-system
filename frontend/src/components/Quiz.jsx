@@ -41,7 +41,7 @@ export default function Quiz({ questions, chapterId, rtl }) {
 
 function QuizQuestion({ question, chapterId, rtl }) {
   const [answer, setAnswer] = useState('')
-  const [result, setResult] = useState(null) // { correct, correct_answer }
+  const [result, setResult] = useState(null) // { correct, correct_answer, explanation }
   const [loading, setLoading] = useState(false)
   const [err, setErr] = useState(null)
 
@@ -135,6 +135,13 @@ function QuizQuestion({ question, chapterId, rtl }) {
                 </span>
               )}
             </>
+          )}
+          {/* Shown on right answers too — a student who guessed right still
+              needs the reasoning. */}
+          {result.explanation && (
+            <span className="quiz-explanation">
+              <InlineMathText text={result.explanation} />
+            </span>
           )}
         </div>
       )}

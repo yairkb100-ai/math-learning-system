@@ -251,6 +251,7 @@ class QuizQuestionIn(BaseModel):
     type: str
     options: Optional[List[str]] = None
     correct_answer: str
+    explanation: Optional[str] = None
 
 
 class ChapterIn(BaseModel):
@@ -301,6 +302,8 @@ class QuizCheckRequest(BaseModel):
 class QuizCheckResult(BaseModel):
     correct: bool
     correct_answer: str
+    # Revealed only here, after the student committed to an answer.
+    explanation: Optional[str] = None
 
 
 class ExerciseCheckRequest(BaseModel):

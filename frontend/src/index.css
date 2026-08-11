@@ -1264,6 +1264,12 @@ h4.prose-h {
 .correct-answer {
   color: var(--text);
 }
+/* הנימוק שמוצג אחרי הבדיקה — גם בתשובה נכונה וגם בשגויה. */
+.quiz-explanation {
+  color: var(--text);
+  line-height: 1.6;
+  margin-top: 2px;
+}
 .quiz-q.is-correct {
   border-color: var(--ok);
 }
