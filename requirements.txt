@@ -1,4 +1,14 @@
 # Root requirements.txt so Vercel's Python runtime finds dependencies for
-# api/index.py. Keep backend/requirements.txt as the canonical list (also
-# used locally and by the CI seed workflow) — this just points at it.
--r backend/requirements.txt
+# api/index.py. Vercel's builder doesn't support pip's `-r include`
+# directive, so this must be kept in sync with backend/requirements.txt
+# (the canonical list, also used locally and by the CI seed workflow).
+fastapi
+uvicorn[standard]
+sqlalchemy
+pydantic
+python-jose[cryptography]
+bcrypt
+python-dotenv
+python-multipart
+psycopg2-binary
+requests
