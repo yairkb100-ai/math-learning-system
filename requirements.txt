@@ -1,9 +1,11 @@
 # Root requirements.txt so Vercel's Python runtime finds dependencies for
 # api/index.py. Vercel's builder doesn't support pip's `-r include`
 # directive, so this must be kept in sync with backend/requirements.txt
-# (the canonical list, also used locally and by the CI seed workflow).
+# (the canonical list, also used locally and by the CI seed workflow) MINUS
+# uvicorn — Vercel's Python runtime serves the ASGI app itself, so uvicorn
+# (and its uvloop/httptools/websockets/watchfiles extras) isn't needed here
+# and was the main reason the function bundle exceeded Vercel's 225MB limit.
 fastapi
-uvicorn[standard]
 sqlalchemy
 pydantic
 python-jose[cryptography]
