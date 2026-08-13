@@ -88,11 +88,9 @@ def upload_file(
     contents = _read_upload(file)
 
     external_url = None
-    if bunny.is_configured() and kind == "resource":
-        # Course resources (admin-uploaded) are public to every student
-        # anyway, so route them to Bunny CDN instead of the small Railway
-        # disk volume. Homework/message uploads stay local — private and low
-        # volume.
+    if bunny.is_configured():
+        # All uploads (resource/homework/message) go to Bunny — the app runs
+        # as serverless functions with no persistent local disk.
         external_url = bunny.upload_bytes(contents, stored_name)
     else:
         _ensure_upload_dir()

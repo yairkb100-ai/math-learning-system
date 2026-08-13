@@ -45,3 +45,6 @@ scripts/video_pipeline/pipeline_status.json
 scripts/video_pipeline/*.log
 scripts/video_pipeline/auth_keepalive.log
 scripts/video_pipeline/auth_keepalive_task.log
+.vercel
+.env*
+backend/.env.prodtest

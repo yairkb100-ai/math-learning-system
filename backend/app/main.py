@@ -63,167 +63,156 @@ def on_startup() -> None:
     # with `python seed.py && uvicorn ...`, so seed.run_light_migrations() runs
     # before this hook and queries the new columns. A column added only here
     # crashes the deploy inside seed. Add every new column to BOTH.
+    #
+    # Everything below shares a single connection/transaction: under NullPool
+    # (serverless — see database.py) each `engine.begin()` pays a fresh
+    # connect round-trip to Neon, and this hook used to open ~20 of them on
+    # every cold start.
     from sqlalchemy import inspect, text
 
-    inspector = inspect(engine)
-    if "courses" in inspector.get_table_names():
-        cols = {c["name"] for c in inspector.get_columns("courses")}
-        if "section_id" not in cols:
-            with engine.begin() as conn:
+    with engine.begin() as conn:
+        inspector = inspect(conn)
+        if "courses" in inspector.get_table_names():
+            cols = {c["name"] for c in inspector.get_columns("courses")}
+            if "section_id" not in cols:
                 conn.execute(
                     text("ALTER TABLE courses ADD COLUMN section_id INTEGER")
                 )
-        if "seeded" not in cols:
-            with engine.begin() as conn:
+            if "seeded" not in cols:
                 conn.execute(
                     text("ALTER TABLE courses ADD COLUMN seeded BOOLEAN NOT NULL DEFAULT false")
                 )
-        if "title_overridden" not in cols:
-            with engine.begin() as conn:
+            if "title_overridden" not in cols:
                 conn.execute(
                     text(
                         "ALTER TABLE courses ADD COLUMN title_overridden "
                         "BOOLEAN NOT NULL DEFAULT false"
                     )
                 )
-        if "track" not in cols:
-            with engine.begin() as conn:
+            if "track" not in cols:
                 conn.execute(
                     text("ALTER TABLE courses ADD COLUMN track VARCHAR NOT NULL DEFAULT 'school'")
                 )
-    if "sections" in inspector.get_table_names():
-        cols = {c["name"] for c in inspector.get_columns("sections")}
-        if "track" not in cols:
-            with engine.begin() as conn:
+        if "sections" in inspector.get_table_names():
+            cols = {c["name"] for c in inspector.get_columns("sections")}
+            if "track" not in cols:
                 conn.execute(
                     text("ALTER TABLE sections ADD COLUMN track VARCHAR NOT NULL DEFAULT 'school'")
                 )
-    if "psy_attempts" in inspector.get_table_names():
-        cols = {c["name"] for c in inspector.get_columns("psy_attempts")}
-        if "score_percent" not in cols:
-            with engine.begin() as conn:
+        if "psy_attempts" in inspector.get_table_names():
+            cols = {c["name"] for c in inspector.get_columns("psy_attempts")}
+            if "score_percent" not in cols:
                 conn.execute(text("ALTER TABLE psy_attempts ADD COLUMN score_percent FLOAT"))
-        if "domain_scores" not in cols:
-            with engine.begin() as conn:
+            if "domain_scores" not in cols:
                 conn.execute(text("ALTER TABLE psy_attempts ADD COLUMN domain_scores JSON"))
-    if "file_assets" in inspector.get_table_names():
-        cols = {c["name"] for c in inspector.get_columns("file_assets")}
-        if "kind" not in cols:
-            with engine.begin() as conn:
+        if "file_assets" in inspector.get_table_names():
+            cols = {c["name"] for c in inspector.get_columns("file_assets")}
+            if "kind" not in cols:
                 conn.execute(
                     text(
                         "ALTER TABLE file_assets ADD COLUMN kind VARCHAR "
                         "NOT NULL DEFAULT 'resource'"
                     )
                 )
-        if "external_url" not in cols:
-            with engine.begin() as conn:
+            if "external_url" not in cols:
                 conn.execute(
                     text("ALTER TABLE file_assets ADD COLUMN external_url VARCHAR")
                 )
-    if "messages" in inspector.get_table_names():
-        cols = {c["name"] for c in inspector.get_columns("messages")}
-        if "file_id" not in cols:
-            with engine.begin() as conn:
+        if "messages" in inspector.get_table_names():
+            cols = {c["name"] for c in inspector.get_columns("messages")}
+            if "file_id" not in cols:
                 conn.execute(
                     text("ALTER TABLE messages ADD COLUMN file_id INTEGER")
                 )
-    if "users" in inspector.get_table_names():
-        cols = {c["name"] for c in inspector.get_columns("users")}
-        if "password_plain" not in cols:
-            with engine.begin() as conn:
+        if "users" in inspector.get_table_names():
+            cols = {c["name"] for c in inspector.get_columns("users")}
+            if "password_plain" not in cols:
                 conn.execute(
                     text("ALTER TABLE users ADD COLUMN password_plain VARCHAR")
                 )
-        if "welcome_seen_at" not in cols:
-            with engine.begin() as conn:
+            if "welcome_seen_at" not in cols:
                 conn.execute(
                     text("ALTER TABLE users ADD COLUMN welcome_seen_at TIMESTAMP")
                 )
-        if "referral_code" not in cols:
-            # No UNIQUE in the ALTER: SQLite rejects adding a unique column to a
-            # populated table. Uniqueness is enforced by app.referrals._mint,
-            # which retries until the code is free.
-            with engine.begin() as conn:
+            if "referral_code" not in cols:
+                # No UNIQUE in the ALTER: SQLite rejects adding a unique column to a
+                # populated table. Uniqueness is enforced by app.referrals._mint,
+                # which retries until the code is free.
                 conn.execute(
                     text("ALTER TABLE users ADD COLUMN referral_code VARCHAR")
                 )
-        # Add the unique index separately — create_all only builds indexes for
-        # tables it creates, so an existing users table would never get one.
-        # NULLs don't collide in either SQLite or Postgres, so accounts that
-        # never minted a code are unaffected.
-        with engine.begin() as conn:
+            # Add the unique index separately — create_all only builds indexes for
+            # tables it creates, so an existing users table would never get one.
+            # NULLs don't collide in either SQLite or Postgres, so accounts that
+            # never minted a code are unaffected.
             conn.execute(
                 text(
                     "CREATE UNIQUE INDEX IF NOT EXISTS ix_users_referral_code "
                     "ON users (referral_code)"
                 )
             )
-    if "chapters" in inspector.get_table_names():
-        cols = {c["name"] for c in inspector.get_columns("chapters")}
-        if "title_overridden" not in cols:
-            with engine.begin() as conn:
+        if "chapters" in inspector.get_table_names():
+            cols = {c["name"] for c in inspector.get_columns("chapters")}
+            if "title_overridden" not in cols:
                 conn.execute(text(
                     "ALTER TABLE chapters ADD COLUMN title_overridden "
                     "BOOLEAN NOT NULL DEFAULT false"
                 ))
-    if "exercises" in inspector.get_table_names():
-        cols = {c["name"] for c in inspector.get_columns("exercises")}
-        if "answer" not in cols:
-            with engine.begin() as conn:
+        if "exercises" in inspector.get_table_names():
+            cols = {c["name"] for c in inspector.get_columns("exercises")}
+            if "answer" not in cols:
                 conn.execute(
                     text("ALTER TABLE exercises ADD COLUMN answer VARCHAR")
                 )
-    if "quiz_questions" in inspector.get_table_names():
-        cols = {c["name"] for c in inspector.get_columns("quiz_questions")}
-        if "explanation" not in cols:
-            with engine.begin() as conn:
+        if "quiz_questions" in inspector.get_table_names():
+            cols = {c["name"] for c in inspector.get_columns("quiz_questions")}
+            if "explanation" not in cols:
                 conn.execute(
                     text("ALTER TABLE quiz_questions ADD COLUMN explanation TEXT")
                 )
-    if "lesson_slots" in inspector.get_table_names():
-        # כמו ב-seed.py: תקלת DDL לא תפיל את עליית האפליקציה.
-        try:
-            cols = {c["name"] for c in inspector.get_columns("lesson_slots")}
-            if "lesson_type_id" not in cols:
-                with engine.begin() as conn:
+        if "lesson_slots" in inspector.get_table_names():
+            # כמו ב-seed.py: תקלת DDL לא תפיל את עליית האפליקציה.
+            # SAVEPOINT (begin_nested) so a failure here rolls back only this
+            # block, not the whole shared transaction above/below it.
+            try:
+                with conn.begin_nested():
+                    cols = {c["name"] for c in inspector.get_columns("lesson_slots")}
+                    if "lesson_type_id" not in cols:
+                        conn.execute(
+                            text(
+                                "ALTER TABLE lesson_slots ADD COLUMN lesson_type_id INTEGER "
+                                "REFERENCES lesson_types(id) ON DELETE SET NULL"
+                            )
+                        )
                     conn.execute(
                         text(
-                            "ALTER TABLE lesson_slots ADD COLUMN lesson_type_id INTEGER "
-                            "REFERENCES lesson_types(id) ON DELETE SET NULL"
+                            "CREATE INDEX IF NOT EXISTS ix_lesson_slots_lesson_type_id "
+                            "ON lesson_slots (lesson_type_id)"
                         )
                     )
-            with engine.begin() as conn:
-                conn.execute(
-                    text(
-                        "CREATE INDEX IF NOT EXISTS ix_lesson_slots_lesson_type_id "
-                        "ON lesson_slots (lesson_type_id)"
+            except Exception as e:  # noqa: BLE001
+                print(f"  ! lesson_slots.lesson_type_id migration skipped: {e}")
+        if "lesson_types" in inspector.get_table_names():
+            # כמה מסלולים רשאים לחלוק אותו משך, ולכן האינדקס הייחודי הישן יורד.
+            # ה-try הוא כדי שתקלת DDL לא תפיל את עליית האפליקציה.
+            try:
+                with conn.begin_nested():
+                    unique = any(
+                        ix["name"] == "ix_lesson_types_duration_min" and ix.get("unique")
+                        for ix in inspector.get_indexes("lesson_types")
                     )
-                )
-        except Exception as e:  # noqa: BLE001
-            print(f"  ! lesson_slots.lesson_type_id migration skipped: {e}")
-    if "lesson_types" in inspector.get_table_names():
-        # כמה מסלולים רשאים לחלוק אותו משך, ולכן האינדקס הייחודי הישן יורד.
-        # ה-try הוא כדי שתקלת DDL לא תפיל את עליית האפליקציה.
-        try:
-            unique = any(
-                ix["name"] == "ix_lesson_types_duration_min" and ix.get("unique")
-                for ix in inspector.get_indexes("lesson_types")
-            )
-            if unique:
-                with engine.begin() as conn:
-                    conn.execute(
-                        text("DROP INDEX IF EXISTS ix_lesson_types_duration_min")
-                    )
-                with engine.begin() as conn:
-                    conn.execute(
-                        text(
-                            "CREATE INDEX IF NOT EXISTS ix_lesson_types_duration_min "
-                            "ON lesson_types (duration_min)"
+                    if unique:
+                        conn.execute(
+                            text("DROP INDEX IF EXISTS ix_lesson_types_duration_min")
                         )
-                    )
-        except Exception as e:  # noqa: BLE001
-            print(f"  ! lesson_types duration index rebuild skipped: {e}")
+                        conn.execute(
+                            text(
+                                "CREATE INDEX IF NOT EXISTS ix_lesson_types_duration_min "
+                                "ON lesson_types (duration_min)"
+                            )
+                        )
+            except Exception as e:  # noqa: BLE001
+                print(f"  ! lesson_types duration index rebuild skipped: {e}")
 
 
 app.include_router(courses.router)

@@ -1,0 +1,4 @@
+# Root requirements.txt so Vercel's Python runtime finds dependencies for
+# api/index.py. Keep backend/requirements.txt as the canonical list (also
+# used locally and by the CI seed workflow) — this just points at it.
+-r backend/requirements.txt

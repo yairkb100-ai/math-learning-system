@@ -9,6 +9,7 @@ import os
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
+from sqlalchemy.pool import NullPool
 
 # Resolve the DB path relative to the backend/ directory (parent of app/),
 # so it is stable whether we run from the project root or from backend/.
@@ -33,10 +34,19 @@ _connect_args = (
     else {}
 )
 
+# Each serverless invocation gets its own process/engine, so holding an idle
+# connection pool across invocations just leaks connections against Neon's
+# limit — NullPool opens a fresh connection per request and closes it right
+# after (Neon's own pooler, via the pooled DATABASE_URL, absorbs the cost).
+# Locally (SQLite / a long-lived dev server) the default pool is fine.
+_is_postgres = SQLALCHEMY_DATABASE_URL.startswith("postgresql")
+_pool_kwargs = {"poolclass": NullPool} if _is_postgres else {}
+
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL,
     connect_args=_connect_args,
     pool_pre_ping=True,
+    **_pool_kwargs,
 )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
