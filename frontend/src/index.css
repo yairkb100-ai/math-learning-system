@@ -4122,6 +4122,19 @@ h4.prose-h {
   color: var(--accent-2);
   background: rgba(47, 158, 106, 0.18);
 }
+/* קישור הכנה לקרני — אינדיגו, אותו טיפול הדגשה כמו nav-link-accent אבל בגוון
+   נבדל (כבר קיים בעיצוב: מבטא כיתה ח׳ ב-.grade-8) כדי לא להתערבב עם ההטבה. */
+.nav-link-karni {
+  color: #5a5fb0;
+  font-weight: 700;
+  background: rgba(90, 95, 176, 0.10);
+  border: 1px solid rgba(90, 95, 176, 0.28);
+  box-sizing: border-box;
+}
+.nav-link-karni:hover {
+  color: #5a5fb0;
+  background: rgba(90, 95, 176, 0.18);
+}
 .nav-badge-reward {
   /* צהוב ולא אדום: זו הטבה שמחכה, לא התראה דחופה. */
   background: var(--marker, #f2b134);
