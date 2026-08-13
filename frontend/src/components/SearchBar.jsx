@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { motion, AnimatePresence } from 'framer-motion'
 import api from '../api.js'
+import { DURATION, EASE_OUT, EASE_IN, staggerContainer, fadeInUp } from '../lib/motion.js'
 import '../styles/search.css'
 
 // Global "find it in the lomda" search: type a chapter name or topic and see
@@ -82,60 +84,73 @@ export default function SearchBar() {
         {busy && <span className="ls-spinner" aria-hidden="true" />}
       </div>
 
-      {open && result && (
-        <div className="ls-results" role="listbox">
-          {!hasHits && (
-            <div className="ls-empty">
-              לא נמצאו תוצאות עבור ״{result.query}״ — נסו ניסוח אחר או מילה
-              קצרה יותר
-            </div>
-          )}
+      <AnimatePresence>
+        {open && result && (
+          <motion.div
+            className="ls-results"
+            role="listbox"
+            initial={{ opacity: 0, y: -6, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -4, scale: 0.98, transition: { duration: DURATION.short, ease: EASE_IN } }}
+            transition={{ duration: DURATION.medium, ease: EASE_OUT }}
+          >
+            {!hasHits && (
+              <div className="ls-empty">
+                לא נמצאו תוצאות עבור ״{result.query}״ — נסו ניסוח אחר או מילה
+                קצרה יותר
+              </div>
+            )}
 
-          {result.courses.length > 0 && (
-            <>
-              <div className="ls-group">קורסים</div>
-              {result.courses.map((c) => (
-                <button
-                  key={`c${c.id}`}
-                  type="button"
-                  className="ls-item"
-                  onClick={() => go(`/courses/${c.id}`)}
-                >
-                  <span className="ls-item-title">{c.title}</span>
-                  <span className="ls-item-meta">
-                    {c.section ? `${c.section} · ` : ''}
-                    {c.chapters_count} פרקים
-                  </span>
-                </button>
-              ))}
-            </>
-          )}
+            <motion.div variants={staggerContainer} initial="hidden" animate="show">
+              {result.courses.length > 0 && (
+                <>
+                  <div className="ls-group">קורסים</div>
+                  {result.courses.map((c) => (
+                    <motion.button
+                      key={`c${c.id}`}
+                      type="button"
+                      className="ls-item"
+                      variants={fadeInUp}
+                      onClick={() => go(`/courses/${c.id}`)}
+                    >
+                      <span className="ls-item-title">{c.title}</span>
+                      <span className="ls-item-meta">
+                        {c.section ? `${c.section} · ` : ''}
+                        {c.chapters_count} פרקים
+                      </span>
+                    </motion.button>
+                  ))}
+                </>
+              )}
 
-          {result.chapters.length > 0 && (
-            <>
-              <div className="ls-group">פרקים</div>
-              {result.chapters.map((ch) => (
-                <button
-                  key={`ch${ch.course_id}-${ch.number}`}
-                  type="button"
-                  className="ls-item"
-                  onClick={() =>
-                    go(`/courses/${ch.course_id}/chapters/${ch.number}`)
-                  }
-                >
-                  <span className="ls-item-title">
-                    פרק {ch.number}: {ch.title}
-                  </span>
-                  <span className="ls-item-meta">
-                    {ch.course_title}
-                    {ch.match === 'content' && ' · מוזכר בתוכן הפרק'}
-                  </span>
-                </button>
-              ))}
-            </>
-          )}
-        </div>
-      )}
+              {result.chapters.length > 0 && (
+                <>
+                  <div className="ls-group">פרקים</div>
+                  {result.chapters.map((ch) => (
+                    <motion.button
+                      key={`ch${ch.course_id}-${ch.number}`}
+                      type="button"
+                      className="ls-item"
+                      variants={fadeInUp}
+                      onClick={() =>
+                        go(`/courses/${ch.course_id}/chapters/${ch.number}`)
+                      }
+                    >
+                      <span className="ls-item-title">
+                        פרק {ch.number}: {ch.title}
+                      </span>
+                      <span className="ls-item-meta">
+                        {ch.course_title}
+                        {ch.match === 'content' && ' · מוזכר בתוכן הפרק'}
+                      </span>
+                    </motion.button>
+                  ))}
+                </>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }

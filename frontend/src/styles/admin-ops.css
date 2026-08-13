@@ -1,0 +1,120 @@
+/* ---------------------------------------------------------------------------
+   Admin ops group — AdminBilling / AdminPricing / AdminSubscriptions /
+   AdminDevices / AdminReferrals / AdminChapterViews / AdminLessons /
+   AdminProgress.
+
+   Scoped stylesheet: only imported by this group's pages, kept out of the
+   shared index.css to avoid merge conflicts with the other agents editing
+   admin screens in parallel. Reuses existing theme variables only.
+   --------------------------------------------------------------------------- */
+
+/* ---------- shared: light hover polish for dense table rows ---------- */
+.data-table tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+/* Card surfaces used to wrap tables/forms in this group get a touch of lift
+   on hover — cheap, GPU-friendly (transform + box-shadow only). */
+.admin-ops-card {
+  transition: box-shadow 0.2s ease;
+}
+
+/* ---------- touch targets ---------- */
+/* .btn-sm is 24px tall by default (padding:4px 12px) — under the 44px floor
+   the UI/UX audit requires. Widen it specifically inside admin-ops row
+   actions on touch-sized viewports rather than globally, since other pages
+   rely on the compact size in dense desktop tables. */
+@media (max-width: 720px) {
+  .admin-ops-card .btn-sm,
+  .admin-ops-card .day-pill,
+  .admin-ops-card .hour-chip,
+  .admin-ops-card .admin-subtab {
+    min-height: 44px;
+  }
+  .admin-ops-card .row-actions {
+    gap: 10px;
+  }
+}
+
+/* ---------- mobile card-list: turn <table class="data-table"> into a
+   stacked list of cards below 640px, matching the treatment used across the
+   admin screens. Each <td> carries a data-label attribute (added in the JSX)
+   that becomes the visible row caption via ::before. ---------- */
+@media (max-width: 640px) {
+  .data-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  .data-table,
+  .data-table tbody,
+  .data-table tr,
+  .data-table td {
+    display: block;
+    width: 100%;
+  }
+  .data-table tr {
+    margin-bottom: 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 4px 12px;
+    background: var(--surface);
+  }
+  .data-table tbody tr:hover td {
+    background: transparent;
+  }
+  .data-table tr:last-child {
+    margin-bottom: 0;
+  }
+  .data-table td {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    text-align: start;
+    min-height: 28px;
+  }
+  .data-table td:last-child {
+    border-bottom: none;
+  }
+  .data-table td::before {
+    content: attr(data-label);
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    flex: 0 0 auto;
+  }
+  /* A td with no meaningful label (icon-only action columns) — hide the
+     empty caption instead of showing a blank space before it. */
+  .data-table td[data-label='']::before {
+    display: none;
+  }
+  .data-table td .row-actions {
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+}
+
+/* ---------- AdminBilling: subtab panel fade ---------- */
+.admin-ops-panel {
+  will-change: opacity;
+}
+
+/* ---------- AdminLessons: keep dense sections legible on small screens ---------- */
+@media (max-width: 640px) {
+  .lesson-section .req-row,
+  .lesson-section .slot-row {
+    flex-wrap: wrap;
+  }
+  .lesson-section .req-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}

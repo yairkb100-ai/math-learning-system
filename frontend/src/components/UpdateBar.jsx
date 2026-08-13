@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { hasNewVersion, safeToReloadNow } from '../lib/appVersion.js'
+import { tapScale, DURATION, EASE_OUT, EASE_IN } from '../lib/motion.js'
 
 const POLL_MS = 4 * 60 * 1000
 // טאב שהוסתר לרגע (מעבר לחלון אחר) אינו "חזרה" — רק היעדרות אמיתית מצדיקה
@@ -49,14 +51,24 @@ export default function UpdateBar() {
     }
   }, [check, stale])
 
-  if (!stale) return null
-
   return (
-    <div className="update-bar" role="status" dir="rtl">
-      <span>עודכנה גרסה חדשה של הלומדה</span>
-      <button type="button" onClick={() => location.reload()}>
-        רענון
-      </button>
-    </div>
+    <AnimatePresence>
+      {stale && (
+        <motion.div
+          className="update-bar"
+          role="status"
+          dir="rtl"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 12, transition: { duration: DURATION.short, ease: EASE_IN } }}
+          transition={{ duration: DURATION.medium, ease: EASE_OUT }}
+        >
+          <span>עודכנה גרסה חדשה של הלומדה</span>
+          <motion.button type="button" onClick={() => location.reload()} {...tapScale}>
+            רענון
+          </motion.button>
+        </motion.div>
+      )}
+    </AnimatePresence>
   )
 }

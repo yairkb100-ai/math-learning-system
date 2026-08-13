@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
 import { IconLock } from '../components/icons.jsx'
+import { fadeInUp, staggerContainer, hoverLift, tapScale, DURATION, EASE_OUT } from '../lib/motion.js'
 import '../styles/psy.css'
 
 const DOMAIN_HE = {
@@ -53,7 +55,12 @@ export default function PsyHome() {
 
   return (
     <div className="psy-home" dir="rtl">
-      <section className="psy-hero">
+      <motion.section
+        className="psy-hero"
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: DURATION.long, ease: EASE_OUT }}
+      >
         <div className="psy-hero-text">
           <h1>הכנה לקרני</h1>
           <p>
@@ -63,22 +70,27 @@ export default function PsyHome() {
           </p>
           <div className="psy-hero-actions">
             {data.open_attempt ? (
-              <button
+              <motion.button
                 className="psy-btn psy-btn-primary"
                 onClick={() => navigate(`/psy/sim/${data.open_attempt.simulation_slug}`)}
+                {...tapScale}
               >
                 המשך את «{data.open_attempt.simulation_title}»
-              </button>
+              </motion.button>
             ) : (
               <>
                 {courses.length > 0 && (
-                  <Link className="psy-btn psy-btn-primary" to={`/courses/${courses[0].id}`}>
-                    התחל ללמוד
-                  </Link>
+                  <motion.div {...tapScale}>
+                    <Link className="psy-btn psy-btn-primary" to={`/courses/${courses[0].id}`}>
+                      התחל ללמוד
+                    </Link>
+                  </motion.div>
                 )}
-                <Link className="psy-btn" to="/psy/drill">
-                  תרגול ממוקד
-                </Link>
+                <motion.div {...tapScale}>
+                  <Link className="psy-btn" to="/psy/drill">
+                    תרגול ממוקד
+                  </Link>
+                </motion.div>
               </>
             )}
           </div>
@@ -97,9 +109,15 @@ export default function PsyHome() {
             <dd>{best != null ? `${Math.round(best)}%` : '—'}</dd>
           </div>
         </dl>
-      </section>
+      </motion.section>
 
-      <section className="psy-panel">
+      <motion.section
+        className="psy-panel"
+        variants={fadeInUp}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: '-40px' }}
+      >
         <h2>הקורסים</h2>
         {courses.length === 0 ? (
           <p className="psy-empty">
@@ -109,25 +127,39 @@ export default function PsyHome() {
           Object.entries(bySection).map(([title, list]) => (
             <div key={title} className="psy-course-group">
               <h3>{title}</h3>
-              <ul className="psy-course-list">
+              <motion.ul
+                className="psy-course-list"
+                variants={staggerContainer}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, margin: '-20px' }}
+              >
                 {list.map((c) => (
-                  <li key={c.id}>
-                    <Link to={`/courses/${c.id}`} className="psy-course-card">
-                      <span className="psy-course-title">{c.title}</span>
-                      <span className="psy-course-desc">{c.description}</span>
-                      <span className="psy-course-progress">
-                        {c.completed_chapters}/{c.chapters_count} פרקים
-                      </span>
-                    </Link>
-                  </li>
+                  <motion.li key={c.id} variants={fadeInUp}>
+                    <motion.div {...hoverLift}>
+                      <Link to={`/courses/${c.id}`} className="psy-course-card">
+                        <span className="psy-course-title">{c.title}</span>
+                        <span className="psy-course-desc">{c.description}</span>
+                        <span className="psy-course-progress">
+                          {c.completed_chapters}/{c.chapters_count} פרקים
+                        </span>
+                      </Link>
+                    </motion.div>
+                  </motion.li>
                 ))}
-              </ul>
+              </motion.ul>
             </div>
           ))
         )}
-      </section>
+      </motion.section>
 
-      <section className="psy-panel">
+      <motion.section
+        className="psy-panel"
+        variants={fadeInUp}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: '-40px' }}
+      >
         <div className="psy-panel-head">
           <h2>הנושאים</h2>
           <Link to="/psy/drill" className="psy-link">לכל התרגול</Link>
@@ -135,43 +167,63 @@ export default function PsyHome() {
         {DOMAIN_ORDER.filter((d) => topics.some((t) => t.domain === d)).map((d) => (
           <div key={d} className="psy-course-group">
             <h3>{DOMAIN_HE[d]}</h3>
-            <ul className="psy-topic-cards">
+            <motion.ul
+              className="psy-topic-cards"
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: '-20px' }}
+            >
               {topics
                 .filter((t) => t.domain === d)
                 .map((t) => (
-                  <li key={t.topic}>
-                    <Link
-                      className="psy-topic-card"
-                      to={`/psy/drill?domain=${t.domain}&topic=${encodeURIComponent(t.topic)}`}
-                    >
-                      <span className="psy-topic-card-name">{t.topic}</span>
-                      <span className="psy-topic-card-count">{t.count} שאלות</span>
-                      {t.answered > 0 && (
-                        <span
-                          className={`psy-topic-card-acc${
-                            t.accuracy != null && t.accuracy < 0.6 ? ' is-weak' : ''
-                          }`}
-                        >
-                          {Math.round((t.accuracy || 0) * 100)}% · {t.answered} נענו
-                        </span>
-                      )}
-                    </Link>
-                  </li>
+                  <motion.li key={t.topic} variants={fadeInUp}>
+                    <motion.div {...hoverLift}>
+                      <Link
+                        className="psy-topic-card"
+                        to={`/psy/drill?domain=${t.domain}&topic=${encodeURIComponent(t.topic)}`}
+                      >
+                        <span className="psy-topic-card-name">{t.topic}</span>
+                        <span className="psy-topic-card-count">{t.count} שאלות</span>
+                        {t.answered > 0 && (
+                          <span
+                            className={`psy-topic-card-acc${
+                              t.accuracy != null && t.accuracy < 0.6 ? ' is-weak' : ''
+                            }`}
+                          >
+                            {Math.round((t.accuracy || 0) * 100)}% · {t.answered} נענו
+                          </span>
+                        )}
+                      </Link>
+                    </motion.div>
+                  </motion.li>
                 ))}
-            </ul>
+            </motion.ul>
           </div>
         ))}
-      </section>
+      </motion.section>
 
       {weak.length > 0 && (
-        <section className="psy-panel psy-plan">
+        <motion.section
+          className="psy-panel psy-plan"
+          variants={fadeInUp}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: '-40px' }}
+        >
           <h2>מה כדאי לחזק עכשיו</h2>
           <p className="psy-plan-sub">
             לפי התשובות שלך בתרגול ובסימולציות — הנושאים החלשים ביותר קודם.
           </p>
-          <ul className="psy-plan-list">
+          <motion.ul
+            className="psy-plan-list"
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-20px' }}
+          >
             {weak.map((t) => (
-              <li key={`${t.domain}-${t.topic}`}>
+              <motion.li key={`${t.domain}-${t.topic}`} variants={fadeInUp}>
                 <Link to="/psy/drill" className="psy-plan-item">
                   <span className="psy-plan-topic">{t.topic}</span>
                   <span className="psy-plan-domain">{DOMAIN_HE[t.domain]}</span>
@@ -179,18 +231,36 @@ export default function PsyHome() {
                     {Math.round(t.accuracy * 100)}% · {Math.round(t.avg_seconds)} שנ׳ לשאלה
                   </span>
                 </Link>
-              </li>
+              </motion.li>
             ))}
-          </ul>
-        </section>
+          </motion.ul>
+        </motion.section>
       )}
 
-      <section className="psy-panel">
+      <motion.section
+        className="psy-panel"
+        variants={fadeInUp}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: '-40px' }}
+      >
         <h2>מבחנים בתנאי אמת</h2>
           <p className="psy-plan-sub">כשסיימתם נושא — כאן בודקים אותו על השעון.</p>
-        <ul className="psy-sim-list">
+        <motion.ul
+          className="psy-sim-list"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: '-20px' }}
+        >
           {simulations.map((s) => (
-            <li key={s.slug} className={`psy-sim-card${s.locked ? ' is-locked' : ''}`}>
+            <motion.li
+              key={s.slug}
+              className={`psy-sim-card${s.locked ? ' is-locked' : ''}`}
+              variants={fadeInUp}
+              whileHover={s.locked ? {} : { y: -3 }}
+              transition={{ duration: DURATION.short, ease: EASE_OUT }}
+            >
               <div className="psy-sim-kind">{KIND_HE[s.kind] || s.kind}</div>
               <h3>{s.title}</h3>
               {s.description && <p className="psy-sim-desc">{s.description}</p>}
@@ -213,55 +283,105 @@ export default function PsyHome() {
                   {s.attempts_count > 0 ? 'התחל שוב' : 'התחל'}
                 </Link>
               )}
-            </li>
+            </motion.li>
           ))}
-        </ul>
-      </section>
+        </motion.ul>
+      </motion.section>
 
       {attempts.length > 0 && (
-        <section className="psy-panel">
+        <motion.section
+          className="psy-panel"
+          variants={fadeInUp}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: '-40px' }}
+        >
           <h2>ההיסטוריה שלך</h2>
-          <table className="psy-table">
-            <thead>
-              <tr>
-                <th>סימולציה</th>
-                <th>תאריך</th>
-                <th>כללי</th>
-                {DOMAIN_ORDER.map((d) => (
-                  <th key={d}>{DOMAIN_HE[d]}</th>
-                ))}
-                <th />
-              </tr>
-            </thead>
-            <tbody>
-              {attempts.map((a) => (
-                <tr key={a.attempt_id}>
-                  <td>{a.simulation_title}</td>
-                  <td>{fmtDate(a.finished_at || a.started_at)}</td>
-                  <td>{a.score_percent != null ? `${Math.round(a.score_percent)}%` : '—'}</td>
+          {/* Desktop/tablet: dense table. Mobile: a card list instead of a
+              shrunk table — swapped purely via CSS at the psy-table breakpoint,
+              see psy.css .psy-history-cards. */}
+          <div className="psy-table-wrap">
+            <table className="psy-table">
+              <thead>
+                <tr>
+                  <th>סימולציה</th>
+                  <th>תאריך</th>
+                  <th>כללי</th>
                   {DOMAIN_ORDER.map((d) => (
-                    <td key={d}>
+                    <th key={d}>{DOMAIN_HE[d]}</th>
+                  ))}
+                  <th />
+                </tr>
+              </thead>
+              <tbody>
+                {attempts.map((a) => (
+                  <tr key={a.attempt_id}>
+                    <td>{a.simulation_title}</td>
+                    <td>{fmtDate(a.finished_at || a.started_at)}</td>
+                    <td>{a.score_percent != null ? `${Math.round(a.score_percent)}%` : '—'}</td>
+                    {DOMAIN_ORDER.map((d) => (
+                      <td key={d}>
+                        {a.domain_scores?.[d]?.percent != null
+                          ? `${Math.round(a.domain_scores[d].percent)}%`
+                          : '—'}
+                      </td>
+                    ))}
+                    <td>
+                      {a.status === 'completed' ? (
+                        <Link className="psy-link" to={`/psy/results/${a.attempt_id}`}>
+                          דוח
+                        </Link>
+                      ) : (
+                        <Link className="psy-link" to={`/psy/sim/${a.simulation_slug}`}>
+                          המשך
+                        </Link>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <motion.ul
+            className="psy-history-cards"
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-20px' }}
+          >
+            {attempts.map((a) => (
+              <motion.li key={a.attempt_id} className="psy-history-card" variants={fadeInUp}>
+                <div className="psy-history-card-head">
+                  <span className="psy-history-card-title">{a.simulation_title}</span>
+                  <span className="psy-history-card-date">{fmtDate(a.finished_at || a.started_at)}</span>
+                </div>
+                <div className="psy-history-card-score">
+                  {a.score_percent != null ? `${Math.round(a.score_percent)}%` : '—'}
+                </div>
+                <div className="psy-history-card-domains">
+                  {DOMAIN_ORDER.map((d) => (
+                    <span key={d}>
+                      {DOMAIN_HE[d]}:{' '}
                       {a.domain_scores?.[d]?.percent != null
                         ? `${Math.round(a.domain_scores[d].percent)}%`
                         : '—'}
-                    </td>
+                    </span>
                   ))}
-                  <td>
-                    {a.status === 'completed' ? (
-                      <Link className="psy-link" to={`/psy/results/${a.attempt_id}`}>
-                        דוח
-                      </Link>
-                    ) : (
-                      <Link className="psy-link" to={`/psy/sim/${a.simulation_slug}`}>
-                        המשך
-                      </Link>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </section>
+                </div>
+                {a.status === 'completed' ? (
+                  <Link className="psy-link" to={`/psy/results/${a.attempt_id}`}>
+                    דוח
+                  </Link>
+                ) : (
+                  <Link className="psy-link" to={`/psy/sim/${a.simulation_slug}`}>
+                    המשך
+                  </Link>
+                )}
+              </motion.li>
+            ))}
+          </motion.ul>
+        </motion.section>
       )}
     </div>
   )

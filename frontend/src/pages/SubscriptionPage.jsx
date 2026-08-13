@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import api from '../api.js'
 import { useAuth } from '../context/AuthContext.jsx'
 import { Loading } from '../components/Status.jsx'
+import { fadeInUp, staggerContainer, hoverLift } from '../lib/motion.js'
+import '../styles/account-growth.css'
 
 // עמוד "המנוי שלי" — מציג את מצב הגישה של המשתמש המחובר: תקופת ההתנסות
 // (חינם, עם הזמן שנותר), גישה שאושרה ע"י המנהל, או חסימה. מגיעים לכאן
@@ -45,109 +48,132 @@ export default function SubscriptionPage() {
       : null
 
   return (
-    <section dir="rtl" className="card subscription-card">
-      <h1>המנוי שלי</h1>
+    <motion.section
+      dir="rtl"
+      className="card subscription-card"
+      initial="hidden"
+      animate="show"
+      variants={staggerContainer}
+    >
+      <motion.h1 variants={fadeInUp}>המנוי שלי</motion.h1>
 
-      {isAdmin || state === 'admin' ? (
-        <p className="sub-line">
-          <span className="status-ok">צוות המערכת</span>
-          <br />
-          לחשבון מנהל יש גישה מלאה לתוכן — אין צורך במנוי.
-        </p>
-      ) : state === 'trial' ? (
-        <>
+      <motion.div variants={fadeInUp}>
+        {isAdmin || state === 'admin' ? (
           <p className="sub-line">
-            <span className="status-ok">תקופת התנסות — הלומדה פתוחה לך ללא תשלום</span>
+            <span className="status-ok">צוות המערכת</span>
+            <br />
+            לחשבון מנהל יש גישה מלאה לתוכן — אין צורך במנוי.
           </p>
-          <p>
-            נותרו <strong>{daysLeft}</strong> ימים ו-<strong>{hoursLeft}</strong> שעות
-            {access.expires_at && <> (עד {fmt(access.expires_at)})</>}
-          </p>
-          <p className="sub-note">
-            בתום תקופת ההתנסות הגישה לתוכן תיחסם עד לחידוש מנוי. רוצה להמשיך?
-            שלח הודעה ונסדר את זה מראש.
-          </p>
-          <div className="sub-actions">
-            <Link to="/messages" className="btn">שליחת הודעה למנהל</Link>
-          </div>
-        </>
-      ) : state === 'active' ? (
-        <>
-          <p className="sub-line">
-            <span className="status-ok">הגישה שלך אושרה</span>
-          </p>
-          <p>
-            {access.expires_at ? (
-              <>בתוקף עד <strong>{fmt(access.expires_at)}</strong></>
-            ) : (
-              'גישה מלאה ללא הגבלת זמן'
+        ) : state === 'trial' ? (
+          <>
+            <p className="sub-line">
+              <span className="status-ok">תקופת התנסות — הלומדה פתוחה לך ללא תשלום</span>
+            </p>
+            <p>
+              נותרו <strong>{daysLeft}</strong> ימים ו-<strong>{hoursLeft}</strong> שעות
+              {access.expires_at && <> (עד {fmt(access.expires_at)})</>}
+            </p>
+            <p className="sub-note">
+              בתום תקופת ההתנסות הגישה לתוכן תיחסם עד לחידוש מנוי. רוצה להמשיך?
+              שלח הודעה ונסדר את זה מראש.
+            </p>
+            <div className="sub-actions">
+              <Link to="/messages" className="btn">שליחת הודעה למנהל</Link>
+            </div>
+          </>
+        ) : state === 'active' ? (
+          <>
+            <p className="sub-line">
+              <span className="status-ok">הגישה שלך אושרה</span>
+            </p>
+            <p>
+              {access.expires_at ? (
+                <>בתוקף עד <strong>{fmt(access.expires_at)}</strong></>
+              ) : (
+                'גישה מלאה ללא הגבלת זמן'
+              )}
+            </p>
+          </>
+        ) : state === 'trial_ended' ? (
+          <>
+            <p className="sub-line">
+              <span className="status-off">תקופת ההתנסות הסתיימה</span>
+            </p>
+            {access?.expires_at && (
+              <p className="muted">ההתנסות הסתיימה ב-{fmt(access.expires_at)}</p>
             )}
-          </p>
-        </>
-      ) : state === 'trial_ended' ? (
-        <>
-          <p className="sub-line">
-            <span className="status-off">תקופת ההתנסות הסתיימה</span>
-          </p>
-          {access?.expires_at && (
-            <p className="muted">ההתנסות הסתיימה ב-{fmt(access.expires_at)}</p>
-          )}
-          <p className="sub-note">
-            נהניתי שהיית כאן! הגישה לתוכן חסומה עד לחידוש מנוי.
-            <br />
-            רוצה להמשיך? שלח הודעה ואאשר לך את ההמשך.
-          </p>
-          <div className="sub-actions">
-            <Link to="/messages" className="btn">שליחת הודעה למנהל</Link>
-          </div>
-        </>
-      ) : (
-        <>
-          <p className="sub-line">
-            <span className="status-off">המנוי החודשי שלך פג</span>
-          </p>
-          {access?.expires_at && (
-            <p className="muted">תוקף המנוי הסתיים ב-{fmt(access.expires_at)}</p>
-          )}
-          <p className="sub-note">
-            כדי להמשיך בלימודים יש לחדש את המנוי — הגישה לתוכן חסומה עד אז.
-            <br />
-            לחידוש שלח לי הודעה ואסדר את זה מולך.
-          </p>
-          <div className="sub-actions">
-            <Link to="/messages" className="btn">שליחת הודעה למנהל</Link>
-          </div>
-        </>
-      )}
+            <p className="sub-note">
+              נהניתי שהיית כאן! הגישה לתוכן חסומה עד לחידוש מנוי.
+              <br />
+              רוצה להמשיך? שלח הודעה ואאשר לך את ההמשך.
+            </p>
+            <div className="sub-actions">
+              <Link to="/messages" className="btn">שליחת הודעה למנהל</Link>
+            </div>
+          </>
+        ) : (
+          <>
+            <p className="sub-line">
+              <span className="status-off">המנוי החודשי שלך פג</span>
+            </p>
+            {access?.expires_at && (
+              <p className="muted">תוקף המנוי הסתיים ב-{fmt(access.expires_at)}</p>
+            )}
+            <p className="sub-note">
+              כדי להמשיך בלימודים יש לחדש את המנוי — הגישה לתוכן חסומה עד אז.
+              <br />
+              לחידוש שלח לי הודעה ואסדר את זה מולך.
+            </p>
+            <div className="sub-actions">
+              <Link to="/messages" className="btn">שליחת הודעה למנהל</Link>
+            </div>
+          </>
+        )}
+      </motion.div>
 
       {/* התוכניות שאפשר לקנות, והדרך לשלם. אין סליקה במערכת — התשלום נסגר
           ישירות מול המורה — ולכן המספר חייב להופיע כאן, אחרת התלמיד מגיע עד
           לרגע הקנייה ואין לו מה לעשות איתו. הטלפון מגיע מההגדרות, כדי שלא
           יהיה מספר קשיח בקוד. */}
       {!isAdmin && state !== 'admin' && paidPlans.length > 0 && (
-        <div className="sub-plans">
+        <motion.div className="sub-plans" variants={fadeInUp}>
           <h3>תוכניות המנוי</h3>
-          <div className="plan-cards">
-            {paidPlans.map((p) => (
-              <div key={p.id} className="plan-offer">
-                <h4>{p.name}</h4>
-                <div className="plan-offer-price">
-                  ₪{Math.round(p.price_nis)}
-                  {p.duration_days > 0 && (
-                    <span className="plan-offer-per">
-                      {' '}
-                      / {p.duration_days === 30 ? 'חודש' : `${p.duration_days} ימים`}
+          <motion.div
+            className="plan-cards"
+            initial="hidden"
+            animate="show"
+            variants={staggerContainer}
+          >
+            {paidPlans.map((p) => {
+              const recommended =
+                p.duration_days === 365 && monthly && p.price_nis < monthly.price_nis * 12
+              return (
+                <motion.div
+                  key={p.id}
+                  className={`plan-offer${recommended ? ' plan-offer-recommended' : ''}`}
+                  variants={fadeInUp}
+                  {...hoverLift}
+                >
+                  {recommended && <span className="plan-offer-badge">מומלץ</span>}
+                  <h4>{p.name}</h4>
+                  <div className="plan-offer-price">
+                    ₪{Math.round(p.price_nis)}
+                    {p.duration_days > 0 && (
+                      <span className="plan-offer-per">
+                        {' '}
+                        / {p.duration_days === 30 ? 'חודש' : `${p.duration_days} ימים`}
+                      </span>
+                    )}
+                  </div>
+                  {recommended && (
+                    <span className="plan-offer-save">
+                      חיסכון של ₪{Math.round(monthly.price_nis * 12 - p.price_nis)} בשנה
                     </span>
                   )}
-                </div>
-                {p.duration_days === 365 && monthly && p.price_nis < monthly.price_nis * 12 && (
-                  <span className="plan-offer-save">
-                    חיסכון של ₪{Math.round(monthly.price_nis * 12 - p.price_nis)} בשנה
-                  </span>
-                )}
-              </div>
-            ))}
-          </div>
+                </motion.div>
+              )
+            })}
+          </motion.div>
 
           {pricing?.payment_phone ? (
             <p className="sub-pay">
@@ -165,13 +191,13 @@ export default function SubscriptionPage() {
           <div className="sub-actions">
             <Link to="/messages" className="btn">שליחת הודעה למנהל</Link>
           </div>
-        </div>
+        </motion.div>
       )}
 
       {/* מי שנמצא בעמוד הזה חושב על מחיר — זה בדיוק הרגע להראות לו שיש דרך
           להוריד אותו. למנהל אין מנוי ולכן גם אין הטבה להציג לו. */}
       {!isAdmin && state !== 'admin' && pricing && (
-        <div className="sub-referral">
+        <motion.div className="sub-referral" variants={fadeInUp}>
           <h3>רוצה לשלם פחות?</h3>
           <p>
             על כל תלמיד שיצטרף דרך הקישור האישי שלך מגיעה לך{' '}
@@ -180,8 +206,8 @@ export default function SubscriptionPage() {
             לבחירתך.
           </p>
           <Link to="/invite" className="btn">לקישור שלי</Link>
-        </div>
+        </motion.div>
       )}
-    </section>
+    </motion.section>
   )
 }

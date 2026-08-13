@@ -509,6 +509,39 @@
   margin: 0 0 12px;
 }
 
+/* ---------- mobile navigator: bottom bar + bottom sheet ---------- */
+.psy-mobile-navbar {
+  display: none;
+}
+.psy-sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 30, 26, 0.5);
+  z-index: 20;
+}
+.psy-sheet {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 21;
+  background: var(--surface);
+  border-radius: 18px 18px 0 0;
+  box-shadow: var(--shadow);
+  padding: 10px 18px calc(16px + env(safe-area-inset-bottom));
+  max-height: 75vh;
+  overflow-y: auto;
+}
+.psy-sheet-handle {
+  width: 40px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--border);
+  margin: 4px auto 14px;
+}
+.psy-navigator-grid-sheet {
+  grid-template-columns: repeat(6, 1fr);
+}
+
 /* ---------- essay ---------- */
 .psy-essay {
   background: var(--surface);
@@ -653,6 +686,9 @@
 }
 
 /* ---------- tables & topic bars ---------- */
+.psy-table-wrap {
+  overflow-x: auto;
+}
 .psy-table {
   width: 100%;
   border-collapse: collapse;
@@ -708,6 +744,49 @@
   font-size: 0.82rem;
   color: var(--muted);
   white-space: nowrap;
+}
+
+/* ---------- history: mobile card list (replaces the dense table below 640px,
+   rather than shrinking cells until they're unreadable) ---------- */
+.psy-history-cards {
+  display: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 10px;
+}
+.psy-history-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  background: var(--surface-2);
+  display: grid;
+  gap: 6px;
+}
+.psy-history-card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+.psy-history-card-title {
+  font-weight: 700;
+}
+.psy-history-card-date {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.psy-history-card-score {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: var(--accent);
+}
+.psy-history-card-domains {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  font-size: 0.8rem;
+  color: var(--muted);
 }
 
 /* ---------- filters ---------- */
@@ -883,10 +962,43 @@
   .psy-player-grid {
     grid-template-columns: 1fr;
   }
-  /* The navigator moves below the question on narrow screens; keeping it
-     sticky there would cover the options it is meant to jump between. */
-  .psy-navigator {
-    position: static;
+  /* The sidebar navigator doesn't fit next to the question pane here — it's
+     replaced by a fixed bottom bar + bottom sheet (see .psy-mobile-navbar /
+     .psy-sheet) instead of just stacking it below the question. */
+  .psy-navigator-desktop {
+    display: none;
+  }
+  .psy-mobile-navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    position: fixed;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 10;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.06);
+  }
+  .psy-mobile-navbar-status {
+    flex: 1;
+    min-height: 44px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface-2);
+    color: var(--text);
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .psy-mobile-navbar .psy-btn {
+    min-height: 44px;
+  }
+  .psy-player {
+    padding-bottom: calc(80px + env(safe-area-inset-bottom));
   }
   .psy-navigator-grid {
     grid-template-columns: repeat(8, 1fr);
@@ -909,6 +1021,46 @@
   }
   .psy-navigator-grid {
     grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+/* history table -> card list swap, plus general touch-target/no-h-scroll
+   cleanup for the whole psy area on phones */
+@media (max-width: 640px) {
+  .psy-table-wrap {
+    display: none;
+  }
+  .psy-history-cards {
+    display: grid;
+  }
+  .psy-hero-actions .psy-btn,
+  .psy-btn {
+    min-height: 44px;
+  }
+  .psy-chip {
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .psy-option {
+    min-height: 44px;
+  }
+  .psy-option-letter {
+    flex: 0 0 28px;
+    height: 28px;
+  }
+  .psy-sim-list,
+  .psy-course-list,
+  .psy-topic-cards {
+    grid-template-columns: 1fr;
+  }
+  .psy-hero-stats {
+    flex-wrap: wrap;
+    gap: 16px 22px;
+  }
+  .psy-hero-stats div {
+    flex: 1 1 auto;
+    min-width: 90px;
   }
 }
 

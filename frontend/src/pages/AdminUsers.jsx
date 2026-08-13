@@ -1,6 +1,9 @@
 import { useEffect, useState, useCallback } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
+import { fadeInUp, staggerContainer, tapScale, overlayFade } from '../lib/motion.js'
+import '../styles/admin-core.css'
 
 export default function AdminUsers() {
   const [users, setUsers] = useState([])
@@ -132,84 +135,101 @@ export default function AdminUsers() {
   if (error) return <ErrorBox error={error} onRetry={load} />
 
   return (
-    <section dir="rtl">
+    <section dir="rtl" className="admin-page">
       <div className="page-head">
         <h1>ניהול תלמידים ומנהלים</h1>
-        <button className="btn" onClick={() => setShowForm(!showForm)}>
+        <motion.button className="btn" onClick={() => setShowForm(!showForm)} {...tapScale}>
           {showForm ? 'ביטול' : '+ הוסף משתמש'}
-        </button>
+        </motion.button>
       </div>
 
-      {showForm && (
-        <div className="card form-card">
-          <h3>משתמש חדש</h3>
-          <form onSubmit={handleCreate} className="user-form">
-            <div className="form-row">
-              <div className="form-group">
-                <label>שם משתמש</label>
-                <input
-                  value={form.username}
-                  onChange={(e) => setForm({ ...form, username: e.target.value })}
-                  required placeholder="username"
-                />
+      <AnimatePresence initial={false}>
+        {showForm && (
+          <motion.div
+            className="card form-card"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <h3>משתמש חדש</h3>
+            <form onSubmit={handleCreate} className="user-form">
+              <div className="form-row">
+                <div className="form-group">
+                  <label>שם משתמש</label>
+                  <input
+                    value={form.username}
+                    onChange={(e) => setForm({ ...form, username: e.target.value })}
+                    required placeholder="username"
+                  />
+                </div>
+                <div className="form-group">
+                  <label>שם מלא</label>
+                  <input
+                    value={form.full_name}
+                    onChange={(e) => setForm({ ...form, full_name: e.target.value })}
+                    required placeholder="שם מלא"
+                  />
+                </div>
               </div>
-              <div className="form-group">
-                <label>שם מלא</label>
-                <input
-                  value={form.full_name}
-                  onChange={(e) => setForm({ ...form, full_name: e.target.value })}
-                  required placeholder="שם מלא"
-                />
+              <div className="form-row">
+                <div className="form-group">
+                  <label>סיסמה</label>
+                  <input
+                    type="password"
+                    value={form.password}
+                    onChange={(e) => setForm({ ...form, password: e.target.value })}
+                    required placeholder="••••••••"
+                  />
+                </div>
+                <div className="form-group">
+                  <label>תפקיד</label>
+                  <select
+                    value={form.role}
+                    onChange={(e) => setForm({ ...form, role: e.target.value })}
+                  >
+                    <option value="student">תלמיד</option>
+                    <option value="admin">מנהל</option>
+                  </select>
+                </div>
               </div>
-            </div>
-            <div className="form-row">
-              <div className="form-group">
-                <label>סיסמה</label>
-                <input
-                  type="password"
-                  value={form.password}
-                  onChange={(e) => setForm({ ...form, password: e.target.value })}
-                  required placeholder="••••••••"
-                />
-              </div>
-              <div className="form-group">
-                <label>תפקיד</label>
-                <select
-                  value={form.role}
-                  onChange={(e) => setForm({ ...form, role: e.target.value })}
-                >
-                  <option value="student">תלמיד</option>
-                  <option value="admin">מנהל</option>
-                </select>
-              </div>
-            </div>
-            <button type="submit" className="btn" disabled={saving}>
-              {saving ? 'שומר...' : 'צור משתמש'}
-            </button>
-          </form>
-        </div>
-      )}
+              <motion.button type="submit" className="btn" disabled={saving} {...tapScale}>
+                {saving ? 'שומר...' : 'צור משתמש'}
+              </motion.button>
+            </form>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      {selected.size > 0 && (
-        <div className="bulk-bar" dir="rtl">
-          <span className="bulk-count">{selected.size} נבחרו</span>
-          <button className="btn-sm" disabled={bulkBusy} onClick={() => handleBulkActive(true)}>
-            הפעל נבחרים
-          </button>
-          <button className="btn-sm" disabled={bulkBusy} onClick={() => handleBulkActive(false)}>
-            השבת נבחרים
-          </button>
-          <button className="btn-sm" disabled={bulkBusy} onClick={handleBulkReset}>
-            אפס נתונים לנבחרים
-          </button>
-          <button className="btn-sm btn-danger" disabled={bulkBusy} onClick={handleBulkDelete}>
-            מחק נבחרים
-          </button>
-          <button className="btn-sm" disabled={bulkBusy} onClick={() => setSelected(new Set())}>
-            בטל בחירה
-          </button>
-        </div>
-      )}
+      <AnimatePresence>
+        {selected.size > 0 && (
+          <motion.div
+            className="bulk-bar"
+            dir="rtl"
+            variants={overlayFade}
+            initial="hidden"
+            animate="show"
+            exit="exit"
+          >
+            <span className="bulk-count">{selected.size} נבחרו</span>
+            <button className="btn-sm" disabled={bulkBusy} onClick={() => handleBulkActive(true)}>
+              הפעל נבחרים
+            </button>
+            <button className="btn-sm" disabled={bulkBusy} onClick={() => handleBulkActive(false)}>
+              השבת נבחרים
+            </button>
+            <button className="btn-sm" disabled={bulkBusy} onClick={handleBulkReset}>
+              אפס נתונים לנבחרים
+            </button>
+            <button className="btn-sm btn-danger" disabled={bulkBusy} onClick={handleBulkDelete}>
+              מחק נבחרים
+            </button>
+            <button className="btn-sm" disabled={bulkBusy} onClick={() => setSelected(new Set())}>
+              בטל בחירה
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <div className="table-wrap card">
         <table className="data-table">
@@ -299,6 +319,71 @@ export default function AdminUsers() {
           <p className="muted empty-msg">אין משתמשים במערכת</p>
         )}
       </div>
+
+      {/* Mobile card-list — replaces the table below 640px instead of letting
+          8 columns scroll sideways. */}
+      {users.length > 0 && (
+        <motion.div className="user-cards" variants={staggerContainer} initial="hidden" animate="show">
+          {users.map((u) => (
+            <motion.div className="user-card" key={u.id} variants={fadeInUp}>
+              <div className="user-card-top">
+                <div className="user-card-id">
+                  <input
+                    type="checkbox"
+                    checked={selected.has(u.id)}
+                    onChange={() => toggleSelect(u.id)}
+                    aria-label={`בחר את ${u.full_name}`}
+                  />
+                  <div>
+                    <div className="user-card-name">{u.full_name}</div>
+                    <div className="user-card-username">{u.username}</div>
+                  </div>
+                </div>
+                <span className={`role-badge role-${u.role}`}>
+                  {u.role === 'admin' ? 'מנהל' : 'תלמיד'}
+                </span>
+              </div>
+
+              <div className="user-card-meta">
+                <span className={u.is_active ? 'status-ok' : 'status-off'}>
+                  {u.is_active ? 'פעיל' : 'מושבת'}
+                </span>
+                {u.password_plain ? (
+                  <span
+                    className="user-card-password"
+                    onClick={() => toggleReveal(u.id)}
+                    title={revealed[u.id] ? 'הסתר' : 'הצג סיסמה'}
+                  >
+                    {revealed[u.id] ? u.password_plain : '••••••'} {revealed[u.id] ? '🙈' : '👁️'}
+                  </span>
+                ) : (
+                  <span className="muted">סיסמה —</span>
+                )}
+                <span className="user-card-joined">
+                  {new Date(u.created_at).toLocaleDateString('he-IL')}
+                </span>
+              </div>
+
+              <div className="user-card-actions">
+                <button className="btn-sm" onClick={() => handleToggleActive(u)}>
+                  {u.is_active ? 'השבת' : 'הפעל'}
+                </button>
+                {u.role === 'student' && (
+                  <button className="btn-sm" onClick={() => handleReset(u)}>
+                    אפס נתונים
+                  </button>
+                )}
+                <button className="btn-sm" onClick={() => handleResetPassword(u)}>
+                  אפס סיסמה
+                </button>
+                <button className="btn-sm btn-danger" onClick={() => handleDelete(u)}>
+                  מחק
+                </button>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+      )}
     </section>
   )
 }

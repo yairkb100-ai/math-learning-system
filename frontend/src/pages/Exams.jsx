@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
 import { IconLock } from '../components/icons.jsx'
+import { fadeInUp, fadeIn, staggerContainer, hoverLift, tapScale } from '../lib/motion.js'
 import '../styles/exams.css'
 
 const SUBJECT_HE = {
@@ -40,7 +42,12 @@ export default function Exams() {
       </div>
 
       {anyLocked && (
-        <div className="free-note">
+        <motion.div
+          className="free-note"
+          variants={fadeIn}
+          initial="hidden"
+          animate="show"
+        >
           <span className="free-note-icon" aria-hidden="true">
             <IconLock />
           </span>
@@ -53,16 +60,25 @@ export default function Exams() {
           <Link to="/subscription" className="btn free-note-btn">
             לפתיחת כל המבחנים
           </Link>
-        </div>
+        </motion.div>
       )}
 
       {exams.length === 0 ? (
         <div className="card empty">אין מבחנים זמינים כרגע.</div>
       ) : (
-        <div className="grid">
+        <motion.div
+          className="grid"
+          variants={staggerContainer}
+          initial="hidden"
+          animate="show"
+        >
           {exams.map((e) => (
-            <div
+            <motion.div
               key={e.id}
+              variants={fadeInUp}
+              whileHover={e.locked ? undefined : hoverLift.whileHover}
+              whileTap={e.locked ? undefined : hoverLift.whileTap}
+              transition={hoverLift.transition}
               className={`card exam-card${e.locked ? ' is-locked' : ''}`}
             >
               <div className="exam-card-top">
@@ -109,17 +125,18 @@ export default function Exams() {
                   נפתח עם מנוי מלא
                 </Link>
               ) : (
-                <button
+                <motion.button
                   className="btn"
                   style={{ marginTop: 6 }}
                   onClick={() => navigate(`/exams/${e.id}`)}
+                  {...tapScale}
                 >
                   התחל מבחן
-                </button>
+                </motion.button>
               )}
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       )}
     </section>
   )

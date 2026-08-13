@@ -1,7 +1,25 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useAuth } from '../context/AuthContext.jsx'
 import api from '../api.js'
+import { fadeInUp, staggerContainer, tapScale, DURATION, EASE_OUT, EASE_IN } from '../lib/motion.js'
+
+const errorVariants = {
+  hidden: { opacity: 0, y: -6, height: 0 },
+  show: {
+    opacity: 1,
+    y: 0,
+    height: 'auto',
+    transition: { duration: DURATION.short, ease: EASE_OUT },
+  },
+  exit: {
+    opacity: 0,
+    y: -6,
+    height: 0,
+    transition: { duration: DURATION.short, ease: EASE_IN },
+  },
+}
 
 export default function RegisterPage() {
   const { login } = useAuth()
@@ -55,26 +73,46 @@ export default function RegisterPage() {
     }
   }
 
+  const fieldMotion = {
+    whileFocus: { scale: 1.01 },
+    transition: { duration: DURATION.short, ease: EASE_OUT },
+  }
+
   return (
     <div className="auth-page" dir="rtl">
-      <div className="auth-card">
-        <div className="auth-logo">
+      <motion.div
+        className="auth-card"
+        initial="hidden"
+        animate="show"
+        variants={staggerContainer}
+      >
+        <motion.div className="auth-logo" variants={fadeInUp}>
           <span className="brand-mark large">∑</span>
-        </div>
-        <h1>לומדת מתמטיקה</h1>
-        <p className="auth-tagline">מהיסודי ועד לתיכון</p>
-        <h2>הרשמה למערכת</h2>
+        </motion.div>
+        <motion.h1 variants={fadeInUp}>לומדת מתמטיקה</motion.h1>
+        <motion.p className="auth-tagline" variants={fadeInUp}>
+          מהיסודי ועד לתיכון
+        </motion.p>
+        <motion.h2 variants={fadeInUp}>הרשמה למערכת</motion.h2>
 
-        {referrer && (
-          <p className="auth-invite">
-            הוזמנת על ידי <strong>{referrer}</strong> — ברוך הבא!
-          </p>
-        )}
+        <AnimatePresence initial={false}>
+          {referrer && (
+            <motion.p
+              className="auth-invite"
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: DURATION.short, ease: EASE_OUT }}
+            >
+              הוזמנת על ידי <strong>{referrer}</strong> — ברוך הבא!
+            </motion.p>
+          )}
+        </AnimatePresence>
 
-        <form onSubmit={handleSubmit}>
+        <motion.form onSubmit={handleSubmit} variants={fadeInUp}>
           <div className="form-group">
             <label htmlFor="fullName">שם מלא</label>
-            <input
+            <motion.input
               id="fullName"
               type="text"
               value={fullName}
@@ -82,12 +120,13 @@ export default function RegisterPage() {
               required
               placeholder="השם שיוצג במערכת"
               autoComplete="name"
+              {...fieldMotion}
             />
           </div>
 
           <div className="form-group">
             <label htmlFor="username">שם משתמש</label>
-            <input
+            <motion.input
               id="username"
               type="text"
               value={username}
@@ -95,12 +134,13 @@ export default function RegisterPage() {
               required
               placeholder="בחר שם משתמש להתחברות"
               autoComplete="username"
+              {...fieldMotion}
             />
           </div>
 
           <div className="form-group">
             <label htmlFor="password">סיסמה</label>
-            <input
+            <motion.input
               id="password"
               type="password"
               value={password}
@@ -109,12 +149,13 @@ export default function RegisterPage() {
               minLength={6}
               placeholder="לפחות 6 תווים"
               autoComplete="new-password"
+              {...fieldMotion}
             />
           </div>
 
           <div className="form-group">
             <label htmlFor="confirm">אימות סיסמה</label>
-            <input
+            <motion.input
               id="confirm"
               type="password"
               value={confirm}
@@ -123,20 +164,39 @@ export default function RegisterPage() {
               minLength={6}
               placeholder="הקלד שוב את הסיסמה"
               autoComplete="new-password"
+              {...fieldMotion}
             />
           </div>
 
-          {error && <p className="auth-error">{error}</p>}
+          <AnimatePresence initial={false}>
+            {error && (
+              <motion.p
+                className="auth-error"
+                variants={errorVariants}
+                initial="hidden"
+                animate="show"
+                exit="exit"
+                style={{ overflow: 'hidden' }}
+              >
+                {error}
+              </motion.p>
+            )}
+          </AnimatePresence>
 
-          <button type="submit" className="btn btn-full" disabled={loading}>
+          <motion.button
+            type="submit"
+            className="btn btn-full"
+            disabled={loading}
+            {...tapScale}
+          >
             {loading ? 'נרשם...' : 'הרשמה וכניסה'}
-          </button>
-        </form>
+          </motion.button>
+        </motion.form>
 
-        <p className="auth-switch">
+        <motion.p className="auth-switch" variants={fadeInUp}>
           כבר יש לך חשבון? <Link to="/login">התחברות</Link>
-        </p>
-      </div>
+        </motion.p>
+      </motion.div>
     </div>
   )
 }

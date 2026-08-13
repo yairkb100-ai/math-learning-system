@@ -1,0 +1,26 @@
+/* Quiz.jsx — structural/accessibility CSS only. The actual reveal/tap
+   animation lives in Quiz.jsx via framer-motion (see src/lib/motion.js);
+   this file just makes touch targets big enough and stops iOS auto-zoom,
+   things plain CSS still has to carry. Additive classes only — never
+   redefines .option/.verdict/.quiz-q etc. from index.css. */
+
+.option {
+  min-height: 44px;
+  touch-action: manipulation;
+}
+.option input[type='radio'] {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+}
+
+@media (max-width: 640px) {
+  .quiz-actions .btn {
+    min-height: 44px;
+    flex: 1;
+  }
+  .text-answer {
+    font-size: 16px; /* >=16px prevents iOS input auto-zoom */
+    min-height: 44px;
+  }
+}

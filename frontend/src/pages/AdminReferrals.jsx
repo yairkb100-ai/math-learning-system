@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
+import '../styles/admin-ops.css'
 
 // מי הביא את מי, ומה הוא חייב לקבל בתמורה.
 //
@@ -63,7 +64,7 @@ export default function AdminReferrals() {
       </div>
 
       {toApply.length > 0 && (
-        <div className="card">
+        <div className="card admin-ops-card">
           <h3>ממתין להחלה ({toApply.length})</h3>
           <p className="muted" style={{ marginTop: 0 }}>
             התלמידים האלה כבר בחרו הטבה. החל אותה בחידוש הבא או בשיעור הבא, ואז
@@ -91,7 +92,7 @@ export default function AdminReferrals() {
         </div>
       )}
 
-      <div className="table-wrap card">
+      <div className="table-wrap card admin-ops-card">
         <table className="data-table">
           <thead>
             <tr>
@@ -106,10 +107,10 @@ export default function AdminReferrals() {
           <tbody>
             {rows.map((r) => (
               <tr key={r.id}>
-                <td>{r.referrer_name || '—'}</td>
-                <td>{r.referred_name || '—'}</td>
-                <td className="muted">{fmt(r.created_at)}</td>
-                <td>
+                <td data-label="מי הביא">{r.referrer_name || '—'}</td>
+                <td data-label="מי הצטרף">{r.referred_name || '—'}</td>
+                <td className="muted" data-label="תאריך">{fmt(r.created_at)}</td>
+                <td data-label="סטטוס">
                   <span className={r.status === 'qualified' ? 'status-ok' : 'status-off'}>
                     {r.status === 'qualified'
                       ? 'זכאי להטבה'
@@ -118,7 +119,7 @@ export default function AdminReferrals() {
                       : 'בהתנסות'}
                   </span>
                 </td>
-                <td className="muted">
+                <td className="muted" data-label="ההטבה">
                   {r.reward_used
                     ? `מומשה ${fmt(r.reward_used_at)}`
                     : r.reward_kind
@@ -127,7 +128,7 @@ export default function AdminReferrals() {
                     ? 'ממתין לבחירת התלמיד'
                     : '—'}
                 </td>
-                <td>
+                <td data-label="פעולות">
                   <div className="row-actions">
                     {r.status === 'pending' && (
                       <button

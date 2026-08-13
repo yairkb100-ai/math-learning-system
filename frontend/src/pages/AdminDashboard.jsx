@@ -1,8 +1,13 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { motion, useMotionValue, useReducedMotion, animate } from 'framer-motion'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
 import { IconGraduation, IconShield, IconBook, IconClipboard, IconUsers } from '../components/icons.jsx'
+import { staggerContainer, fadeInUp, hoverLift } from '../lib/motion.js'
+import '../styles/admin-core.css'
+
+const MotionLink = motion(Link)
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState(null)
@@ -32,42 +37,70 @@ export default function AdminDashboard() {
   if (error) return <ErrorBox error={error} />
 
   return (
-    <section dir="rtl">
+    <section dir="rtl" className="admin-page">
       <div className="page-head">
         <h1>לוח בקרה — מנהל</h1>
         <p className="muted">סקירה כללית של המערכת</p>
       </div>
 
-      <div className="stats-grid">
+      <motion.div
+        className="stats-grid"
+        variants={staggerContainer}
+        initial="hidden"
+        animate="show"
+      >
         <StatCard label="תלמידים" value={stats.students} icon={<IconGraduation />} />
         <StatCard label="מנהלים" value={stats.admins} icon={<IconShield />} />
         <StatCard label="קורסים" value={stats.courses} icon={<IconBook />} />
         <StatCard label="רישומים" value={stats.enrollments} icon={<IconClipboard />} />
-      </div>
+      </motion.div>
 
       <div className="admin-actions">
         <h2 className="section-title">פעולות מהירות</h2>
-        <div className="action-cards">
-          <Link to="/admin/users" className="action-card">
+        <motion.div
+          className="action-cards"
+          variants={staggerContainer}
+          initial="hidden"
+          animate="show"
+        >
+          <MotionLink to="/admin/users" className="action-card" variants={fadeInUp} {...hoverLift}>
             <span className="action-icon"><IconUsers /></span>
             <span>ניהול תלמידים</span>
-          </Link>
-          <Link to="/admin/courses" className="action-card">
+          </MotionLink>
+          <MotionLink to="/admin/courses" className="action-card" variants={fadeInUp} {...hoverLift}>
             <span className="action-icon"><IconBook /></span>
             <span>ניהול קורסים</span>
-          </Link>
-        </div>
+          </MotionLink>
+        </motion.div>
       </div>
     </section>
   )
 }
 
 function StatCard({ label, value, icon }) {
+  const prefersReduced = useReducedMotion()
+  const count = useMotionValue(0)
+  const [display, setDisplay] = useState(prefersReduced ? value : 0)
+
+  useEffect(() => {
+    if (prefersReduced) {
+      setDisplay(value)
+      return
+    }
+    const controls = animate(count, value, {
+      duration: 0.8,
+      ease: [0, 0, 0.2, 1],
+      onUpdate: (v) => setDisplay(Math.round(v)),
+    })
+    return () => controls.stop()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value, prefersReduced])
+
   return (
-    <div className="stat-card card">
+    <motion.div className="stat-card card" variants={fadeInUp} {...hoverLift}>
       <div className="stat-icon">{icon}</div>
-      <div className="stat-value">{value}</div>
+      <div className="stat-value">{display}</div>
       <div className="stat-label muted">{label}</div>
-    </div>
+    </motion.div>
   )
 }

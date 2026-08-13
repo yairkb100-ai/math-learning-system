@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useAuth } from '../context/AuthContext.jsx'
 import api from '../api.js'
 import MathDoodles from './MathDoodles.jsx'
 import { waHref, copyLink, shareInvite } from '../lib/invite.js'
 import { IconGift, IconClipboard, IconShare, IconSpark } from './icons.jsx'
+import { fadeInUp, tapScale, hoverLift } from '../lib/motion.js'
 
 // הכניסה הראשית ל"חבר מביא חבר" — לוח קטן במסך הבית עם הקישור האישי ושלוש
 // פעולות השיתוף, כמו בעמוד ההזמנה ובכפתור הצף: וואטסאפ, העתקה ושיתוף מקורי.
@@ -55,7 +57,13 @@ export default function InviteBanner() {
   }
 
   return (
-    <section className="invite-banner" dir="rtl">
+    <motion.section
+      className="invite-banner"
+      dir="rtl"
+      variants={fadeInUp}
+      initial="hidden"
+      animate="show"
+    >
       <MathDoodles className="invite-doodles" />
       <div className="invite-body">
         <span className="invite-eyebrow">
@@ -76,20 +84,32 @@ export default function InviteBanner() {
             היה המקום היחיד שנשאר בלעדיה — העתקה ושיתוף הן הנפילה לאחור. */}
         <div className="invite-link-row">
           <code className="invite-link">{link}</code>
-          <a
+          <motion.a
             className="invite-btn invite-btn-wa"
             href={waHref(link)}
             target="_blank"
             rel="noreferrer"
+            {...hoverLift}
           >
             שליחה בוואטסאפ
-          </a>
-          <button type="button" className="invite-btn" onClick={onCopy}>
-            <IconClipboard /> {copied ? 'הועתק' : 'העתקה'}
-          </button>
-          <button type="button" className="invite-btn" onClick={onShare}>
+          </motion.a>
+          <motion.button type="button" className="invite-btn" onClick={onCopy} {...tapScale}>
+            <IconClipboard /> <AnimatePresence mode="wait" initial={false}>
+              <motion.span
+                key={copied ? 'copied' : 'copy'}
+                initial={{ opacity: 0, y: 4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                transition={{ duration: 0.15 }}
+                style={{ display: 'inline-block' }}
+              >
+                {copied ? 'הועתק' : 'העתקה'}
+              </motion.span>
+            </AnimatePresence>
+          </motion.button>
+          <motion.button type="button" className="invite-btn" onClick={onShare} {...tapScale}>
             <IconShare /> שיתוף
-          </button>
+          </motion.button>
         </div>
 
         {data.total > 0 ? (
@@ -107,18 +127,20 @@ export default function InviteBanner() {
 
         <div className="invite-actions">
           {data.unredeemed > 0 && (
-            <Link to="/invite" className="invite-reward-cta">
-              <IconSpark />
-              {data.unredeemed === 1
-                ? 'יש לכם הטבה שממתינה לבחירה'
-                : `יש לכם ${data.unredeemed} הטבות שממתינות לבחירה`}
-            </Link>
+            <motion.div {...hoverLift} style={{ display: 'inline-block' }}>
+              <Link to="/invite" className="invite-reward-cta">
+                <IconSpark />
+                {data.unredeemed === 1
+                  ? 'יש לכם הטבה שממתינה לבחירה'
+                  : `יש לכם ${data.unredeemed} הטבות שממתינות לבחירה`}
+              </Link>
+            </motion.div>
           )}
           <Link to="/invite" className="invite-more">
             לפרטים ולמעקב
           </Link>
         </div>
       </div>
-    </section>
+    </motion.section>
   )
 }

@@ -60,6 +60,17 @@
 }
 
 /* ---------- exam player ---------- */
+/* Persistent-but-small progress/timer strip. Sticks to the top of the
+   viewport while scrolling a long question, so the countdown is always
+   visible without eating layout space like a full header would. */
+.exam-run-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: var(--bg);
+  padding-top: 6px;
+  padding-bottom: 2px;
+}
 .exam-run-head {
   display: flex;
   align-items: center;
@@ -118,11 +129,14 @@
   overflow: hidden;
   margin-bottom: 20px;
 }
+/* Width is fixed at 100% — progress is animated via a transform: scaleX()
+   on this element (in ExamPlayer.jsx, with framer-motion) instead of
+   animating width, which keeps it on the compositor. */
 .exam-progress-fill {
+  width: 100%;
   height: 100%;
   background: linear-gradient(90deg, var(--accent-2), var(--accent));
   border-radius: 999px;
-  transition: width 0.35s ease;
 }
 .exam-question {
   font-size: 1.2rem;
@@ -341,6 +355,34 @@
   gap: 12px;
   flex-wrap: wrap;
   margin-top: 20px;
+}
+.exam-actions .btn,
+.exam-actions .btn-sm {
+  min-height: 44px;
+}
+
+@media (max-width: 640px) {
+  .exam-option {
+    min-height: 44px;
+    padding: 12px 14px;
+  }
+  .exam-result-hero {
+    gap: 16px;
+  }
+  .exam-score-circle {
+    width: 104px;
+    height: 104px;
+  }
+  .exam-score-num {
+    font-size: 2rem;
+  }
+  .exam-dot {
+    width: 26px;
+    height: 26px;
+  }
+  .exam-timer {
+    min-height: 32px;
+  }
 }
 
 /* ---------- achievements grid ---------- */

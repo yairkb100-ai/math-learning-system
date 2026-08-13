@@ -1,4 +1,5 @@
-import { Routes, Route, Navigate, useParams } from 'react-router-dom'
+import { Routes, Route, Navigate, useParams, useLocation } from 'react-router-dom'
+import { AnimatePresence, motion, MotionConfig } from 'framer-motion'
 import { AuthProvider } from './context/AuthContext.jsx'
 import PrivateRoute from './components/PrivateRoute.jsx'
 import Navbar from './components/Navbar.jsx'
@@ -7,6 +8,7 @@ import InviteFab from './components/InviteFab.jsx'
 import UpdateBar from './components/UpdateBar.jsx'
 import TrialWelcome from './components/TrialWelcome.jsx'
 import Celebration from './components/Celebration.jsx'
+import { pageTransition } from './lib/motion.js'
 
 import LoginPage from './pages/LoginPage.jsx'
 import RegisterPage from './pages/RegisterPage.jsx'
@@ -40,19 +42,39 @@ import PsyResults from './pages/PsyResults.jsx'
 
 export default function App() {
   return (
-    <AuthProvider>
-      <AppRoutes />
-    </AuthProvider>
+    // Global reduced-motion gate: strips transform-based motion (keeps a
+    // plain opacity fade) for every motion.* element app-wide whenever the
+    // user's OS "reduce motion" setting is on — individual components don't
+    // need to call useReducedMotion() themselves. See src/lib/motion.js.
+    <MotionConfig reducedMotion="user">
+      <AuthProvider>
+        <AppRoutes />
+      </AuthProvider>
+    </MotionConfig>
   )
 }
 
 function AppRoutes() {
+  const location = useLocation()
   return (
     <div className="app">
       <Navbar />
 
       <main className="content">
-        <Routes>
+        {/* Route-level enter/exit: every page gets a consistent fade + 8px
+            slide for free. Routes is keyed off location.pathname so
+            AnimatePresence sees a new child on navigation and can animate
+            the swap; `location` is passed explicitly so the outgoing page
+            keeps rendering its own (now-stale) route match while it exits. */}
+        <AnimatePresence initial={false}>
+          <motion.div
+            key={location.pathname}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            variants={pageTransition}
+          >
+            <Routes location={location}>
           {/* Public */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
@@ -287,7 +309,9 @@ function AppRoutes() {
           />
 
           <Route path="*" element={<NotFound />} />
-        </Routes>
+            </Routes>
+          </motion.div>
+        </AnimatePresence>
       </main>
 
       <BookLessonFab />

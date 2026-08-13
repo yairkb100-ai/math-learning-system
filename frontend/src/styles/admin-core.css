@@ -1,0 +1,162 @@
+/* Scoped styles for the admin pages (AdminDashboard, AdminUsers, AdminCourses,
+   AdminSections). Reuses existing theme variables only — no new colors.
+   Mobile card-list alternatives to .data-table live here, per the
+   "different mobile component, not a shrunk table" rule. */
+
+/* ---------- shared: touch targets on small screens ---------- */
+@media (max-width: 640px) {
+  .admin-page .btn-sm {
+    min-height: 40px;
+    padding: 6px 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .admin-page .row-actions,
+  .admin-page .bulk-bar {
+    gap: 10px;
+  }
+  .admin-page .section-course-row select,
+  .admin-page .section-course-rename {
+    min-height: 40px;
+  }
+}
+
+/* ---------- mobile card-list: users ---------- */
+.user-cards {
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+}
+@media (max-width: 640px) {
+  .admin-page .table-wrap {
+    display: none;
+  }
+  .user-cards {
+    display: flex;
+  }
+}
+.user-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.user-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+.user-card-id {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+}
+.user-card-id input[type='checkbox'] {
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  flex: 0 0 auto;
+}
+.user-card-name {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text);
+  word-break: break-word;
+}
+.user-card-username {
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-family: monospace;
+}
+.user-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  font-size: 0.85rem;
+}
+.user-card-password {
+  font-family: monospace;
+  cursor: pointer;
+  user-select: none;
+}
+.user-card-joined {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.user-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 6px;
+  border-top: 1px dashed var(--border);
+}
+.user-card-actions .btn-sm {
+  min-height: 44px;
+  flex: 1 1 auto;
+  min-width: 44px;
+}
+
+/* ---------- mobile card-list: courses ---------- */
+.course-cards {
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+}
+@media (max-width: 640px) {
+  .admin-page .course-table-wrap {
+    display: none;
+  }
+  .course-cards {
+    display: flex;
+  }
+}
+.course-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.course-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.course-card-title {
+  font-weight: 700;
+  color: var(--text);
+}
+.course-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.course-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 6px;
+  border-top: 1px dashed var(--border);
+}
+.course-card-actions .btn-sm {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* ---------- dashboard stat cards ---------- */
+.stat-card {
+  will-change: transform;
+}

@@ -318,3 +318,54 @@
 @media (max-width: 520px) {
   .practice-summary-stats { grid-template-columns: 1fr; }
 }
+
+/* ---- mobile: touch targets, no horizontal scroll, 16px inputs ---- */
+@media (max-width: 720px) {
+  .practice-filters {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+  }
+
+  .practice-field {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .practice-select,
+  .text-answer {
+    min-height: 44px;
+    font-size: 16px; /* prevents iOS auto-zoom on focus */
+  }
+
+  .practice-start-btn {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .practice-topic-chips {
+    gap: 10px;
+  }
+
+  .practice-chip {
+    min-height: 44px;
+    padding: 10px 16px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .practice-option {
+    min-height: 44px;
+    padding: 12px 14px;
+  }
+
+  .practice-actions .btn,
+  .practice-actions .btn-sm {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .practice-q-head {
+    gap: 8px;
+  }
+}

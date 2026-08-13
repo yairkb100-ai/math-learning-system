@@ -2296,6 +2296,55 @@ h4.prose-h {
   margin-top: 6px;
   max-width: 200px;
 }
+
+/* ===== figural-reasoning tokens (FigureArt.jsx) =====
+   .fig-row/.fig-matrix/.fig-pair get real layout here rather than falling
+   back on the browser's default inline flow for stacked <svg> children. */
+.fig-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.fig-matrix {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.fig-matrix .fig-row {
+  gap: 6px;
+}
+.fig-pair {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.fig-pair-half {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.fig-op,
+.fig-sep {
+  font-weight: 700;
+  color: var(--muted, #6b7a90);
+}
+
+/* ===== spatial-reasoning tokens (SpatialArt.jsx) =====
+   Cube nets, isometric block stacks and mirror images — same card/ink
+   language as .fig-cell above, just a different shape of drawing. */
+.spatial-net,
+.spatial-cube3d,
+.spatial-stack {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+.spatial-mirror {
+  display: inline-block;
+  vertical-align: middle;
+}
 .step-section {
   margin-top: 26px;
   padding-top: 22px;
@@ -4518,3 +4567,152 @@ h4.prose-h {
     bottom: 128px;
   }
 }
+
+/* ===========================================================================
+   2025 modernization pass — FOUNDATION block (appended, not restructured).
+   Small, global, reusable pieces every page can lean on: an a11y utility, a
+   consistent focus ring, touch-friendly tap targets, and the CSS for the new
+   framer-motion mobile nav drawer + desktop active-link underline built in
+   Navbar.jsx. Page-specific CSS from later passes belongs in its own file,
+   not appended here — keep this block small.
+   ========================================================================= */
+
+/* Visually hide but keep in the accessibility tree (labels for icon-only
+   controls, etc.). */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Consistent focus-visible ring, on brand, everywhere — never remove an
+   outline without replacing it with this. Keyboard-only (focus-visible), so
+   it doesn't add a ring on mouse/touch clicks. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Buttons/links get a fast tap response on touch devices (no 300ms delay,
+   no double-tap-to-zoom) and a comfortable minimum tap target on mobile. */
+.btn,
+.btn-sm,
+.btn-logout,
+.nav-toggle,
+.nav-link,
+.grade-pill,
+.admin-subtab {
+  touch-action: manipulation;
+}
+@media (max-width: 720px) {
+  .btn,
+  .btn-logout {
+    min-height: 44px;
+  }
+}
+
+/* ---------- desktop nav — active-link underline (layoutId, from Navbar.jsx) ---------- */
+.nav-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+.nav-link.is-active {
+  color: var(--text);
+}
+.nav-link-indicator {
+  position: absolute;
+  inset-inline: 10px;
+  bottom: 1px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+/* the mobile drawer draws its own active state (a filled pill, see below)
+   instead of the underline, so the indicator span never renders there —
+   Navbar.jsx already gates that via the `indicator` prop. */
+
+/* ---------- mobile nav drawer (framer-motion controls transform/opacity;
+   this block only sets static layout/position/visuals) ---------- */
+.topbar-drawer-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 170;
+  background: rgba(20, 38, 33, 0.45);
+}
+.topbar-drawer {
+  position: fixed;
+  z-index: 175;
+  top: 0;
+  bottom: 0;
+  /* inline-end in this RTL document = the physical left edge — the drawer
+     hinges there, mirroring where an LTR site would hinge it on the right. */
+  inset-inline-end: 0;
+  width: min(84vw, 340px);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 14px calc(16px + env(safe-area-inset-bottom));
+  background: var(--surface);
+  border-inline-end: 1px solid var(--border);
+  box-shadow: var(--shadow-hover);
+  overflow-y: auto;
+}
+.topbar-drawer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 4px 4px 14px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+.topbar-drawer-head .nav-toggle {
+  position: static;
+}
+.topbar-drawer-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.topbar-drawer-nav .nav-link {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 44px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 1rem;
+}
+.topbar-drawer-nav .nav-link:hover {
+  background: var(--surface-2);
+  text-decoration: none;
+}
+.topbar-drawer-nav .nav-link.is-active {
+  background: var(--lv-bg, var(--surface-2));
+  color: var(--accent);
+  font-weight: 700;
+}
+.topbar-drawer-user {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+  padding: 14px 4px 4px;
+  border-top: 1px solid var(--border);
+}
+.topbar-drawer-user .btn-logout {
+  min-height: 44px;
+  padding: 9px 16px;
+}
+
+/* Above 1080px the drawer never mounts (menuOpen can't become true — the
+   toggle button that sets it is display:none there), so nothing to hide. */
