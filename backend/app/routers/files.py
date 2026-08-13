@@ -10,7 +10,7 @@ from fastapi.responses import FileResponse, StreamingResponse
 from sqlalchemy.orm import Session
 from starlette.background import BackgroundTask
 
-from app import bunny, models
+from app import models, r2_storage
 from app.access import TIER_FULL, asset_is_unlocked
 from app.database import get_db
 from app.dependencies import get_current_user, user_access_tier
@@ -88,10 +88,10 @@ def upload_file(
     contents = _read_upload(file)
 
     external_url = None
-    if bunny.is_configured():
-        # All uploads (resource/homework/message) go to Bunny — the app runs
+    if r2_storage.is_configured():
+        # All uploads (resource/homework/message) go to R2 — the app runs
         # as serverless functions with no persistent local disk.
-        external_url = bunny.upload_bytes(contents, stored_name)
+        external_url = r2_storage.upload_bytes(contents, stored_name)
     else:
         _ensure_upload_dir()
         with open(os.path.join(UPLOAD_DIR, stored_name), "wb") as f:
@@ -153,11 +153,11 @@ def download_file(
     if not asset_is_unlocked(db, asset, user_access_tier(db, current_user)):
         raise HTTPException(status_code=402, detail="chapter_locked")
     if asset.external_url:
-        # Proxy the file from Bunny through our own origin. A plain redirect to
-        # the CDN is unreadable by the browser's fetch() (no CORS headers on
-        # Bunny), which silently breaks in-app downloads and the video player.
+        # Proxy the file from R2 through our own origin. A plain redirect to
+        # the bucket is unreadable by the browser's fetch() (no CORS headers
+        # on R2), which silently breaks in-app downloads and the video player.
         try:
-            upstream = bunny.open_stream(asset.external_url)
+            upstream = r2_storage.open_stream(asset.external_url)
         except requests.RequestException:
             raise HTTPException(status_code=502, detail="שגיאה בשליפת הקובץ מהאחסון")
         media_type = (
@@ -205,7 +205,7 @@ def delete_file(
         {"file_id": None}
     )
     if asset.external_url:
-        bunny.delete(asset.stored_name)
+        r2_storage.delete(asset.stored_name)
     else:
         path = os.path.join(UPLOAD_DIR, asset.stored_name)
         try:

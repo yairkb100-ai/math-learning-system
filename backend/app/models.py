@@ -370,7 +370,7 @@ class FileAsset(Base):
     # "resource" = course material (admin-uploaded); "homework" = student submission
     kind = Column(String, nullable=False, default="resource", server_default="resource")
     uploaded_at = Column(DateTime, default=datetime.utcnow)
-    # Set when the file is served from Bunny CDN instead of the local disk
+    # Set when the file is served from R2 instead of the local disk
     # (used for videos, which don't fit on the small Railway volume).
     external_url = Column(String, nullable=True)
 

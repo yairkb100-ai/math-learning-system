@@ -1,16 +1,17 @@
 # -*- coding: utf-8 -*-
-"""Publish generated videos straight to Bunny + the production DB.
+"""Publish generated videos straight to Cloudflare R2 + the production DB.
 
 Replaces the old "commit the mp4 to git and let the deploy-seed upload it"
 flow: videos never touch git or the Railway volume. For each mp4 this:
-  1. uploads it to Bunny Storage (returns a CDN URL),
+  1. uploads it to R2 (returns a public URL),
   2. upserts its FileAsset row in the PRODUCTION Postgres (external_url set,
      keyed by course_id + original_name), and
   3. deletes the local mp4 so nothing lingers in the repo/working tree.
 
-Config (from backend/.env, same values as Railway):
-  BUNNY_STORAGE_ZONE / BUNNY_STORAGE_API_KEY / BUNNY_PULL_ZONE_HOST
-  PROD_DATABASE_URL  — Railway Postgres public URL (DATABASE_PUBLIC_URL)
+Config (from backend/.env, same values as Vercel):
+  CLOUDFLARE_R2_ACCOUNT_ID / CLOUDFLARE_R2_ACCESS_KEY_ID /
+  CLOUDFLARE_R2_SECRET_ACCESS_KEY / CLOUDFLARE_R2_BUCKET / CLOUDFLARE_R2_PUBLIC_URL
+  PROD_DATABASE_URL  — Neon Postgres URL
 
 Usage (as a library): from publish_videos import publish_video
        (CLI): python publish_videos.py <course_slug> <path-to-mp4> [...]
@@ -52,7 +53,7 @@ _load_env()
 PROD_DB_URL = os.environ.get("PROD_DATABASE_URL") or os.environ.get("DATABASE_URL")
 
 from sqlalchemy import create_engine, text  # noqa: E402
-import app.bunny as bunny  # noqa: E402
+import app.r2_storage as r2_storage  # noqa: E402
 
 
 def _slugify(title):
@@ -92,10 +93,10 @@ def _candidate_slugs(course_slug):
 
 
 def publish_video(course_slug: str, mp4_path, *, delete_local: bool = True) -> str:
-    """Upload one mp4 to Bunny + upsert its prod FileAsset. Returns CDN URL."""
+    """Upload one mp4 to R2 + upsert its prod FileAsset. Returns public URL."""
     mp4_path = Path(mp4_path)
-    if not bunny.is_configured():
-        raise RuntimeError("Bunny not configured — check backend/.env BUNNY_* vars")
+    if not r2_storage.is_configured():
+        raise RuntimeError("R2 not configured — check backend/.env CLOUDFLARE_R2_* vars")
     if not PROD_DB_URL or "railway.internal" in PROD_DB_URL:
         raise RuntimeError(
             "PROD_DATABASE_URL must be the Railway PUBLIC url (…proxy.rlwy.net), "
@@ -108,7 +109,7 @@ def publish_video(course_slug: str, mp4_path, *, delete_local: bool = True) -> s
 
     engine = create_engine(PROD_DB_URL)
     # Resolve the course BEFORE uploading. The upload used to come first, so a
-    # slug that did not resolve still pushed the file to Bunny and only then
+    # slug that did not resolve still pushed the file to R2 and only then
     # raised — leaving an orphaned object behind on every retry, once an hour,
     # for a video that could never be published.
     tried = _candidate_slugs(course_slug)
@@ -126,7 +127,7 @@ def publish_video(course_slug: str, mp4_path, *, delete_local: bool = True) -> s
             + ", ".join(repr(t) for t in tried)
         )
 
-    url = bunny.upload(str(mp4_path), stored)
+    url = r2_storage.upload(str(mp4_path), stored)
 
     with engine.begin() as c:
         admin = c.execute(
@@ -138,10 +139,10 @@ def publish_video(course_slug: str, mp4_path, *, delete_local: bool = True) -> s
             {"c": cid, "n": name},
         ).first()
         if row:
-            # Replace: drop the old Bunny object, point the row at the new one.
+            # Replace: drop the old R2 object, point the row at the new one.
             old_stored = row[1]
             if old_stored and old_stored != stored:
-                bunny.delete(old_stored)
+                r2_storage.delete(old_stored)
             c.execute(
                 text("UPDATE file_assets SET stored_name=:st, external_url=:u, "
                      "size=:z, content_type=:ct WHERE id=:i"),

@@ -825,7 +825,7 @@ def ensure_course_assets(db):
         return
     slug_aliases = _slug_by_course_filename()
 
-    from app import bunny
+    from app import r2_storage
     from app.routers.files import UPLOAD_DIR
 
     admin = db.query(User).filter(User.username == "admin").first()
@@ -850,9 +850,9 @@ def ensure_course_assets(db):
             if not os.path.isfile(src):
                 continue
             # Everything under courses/assets/ is public course material, so
-            # route it all to Bunny CDN (videos, worksheets, question banks)
-            # instead of the small Railway disk volume.
-            use_bunny = bunny.is_configured()
+            # route it all to R2 (videos, worksheets, question banks) instead
+            # of the small Railway disk volume.
+            use_r2 = r2_storage.is_configured()
             exists = (
                 db.query(FileAsset)
                 .filter(FileAsset.course_id == course.id, FileAsset.original_name == name)
@@ -860,52 +860,49 @@ def ensure_course_assets(db):
             )
             if exists:
                 src_size = os.path.getsize(src)
-                if use_bunny and not exists.external_url:
-                    # Legacy row pointing at local disk — migrate it to Bunny
-                    # so it stops eating the (tiny) Railway volume.
+                if use_r2 and not exists.external_url:
+                    # Legacy row pointing at local disk — migrate it to R2 so
+                    # it stops eating the (tiny) Railway volume.
                     try:
-                        exists.external_url = bunny.upload(src, exists.stored_name)
+                        exists.external_url = r2_storage.upload(src, exists.stored_name)
                     except Exception as exc:  # noqa: BLE001 — network/HTTP errors
-                        print(f"  ! Failed to migrate {slug}/{name} to Bunny: {exc} — skipped")
+                        print(f"  ! Failed to migrate {slug}/{name} to R2: {exc} — skipped")
                         continue
                     exists.size = src_size
                     dest = os.path.join(UPLOAD_DIR, exists.stored_name)
                     if os.path.exists(dest):
-                        os.remove(dest)  # free the volume now that Bunny has it
+                        os.remove(dest)  # free the volume now that R2 has it
                     migrated += 1
                     continue
-                if use_bunny and exists.external_url:
+                if use_r2 and exists.external_url:
                     if exists.size == src_size:
-                        continue  # already on Bunny, unchanged
+                        continue  # already on R2, unchanged
                     # A content-only edit (regenerated PDF, fixed rendering
                     # bug, ...) changes the file's bytes but not its name.
-                    # Overwriting the storage object does NOT invalidate
-                    # Bunny's edge cache (max-age is 30 days, and purging
-                    # needs an account API key we don't have) — a plain
-                    # re-upload would keep serving the stale cached PDF for a
-                    # month. A `?v=` query string does NOT help either: Bunny
-                    # pull zones ignore the query string for cache-key purposes
-                    # by default (confirmed — same cdn-cachedat regardless of
-                    # query). The only thing that actually busts the cache is a
-                    # new PATH, so give the refreshed file a hashed storage
-                    # name and drop the old object. Unchanged content
-                    # reproduces the same hash and the same path, so this
-                    # doesn't rename on every deploy.
+                    # Overwriting the storage object can't be trusted to bust
+                    # any edge cache sitting in front of the public URL (e.g.
+                    # a custom domain proxied through Cloudflare's cache) — a
+                    # plain re-upload could keep serving the stale cached PDF.
+                    # The only thing that reliably busts a cache is a new
+                    # PATH, so give the refreshed file a hashed storage name
+                    # and drop the old object. Unchanged content reproduces
+                    # the same hash and the same path, so this doesn't rename
+                    # on every deploy.
                     with open(src, "rb") as fh:
                         digest = hashlib.sha1(fh.read()).hexdigest()[:10]
                     ext = os.path.splitext(exists.stored_name)[1]
                     new_stored = f"{os.path.splitext(exists.stored_name)[0]}-{digest}{ext}"
                     try:
-                        new_url = bunny.upload(src, new_stored)
+                        new_url = r2_storage.upload(src, new_stored)
                     except Exception as exc:  # noqa: BLE001 — network/HTTP errors
-                        print(f"  ! Failed to refresh {slug}/{name} on Bunny: {exc} — skipped")
+                        print(f"  ! Failed to refresh {slug}/{name} on R2: {exc} — skipped")
                         continue
                     old_stored = exists.stored_name
                     exists.stored_name = new_stored
                     exists.external_url = new_url
                     exists.size = src_size
                     try:
-                        bunny.delete(old_stored)
+                        r2_storage.delete(old_stored)
                     except Exception as exc:  # noqa: BLE001 — best-effort cleanup
                         print(f"  ! Failed to delete stale {slug}/{name} ({old_stored}): {exc}")
                     migrated += 1
@@ -934,12 +931,12 @@ def ensure_course_assets(db):
                 continue
 
             content_type = mimetypes.guess_type(name)[0] or "application/octet-stream"
-            if use_bunny:
+            if use_r2:
                 stored = uuid.uuid4().hex + os.path.splitext(name)[1]
                 try:
-                    external_url = bunny.upload(src, stored)
+                    external_url = r2_storage.upload(src, stored)
                 except Exception as exc:  # noqa: BLE001 — network/HTTP errors
-                    print(f"  ! Failed to upload {slug}/{name} to Bunny: {exc} — skipped")
+                    print(f"  ! Failed to upload {slug}/{name} to R2: {exc} — skipped")
                     continue
                 db.add(
                     FileAsset(
@@ -982,7 +979,7 @@ def ensure_course_assets(db):
     if restored:
         print(f"  + Restored {restored} missing asset file(s) to the upload dir")
     if migrated:
-        print(f"  + Migrated {migrated} video(s) from local disk to Bunny CDN")
+        print(f"  + Migrated {migrated} video(s) from local disk to R2")
 
 
 def cleanup_orphaned_uploads(db):

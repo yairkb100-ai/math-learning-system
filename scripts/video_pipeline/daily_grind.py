@@ -126,10 +126,10 @@ def requeue(mp4_name):
 
 
 def ship_new_videos():
-    """Publish any freshly downloaded mp4s straight to Bunny + the prod DB.
+    """Publish any freshly downloaded mp4s straight to R2 + the prod DB.
 
     Videos never enter git or the Railway volume: each mp4 the grinder dropped
-    into courses/assets/<slug>/ is uploaded to Bunny, its FileAsset row upserted
+    into courses/assets/<slug>/ is uploaded to R2, its FileAsset row upserted
     in production (external_url), then the local file is deleted. The queue-state
     JSONs (small) are still committed so backlog progress is tracked in git.
     """
@@ -172,7 +172,7 @@ def ship_new_videos():
     diff = run(["git", "-C", str(ROOT), "diff", "--cached", "--name-only"])
     if diff.strip():
         run(["git", "-C", str(ROOT), "commit", "-m",
-             f"Video queue progress: +{published} published to Bunny [daily grind]"
+             f"Video queue progress: +{published} published to R2 [daily grind]"
              "\n\nCo-Authored-By: Claude Fable 5 <noreply@anthropic.com>"])
         push = run(["git", "-C", str(ROOT), "push", "origin", "main"])
         print("push:", push.strip()[-200:], flush=True)
