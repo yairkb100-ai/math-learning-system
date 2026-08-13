@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /messages
+Disallow: /files
+Disallow: /subscription
+
+Sitemap: https://math-learning-system-lyart.vercel.app/sitemap.xml

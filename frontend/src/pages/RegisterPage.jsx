@@ -3,6 +3,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useAuth } from '../context/AuthContext.jsx'
 import api from '../api.js'
+import { usePageMeta } from '../lib/seo.js'
 import { fadeInUp, staggerContainer, tapScale, DURATION, EASE_OUT, EASE_IN } from '../lib/motion.js'
 
 const errorVariants = {
@@ -22,6 +23,11 @@ const errorVariants = {
 }
 
 export default function RegisterPage() {
+  usePageMeta({
+    title: 'הרשמה',
+    description: 'הרשמה ללומדת מתמטיקה — קורסים במתמטיקה לפי כיתה, תרגול, מבחנים והכנה לקרני.',
+    path: '/register',
+  })
   const { login } = useAuth()
   const navigate = useNavigate()
   const [params] = useSearchParams()
