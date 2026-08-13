@@ -1,7 +1,11 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useAuth } from '../context/AuthContext.jsx'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
+import { IconPaperclip, IconArrowStart, IconX } from '../components/icons.jsx'
+import { fadeInUp, staggerContainer, tapScale, DURATION, EASE_OUT } from '../lib/motion.js'
+import '../styles/comms-files-shared.css'
 
 function formatSize(bytes) {
   if (!bytes) return ''
@@ -45,7 +49,7 @@ function Attachment({ file }) {
       className="chat-attachment-file"
       onClick={() => api.downloadFile(file.id, file.original_name)}
     >
-      <span className="chat-attachment-icon">📎</span>
+      <span className="chat-attachment-icon"><IconPaperclip /></span>
       <span className="chat-attachment-name">{file.original_name}</span>
       <span className="chat-attachment-size muted">{formatSize(file.size)}</span>
     </button>
@@ -151,44 +155,59 @@ export default function Messages() {
         </p>
       </div>
 
-      <div className="chat-layout card">
-        {/* Sidebar */}
+      <div className={'chat-layout card' + (active ? ' has-active' : '')}>
+        {/* Sidebar — a plain (non-motion) element: the mobile slide-over
+            transform on .chat-sidebar comes from a CSS class (.has-active,
+            see comms-files-shared.css), and a motion component would fight
+            that by imperatively re-asserting its own (identity) transform
+            on every render, permanently overriding the CSS translateX. The
+            entrance stagger instead lives on an inner motion.div. */}
         <aside className="chat-sidebar">
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          animate="show"
+        >
           {conversations.length === 0 && startable.length === 0 && (
             <p className="muted empty-msg">אין עדיין שיחות.</p>
           )}
           {conversations.map((c) => (
-            <button
+            <motion.button
               key={`c-${c.user_id}`}
+              variants={fadeInUp}
               className={
                 'chat-contact' + (active?.user_id === c.user_id ? ' active' : '')
               }
               onClick={() => openThread({ user_id: c.user_id, full_name: c.full_name })}
+              whileTap={{ scale: 0.98 }}
             >
               <span className="chat-contact-name">{c.full_name}</span>
               <span className="chat-contact-last">{c.last_body}</span>
               {c.unread > 0 && <span className="chat-unread">{c.unread}</span>}
-            </button>
+            </motion.button>
           ))}
 
           {startable.length > 0 && (
             <>
               <div className="chat-sidebar-label">התחל שיחה חדשה</div>
               {startable.map((c) => (
-                <button
+                <motion.button
                   key={`s-${c.user_id}`}
+                  variants={fadeInUp}
                   className={
                     'chat-contact new' +
                     (active?.user_id === c.user_id ? ' active' : '')
                   }
                   onClick={() => openThread(c)}
+                  whileTap={{ scale: 0.98 }}
                 >
                   <span className="chat-contact-name">{c.full_name}</span>
                   <span className="chat-contact-last muted">שלח הודעה ראשונה…</span>
-                </button>
+                </motion.button>
               ))}
             </>
           )}
+        </motion.div>
         </aside>
 
         {/* Thread */}
@@ -197,36 +216,52 @@ export default function Messages() {
             <div className="chat-empty">בחרו שיחה מהרשימה כדי להתחיל.</div>
           ) : (
             <>
-              <div className="chat-thread-head">{active.full_name}</div>
+              <div className="chat-thread-head">
+                <button
+                  type="button"
+                  className="chat-back-btn"
+                  onClick={() => setActive(null)}
+                  aria-label="חזרה לרשימת השיחות"
+                >
+                  <IconArrowStart style={{ transform: 'scaleX(-1)' }} />
+                </button>
+                {active.full_name}
+              </div>
               <div className="chat-messages">
                 {thread.length === 0 && (
                   <p className="muted chat-empty">אין הודעות עדיין — כתבו הודעה.</p>
                 )}
-                {thread.map((m) => (
-                  <div
-                    key={m.id}
-                    className={
-                      'chat-bubble ' +
-                      (m.sender_id === user.id ? 'mine' : 'theirs')
-                    }
-                  >
-                    {m.attachment && <Attachment file={m.attachment} />}
-                    {m.body && <div className="chat-bubble-body">{m.body}</div>}
-                    <div className="chat-bubble-time">
-                      {new Date(m.created_at).toLocaleString('he-IL', {
-                        day: '2-digit',
-                        month: '2-digit',
-                        hour: '2-digit',
-                        minute: '2-digit',
-                      })}
-                    </div>
-                  </div>
-                ))}
+                <AnimatePresence initial={false}>
+                  {thread.map((m) => (
+                    <motion.div
+                      key={m.id}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: DURATION.medium, ease: EASE_OUT }}
+                      className={
+                        'chat-bubble ' +
+                        (m.sender_id === user.id ? 'mine' : 'theirs')
+                      }
+                    >
+                      {m.attachment && <Attachment file={m.attachment} />}
+                      {m.body && <div className="chat-bubble-body">{m.body}</div>}
+                      <div className="chat-bubble-time">
+                        {new Date(m.created_at).toLocaleString('he-IL', {
+                          day: '2-digit',
+                          month: '2-digit',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })}
+                      </div>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
                 <div ref={threadEnd} />
               </div>
               {pendingFile && (
                 <div className="chat-pending-file">
-                  <span className="chat-attachment-icon">📎</span>
+                  <span className="chat-attachment-icon"><IconPaperclip /></span>
                   <span className="chat-attachment-name">{pendingFile.name}</span>
                   <button
                     type="button"
@@ -234,7 +269,7 @@ export default function Messages() {
                     onClick={() => setPendingFile(null)}
                     aria-label="הסר קובץ"
                   >
-                    ✕
+                    <IconX />
                   </button>
                 </div>
               )}
@@ -245,27 +280,29 @@ export default function Messages() {
                   onChange={pickFile}
                   style={{ display: 'none' }}
                 />
-                <button
+                <motion.button
                   type="button"
                   className="chat-attach-btn"
                   onClick={() => fileInputRef.current?.click()}
                   disabled={sending}
                   title="צרף קובץ או תמונה"
+                  {...tapScale}
                 >
-                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none"
-                    stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M21.44 11.05l-9.19 9.19a5 5 0 0 1-7.07-7.07l9.19-9.19a3.5 3.5 0 0 1 4.95 4.95l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" />
-                  </svg>
-                </button>
+                  <IconPaperclip width={20} height={20} />
+                </motion.button>
                 <input
                   value={draft}
                   onChange={(e) => setDraft(e.target.value)}
                   placeholder="כתבו הודעה…"
                   disabled={sending}
                 />
-                <button className="btn" disabled={sending || (!draft.trim() && !pendingFile)}>
+                <motion.button
+                  className="btn"
+                  disabled={sending || (!draft.trim() && !pendingFile)}
+                  {...tapScale}
+                >
                   שלח
-                </button>
+                </motion.button>
               </form>
             </>
           )}

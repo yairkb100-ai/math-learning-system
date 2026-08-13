@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import { motion, AnimatePresence } from 'framer-motion'
 import api from '../api.js'
 import MathText from '../components/MathText.jsx'
 import { Loading, ErrorBox } from '../components/Status.jsx'
+import { fadeInUp, fadeIn, staggerContainer, tapScale, DURATION, EASE_OUT } from '../lib/motion.js'
 import '../styles/psy.css'
 
 const OPTION_LETTERS = ['א', 'ב', 'ג', 'ד', 'ה']
@@ -67,19 +69,31 @@ export default function PsyResults() {
         <Link to="/psy" className="psy-link">חזרה להכנה לקרני</Link>
       </header>
 
-      <section className="psy-score-card">
+      <motion.section
+        className="psy-score-card"
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: DURATION.long, ease: EASE_OUT }}
+      >
         <div className="psy-score-main">
           <div className="psy-score-label">אחוז הצלחה בסימולציה</div>
-          <div className="psy-score-value">
+          <motion.div
+            className="psy-score-value"
+            initial={{ opacity: 0, scale: 0.85 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: DURATION.long, ease: EASE_OUT, delay: 0.1 }}
+          >
             {data.score_percent != null ? `${data.score_percent}%` : '—'}
-          </div>
+          </motion.div>
           <div className="psy-score-scale">
             {totalCorrect} תשובות נכונות מתוך {totalAsked}
           </div>
           <div className="psy-gauge" aria-hidden="true">
-            <div
+            <motion.div
               className="psy-gauge-fill"
-              style={{ width: `${data.score_percent ?? 0}%` }}
+              initial={{ width: 0 }}
+              animate={{ width: `${data.score_percent ?? 0}%` }}
+              transition={{ duration: 0.6, ease: EASE_OUT, delay: 0.15 }}
             />
           </div>
           {data.readiness && <div className="psy-readiness">{data.readiness.label}</div>}
@@ -90,78 +104,107 @@ export default function PsyResults() {
           )}
         </div>
 
-        <div className="psy-score-domains">
+        <motion.div
+          className="psy-score-domains"
+          variants={staggerContainer}
+          initial="hidden"
+          animate="show"
+        >
           {DOMAIN_ORDER.filter((d) => data.domain_scores[d]).map((domain) => {
             const d = data.domain_scores[domain]
             return (
-              <div key={domain} className="psy-domain-score">
+              <motion.div key={domain} className="psy-domain-score" variants={fadeInUp}>
                 <div className="psy-domain-name">{DOMAIN_HE[domain]}</div>
                 <div className="psy-domain-value">{d.percent != null ? `${Math.round(d.percent)}%` : '—'}</div>
                 <div className="psy-domain-scale">{d.correct}/{d.total}</div>
-              </div>
+              </motion.div>
             )
           })}
-        </div>
-      </section>
+        </motion.div>
+      </motion.section>
 
-      <p className="psy-disclaimer">
+      <motion.p className="psy-disclaimer" variants={fadeIn} initial="hidden" animate="show">
         מכון קרני אינו מפרסם טבלת המרה לציון, וכל בית ספר קובע לעצמו את רף הקבלה. לכן מוצג כאן אחוז
         ההצלחה בפועל ולא ציון חזוי — הוא נועד להשוואה מול הסימולציות הקודמות שלך ולאיתור הנושאים
         שדורשים עבודה.
-      </p>
+      </motion.p>
 
-      <section className="psy-panel">
+      <motion.section
+        className="psy-panel"
+        variants={fadeInUp}
+        initial="hidden"
+        animate="show"
+      >
         <h2>לפי פרק</h2>
-        <table className="psy-table">
-          <thead>
-            <tr>
-              <th>פרק</th>
-              <th>נכונות</th>
-              <th>לא נענו</th>
-              <th>זמן</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.sections.map((s) => (
-              <tr key={s.section_index}>
-                <td>{s.title}</td>
-                <td>
-                  {s.total ? `${s.correct}/${s.total}` : '—'}
-                </td>
-                <td>{s.unanswered}</td>
-                <td>{Math.round(s.seconds / 60)} דק׳</td>
+        <div className="psy-table-wrap">
+          <table className="psy-table">
+            <thead>
+              <tr>
+                <th>פרק</th>
+                <th>נכונות</th>
+                <th>לא נענו</th>
+                <th>זמן</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </section>
+            </thead>
+            <tbody>
+              {data.sections.map((s) => (
+                <tr key={s.section_index}>
+                  <td>{s.title}</td>
+                  <td>
+                    {s.total ? `${s.correct}/${s.total}` : '—'}
+                  </td>
+                  <td>{s.unanswered}</td>
+                  <td>{Math.round(s.seconds / 60)} דק׳</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </motion.section>
 
       {data.topics.length > 0 && (
-        <section className="psy-panel">
+        <motion.section
+          className="psy-panel"
+          variants={fadeInUp}
+          initial="hidden"
+          animate="show"
+        >
           <h2>לפי נושא</h2>
-          <ul className="psy-topic-list">
+          <motion.ul
+            className="psy-topic-list"
+            variants={staggerContainer}
+            initial="hidden"
+            animate="show"
+          >
             {data.topics.map((t) => (
-              <li key={`${t.domain}-${t.topic}`} className="psy-topic-row">
+              <motion.li key={`${t.domain}-${t.topic}`} className="psy-topic-row" variants={fadeInUp}>
                 <div className="psy-topic-name">
                   {t.topic}
                   <span className="psy-topic-domain">{DOMAIN_HE[t.domain]}</span>
                 </div>
                 <div className="psy-topic-bar" aria-hidden="true">
-                  <div
+                  <motion.div
                     className={`psy-topic-fill${t.accuracy < 0.6 ? ' is-weak' : ''}`}
-                    style={{ width: pct(t.accuracy) }}
+                    initial={{ width: 0 }}
+                    animate={{ width: pct(t.accuracy) }}
+                    transition={{ duration: 0.5, ease: EASE_OUT, delay: 0.1 }}
                   />
                 </div>
                 <div className="psy-topic-stat">
                   {t.correct}/{t.answered} · {Math.round(t.avg_seconds)} שנ׳ לשאלה
                 </div>
-              </li>
+              </motion.li>
             ))}
-          </ul>
-        </section>
+          </motion.ul>
+        </motion.section>
       )}
 
-      <section className="psy-panel">
+      <motion.section
+        className="psy-panel"
+        variants={fadeInUp}
+        initial="hidden"
+        animate="show"
+      >
         <div className="psy-panel-head">
           <h2>סקירת שאלות</h2>
           <div className="psy-filter" role="group" aria-label="סינון שאלות">
@@ -170,14 +213,15 @@ export default function PsyResults() {
               ['slow', 'נכונות אך איטיות'],
               ['all', 'הכול'],
             ].map(([key, label]) => (
-              <button
+              <motion.button
                 key={key}
                 type="button"
                 className={`psy-chip${filter === key ? ' is-on' : ''}`}
                 onClick={() => setFilter(key)}
+                {...tapScale}
               >
                 {label}
-              </button>
+              </motion.button>
             ))}
           </div>
         </div>
@@ -185,9 +229,20 @@ export default function PsyResults() {
         {review.length === 0 ? (
           <p className="psy-empty">אין שאלות בקטגוריה הזו.</p>
         ) : (
-          <ol className="psy-review">
+          <motion.ol
+            className="psy-review"
+            variants={staggerContainer}
+            initial="hidden"
+            animate="show"
+          >
+            <AnimatePresence>
             {review.map((r) => (
-              <li key={r.ref} className={`psy-review-item${r.is_correct ? ' is-correct' : ' is-wrong'}`}>
+              <motion.li
+                key={r.ref}
+                className={`psy-review-item${r.is_correct ? ' is-correct' : ' is-wrong'}`}
+                variants={fadeInUp}
+                layout
+              >
                 <div className="psy-review-meta">
                   <span>{r.topic}</span>
                   <span>רמה {r.difficulty}</span>
@@ -242,11 +297,12 @@ export default function PsyResults() {
                     <MathText text={r.solution} />
                   </details>
                 )}
-              </li>
+              </motion.li>
             ))}
-          </ol>
+            </AnimatePresence>
+          </motion.ol>
         )}
-      </section>
+      </motion.section>
     </div>
   )
 }

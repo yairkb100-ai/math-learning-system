@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from 'react'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
+import '../styles/admin-ops.css'
 
 function fmt(dt) {
   if (!dt) return '—'
@@ -104,7 +105,7 @@ export default function AdminDevices() {
       </div>
 
       {/* Global device limit */}
-      <div className="card form-card">
+      <div className="card form-card admin-ops-card">
         <h3>מגבלת מכשירים למנוי</h3>
         <p className="muted" style={{ marginTop: 0 }}>
           כמה מכשירים שונים מותר לכל תלמיד. תלמיד שחורג נחסם בכניסה ומופנה לפנות
@@ -131,7 +132,7 @@ export default function AdminDevices() {
       </div>
 
       {/* Devices by student */}
-      <div className="table-wrap card">
+      <div className="table-wrap card admin-ops-card">
         <h3>מכשירים רשומים ({devices.length})</h3>
         {devices.length === 0 ? (
           <p className="muted empty-msg">עדיין אין מכשירים רשומים.</p>
@@ -154,7 +155,7 @@ export default function AdminDevices() {
                 const over = maxDevices > 0 && count > maxDevices
                 return (
                   <tr key={d.id}>
-                    <td>
+                    <td data-label="תלמיד">
                       {d.user_name || d.username || `#${d.user_id}`}
                       {over && (
                         <span className="status-off" style={{ marginRight: 6 }}>
@@ -162,12 +163,12 @@ export default function AdminDevices() {
                         </span>
                       )}
                     </td>
-                    <td>{d.label || 'לא ידוע'}</td>
-                    <td className="muted">{d.ip || '—'}</td>
-                    <td className="muted">{d.login_count}</td>
-                    <td className="muted">{fmt(d.last_seen)}</td>
-                    <td className="muted">{fmt(d.first_seen)}</td>
-                    <td>
+                    <td data-label="מכשיר">{d.label || 'לא ידוע'}</td>
+                    <td className="muted" data-label="IP">{d.ip || '—'}</td>
+                    <td className="muted" data-label="כניסות">{d.login_count}</td>
+                    <td className="muted" data-label="כניסה אחרונה">{fmt(d.last_seen)}</td>
+                    <td className="muted" data-label="נרשם לראשונה">{fmt(d.first_seen)}</td>
+                    <td data-label="פעולות">
                       <button
                         className="btn-sm btn-danger"
                         disabled={busy}
@@ -185,7 +186,7 @@ export default function AdminDevices() {
       </div>
 
       {/* Login audit trail */}
-      <div className="table-wrap card">
+      <div className="table-wrap card admin-ops-card">
         <h3>יומן כניסות אחרונות</h3>
         <table className="data-table">
           <thead>
@@ -200,11 +201,11 @@ export default function AdminDevices() {
           <tbody>
             {events.map((e) => (
               <tr key={e.id}>
-                <td className="muted">{fmt(e.created_at)}</td>
-                <td>{e.user_name || e.username || '—'}</td>
-                <td className="muted">{e.label || 'לא ידוע'}</td>
-                <td className="muted">{e.ip || '—'}</td>
-                <td>
+                <td className="muted" data-label="מתי">{fmt(e.created_at)}</td>
+                <td data-label="תלמיד">{e.user_name || e.username || '—'}</td>
+                <td className="muted" data-label="מכשיר">{e.label || 'לא ידוע'}</td>
+                <td className="muted" data-label="IP">{e.ip || '—'}</td>
+                <td data-label="סטטוס">
                   <span className={e.status === 'ok' ? 'status-ok' : 'status-off'}>
                     {e.status === 'ok' ? 'התחבר' : 'נחסם'}
                   </span>

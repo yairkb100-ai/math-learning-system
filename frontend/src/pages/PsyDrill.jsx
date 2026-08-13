@@ -1,9 +1,15 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
+import { motion, AnimatePresence } from 'framer-motion'
 import api from '../api.js'
 import MathText from '../components/MathText.jsx'
 import { Loading, ErrorBox } from '../components/Status.jsx'
+import { fadeInUp, staggerContainer, tapScale, DURATION, EASE_OUT, EASE_IN } from '../lib/motion.js'
 import '../styles/psy.css'
+
+// Drill flow is answered repeatedly in quick succession — the question
+// transition must stay fast and never block rapid tapping.
+const QUICK = 0.15
 
 const OPTION_LETTERS = ['א', 'ב', 'ג', 'ד', 'ה']
 // All four exam domains. The figural and english chips were missing, so a topic
@@ -122,7 +128,7 @@ export default function PsyDrill() {
 
       <div className="psy-filter psy-filter-domains">
         {Object.entries(DOMAIN_HE).map(([key, label]) => (
-          <button
+          <motion.button
             key={key}
             type="button"
             className={`psy-chip${domain === key ? ' is-on' : ''}`}
@@ -130,29 +136,32 @@ export default function PsyDrill() {
               setDomain(key)
               setTopic(null)
             }}
+            {...tapScale}
           >
             {label}
-          </button>
+          </motion.button>
         ))}
       </div>
 
       <div className="psy-filter">
-        <button
+        <motion.button
           type="button"
           className={`psy-chip${topic == null ? ' is-on' : ''}`}
           onClick={() => setTopic(null)}
+          {...tapScale}
         >
           כל הנושאים
-        </button>
+        </motion.button>
         {domainTopics.map((t) => (
-          <button
+          <motion.button
             key={t.topic}
             type="button"
             className={`psy-chip${topic === t.topic ? ' is-on' : ''}`}
             onClick={() => setTopic(t.topic)}
+            {...tapScale}
           >
             {t.topic} <span className="psy-chip-num">{t.count}</span>
-          </button>
+          </motion.button>
         ))}
       </div>
 
@@ -167,82 +176,106 @@ export default function PsyDrill() {
       ) : !current ? (
         <p className="psy-empty">אין עדיין שאלות בנושא הזה. המאגר מתמלא בהדרגה.</p>
       ) : (
-        <article className="psy-question psy-question-solo">
-          <div className="psy-question-num">
-            שאלה {index + 1} מתוך {items.length}
-            <span className={`psy-stopwatch${elapsed > current.target_seconds ? ' is-over' : ''}`}>
-              {elapsed} שנ׳ · יעד {current.target_seconds}
-            </span>
-          </div>
-
-          {current.passage && (
-            <aside className="psy-passage">
-              {current.passage.title && <h3>{current.passage.title}</h3>}
-              <MathText text={current.passage.body} />
-            </aside>
-          )}
-
-          <div className="psy-stem">
-            <MathText text={current.stem} />
-          </div>
-          {current.figure && (
-            <div className="psy-figure">
-              <MathText text={current.figure} />
+        <AnimatePresence mode="wait">
+          <motion.article
+            key={current.ref ?? index}
+            className="psy-question psy-question-solo"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6, transition: { duration: QUICK * 0.7, ease: EASE_IN } }}
+            transition={{ duration: QUICK, ease: EASE_OUT }}
+          >
+            <div className="psy-question-num">
+              שאלה {index + 1} מתוך {items.length}
+              <span className={`psy-stopwatch${elapsed > current.target_seconds ? ' is-over' : ''}`}>
+                {elapsed} שנ׳ · יעד {current.target_seconds}
+              </span>
             </div>
-          )}
 
-          <ul className="psy-options">
-            {current.options.map((opt, i) => {
-              const state = !result
-                ? chosen === i
-                  ? ' is-chosen'
-                  : ''
-                : i === result.correct_index
-                  ? ' is-key'
-                  : i === chosen
-                    ? ' is-wrong'
-                    : ''
-              return (
-                <li key={i}>
-                  <button
-                    type="button"
-                    className={`psy-option${state}`}
-                    onClick={() => answer(i)}
-                    disabled={!!result}
-                  >
-                    <span className="psy-option-letter">{OPTION_LETTERS[i]}</span>
-                    <span className="psy-option-text">
-                      <MathText text={opt} />
-                    </span>
-                  </button>
-                </li>
-              )
-            })}
-          </ul>
+            {current.passage && (
+              <aside className="psy-passage">
+                {current.passage.title && <h3>{current.passage.title}</h3>}
+                <MathText text={current.passage.body} />
+              </aside>
+            )}
 
-          {result && (
-            <div className={`psy-feedback${result.is_correct ? ' is-correct' : ' is-wrong'}`}>
-              <div className="psy-feedback-head">
-                {result.is_correct ? 'נכון' : 'לא נכון'}
-                {result.over_time && (
-                  <span className="psy-feedback-slow">
-                    — אבל מעל זמן היעד. במבחן אמיתי זה מחיר של שאלה אחרת.
-                  </span>
-                )}
+            <div className="psy-stem">
+              <MathText text={current.stem} />
+            </div>
+            {current.figure && (
+              <div className="psy-figure">
+                <MathText text={current.figure} />
               </div>
-              {result.explanation && <MathText text={result.explanation} />}
-              {result.solution && (
-                <details className="psy-solution">
-                  <summary>איך חושבים על זה</summary>
-                  <MathText text={result.solution} />
-                </details>
+            )}
+
+            <motion.ul
+              className="psy-options"
+              variants={staggerContainer}
+              initial="hidden"
+              animate="show"
+            >
+              {current.options.map((opt, i) => {
+                const state = !result
+                  ? chosen === i
+                    ? ' is-chosen'
+                    : ''
+                  : i === result.correct_index
+                    ? ' is-key'
+                    : i === chosen
+                      ? ' is-wrong'
+                      : ''
+                return (
+                  <motion.li key={i} variants={fadeInUp}>
+                    <motion.button
+                      type="button"
+                      className={`psy-option${state}`}
+                      onClick={() => answer(i)}
+                      disabled={!!result}
+                      whileTap={result ? {} : { scale: 0.98 }}
+                      transition={{ duration: DURATION.short, ease: EASE_OUT }}
+                    >
+                      <span className="psy-option-letter">{OPTION_LETTERS[i]}</span>
+                      <span className="psy-option-text">
+                        <MathText text={opt} />
+                      </span>
+                    </motion.button>
+                  </motion.li>
+                )
+              })}
+            </motion.ul>
+
+            <AnimatePresence>
+              {result && (
+                <motion.div
+                  className={`psy-feedback${result.is_correct ? ' is-correct' : ' is-wrong'}`}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: DURATION.short, ease: EASE_OUT }}
+                >
+                  <div className="psy-feedback-head">
+                    {result.is_correct ? 'נכון' : 'לא נכון'}
+                    {result.over_time && (
+                      <span className="psy-feedback-slow">
+                        — אבל מעל זמן היעד. במבחן אמיתי זה מחיר של שאלה אחרת.
+                      </span>
+                    )}
+                  </div>
+                  {result.explanation && <MathText text={result.explanation} />}
+                  {result.solution && (
+                    <details className="psy-solution">
+                      <summary>איך חושבים על זה</summary>
+                      <MathText text={result.solution} />
+                    </details>
+                  )}
+                  <motion.button className="psy-btn psy-btn-primary" onClick={next} {...tapScale}>
+                    {index + 1 >= items.length ? 'סבב חדש' : 'לשאלה הבאה'}
+                  </motion.button>
+                </motion.div>
               )}
-              <button className="psy-btn psy-btn-primary" onClick={next}>
-                {index + 1 >= items.length ? 'סבב חדש' : 'לשאלה הבאה'}
-              </button>
-            </div>
-          )}
-        </article>
+            </AnimatePresence>
+          </motion.article>
+        </AnimatePresence>
       )}
     </div>
   )

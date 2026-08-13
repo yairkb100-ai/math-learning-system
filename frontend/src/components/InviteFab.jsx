@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useAuth } from '../context/AuthContext.jsx'
 import api from '../api.js'
 import { waHref, copyLink, shareInvite } from '../lib/invite.js'
 import { IconGift, IconClipboard, IconShare, IconX, IconSpark } from './icons.jsx'
+import { tapScale, DURATION, EASE_OUT, EASE_IN } from '../lib/motion.js'
 
 // כפתור צף ל"חבר מביא חבר", בכל עמוד שהתלמיד נמצא בו — במקביל לכפתור קביעת
 // השיעור. הוא לא מנווט אלא פותח את הקישור עצמו במקום: הרגע שבו מתחשק לשתף
@@ -74,64 +76,80 @@ export default function InviteFab() {
 
   return (
     <div className="invite-fab-wrap" ref={wrapRef} dir="rtl">
-      {open && (
-        <div className="invite-sheet" role="dialog" aria-label="חבר מביא חבר">
-          <button
-            type="button"
-            className="invite-sheet-close"
-            onClick={() => setOpen(false)}
-            aria-label="סגירה"
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            className="invite-sheet"
+            role="dialog"
+            aria-label="חבר מביא חבר"
+            initial={{ opacity: 0, y: 14, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.98, transition: { duration: DURATION.short, ease: EASE_IN } }}
+            transition={{ duration: DURATION.medium, ease: EASE_OUT }}
           >
-            <IconX />
-          </button>
-
-          <span className="invite-sheet-eyebrow">
-            <IconGift /> חבר מביא חבר
-          </span>
-          <h3>
-            שלחו את הקישור וקבלו <span className="invite-accent">{subPct}% הנחה</span>
-          </h3>
-          <p className="invite-sheet-sub">
-            על כל מי שיצטרף וימשיך למנוי — {subPct}% הנחה על החודש הבא, או{' '}
-            {lessonPct}% על שיעור פרטי. לבחירתכם.
-          </p>
-
-          <code className="invite-sheet-link">{link}</code>
-
-          <div className="invite-sheet-actions">
-            <a
-              className="invite-btn invite-btn-wa"
-              href={waHref(link)}
-              target="_blank"
-              rel="noreferrer"
+            <motion.button
+              type="button"
+              className="invite-sheet-close"
+              onClick={() => setOpen(false)}
+              aria-label="סגירה"
+              {...tapScale}
             >
-              שליחה בוואטסאפ
-            </a>
-            <button type="button" className="invite-btn invite-btn-primary" onClick={onCopy}>
-              <IconClipboard /> {copied ? 'הועתק' : 'העתקה'}
-            </button>
-            <button type="button" className="invite-btn" onClick={onShare}>
-              <IconShare /> שיתוף
-            </button>
-          </div>
+              <IconX />
+            </motion.button>
 
-          <Link to="/invite" className="invite-sheet-more">
-            {data.unredeemed === 0
-              ? 'לפרטים ולמעקב ←'
-              : data.unredeemed === 1
-              ? 'יש לכם הטבה לממש ←'
-              : `יש לכם ${data.unredeemed} הטבות לממש ←`}
-          </Link>
-        </div>
-      )}
+            <span className="invite-sheet-eyebrow">
+              <IconGift /> חבר מביא חבר
+            </span>
+            <h3>
+              שלחו את הקישור וקבלו <span className="invite-accent">{subPct}% הנחה</span>
+            </h3>
+            <p className="invite-sheet-sub">
+              על כל מי שיצטרף וימשיך למנוי — {subPct}% הנחה על החודש הבא, או{' '}
+              {lessonPct}% על שיעור פרטי. לבחירתכם.
+            </p>
 
-      <button
+            <code className="invite-sheet-link">{link}</code>
+
+            <div className="invite-sheet-actions">
+              <motion.a
+                className="invite-btn invite-btn-wa"
+                href={waHref(link)}
+                target="_blank"
+                rel="noreferrer"
+                {...tapScale}
+              >
+                שליחה בוואטסאפ
+              </motion.a>
+              <motion.button type="button" className="invite-btn invite-btn-primary" onClick={onCopy} {...tapScale}>
+                <IconClipboard /> {copied ? 'הועתק' : 'העתקה'}
+              </motion.button>
+              <motion.button type="button" className="invite-btn" onClick={onShare} {...tapScale}>
+                <IconShare /> שיתוף
+              </motion.button>
+            </div>
+
+            <Link to="/invite" className="invite-sheet-more">
+              {data.unredeemed === 0
+                ? 'לפרטים ולמעקב ←'
+                : data.unredeemed === 1
+                ? 'יש לכם הטבה לממש ←'
+                : `יש לכם ${data.unredeemed} הטבות לממש ←`}
+            </Link>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <motion.button
         type="button"
         className={`book-fab invite-fab${open ? ' is-open' : ''}`}
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
         aria-label={`חבר מביא חבר — ${subPct}% הנחה`}
         title={`חבר מביא חבר — ${subPct}% הנחה`}
+        initial={{ opacity: 0, scale: 0.85, y: 10 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: DURATION.medium, ease: EASE_OUT }}
+        {...tapScale}
       >
         <span className="book-fab-icon" aria-hidden="true">
           <IconGift />
@@ -142,7 +160,7 @@ export default function InviteFab() {
             {data.unredeemed}
           </span>
         )}
-      </button>
+      </motion.button>
     </div>
   )
 }

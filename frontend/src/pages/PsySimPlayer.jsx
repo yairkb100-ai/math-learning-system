@@ -1,9 +1,15 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { motion, AnimatePresence } from 'framer-motion'
 import api from '../api.js'
 import MathText from '../components/MathText.jsx'
 import { Loading, ErrorBox } from '../components/Status.jsx'
+import { fadeInUp, staggerContainer, tapScale, overlayFade, DURATION, EASE_OUT, EASE_IN } from '../lib/motion.js'
 import '../styles/psy.css'
+
+// Assessment page — motion here is minimal and never gets in the way of the
+// clock. Question-to-question transitions stay fast and skippable.
+const QUICK = 0.16
 
 const OPTION_LETTERS = ['א', 'ב', 'ג', 'ד', 'ה']
 const AUTOSAVE_MS = 15000
@@ -28,6 +34,10 @@ export default function PsySimPlayer() {
   const [secondsLeft, setSecondsLeft] = useState(null)
   const [error, setError] = useState(null)
   const [busy, setBusy] = useState(false)
+  // Mobile-only question navigator — a bottom sheet instead of the always-
+  // visible sidebar, since the sidebar doesn't fit next to the question pane
+  // under ~900px.
+  const [navOpen, setNavOpen] = useState(false)
 
   // Refs so the timer and the unload handler always see current values without
   // re-subscribing every keystroke.
@@ -178,68 +188,88 @@ export default function PsySimPlayer() {
               </aside>
             )}
 
-            {current && (
-              <article className="psy-question">
-                <div className="psy-question-num">שאלה {index + 1}</div>
-                <div className="psy-stem">
-                  <MathText text={current.stem} />
-                </div>
-                {current.figure && (
-                  <div className="psy-figure">
-                    <MathText text={current.figure} />
+            <AnimatePresence mode="wait">
+              {current && (
+                <motion.article
+                  key={current.ref}
+                  className="psy-question"
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6, transition: { duration: QUICK * 0.7, ease: EASE_IN } }}
+                  transition={{ duration: QUICK, ease: EASE_OUT }}
+                >
+                  <div className="psy-question-num">שאלה {index + 1}</div>
+                  <div className="psy-stem">
+                    <MathText text={current.stem} />
                   </div>
-                )}
-                <ul className="psy-options">
-                  {current.options.map((opt, i) => (
-                    <li key={i}>
-                      <button
-                        type="button"
-                        className={`psy-option${answers[current.ref] === i ? ' is-chosen' : ''}`}
-                        onClick={() => choose(current.ref, i)}
-                      >
-                        <span className="psy-option-letter">{OPTION_LETTERS[i]}</span>
-                        <span className="psy-option-text">
-                          <MathText text={opt} />
-                        </span>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="psy-question-actions">
-                  <button
-                    type="button"
-                    className={`psy-btn psy-btn-ghost${flagged[current.ref] ? ' is-on' : ''}`}
-                    onClick={() =>
-                      setFlagged((p) => ({ ...p, [current.ref]: !p[current.ref] }))
-                    }
+                  {current.figure && (
+                    <div className="psy-figure">
+                      <MathText text={current.figure} />
+                    </div>
+                  )}
+                  <motion.ul
+                    className="psy-options"
+                    variants={staggerContainer}
+                    initial="hidden"
+                    animate="show"
                   >
-                    {flagged[current.ref] ? 'מסומנת לחזרה ✓' : 'סמן לחזרה'}
-                  </button>
-                  <div className="psy-nav-buttons">
-                    <button
+                    {current.options.map((opt, i) => (
+                      <motion.li key={i} variants={fadeInUp}>
+                        <motion.button
+                          type="button"
+                          className={`psy-option${answers[current.ref] === i ? ' is-chosen' : ''}`}
+                          onClick={() => choose(current.ref, i)}
+                          whileTap={{ scale: 0.98 }}
+                          transition={{ duration: DURATION.short, ease: EASE_OUT }}
+                        >
+                          <span className="psy-option-letter">{OPTION_LETTERS[i]}</span>
+                          <span className="psy-option-text">
+                            <MathText text={opt} />
+                          </span>
+                        </motion.button>
+                      </motion.li>
+                    ))}
+                  </motion.ul>
+
+                  <div className="psy-question-actions">
+                    <motion.button
                       type="button"
-                      className="psy-btn"
-                      onClick={() => goTo(index - 1)}
-                      disabled={index === 0}
+                      className={`psy-btn psy-btn-ghost${flagged[current.ref] ? ' is-on' : ''}`}
+                      onClick={() =>
+                        setFlagged((p) => ({ ...p, [current.ref]: !p[current.ref] }))
+                      }
+                      {...tapScale}
                     >
-                      הקודמת
-                    </button>
-                    <button
-                      type="button"
-                      className="psy-btn"
-                      onClick={() => goTo(index + 1)}
-                      disabled={index >= items.length - 1}
-                    >
-                      הבאה
-                    </button>
+                      {flagged[current.ref] ? 'מסומנת לחזרה ✓' : 'סמן לחזרה'}
+                    </motion.button>
+                    <div className="psy-nav-buttons">
+                      <motion.button
+                        type="button"
+                        className="psy-btn"
+                        onClick={() => goTo(index - 1)}
+                        disabled={index === 0}
+                        {...tapScale}
+                      >
+                        הקודמת
+                      </motion.button>
+                      <motion.button
+                        type="button"
+                        className="psy-btn"
+                        onClick={() => goTo(index + 1)}
+                        disabled={index >= items.length - 1}
+                        {...tapScale}
+                      >
+                        הבאה
+                      </motion.button>
+                    </div>
                   </div>
-                </div>
-              </article>
-            )}
+                </motion.article>
+              )}
+            </AnimatePresence>
           </main>
 
-          <nav className="psy-navigator" aria-label="ניווט בין שאלות">
+          {/* desktop/tablet: always-visible sidebar navigator */}
+          <nav className="psy-navigator psy-navigator-desktop" aria-label="ניווט בין שאלות">
             <div className="psy-navigator-head">
               נענו {answeredCount} מתוך {items.length}
             </div>
@@ -276,6 +306,83 @@ export default function PsySimPlayer() {
             </button>
           </nav>
       </div>
+
+      {/* mobile: bottom bar + navigator bottom-sheet, replacing the sidebar */}
+      <div className="psy-mobile-navbar">
+        <button
+          type="button"
+          className="psy-mobile-navbar-status"
+          onClick={() => setNavOpen(true)}
+        >
+          נענו {answeredCount} מתוך {items.length} — ניווט
+        </button>
+        <button
+          className="psy-btn psy-btn-primary"
+          onClick={submitSection}
+          disabled={busy}
+        >
+          {lastSection ? 'סיום המבחן' : 'סיום הפרק'}
+        </button>
+      </div>
+
+      <AnimatePresence>
+        {navOpen && (
+          <>
+            <motion.div
+              className="psy-sheet-backdrop"
+              variants={overlayFade}
+              initial="hidden"
+              animate="show"
+              exit="exit"
+              onClick={() => setNavOpen(false)}
+            />
+            <motion.div
+              className="psy-sheet"
+              role="dialog"
+              aria-label="ניווט בין שאלות"
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ duration: DURATION.medium, ease: EASE_OUT }}
+            >
+              <div className="psy-sheet-handle" aria-hidden="true" />
+              <div className="psy-navigator-head">
+                נענו {answeredCount} מתוך {items.length}
+              </div>
+              <ol className="psy-navigator-grid psy-navigator-grid-sheet">
+                {items.map((it, i) => (
+                  <li key={it.ref}>
+                    <button
+                      type="button"
+                      className={[
+                        'psy-dot',
+                        i === index ? 'is-current' : '',
+                        answers[it.ref] != null ? 'is-answered' : '',
+                        flagged[it.ref] ? 'is-flagged' : '',
+                      ]
+                        .filter(Boolean)
+                        .join(' ')}
+                      onClick={() => {
+                        goTo(i)
+                        setNavOpen(false)
+                      }}
+                      aria-label={`שאלה ${i + 1}`}
+                    >
+                      {i + 1}
+                    </button>
+                  </li>
+                ))}
+              </ol>
+              <p className="psy-navigator-note">
+                אין חזרה לפרק אחרי סיומו — בדיוק כמו במבחן האמיתי.
+              </p>
+              <button className="psy-btn psy-btn-block" onClick={() => setNavOpen(false)}>
+                סגירה
+              </button>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   )
 }

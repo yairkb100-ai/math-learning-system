@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { motion, useReducedMotion } from 'framer-motion'
 import {
   ResponsiveContainer,
   LineChart,
@@ -17,6 +18,15 @@ import {
 } from 'recharts'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
+import { fadeIn, fadeInUp, staggerContainer } from '../lib/motion.js'
+import {
+  IconTarget,
+  IconPencil,
+  IconSpark,
+  IconClipboard,
+  IconTrophy,
+  IconLines,
+} from '../components/icons.jsx'
 import '../styles/analytics.css'
 
 // Palette (mirrors CSS vars used across the app).
@@ -36,13 +46,15 @@ function shortDay(iso) {
   return `${d}/${m}`
 }
 
-function StatCard({ label, value, icon }) {
+function StatCard({ label, value, icon: Icon }) {
   return (
-    <div className="stat-card card">
-      <div className="stat-icon">{icon}</div>
+    <motion.div className="stat-card card" variants={fadeInUp}>
+      <div className="stat-icon">
+        <Icon />
+      </div>
       <div className="stat-value">{value}</div>
       <div className="stat-label muted">{label}</div>
-    </div>
+    </motion.div>
   )
 }
 
@@ -92,6 +104,7 @@ export default function Analytics() {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const prefersReducedMotion = useReducedMotion()
 
   useEffect(() => {
     api
@@ -109,12 +122,19 @@ export default function Analytics() {
   if (data.total_attempts === 0) {
     return (
       <section dir="rtl">
-        <div className="page-head">
+        <motion.div className="page-head" variants={fadeIn} initial="hidden" animate="show">
           <h1>האנליטיקה שלי</h1>
           <p className="muted">מעקב אחר ההתקדמות והביצועים שלך</p>
-        </div>
-        <div className="card analytics-empty">
-          <div className="analytics-empty-icon">📊</div>
+        </motion.div>
+        <motion.div
+          className="card analytics-empty"
+          variants={fadeInUp}
+          initial="hidden"
+          animate="show"
+        >
+          <div className="analytics-empty-icon">
+            <IconLines />
+          </div>
           <h2>עדיין אין כאן נתונים</h2>
           <p>
             פתרו כמה תרגילים כדי שנוכל להראות לכם גרפים של דיוק, רצפים ונקודות
@@ -123,7 +143,7 @@ export default function Analytics() {
           <Link to="/practice" className="btn">
             התחילו לתרגל
           </Link>
-        </div>
+        </motion.div>
       </section>
     )
   }
@@ -135,31 +155,43 @@ export default function Analytics() {
   ]
   const subjectData = [...data.by_subject].sort((a, b) => a.accuracy - b.accuracy)
 
+  const anim = !prefersReducedMotion
+
   return (
     <section dir="rtl">
-      <div className="page-head">
+      <motion.div className="page-head" variants={fadeIn} initial="hidden" animate="show">
         <h1>האנליטיקה שלי</h1>
         <p className="muted">מעקב אחר ההתקדמות והביצועים שלך</p>
-      </div>
+      </motion.div>
 
       {/* ---- stat tiles ---- */}
-      <div className="stats-grid">
-        <StatCard label="דיוק כללי" value={`${data.accuracy_pct}%`} icon="🎯" />
-        <StatCard label='סה"כ תרגולים' value={data.total_attempts} icon="✏️" />
-        <StatCard label="רצף נוכחי 🔥" value={data.current_streak} icon="⚡" />
+      <motion.div
+        className="stats-grid"
+        variants={staggerContainer}
+        initial="hidden"
+        animate="show"
+      >
+        <StatCard label="דיוק כללי" value={`${data.accuracy_pct}%`} icon={IconTarget} />
+        <StatCard label='סה"כ תרגולים' value={data.total_attempts} icon={IconPencil} />
+        <StatCard label="רצף נוכחי" value={data.current_streak} icon={IconSpark} />
         <StatCard
           label="מבחנים שעברת"
           value={`${data.exams_passed}/${data.exams_taken}`}
-          icon="📝"
+          icon={IconClipboard}
         />
-        <StatCard label="הישגים" value={data.achievements_earned} icon="🏆" />
-      </div>
+        <StatCard label="הישגים" value={data.achievements_earned} icon={IconTrophy} />
+      </motion.div>
 
       <h2 className="analytics-section-title">מגמות ופילוח</h2>
 
-      <div className="analytics-charts">
+      <motion.div
+        className="analytics-charts"
+        variants={staggerContainer}
+        initial="hidden"
+        animate="show"
+      >
         {/* ---- accuracy trend (line) ---- */}
-        <div className="card analytics-chart-card wide">
+        <motion.div className="card analytics-chart-card wide" variants={fadeInUp}>
           <h3 className="analytics-chart-title">מגמת דיוק</h3>
           <p className="analytics-chart-sub">אחוז דיוק ב-14 הימים האחרונים</p>
           <ResponsiveContainer width="100%" height={260}>
@@ -176,13 +208,15 @@ export default function Analytics() {
                 strokeWidth={2.5}
                 dot={{ r: 3 }}
                 activeDot={{ r: 5 }}
+                isAnimationActive={anim}
+                animationDuration={700}
               />
             </LineChart>
           </ResponsiveContainer>
-        </div>
+        </motion.div>
 
         {/* ---- daily activity (bar) ---- */}
-        <div className="card analytics-chart-card">
+        <motion.div className="card analytics-chart-card" variants={fadeInUp}>
           <h3 className="analytics-chart-title">פעילות יומית</h3>
           <p className="analytics-chart-sub">מספר תרגולים ליום</p>
           <ResponsiveContainer width="100%" height={260}>
@@ -191,13 +225,20 @@ export default function Analytics() {
               <XAxis dataKey="label" tickMargin={8} />
               <YAxis allowDecimals={false} width={32} />
               <Tooltip content={<ChartTooltip />} cursor={{ fill: 'rgba(37,99,235,0.06)' }} />
-              <Bar dataKey="attempts" name="תרגולים" fill={C.primary} radius={[4, 4, 0, 0]} />
+              <Bar
+                dataKey="attempts"
+                name="תרגולים"
+                fill={C.primary}
+                radius={[4, 4, 0, 0]}
+                isAnimationActive={anim}
+                animationDuration={500}
+              />
             </BarChart>
           </ResponsiveContainer>
-        </div>
+        </motion.div>
 
         {/* ---- answers split (pie) ---- */}
-        <div className="card analytics-chart-card">
+        <motion.div className="card analytics-chart-card" variants={fadeInUp}>
           <h3 className="analytics-chart-title">פילוח תשובות</h3>
           <p className="analytics-chart-sub">נכונות מול שגויות</p>
           <ResponsiveContainer width="100%" height={260}>
@@ -212,6 +253,8 @@ export default function Analytics() {
                 outerRadius={90}
                 paddingAngle={2}
                 label={(e) => `${e.name}: ${e.value}`}
+                isAnimationActive={anim}
+                animationDuration={600}
               >
                 {pieData.map((entry) => (
                   <Cell key={entry.name} fill={entry.color} />
@@ -221,40 +264,53 @@ export default function Analytics() {
               <Legend />
             </PieChart>
           </ResponsiveContainer>
-        </div>
+        </motion.div>
 
         {/* ---- accuracy by subject (horizontal bar) ---- */}
         {subjectData.length > 0 && (
-          <div className="card analytics-chart-card wide">
+          <motion.div className="card analytics-chart-card wide" variants={fadeInUp}>
             <h3 className="analytics-chart-title">דיוק לפי נושא</h3>
             <p className="analytics-chart-sub">אחוז הצלחה בכל מקצוע</p>
-            <ResponsiveContainer width="100%" height={Math.max(180, subjectData.length * 52)}>
-              <BarChart
-                data={subjectData}
-                layout="vertical"
-                margin={{ top: 6, right: 40, left: 12, bottom: 6 }}
+            <div className="analytics-hbar-scroll">
+              <ResponsiveContainer
+                width="100%"
+                minWidth={320}
+                height={Math.max(180, subjectData.length * 52)}
               >
-                <CartesianGrid strokeDasharray="3 3" stroke={C.grid} horizontal={false} />
-                <XAxis type="number" domain={[0, 100]} unit="%" />
-                <YAxis type="category" dataKey="subject" width={90} />
-                <Tooltip content={<ChartTooltip unit="%" />} cursor={{ fill: 'rgba(37,99,235,0.06)' }} />
-                <Bar dataKey="accuracy" name="דיוק" fill={C.orange} radius={[0, 4, 4, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
+                <BarChart
+                  data={subjectData}
+                  layout="vertical"
+                  margin={{ top: 6, right: 40, left: 12, bottom: 6 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" stroke={C.grid} horizontal={false} />
+                  <XAxis type="number" domain={[0, 100]} unit="%" />
+                  <YAxis type="category" dataKey="subject" width={90} />
+                  <Tooltip content={<ChartTooltip unit="%" />} cursor={{ fill: 'rgba(37,99,235,0.06)' }} />
+                  <Bar
+                    dataKey="accuracy"
+                    name="דיוק"
+                    fill={C.orange}
+                    radius={[0, 4, 4, 0]}
+                    isAnimationActive={anim}
+                    animationDuration={600}
+                  />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </motion.div>
         )}
-      </div>
+      </motion.div>
 
       {/* ---- strong / weak topics ---- */}
       {(data.strong_topics.length > 0 || data.weak_topics.length > 0) && (
         <>
           <h2 className="analytics-section-title">נקודות חוזק וחולשה</h2>
-          <div className="card">
+          <motion.div className="card" variants={fadeInUp} initial="hidden" animate="show">
             <div className="analytics-topics">
-              <TopicList title="💪 נקודות חוזק" items={data.strong_topics} tone="good" />
-              <TopicList title="📚 נקודות לשיפור" items={data.weak_topics} tone="bad" />
+              <TopicList title="נקודות חוזק" items={data.strong_topics} tone="good" />
+              <TopicList title="נקודות לשיפור" items={data.weak_topics} tone="bad" />
             </div>
-          </div>
+          </motion.div>
         </>
       )}
     </section>

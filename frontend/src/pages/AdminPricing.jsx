@@ -1,6 +1,9 @@
 import { useCallback, useEffect, useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
+import { DURATION } from '../lib/motion.js'
+import '../styles/admin-ops.css'
 
 // מחירים — הכל נערך כאן ושום מחיר אינו כתוב בקוד.
 //
@@ -173,10 +176,22 @@ export default function AdminPricing() {
         </p>
       </div>
 
-      {saved && <p className="status-ok">{saved}</p>}
+      <AnimatePresence>
+        {saved && (
+          <motion.p
+            className="status-ok"
+            initial={{ opacity: 0, y: -4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: DURATION.short }}
+          >
+            {saved}
+          </motion.p>
+        )}
+      </AnimatePresence>
 
       {/* Plans */}
-      <div className="table-wrap card">
+      <div className="table-wrap card admin-ops-card">
         <h3>תוכניות מנוי</h3>
         <table className="data-table">
           <thead>
@@ -194,15 +209,15 @@ export default function AdminPricing() {
               const d = draftOf(p)
               return (
                 <tr key={p.id}>
-                  <td className="muted">{p.code}</td>
-                  <td>
+                  <td className="muted" data-label="קוד">{p.code}</td>
+                  <td data-label="שם התוכנית">
                     <input
                       className="cell-input"
                       value={d.name}
                       onChange={(e) => edit(p, 'name', e.target.value)}
                     />
                   </td>
-                  <td>
+                  <td data-label="מחיר (₪)">
                     <input
                       className="cell-input cell-num"
                       type="number"
@@ -212,7 +227,7 @@ export default function AdminPricing() {
                       onChange={(e) => edit(p, 'price_nis', e.target.value)}
                     />
                   </td>
-                  <td>
+                  <td data-label="משך (ימים)">
                     <input
                       className="cell-input cell-num"
                       type="number"
@@ -223,12 +238,12 @@ export default function AdminPricing() {
                       title="0 = ללא הגבלת זמן"
                     />
                   </td>
-                  <td>
+                  <td data-label="מוצגת">
                     <span className={p.is_active ? 'status-ok' : 'status-off'}>
                       {p.is_active ? 'כן' : 'לא'}
                     </span>
                   </td>
-                  <td>
+                  <td data-label="פעולות">
                     <div className="row-actions">
                       <button
                         className="btn-sm"
@@ -260,7 +275,7 @@ export default function AdminPricing() {
       </div>
 
       {/* New plan */}
-      <div className="card form-card">
+      <div className="card form-card admin-ops-card">
         <h3>תוכנית חדשה</h3>
         <form onSubmit={addPlan} className="inline-form">
           <div className="form-group">
@@ -307,7 +322,7 @@ export default function AdminPricing() {
       </div>
 
       {/* Lesson price + referral offer */}
-      <div className="card form-card">
+      <div className="card form-card admin-ops-card">
         <h3>שיעור פרטי והטבת "חבר מביא חבר"</h3>
         <p className="muted" style={{ marginTop: 0 }}>
           על כל תלמיד שמישהו מביא הוא בוחר הטבה אחת: אחוז הנחה על החודש הבא של

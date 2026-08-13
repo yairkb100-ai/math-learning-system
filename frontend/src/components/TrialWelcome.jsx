@@ -1,8 +1,30 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useAuth } from '../context/AuthContext.jsx'
 import api from '../api.js'
 import { IconClock, IconSpark } from './icons.jsx'
+import { overlayFade, tapScale, hoverLift, DURATION, EASE_OUT, EASE_IN } from '../lib/motion.js'
+import '../styles/account-growth.css'
+
+// כרטיס המודל עצמו — CSS הישן (index.css) עדיין מפעיל עליו animation: popIn
+// כברירת מחדל עבור מודלים אחרים באתר; ה-class הייעודי הזה (styles/account-
+// growth.css) מנטרל אותה רק כאן כדי שלא תתנגש עם ה-transform של framer-motion.
+const modalVariant = {
+  hidden: { opacity: 0, y: 14, scale: 0.97 },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: DURATION.medium, ease: EASE_OUT },
+  },
+  exit: {
+    opacity: 0,
+    y: 10,
+    scale: 0.97,
+    transition: { duration: DURATION.short, ease: EASE_IN },
+  },
+}
 
 // כל כמה זמן בודקים מחדש מול השרת אם הגישה עדיין בתוקף, כדי לתפוס תלמיד
 // שנשאר עם הלשונית פתוחה בדיוק כשהמנוי/ההתנסות פוקעים בלי לרענן בעצמו.
@@ -127,18 +149,36 @@ export default function TrialWelcome() {
 
   return (
     <>
-      {showModal && (
-        <div className="modal-backdrop" onClick={dismiss} dir="rtl">
-          <div
-            className="modal-card welcome-modal"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="welcome-title"
-            onClick={(e) => e.stopPropagation()}
+      <AnimatePresence>
+        {showModal && (
+          <motion.div
+            className="modal-backdrop tw-backdrop"
+            onClick={dismiss}
+            dir="rtl"
+            variants={overlayFade}
+            initial="hidden"
+            animate="show"
+            exit="exit"
           >
-            <button className="modal-close" onClick={dismiss} aria-label="סגירה">
+            <motion.div
+              className="modal-card welcome-modal tw-modal"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="welcome-title"
+              onClick={(e) => e.stopPropagation()}
+              variants={modalVariant}
+              initial="hidden"
+              animate="show"
+              exit="exit"
+            >
+            <motion.button
+              className="modal-close"
+              onClick={dismiss}
+              aria-label="סגירה"
+              {...tapScale}
+            >
               ×
-            </button>
+            </motion.button>
 
             <span className="welcome-badge">
               <IconSpark /> {ended ? 'עדכון' : 'ברוך הבא'}
@@ -198,22 +238,35 @@ export default function TrialWelcome() {
               <p className="welcome-note">הגישה שלך ללומדה פעילה. בהצלחה!</p>
             )}
 
-            <button className="btn welcome-cta" onClick={dismiss}>
+            <motion.button className="btn welcome-cta" onClick={dismiss} {...tapScale}>
               {ended ? 'הבנתי' : 'יאללה, מתחילים'}
-            </button>
-          </div>
-        </div>
-      )}
+            </motion.button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* צ'יפ צף עם הזמן שנותר / התראת סיום — לא מוצג בעמוד המנוי עצמו */}
-      {!showModal && !onSubPage && inTrial && (
-        <Link to="/subscription" className="trial-chip" dir="rtl" title="תקופת התנסות חינם">
-          <IconClock />
-          <span className="trial-chip-text">
-            נותרו <strong>{days}</strong> ימים ו-{pad(hours)}:{pad(minutes)}:{pad(seconds)} להתנסות
-          </span>
-        </Link>
-      )}
+      <AnimatePresence>
+        {!showModal && !onSubPage && inTrial && (
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 12 }}
+            transition={{ duration: DURATION.medium, ease: EASE_OUT }}
+            style={{ position: 'fixed', bottom: 22, insetInlineStart: 22, zIndex: 90 }}
+          >
+            <motion.div {...hoverLift}>
+              <Link to="/subscription" className="trial-chip" dir="rtl" title="תקופת התנסות חינם" style={{ position: 'static' }}>
+                <IconClock />
+                <span className="trial-chip-text">
+                  נותרו <strong>{days}</strong> ימים ו-{pad(hours)}:{pad(minutes)}:{pad(seconds)} להתנסות
+                </span>
+              </Link>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       {!showModal && !onSubPage && ended && (
         <Link to="/subscription" className="trial-chip trial-chip-ended" dir="rtl">
           <IconClock />

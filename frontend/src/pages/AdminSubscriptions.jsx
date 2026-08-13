@@ -1,6 +1,9 @@
 import { useEffect, useState, useCallback } from 'react'
+import { motion } from 'framer-motion'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
+import { fadeInUp, staggerContainer } from '../lib/motion.js'
+import '../styles/admin-ops.css'
 
 const statusHe = { active: 'פעיל', expired: 'פג', canceled: 'בוטל' }
 
@@ -129,9 +132,14 @@ export default function AdminSubscriptions() {
       </div>
 
       {/* Plans overview */}
-      <div className="plans-row">
+      <motion.div
+        className="plans-row"
+        variants={staggerContainer}
+        initial="hidden"
+        animate="show"
+      >
         {plans.map((p) => (
-          <div key={p.id} className="card plan-card">
+          <motion.div key={p.id} variants={fadeInUp} className="card plan-card admin-ops-card">
             <h3>{p.name}</h3>
             <div className="plan-price">
               {p.price_nis === 0 ? 'חינם' : `₪${p.price_nis}`}
@@ -139,12 +147,12 @@ export default function AdminSubscriptions() {
             <div className="muted">
               {p.duration_days ? `ל-${p.duration_days} ימים` : 'ללא הגבלת זמן'}
             </div>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
 
       {/* Assign form */}
-      <div className="card form-card">
+      <div className="card form-card admin-ops-card">
         <h3>הענקת מנוי לתלמיד</h3>
         <p className="muted" style={{ marginTop: 0 }}>
           אם לתלמיד כבר יש מנוי בתוקף — ההענקה מאריכה אותו במקום ליצור כפול.
@@ -188,7 +196,7 @@ export default function AdminSubscriptions() {
 
       {/* Students without an active subscription — כאן מאשרים המשך גישה */}
       {studentsNoSub.length > 0 && (
-        <div className="card">
+        <div className="card admin-ops-card">
           <h3>תלמידים ללא גישה פעילה ({studentsNoSub.length})</h3>
           <p className="muted" style={{ marginTop: 0 }}>
             תלמידים אלה חסומים מהתוכן (תקופת ההתנסות שלהם נגמרה או שהמנוי בוטל).
@@ -210,7 +218,7 @@ export default function AdminSubscriptions() {
       )}
 
       {/* Subscriptions table */}
-      <div className="table-wrap card">
+      <div className="table-wrap card admin-ops-card">
         <label className="sub-filter">
           <input
             type="checkbox"
@@ -234,9 +242,9 @@ export default function AdminSubscriptions() {
           <tbody>
             {visibleSubs.map((s) => (
               <tr key={s.id}>
-                <td>{userName(s.user_id)}</td>
-                <td>{planName(s.plan_code)}</td>
-                <td>
+                <td data-label="תלמיד">{userName(s.user_id)}</td>
+                <td data-label="תוכנית">{planName(s.plan_code)}</td>
+                <td data-label="סטטוס">
                   <span className={s.is_active ? 'status-ok' : 'status-off'}>
                     {s.is_active
                       ? 'בתוקף'
@@ -245,16 +253,16 @@ export default function AdminSubscriptions() {
                       : statusHe[s.status] || s.status}
                   </span>
                 </td>
-                <td className="muted">
+                <td className="muted" data-label="התחלה">
                   {new Date(s.started_at).toLocaleDateString('he-IL')}
                 </td>
-                <td className="muted">
+                <td className="muted" data-label="תפוגה">
                   {s.expires_at
                     ? new Date(s.expires_at).toLocaleDateString('he-IL')
                     : '—'}
                 </td>
-                <td className="muted">{daysLeftLabel(s)}</td>
-                <td>
+                <td className="muted" data-label="נותרו">{daysLeftLabel(s)}</td>
+                <td data-label="פעולות">
                   <div className="row-actions">
                     {s.plan_code === 'trial' && (
                       <button

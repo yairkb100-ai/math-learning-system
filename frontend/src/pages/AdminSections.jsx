@@ -1,6 +1,9 @@
 import { useEffect, useState, useCallback } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
+import { fadeInUp, staggerContainer, tapScale } from '../lib/motion.js'
+import '../styles/admin-core.css'
 
 const emptySection = { title: '', description: '', order: 0 }
 const emptyCourse = {
@@ -144,7 +147,7 @@ export default function AdminSections() {
   const unassigned = courses.filter((c) => c.section_id == null)
 
   return (
-    <section dir="rtl">
+    <section dir="rtl" className="admin-page">
       <div className="page-head">
         <h1>חלקים וקורסים</h1>
         <p className="muted">
@@ -185,9 +188,9 @@ export default function AdminSections() {
                 onChange={(e) => setSecForm({ ...secForm, order: e.target.value })}
               />
             </div>
-            <button className="btn" disabled={busy}>
+            <motion.button className="btn" disabled={busy} {...tapScale}>
               צור חלק
-            </button>
+            </motion.button>
           </form>
         </div>
 
@@ -266,9 +269,9 @@ export default function AdminSections() {
                 </select>
               </div>
             </div>
-            <button className="btn" disabled={busy}>
+            <motion.button className="btn" disabled={busy} {...tapScale}>
               צור קורס
-            </button>
+            </motion.button>
           </form>
         </div>
       </div>
@@ -282,43 +285,45 @@ export default function AdminSections() {
         </div>
       )}
 
-      {sections.map((s) => (
-        <div key={s.id} className="card section-block">
-          <div className="section-block-head">
-            <div>
-              <h3>📚 {s.title}</h3>
-              {s.description && <p className="muted">{s.description}</p>}
+      <motion.div variants={staggerContainer} initial="hidden" animate="show">
+        {sections.map((s) => (
+          <motion.div key={s.id} className="card section-block" variants={fadeInUp}>
+            <div className="section-block-head">
+              <div>
+                <h3>📚 {s.title}</h3>
+                {s.description && <p className="muted">{s.description}</p>}
+              </div>
+              <button className="btn-sm btn-danger" onClick={() => deleteSection(s)}>
+                מחק חלק
+              </button>
             </div>
-            <button className="btn-sm btn-danger" onClick={() => deleteSection(s)}>
-              מחק חלק
-            </button>
-          </div>
-          <CourseRows
-            courses={s.courses || []}
-            sections={sections}
-            onReassign={reassignCourse}
-            onGrade={changeGrade}
-            onRename={renameCourse}
-            onDelete={deleteCourse}
-          />
-        </div>
-      ))}
+            <CourseRows
+              courses={s.courses || []}
+              sections={sections}
+              onReassign={reassignCourse}
+              onGrade={changeGrade}
+              onRename={renameCourse}
+              onDelete={deleteCourse}
+            />
+          </motion.div>
+        ))}
 
-      {unassigned.length > 0 && (
-        <div className="card section-block">
-          <div className="section-block-head">
-            <h3>🗂️ קורסים ללא חלק</h3>
-          </div>
-          <CourseRows
-            courses={unassigned}
-            sections={sections}
-            onReassign={reassignCourse}
-            onGrade={changeGrade}
-            onRename={renameCourse}
-            onDelete={deleteCourse}
-          />
-        </div>
-      )}
+        {unassigned.length > 0 && (
+          <motion.div className="card section-block" variants={fadeInUp}>
+            <div className="section-block-head">
+              <h3>🗂️ קורסים ללא חלק</h3>
+            </div>
+            <CourseRows
+              courses={unassigned}
+              sections={sections}
+              onReassign={reassignCourse}
+              onGrade={changeGrade}
+              onRename={renameCourse}
+              onDelete={deleteCourse}
+            />
+          </motion.div>
+        )}
+      </motion.div>
     </section>
   )
 }
@@ -428,7 +433,19 @@ function CourseRow({ course: c, sections, onReassign, onGrade, onRename, onDelet
       <button className="btn-sm btn-danger" onClick={() => onDelete(c)}>
         מחק
       </button>
-      {openChapters && <ChapterRows courseId={c.id} />}
+      <AnimatePresence initial={false}>
+        {openChapters && (
+          <motion.div
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            style={{ width: '100%' }}
+          >
+            <ChapterRows courseId={c.id} />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </li>
   )
 }

@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { motion, AnimatePresence } from 'framer-motion'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
 import { IconLock } from '../components/icons.jsx'
 import { celebrate } from '../lib/celebrate.js'
+import { fadeInUp, staggerContainer, tapScale, hoverLift, DURATION, EASE_OUT, EASE_IN } from '../lib/motion.js'
 import '../styles/practice.css'
 
 const DIFFICULTY_HE = { easy: 'קל', medium: 'בינוני', hard: 'קשה' }
@@ -19,6 +21,11 @@ const subjectLabel = (s) => SUBJECT_HE[s] || s
 const difficultyLabel = (d) => DIFFICULTY_HE[d] || d
 const OPTION_LETTERS = ['א', 'ב', 'ג', 'ד', 'ה', 'ו']
 const COUNT_OPTIONS = [5, 10, 15, 20]
+
+// Drill flow — questions get answered repeatedly in quick succession, so the
+// question-card transition must stay out of the way of fast, rapid tapping.
+// Shorter than the shared DURATION.medium page-level feel.
+const QUICK = 0.16
 
 function formatDuration(totalSeconds) {
   const s = Math.max(0, Math.round(totalSeconds))
@@ -197,7 +204,12 @@ export default function Practice() {
 
       {/* free tier: the bank is sampled from the open ~42% of every topic */}
       {meta?.access_tier === 'free' && (
-        <div className="free-note">
+        <motion.div
+          className="free-note"
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: DURATION.medium, ease: EASE_OUT }}
+        >
           <span className="free-note-icon" aria-hidden="true">
             <IconLock />
           </span>
@@ -214,34 +226,48 @@ export default function Practice() {
           <Link to="/subscription" className="btn free-note-btn">
             לפתיחת כל המאגר
           </Link>
-        </div>
+        </motion.div>
       )}
 
       {/* live stats strip */}
-      <div className="practice-stats">
-        <div className="card stat-card">
+      <motion.div
+        className="practice-stats"
+        variants={staggerContainer}
+        initial="hidden"
+        animate="show"
+      >
+        <motion.div className="card stat-card" variants={fadeInUp}>
           <div className="stat-value">{accuracy}</div>
           <div className="stat-label muted">דיוק</div>
-        </div>
-        <div className="card stat-card">
+        </motion.div>
+        <motion.div className="card stat-card" variants={fadeInUp}>
           <div className="stat-value">🔥 {streak}</div>
           <div className="stat-label muted">רצף נוכחי</div>
-        </div>
-        <div className="card stat-card">
+        </motion.div>
+        <motion.div className="card stat-card" variants={fadeInUp}>
           <div className="stat-value">{totalAttempts}</div>
           <div className="stat-label muted">סה"כ תרגולים</div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {/* achievement toast */}
-      {toast && (
-        <div className="practice-toast" role="status">
-          <span className="practice-toast-icon">🏆</span>
-          <span>
-            {toast.map((b) => `הישג חדש: ${b.icon || ''} ${b.title}`).join(' · ')}
-          </span>
-        </div>
-      )}
+      <AnimatePresence>
+        {toast && (
+          <motion.div
+            className="practice-toast"
+            role="status"
+            initial={{ opacity: 0, y: -10, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -6, transition: { duration: DURATION.short, ease: EASE_IN } }}
+            transition={{ duration: DURATION.medium, ease: EASE_OUT }}
+          >
+            <span className="practice-toast-icon">🏆</span>
+            <span>
+              {toast.map((b) => `הישג חדש: ${b.icon || ''} ${b.title}`).join(' · ')}
+            </span>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* filter bar (shown when idle) */}
       {!started && (
@@ -252,8 +278,13 @@ export default function Practice() {
             <Loading label="טוען מסננים…" />
           ) : (
             <>
-              <div className="practice-filters">
-                <div className="practice-field">
+              <motion.div
+                className="practice-filters"
+                variants={staggerContainer}
+                initial="hidden"
+                animate="show"
+              >
+                <motion.div className="practice-field" variants={fadeInUp}>
                   <label htmlFor="pf-subject">נושא</label>
                   <select
                     id="pf-subject"
@@ -268,9 +299,9 @@ export default function Practice() {
                       </option>
                     ))}
                   </select>
-                </div>
+                </motion.div>
 
-                <div className="practice-field">
+                <motion.div className="practice-field" variants={fadeInUp}>
                   <label htmlFor="pf-topic">תת-נושא</label>
                   <select
                     id="pf-topic"
@@ -285,9 +316,9 @@ export default function Practice() {
                       </option>
                     ))}
                   </select>
-                </div>
+                </motion.div>
 
-                <div className="practice-field">
+                <motion.div className="practice-field" variants={fadeInUp}>
                   <label htmlFor="pf-difficulty">רמת קושי</label>
                   <select
                     id="pf-difficulty"
@@ -302,9 +333,9 @@ export default function Practice() {
                       </option>
                     ))}
                   </select>
-                </div>
+                </motion.div>
 
-                <div className="practice-field">
+                <motion.div className="practice-field" variants={fadeInUp}>
                   <label htmlFor="pf-count">מספר שאלות</label>
                   <select
                     id="pf-count"
@@ -318,39 +349,50 @@ export default function Practice() {
                       </option>
                     ))}
                   </select>
-                </div>
+                </motion.div>
 
-                <button
-                  className="btn"
+                <motion.button
+                  className="btn practice-start-btn"
                   style={{ background: 'var(--cta)', color: '#fff' }}
                   onClick={startSession}
                   disabled={loadingQ}
+                  variants={fadeInUp}
+                  {...tapScale}
                 >
                   {loadingQ ? 'טוען…' : 'התחל תרגול'}
-                </button>
-              </div>
+                </motion.button>
+              </motion.div>
 
               {/* quick topic chips — one tap to focus a topic */}
               {meta.topics.length > 0 && (
-                <div className="practice-topic-chips">
-                  <button
+                <motion.div
+                  className="practice-topic-chips"
+                  variants={staggerContainer}
+                  initial="hidden"
+                  animate="show"
+                >
+                  <motion.button
                     type="button"
                     className={`practice-chip ${topic === '' ? 'is-active' : ''}`}
                     onClick={() => setTopic('')}
+                    variants={fadeInUp}
+                    {...tapScale}
                   >
                     הכול
-                  </button>
+                  </motion.button>
                   {meta.topics.map((t) => (
-                    <button
+                    <motion.button
                       key={t}
                       type="button"
                       className={`practice-chip ${topic === t ? 'is-active' : ''}`}
                       onClick={() => setTopic(t)}
+                      variants={fadeInUp}
+                      {...tapScale}
                     >
                       {t}
-                    </button>
+                    </motion.button>
                   ))}
-                </div>
+                </motion.div>
               )}
 
               {stats && stats.best_streak > 0 && (
@@ -383,18 +425,21 @@ export default function Practice() {
               </button>
             </div>
           ) : current ? (
-            <QuestionCard
-              question={current}
-              index={index}
-              total={questions.length}
-              answer={answer}
-              setAnswer={setAnswer}
-              result={result}
-              submitting={submitting}
-              onSubmit={submit}
-              onNext={next}
-              onQuit={() => setFinished(true)}
-            />
+            <AnimatePresence mode="wait">
+              <QuestionCard
+                key={current.id ?? index}
+                question={current}
+                index={index}
+                total={questions.length}
+                answer={answer}
+                setAnswer={setAnswer}
+                result={result}
+                submitting={submitting}
+                onSubmit={submit}
+                onNext={next}
+                onQuit={() => setFinished(true)}
+              />
+            </AnimatePresence>
           ) : null}
         </>
       )}
@@ -444,7 +489,13 @@ function QuestionCard({
   }
 
   return (
-    <div className="card practice-question-card">
+    <motion.div
+      className="card practice-question-card"
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -8, transition: { duration: QUICK * 0.8, ease: EASE_IN } }}
+      transition={{ duration: QUICK, ease: EASE_OUT }}
+    >
       <div className="practice-progressbar" aria-hidden="true">
         <div className="practice-progressbar-fill" style={{ width: `${progressPct}%` }} />
       </div>
@@ -463,22 +514,30 @@ function QuestionCard({
       <p className="practice-question-text">{question.question}</p>
 
       {isMC ? (
-        <div className="options">
+        <motion.div
+          className="options"
+          variants={staggerContainer}
+          initial="hidden"
+          animate="show"
+        >
           {question.options.map((opt, i) => (
-            <button
+            <motion.button
               key={i}
               type="button"
               className={optionClass(opt)}
               disabled={answered}
               onClick={() => setAnswer(opt)}
+              variants={fadeInUp}
+              whileTap={answered ? {} : { scale: 0.98 }}
+              transition={{ duration: DURATION.short, ease: EASE_OUT }}
             >
               <span className="practice-option-marker">
                 {OPTION_LETTERS[i] || i + 1}
               </span>
               <span>{opt}</span>
-            </button>
+            </motion.button>
           ))}
-        </div>
+        </motion.div>
       ) : (
         <input
           className="text-answer"
@@ -494,45 +553,55 @@ function QuestionCard({
         />
       )}
 
-      {answered && (
-        <div className={`verdict ${result.is_correct ? 'ok' : 'no'}`}>
-          <strong>{result.is_correct ? '✓ תשובה נכונה!' : '✗ תשובה שגויה'}</strong>
-          {!result.is_correct && (
-            <span className="correct-answer">
-              התשובה הנכונה: {result.correct_answer}
-            </span>
-          )}
-          {result.explanation && (
-            <span className="practice-verdict-explain">{result.explanation}</span>
-          )}
-        </div>
-      )}
+      <AnimatePresence>
+        {answered && (
+          <motion.div
+            className={`verdict ${result.is_correct ? 'ok' : 'no'}`}
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: DURATION.short, ease: EASE_OUT }}
+          >
+            <strong>{result.is_correct ? '✓ תשובה נכונה!' : '✗ תשובה שגויה'}</strong>
+            {!result.is_correct && (
+              <span className="correct-answer">
+                התשובה הנכונה: {result.correct_answer}
+              </span>
+            )}
+            {result.explanation && (
+              <span className="practice-verdict-explain">{result.explanation}</span>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <div className="practice-actions">
         {!answered ? (
           <>
-            <button
+            <motion.button
               className="btn"
               onClick={onSubmit}
               disabled={submitting || !String(answer).trim()}
+              {...tapScale}
             >
               {submitting ? 'בודק…' : 'בדוק'}
-            </button>
-            <button className="btn btn-sm" onClick={onQuit}>
+            </motion.button>
+            <motion.button className="btn btn-sm" onClick={onQuit} {...tapScale}>
               סיום
-            </button>
+            </motion.button>
           </>
         ) : (
-          <button
+          <motion.button
             className="btn"
             style={{ background: 'var(--cta)', color: '#fff' }}
             onClick={onNext}
+            {...tapScale}
           >
             {index + 1 < total ? 'השאלה הבאה' : 'לסיכום התרגול'}
-          </button>
+          </motion.button>
         )}
       </div>
-    </div>
+    </motion.div>
   )
 }
 
@@ -567,77 +636,93 @@ function SessionSummary({ log, earned, onRestart, onNew }) {
   }
 
   return (
-    <div className="card practice-summary">
-      <div className={`practice-summary-hero ${grade.cls}`}>
+    <motion.div
+      className="card practice-summary"
+      initial="hidden"
+      animate="show"
+      variants={staggerContainer}
+    >
+      <motion.div
+        className={`practice-summary-hero ${grade.cls}`}
+        variants={fadeInUp}
+        initial={{ opacity: 0, scale: 0.92 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: DURATION.long, ease: EASE_OUT }}
+      >
         <div className="practice-summary-emoji">{grade.emoji}</div>
         <div className="practice-summary-score">{pct}%</div>
         <div className="practice-summary-grade">{grade.text}</div>
-      </div>
+      </motion.div>
 
-      <div className="practice-summary-stats">
-        <div className="practice-summary-stat">
+      <motion.div className="practice-summary-stats" variants={staggerContainer}>
+        <motion.div className="practice-summary-stat" variants={fadeInUp}>
           <div className="stat-value">
             {correct}/{total}
           </div>
           <div className="stat-label muted">תשובות נכונות</div>
-        </div>
-        <div className="practice-summary-stat">
+        </motion.div>
+        <motion.div className="practice-summary-stat" variants={fadeInUp}>
           <div className="stat-value">{formatDuration(totalTime)}</div>
           <div className="stat-label muted">זמן כולל</div>
-        </div>
-        <div className="practice-summary-stat">
+        </motion.div>
+        <motion.div className="practice-summary-stat" variants={fadeInUp}>
           <div className="stat-value">
             {formatDuration(total ? totalTime / total : 0)}
           </div>
           <div className="stat-label muted">ממוצע לשאלה</div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {earned.length > 0 && (
-        <div className="practice-toast" role="status" style={{ marginTop: 4 }}>
+        <motion.div className="practice-toast" role="status" style={{ marginTop: 4 }} variants={fadeInUp}>
           <span className="practice-toast-icon">🏆</span>
           <span>
             {earned.map((b) => `${b.icon || ''} ${b.title}`).join(' · ')}
           </span>
-        </div>
+        </motion.div>
       )}
 
       {wrong.length > 0 ? (
         <div className="practice-review">
           <h3 className="practice-review-title">מה כדאי לחזור עליו ({wrong.length})</h3>
-          {wrong.map((e, i) => (
-            <div key={i} className="practice-review-item">
-              <p className="practice-review-q">{e.question}</p>
-              <div className="practice-review-answers">
-                <span className="practice-review-yours">
-                  תשובתך: {e.yourAnswer}
-                </span>
-                <span className="practice-review-correct">
-                  הנכונה: {e.correctAnswer}
-                </span>
-              </div>
-              {e.explanation && (
-                <p className="practice-review-expl">{e.explanation}</p>
-              )}
-            </div>
-          ))}
+          <motion.div variants={staggerContainer} initial="hidden" animate="show">
+            {wrong.map((e, i) => (
+              <motion.div key={i} className="practice-review-item" variants={fadeInUp}>
+                <p className="practice-review-q">{e.question}</p>
+                <div className="practice-review-answers">
+                  <span className="practice-review-yours">
+                    תשובתך: {e.yourAnswer}
+                  </span>
+                  <span className="practice-review-correct">
+                    הנכונה: {e.correctAnswer}
+                  </span>
+                </div>
+                {e.explanation && (
+                  <p className="practice-review-expl">{e.explanation}</p>
+                )}
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       ) : (
-        <p className="practice-review-perfect">🎯 כל התשובות נכונות — פגיעה מושלמת!</p>
+        <motion.p className="practice-review-perfect" variants={fadeInUp}>
+          🎯 כל התשובות נכונות — פגיעה מושלמת!
+        </motion.p>
       )}
 
       <div className="practice-actions" style={{ justifyContent: 'center' }}>
-        <button
+        <motion.button
           className="btn"
           style={{ background: 'var(--cta)', color: '#fff' }}
           onClick={onRestart}
+          {...tapScale}
         >
           תרגול נוסף (אותם מסננים)
-        </button>
-        <button className="btn btn-sm" onClick={onNew}>
+        </motion.button>
+        <motion.button className="btn btn-sm" onClick={onNew} {...tapScale}>
           שינוי מסננים
-        </button>
+        </motion.button>
       </div>
-    </div>
+    </motion.div>
   )
 }

@@ -1,6 +1,9 @@
 import { useEffect, useState, useCallback } from 'react'
+import { motion } from 'framer-motion'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
+import { fadeInUp, staggerContainer } from '../lib/motion.js'
+import '../styles/admin-ops.css'
 
 export default function AdminProgress() {
   const [students, setStudents] = useState([])
@@ -33,52 +36,58 @@ export default function AdminProgress() {
           <p>אין תלמידים במערכת עדיין.</p>
         </div>
       ) : (
-        students.map((s) => (
-          <div key={s.user_id} className="card student-progress-card">
-            <div className="student-progress-head">
-              <h3>{s.full_name}</h3>
-              <span className="mono muted">{s.username}</span>
-            </div>
-            <div className="table-wrap">
-              <table className="data-table">
-                <thead>
-                  <tr>
-                    <th>קורס</th>
-                    <th>התקדמות</th>
-                    <th>פרקים</th>
-                    <th>פעילות אחרונה</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {s.courses.map((c) => (
-                    <tr key={c.course_id}>
-                      <td>{c.course_title}</td>
-                      <td>
-                        <div className="progress-cell">
-                          <div className="progress-bar-wrap">
-                            <div
-                              className="progress-bar-fill"
-                              style={{ width: `${c.progress_pct}%` }}
-                            />
-                          </div>
-                          <span className="progress-pct">{c.progress_pct}%</span>
-                        </div>
-                      </td>
-                      <td className="muted">
-                        {c.completed_chapters} / {c.total_chapters}
-                      </td>
-                      <td className="muted">
-                        {c.last_activity
-                          ? new Date(c.last_activity).toLocaleDateString('he-IL')
-                          : '—'}
-                      </td>
+        <motion.div variants={staggerContainer} initial="hidden" animate="show">
+          {students.map((s) => (
+            <motion.div
+              key={s.user_id}
+              variants={fadeInUp}
+              className="card student-progress-card admin-ops-card"
+            >
+              <div className="student-progress-head">
+                <h3>{s.full_name}</h3>
+                <span className="mono muted">{s.username}</span>
+              </div>
+              <div className="table-wrap">
+                <table className="data-table">
+                  <thead>
+                    <tr>
+                      <th>קורס</th>
+                      <th>התקדמות</th>
+                      <th>פרקים</th>
+                      <th>פעילות אחרונה</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        ))
+                  </thead>
+                  <tbody>
+                    {s.courses.map((c) => (
+                      <tr key={c.course_id}>
+                        <td data-label="קורס">{c.course_title}</td>
+                        <td data-label="התקדמות">
+                          <div className="progress-cell">
+                            <div className="progress-bar-wrap">
+                              <div
+                                className="progress-bar-fill"
+                                style={{ width: `${c.progress_pct}%` }}
+                              />
+                            </div>
+                            <span className="progress-pct">{c.progress_pct}%</span>
+                          </div>
+                        </td>
+                        <td className="muted" data-label="פרקים">
+                          {c.completed_chapters} / {c.total_chapters}
+                        </td>
+                        <td className="muted" data-label="פעילות אחרונה">
+                          {c.last_activity
+                            ? new Date(c.last_activity).toLocaleDateString('he-IL')
+                            : '—'}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
       )}
     </section>
   )

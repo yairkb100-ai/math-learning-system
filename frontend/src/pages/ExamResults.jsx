@@ -1,8 +1,17 @@
 import { useEffect, useState } from 'react'
 import { useParams, useLocation, useNavigate, Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
 import { celebrate } from '../lib/celebrate.js'
+import {
+  fadeInUp,
+  fadeIn,
+  staggerContainer,
+  tapScale,
+  DURATION,
+  EASE_OUT,
+} from '../lib/motion.js'
 import '../styles/exams.css'
 
 const DIFFICULTY_HE = { easy: 'קל', medium: 'בינוני', hard: 'קשה' }
@@ -56,56 +65,84 @@ export default function ExamResults() {
       </div>
 
       {newlyEarned.length > 0 && (
-        <div className="exam-badges-banner">
+        <motion.div
+          className="exam-badges-banner"
+          variants={fadeInUp}
+          initial="hidden"
+          animate="show"
+        >
           <strong>🏆 הישגים חדשים!</strong>
           {newlyEarned.map((b) => (
             <span key={b.code} className="exam-badge-chip">
               <span>{b.icon}</span> {b.title}
             </span>
           ))}
-        </div>
+        </motion.div>
       )}
 
       <div className="card" style={{ marginBottom: 18 }}>
         <div className="exam-result-hero">
-          <div className={`exam-score-circle ${sub.passed ? 'pass' : 'fail'}`}>
+          <motion.div
+            className={`exam-score-circle ${sub.passed ? 'pass' : 'fail'}`}
+            initial={{ opacity: 0, scale: 0.6 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: DURATION.medium, ease: EASE_OUT }}
+          >
             <div>
               <div className="exam-score-num">{Math.round(sub.score)}</div>
               <div className="exam-score-pct">%</div>
             </div>
-          </div>
-          <div className="exam-result-verdict">
-            <h2 style={{ color: sub.passed ? 'var(--ok)' : 'var(--no)' }}>
+          </motion.div>
+          <motion.div
+            className="exam-result-verdict"
+            variants={staggerContainer}
+            initial="hidden"
+            animate="show"
+          >
+            <motion.h2
+              variants={fadeInUp}
+              style={{ color: sub.passed ? 'var(--ok)' : 'var(--no)' }}
+            >
               {sub.passed ? '🎉 עברת בהצלחה!' : 'לא עברת הפעם'}
-            </h2>
-            <div className="exam-result-stats">
+            </motion.h2>
+            <motion.div className="exam-result-stats" variants={fadeInUp}>
               <span>
                 תשובות נכונות: <b>{sub.correct_count}/{sub.total_questions}</b>
               </span>
               <span>
                 זמן: <b>{fmtTime(sub.time_taken_seconds)}</b>
               </span>
-            </div>
-            <div className="exam-diff-path">
+            </motion.div>
+            <motion.div
+              className="exam-diff-path"
+              variants={staggerContainer}
+            >
               {answers.map((a, i) => (
-                <span
+                <motion.span
                   key={i}
+                  variants={fadeIn}
                   className={`exam-dot d-${a.difficulty} ${a.is_correct ? 'correct' : 'wrong'}`}
                   title={`שאלה ${i + 1} · ${DIFFICULTY_HE[a.difficulty] || a.difficulty} · ${a.is_correct ? 'נכון' : 'שגוי'}`}
                 >
                   {a.is_correct ? '✓' : '✗'}
-                </span>
+                </motion.span>
               ))}
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
 
       <h2 className="section-title">סקירת שאלות</h2>
-      <div className="exam-review">
+      <motion.div
+        className="exam-review"
+        variants={staggerContainer}
+        initial="hidden"
+        animate="show"
+      >
         {answers.map((a, i) => (
-          <div
+          <motion.div
             key={i}
+            variants={fadeInUp}
             className={`exam-review-item ${a.is_correct ? 'correct' : 'wrong'}`}
           >
             <div className="exam-review-head">
@@ -130,20 +167,21 @@ export default function ExamResults() {
             {a.explanation && (
               <div className="exam-review-expl">💡 {a.explanation}</div>
             )}
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
 
       <div className="exam-actions">
         <Link to="/exams" className="btn">
           חזרה למבחנים
         </Link>
-        <button
+        <motion.button
           className="btn-sm"
           onClick={() => navigate(`/exams/${sub.exam_id}`)}
+          {...tapScale}
         >
           נסה שוב
-        </button>
+        </motion.button>
       </div>
     </section>
   )

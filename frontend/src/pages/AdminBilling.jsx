@@ -1,8 +1,11 @@
 import { useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
 import AdminSubscriptions from './AdminSubscriptions.jsx'
 import AdminDevices from './AdminDevices.jsx'
 import AdminPricing from './AdminPricing.jsx'
 import AdminReferrals from './AdminReferrals.jsx'
+import { fadeIn, DURATION, tapScale } from '../lib/motion.js'
+import '../styles/admin-ops.css'
 
 const TABS = [
   { key: 'subs', label: 'מנויים ותשלומים', Panel: AdminSubscriptions },
@@ -19,17 +22,30 @@ export default function AdminBilling() {
     <div>
       <div className="admin-subtabs" dir="rtl">
         {TABS.map((t) => (
-          <button
+          <motion.button
             key={t.key}
             className={`admin-subtab${tab === t.key ? ' active' : ''}`}
             onClick={() => setTab(t.key)}
+            {...tapScale}
           >
             {t.label}
-          </button>
+          </motion.button>
         ))}
       </div>
 
-      <Panel />
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={tab}
+          className="admin-ops-panel"
+          variants={fadeIn}
+          initial="hidden"
+          animate="show"
+          exit="hidden"
+          transition={{ duration: DURATION.short }}
+        >
+          <Panel />
+        </motion.div>
+      </AnimatePresence>
     </div>
   )
 }

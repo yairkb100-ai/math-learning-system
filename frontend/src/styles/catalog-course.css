@@ -1,0 +1,54 @@
+/* Scoped additions for CourseList / CourseView / ChapterView (frontend
+   modernization pass). Reuses existing theme variables only — no new
+   colors. Keep this file scoped to these three pages' own concerns; shared
+   layout primitives stay in index.css. */
+
+/* The .step-fill bar itself (index.css: height/background/radius) is now
+   driven by framer-motion's `scaleX` transform inline (see ChapterView.jsx)
+   instead of animating `width`, per the transform/opacity-only motion rule. */
+
+/* ---- sticky mobile chapter-progress bar ----------------------------- */
+/* Hidden by default; only meaningful once a chapter is mid-read on a small
+   screen, where the full step-bar card scrolls out of view quickly. Sits
+   just under the navbar, thin and quiet — a location cue, not a second
+   header. */
+.mobile-progress {
+  display: none;
+}
+@media (max-width: 640px) {
+  .mobile-progress {
+    display: block;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    height: 4px;
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+    margin: 0 0 12px;
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .mobile-progress-fill {
+    height: 100%;
+    width: 100%;
+    transform-origin: inherit;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    border-radius: 999px;
+  }
+}
+
+/* ---- step-dot touch target -------------------------------------------- */
+/* The dots themselves stay visually small (index.css), but on touch
+   devices the hit area must still clear 44px without inflating the dot. */
+@media (max-width: 640px) {
+  .step-dots {
+    gap: 10px;
+  }
+  .step-dot {
+    position: relative;
+  }
+  .step-dot::after {
+    content: '';
+    position: absolute;
+    inset: -14px;
+  }
+}
