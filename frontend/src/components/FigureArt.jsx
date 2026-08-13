@@ -46,6 +46,12 @@ const FILL_SOFT = '#dfeae4'
 const COLORS = { ink: INK, accent: ACCENT, warm: WARM }
 const SIZES = { s: 0.62, m: 0.82, l: 1.0 }
 
+// Re-exported so SpatialArt.jsx (cube nets, isometric block stacks, mirror
+// images) can draw with the exact same ink/accent/warm palette and the same
+// shape vocabulary instead of inventing a second one — a triangle face-mark on
+// a cube net must look like the same triangle a figural item would draw.
+export { INK, ACCENT, WARM, COLORS, SIZES }
+
 // ---------------------------------------------------------------------------
 // spec parsing
 // ---------------------------------------------------------------------------
@@ -99,7 +105,7 @@ function starPoints(r) {
   return pts.map((p) => p.join(',')).join(' ')
 }
 
-function Shape({ kind, r, stroke, fillRef }) {
+export function Shape({ kind, r, stroke, fillRef }) {
   const common = {
     fill: fillRef,
     stroke,

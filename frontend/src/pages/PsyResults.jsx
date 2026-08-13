@@ -10,9 +10,12 @@ const DOMAIN_HE = {
   verbal: 'מילולי',
   quantitative: 'כמותי',
   figural: 'צורני',
+  logic: 'לוגי',
+  spatial: 'מרחבי',
+  speed: 'זריזות ודיוק',
   english: 'אנגלית',
 }
-const DOMAIN_ORDER = ['verbal', 'quantitative', 'figural', 'english']
+const DOMAIN_ORDER = ['verbal', 'quantitative', 'figural', 'logic', 'spatial', 'speed', 'english']
 
 function pct(n) {
   return `${Math.round(n * 100)}%`

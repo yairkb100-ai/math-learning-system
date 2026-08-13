@@ -2,6 +2,7 @@
 // Used via {{kind:n/d|caption}} tokens inside course content (see MathText).
 
 import { FIGURE_KINDS } from './FigureArt.jsx'
+import { SPATIAL_KINDS } from './SpatialArt.jsx'
 
 const NAVY = '#14306b'
 const FILL = '#8ecae6'
@@ -1223,6 +1224,9 @@ const KINDS = {
   // figural analogies, odd-one-out). Registered here so MathText routes them
   // like any other illustration — see FigureArt.jsx for the spec grammar.
   ...FIGURE_KINDS,
+  // Spatial-reasoning tokens for the קרני area (cube nets, isometric block
+  // stacks, mirror images). See SpatialArt.jsx for the spec grammar.
+  ...SPATIAL_KINDS,
 }
 
 export default function FractionArt({ kind, n = 1, d = 4, param, caption }) {

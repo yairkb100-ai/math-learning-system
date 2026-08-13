@@ -1257,6 +1257,27 @@ _PSY_SECTIONS = [
         "order": 5,
         "course_slugs": ["karni-english-vocabulary", "karni-english-grammar"],
     },
+    {
+        "slug": "psy-logic",
+        "title": "חשיבה לוגית",
+        "description": "היסק מתנאים, פאזלי \"מי יכול להיות נוכח\" ומסקנות הכרחיות לעומת אפשריות — הפרק שבו קוראים כלל בזהירות ולא ממהרים למסקנה",
+        "order": 6,
+        "course_slugs": ["karni-logic-deduction"],
+    },
+    {
+        "slug": "psy-spatial",
+        "title": "חשיבה מרחבית",
+        "description": "קיפול פרישות לגוף תלת-ממדי וזיהוי הפרישה הנכונה מתוך הגוף — הפרק שדורש לסובב את הצורה בראש",
+        "order": 7,
+        "course_slugs": ["karni-spatial-nets"],
+    },
+    {
+        "slug": "psy-speed",
+        "title": "זריזות ודיוק",
+        "description": "השוואת מחרוזות, קודים וסמלים בקצב גבוה — הפרק שבודק לא רק אם התשובה נכונה אלא כמה מהר ובלי טעויות מגיעים אליה",
+        "order": 8,
+        "course_slugs": ["karni-speed-accuracy"],
+    },
 ]
 
 
@@ -1470,6 +1491,23 @@ _PSY_SIMULATIONS = [
         "sections": [
             {"order": 0, "domain": "english", "title": "אנגלית",
              "minutes": 8, "num_questions": 10, "blueprint": [{"count": 10}]},
+        ],
+    },
+    {
+        "slug": "karni-mini-logic",
+        "title": "מיני-תרגול לוגיקה, מרחב וזריזות",
+        "description": "פרק לוגי, פרק מרחבי ופרק זריזות ברצף אחד — טעימה מהתחומים החדשים בקצב מבחן",
+        "kind": "mini",
+        "order": 6,
+        "free_preview": True,
+        "sections": [
+            {"order": 0, "domain": "logic", "title": "חשיבה לוגית",
+             "minutes": 10, "num_questions": 10, "blueprint": [{"count": 10}]},
+            {"order": 1, "domain": "spatial", "title": "חשיבה מרחבית",
+             "minutes": 8, "num_questions": 10,
+             "blueprint": [{"count": 10, "topic": "חשיבה מרחבית"}]},
+            {"order": 2, "domain": "speed", "title": "זריזות ודיוק",
+             "minutes": 6, "num_questions": 18, "blueprint": [{"count": 18}]},
         ],
     },
     {

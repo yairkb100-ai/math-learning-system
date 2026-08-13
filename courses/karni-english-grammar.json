@@ -1,0 +1,653 @@
+{
+  "course": {
+    "metadata": {
+      "slug": "karni-english-grammar",
+      "track": "psy",
+      "title": "דקדוק אנגלי להכנה לקרני",
+      "description": "קורס דקדוק ממוקד לפרק האנגלית במבחן קרני, ובמיוחד לשאלות השלמת המשפט שבו. חמישה פרקים: השוואה ועליונות (er/est ומילות ההשוואה that go with them), בחירת זמן דקדוקי בין הווה פשוט להווה מתמשך ובין הווה לעבר, מילות יחס של מקום וזמן, הבלבולים הנפוצים ביותר בין some/any, much/many ו-its/it's, ולבסוף פרק שיטה מלא להשלמת משפטים: קריאת המשפט השלם קודם, זיהוי חלק הדיבור החסר, ופסילת מסיחים לפי סוג המילה לפני שבודקים משמעות. כל כלל מוצג עם דוגמאות באנגלית, תרגום והסבר בעברית, ותרגילי בדיקה עצמית.",
+      "level": "Beginner",
+      "language": "Hebrew",
+      "estimated_hours": 9,
+      "chapters": 5
+    },
+    "learning_objectives": [
+      "לבחור בין צורת השוואה (er/more) לצורת עליונות (est/most) לפי מספר הדברים המושווים במשפט",
+      "לזהות מתי תואר משתנה בכתיב לפני הוספת er/est, ומתי הוא דורש more/most במקום סיומת",
+      "לבחור בין הווה פשוט להווה מתמשך לפי מילת הזמן שבמשפט (usually מול right now)",
+      "לבחור בין הווה לעבר פשוט לפי עוגן הזמן שבמשפט (yesterday, last week, ago)",
+      "לבחור מילת יחס נכונה של מקום (in, on, at) ושל זמן (in, on, at) לפי כלל קבוע ולא לפי תחושה",
+      "להבחין בין some ל-any לפי חיוב, שלילה או שאלה, ובין much ל-many לפי שם עצם רב או יחיד",
+      "להבחין בין its (שייכות) ל-it's (קיצור של it is או it has) לפי מבחן ההרחבה",
+      "לזהות איזה חלק דיבור חסר במשפט השלמה — שם עצם, פועל, תואר או תואר הפועל",
+      "לפסול אפשרויות שהן חלק הדיבור הלא נכון לפני שבודקים משמעות",
+      "לנהל את זמן שאלות ההשלמה: לקרוא את כל המשפט פעם אחת לפני שמסתכלים באפשרויות"
+    ],
+    "chapters": [
+      {
+        "number": 1,
+        "title": "השוואה ועליונות — er, est, more, most",
+        "learning_objectives": [
+          "להבחין בין השוואה בין שני דברים לעליונות בין שלושה או יותר",
+          "לדעת מתי מוסיפים er/est ומתי משתמשים ב-more/most",
+          "לזהות שינויי כתיב קבועים לפני הוספת סיומת השוואה",
+          "לפתור שאלות השלמה שבהן הרמז הוא than או the...in/of"
+        ],
+        "content": "## שני דברים, או שלושה ויותר\n\nבאנגלית, כמו בעברית, יש שתי דרגות של השוואה, אבל באנגלית הן נראות שונה זו מזו בצורה ברורה יותר. **השוואה** (comparative) משווה בין **שני** דברים בלבד: \"הפיל גדול יותר מהכלב\". **עליונות** (superlative) משווה בין **שלושה או יותר**, ותמיד עונה על השאלה \"מי הכי\": \"הפיל הוא בעל החיים הגדול ביותר ביבשה\".\n\nהמילה שנמצאת ליד התואר במשפט היא הרמז המובהק ביותר:\n\n- **than** אחרי התואר → כמעט תמיד השוואה. A dolphin is smaller **than** a whale.\n- **the** לפני התואר, ולפעמים **in** או **of** אחריו → כמעט תמיד עליונות. A dolphin is one of the **smartest** animals **in** the ocean.\n\nזה הרמז הראשון שכדאי לחפש בכל שאלת השוואה: יש than? זו השוואה. יש the לפני התואר? זו עליונות.\n\n## הכלל: er/est או more/most\n\nהבחירה בין להוסיף סיומת לבין להוסיף מילה נפרדת תלויה **באורך התואר**, לא במשמעות שלו.\n\n### תארים קצרים — הברה אחת, מוסיפים סיומת\n\n| תואר | השוואה (er) | עליונות (est) |\n|---|---|---|\n| tall (גבוה) | taller | tallest |\n| small (קטן) | smaller | smallest |\n| fast (מהיר) | faster | fastest |\n| old (זקן, ישן) | older | oldest |\n\n### תארים ארוכים — שלוש הברות ומעלה, מוסיפים מילה\n\n| תואר | השוואה (more) | עליונות (most) |\n|---|---|---|\n| beautiful (יפה) | more beautiful | most beautiful |\n| interesting (מעניין) | more interesting | most interesting |\n| difficult (קשה) | more difficult | most difficult |\n| expensive (יקר) | more expensive | most expensive |\n\n### תארים בני שתי הברות — אין כלל קבוע, לומדים בזוגות\n\nכאן טמונה רוב הטעות. חלק מהתארים בני שתי הברות מקבלים סיומת, וחלק מקבלים more/most, ואין דרך לנחש — צריך לדעת אותם.\n\n| תואר | הצורה הנכונה |\n|---|---|\n| happy (שמח) | happier / happiest |\n| easy (קל) | easier / easiest |\n| busy (עסוק) | busier / busiest |\n| modern (מודרני) | more modern / most modern |\n| famous (מפורסם) | more famous / most famous |\n| careful (זהיר) | more careful / most careful |\n\nשימו לב לדפוס: תארים בני שתי הברות שמסתיימים ב-**y** (happy, easy, busy) בדרך כלל מקבלים סיומת, כמו התארים הקצרים. תארים בני שתי הברות שאינם מסתיימים ב-y (modern, famous, careful) בדרך כלל מקבלים more/most, כמו התארים הארוכים. זה לא כלל מוחלט ב-100% מהמקרים, אבל הוא נכון מספיק כדי לשמש ניחוש טוב כשאתם לא בטוחים.\n\n## שינויי כתיב לפני הסיומת\n\nכשמוסיפים er או est לתואר קצר, לפעמים הכתיב של התואר עצמו משתנה. שלושה כללים קבועים:\n\n**1. תואר שמסתיים בעיצור בודד אחרי תנועה בודדת — מכפילים את העיצור.**\nbig → **bigger**, **biggest** (לא biger)\nhot → **hotter**, **hottest**\n\n**2. תואר שמסתיים ב-y אחרי עיצור — ה-y הופכת ל-i.**\nhappy → **happier**, **happiest** (לא happyer)\neasy → **easier**, **easiest**\n\n**3. תואר שמסתיים ב-e — מוסיפים רק r או st, לא er/est מלא.**\nnice → **nicer**, **nicest** (לא nicerer)\nlarge → **larger**, **largest**\n\n## תארים לא רגילים — חייבים שינון\n\nשלושה תארים נפוצים מאוד אינם מקבלים לא סיומת ולא more/most. הם משתנים לגמרי:\n\n| תואר | השוואה | עליונות |\n|---|---|---|\n| good (טוב) | better | best |\n| bad (רע) | worse | worst |\n| far (רחוק) | farther / further | farthest / furthest |\n\nאלה מהמילים השכיחות ביותר בפרק ההשוואה במבחן, ולכן שווה לדעת אותן בעל פה ולא לנסות להסיק אותן מכלל.\n\n## מלכודת: מבנה כפול\n\nיש טעות כתיב נפוצה שבה תלמיד משתמש גם ב-more וגם בסיומת er באותה מילה: \"more taller\", \"more better\". זו טעות תמיד. או more, או er — לעולם לא שניהם יחד. אם אתם רואים אפשרות עם שתיהן, פסלו אותה מיד בלי לחשוב פעמיים.\n\nבאותו אופן, \"the most tallest\" שגוי. או the...est, או the most...(בלי סיומת) — לא שניהם.\n\n## שיטת הפתרון בשאלת השוואה\n\n1. **חפשו את than או את the.** than מסמן השוואה בין שניים, the (בלי than) מסמן עליונות בין שלושה ומעלה.\n2. **בדקו את אורך התואר** — קצר מקבל סיומת, ארוך מקבל more/most, בינוני צריך שינון.\n3. **בדקו שינויי כתיב** אם התואר מסתיים בעיצור בודד, ב-y או ב-e.\n4. **פסלו כל אפשרות עם מבנה כפול** — more ועוד er, או the most ועוד est באותה מילה.\n",
+        "examples": [
+          {
+            "title": "השוואה בין שניים, לפי than",
+            "type": "text",
+            "content": "**The sentence:** A dolphin is much smaller ___ a whale.\n\nהמילה than אחרי smaller כבר מודיעה: יש כאן שני בעלי חיים בלבד, דולפין ולוויתן. זו השוואה, לא עליונות.\n\nהתשובה כבר נמצאת במשפט — **than** עצמה היא לרוב המילה החסרה בשאלות מהסוג הזה, כי המבחן בודק אם אתם מזהים שצריך משהו אחרי צורת ה-er, לא רק שהצורה תהיה נכונה.\n\nתרגום: דולפין הרבה יותר קטן מלוויתן."
+          },
+          {
+            "title": "עליונות, לפי the ובלי than",
+            "type": "text",
+            "content": "**The sentence:** The blue whale is the ___ animal on Earth.\n\nכאן אין than בשום מקום, ויש the לפני החלק החסר. זה הרמז לעליונות — משווים את הלוויתן הכחול לכל שאר בעלי החיים עלי אדמות, לא לבעל חיים אחד ספציפי.\n\nהתואר big הוא תואר קצר, הברה אחת, ולכן מקבל סיומת est. אבל שימו לב לכתיב: big מסתיים בעיצור בודד (g) אחרי תנועה בודדת (i), ולכן מכפילים את ה-g.\n\nהתשובה: **biggest**.\n\nתרגום: הלוויתן הכחול הוא בעל החיים הגדול ביותר עלי אדמות."
+          },
+          {
+            "title": "תואר בן שתי הברות שאינו מסתיים ב-y",
+            "type": "text",
+            "content": "**The sentence:** This math problem is ___ than the one we solved yesterday.\n\ndifficult הוא תואר בן שלוש הברות — dif-fi-cult — ולכן הוא נכנס לקבוצת התארים הארוכים שמקבלים more, לא סיומת.\n\nמסיח נפוץ בשאלה כזאת יהיה difficulter, מבנה שלא קיים באנגלית כלל. תארים ארוכים לעולם לא מקבלים er.\n\nהתשובה: **more difficult**.\n\nתרגום: התרגיל הזה קשה יותר מהתרגיל שפתרנו אתמול."
+          }
+        ],
+        "exercises": [
+          {
+            "number": 1,
+            "title": "השוואה או עליונות",
+            "difficulty": "easy",
+            "description": "לכל משפט קבעו אם מדובר בהשוואה בין שניים או בעליונות בין שלושה ומעלה, ונמקו לפי המילה שמזהה זאת.\n\nA. Mount Everest is the highest mountain in the world.\nB. My brother is taller than me.\nC. This is the most expensive restaurant in the city.\nD. A car is faster than a bicycle.",
+            "solution": "A. עליונות — יש the ואין than. משווים הר אחד לכל ההרים בעולם.\nB. השוואה — יש than, ומדובר בשני אנשים בלבד.\nC. עליונות — יש the, ומדובר במסעדה אחת מבין כל המסעדות בעיר.\nD. השוואה — יש than, ומדובר בשני כלי רכב.\nהכלל: than מזהה השוואה, ו-the (בלי than) מזהה עליונות."
+          },
+          {
+            "number": 2,
+            "title": "בחירת er, est, more או most",
+            "difficulty": "medium",
+            "description": "השלימו כל משפט בצורת ההשוואה או העליונות הנכונה של התואר בסוגריים.\n\nA. This book is ___ (interesting) than the movie.\nB. Winter is the ___ (cold) season of the year.\nC. She is ___ (busy) than her sister this week.\nD. He is the ___ (famous) singer in the country.",
+            "solution": "A. more interesting — interesting היא מילה ארוכה (in-te-rest-ing, ארבע הברות), ולכן more ולא סיומת.\nB. coldest — cold היא מילה קצרה בת הברה אחת, ואחריה the ובלי than, כלומר עליונות, ולכן est.\nC. busier — busy בת שתי הברות ומסתיימת ב-y, ולכן מתנהגת כמו תואר קצר: ה-y הופכת ל-i ומוסיפים er.\nD. most famous — famous בת שתי הברות ואינה מסתיימת ב-y, ולכן מקבלת most."
+          },
+          {
+            "number": 3,
+            "title": "תיקון שגיאת מבנה כפול",
+            "difficulty": "medium",
+            "description": "בכל משפט יש שגיאה של מבנה כפול (גם סיומת וגם more, או שילוב שגוי אחר). מצאו את השגיאה ותקנו אותה.\n\nA. This puzzle is more harder than the last one.\nB. He is the most tallest boy in the class.\nC. Today is more hotter than yesterday.",
+            "solution": "A. השגיאה: more ועוד er באותה מילה. התיקון: harder בלבד (hard קצרה, ולכן רק סיומת) — ...is harder than the last one.\nB. השגיאה: the most ועוד est. התיקון: the tallest בלבד — tall קצרה, ולכן רק סיומת.\nC. השגיאה: more ועוד er. התיקון: hotter בלבד — hot קצרה, ומכפילים את ה-t לפני הסיומת (עיצור בודד אחרי תנועה בודדת).\nהכלל בכל שלוש הדוגמאות זהה: או more/most, או סיומת — אף פעם לא שניהם יחד."
+          },
+          {
+            "number": 4,
+            "title": "התארים החריגים",
+            "difficulty": "hard",
+            "description": "השלימו את הצורה הנכונה של good, bad או far, לפי ההקשר.\n\nA. This is the ___ pizza I have ever eaten! (good, עליונות)\nB. My grades this year are ___ than last year — I need to study more. (bad, השוואה)\nC. Of the three schools, this one is the ___ from my house. (far, עליונות)",
+            "solution": "A. best — good הוא תואר לא רגיל, ובעליונות הופך ל-best ולא goodest.\nB. worse — bad בהשוואה הופך ל-worse ולא badder.\nC. farthest (או furthest) — far בעליונות הופך ל-farthest ולא farest.\nשלושת התארים האלה אינם מקיימים אף כלל של אורך מילה — הם פשוט משתנים לגמרי, וצריך לדעת אותם בעל פה."
+          }
+        ],
+        "quiz": [
+          {
+            "number": 1,
+            "question": "Choose the correct sentence.",
+            "type": "multiple-choice",
+            "options": [
+              "A dolphin is much smaller that a whale.",
+              "A dolphin is much smallest than a whale.",
+              "A dolphin is much smaller than a whale.",
+              "A dolphin is much more smaller than a whale."
+            ],
+            "correct_answer": "A dolphin is much smaller than a whale.",
+            "explanation": "מדובר בהשוואה בין שני בעלי חיים בלבד, ולכן צריך את המילה than (לא that) ואת צורת ההשוואה smaller בלבד, בלי more נוסף. small היא מילה קצרה שמקבלת רק סיומת er."
+          },
+          {
+            "number": 2,
+            "type": "multiple-choice",
+            "question": "Which word correctly completes the sentence?\n\nThis is ___ book in the entire library.",
+            "options": [
+              "more interesting",
+              "the most interesting",
+              "the interestinger",
+              "interesting than"
+            ],
+            "correct_answer": "the most interesting",
+            "explanation": "המילה the ובלי than מסמנות עליונות בין כל הספרים בספרייה. interesting היא מילה ארוכה, ולכן העליונות שלה נבנית עם most, לא עם סיומת — 'interestinger' אינו קיים באנגלית."
+          },
+          {
+            "number": 3,
+            "type": "multiple-choice",
+            "question": "Choose the correct comparative form of 'happy'.",
+            "options": [
+              "happyer",
+              "more happy",
+              "happiest than",
+              "happier"
+            ],
+            "correct_answer": "happier",
+            "explanation": "happy מסתיימת ב-y אחרי עיצור, ולכן ה-y הופכת ל-i לפני הוספת er: happier, לא happyer. מדובר בהשוואה (צורת er), ולא בעליונות, כי אין כאן the ואין רמז לשלושה או יותר."
+          },
+          {
+            "number": 4,
+            "type": "multiple-choice",
+            "question": "Which sentence has a mistake?",
+            "options": [
+              "He is the most tallest boy in the class.",
+              "He is the tallest boy in the class.",
+              "He is taller than his brother.",
+              "His brother is short, but he is tall."
+            ],
+            "correct_answer": "He is the most tallest boy in the class.",
+            "explanation": "tall היא מילה קצרה בת הברה אחת, ולכן העליונות שלה היא tallest בלבד. 'the most tallest' משתמש גם ב-most וגם בסיומת est על אותה מילה — מבנה כפול שאינו קיים באנגלית תקנית."
+          },
+          {
+            "number": 5,
+            "question": "Choose the correct form of 'bad'.",
+            "type": "multiple-choice",
+            "options": [
+              "My grades are badder than last year.",
+              "My grades are more bad than last year.",
+              "My grades are worse than last year.",
+              "My grades are baddest than last year."
+            ],
+            "correct_answer": "My grades are worse than last year.",
+            "explanation": "bad הוא תואר לא רגיל: בהשוואה הוא הופך ל-worse ולא ל-badder. יש כאן than שמסמן השוואה בין שתי שנים, לא בין שלוש ומעלה, ולכן גם הצורה הנכונה היא צורת ההשוואה ולא העליונות."
+          }
+        ]
+      },
+      {
+        "number": 2,
+        "title": "בחירת זמן — הווה פשוט, הווה מתמשך ועבר פשוט",
+        "learning_objectives": [
+          "לבחור בין הווה פשוט להווה מתמשך לפי מילת הזמן שבמשפט",
+          "לזהות מילות זמן שמעידות על הרגל קבוע לעומת פעולה שקורית עכשיו",
+          "לבחור בין הווה לעבר פשוט לפי עוגן זמן בעבר",
+          "לבנות נכון את צורת ה-ing ואת צורת העבר הרגיל והלא רגיל"
+        ],
+        "content": "## הרמז נמצא במשפט, לא בזיכרון שלכם\n\nהטעות הנפוצה ביותר בשאלות זמן היא לנסות \"להרגיש\" איזה זמן נשמע נכון. אבל שאלות זמן במבחן קרני כמעט תמיד כוללות **מילת רמז** שקובעת את התשובה בוודאות — לא צריך תחושה, צריך לזהות את המילה.\n\nהשיטה: קראו את כל המשפט, אתרו את מילת הזמן, ורק אז בחרו צורת פועל.\n\n## הווה פשוט מול הווה מתמשך\n\n**הווה פשוט** (present simple) מתאר **הרגל, עובדה קבועה או שגרה** — משהו שקורה שוב ושוב, לא רק עכשיו.\n\n**הווה מתמשך** (present continuous, be + ing) מתאר **פעולה שקורית ממש עכשיו**, ברגע הדיבור, או תוכנית קבועה לעתיד הקרוב.\n\n### מילות הרמז של הווה פשוט\n\n| מילה | פירוש |\n|---|---|\n| usually | בדרך כלל |\n| always | תמיד |\n| every day / every week | כל יום / כל שבוע |\n| sometimes | לפעמים |\n| often | לעיתים קרובות |\n| never | אף פעם לא |\n| on Sundays | בימי ראשון |\n\n### מילות הרמז של הווה מתמשך\n\n| מילה | פירוש |\n|---|---|\n| right now | ממש עכשיו |\n| at the moment | כרגע |\n| now | עכשיו |\n| Look! / Listen! | תראה! / תשמע! (מצביע על משהו שקורה ברגע זה) |\n| currently | כעת |\n\nדוגמה שממחישה את ההבדל בבירור:\n\n- She **usually walks** to school. (הרגל קבוע — הווה פשוט)\n- She **is walking** to school right now, in the rain. (קורה ממש עכשיו — הווה מתמשך)\n\nהמשפט השני אינו אומר שהיא הולכת ברגל **תמיד**, אלא שברגע זה, ממש עכשיו, היא נמצאת בפעולה של הליכה.\n\n## בניית הצורות\n\n**הווה פשוט:** נושא + פועל (עם s בגוף שלישי יחיד).\nI play. She **plays**. They play.\n\nגוף שלישי יחיד (he, she, it) מקבל s בסוף הפועל. זו טעות שכיחה מאוד להשמיט אותה: \"She play\" שגוי, \"She plays\" נכון.\n\n**הווה מתמשך:** am/is/are + פועל+ing.\nI **am playing**. She **is playing**. They **are playing**.\n\nשלוש כללי כתיב לצורת ה-ing, זהים לכללי ה-er שראינו בפרק הקודם:\n- עיצור בודד אחרי תנועה בודדת מוכפל: run → **running**, stop → **stopping**.\n- פועל שמסתיים ב-e שקטה, מוחקים את ה-e: make → **making**, write → **writing**.\n- שאר הפעלים פשוט מוסיפים ing: play → **playing**, read → **reading**.\n\n## הווה מול עבר פשוט\n\nכשהמשפט כולל **עוגן זמן בעבר**, חייבים עבר פשוט — לא משנה מה קורה עכשיו.\n\n### מילות הרמז של עבר פשוט\n\n| מילה | פירוש |\n|---|---|\n| yesterday | אתמול |\n| last week / last year | שבוע שעבר / שנה שעברה |\n| ago (two days ago) | לפני (יומיים לפני) |\n| in 2010 | בשנת 2010 |\n| when I was young | כשהייתי צעיר |\n\n### בניית עבר פשוט\n\nפעלים רגילים (regular) מקבלים סיומת ed: play → **played**, walk → **walked**, study → **studied** (y הופכת ל-i לפני עיצור, בדיוק כמו בכלל ההשוואה).\n\nפעלים לא רגילים (irregular) משתנים לגמרי, ואין דרך לנחש — צריך לדעת אותם:\n\n| הווה | עבר | תרגום |\n|---|---|---|\n| go | went | ללכת |\n| see | saw | לראות |\n| eat | ate | לאכול |\n| have | had | יש ל... |\n| write | wrote | לכתוב |\n| buy | bought | לקנות |\n| is/am/are | was/were | להיות |\n\n## שיטת הפתרון בשאלת זמן\n\n1. **קראו את כל המשפט.** אל תעצרו במקום החסר — הרמז נמצא לפעמים אחרי הפועל, לא לפניו.\n2. **חפשו מילת זמן.** usually/always/every → הווה פשוט. right now/at the moment → הווה מתמשך. yesterday/ago/last → עבר פשוט.\n3. **בדקו את הנושא** — אם זה גוף שלישי יחיד בהווה פשוט, חייב s בסוף הפועל.\n4. **בדקו כתיב** אם הפועל מקבל ing או ed — עיצור כפול, e שנמחקת, או y שהופכת ל-i.\n\nכשאין מילת רמז מפורשת, לרוב אפשר להיעזר בהקשר הכללי של המשפט — אבל ברוב שאלות המבחן הרמז שם, במפורש, ותפקידכם רק לאתר אותו.\n",
+        "examples": [
+          {
+            "title": "usually מול right now",
+            "type": "text",
+            "content": "**The sentence:** The children ___ in the garden right now.\n\nהמילה right now היא רמז חד־משמעי להווה מתמשך. הילדים נמצאים בפעולה, ברגע הדיבור עצמו.\n\nהתשובה הנכונה היא **are playing** — be (are, כי children הוא רבים) ועוד play+ing.\n\nמסיח שכיח: play או plays, שתי צורות של הווה פשוט. הן היו נכונות אם המשפט היה \"The children usually play in the garden\" — אבל לא כאן, כי right now דורש מתמשך."
+          },
+          {
+            "title": "on Sundays מול at the moment",
+            "type": "text",
+            "content": "שתי שאלות דומות, שתי מילות רמז שונות.\n\n**A.** My father ___ (read) the newspaper on Sundays.\non Sundays מתאר הרגל שחוזר על עצמו כל שבוע — הווה פשוט. father הוא גוף שלישי יחיד, אז מוסיפים s: **reads**.\n\n**B.** My father ___ (read) the newspaper at the moment.\nat the moment מתאר את מה שקורה ברגע הדיבור — הווה מתמשך: **is reading**.\n\nהפועל read זהה בשני המשפטים; ההבדל היחיד הוא מילת הזמן, וזו בדיוק הסיבה שחייבים לקרוא אותה לפני שבוחרים תשובה."
+          },
+          {
+            "title": "עוגן זמן בעבר גובר על הכול",
+            "type": "text",
+            "content": "**The sentence:** She ___ to Paris last summer.\n\nגם אם לא ברור מהו הפועל המדויק, המילה last summer קובעת שחייבים עבר פשוט, בלי יוצא מן הכלל.\n\ngo הוא פועל לא רגיל, וצורת העבר שלו היא went — לא goed, שאינה קיימת כלל.\n\nהתשובה: **went**.\n\nתרגום: היא נסעה לפריז בקיץ שעבר. שימו לב שגם אם המשפט היה בהווה (\"She goes to Paris every summer\"), ברגע שמופיעה מילת עבר כמו last summer, אין ברירה — הזמן חייב להשתנות לעבר."
+          }
+        ],
+        "exercises": [
+          {
+            "number": 1,
+            "title": "זיהוי מילת הרמז",
+            "difficulty": "easy",
+            "description": "בכל משפט הקיפו את מילת הזמן, וקבעו אם היא מרמזת על הווה פשוט, הווה מתמשך או עבר פשוט.\n\nA. I usually have breakfast at 7 o'clock.\nB. Look! The dog is running after the ball!\nC. We visited our grandparents two weeks ago.\nD. She never eats meat.",
+            "solution": "A. usually — הווה פשוט (הרגל).\nB. Look! — הווה מתמשך (קורה ממש עכשיו, ואנחנו מוזמנים להסתכל).\nC. two weeks ago — עבר פשוט (עוגן זמן בעבר).\nD. never — הווה פשוט (תיאור הרגל, גם אם שלילי)."
+          },
+          {
+            "number": 2,
+            "title": "השלמת הפועל בזמן הנכון",
+            "difficulty": "medium",
+            "description": "השלימו את הפועל בסוגריים בזמן המתאים לפי מילת הרמז.\n\nA. My sister ___ (study) English every day.\nB. Please be quiet — the baby ___ (sleep) right now.\nC. They ___ (watch) a movie at the moment.\nD. He ___ (finish) his homework at 5 o'clock every afternoon.",
+            "solution": "A. studies — every day מרמז הרגל, הווה פשוט. study מסתיים ב-y אחרי עיצור, ולכן ה-y הופכת ל-ies בגוף שלישי יחיד.\nB. is sleeping — right now, הווה מתמשך.\nC. are watching — at the moment, הווה מתמשך, ו-they מקבל are.\nD. finishes — every afternoon מרמז הרגל, הווה פשוט, ו-he מקבל s."
+          },
+          {
+            "number": 3,
+            "title": "עבר רגיל ולא רגיל",
+            "difficulty": "medium",
+            "description": "כתבו את צורת העבר הנכונה של הפועל בסוגריים.\n\nA. I ___ (study) very hard for the exam last night.\nB. We ___ (go) to the beach yesterday.\nC. She ___ (write) a letter to her friend last week.\nD. They ___ (stop) the car suddenly.",
+            "solution": "A. studied — פועל רגיל שמסתיים ב-y אחרי עיצור: ה-y הופכת ל-i לפני ed.\nB. went — go הוא פועל לא רגיל, יש לזכור אותו.\nC. wrote — write הוא פועל לא רגיל.\nD. stopped — עיצור בודד (p) אחרי תנועה בודדת (o), מכפילים לפני ed — בדיוק כמו בכלל ה-ing וכלל ה-er."
+          },
+          {
+            "number": 4,
+            "title": "מלכודת: שני רמזים במשפט אחד",
+            "difficulty": "hard",
+            "description": "במשפט הבא יש שתי מילות זמן שנראות סותרות. קבעו איזו מהן קובעת את הזמן, ומדוע.\n\nWe usually go to the park, but today we ___ (stay) at home because of the rain.",
+            "solution": "usually נמצא בחלק הראשון של המשפט ומתאר את ההרגל הכללי, אבל המילה but הופכת את הכיוון: מה שקורה בפועל היום שונה מההרגל. המילה הקובעת עבור החלק החסר היא today, שמרמזת על מה שקורה ברגע זה — הווה מתמשך.\nהתשובה: are staying.\nהלקח: כשמופיעה מילת ניגוד כמו but, יש לבדוק לאיזה חלק מהמשפט שייך הפועל החסר, ולא להישען על מילת הרמז הראשונה שנתקלים בה."
+          }
+        ],
+        "quiz": [
+          {
+            "number": 1,
+            "question": "Choose the correct answer.\n\nThe children ___ in the garden right now.",
+            "type": "multiple-choice",
+            "options": [
+              "play",
+              "plays",
+              "played",
+              "are playing"
+            ],
+            "correct_answer": "are playing",
+            "explanation": "המילה right now מרמזת על פעולה שקורית ממש עכשיו, כלומר הווה מתמשך. children הוא רבים, ולכן משתמשים ב-are ולא ב-is, יחד עם play+ing."
+          },
+          {
+            "number": 2,
+            "type": "multiple-choice",
+            "question": "Choose the correct answer.\n\nMy father usually ___ the newspaper every morning.",
+            "options": [
+              "reads",
+              "read",
+              "is reading",
+              "readed"
+            ],
+            "correct_answer": "reads",
+            "explanation": "usually ו-every morning שניהם מרמזים על הרגל קבוע, כלומר הווה פשוט. father הוא גוף שלישי יחיד, ולכן הפועל מקבל s: reads. 'readed' אינה קיימת — read הוא פועל לא רגיל שצורתו זהה בהווה ובעבר בכתיב, אך כאן בכלל לא צריך עבר."
+          },
+          {
+            "number": 3,
+            "question": "Choose the correct answer.\n\nWe ___ to the beach yesterday.",
+            "type": "multiple-choice",
+            "options": [
+              "go",
+              "went",
+              "goes",
+              "going"
+            ],
+            "correct_answer": "went",
+            "explanation": "yesterday הוא עוגן זמן בעבר מובהק, ולכן חייבים צורת עבר. go הוא פועל לא רגיל, וצורת העבר שלו היא went, לא goed."
+          },
+          {
+            "number": 4,
+            "type": "multiple-choice",
+            "question": "Choose the correct answer.\n\nListen! Someone ___ on the door.",
+            "options": [
+              "knocks",
+              "knocked",
+              "is knocking",
+              "knock"
+            ],
+            "correct_answer": "is knocking",
+            "explanation": "Listen! מזמין אתכם להקשיב למה שקורה ממש עכשיו, ולכן זהו רמז להווה מתמשך. someone הוא יחיד, ולכן is ולא are, יחד עם knock+ing."
+          },
+          {
+            "number": 5,
+            "question": "Choose the correct answer.\n\nShe ___ her homework every day before dinner.",
+            "type": "multiple-choice",
+            "options": [
+              "finishes",
+              "finish",
+              "is finishing",
+              "finished"
+            ],
+            "correct_answer": "finishes",
+            "explanation": "every day מרמז על הרגל קבוע, ולכן הווה פשוט. she הוא גוף שלישי יחיד, ולכן הפועל finish מקבל es בסוף (כי הוא מסתיים ב-sh) — finishes."
+          }
+        ]
+      },
+      {
+        "number": 3,
+        "title": "מילות יחס של מקום וזמן",
+        "learning_objectives": [
+          "לבחור in, on או at למקום לפי גודל היחידה המתוארת",
+          "לבחור in, on או at לזמן לפי סוג היחידה — שנה, יום או שעה",
+          "לזכור את רשימת מילות היחס הקבועות שנצמדות לפעלים ולתארים נפוצים",
+          "להימנע מתרגום מילולי ממילת יחס עברית"
+        ],
+        "content": "## למה אי אפשר לתרגם מילת יחס\n\nמילות יחס (prepositions) הן אחד התחומים היחידים בדקדוק שבהם **תרגום מילולי מעברית מטעה כמעט תמיד**. בעברית אומרים \"אני גר ב-רחוב הרצל\", \"בשעה שמונה\" ו\"ביום ראשון\" — כולן עם אותה מילה, \"ב\". באנגלית משתמשים בשלוש מילים שונות: on Herzl Street, at eight o'clock, on Sunday. אין דרך לנחש נכון לפי העברית — צריך כלל אנגלי נפרד.\n\nהחדשות הטובות: הכלל האנגלי **קבוע** ותלוי בגודל היחידה שמדברים עליה, לא בתחושה.\n\n## מילות יחס של מקום — in, on, at\n\n| מילה | משמשת עבור | דוגמאות |\n|---|---|---|\n| **in** | שטח סגור, שטח גדול | in the box, in the room, in Israel, in the city |\n| **on** | משטח, פני שטח | on the table, on the wall, on the beach, on the page |\n| **at** | נקודה מדויקת | at the door, at school, at the bus stop, at home |\n\nהיררכיה שכדאי לזכור: **at** לנקודה, **on** למשטח, **in** למרחב סגור או גדול. הדוגמה הקלאסית שממחישה את שלוש הרמות יחד: at the party, in the room — כלומר \"במסיבה\" (הנקודה החברתית) שנמצאת \"בתוך החדר\" (המרחב הפיזי).\n\n## מילות יחס של זמן — in, on, at\n\nכאן ההיררכיה שונה מעט, אבל גם היא קבועה וניתנת לזכירה:\n\n| מילה | משמשת עבור | דוגמאות |\n|---|---|---|\n| **in** | תקופות ארוכות: חודשים, שנים, עונות | in May, in 2020, in the summer, in the morning |\n| **on** | ימים ותאריכים | on Sunday, on my birthday, on the first of June |\n| **at** | שעות מדויקות ורגעים קצרים | at 8 o'clock, at noon, at night, at the moment |\n\nשימו לב לחריג היחיד שחוזר במבחנים: **at night** משתמש ב-at למרות ש\"לילה\" הוא תקופה ולא רגע — זה יוצא דופן שצריך לזכור בנפרד. כל שאר שעות היממה (in the morning, in the afternoon, in the evening) הולכות לפי הכלל הרגיל עם in.\n\n## מילות יחס קבועות אחרי פעלים ותארים\n\nחלק ממילות היחס לא נקבעות לפי מקום או זמן בכלל, אלא **נצמדות באופן קבוע** לפועל או לתואר מסוים. אלה חייבים שינון, כי אין כלל הגיוני שמסביר אותן — הן פשוט כך.\n\n| ביטוי | פירוש |\n|---|---|\n| listen **to** | להקשיב ל |\n| look **at** | להסתכל על |\n| wait **for** | לחכות ל |\n| arrive **at** (מקום קטן) / **in** (עיר, מדינה) | להגיע ל |\n| interested **in** | מעוניין ב |\n| afraid **of** | מפחד מ |\n| good **at** | טוב ב |\n| married **to** | נשוי ל |\n| depend **on** | תלוי ב |\n\nהמלכודת הנפוצה ביותר כאן היא תרגום מעברית: \"מפחד מ\" הופך תלמידים רבים ל-afraid **from**, אבל הצורה הנכונה היא afraid **of**. אין תחליף לזכירה ישירה של הביטויים האלה כיחידה אחת.\n\n## שיטת הפתרון בשאלת מילת יחס\n\n1. **בדקו אם המילה החסרה נצמדת לפועל או לתואר קבוע** (listen to, afraid of וכו'). אם כן — זו התשובה, בלי קשר למקום או זמן.\n2. אם לא, **קבעו אם מדובר במקום או בזמן**.\n3. **במקום:** נקודה מדויקת → at. משטח → on. מרחב סגור/גדול → in.\n4. **בזמן:** שעה או רגע → at. יום או תאריך → on. חודש, שנה, עונה → in. וזכרו את החריג: at night.\n",
+        "examples": [
+          {
+            "title": "שלוש רמות מקום באותו משפט",
+            "type": "text",
+            "content": "**The sentence:** I left my keys ___ the table, ___ my bedroom.\n\nהחלק הראשון מתאר משטח — השולחן, פני השטח שעליהם מונחים המפתחות. התשובה: **on** the table.\n\nהחלק השני מתאר מרחב סגור וגדול יחסית — החדר כולו. התשובה: **in** my bedroom.\n\nהמשפט המלא: I left my keys **on** the table, **in** my bedroom. (השארתי את המפתחות על השולחן, בחדר השינה שלי.)\n\nשימו לב שאותו משפט משתמש בשתי מילות יחס שונות למרחקים שונים — זה בדיוק העיקרון: on למשטח, in למרחב."
+          },
+          {
+            "title": "זמן: שעה, יום וחודש באותה שאלה",
+            "type": "text",
+            "content": "שלושה משפטים, שלוש יחידות זמן שונות.\n\n**A.** The meeting starts ___ 9 o'clock. → **at** (שעה מדויקת)\n\n**B.** My birthday is ___ March. → **in** (חודש)\n\n**C.** We are going on a trip ___ Friday. → **on** (יום)\n\nהכלל שממחיש הכי טוב את ההיררכיה: ככל שהיחידה קטנה וממוקדת יותר — at. יום שלם — on. תקופה ארוכה — in."
+          },
+          {
+            "title": "מילת יחס קבועה, לא לפי כלל מקום/זמן",
+            "type": "text",
+            "content": "**The sentence:** She is very interested ___ science.\n\nהמילה החסרה כאן אינה קשורה למקום או לזמן כלל — interested נצמדת תמיד ל-in, כביטוי קבוע. אין הגיון גיאומטרי או זמני שמסביר את זה; זו פשוט הצורה הקבועה של הביטוי, בדיוק כפי ש\"מעוניין ב\" הוא הצירוף הקבוע בעברית.\n\nהתשובה: **in**.\n\nמסיח נפוץ: interested **at** או interested **on**, שתי טעויות שנובעות מניסיון להפעיל כלל מקום על ביטוי שאינו קשור למקום."
+          }
+        ],
+        "exercises": [
+          {
+            "number": 1,
+            "title": "מקום: in, on או at",
+            "difficulty": "easy",
+            "description": "השלימו את מילת היחס הנכונה.\n\nA. The cat is sitting ___ the roof.\nB. There are many books ___ the library.\nC. Let's meet ___ the bus stop.\nD. My family lives ___ a small village.",
+            "solution": "A. on — משטח (הגג).\nB. in — מרחב סגור וגדול (הספרייה).\nC. at — נקודה מדויקת (תחנת האוטובוס).\nD. in — מרחב גדול (הכפר)."
+          },
+          {
+            "number": 2,
+            "title": "זמן: in, on או at",
+            "difficulty": "easy",
+            "description": "השלימו את מילת היחס הנכונה.\n\nA. I was born ___ 2011.\nB. The party is ___ Saturday evening.\nC. We wake up early ___ the morning.\nD. The shop closes ___ midnight.",
+            "solution": "A. in — שנה.\nB. on — יום (גם אם מוסיפים 'evening' לתיאור, מילת היחס נשארת on כי הבסיס הוא היום עצמו).\nC. in — תקופת יום, 'the morning'.\nD. at — רגע מדויק, midnight."
+          },
+          {
+            "number": 3,
+            "title": "ביטויים קבועים",
+            "difficulty": "medium",
+            "description": "השלימו את מילת היחס הקבועה הנכונה, בלי להיעזר בכלל מקום או זמן.\n\nA. Please listen ___ me carefully.\nB. I am afraid ___ spiders.\nC. He is very good ___ math.\nD. We are waiting ___ the bus.",
+            "solution": "A. to — listen to הוא ביטוי קבוע.\nB. of — afraid of, ולא afraid from כמו בתרגום מעברית.\nC. at — good at.\nD. for — wait for."
+          },
+          {
+            "number": 4,
+            "title": "החריג at night",
+            "difficulty": "hard",
+            "description": "הסבירו מדוע המשפט הבא נכון למרות שלכאורה סותר את הכלל הרגיל של תקופות זמן ארוכות: 'Owls are awake at night.' מה היה הכלל 'הרגיל' אילו לא היה חריג, ולמה זה לא מה שקורה כאן?",
+            "solution": "לפי הכלל הרגיל, תקופת זמן כמו 'הלילה' אמורה לקבל in, בדיוק כמו in the morning או in the summer — כי מדובר בפרק זמן ולא ברגע מדויק.\nאבל at night הוא חריג קבוע באנגלית שיש לזכור בנפרד: הביטוי תמיד at night, לא in the night (חוץ ממקרים ספציפיים כמו 'in the night' כשמתכוונים לרגע מסוים בתוך לילה מסוים, שהם נדירים ולא רלוונטיים לרמת המבחן).\nהלקח המעשי: night הוא היוצא מן הכלל שכדאי לזכור בנפרד מכל שאר יחידות הזמן, ולא לנסות להחיל עליו את ההיגיון של in the morning / in the evening."
+          }
+        ],
+        "quiz": [
+          {
+            "number": 1,
+            "question": "Choose the correct preposition.\n\nThe children are playing ___ the garden.",
+            "type": "multiple-choice",
+            "options": [
+              "on",
+              "in",
+              "at",
+              "to"
+            ],
+            "correct_answer": "in",
+            "explanation": "הגינה היא מרחב סגור יחסית, ולכן משתמשים ב-in, כמו in the room או in the city. on מתאים למשטח בלבד, ו-at מתאים לנקודה מדויקת."
+          },
+          {
+            "number": 2,
+            "type": "multiple-choice",
+            "question": "Choose the correct preposition.\n\nMy grandmother was born ___ 1955.",
+            "options": [
+              "on",
+              "at",
+              "since",
+              "in"
+            ],
+            "correct_answer": "in",
+            "explanation": "שנה היא יחידת זמן ארוכה, ולכן מקבלת in — in 1955, בדיוק כמו in May או in the summer."
+          },
+          {
+            "number": 3,
+            "question": "Choose the correct preposition.\n\nThe train leaves ___ 6:30 in the morning.",
+            "type": "multiple-choice",
+            "options": [
+              "at",
+              "in",
+              "on",
+              "for"
+            ],
+            "correct_answer": "at",
+            "explanation": "שעה מדויקת מקבלת תמיד at, בין אם היא כתובה כמספר ובין אם במילים — at 6:30, at noon, at midnight."
+          },
+          {
+            "number": 4,
+            "type": "multiple-choice",
+            "question": "Choose the correct preposition.\n\nI am really afraid ___ the dark.",
+            "options": [
+              "from",
+              "at",
+              "of",
+              "with"
+            ],
+            "correct_answer": "of",
+            "explanation": "afraid נצמדת תמיד ל-of כביטוי קבוע. afraid from הוא תרגום מילולי שגוי מעברית ('מפחד מ')."
+          },
+          {
+            "number": 5,
+            "question": "Choose the correct preposition.\n\nThe cat is sleeping ___ the sofa.",
+            "type": "multiple-choice",
+            "options": [
+              "in",
+              "on",
+              "at",
+              "under near"
+            ],
+            "correct_answer": "on",
+            "explanation": "הספה היא משטח שעליו יושבים או שוכבים, ולכן משתמשים ב-on, כמו on the table או on the bed."
+          }
+        ]
+      },
+      {
+        "number": 4,
+        "title": "הבלבולים הנפוצים — some/any, much/many, its/it's",
+        "learning_objectives": [
+          "לבחור בין some ל-any לפי חיוב, שלילה או שאלה",
+          "לבחור בין much ל-many לפי היות שם העצם רב (countable) או יחיד (uncountable)",
+          "להבחין בין its ל-it's לפי מבחן ההרחבה",
+          "לזהות שמות עצם יחידים נפוצים שנשמעים כמו רבים"
+        ],
+        "content": "## שלושה זוגות שמופיעים בכל מבחן\n\nהזוגות שבפרק הזה אינם קשים מבחינה מושגית — הכלל של כל אחד מהם קצר וברור. הקושי הוא שהם **נשמעים דומה** ומתורגמים לעברית באותה מילה בערך, ולכן תלמידים לא עוצרים לבדוק לפי איזה כלל להכריע. ברגע שיודעים את שלושת המבחנים, אלה שאלות מהירות וודאיות.\n\n## some מול any\n\nשתי המילים מתורגמות בערך כ\"קצת\" או \"כמה\", אבל הן שייכות לסוגי משפט שונים לגמרי:\n\n- **some** — במשפטי **חיוב**. I have **some** money.\n- **any** — במשפטי **שלילה** ו**שאלה**. I don't have **any** money. Do you have **any** money?\n\nהכלל הזה עובד ב-95% מהמקרים, אבל יש חריג חשוב אחד: כשהשאלה היא **הצעה** או **בקשה מנומסת**, משתמשים ב-some גם בשאלה — Would you like **some** coffee? (המבקש כבר מניח שהתשובה חיובית, ולכן ההצעה מנוסחת כמו חיוב).\n\n| משפט | דוגמה |\n|---|---|\n| חיוב | She has some friends in London. |\n| שלילה | She doesn't have any friends in London. |\n| שאלה רגילה | Does she have any friends in London? |\n| הצעה/בקשה מנומסת | Would you like some tea? |\n\n## much מול many\n\nההבחנה כאן אינה חיוב/שלילה, אלא **סוג שם העצם** שבא אחרי המילה:\n\n- **many** — לפני שם עצם **רב** (countable), כלומר משהו שאפשר לספור: many books, many people, many days.\n- **much** — לפני שם עצם **יחיד/בלתי ספיר** (uncountable), כלומר חומר או מושג שאין לו רבים טבעי: much water, much time, much money.\n\nמבחן מהיר: אם אפשר לשים לפני המילה מספר (\"three books\", \"five people\") — היא רבה, ולכן many. אם אי אפשר לספור אותה ישירות (\"three waters\" לא הגיוני) — היא בלתי ספירה, ולכן much.\n\nרשימת שמות עצם בלתי ספירים נפוצים שכדאי להכיר, כי חלקם מפתיעים דוברי עברית:\n\n| שם עצם | תרגום | הערה |\n|---|---|---|\n| water | מים | תמיד יחיד באנגלית, גם אם בעברית \"מים\" נשמע רבים |\n| money | כסף | |\n| time | זמן | |\n| information | מידע | אין information**s** |\n| homework | שיעורי בית | אין homework**s** |\n| advice | עצה | אין advice**s** |\n| news | חדשות | נשמע כמו רבים אבל מתנהג כיחיד: The news **is** good |\n\n**a lot of** ו-**lots of** עובדים עם שני הסוגים, בחיוב ובשלילה כאחד — lot of books, lot of water. הן פתרון בטוח כשלא זוכרים אם המילה ספירה או לא, אבל במבחן צריך לדעת להבחין בין much/many כי הן אלה שנבדקות.\n\n## its מול it's\n\nזו לא שאלת דקדוק במובן הרגיל אלא שאלת **כתיב**, אבל היא מופיעה במבחני קרני כשאלת השלמת משפט, ולכן חשוב לדעת אותה.\n\n- **its** (בלי גרש) — שייכות. \"שלו\", \"שלה\" (של דבר, לא של אדם). The dog wagged **its** tail.\n- **it's** (עם גרש) — קיצור של **it is** או **it has**. **It's** raining. **It's** been a long day.\n\nהמבחן המהיר: נסו **להרחיב** את המילה ל-it is או it has. אם המשפט עדיין הגיוני — צריך גרש (it's). אם לא — זו שייכות בלי גרש (its).\n\nThe dog wagged **it is** tail? לא הגיוני. אז: **its** tail.\n**It is** raining? הגיוני. אז: **it's** raining.\n\n## שיטת הפתרון\n\n1. **some/any:** האם המשפט חיובי, שלילי, שאלה, או הצעה מנומסת? חיוב או הצעה → some. שלילה או שאלה רגילה → any.\n2. **much/many:** האם אפשר לספור את שם העצם עם מספר? כן → many. לא → much.\n3. **its/it's:** נסו להרחיב ל\"it is\" או \"it has\". הגיוני → it's. לא הגיוני, זו שייכות → its.\n",
+        "examples": [
+          {
+            "title": "some, any וחריג ההצעה",
+            "type": "text",
+            "content": "שלושה משפטים עם אותו שם עצם, tea.\n\n**A.** I would like ___ tea, please.\nזו הצעה מנומסת, לא שאלה רגילה. למרות שיש כאן סימן שאלה במבנה, זהו החריג: some. **I would like some tea, please.**\n\n**B.** I don't want ___ tea right now, thank you.\nמשפט שלילה: **any**. I don't want any tea right now.\n\n**C.** Do you have ___ tea in the kitchen?\nשאלה רגילה, לא הצעה: **any**. Do you have any tea in the kitchen?\n\nההבדל בין A ל-C הוא בדיוק החריג: A היא הצעה מנומסת שמנוסחת כשאלה אבל מתפקדת כמו חיוב, ו-C היא שאלת מידע פשוטה."
+          },
+          {
+            "title": "much water, many books",
+            "type": "text",
+            "content": "**The sentence:** How ___ water do you drink every day?\n\nwater הוא שם עצם בלתי ספירה — אי אפשר לומר \"three waters\" באופן טבעי (אפשר \"three glasses of water\", אבל לא את המילה עצמה). לכן: **much**.\n\nHow much water do you drink every day?\n\nלעומת זאת: How ___ books did you read last year?\n\nbooks ניתן לספירה ישירה — one book, two books, three books. לכן: **many**.\n\nHow many books did you read last year?\n\nהמבחן המעשי: נסו לשים מספר ליד המילה. \"three books\" הגיוני, \"three water\" לא — וזה קובע."
+          },
+          {
+            "title": "מבחן ההרחבה על its/it's",
+            "type": "text",
+            "content": "**The sentence:** ___ a beautiful day today.\n\nננסה להרחיב: \"It is a beautiful day today\" — הגיוני לגמרי. לכן: **It's**.\n\n**The sentence:** The cat is cleaning ___ fur.\n\nננסה להרחיב: \"The cat is cleaning it is fur\" — לא הגיוני בכלל. זו שייכות — הפרווה **שלו**, של החתול. לכן: **its**.\n\nThe cat is cleaning its fur.\n\nהטריק הזה עובד תמיד: אם ההרחבה ל-it is (או it has) יוצרת משפט תקין — כותבים it's. אם לא — כותבים its, בלי גרש."
+          }
+        ],
+        "exercises": [
+          {
+            "number": 1,
+            "title": "some או any",
+            "difficulty": "easy",
+            "description": "השלימו some או any, וציינו אם המשפט חיוב, שלילה, שאלה או הצעה.\n\nA. There isn't ___ milk in the fridge.\nB. We have ___ great news for you!\nC. Would you like ___ cake?\nD. Did you buy ___ vegetables at the market?",
+            "solution": "A. any — שלילה (isn't).\nB. some — חיוב.\nC. some — הצעה מנומסת, החריג.\nD. any — שאלה רגילה."
+          },
+          {
+            "number": 2,
+            "title": "much או many",
+            "difficulty": "easy",
+            "description": "השלימו much או many, לפי סוג שם העצם.\n\nA. How ___ students are in your class?\nB. I don't have ___ time to finish this today.\nC. She doesn't eat ___ vegetables.\nD. There isn't ___ information about this topic online.",
+            "solution": "A. many — students ניתן לספירה.\nB. much — time אינו ניתן לספירה ישירה.\nC. many — vegetables ניתן לספירה (one vegetable, two vegetables).\nD. much — information אינו מקבל רבים באנגלית, אף שבעברית 'מידע' נשמע כמו יחיד — כאן זה תואם, שני הצדדים יחיד."
+          },
+          {
+            "number": 3,
+            "title": "its או it's",
+            "difficulty": "medium",
+            "description": "השלימו its או it's, והשתמשו במבחן ההרחבה כדי לבדוק.\n\nA. ___ raining outside, so take an umbrella.\nB. The bird built ___ nest in our tree.\nC. ___ been a great year for our team.\nD. Every country has ___ own flag.",
+            "solution": "A. It's — 'It is raining' הגיוני. הרחבה מצליחה.\nB. its — 'The bird built it is nest' לא הגיוני. שייכות.\nC. It's — 'It has been a great year' הגיוני (קיצור של it has).\nD. its — 'Every country has it is own flag' לא הגיוני. שייכות."
+          },
+          {
+            "number": 4,
+            "title": "שם עצם בלתי ספירה שמפתיע",
+            "difficulty": "hard",
+            "description": "המילה news נשמעת כמו רבים בגלל ה-s בסופה, אבל מתנהגת כמו יחיד באנגלית. בחרו את המשפט הנכון והסבירו מדוע השני שגוי: 'The news is very good today.' לעומת 'The news are very good today.'",
+            "solution": "המשפט הנכון הוא 'The news is very good today.' למרות שהמילה news נגמרת באות s, בדיוק כמו רבים רגילים (books, cars), היא שם עצם יחיד קבוע באנגלית ומתפקדת עם is, לא are.\nהטעות נובעת מהיסק שגוי לפי כתיב: לא כל מילה שמסתיימת ב-s היא רבים (בדיוק כמו ש'מתמטיקה' לא באמת רבים בעברית למרות סיומת מסוימת). news, וכן מילים כמו physics ו-mathematics, הן שמות עצם יחידים על אף המראה החיצוני שלהן. הפתרון היחיד הוא לזכור את הרשימה הקצרה של המילים החריגות האלה."
+          }
+        ],
+        "quiz": [
+          {
+            "number": 1,
+            "question": "Choose the correct answer.\n\nWe don't have ___ homework tonight.",
+            "type": "multiple-choice",
+            "options": [
+              "any",
+              "some",
+              "much homeworks",
+              "many"
+            ],
+            "correct_answer": "any",
+            "explanation": "המשפט שלילי (don't have), ולכן any ולא some. homework הוא שם עצם בלתי ספיר, ולכן many אינו מתאים כלל, ו'homeworks' אינה קיימת."
+          },
+          {
+            "number": 2,
+            "type": "multiple-choice",
+            "question": "Choose the correct answer.\n\nWould you like ___ juice?",
+            "options": [
+              "any",
+              "many",
+              "much",
+              "some"
+            ],
+            "correct_answer": "some",
+            "explanation": "זו הצעה מנומסת המנוסחת כשאלה, ולכן some ולא any — זהו החריג הקבוע להצעות."
+          },
+          {
+            "number": 3,
+            "question": "Choose the correct answer.\n\nHow ___ people came to the party?",
+            "type": "multiple-choice",
+            "options": [
+              "much",
+              "some",
+              "many",
+              "any"
+            ],
+            "correct_answer": "many",
+            "explanation": "people ניתן לספירה ישירה (one person, two people), ולכן many. much מיועד לשמות עצם בלתי ספירים כמו water או time."
+          },
+          {
+            "number": 4,
+            "type": "multiple-choice",
+            "question": "Choose the correct answer.\n\nThe company changed ___ name last year.",
+            "options": [
+              "it's",
+              "its",
+              "its'",
+              "it is"
+            ],
+            "correct_answer": "its",
+            "explanation": "מבחן ההרחבה: 'The company changed it is name' אינו הגיוני. מדובר בשייכות — השם שלה — ולכן its בלי גרש."
+          },
+          {
+            "number": 5,
+            "question": "Choose the correct answer.\n\n___ almost time to go home.",
+            "type": "multiple-choice",
+            "options": [
+              "It's",
+              "Its",
+              "Their",
+              "There"
+            ],
+            "correct_answer": "It's",
+            "explanation": "מבחן ההרחבה: 'It is almost time to go home' הגיוני לגמרי, ולכן צריך את הצורה עם הגרש — קיצור של it is."
+          }
+        ]
+      },
+      {
+        "number": 5,
+        "title": "שיטת השלמת המשפט",
+        "learning_objectives": [
+          "לקרוא את המשפט השלם לפני שמסתכלים באפשרויות",
+          "לזהות איזה חלק דיבור חסר — שם עצם, פועל, תואר או תואר הפועל",
+          "לפסול אפשרויות מהחלק הדיבור הלא נכון לפני שבודקים משמעות",
+          "לשלב את כל הכללים מהפרקים הקודמים בשאלת השלמה אחת"
+        ],
+        "content": "## הסוג הכי נפוץ, והכי לא-מנוצל\n\nשאלת השלמת משפט (sentence completion) היא הסוג הנפוץ ביותר בפרק האנגלית של קרני, וגם הסוג שבו הכי הרבה נקודות הולכות לאיבוד — לא בגלל חוסר ידע, אלא בגלל שיטת גישה לא נכונה. תלמידים רבים קוראים רק את החלק שלפני הרווח, מנחשים איזו מילה \"נשמעת טוב\", ומפספסים את הרמז שנמצא **אחרי** הרווח.\n\nהדוגמה הקלאסית מהמבחן עצמו: A dolphin is much smaller than a ___. בלי לקרוא את הסוף, אי אפשר לדעת שמדובר בבעל חיים גדול ממנו — התשובה עשויה להיות whale, אבל רק ההקשר קובע. הכלל הראשון והחשוב מכול: **קראו את כל המשפט, מתחילתו ועד סופו, לפני שאתם מסתכלים ולו באפשרות אחת.**\n\n## שני סוגי שאלת השלמה, ואיך מבדילים ביניהם\n\nלפני שמתחילים לפתור, קובעים לאיזה סוג שייכת השאלה — כי לכל סוג יש שיטת פתרון שונה:\n\n- אם ארבע האפשרויות הן **צורות שונות של אותה מילה** (למשל go, goes, going, gone) — זו **שאלת דקדוק**. הרמז נמצא במילת זמן או במבנה המשפט, בדיוק כפי שלמדנו בפרקים 1–4.\n- אם ארבע האפשרויות הן **מילים שונות לגמרי** (למשל whale, fish, bird, insect) — זו **שאלת הקשר**. הרמז נמצא במשמעות הכללית של המשפט.\n\nההבחנה הזאת חוסכת זמן רב, כי היא קובעת מיד אילו כלים להפעיל.\n\n## השיטה: זיהוי חלק הדיבור לפני המשמעות\n\nהצעד שרוב התלמידים מדלגים עליו, וזה שהכי משתלם ללמוד: **לפני שבודקים מה הגיוני, בודקים איזה סוג מילה בדקדוק חייב לשבת במקום הריק.**\n\nלכל מקום ריק במשפט יש **תפקיד דקדוקי** קבוע, שנקבע לפי המילים שמסביבו:\n\n| סימן במשפט | חלק הדיבור החסר | דוגמה |\n|---|---|---|\n| אחרי a / an / the, ולפני פועל | שם עצם (noun) | The ___ was very tall. (a building, לא a build) |\n| אחרי נושא, במקום הפועל הראשי | פועל (verb) | She ___ to school every day. |\n| אחרי be (is/was/are) או לפני שם עצם | תואר (adjective) | The movie was very ___. (interesting, לא interest) |\n| אחרי פועל, מתאר איך נעשה משהו | תואר הפועל (adverb) | He drives very ___. (carefully, לא careful) |\n\nברגע שזיהיתם את חלק הדיבור הנדרש, אפשר **לפסול מיד** כל אפשרות שאינה מאותו סוג — עוד לפני שבודקים אם המשמעות מתאימה. זה חוסך זמן וגם מונע טעות של בחירת מילה \"קרובה במשמעות\" אבל מהסוג הדקדוקי הלא נכון.\n\nדוגמה: The teacher gave us a very ___ explanation.\nlong / lengthen / length / lengthy\n\nהמקום הריק בא אחרי \"a very\" ולפני שם עצם (explanation) — זה תפקיד של **תואר**. long ו-lengthy הם תארים; lengthen הוא פועל (להאריך); length הוא שם עצם (אורך). נשארות רק long ו-lengthy, ומכאן ממשיכים לפי משמעות.\n\n## שיטת ארבעת השלבים המלאה\n\n**שלב 1 — קראו את כל המשפט**, כולל מה שבא אחרי הרווח. אל תעצרו במקום הריק.\n\n**שלב 2 — קבעו את סוג השאלה.** אם האפשרויות הן צורות של אותה מילה — דקדוק, וחפשו מילת רמז של זמן או מבנה. אם הן מילים שונות — הקשר, והמשיכו לשלב 3.\n\n**שלב 3 — זהו את חלק הדיבור הנדרש** על פי מיקום הרווח במשפט, ופסלו כל אפשרות מסוג אחר.\n\n**שלב 4 — בין הנותרות, נסחו לעצמכם תשובה צפויה** לפי ההיגיון של המשפט, ובחרו את הקרובה ביותר לניסוח שלכם.\n\nהשלב הזה, ניסוח תשובה מראש, הוא בדיוק מה שלמדנו בפרק הראשון של הקורס \"אנגלית לקרני\": מי שמגיע עם ציפייה בראש אינו נגרר אחרי מסיח שנשמע טוב.\n\n## שילוב כל מה שלמדתם בקורס\n\nשאלת השלמה יכולה לבדוק כל אחד מהכללים בקורס הזה בתוך משפט אחד:\n\n- אם יש than במשפט — חשבו על השוואה (פרק 1).\n- אם יש מילת זמן כמו usually או yesterday — חשבו על בחירת זמן (פרק 2).\n- אם המקום הריק הוא לפני שם עצם של מקום — חשבו על מילת יחס (פרק 3).\n- אם המשפט חיובי, שלילי או שואל כמות — חשבו על some/any, much/many (פרק 4).\n\nהמבחן לא מפריד בין הפרקים האלה — שאלה אחת יכולה לשלב שניים מהם יחד, ולכן שווה, לפני כל שאלה, לרוץ בראש רשימת בדיקה קצרה: יש than? יש מילת זמן? יש מילת יחס חסרה? יש כמות?\n\n## מלכודת אחרונה: אורך אינו רמז\n\nתלמידים רבים בוחרים באופן לא מודע את האפשרות **הארוכה ביותר**, מתוך הנחה סמויה שמילה מורכבת יותר \"נשמעת יותר נכונה\". זו אינה שיטה — לפעמים התשובה הנכונה היא המילה הקצרה ביותר ברשימה. הדרך היחידה לבטל את ההטיה הזאת היא לעבור על **כל ארבע** האפשרויות ולבדוק כל אחת מול הכלל שקבעתם, ולא לתת לאורך המילה להשפיע על הבחירה.\n",
+        "examples": [
+          {
+            "title": "הרמז נמצא בסוף המשפט",
+            "type": "text",
+            "content": "**The sentence:** A dolphin is much smaller than a ___.\nwhale / fish / mouse / insect\n\nמי שעוצר במילה smaller ומנחש לפי תחושה עלול לבחור mouse, כי עכבר הוא באמת קטן — אבל זה בדיוק ההפך ממה שהמשפט מבקש. חובה לקרוא את כל המשפט: אנחנו מחפשים משהו ש**דולפין קטן ממנו**, כלומר משהו **גדול יותר** מדולפין.\n\nchecking part of speech: כל ארבע האפשרויות הן שמות עצם של בעלי חיים, אז שלב הפסילה הדקדוקית לא עוזר כאן — צריך לעבור ישר להיגיון.\n\nמתוך fish, mouse, insect ו-whale, רק לוויתן גדול משמעותית מדולפין. התשובה: **whale**.\n\nזו בדיוק הדוגמה שמראה למה קריאת המשפט השלם, ולא רק החלק שלפני הרווח, היא הצעד הראשון והחשוב מכול."
+          },
+          {
+            "title": "פסילה לפי חלק הדיבור",
+            "type": "text",
+            "content": "**The sentence:** She was very ___ when she heard the good news.\nhappy / happiness / happily / happen\n\nהמקום הריק בא אחרי was very ולפני נקודה בסוף המשפט — תבנית קלאסית של **תואר** (be + very + adjective).\n\nבודקים כל אפשרות: happy הוא תואר — מתאים. happiness הוא שם עצם (אושר) — לא מתאים אחרי very במבנה הזה. happily הוא תואר הפועל (בשמחה) — היה מתאים אחרי פועל פעולה, לא אחרי was very. happen הוא פועל (לקרות) — לא מתאים בכלל אחרי was.\n\nגם בלי לחשוב על משמעות, שלוש מהאפשרויות נפסלות מיד לפי התפקיד הדקדוקי. התשובה: **happy**.\n\nזה ממחיש למה שלב הפסילה הדקדוקית עוזר גם כשכל האפשרויות \"קשורות\" למשמעות אחת — הן שונות בתפקיד שלהן במשפט, וזה מספיק כדי להכריע."
+          },
+          {
+            "title": "שאלה שמשלבת שני כללים מהקורס",
+            "type": "text",
+            "content": "**The sentence:** There isn't ___ milk left in the fridge, so we need to buy some tomorrow.\nany / some / many / much\n\n**בדיקה ראשונה — some/any:** המשפט שלילי (isn't), ולכן הכלל מפרק 4 אומר any, לא some. זה כבר פוסל שתי אפשרויות.\n\n**בדיקה שנייה — much/many:** milk הוא שם עצם בלתי ספיר — אי אפשר לספור \"three milks\" — ולכן הכלל אומר much, לא many. זה פוסל אפשרות נוספת.\n\nהאפשרות היחידה שעומדת בשני הכללים גם יחד היא **any**. many היה נכשל בבדיקת much/many, ו-much היה נכשל בבדיקת some/any (כי המילה עצמה לא קשורה לחיוב/שלילה, אלא לכמות בלבד — צריך גם any וגם much כדי שהמשפט יהיה תקין דקדוקית, אבל מבין ארבע האפשרויות רק אחת יכולה להיות נכונה, וזו any כי הרמז המרכזי כאן הוא השלילה).\n\nזו דוגמה לשאלה שמשלבת שני כללים מהקורס בבת אחת, וממחישה למה כדאי לרוץ בראש רשימת בדיקה לפני כל תשובה."
+          }
+        ],
+        "exercises": [
+          {
+            "number": 1,
+            "title": "קריאת המשפט השלם",
+            "difficulty": "easy",
+            "description": "לכל משפט, הסבירו מדוע אי אפשר לענות נכון בלי לקרוא את מה שבא אחרי הרווח.\n\nA. An elephant is much bigger than a ___.\nB. Although it was raining, we ___ went for a walk.",
+            "solution": "A. בלי לקרוא את סוף המשפט אי אפשר לדעת אילו בעלי חיים בכלל מדובר בהם ברשימת האפשרויות — הכיוון (גדול יותר או קטן יותר מפיל) קובע איזו תשובה הגיונית, וזה תלוי בהבנה שהמילה החסרה צריכה להיות קטנה מפיל.\nB. המילה Although בתחילת המשפט כבר מרמזת על ניגוד: למרות הגשם, קרה משהו לא צפוי. בלי לקרוא את כל המשפט אי אפשר לדעת שהניגוד דורש פועל של 'בכל זאת יצאנו', ולא פועל של 'נשארנו בבית'."
+          },
+          {
+            "number": 2,
+            "title": "זיהוי חלק הדיבור החסר",
+            "difficulty": "medium",
+            "description": "לכל משפט קבעו איזה חלק דיבור חסר (שם עצם, פועל, תואר או תואר הפועל), ופסלו את האפשרויות שאינן מתאימות.\n\nA. The soup smells ___. (delicious / deliciously / delight / delighted)\nB. He walked ___ into the room. (quiet / quietly / quietness / quieted)\nC. My brother is a talented ___. (music / musician / musical / musically)",
+            "solution": "A. אחרי smells (פועל תחושה) בא תואר, לא תואר הפועל — smells + adjective, כמו smells good. delicious הוא תואר, ולכן נשאר. deliciously הוא תואר הפועל, delight שם עצם/פועל, delighted תואר אחר לגמרי (מרוצה). התשובה: delicious.\nB. אחרי walked (פועל) ולפני into (מילת יחס), המקום מתאר איך הוא הלך — תפקיד של תואר הפועל. quietly הוא תואר הפועל הנכון. quiet הוא תואר, quietness שם עצם, quieted פועל בעבר. התשובה: quietly.\nC. אחרי a talented ולפני נקודה, המקום דורש שם עצם — האדם עצמו. musician הוא שם עצם (מוזיקאי). music שם עצם אחר (המושג עצמו, לא האדם), musical תואר, musically תואר הפועל. התשובה: musician."
+          },
+          {
+            "number": 3,
+            "title": "שילוב כלל מפרק קודם",
+            "difficulty": "medium",
+            "description": "לכל משפט זהו איזה כלל מהקורס (השוואה, זמן, מילת יחס, או some/any/much/many) קובע את התשובה, ופתרו.\n\nA. This exercise is much easier ___ the last one. (than / then / that / this)\nB. We ___ visit our cousins every summer. (usually / yesterday / now / ago)\nC. There wasn't ___ sugar left in the jar. (some / any / many / a)",
+            "solution": "A. כלל ההשוואה (פרק 1) — easier דורש than, לא then. התשובה: than.\nB. כלל הזמן (פרק 2) — every summer מרמז הרגל, וההרגל הזה מתואר במילה usually שמתאימה להווה פשוט. yesterday, now ו-ago אינם מתיישבים עם every summer. התשובה: usually.\nC. כלל some/any/much/many (פרק 4) — המשפט שלילי (wasn't) ו-sugar הוא שם עצם בלתי ספיר, אז צריך any (much היה מתאים לחיוב, לא כאפשרות ברשימה כאן — ומבין הנותרות only any מתאים גם לשלילה וגם לשם עצם בלתי ספיר). התשובה: any."
+          },
+          {
+            "number": 4,
+            "title": "פסילה לפי אורך המילה — למה זו טעות",
+            "difficulty": "hard",
+            "description": "תלמיד ניגש לשאלה הבאה ובחר את האפשרות הארוכה ביותר מתוך הנחה שהיא 'נשמעת יותר מדויקת': The weather was extremely ___. (nice / pleasant / wonderful / unpredictable). מדוע ההנחה הזאת מסוכנת, ואיך פותרים את השאלה נכון?",
+            "solution": "ההנחה שהמילה הארוכה ביותר היא הנכונה ביותר אינה כלל דקדוקי או לוגי בכלל — היא הרגל שגוי שנוצר מתחושה. מילים קצרות כמו nice הן לרוב תקינות בדיוק כמו מילים ארוכות, ובמקרים רבים מבחני קרני בונים בכוונה מסיח ארוך ומרשים כדי לתפוס תלמידים שסומכים על אורך.\nבשאלה הזו, כל ארבע האפשרויות הן תארים תקינים דקדוקית (nice, pleasant, wonderful, unpredictable), ולכן שלב הפסילה הדקדוקית לא עוזר — צריך הקשר נוסף מהמשפט כדי להכריע. בלי משפט המשך, כל ארבע האפשרויות הגיוניות ברמה מסוימת; הלקח המעשי הוא שבמבחן אמיתי המשפט המלא תמיד יכיל מידע נוסף (למשל תיאור של גשם פתאומי) שמצביע על תשובה אחת ספציפית, ואת המידע הזה צריך לחפש — לא את אורך המילה."
+          }
+        ],
+        "quiz": [
+          {
+            "number": 1,
+            "question": "Choose the correct answer.\n\nA dolphin is much smaller than a ___.",
+            "type": "multiple-choice",
+            "options": [
+              "mouse",
+              "insect",
+              "whale",
+              "fish"
+            ],
+            "correct_answer": "whale",
+            "explanation": "המשפט אומר שהדולפין קטן יותר מהחסר, כלומר מחפשים בעל חיים גדול יותר מדולפין. מבין הארבעה, רק לוויתן גדול משמעותית מדולפין. mouse ו-insect קטנים בהרבה מדולפין, ולכן שגויים בכיוון."
+          },
+          {
+            "number": 2,
+            "type": "multiple-choice",
+            "question": "Choose the word that fits the missing part of speech.\n\nThe movie was surprisingly ___.",
+            "options": [
+              "boring",
+              "bore",
+              "boredom",
+              "bored quickly"
+            ],
+            "correct_answer": "boring",
+            "explanation": "אחרי was surprisingly בא תואר. boring הוא תואר (משעמם). bore הוא פועל, boredom הוא שם עצם, ו-'bored quickly' אינה מילה בודדת מתאימה למקום. רק boring עומד בתפקיד הדקדוקי הנדרש."
+          },
+          {
+            "number": 3,
+            "question": "Choose the correct answer.\n\nThere wasn't ___ time to finish the test.",
+            "type": "multiple-choice",
+            "options": [
+              "some",
+              "many",
+              "a few",
+              "any"
+            ],
+            "correct_answer": "any",
+            "explanation": "המשפט שלילי (wasn't), ולכן any ולא some. time הוא שם עצם בלתי ספיר, ולכן many ו-a few (שמתאימים לשמות עצם רבים) אינם מתאימים כלל."
+          },
+          {
+            "number": 4,
+            "type": "multiple-choice",
+            "question": "Choose the correct answer.\n\nHe finished the race first because he ran so ___.",
+            "options": [
+              "quick",
+              "quickly",
+              "quickness",
+              "quicken"
+            ],
+            "correct_answer": "quickly",
+            "explanation": "המקום הריק בא אחרי הפועל ran ומתאר איך הוא רץ — תפקיד של תואר הפועל. quickly הוא תואר הפועל הנכון. quick הוא תואר, quickness שם עצם, quicken פועל (להאיץ)."
+          },
+          {
+            "number": 5,
+            "question": "Choose the correct answer.\n\nMy grandfather is much ___ than my father, but he still walks five kilometers every day.",
+            "type": "multiple-choice",
+            "options": [
+              "old",
+              "oldest",
+              "older",
+              "more old"
+            ],
+            "correct_answer": "older",
+            "explanation": "המילה than מיד אחרי המקום הריק מזהה השוואה בין שני אנשים בלבד — הסבא והאבא. old היא מילה קצרה שמקבלת סיומת er בהשוואה, ולא more. oldest מתאימה לעליונות בין שלושה ומעלה, לא כאן."
+          }
+        ]
+      }
+    ]
+  }
+}

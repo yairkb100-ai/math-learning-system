@@ -9,9 +9,12 @@ const DOMAIN_HE = {
   verbal: 'מילולי',
   quantitative: 'כמותי',
   figural: 'צורני',
+  logic: 'לוגי',
+  spatial: 'מרחבי',
+  speed: 'זריזות ודיוק',
   english: 'אנגלית',
 }
-const DOMAIN_ORDER = ['verbal', 'quantitative', 'figural', 'english']
+const DOMAIN_ORDER = ['verbal', 'quantitative', 'figural', 'logic', 'spatial', 'speed', 'english']
 const KIND_HE = { mini: 'מיני-תרגול', section: 'פרק בודד', full: 'סימולציה מלאה' }
 
 function fmtDate(iso) {
@@ -57,9 +60,9 @@ export default function PsyHome() {
         <div className="psy-hero-text">
           <h1>הכנה לקרני</h1>
           <p>
-            מבחן הקבלה של מכון קרני לישיבות התיכוניות, בארבעה תחומים: מילולי, כמותי, צורני
-            ואנגלית. זה לא אוסף מבחנים — זה מסלול לימוד: קורס לכל נושא, תרגול ממוקד אחריו,
-            וסימולציה בתנאי אמת רק כשמוכנים.
+            מבחן הקבלה של מכון קרני לישיבות התיכוניות, בשבעה תחומים: מילולי, כמותי, צורני,
+            לוגי, מרחבי, זריזות ודיוק ואנגלית. זה לא אוסף מבחנים — זה מסלול לימוד: קורס לכל
+            נושא, תרגול ממוקד אחריו, וסימולציה בתנאי אמת רק כשמוכנים.
           </p>
           <div className="psy-hero-actions">
             {data.open_attempt ? (

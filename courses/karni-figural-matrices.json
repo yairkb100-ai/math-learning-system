@@ -1,0 +1,619 @@
+{
+  "course": {
+    "metadata": {
+      "slug": "karni-figural-matrices",
+      "track": "psy",
+      "title": "מטריצות צורניות — תרגול מעמיק",
+      "description": "קורס נפח שמוקדש כולו לסוג השאלה הנפוץ ביותר בפרק הצורני: המטריצה. הקורס \"יסודות החשיבה הצורנית\" באותו סקשן לימד את השיטה הבסיסית לכל ארבעת סוגי השאלות; כאן חוזרים למטריצה בלבד ומעמיקים בה — שורה-ועמודה בתכונה אחת, שתי תכונות שרצות יחד בכל שורה, מטריצות עם יותר מארבע אפשרויות (כמו במבחן האמיתי), ותרגול מתקדם שמערבב הכול תחת לחץ זמן. תשומת לב מיוחדת ניתנת למלכודת הכי מסוכנת בסוג השאלה הזה: הפיתוי לבחור את האפשרות ש\"עוד לא ראיתי בטבלה\" במקום לקרוא את שני הכללים בפועל. כל מטריצה בקורס בנויה כך שקיצור הדרך הזה נכשל, ורק מי שניסח את כלל השורה ואת כלל העמודה במילים מגיע לתשובה הנכונה.",
+      "level": "Beginner",
+      "language": "Hebrew",
+      "estimated_hours": 6,
+      "chapters": 5
+    },
+    "learning_objectives": [
+      "לפרק כל מטריצה לשתי שאלות נפרדות: מה קבוע או משתנה בשורה, ומה קבוע או משתנה בעמודה",
+      "לנסח את כלל השורה ואת כלל העמודה כשני משפטים שלמים בעברית לפני שמסתכלים באפשרויות",
+      "לזהות ולפסול את קיצור הדרך \"האפשרות שלא הופיעה בטבלה\", ולדעת בדיוק למה הוא נכשל במטריצות אמיתיות",
+      "לזכור שהתא הקבוע (התכונה שאינה חלק לא משורה ולא מעמודה) חייב להישמר גם הוא, ולא רק שני הכללים",
+      "לפתור מטריצה שבה שתי תכונות רצות יחד באותה שורה, כל תכונה בנפרד עד הסוף",
+      "לגשת למטריצה עם שש עד שמונה אפשרויות באותה שיטה בדיוק כמו למטריצה עם ארבע, בלי לקצר את הבדיקה",
+      "לזהות תבנית מדורגת (לא רק ערך קבוע) בשורה או בעמודה, ולחזות את האיבר הבא בה",
+      "לפתור מטריצה שבה התא החסר אינו בפינה, ולזהות את השורה והעמודה שלו נכון",
+      "לנהל זמן בפרק שלם של מטריצות: כמה שניות למטריצה, מתי לצמצם ולנחש, ומתי לחזור ולבדוק"
+    ],
+    "chapters": [
+      {
+        "number": 1,
+        "title": "מטריצה כהצטלבות של שני כללים — ולמה קיצור הדרך הנפוץ מטעה",
+        "learning_objectives": [
+          "לפרק כל מטריצה לשתי שאלות נפרדות: מה עושה השורה, מה עושה העמודה",
+          "לנסח את כלל השורה ואת כלל העמודה כשני משפטים שלמים בעברית לפני שמסתכלים באפשרויות",
+          "לזהות ולפסול את קיצור הדרך 'האפשרות שלא הופיעה בטבלה'",
+          "לבדוק גם את התכונה הקבועה שאינה חלק לא מכלל השורה ולא מכלל העמודה"
+        ],
+        "content": "## למה קורס שלם רק על מטריצות\n\nבקורס \"יסודות החשיבה הצורנית\" למדתם שמטריצה היא בעצם שתי שאלות שנפגשות: מה עושה השורה, מה עושה העמודה, ומה יוצא כשמצליבים ביניהן. זו שיטה נכונה, והיא תעבוד על כל מטריצה שתפגשו. אז למה קורס שלם נוסף?\n\nכי מטריצות הן סוג השאלה הנפוץ ביותר בפרק הצורני, וגם הסוג שבו הכי הרבה תלמידים בונים לעצמם הרגל רע בלי לשים לב: **קיצור דרך שנראה כמו שיטה, אבל הוא ניחוש בתחפושת.** הקורס הזה מוקדש להבחין בין השניים, ואז לתרגל את השיטה האמיתית עד שהיא הופכת אוטומטית — על מטריצה של תכונה אחת, על מטריצה של שתי תכונות יחד, ועל מטריצה עם שש או שמונה אפשרויות במקום ארבע.\n\n## מה מטריצה, בקיצור אחד\n\nתשעה תאים בטבלה של שלוש על שלוש, אחד מהם ריק. הפתרון תמיד באותם שני שלבים:\n\n1. **מה עושה השורה?** סרקו שורה שלמה, מימין לשמאל, ומצאו מה נשמר ומה משתנה בה.\n2. **מה עושה העמודה?** אותה סריקה בדיוק, מלמעלה למטה.\n\nהתא החסר הוא **ההצטלבות** של שני הממצאים — לא ניחוש, לא הרגשה, אלא שני משפטים שמתחברים לתשובה אחת.\n\n{{figmatrix:shape=square,fill=none,size=s;shape=square,fill=none,size=m;shape=square,fill=none,size=l/shape=square,fill=dots,size=s;shape=square,fill=dots,size=m;shape=square,fill=dots,size=l/shape=square,fill=solid,size=s;shape=square,fill=solid,size=m;?}}\n\nבשורה השלישית הצורה תמיד מלאה. בעמודה השלישית הגודל תמיד גדול. ההצטלבות: ריבוע גדול ומלא.\n\n{{figcell:shape=square,fill=solid,size=l}}\n\n## הטעות שנראית כמו קיצור דרך\n\nעכשיו לחלק החשוב באמת של הפרק הזה. תסתכלו שוב במטריצה שלמעלה, והפעם תדמיינו שאתם לא קוראים כללים אלא רק משווים בעין: \"איזו אפשרות אני עדיין לא ראיתי איפשהו בטבלה?\"\n\nזה בדיוק הקיצור שתלמידים רבים מגלים לבד, ולמדריכים לא תמיד יש זמן לעקור. הוא נשען על הנחה סמויה: שכל התשובות השגויות הן פשוט תאים שכבר מופיעים בטבלה, ורק הנכונה היא \"חדשה\". במטריצה גרועה ההנחה הזאת אפילו נכונה — וזו בדיוק הסיבה שהיא מסוכנת. היא עובדת מספיק פעמים כדי שתפתחו בה ביטחון, ואז נכשלת בדיוק כשהיא הכי חשובה, בשאלה שנבנתה נכון.\n\nבקורס הזה **כל מטריצה בנויה כך שהקיצור הזה נכשל**. חלק מהמסיחים אכן מבוססים על תאים שכבר ראיתם בטבלה, בדיוק כדי לפתות אתכם לחשוב שכל מה שכבר הופיע פסול. אבל תמיד יהיה גם מסיח שהוא **חדש לגמרי** ועדיין שגוי — למשל תא עם הצורה, המידה או הצבע הנכונים לפי שתי הכללים, אבל עם תכונה שלישית שהוחלפה בלי סיבה. אם תבחרו לפי \"מה לא ראיתי\", תיפלו בדיוק במסיח הזה.\n\n**המסקנה המעשית:** אין דרך לפתור מטריצה בלי לנסח את שני הכללים במילים. \"לא ראיתי את זה\" אינו כלל. זה בקושי רמז, ולפעמים הוא רמז שגוי.\n\n## כמה אפשרויות יש? לא תמיד ארבע\n\nהרגל נוסף שכדאי לשבור מוקדם: ברוב שאלות המבחן יש ארבע אפשרויות, אבל **לא בכולן**. במטריצות במיוחד נתקלים לפעמים בשש, שבע ואפילו שמונה אפשרויות באותה שאלה. זה לא שינוי בשיטה — הנוהל של שורה-עמודה-הצטלבות זהה לגמרי — אבל זה כן אומר שאי אפשר להסתמך על \"יש רק ארבע, אז קל לצמצם בעין\". עם שמונה אפשרויות, צמצום בעין הופך לבלתי אפשרי, והנוהל המסודר הוא הדרך היחידה שלא מתפרקת.\n\nהכלל המעשי: **לפני שאתם סופרים כמה אפשרויות יש, נסחו את שני הכללים.** רק אחר כך עברו על כל האפשרויות, כמה שלא יהיו, ובדקו כל אחת מולן. פרק רביעי בקורס הזה מוקדש כולו לסוג הזה של שאלה.\n\n## הנוהל המלא בארבעה צעדים\n\n1. **נסחו את כלל השורה** במשפט שלם: \"בכל שורה הצורה קבועה\", \"הכמות עולה משמאל לימין בכל שורה\", וכדומה.\n2. **נסחו את כלל העמודה** באותו אופן, על העמודות.\n3. **נבאו את התא החסר** לפי שני הכללים יחד, לפני שמסתכלים באפשרויות.\n4. **בדקו כל אפשרות בנפרד מול שני הכללים**, לא רק מול הניבוי שלכם. אפשרות שמתאימה לכלל השורה אך לא לכלל העמודה נפסלת. אפשרות שמתאימה לשניהם אך משנה תכונה שלישית שהייתה אמורה להישאר קבועה — נפסלת גם היא.\n\nהשלב הרביעי הוא זה שרוב התלמידים מדלגים עליו, כי ברגע שמוצאים אפשרות שנראית נכונה מפסיקים לבדוק. תרגלו לעבור על כל האפשרויות תמיד, גם אחרי שמצאתם מועמדת טובה.\n\n## התכונה הקבועה: מה שאסור לשכוח לבדוק\n\nבכל מטריצה יש בדרך כלל תכונה שלישית שאינה חלק לא מכלל השורה ולא מכלל העמודה — היא פשוט **קבועה בכל התאים**. בדוגמה למעלה זו הצורה: ריבוע בכל תשעת התאים, בלי יוצא מן הכלל.\n\nתכונה קבועה נראית משעממת, ולכן העין מדלגת עליה. וזו בדיוק הסיבה שהיא מקום נהדר להסתיר בו מסיח: תא שמקבל את הגודל הנכון ואת המילוי הנכון, אבל \"בטעות\" הופך ליהלום במקום ריבוע. מי שבדק רק שורה ועמודה ולא בדק את התכונה הקבועה, נופל ישר בפח.\n\n**כללי אצבע:** אחרי שניסחתם את כלל השורה ואת כלל העמודה, שאלו שאלה שלישית קצרה — \"מה נשאר זהה בכל התשעה תאים?\" — ווודאו שהתשובה שבחרתם שומרת גם עליה.\n\n## שלוש מלכודות שחוזרות בכל מבחן\n\n- **קיצור הדרך \"לא ראיתי את זה\".** הוסבר למעלה בהרחבה. הפתרון היחיד: תמיד לנסח את שני הכללים במילים.\n- **עצירה אחרי שורה בלבד.** תלמיד שקורא רק את השורה מוצא אפשרות שמתאימה לה ומסמן, בלי לבדוק שהיא מתאימה גם לעמודה. הפתרון: שתי שאלות נפרדות, תמיד.\n- **שכחת התכונה הקבועה.** הוסבר למעלה. הפתרון: שאלה שלישית קצרה על מה שאמור להישאר זהה.\n\nבשלושת הפרקים הבאים נתרגל את הנוהל הזה על מבחר רחב של מטריצות — קודם תכונה אחת נקייה בכל ציר, אחר כך שתי תכונות שרצות יחד, ולבסוף מטריצות עם הרבה אפשרויות שבהן הנוהל הוא ההגנה היחידה שלכם.",
+        "examples": [
+          {
+            "title": "מטריצה נקייה: כלל אחד בשורה, כלל אחד בעמודה",
+            "type": "text",
+            "content": "{{figmatrix:shape=cross,n=1,color=ink;shape=cross,n=1,color=accent;shape=cross,n=1,color=warm/shape=cross,n=2,color=ink;shape=cross,n=2,color=accent;shape=cross,n=2,color=warm/shape=cross,n=3,color=ink;shape=cross,n=3,color=accent;?}}\n\n**מה עושה השורה?** הכמות עולה משמאל לימין: אחד, שניים, שלושה. זה חוזר בשלוש השורות, ולכן זה כלל אמיתי.\n\n**מה עושה העמודה?** הצבע קבוע בעמודה: דיו, טורקיז, כתום. זה חוזר בשלוש העמודות.\n\n**התכונה הקבועה:** הצורה — צלב בכל תשעת התאים.\n\n**הצטלבות:** בשורה השלישית שלושה עצמים. בעמודה השלישית הצבע כתום. התשובה: שלושה צלבים כתומים.\n\n{{figcell:shape=cross,n=3,color=warm}}\n\nשימו לב שאף אחד מהצעדים לא היה קשה בפני עצמו. הקושי היחיד במטריצה הוא לזכור לעבור על כל השלבים בסדר, ולא לעצור אחרי הראשון שנראה נכון."
+          },
+          {
+            "title": "כשהפיתוי הוא ה'לא ראיתי'",
+            "type": "text",
+            "content": "{{figmatrix:shape=hexagon,fill=none,rot=0;shape=hexagon,fill=half,rot=0;shape=hexagon,fill=solid,rot=0/shape=hexagon,fill=none,rot=90;shape=hexagon,fill=half,rot=90;shape=hexagon,fill=solid,rot=90/shape=hexagon,fill=none,rot=180;shape=hexagon,fill=half,rot=180;?}}\n\nתלמיד שממהר בוחר בגישת \"מה לא הופיע בטבלה\" ומגלה שלוש אפשרויות שכל אחת מהן זהה כמעט לתא קיים בטבלה, ואפשרות רביעית ש\"נראית חדשה\". הוא בוחר בה.\n\nבואו נעשה את זה נכון. **כלל השורה:** הסיבוב עולה ב-90 מעלות משורה לשורה: 0, 90, 180. **כלל העמודה:** המילוי הופך צפוף יותר משמאל לימין: ריק, חצי, מלא. **התכונה הקבועה:** הצורה — משושה בכל תא.\n\nהצטלבות: שורה שלישית — סיבוב 180 מעלות. עמודה שלישית — מילוי מלא. התשובה: משושה מלא בסיבוב 180 מעלות.\n\n{{figcell:shape=hexagon,fill=solid,rot=180}}\n\nעכשיו בדקו: זו אכן האפשרות שה\"נראתה חדשה\". הפעם הקיצור נתן תשובה נכונה — **במקרה**. בפעמים אחרות בקורס הזה הוא ייתן תשובה שגויה, ואין דרך לדעת מראש מתי. זו הסיבה שהוא לא שיטה — הוא הימור שלפעמים מצליח."
+          }
+        ],
+        "exercises": [
+          {
+            "number": 1,
+            "title": "שתי שאלות נפרדות",
+            "difficulty": "easy",
+            "description": "פתרו את המטריצה בשני שלבים נפרדים וכתבו את שני הכללים במשפטים שלמים לפני שאתם בוחרים תשובה.\n\n{{figmatrix:shape=triangle,size=s,dot=tl;shape=triangle,size=s,dot=tr;shape=triangle,size=s,dot=br/shape=triangle,size=m,dot=tl;shape=triangle,size=m,dot=tr;shape=triangle,size=m,dot=br/shape=triangle,size=l,dot=tl;shape=triangle,size=l,dot=tr;?}}\n\nאפשרויות:\nא. {{figcell:shape=triangle,size=s,dot=br}}\nב. {{figcell:shape=triangle,size=l,dot=tl}}\nג. {{figcell:shape=triangle,size=l,dot=tr}}\nד. {{figcell:shape=triangle,size=l,dot=br}}",
+            "solution": "כלל השורה: הגודל עולה מלמעלה למטה — קטן, בינוני, גדול. כלל העמודה: מיקום הנקודה זז פינה בכל עמודה — שמאלית עליונה, ימנית עליונה, ימנית תחתונה. התכונה הקבועה: הצורה — משולש בכל תשעת התאים.\n\nהצטלבות: שורה שלישית — גדול. עמודה שלישית — נקודה ימנית תחתונה. התשובה: משולש גדול עם נקודה ימנית תחתונה, אפשרות ד.\n\n{{figcell:shape=triangle,size=l,dot=br}}\n\nאפשרות א שומרת על מיקום הנקודה הנכון (עמודה שלישית) אך גודלה קטן במקום גדול — היא לא עומדת בכלל השורה. אפשרויות ב וג שומרות על הגודל הנכון (גדול) אך עם מיקום נקודה שגוי — כל אחת מהן מדויקת בתכונה אחת בלבד, ולכן שתיהן פסולות."
+          },
+          {
+            "number": 2,
+            "title": "מתי שני הכללים לא מספיקים",
+            "difficulty": "medium",
+            "description": "פתרו את המטריצה, ואז הסבירו במשפט אחד למה שתי האפשרויות שאינן נכונות אך \"משהו בהן נראה מדויק\" אינן יכולות להיות התשובה.\n\n{{figmatrix:shape=diamond,n=1,fill=dots;shape=diamond,n=2,fill=dots;shape=diamond,n=3,fill=dots/shape=diamond,n=1,fill=stripes;shape=diamond,n=2,fill=stripes;shape=diamond,n=3,fill=stripes/shape=diamond,n=1,fill=grid;shape=diamond,n=2,fill=grid;?}}\n\nאפשרויות:\nא. {{figcell:shape=diamond,n=1,fill=grid}}\nב. {{figcell:shape=diamond,n=2,fill=grid}}\nג. {{figcell:shape=diamond,n=3,fill=grid}}\nד. {{figcell:shape=diamond,n=3,fill=dots}}",
+            "solution": "כלל השורה: המילוי משתנה מלמעלה למטה — נקודות, פסים, רשת. כלל העמודה: הכמות עולה משמאל לימין — אחד, שניים, שלושה. התכונה הקבועה: הצורה — מעוין בכולן.\n\nהצטלבות: שורה שלישית — מילוי רשת. עמודה שלישית — שלושה עצמים. התשובה: שלושה מעוינים במילוי רשת, אפשרות ג.\n\n{{figcell:shape=diamond,n=3,fill=grid}}\n\nאפשרויות א וב שומרות על מילוי הרשת הנכון אך עם כמות שגויה (אחד ושניים בהתאמה, במקום שלושה). אפשרות ד שומרת על הכמות הנכונה (שלושה) אך עם מילוי נקודות במקום רשת. כל אחת מהן מדויקת בתכונה אחת בלבד — רק אפשרות שמדויקת בשתי התכונות בו-זמנית יכולה להיות נכונה."
+          },
+          {
+            "number": 3,
+            "title": "התכונה הקבועה כמלכודת",
+            "difficulty": "medium",
+            "description": "לפניכם מטריצה. מצאו את שני הכללים, ואז זהו איזו אפשרות \"גונבת\" את התכונה הקבועה — כלומר שומרת נכון על שורה ועמודה אך משנה את מה שהיה אמור להישאר זהה.\n\n{{figmatrix:shape=star,fill=none,size=s,color=ink;shape=star,fill=none,size=m,color=ink;shape=star,fill=none,size=l,color=ink/shape=star,fill=none,size=s,color=accent;shape=star,fill=none,size=m,color=accent;shape=star,fill=none,size=l,color=accent/shape=star,fill=none,size=s,color=warm;shape=star,fill=none,size=m,color=warm;?}}\n\nאפשרויות:\nא. {{figcell:shape=star,fill=none,size=l,color=ink}}\nב. {{figcell:shape=star,fill=none,size=s,color=warm}}\nג. {{figcell:shape=star,fill=none,size=m,color=warm}}\nד. {{figcell:shape=star,fill=none,size=l,color=warm}}",
+            "solution": "כלל השורה: הצבע משתנה מלמעלה למטה — דיו, טורקיז, כתום. כלל העמודה: הגודל עולה משמאל לימין — קטן, בינוני, גדול. התכונה הקבועה: המילוי — ריק בכל התאים, וגם הצורה — כוכב בכולם.\n\nהצטלבות: שורה שלישית — כתום. עמודה שלישית — גדול. התשובה: כוכב גדול, ריק, בצבע כתום, אפשרות ד.\n\n{{figcell:shape=star,fill=none,size=l,color=warm}}\n\nאפשרות א שומרת על הצבע והגודל הנכונים אבל ממלאת את הכוכב — בדיוק גניבת התכונה הקבועה. מי שבדק רק שורה ועמודה ולא שאל \"מה נשאר זהה בכל תשעת התאים\", עלול לבחור בה בטעות."
+          },
+          {
+            "number": 4,
+            "title": "למה 'לא ראיתי את זה' מטעה",
+            "description": "הסבירו בשלושה עד ארבעה משפטים למה קיצור הדרך \"אבחר את האפשרות שלא הופיעה בטבלה\" אינו שיטה אמינה בפרק המטריצות של המבחן, גם אם לפעמים הוא נותן תשובה נכונה במקרה.",
+            "difficulty": "hard",
+            "solution": "הקיצור מסתמך על הנחה שאינה תמיד נכונה: שכל התשובות השגויות הן העתקים של תאים קיימים, ורק הנכונה חדשה. במטריצות בנויות היטב (וכאלה שנתקלים בהן במבחן האמיתי) יש בדרך כלל גם מסיח חדש וגם שגוי — למשל תא שמדויק בשורה ובעמודה אבל משנה את התכונה הקבועה, או תא שמעולם לא הופיע ואינו התשובה. במקרה כזה הקיצור לא רק שלא עוזר — הוא מוביל ישר לתשובה השגויה. השיטה היחידה שעובדת בכל מקרה היא לנסח את כלל השורה ואת כלל העמודה במילים, ולבדוק כל אפשרות מולם."
+          }
+        ],
+        "quiz": [
+          {
+            "number": 1,
+            "question": "מה חסר בתא הריק? נסחו קודם את כלל השורה, ואחר כך את כלל העמודה.\n\n{{figmatrix:shape=circle,fill=none,dot=tl;shape=circle,fill=none,dot=tr;shape=circle,fill=none,dot=br/shape=circle,fill=dots,dot=tl;shape=circle,fill=dots,dot=tr;shape=circle,fill=dots,dot=br/shape=circle,fill=solid,dot=tl;shape=circle,fill=solid,dot=tr;?}}",
+            "type": "multiple-choice",
+            "options": [
+              "{{figcell:shape=circle,fill=solid,dot=tl}}",
+              "{{figcell:shape=circle,fill=solid,dot=br}}",
+              "{{figcell:shape=circle,fill=solid,dot=tr}}",
+              "{{figcell:shape=circle,fill=none,dot=br}}"
+            ],
+            "correct_answer": "{{figcell:shape=circle,fill=solid,dot=br}}",
+            "explanation": "כלל השורה: המילוי משתנה מלמעלה למטה — ריק, נקודות, מלא. כלל העמודה: מיקום הנקודה זז פינה בכל עמודה — שמאלית עליונה, ימנית עליונה, ימנית תחתונה. התכונה הקבועה: הצורה — עיגול בכל התאים. הצטלבות: שורה שלישית מלאה, עמודה שלישית עם נקודה ימנית תחתונה. עיגול מלא עם נקודה ימנית תחתונה עונה על שתי הדרישות יחד; שאר האפשרויות מדויקות רק באחת מהן."
+          },
+          {
+            "number": 2,
+            "question": "מה חסר בתא הריק? שימו לב גם לתכונה שאמורה להישאר קבועה.\n\n{{figmatrix:shape=pentagon,size=s,color=ink;shape=pentagon,size=s,color=accent;shape=pentagon,size=s,color=warm/shape=pentagon,size=m,color=ink;shape=pentagon,size=m,color=accent;shape=pentagon,size=m,color=warm/shape=pentagon,size=l,color=ink;shape=pentagon,size=l,color=accent;?}}",
+            "type": "multiple-choice",
+            "options": [
+              "{{figcell:shape=pentagon,size=l,color=ink}}",
+              "{{figcell:shape=pentagon,size=l,color=accent}}",
+              "{{figcell:shape=pentagon,size=l,color=warm}}",
+              "{{figcell:shape=pentagon,size=s,color=warm}}"
+            ],
+            "correct_answer": "{{figcell:shape=pentagon,size=l,color=warm}}",
+            "explanation": "כלל השורה: הגודל עולה מלמעלה למטה — קטן, בינוני, גדול. כלל העמודה: הצבע משתנה משמאל לימין — דיו, טורקיז, כתום. התכונה הקבועה: הצורה — מחומש בכל התאים. הצטלבות: מחומש גדול בצבע כתום. אפשרות שמדויקת בגודל אך לא בצבע, או להפך, אינה יכולה להיות נכונה — צריך את שתי ההתאמות יחד."
+          },
+          {
+            "number": 3,
+            "question": "מה חסר בתא הריק? נסחו את שני הכללים במשפטים שלמים לפני שתסתכלו באפשרויות.\n\n{{figmatrix:shape=trapezoid,fill=none,rot=0;shape=trapezoid,fill=half,rot=0;shape=trapezoid,fill=solid,rot=0/shape=trapezoid,fill=none,rot=90;shape=trapezoid,fill=half,rot=90;shape=trapezoid,fill=solid,rot=90/shape=trapezoid,fill=none,rot=180;shape=trapezoid,fill=half,rot=180;?}}",
+            "type": "multiple-choice",
+            "options": [
+              "{{figcell:shape=trapezoid,fill=none,rot=180}}",
+              "{{figcell:shape=trapezoid,fill=half,rot=180}}",
+              "{{figcell:shape=trapezoid,fill=solid,rot=0}}",
+              "{{figcell:shape=trapezoid,fill=solid,rot=180}}"
+            ],
+            "correct_answer": "{{figcell:shape=trapezoid,fill=solid,rot=180}}",
+            "explanation": "כלל השורה: הסיבוב עולה ב-90 מעלות בכל שורה — 0, 90, 180. כלל העמודה: המילוי משתנה משמאל לימין — ריק, חצי, מלא. התכונה הקבועה: הצורה — טרפז בכולן. הצטלבות: טרפז מלא בסיבוב 180 מעלות. אפשרות עם סיבוב 0 מעלות שומרת על המילוי הנכון בלבד, ואפשרויות עם מילוי אחר שומרות על הסיבוב הנכון בלבד."
+          },
+          {
+            "number": 4,
+            "question": "מה חסר בתא הריק?\n\n{{figmatrix:shape=heart,n=1,size=s;shape=heart,n=1,size=m;shape=heart,n=1,size=l/shape=heart,n=2,size=s;shape=heart,n=2,size=m;shape=heart,n=2,size=l/shape=heart,n=3,size=s;shape=heart,n=3,size=m;?}}",
+            "type": "multiple-choice",
+            "options": [
+              "{{figcell:shape=heart,n=3,size=s}}",
+              "{{figcell:shape=heart,n=3,size=l}}",
+              "{{figcell:shape=heart,n=3,size=m}}",
+              "{{figcell:shape=heart,n=1,size=l}}"
+            ],
+            "correct_answer": "{{figcell:shape=heart,n=3,size=l}}",
+            "explanation": "כלל השורה: הכמות עולה מלמעלה למטה — אחד, שניים, שלושה. כלל העמודה: הגודל עולה משמאל לימין — קטן, בינוני, גדול. התכונה הקבועה: הצורה — לב בכל התאים. הצטלבות: שלושה לבבות גדולים. שימו לב שאין כאן צורך לבדוק מה \"לא הופיע\" — שני הכללים לבדם קובעים תשובה אחת."
+          },
+          {
+            "number": 5,
+            "question": "מה חסר בתא הריק? זהירות מהתכונה הקבועה.\n\n{{figmatrix:shape=cross,fill=dots,color=ink,dot=tl;shape=cross,fill=dots,color=ink,dot=tr;shape=cross,fill=dots,color=ink,dot=br/shape=cross,fill=dots,color=accent,dot=tl;shape=cross,fill=dots,color=accent,dot=tr;shape=cross,fill=dots,color=accent,dot=br/shape=cross,fill=dots,color=warm,dot=tl;shape=cross,fill=dots,color=warm,dot=tr;?}}",
+            "type": "multiple-choice",
+            "options": [
+              "{{figcell:shape=cross,fill=dots,color=warm,dot=tl}}",
+              "{{figcell:shape=cross,fill=dots,color=warm,dot=tr}}",
+              "{{figcell:shape=cross,fill=dots,color=warm,dot=br}}",
+              "{{figcell:shape=cross,fill=dots,color=ink,dot=br}}"
+            ],
+            "correct_answer": "{{figcell:shape=cross,fill=dots,color=warm,dot=br}}",
+            "explanation": "כלל השורה: הצבע משתנה מלמעלה למטה — דיו, טורקיז, כתום. כלל העמודה: מיקום הנקודה זז פינה בכל עמודה. שתי תכונות קבועות בכל התאים: הצורה (צלב) והמילוי (נקודות). הצטלבות: צלב מנוקד בצבע כתום עם נקודה ימנית תחתונה. אפשרות שמדויקת בצבע ובמיקום הנקודה אך ממלאת את הצלב ביתר שאת נפסלת — היא שינתה תכונה שהייתה אמורה להישאר זהה."
+          }
+        ]
+      },
+      {
+        "number": 2,
+        "title": "כל צירוף אפשרי: תרגול נפח על תכונה אחת בשורה ותכונה אחת בעמודה",
+        "learning_objectives": [
+          "לזהות מהר איזו תכונה קבועה בתוך שורה ואיזו קבועה בתוך עמודה, מתוך כל שבע התכונות האפשריות",
+          "להשתמש בשיטת שני התאים הסמוכים כדי לאתר את התכונה הנכונה ולאמת אותה עם תא שלישי",
+          "לזהות יותר מתכונה קבועה אחת באותה מטריצה ולבדוק את כולן",
+          "להימנע מבלבול בין תכונות שמתקדמות באותו קצב, כמו סיבוב וגודל, על ידי בדיקה נפרדת של כל אחת"
+        ],
+        "content": "## תכונה אחת בשורה, תכונה אחת בעמודה — אבל איזו?\n\nבפרק הקודם למדתם את הנוהל המלא, ותרגלתם אותו על מטריצות שבהן כלל השורה ידוע מראש (צבע, למשל) וכלל העמודה ידוע מראש (גודל, למשל). במבחן האמיתי אף אחד לא אומר לכם מראש אילו תכונות משתנות. המשימה הראשונה בכל מטריצה היא **לגלות** אילו שתיים מתוך הרשימה הארוכה — צורה, כמות, מילוי, סיבוב, גודל, צבע, מיקום סימן — הן אלה שקובעות את השורה ואת העמודה כאן.\n\nהפרק הזה הוא תרגול נפח על בדיוק זה: לזהות מהר איזו תכונה שייכת לשורה ואיזו לעמודה, מתוך כל צירוף אפשרי של שתי תכונות מתוך שבע.\n\n## שיטת שני התאים הסמוכים\n\nהדרך המהירה לגלות מה קובע שורה: השוו בין שני התאים הראשונים **באותה שורה**. כל תכונה שהשתנתה ביניהם היא מועמדת. עברו לתא השלישי באותה שורה ואמתו שהשינוי חוזר או שהערך יציב לפי אותו דפוס. זה בדיוק אותו נוהל שהכרתם מסדרות, רק שכאן משווים בתוך שורה ולא לאורך כל הסדרה.\n\nלאחר מכן חזרו על אותו תרגיל **בתוך עמודה**: השוו את התא הראשון והשני מלמעלה, ואמתו עם השלישי.\n\nשימו לב: התכונה שקובעת את השורה חייבת להיות **קבועה בתוך כל שורה בודדת** ולהשתנות בין שורה לשורה. אם תכונה משתנה גם בתוך השורה עצמה, היא לא כלל השורה — סימן שהיא כלל העמודה, או שהיא לא קשורה לאף אחד מהם (ואז היא מועמדת לתכונה קבועה).\n\n{{figmatrix:shape=square,n=1,fill=none;shape=square,n=1,fill=dots;shape=square,n=1,fill=solid/shape=square,n=2,fill=none;shape=square,n=2,fill=dots;shape=square,n=2,fill=solid/shape=square,n=3,fill=none;shape=square,n=3,fill=dots;?}}\n\n**שורה:** בתוך כל שורה הכמות זהה — שורה ראשונה כולה אחד, שנייה כולה שניים, שלישית כולה שלושה. זהו כלל השורה.\n\n**עמודה:** בתוך כל עמודה המילוי זהה — ריק, נקודות, מלא. זהו כלל העמודה.\n\n**התכונה הקבועה:** הצורה — ריבוע בכל תא.\n\nהצטלבות: שלושה ריבועים מלאים.\n\n{{figcell:shape=square,n=3,fill=solid}}\n\n## למה כדאי לתרגל את כל הצירופים\n\nיש כ-21 צירופים אפשריים של שתי תכונות מתוך שבע (צורה, כמות, מילוי, סיבוב, גודל, צבע, מיקום סימן). המבחן לא ישתמש בכולם, אבל אתם לא יודעים מראש באיזה צירוף תיתקלו. אם תרגלתם רק \"גודל ועמודה, צבע ושורה\" שוב ושוב, הזיהוי המהיר שלכם יעבוד רק על הצירוף הזה. המטרה של הפרק הזה היא לחשוף אתכם למספיק צירופים שונים כך שבזמן המבחן זיהוי הצירוף עצמו — לא רק פתרון המטריצה אחריו — יהיה מהיר.\n\nשימו לב לזוגות פחות שכיחים שקל להחמיץ אותם: **סיבוב מול גודל**, **מיקום סימן מול כמות**, **צבע מול מילוי**. בכל אחד מהם התכונות \"מתחרות\" על תשומת הלב באופן דומה, ודווקא בגלל זה קל לבלבל ביניהן אם לא סורקים שיטתית.\n\n## מתי תכונה אחת אינה מספיקה\n\nלפעמים אחרי שבדקתם שורה ועמודה, נשארות **שתי אפשרויות** שמתאימות. זה תמיד סימן לאחת משתי אפשרויות: או שפספסתם תכונה קבועה שגם היא צריכה להתאים (חזרה לפרק הקודם), או שבחרתם תכונה לא נכונה כ\"כלל השורה\" כי היא השתנתה גם בתוך השורה עצמה ופשוט לא שמתם לב. במקרה כזה, חִזרו וסרקו את השורה מחדש, תא-תא, ולא רק בין הראשון לשני.\n\n## סדר סריקה מהיר לזיהוי הצירוף\n\nהשתמשו באותו סדר שהכרתם מסדרות — צורה, כמות, מילוי, סיבוב, גודל — ורק אחר כך צבע ומיקום סימן, אבל הפעם הריצו אותו **פעמיים**: פעם אחת בתוך שורה (ומצאו את התכונה שקבועה בה), ופעם אחת בתוך עמודה. תכונה שלא הופיעה באף אחת משתי הרשימות היא התכונה הקבועה שלכם.",
+        "examples": [
+          {
+            "title": "סיבוב מול גודל",
+            "type": "text",
+            "content": "{{figmatrix:shape=hexagon,rot=0,size=s;shape=hexagon,rot=90,size=s;shape=hexagon,rot=180,size=s/shape=hexagon,rot=0,size=m;shape=hexagon,rot=90,size=m;shape=hexagon,rot=180,size=m/shape=hexagon,rot=0,size=l;shape=hexagon,rot=90,size=l;?}}\n\nזהו צירוף פחות שכיח, ולכן שווה להתעכב עליו. **שורה:** הגודל קבוע בתוך כל שורה — קטן, בינוני, גדול. **עמודה:** הסיבוב קבוע בתוך כל עמודה — 0, 90, 180 מעלות. **התכונה הקבועה:** הצורה — משושה בכולן.\n\nהצטלבות: שורה שלישית — גדול. עמודה שלישית — 180 מעלות. התשובה: משושה גדול מסובב ב-180 מעלות.\n\n{{figcell:shape=hexagon,rot=180,size=l}}\n\nמי שמבלבל בין השורה לעמודה כאן עלול לחפש גודל בעמודה וסיבוב בשורה — ולקבל תשובה שמתאימה בטעות, כי גם הגודל וגם הסיבוב עולים בקצב זהה משמאל לימין ומלמעלה למטה. בדיוק בגלל זה חשוב לאמת: תא ראשון ושני **באותה שורה** — האם הגודל זהה? כן. האם הסיבוב זהה? לא. זו ההוכחה שגודל הוא כלל השורה, לא סיבוב."
+          },
+          {
+            "title": "צבע מול כמות",
+            "type": "text",
+            "content": "{{figmatrix:shape=star,n=1,color=ink;shape=star,n=2,color=ink;shape=star,n=3,color=ink/shape=star,n=1,color=accent;shape=star,n=2,color=accent;shape=star,n=3,color=accent/shape=star,n=1,color=warm;shape=star,n=2,color=warm;?}}\n\n**שורה:** הצבע קבוע בתוך כל שורה — דיו, טורקיז, כתום. **עמודה:** הכמות קבועה בתוך כל עמודה — אחד, שניים, שלושה. **התכונה הקבועה:** הצורה — כוכב בכולן.\n\nהצטלבות: שלושה כוכבים כתומים.\n\n{{figcell:shape=star,n=3,color=warm}}\n\nטיפ מעשי: כשהכמות היא אחת משתי התכונות המשתנות, ספרו בפועל בכל תא ואל תסתפקו ב\"נראה כמו יותר\". כמות היא התכונה שהכי קל לפספס כי העין קופצת לצבע ולצורה לפני שהיא סופרת."
+          }
+        ],
+        "exercises": [
+          {
+            "number": 1,
+            "title": "זיהוי הצירוף: מילוי מול גודל",
+            "difficulty": "easy",
+            "description": "זהו מה כלל השורה ומה כלל העמודה, ורק אחר כך פתרו.\n\n{{figmatrix:shape=triangle,fill=none,size=s;shape=triangle,fill=none,size=m;shape=triangle,fill=none,size=l/shape=triangle,fill=half,size=s;shape=triangle,fill=half,size=m;shape=triangle,fill=half,size=l/shape=triangle,fill=solid,size=s;shape=triangle,fill=solid,size=m;?}}\n\nאפשרויות:\nא. {{figcell:shape=triangle,fill=none,size=l}}\nב. {{figcell:shape=triangle,fill=solid,size=s}}\nג. {{figcell:shape=triangle,fill=solid,size=m}}\nד. {{figcell:shape=triangle,fill=solid,size=l}}",
+            "solution": "שורה: המילוי קבוע בתוך כל שורה — ריק, חצי, מלא. עמודה: הגודל קבוע בתוך כל עמודה — קטן, בינוני, גדול. תכונה קבועה: הצורה — משולש בכולן.\n\nהצטלבות: משולש גדול ומלא, אפשרות ד.\n\n{{figcell:shape=triangle,fill=solid,size=l}}"
+          },
+          {
+            "number": 2,
+            "title": "זיהוי הצירוף: מיקום סימן מול כמות",
+            "difficulty": "medium",
+            "description": "{{figmatrix:shape=diamond,n=1,dot=tl;shape=diamond,n=2,dot=tl;shape=diamond,n=3,dot=tl/shape=diamond,n=1,dot=tr;shape=diamond,n=2,dot=tr;shape=diamond,n=3,dot=tr/shape=diamond,n=1,dot=br;shape=diamond,n=2,dot=br;?}}\n\nאפשרויות:\nא. {{figcell:shape=diamond,n=3,dot=tl}}\nב. {{figcell:shape=diamond,n=1,dot=br}}\nג. {{figcell:shape=diamond,n=2,dot=br}}\nד. {{figcell:shape=diamond,n=3,dot=br}}",
+            "solution": "שורה: מיקום הנקודה קבוע בתוך כל שורה — שמאלית עליונה, ימנית עליונה, ימנית תחתונה. עמודה: הכמות קבועה בתוך כל עמודה — אחד, שניים, שלושה. תכונה קבועה: הצורה — מעוין בכולן.\n\nהצטלבות: שלושה מעוינים עם נקודה ימנית תחתונה, אפשרות ד.\n\n{{figcell:shape=diamond,n=3,dot=br}}\n\nמלכודת נפוצה בצירוף הזה: לבלבל בין \"מיקום הסימן זז\" לבין \"הכמות משתנה\", כי שניהם קשורים ל\"משהו קטן שזז או נוסף\" בתא. הפרדה ברורה בין שאלת השורה לשאלת העמודה מונעת את הבלבול."
+          },
+          {
+            "number": 3,
+            "title": "זיהוי הצירוף: סיבוב מול צבע",
+            "difficulty": "medium",
+            "description": "{{figmatrix:shape=cross,rot=0,color=ink;shape=cross,rot=0,color=accent;shape=cross,rot=0,color=warm/shape=cross,rot=90,color=ink;shape=cross,rot=90,color=accent;shape=cross,rot=90,color=warm/shape=cross,rot=180,color=ink;shape=cross,rot=180,color=accent;?}}\n\nאפשרויות:\nא. {{figcell:shape=cross,rot=0,color=warm}}\nב. {{figcell:shape=cross,rot=180,color=ink}}\nג. {{figcell:shape=cross,rot=180,color=accent}}\nד. {{figcell:shape=cross,rot=180,color=warm}}",
+            "solution": "שורה: הסיבוב קבוע בתוך כל שורה — 0, 90, 180 מעלות. עמודה: הצבע קבוע בתוך כל עמודה — דיו, טורקיז, כתום. תכונה קבועה: הצורה — צלב בכולן.\n\nהצטלבות: צלב בסיבוב 180 מעלות בצבע כתום, אפשרות ד.\n\n{{figcell:shape=cross,rot=180,color=warm}}"
+          },
+          {
+            "number": 4,
+            "title": "שתי תכונות קבועות בבת אחת",
+            "difficulty": "hard",
+            "description": "לפניכם מטריצה שבה, מלבד שורה ועמודה, **שתי** תכונות נשארות קבועות. זהו את שתיהן, ורק אז פתרו.\n\n{{figmatrix:shape=circle,fill=dots,size=s,dot=tl;shape=circle,fill=dots,size=s,dot=tr;shape=circle,fill=dots,size=s,dot=br/shape=circle,fill=dots,size=m,dot=tl;shape=circle,fill=dots,size=m,dot=tr;shape=circle,fill=dots,size=m,dot=br/shape=circle,fill=dots,size=l,dot=tl;shape=circle,fill=dots,size=l,dot=tr;?}}\n\nאפשרויות:\nא. {{figcell:shape=circle,fill=dots,size=s,dot=br}}\nב. {{figcell:shape=circle,fill=dots,size=l,dot=tl}}\nג. {{figcell:shape=circle,fill=dots,size=l,dot=tr}}\nד. {{figcell:shape=circle,fill=dots,size=l,dot=br}}",
+            "solution": "שורה: הגודל קבוע בתוך כל שורה — קטן, בינוני, גדול. עמודה: מיקום הנקודה קבוע בתוך כל עמודה — שמאלית עליונה, ימנית עליונה, ימנית תחתונה. שתי תכונות קבועות: הצורה (עיגול) והמילוי (נקודות) — שתיהן זהות בכל תשעת התאים.\n\nהצטלבות: עיגול גדול מנוקד עם נקודה ימנית תחתונה, אפשרות ד.\n\n{{figcell:shape=circle,fill=dots,size=l,dot=br}}\n\nככל שיש יותר תכונות קבועות, כך יש יותר הזדמנויות למסיח שגונב אחת מהן. הרגל טוב: אחרי שמצאתם שורה ועמודה, רשמו לעצמכם בקצרה את **כל** התכונות שנותרו — לא רק אחת."
+          }
+        ],
+        "quiz": [
+          {
+            "number": 1,
+            "question": "מה חסר בתא הריק? זהו קודם איזו תכונה שייכת לשורה ואיזו לעמודה.\n\n{{figmatrix:shape=pentagon,n=1,color=ink;shape=pentagon,n=1,color=accent;shape=pentagon,n=1,color=warm/shape=pentagon,n=2,color=ink;shape=pentagon,n=2,color=accent;shape=pentagon,n=2,color=warm/shape=pentagon,n=3,color=ink;shape=pentagon,n=3,color=accent;?}}",
+            "type": "multiple-choice",
+            "options": [
+              "{{figcell:shape=pentagon,n=3,color=ink}}",
+              "{{figcell:shape=pentagon,n=3,color=warm}}",
+              "{{figcell:shape=pentagon,n=3,color=accent}}",
+              "{{figcell:shape=pentagon,n=1,color=warm}}"
+            ],
+            "correct_answer": "{{figcell:shape=pentagon,n=3,color=warm}}",
+            "explanation": "שורה: הכמות קבועה בתוך כל שורה — אחד, שניים, שלושה. עמודה: הצבע קבוע בתוך כל עמודה — דיו, טורקיז, כתום. תכונה קבועה: הצורה — מחומש בכולן. הצטלבות: שלושה מחומשים בצבע כתום."
+          },
+          {
+            "number": 2,
+            "question": "מה חסר בתא הריק?\n\n{{figmatrix:shape=trapezoid,fill=none,size=s;shape=trapezoid,fill=half,size=s;shape=trapezoid,fill=solid,size=s/shape=trapezoid,fill=none,size=m;shape=trapezoid,fill=half,size=m;shape=trapezoid,fill=solid,size=m/shape=trapezoid,fill=none,size=l;shape=trapezoid,fill=half,size=l;?}}",
+            "type": "multiple-choice",
+            "options": [
+              "{{figcell:shape=trapezoid,fill=none,size=l}}",
+              "{{figcell:shape=trapezoid,fill=half,size=l}}",
+              "{{figcell:shape=trapezoid,fill=solid,size=l}}",
+              "{{figcell:shape=trapezoid,fill=solid,size=s}}"
+            ],
+            "correct_answer": "{{figcell:shape=trapezoid,fill=solid,size=l}}",
+            "explanation": "שורה: הגודל קבוע בתוך כל שורה — קטן, בינוני, גדול. עמודה: המילוי קבוע בתוך כל עמודה — ריק, חצי, מלא. תכונה קבועה: הצורה — טרפז בכולן. הצטלבות: טרפז גדול ומלא."
+          },
+          {
+            "number": 3,
+            "question": "מה חסר בתא הריק?\n\n{{figmatrix:shape=heart,n=1,rot=0;shape=heart,n=2,rot=0;shape=heart,n=3,rot=0/shape=heart,n=1,rot=90;shape=heart,n=2,rot=90;shape=heart,n=3,rot=90/shape=heart,n=1,rot=180;shape=heart,n=2,rot=180;?}}",
+            "type": "multiple-choice",
+            "options": [
+              "{{figcell:shape=heart,n=1,rot=180}}",
+              "{{figcell:shape=heart,n=3,rot=180}}",
+              "{{figcell:shape=heart,n=2,rot=180}}",
+              "{{figcell:shape=heart,n=3,rot=0}}"
+            ],
+            "correct_answer": "{{figcell:shape=heart,n=3,rot=180}}",
+            "explanation": "שורה: הסיבוב קבוע בתוך כל שורה — 0, 90, 180 מעלות. עמודה: הכמות קבועה בתוך כל עמודה — אחד, שניים, שלושה. תכונה קבועה: הצורה — לב בכולן. הצטלבות: שלושה לבבות בסיבוב 180 מעלות."
+          },
+          {
+            "number": 4,
+            "question": "מה חסר בתא הריק?\n\n{{figmatrix:shape=star,size=s,dot=tl;shape=star,size=m,dot=tl;shape=star,size=l,dot=tl/shape=star,size=s,dot=tr;shape=star,size=m,dot=tr;shape=star,size=l,dot=tr/shape=star,size=s,dot=br;shape=star,size=m,dot=br;?}}",
+            "type": "multiple-choice",
+            "options": [
+              "{{figcell:shape=star,size=s,dot=br}}",
+              "{{figcell:shape=star,size=m,dot=br}}",
+              "{{figcell:shape=star,size=l,dot=br}}",
+              "{{figcell:shape=star,size=l,dot=tl}}"
+            ],
+            "correct_answer": "{{figcell:shape=star,size=l,dot=br}}",
+            "explanation": "שורה: מיקום הנקודה קבוע בתוך כל שורה — שמאלית עליונה, ימנית עליונה, ימנית תחתונה. עמודה: הגודל קבוע בתוך כל עמודה — קטן, בינוני, גדול. תכונה קבועה: הצורה — כוכב בכולן. הצטלבות: כוכב גדול עם נקודה ימנית תחתונה."
+          },
+          {
+            "number": 5,
+            "question": "מה חסר בתא הריק? שימו לב לשתי התכונות הקבועות בו-זמנית.\n\n{{figmatrix:shape=square,n=1,fill=stripes,color=ink;shape=square,n=2,fill=stripes,color=ink;shape=square,n=3,fill=stripes,color=ink/shape=square,n=1,fill=stripes,color=accent;shape=square,n=2,fill=stripes,color=accent;shape=square,n=3,fill=stripes,color=accent/shape=square,n=1,fill=stripes,color=warm;shape=square,n=2,fill=stripes,color=warm;?}}",
+            "type": "multiple-choice",
+            "options": [
+              "{{figcell:shape=square,n=1,fill=stripes,color=warm}}",
+              "{{figcell:shape=square,n=2,fill=stripes,color=warm}}",
+              "{{figcell:shape=square,n=3,fill=stripes,color=warm}}",
+              "{{figcell:shape=square,n=3,fill=stripes,color=ink}}"
+            ],
+            "correct_answer": "{{figcell:shape=square,n=3,fill=stripes,color=warm}}",
+            "explanation": "שורה: הצבע קבוע בתוך כל שורה — דיו, טורקיז, כתום. עמודה: הכמות קבועה בתוך כל עמודה — אחד, שניים, שלושה. שתי תכונות קבועות: הצורה (ריבוע) והמילוי (פסים). הצטלבות: שלושה ריבועים מפוספסים בצבע כתום."
+          }
+        ]
+      },
+      {
+        "number": 3,
+        "title": "כששתי תכונות זזות יחד: זהות שורה או עמודה מורכבת",
+        "learning_objectives": [
+          "לזהות מתי כלל השורה או כלל העמודה מורכב משתי תכונות שזזות יחד, ולא מתכונה אחת בלבד",
+          "לאמת זהות מורכבת על שני מעברים לפחות לפני שקובעים אותה ככלל",
+          "לפתור את השורה עד הסוף לפני שעוברים לעמודה, כדי לא לערבב בין שלבים",
+          "להבחין בין תבנית מדורגת (עולה בהפרש קבוע) לתבנית קבועה (ערכים שונים בלי סדר), ולאמת תבנית מדורגת דרך שוויון ההפרשים"
+        ],
+        "content": "## כששתי תכונות זזות יחד באותה שורה\n\nעד עכשיו, בכל מטריצה שראיתם, כלל השורה השפיע על תכונה **אחת**, וכלל העמודה השפיע על תכונה **אחרת**. זה הרוב, אבל לא הכול. לפעמים כלל השורה בעצמו מורכב משתי תכונות שמשתנות **יחד**, כצמד — הצורה משתנה, ובאותה שורה גם הכמות משתנה, בקצב קבוע שחוזר על עצמו בשלוש השורות. קוראים לצמד הזה **זהות השורה**: מה שהופך שורה למה שהיא, גם אם זה יותר מתכונה בודדת.\n\nזה נשמע מסובך, אבל הנוהל לא משתנה — רק מתווסף לו צעד אימות אחד.\n\n## הנוהל עם זהות מורכבת\n\n1. השוו את התא הראשון לשני **באותה שורה**. רשמו **כל** מה שהשתנה, לא רק הדבר הראשון שקפץ לעין.\n2. עברו לתא השלישי באותה שורה, ואמתו ש**כל** מה שרשמתם חוזר יחד, לא רק חלק ממנו.\n3. אם שתי תכונות משתנות יחד ובאותו קצב בשלוש השורות — זו זהות השורה המורכבת. התייחסו אליה כאל חבילה אחת מכאן והלאה.\n4. המשיכו לעמודה כרגיל, וחפשו שם תכונה שנשארת קבועה **בתוך** כל עמודה (שיכולה להיות אחת בלבד, כמו בפרקים הקודמים).\n\n{{figmatrix:shape=triangle,n=1,fill=none,size=m;shape=triangle,n=1,fill=dots,size=m;shape=triangle,n=1,fill=solid,size=m/shape=square,n=2,fill=none,size=m;shape=square,n=2,fill=dots,size=m;shape=square,n=2,fill=solid,size=m/shape=pentagon,n=3,fill=none,size=m;shape=pentagon,n=3,fill=dots,size=m;?}}\n\n**שורה:** בשורה הראשונה כל תא הוא משולש עם עצם אחד. בשנייה — ריבוע עם שני עצמים. בשלישית — מחומש עם שלושה עצמים. שתי התכונות — צורה וכמות — זזות יחד: מספר הצלעות עולה באחד, והכמות עולה באחד, באותו שלב בדיוק. זו זהות השורה: \"צורה בעלת n צלעות עם n עצמים\".\n\n**עמודה:** המילוי קבוע בתוך כל עמודה — ריק, נקודות, מלא.\n\n**תכונה קבועה:** הגודל — בינוני בכל התאים.\n\nהצטלבות: שורה שלישית — מחומש עם שלושה עצמים. עמודה שלישית — מילוי מלא. התשובה: שלושה מחומשים מלאים, בגודל בינוני.\n\n{{figcell:shape=pentagon,n=3,fill=solid,size=m}}\n\n## למה זה קשה יותר, ואיך שומרים על ראש קר\n\nהקושי האמיתי כאן הוא לא מושגי — הוא בזיכרון לטווח קצר. כשיש חבילה של שתי תכונות בשורה ותכונה נוספת בעמודה, יש בסך הכול שלוש תכונות שזזות (שתיים בשורה, אחת בעמודה) ועוד אחת או שתיים שקבועות. זה הרבה למעקב תוך כמה שניות.\n\nהפתרון: **פתרו את השורה עד הסוף לפני שאתם נוגעים בעמודה.** רשמו במילים (בראש, או בלחישה) את זהות השורה השלישית לפני שאתם בכלל שואלים מה עושה העמודה. \"שורה שלישית: מחומש, שלושה עצמים.\" רק אחרי שהמשפט הזה סגור, עברו לעמודה. ערבוב בין שני השלבים הוא המקור העיקרי לטעויות בסוג המטריצה הזה.\n\n## תבניות מדורגות, לא רק ערכים קבועים\n\nשימו לב שבדוגמה למעלה הכמות **עלתה** (1, 2, 3) ולא רק החליפה ערך שרירותי. זו תבנית **מדורגת**: כל שלב מוסיף אותו הפרש קבוע. תבנית קבועה (כמו צבע: דיו, טורקיז, כתום) אין לה \"כיוון\" — שלושת הצבעים פשוט שונים זה מזה בלי סדר מובנה. תבנית מדורגת כן: 1, 2, 3 יכולה להמשיך ל-4 אם הייתה עוד שורה.\n\nההבדל הזה חשוב כי בתבנית מדורגת יש עוד בדיקת אימות זמינה לכם: **ההפרש בין שורה 1 לשורה 2 חייב להיות זהה להפרש בין שורה 2 לשורה 3.** אם הוא לא זהה, טעיתם בזיהוי התבנית. בדוגמה למעלה: 2 פחות 1 שווה 1, ו-3 פחות 2 שווה גם 1 — ההפרש עקבי, והתבנית אושרה.\n\n## שלוש מלכודות בזהות מורכבת\n\n- **לתפוס רק חצי מהחבילה.** תלמיד שרואה שהצורה משתנה אבל לא שם לב שגם הכמות משתנה יבחר תשובה עם הצורה הנכונה וכמות שרירותית. הפתרון: השלב השני של הנוהל — אימות על התא השלישי — מיועד בדיוק לתפוס את זה.\n- **לערבב שורה ועמודה כי יש יותר מדי לזכור.** הפתרון: לסגור את השורה במשפט מילולי ברור לפני שעוברים לעמודה.\n- **להניח שתבנית מדורגת היא קבועה, או להפך.** אם ההפרשים לא זהים, זו לא תבנית מדורגת — חפשו קטגוריה אחרת (כמו זוגי-אי-זוגי, שכבר הכרתם מיוצא דופן).",
+        "examples": [
+          {
+            "title": "זהות שורה כצמד צורה קבועה ומילוי מדורג",
+            "type": "text",
+            "content": "{{figmatrix:shape=hexagon,fill=none,rot=0,color=ink;shape=hexagon,fill=none,rot=90,color=ink;shape=hexagon,fill=none,rot=180,color=ink/shape=hexagon,fill=half,rot=0,color=ink;shape=hexagon,fill=half,rot=90,color=ink;shape=hexagon,fill=half,rot=180,color=ink/shape=hexagon,fill=solid,rot=0,color=ink;shape=hexagon,fill=solid,rot=90,color=ink;?}}\n\nכאן הצורה עצמה קבועה בכל התשעה תאים — משושה. אז למה זו דוגמה לזהות מורכבת? כי כלל **העמודה** הוא שמורכב: הסיבוב קבוע בתוך כל עמודה, אבל שימו לב שגם הצבע נראה כאילו הוא משתנה... בואו נבדוק בזהירות.\n\n**שורה:** המילוי קבוע בתוך כל שורה — ריק, חצי, מלא. **עמודה:** הסיבוב קבוע בתוך כל עמודה — 0, 90, 180 מעלות. **תכונות קבועות:** הצורה (משושה) והצבע (דיו) — שתיהן זהות בכל התאים, ולמרות שיש כאן ארבע תכונות בסך הכול, רק שתיים מהן בכלל זזות.\n\nהצטלבות: שורה שלישית — מלא. עמודה שלישית — 180 מעלות. התשובה: משושה מלא, דיו, בסיבוב 180 מעלות.\n\n{{figcell:shape=hexagon,fill=solid,rot=180,color=ink}}\n\nהלקח כאן הפוך מהדוגמה הקודמת: לפעמים מה שנראה כמו הרבה תכונות מתחלף הוא בעצם שתי תכונות בלבד שזזות, ושתיים שרק *נראות* כאילו הן חלק מהעניין. הדרך היחידה לדעת בוודאות היא לבדוק כל תכונה בנפרד מול ההגדרה: קבועה בתוך שורה? קבועה בתוך עמודה? לא זזה בכלל?"
+          },
+          {
+            "title": "זהות שורה מדורגת בשתי תכונות יחד",
+            "type": "text",
+            "content": "{{figmatrix:shape=cross,n=1,size=s,color=ink;shape=cross,n=1,size=m,color=ink;shape=cross,n=1,size=l,color=ink/shape=cross,n=2,size=s,color=accent;shape=cross,n=2,size=m,color=accent;shape=cross,n=2,size=l,color=accent/shape=cross,n=3,size=s,color=warm;shape=cross,n=3,size=m,color=warm;?}}\n\n**שורה:** הכמות עולה מלמעלה למטה (1, 2, 3), ובד בבד הצבע משתנה (דיו, טורקיז, כתום) — שני השינויים חוזרים יחד בכל שורה, זו זהות השורה. **עמודה:** הגודל קבוע בתוך כל עמודה — קטן, בינוני, גדול. **תכונה קבועה:** הצורה — צלב בכולן.\n\nהצטלבות: שורה שלישית — שלושה עצמים בצבע כתום. עמודה שלישית — גדול. התשובה: שלושה צלבים גדולים בצבע כתום.\n\n{{figcell:shape=cross,n=3,size=l,color=warm}}\n\nשימו לב שכאן אין דרך \"לנחש חלק ולפספס חלק\" בלי שהתשובה תתגלה כשגויה מיד באימות — אם בדקתם רק כמות ושכחתם צבע, קיבלתם תשובה עם שלושה עצמים בצבע לא נכון, וזה נופל ברגע שמשווים לשורה השלישית בפועל."
+          }
+        ],
+        "exercises": [
+          {
+            "number": 1,
+            "title": "זהות שורה: צורה קבועה, שני משתנים בעמודה",
+            "difficulty": "medium",
+            "description": "{{figmatrix:shape=diamond,fill=dots,size=s,color=ink;shape=diamond,fill=dots,size=s,color=accent;shape=diamond,fill=dots,size=s,color=warm/shape=diamond,fill=dots,size=m,color=ink;shape=diamond,fill=dots,size=m,color=accent;shape=diamond,fill=dots,size=m,color=warm/shape=diamond,fill=dots,size=l,color=ink;shape=diamond,fill=dots,size=l,color=accent;?}}\n\nאפשרויות:\nא. {{figcell:shape=diamond,fill=dots,size=s,color=warm}}\nב. {{figcell:shape=diamond,fill=dots,size=l,color=ink}}\nג. {{figcell:shape=diamond,fill=dots,size=l,color=accent}}\nד. {{figcell:shape=diamond,fill=dots,size=l,color=warm}}",
+            "solution": "שורה: הגודל עולה מלמעלה למטה — קטן, בינוני, גדול. עמודה: הצבע קבוע בתוך כל עמודה — דיו, טורקיז, כתום. תכונה קבועה: הצורה (מעוין) והמילוי (נקודות) — שתיהן זהות בכל תשעה תאים.\n\nהצטלבות: מעוין גדול מנוקד בצבע כתום, אפשרות ד.\n\n{{figcell:shape=diamond,fill=dots,size=l,color=warm}}"
+          },
+          {
+            "number": 2,
+            "title": "זהות שורה מדורגת: סיבוב ומילוי יחד",
+            "difficulty": "hard",
+            "description": "{{figmatrix:shape=trapezoid,n=1,fill=none,rot=0;shape=trapezoid,n=2,fill=none,rot=0;shape=trapezoid,n=3,fill=none,rot=0/shape=trapezoid,n=1,fill=half,rot=90;shape=trapezoid,n=2,fill=half,rot=90;shape=trapezoid,n=3,fill=half,rot=90/shape=trapezoid,n=1,fill=solid,rot=180;shape=trapezoid,n=2,fill=solid,rot=180;?}}\n\nאפשרויות:\nא. {{figcell:shape=trapezoid,n=3,fill=none,rot=0}}\nב. {{figcell:shape=trapezoid,n=1,fill=solid,rot=180}}\nג. {{figcell:shape=trapezoid,n=2,fill=solid,rot=180}}\nד. {{figcell:shape=trapezoid,n=3,fill=solid,rot=180}}",
+            "solution": "שורה: זהות מורכבת — הסיבוב עולה ב-90 מעלות (0, 90, 180) ובד בבד המילוי משתנה בהתאמה (ריק, חצי, מלא), שני השינויים חוזרים יחד בשלוש השורות. עמודה: הכמות עולה משמאל לימין — אחד, שניים, שלושה. תכונה קבועה: הצורה — טרפז בכולן.\n\nהצטלבות: שלושה טרפזים בסיבוב 180 מעלות ומילוי מלא, אפשרות ד.\n\n{{figcell:shape=trapezoid,n=3,fill=solid,rot=180}}\n\nאפשרות א שומרת על הכמות הנכונה (שלושה) אך משתמשת בזהות של השורה הראשונה (ריק, ללא סיבוב) במקום זהות השורה השלישית — בלבול בין השורות. אפשרויות ב וג שומרות על זהות השורה הנכונה (מלא, סיבוב 180) אך עם כמות שגויה (אחד ושניים בהתאמה, במקום שלושה)."
+          },
+          {
+            "number": 3,
+            "title": "כשגם הצורה חלק מזהות השורה",
+            "difficulty": "hard",
+            "description": "{{figmatrix:shape=star,size=m,color=ink,dot=tl;shape=star,size=m,color=accent,dot=tl;shape=star,size=m,color=warm,dot=tl/shape=heart,size=m,color=ink,dot=tr;shape=heart,size=m,color=accent,dot=tr;shape=heart,size=m,color=warm,dot=tr/shape=circle,size=m,color=ink,dot=br;shape=circle,size=m,color=accent,dot=br;?}}\n\nאפשרויות:\nא. {{figcell:shape=circle,size=m,color=warm,dot=br}}\nב. {{figcell:shape=circle,size=m,color=ink,dot=br}}\nג. {{figcell:shape=circle,size=m,color=accent,dot=br}}\nד. {{figcell:shape=star,size=m,color=warm,dot=tl}}",
+            "solution": "שורה: זהות מורכבת — הצורה משתנה (כוכב, לב, עיגול) ובד בבד מיקום הנקודה זז פינה (שמאלית עליונה, ימנית עליונה, ימנית תחתונה), שני השינויים חוזרים יחד. עמודה: הצבע קבוע בתוך כל עמודה — דיו, טורקיז, כתום. תכונה קבועה: הגודל — בינוני בכולן.\n\nהצטלבות: שורה שלישית — עיגול עם נקודה ימנית תחתונה. עמודה שלישית — כתום. התשובה: עיגול בינוני, כתום, עם נקודה ימנית תחתונה, אפשרות א.\n\n{{figcell:shape=circle,size=m,color=warm,dot=br}}\n\nאפשרות ד שומרת על הצורה והמיקום הנכונים אך מקטינה את הגודל — בדיוק גניבת התכונה הקבועה, המלכודת שהכרתם בפרק הראשון. גם כשהזהות מורכבת יותר, התכונה הקבועה עדיין שם ועדיין צריכה בדיקה."
+          },
+          {
+            "number": 4,
+            "title": "לזהות מהי חבילה ומהי תכונה בודדת",
+            "difficulty": "medium",
+            "description": "{{figmatrix:shape=pentagon,n=1,fill=none,size=s;shape=pentagon,n=1,fill=dots,size=s;shape=pentagon,n=1,fill=solid,size=s/shape=pentagon,n=2,fill=none,size=m;shape=pentagon,n=2,fill=dots,size=m;shape=pentagon,n=2,fill=solid,size=m/shape=pentagon,n=3,fill=none,size=l;shape=pentagon,n=3,fill=dots,size=l;?}}\n\nתארו במילים את זהות השורה ואת כלל העמודה, ורק אחר כך בחרו.\n\nאפשרויות:\nא. {{figcell:shape=pentagon,n=1,fill=solid,size=s}}\nב. {{figcell:shape=pentagon,n=3,fill=none,size=l}}\nג. {{figcell:shape=pentagon,n=3,fill=dots,size=l}}\nד. {{figcell:shape=pentagon,n=3,fill=solid,size=l}}",
+            "solution": "שורה: זהות מורכבת — הכמות עולה (1, 2, 3) ובד בבד הגודל עולה (קטן, בינוני, גדול), שני השינויים חוזרים יחד ובאותו קצב. עמודה: המילוי קבוע בתוך כל עמודה — ריק, נקודות, מלא. תכונה קבועה: הצורה — מחומש בכולן.\n\nהצטלבות: שלושה מחומשים גדולים ומלאים, אפשרות ד.\n\n{{figcell:shape=pentagon,n=3,fill=solid,size=l}}"
+          }
+        ],
+        "quiz": [
+          {
+            "number": 1,
+            "question": "מה חסר בתא הריק? שימו לב כמה תכונות באמת זזות, ולא רק כמה נראות שונות.\n\n{{figmatrix:shape=square,fill=none,size=s,color=ink;shape=square,fill=none,size=m,color=ink;shape=square,fill=none,size=l,color=ink/shape=square,fill=dots,size=s,color=ink;shape=square,fill=dots,size=m,color=ink;shape=square,fill=dots,size=l,color=ink/shape=square,fill=solid,size=s,color=ink;shape=square,fill=solid,size=m,color=ink;?}}",
+            "type": "multiple-choice",
+            "options": [
+              "{{figcell:shape=square,fill=solid,size=s,color=ink}}",
+              "{{figcell:shape=square,fill=solid,size=l,color=ink}}",
+              "{{figcell:shape=square,fill=solid,size=m,color=ink}}",
+              "{{figcell:shape=square,fill=none,size=l,color=ink}}"
+            ],
+            "correct_answer": "{{figcell:shape=square,fill=solid,size=l,color=ink}}",
+            "explanation": "שורה: המילוי קבוע בתוך כל שורה — ריק, נקודות, מלא. עמודה: הגודל קבוע בתוך כל עמודה — קטן, בינוני, גדול. תכונות קבועות: הצורה (ריבוע) והצבע (דיו). הצטלבות: ריבוע גדול ומלא, בצבע דיו."
+          },
+          {
+            "number": 2,
+            "question": "מה חסר בתא הריק? כאן זהות העמודה מורכבת משתי תכונות יחד.\n\n{{figmatrix:shape=cross,n=1,rot=0,color=ink;shape=cross,n=2,rot=0,color=accent;shape=cross,n=3,rot=0,color=warm/shape=cross,n=1,rot=90,color=ink;shape=cross,n=2,rot=90,color=accent;shape=cross,n=3,rot=90,color=warm/shape=cross,n=1,rot=180,color=ink;shape=cross,n=2,rot=180,color=accent;?}}",
+            "type": "multiple-choice",
+            "options": [
+              "{{figcell:shape=cross,n=1,rot=180,color=ink}}",
+              "{{figcell:shape=cross,n=2,rot=180,color=accent}}",
+              "{{figcell:shape=cross,n=3,rot=180,color=warm}}",
+              "{{figcell:shape=cross,n=3,rot=0,color=warm}}"
+            ],
+            "correct_answer": "{{figcell:shape=cross,n=3,rot=180,color=warm}}",
+            "explanation": "שורה: הסיבוב קבוע בתוך כל שורה — 0, 90, 180 מעלות. עמודה: זהות מורכבת — הכמות עולה (1, 2, 3) ובד בבד הצבע משתנה (דיו, טורקיז, כתום), חוזרים יחד בשלוש העמודות. תכונה קבועה: הצורה — צלב בכולן. הצטלבות: שלושה צלבים בצבע כתום, בסיבוב 180 מעלות."
+          },
+          {
+            "number": 3,
+            "question": "מה חסר בתא הריק?\n\n{{figmatrix:shape=triangle,fill=stripes,size=s,dot=tl;shape=triangle,fill=stripes,size=s,dot=tr;shape=triangle,fill=stripes,size=s,dot=br/shape=triangle,fill=stripes,size=m,dot=tl;shape=triangle,fill=stripes,size=m,dot=tr;shape=triangle,fill=stripes,size=m,dot=br/shape=triangle,fill=stripes,size=l,dot=tl;shape=triangle,fill=stripes,size=l,dot=tr;?}}",
+            "type": "multiple-choice",
+            "options": [
+              "{{figcell:shape=triangle,fill=stripes,size=l,dot=tl}}",
+              "{{figcell:shape=triangle,fill=stripes,size=l,dot=br}}",
+              "{{figcell:shape=triangle,fill=stripes,size=l,dot=tr}}",
+              "{{figcell:shape=triangle,fill=stripes,size=s,dot=br}}"
+            ],
+            "correct_answer": "{{figcell:shape=triangle,fill=stripes,size=l,dot=br}}",
+            "explanation": "שורה: הגודל עולה מלמעלה למטה — קטן, בינוני, גדול. עמודה: מיקום הנקודה קבוע בתוך כל עמודה — שמאלית עליונה, ימנית עליונה, ימנית תחתונה. תכונות קבועות: הצורה (משולש) והמילוי (פסים). הצטלבות: משולש גדול מפוספס עם נקודה ימנית תחתונה."
+          },
+          {
+            "number": 4,
+            "question": "מה חסר בתא הריק? זהות העמודה כאן מורכבת משתי תכונות.\n\n{{figmatrix:shape=hexagon,n=1,fill=none,rot=0;shape=hexagon,n=1,fill=half,rot=90;shape=hexagon,n=1,fill=solid,rot=180/shape=hexagon,n=2,fill=none,rot=0;shape=hexagon,n=2,fill=half,rot=90;shape=hexagon,n=2,fill=solid,rot=180/shape=hexagon,n=3,fill=none,rot=0;shape=hexagon,n=3,fill=half,rot=90;?}}",
+            "type": "multiple-choice",
+            "options": [
+              "{{figcell:shape=hexagon,n=3,fill=none,rot=0}}",
+              "{{figcell:shape=hexagon,n=3,fill=half,rot=90}}",
+              "{{figcell:shape=hexagon,n=3,fill=solid,rot=180}}",
+              "{{figcell:shape=hexagon,n=1,fill=solid,rot=180}}"
+            ],
+            "correct_answer": "{{figcell:shape=hexagon,n=3,fill=solid,rot=180}}",
+            "explanation": "שורה: הכמות עולה מלמעלה למטה — אחד, שניים, שלושה. עמודה: זהות מורכבת — הסיבוב עולה (0, 90, 180) ובד בבד המילוי משתנה (ריק, חצי, מלא), חוזרים יחד. תכונה קבועה: הצורה — משושה בכולן. הצטלבות: שלושה משושים בסיבוב 180 מעלות ומילוי מלא."
+          },
+          {
+            "number": 5,
+            "question": "מה חסר בתא הריק? זהות השורה כאן מורכבת משתי תכונות יחד.\n\n{{figmatrix:shape=diamond,n=1,size=m,color=ink;shape=diamond,n=2,size=m,color=ink;shape=diamond,n=3,size=m,color=ink/shape=star,n=1,size=m,color=accent;shape=star,n=2,size=m,color=accent;shape=star,n=3,size=m,color=accent/shape=heart,n=1,size=m,color=warm;shape=heart,n=2,size=m,color=warm;?}}",
+            "type": "multiple-choice",
+            "options": [
+              "{{figcell:shape=heart,n=1,size=m,color=warm}}",
+              "{{figcell:shape=heart,n=3,size=m,color=warm}}",
+              "{{figcell:shape=heart,n=2,size=m,color=warm}}",
+              "{{figcell:shape=diamond,n=3,size=m,color=ink}}"
+            ],
+            "correct_answer": "{{figcell:shape=heart,n=3,size=m,color=warm}}",
+            "explanation": "שורה: זהות מורכבת — הצורה משתנה (מעוין, כוכב, לב) ובד בבד הצבע משתנה (דיו, טורקיז, כתום), חוזרים יחד. עמודה: הכמות עולה משמאל לימין — אחד, שניים, שלושה. תכונה קבועה: הגודל — בינוני בכולן. הצטלבות: שלושה לבבות בגודל בינוני, בצבע כתום."
+          }
+        ]
+      },
+      {
+        "number": 4,
+        "title": "מטריצות עם שש עד שמונה אפשרויות: שיטת שני המסננים",
+        "learning_objectives": [
+          "לזכור שבמטריצות, בניגוד לרוב שאלות הפרק הצורני, יכולות להיות יותר מארבע אפשרויות",
+          "ליישם את שיטת שני המסננים: קודם פוסלים לפי כלל השורה על פני כל האפשרויות, ואז לפי כלל העמודה",
+          "לבדוק תמיד גם מסנן שלישי על התכונה הקבועה, גם כשנדמה שנשארה כבר אפשרות יחידה",
+          "להתאים את קצב הפתרון למספר האפשרויות, ולא לנסות לפתור מטריצה מרובת-אפשרויות באותה מהירות של מטריצה רגילה"
+        ],
+        "content": "## לא תמיד ארבע: מטריצות עם שש, שבע ושמונה אפשרויות\n\nברוב הפרק הצורני יש ארבע אפשרויות. אבל במטריצות, ורק במטריצות, המבחן האמיתי לפעמים שובר את ההרגל הזה — ומציג שש, שבע ואפילו שמונה אפשרויות לאותה שאלה. זה לא טעות דפוס ולא מקרה חריג; זה נבדק וידוע, וכדאי להגיע למבחן בלי שהפתעה כזאת תיקח לכם שניות יקרות.\n\nהבשורה הטובה: **השיטה לא משתנה בכלל.** שני הכללים, ההצטלבות, בדיקת התכונה הקבועה — הכול זהה. מה שכן משתנה הוא שהאסטרטגיה הנאיבית ביותר — \"אני רואה ארבע אפשרויות, שלוש מהן נראות דומות, אני אבחר את הרביעית\" — הופכת לבלתי אפשרית לביצוע. עם שמונה אפשרויות אי אפשר להחזיק את כולן בראש בבת אחת. זה בדיוק המקום שבו נוהל כתוב ומסודר עושה את ההבדל בין תשובה נכונה לבזבוז דקה שלמה.\n\n## שיטת שני המסננים\n\nעם הרבה אפשרויות, אל תבדקו כל אחת בנפרד מהתחלה מול שני הכללים גם יחד — זה איטי ומעייף. במקום זה, סננו בשני מעברים נפרדים:\n\n1. **נסחו את כלל השורה, ועברו על כל האפשרויות ברצף, ופסלו כל אחת שלא מתאימה לו.** לא משנה כמה נשארות בסוף — רק כלל השורה כרגע.\n2. **מתוך מה שנשאר, נסחו את כלל העמודה, ופסלו כל מה שלא מתאים לו.**\n3. **ממה שנשאר אחרי שני המסננים, בדקו את התכונה הקבועה.** אם נשארה אפשרות אחת — זו התשובה. אם נשארו שתיים, חזרו וסרקו שוב — פספסתם משהו.\n\nהיתרון בשיטה הזאת הוא שבכל שלב אתם בודקים **דבר אחד** על פני כל האפשרויות, במקום לנסות לזכור שני כללים בעת ובעונה אחת על כל אפשרות בנפרד. זה מהיר יותר, וקשה יותר לטעות בו.\n\n{{figmatrix:shape=square,fill=none,size=s;shape=square,fill=none,size=m;shape=square,fill=none,size=l/shape=square,fill=dots,size=s;shape=square,fill=dots,size=m;shape=square,fill=dots,size=l/shape=square,fill=solid,size=s;shape=square,fill=solid,size=m;?}}\n\nיש כאן שבע אפשרויות. **כלל השורה:** המילוי קבוע בתוך כל שורה — ריק, נקודות, מלא. מסננים: פוסלים כל אפשרות שאינה מלאה (כי אנחנו בשורה השלישית). **כלל העמודה:** הגודל קבוע בתוך כל עמודה — קטן, בינוני, גדול. מסננים ממה שנשאר: פוסלים כל מה שאינו גדול. **תכונה קבועה:** הצורה — ריבוע. פוסלים כל מה שאינו ריבוע.\n\nמה שנשאר: ריבוע גדול ומלא — אפשרות אחת.\n\n{{figcell:shape=square,fill=solid,size=l}}\n\n## אל תסמכו על \"זה נראה כמו יחיד מסוגו\"\n\nעם שמונה אפשרויות, כמעט תמיד יהיו כמה מסיחים שדומים מאוד זה לזה — למשל שלושה מסיחים שכולם עם המילוי הנכון אך גדלים שונים. זה לא בלבול; זה מכוון, כדי לתפוס תלמיד שבדק רק תכונה אחת ובחר את הראשונה שמצאה חן בעיניו. שיטת שני המסננים פותרת את זה בדיוק, כי היא לא עוצרת אחרי המסנן הראשון.\n\n## ניהול זמן במטריצה מרובת-אפשרויות\n\nמטריצה עם שמונה אפשרויות לוקחת יותר זמן מאשר מטריצה עם ארבע, וזה בסדר — אל תנסו לפתור אותה באותה מהירות. תכננו מראש: אם ראיתם שיש הרבה אפשרויות, זה סימן להאט מעט ולהשתמש בשיטת שני המסננים באופן מודע, ולא לנחש כדי לחסוך זמן. ניחוש מהיר על שמונה אפשרויות הוא הימור גרוע במיוחד — הסיכוי לפגוע בו במקרה נמוך משמעותית מאשר בארבע.",
+        "examples": [
+          {
+            "title": "סינון בשני שלבים על שבע אפשרויות",
+            "type": "text",
+            "content": "{{figmatrix:shape=star,n=1,color=ink;shape=star,n=1,color=accent;shape=star,n=1,color=warm/shape=star,n=2,color=ink;shape=star,n=2,color=accent;shape=star,n=2,color=warm/shape=star,n=3,color=ink;shape=star,n=3,color=accent;?}}\n\n**כלל השורה:** הכמות עולה מלמעלה למטה — אחד, שניים, שלושה. מסנן ראשון: פוסלים כל אפשרות שאין בה שלושה עצמים.\n\n**כלל העמודה:** הצבע קבוע בתוך כל עמודה — דיו, טורקיז, כתום. מסנן שני, רק על מה שנשאר: פוסלים כל מה שאינו כתום.\n\n**תכונה קבועה:** הצורה — כוכב. מסנן שלישי: פוסלים כל מה שאינו כוכב.\n\nמה שנשאר: שלושה כוכבים כתומים.\n\n{{figcell:shape=star,n=3,color=warm}}\n\nשימו לב שהפתרון כאן לא דרש לבדוק כל אחת משבע האפשרויות בנפרד מול שני הכללים גם יחד — כל מסנן פסל כמה אפשרויות בבת אחת, וכל מה שנשאר בסוף התהליך הוא בהכרח נכון."
+          }
+        ],
+        "exercises": [
+          {
+            "number": 1,
+            "title": "סינון בשני שלבים",
+            "difficulty": "medium",
+            "description": "פתרו בשיטת שני המסננים: קודם פסלו הכול לפי כלל השורה, ורק אז לפי כלל העמודה.\n\n{{figmatrix:shape=hexagon,fill=none,rot=0;shape=hexagon,fill=half,rot=0;shape=hexagon,fill=solid,rot=0/shape=hexagon,fill=none,rot=90;shape=hexagon,fill=half,rot=90;shape=hexagon,fill=solid,rot=90/shape=hexagon,fill=none,rot=180;shape=hexagon,fill=half,rot=180;?}}\n\nאפשרויות:\nא. {{figcell:shape=hexagon,fill=solid,rot=180}}\nב. {{figcell:shape=hexagon,fill=none,rot=180}}\nג. {{figcell:shape=hexagon,fill=half,rot=180}}\nד. {{figcell:shape=hexagon,fill=solid,rot=0}}\nה. {{figcell:shape=hexagon,fill=solid,rot=90}}\nו. {{figcell:shape=pentagon,fill=solid,rot=180}}\nז. {{figcell:shape=hexagon,fill=none,rot=0}}",
+            "solution": "שורה: הסיבוב קבוע בתוך כל שורה — 0, 90, 180 מעלות. מסנן ראשון: משאירים רק אפשרויות בסיבוב 180 מעלות. עמודה: המילוי קבוע בתוך כל עמודה — ריק, חצי, מלא. מסנן שני: משאירים רק מילוי מלא. תכונה קבועה: הצורה — משושה.\n\nמה שנשאר: משושה מלא בסיבוב 180 מעלות, אפשרות א.\n\n{{figcell:shape=hexagon,fill=solid,rot=180}}"
+          },
+          {
+            "number": 2,
+            "title": "שבע אפשרויות, שלושה מסננים",
+            "difficulty": "hard",
+            "description": "{{figmatrix:shape=trapezoid,size=s,dot=tl;shape=trapezoid,size=s,dot=tr;shape=trapezoid,size=s,dot=br/shape=trapezoid,size=m,dot=tl;shape=trapezoid,size=m,dot=tr;shape=trapezoid,size=m,dot=br/shape=trapezoid,size=l,dot=tl;shape=trapezoid,size=l,dot=tr;?}}\n\nאפשרויות:\nא. {{figcell:shape=trapezoid,size=l,dot=br}}\nב. {{figcell:shape=trapezoid,size=l,dot=tl}}\nג. {{figcell:shape=trapezoid,size=l,dot=tr}}\nד. {{figcell:shape=trapezoid,size=s,dot=br}}\nה. {{figcell:shape=trapezoid,size=m,dot=br}}\nו. {{figcell:shape=square,size=l,dot=br}}\nז. {{figcell:shape=trapezoid,size=s,dot=tl}}",
+            "solution": "שורה: הגודל עולה מלמעלה למטה — קטן, בינוני, גדול. מסנן ראשון: משאירים רק גדול. עמודה: מיקום הנקודה קבוע בתוך כל עמודה — שמאלית עליונה, ימנית עליונה, ימנית תחתונה. מסנן שני: משאירים רק נקודה ימנית תחתונה. תכונה קבועה: הצורה — טרפז.\n\nמה שנשאר: טרפז גדול עם נקודה ימנית תחתונה, אפשרות א.\n\n{{figcell:shape=trapezoid,size=l,dot=br}}\n\nשימו לב לאפשרות ו: ריבוע גדול עם נקודה ימנית תחתונה — עוברת את שני המסננים הראשונים בהצלחה, ונופלת רק במסנן השלישי, על התכונה הקבועה. זו בדיוק הסיבה שמריצים את כל שלושת המסננים ולא עוצרים אחרי שניים."
+          },
+          {
+            "number": 3,
+            "title": "זהירות ממסיח שעבר שני מסננים",
+            "difficulty": "hard",
+            "description": "{{figmatrix:shape=heart,n=1,fill=dots,color=ink;shape=heart,n=2,fill=dots,color=ink;shape=heart,n=3,fill=dots,color=ink/shape=heart,n=1,fill=dots,color=accent;shape=heart,n=2,fill=dots,color=accent;shape=heart,n=3,fill=dots,color=accent/shape=heart,n=1,fill=dots,color=warm;shape=heart,n=2,fill=dots,color=warm;?}}\n\nלפניכם שבע אפשרויות. פתרו בשיטת שלושת המסננים, וציינו איזו אפשרות עוברת את שני המסננים הראשונים אך נופלת רק בשלישי.\n\nאפשרויות:\nא. {{figcell:shape=heart,n=3,fill=dots,color=warm}}\nב. {{figcell:shape=heart,n=1,fill=dots,color=warm}}\nג. {{figcell:shape=heart,n=2,fill=dots,color=warm}}\nד. {{figcell:shape=heart,n=3,fill=dots,color=ink}}\nה. {{figcell:shape=heart,n=3,fill=dots,color=accent}}\nו. {{figcell:shape=heart,n=3,fill=solid,color=warm}}\nז. {{figcell:shape=heart,n=1,fill=dots,color=ink}}",
+            "solution": "שורה: הצבע קבוע בתוך כל שורה — דיו, טורקיז, כתום. מסנן ראשון: משאירים רק כתום. עמודה: הכמות עולה משמאל לימין — אחד, שניים, שלושה. מסנן שני: משאירים רק שלושה עצמים. תכונה קבועה: המילוי — נקודות בכל התאים (והצורה — לב בכולן).\n\nמה שנשאר: שלושה לבבות מנוקדים בצבע כתום, אפשרות א.\n\n{{figcell:shape=heart,n=3,fill=dots,color=warm}}\n\nאפשרות ו — שלושה לבבות כתומים אך **מלאים** במקום מנוקדים — עוברת את שני המסננים הראשונים בקלות, ונופלת רק כשבודקים את התכונה הקבועה. ככל שיש יותר אפשרויות, כך גדל הסיכוי שמסיח כזה יהיה שם, ולכן המסנן השלישי הוא לא שלב אופציונלי."
+          }
+        ],
+        "quiz": [
+          {
+            "number": 1,
+            "question": "לפניכם מטריצה עם שמונה אפשרויות — כפי שנראה במבחן האמיתי. פתרו בשיטת שלושת המסננים: שורה, ואז עמודה, ואז התכונה הקבועה.\n\n{{figmatrix:shape=diamond,n=1,fill=none;shape=diamond,n=2,fill=none;shape=diamond,n=3,fill=none/shape=diamond,n=1,fill=dots;shape=diamond,n=2,fill=dots;shape=diamond,n=3,fill=dots/shape=diamond,n=1,fill=solid;shape=diamond,n=2,fill=solid;?}}",
+            "type": "multiple-choice",
+            "options": [
+              "{{figcell:shape=diamond,n=1,fill=solid}}",
+              "{{figcell:shape=diamond,n=2,fill=solid}}",
+              "{{figcell:shape=diamond,n=3,fill=none}}",
+              "{{figcell:shape=diamond,n=3,fill=solid}}",
+              "{{figcell:shape=diamond,n=3,fill=dots}}",
+              "{{figcell:shape=heart,n=3,fill=solid}}",
+              "{{figcell:shape=diamond,n=1,fill=none}}",
+              "{{figcell:shape=diamond,n=2,fill=none}}"
+            ],
+            "correct_answer": "{{figcell:shape=diamond,n=3,fill=solid}}",
+            "explanation": "שורה: המילוי קבוע בתוך כל שורה — ריק, נקודות, מלא. מסנן ראשון: משאירים רק מילוי מלא. עמודה: הכמות עולה משמאל לימין — אחד, שניים, שלושה. מסנן שני: משאירים רק שלושה עצמים. תכונה קבועה: הצורה — מעוין. מה שנשאר אחרי שלושת המסננים: שלושה מעוינים מלאים. עם שמונה אפשרויות אי אפשר לסמוך על זיהוי חזותי מהיר — רק המסננים בסדר הנכון מבטיחים תשובה אחת בסוף."
+          },
+          {
+            "number": 2,
+            "question": "מה חסר בתא הריק? שימו לב שיש כאן יותר מארבע אפשרויות.\n\n{{figmatrix:shape=circle,size=s,dot=tl;shape=circle,size=s,dot=tr;shape=circle,size=s,dot=br/shape=circle,size=m,dot=tl;shape=circle,size=m,dot=tr;shape=circle,size=m,dot=br/shape=circle,size=l,dot=tl;shape=circle,size=l,dot=tr;?}}",
+            "type": "multiple-choice",
+            "options": [
+              "{{figcell:shape=circle,size=l,dot=tl}}",
+              "{{figcell:shape=circle,size=l,dot=tr}}",
+              "{{figcell:shape=circle,size=l,dot=br}}",
+              "{{figcell:shape=circle,size=s,dot=br}}",
+              "{{figcell:shape=circle,size=m,dot=br}}",
+              "{{figcell:shape=halfcircle,size=l,dot=br}}",
+              "{{figcell:shape=circle,size=s,dot=tl}}"
+            ],
+            "correct_answer": "{{figcell:shape=circle,size=l,dot=br}}",
+            "explanation": "שורה: הגודל עולה מלמעלה למטה — קטן, בינוני, גדול. עמודה: מיקום הנקודה קבוע בתוך כל עמודה — שמאלית עליונה, ימנית עליונה, ימנית תחתונה. תכונה קבועה: הצורה — עיגול. הצטלבות: עיגול גדול עם נקודה ימנית תחתונה. אפשרות עם חצי-עיגול במקום עיגול עוברת את שני הכללים הראשיים אך נופלת בבדיקת התכונה הקבועה."
+          },
+          {
+            "number": 3,
+            "question": "מה חסר בתא הריק?\n\n{{figmatrix:shape=cross,rot=0,color=ink;shape=cross,rot=0,color=accent;shape=cross,rot=0,color=warm/shape=cross,rot=90,color=ink;shape=cross,rot=90,color=accent;shape=cross,rot=90,color=warm/shape=cross,rot=180,color=ink;shape=cross,rot=180,color=accent;?}}",
+            "type": "multiple-choice",
+            "options": [
+              "{{figcell:shape=cross,rot=180,color=ink}}",
+              "{{figcell:shape=cross,rot=180,color=accent}}",
+              "{{figcell:shape=cross,rot=0,color=warm}}",
+              "{{figcell:shape=cross,rot=90,color=warm}}",
+              "{{figcell:shape=cross,rot=180,color=warm}}",
+              "{{figcell:shape=arrow,rot=180,color=warm}}",
+              "{{figcell:shape=cross,rot=0,color=ink}}"
+            ],
+            "correct_answer": "{{figcell:shape=cross,rot=180,color=warm}}",
+            "explanation": "שורה: הסיבוב קבוע בתוך כל שורה — 0, 90, 180 מעלות. עמודה: הצבע קבוע בתוך כל עמודה — דיו, טורקיז, כתום. תכונה קבועה: הצורה — צלב. הצטלבות: צלב בסיבוב 180 מעלות בצבע כתום. עם שבע אפשרויות, שיטת המסננים חוסכת זמן משמעותי לעומת בדיקה בודדת של כל אפשרות."
+          },
+          {
+            "number": 4,
+            "question": "מה חסר בתא הריק?\n\n{{figmatrix:shape=pentagon,n=1,fill=none;shape=pentagon,n=1,fill=half;shape=pentagon,n=1,fill=solid/shape=pentagon,n=2,fill=none;shape=pentagon,n=2,fill=half;shape=pentagon,n=2,fill=solid/shape=pentagon,n=3,fill=none;shape=pentagon,n=3,fill=half;?}}",
+            "type": "multiple-choice",
+            "options": [
+              "{{figcell:shape=pentagon,n=3,fill=none}}",
+              "{{figcell:shape=pentagon,n=3,fill=solid}}",
+              "{{figcell:shape=pentagon,n=3,fill=half}}",
+              "{{figcell:shape=pentagon,n=1,fill=solid}}",
+              "{{figcell:shape=pentagon,n=2,fill=solid}}",
+              "{{figcell:shape=hexagon,n=3,fill=solid}}",
+              "{{figcell:shape=pentagon,n=1,fill=none}}"
+            ],
+            "correct_answer": "{{figcell:shape=pentagon,n=3,fill=solid}}",
+            "explanation": "שורה: הכמות עולה מלמעלה למטה — אחד, שניים, שלושה. עמודה: המילוי קבוע בתוך כל עמודה — ריק, חצי, מלא. תכונה קבועה: הצורה — מחומש. הצטלבות: שלושה מחומשים מלאים."
+          },
+          {
+            "number": 5,
+            "question": "מה חסר בתא הריק? שימו לב לתכונה הקבועה שאינה חלק משני הכללים.\n\n{{figmatrix:shape=trapezoid,fill=stripes,size=s,color=ink;shape=trapezoid,fill=stripes,size=s,color=accent;shape=trapezoid,fill=stripes,size=s,color=warm/shape=trapezoid,fill=stripes,size=m,color=ink;shape=trapezoid,fill=stripes,size=m,color=accent;shape=trapezoid,fill=stripes,size=m,color=warm/shape=trapezoid,fill=stripes,size=l,color=ink;shape=trapezoid,fill=stripes,size=l,color=accent;?}}",
+            "type": "multiple-choice",
+            "options": [
+              "{{figcell:shape=trapezoid,fill=stripes,size=l,color=ink}}",
+              "{{figcell:shape=trapezoid,fill=stripes,size=l,color=accent}}",
+              "{{figcell:shape=trapezoid,fill=stripes,size=s,color=warm}}",
+              "{{figcell:shape=trapezoid,fill=stripes,size=m,color=warm}}",
+              "{{figcell:shape=trapezoid,fill=grid,size=l,color=warm}}",
+              "{{figcell:shape=trapezoid,fill=stripes,size=l,color=warm}}",
+              "{{figcell:shape=trapezoid,fill=stripes,size=s,color=ink}}"
+            ],
+            "correct_answer": "{{figcell:shape=trapezoid,fill=stripes,size=l,color=warm}}",
+            "explanation": "שורה: הגודל עולה מלמעלה למטה — קטן, בינוני, גדול. עמודה: הצבע קבוע בתוך כל עמודה — דיו, טורקיז, כתום. תכונות קבועות: הצורה (טרפז) והמילוי (פסים). הצטלבות: טרפז גדול מפוספס בצבע כתום. אפשרות עם מילוי רשת במקום פסים עוברת את שני הכללים הראשיים ונופלת רק בבדיקה השלישית."
+          }
+        ]
+      },
+      {
+        "number": 5,
+        "title": "כשהתא הריק לא בפינה, וניהול זמן על פרק שלם של מטריצות",
+        "learning_objectives": [
+          "לפתור מטריצה שבה התא החסר נמצא באמצע או בקצה, ולא בפינה הרגילה",
+          "לזהות במפורש באיזו שורה ואיזו עמודה נמצא התא הריק לפני שמתחילים לנסח כללים",
+          "להשתמש בשורה או עמודה שלמה אחרת בטבלה כדי לזהות כלל, ולאמת אותו מול שני התאים הגלויים בשורת או עמודת הריק",
+          "לשלב את כל הכלים מהקורס — שני הכללים, זהות מורכבת, שיטת המסננים ומיקום הריק — לניהול זמן על פרק שלם"
+        ],
+        "content": "## כשהתא הריק אינו בפינה\n\nבכל המטריצות שראיתם עד עכשיו, התא הריק ישב בפינה הימנית התחתונה. זה הכי נפוץ, אבל לא הכרחי. במבחן האמיתי התא הריק יכול לשבת **בכל מקום** בטבלה — באמצע, בקצה עליון, בקצה שמאלי. הנוהל זהה לגמרי, אבל יש כאן מלכודת קטנה שכדאי להכיר מראש: כשהתא הריק לא בפינה, קל יותר לטעות **באיזו שורה ואיזו עמודה** הוא בכלל שייך.\n\n**הכלל הפשוט:** תא באמצעות מיקומו בטבלה משתייך לשורה שהוא נמצא בה (למעלה, אמצע, למטה) ולעמודה שהוא נמצא בה (ימין, אמצע, שמאל) — בדיוק כמו כל תא אחר. אין צורך בשיטה אחרת; רק בתשומת לב שלא \"לגלוש\" לשורה או לעמודה הלא נכונה בטעות, כי העין רגילה לחפש בפינה.\n\n{{figmatrix:shape=square,fill=none,size=s;shape=square,fill=none,size=m;shape=square,fill=none,size=l/shape=square,fill=dots,size=s;?;shape=square,fill=dots,size=l/shape=square,fill=solid,size=s;shape=square,fill=solid,size=m;shape=square,fill=solid,size=l}}\n\nהתא הריק כאן נמצא באמצע הטבלה — שורה אמצעית, עמודה אמצעית. **שורה:** המילוי קבוע בתוך כל שורה — ריק, נקודות, מלא. השורה האמצעית כולה מנוקדת. **עמודה:** הגודל קבוע בתוך כל עמודה — קטן, בינוני, גדול. העמודה האמצעית כולה בינונית. **תכונה קבועה:** הצורה — ריבוע.\n\nהצטלבות: ריבוע בינוני ומנוקד.\n\n{{figcell:shape=square,fill=dots,size=m}}\n\n## שיטת \"שני התאים הגלויים\" כשהריק לא בפינה\n\nכשהתא הריק בפינה, תמיד יש שורה שלמה ועמודה שלמה גלויות לחלוטין איפשהו בטבלה, וזה מקל על זיהוי הכלל. כשהריק באמצע או בצד, השורה או העמודה שהוא נמצא בהן חסרות תא אחד — אבל **שתי** תאים מתוכן עדיין גלויים, וזה תמיד מספיק כדי לזהות את הכלל, כל עוד תבדקו אותו גם מול שורה או עמודה **שלמה** אחרת באותה טבלה כדי לוודא שהבנתם נכון.\n\nהנוהל המעודכן:\n\n1. אתרו את מיקום התא הריק — איזו שורה, איזו עמודה.\n2. בדקו כלל בשורה **שלמה אחרת** בטבלה (לא זו שבה יושב התא הריק), ונסחו אותו.\n3. אמתו את הכלל מול שני התאים הגלויים בשורה שבה יושב הריק.\n4. חִזרו על אותו תהליך לעמודה.\n5. הצטלבות כרגיל.\n\nהסיבה שמתחילים משורה או עמודה **שלמה** ולא מזו שחסר בה תא: קל יותר לזהות תבנית משלושה תאים גלויים מאשר משניים, ואז קל יותר לאמת אותה על שניים בלבד.\n\n## מלכודת: לבלבל בין שורה לעמודה כשהריק לא בפינה\n\nכשהריק בפינה, יש רק כיוון אחד \"טבעי\" לבדוק תחילה. כשהוא באמצע, קל בטעות להתחיל לבדוק את הכיוון הלא נכון, או לחשוב שתא מסוים \"שייך\" לשורה שהוא לא נמצא בה בפועל. הפתרון הפשוט ביותר: לפני שמתחילים בכלל, אמרו לעצמכם במפורש \"התא הריק נמצא בשורה X ובעמודה Y\" — ורק אז המשיכו.\n\n## שילוב מלא: ניהול זמן על פרק שלם של מטריצות\n\nעכשיו, אחרי ארבעה פרקים, יש לכם את כל הכלים. הנה איך משלבים אותם תחת לחץ זמן אמיתי:\n\n- **בכל מטריצה, תוך שנייה, זהו היכן התא הריק.** לא בפינה? האטו קצת ואמרו לעצמכם באיזו שורה ועמודה הוא יושב.\n- **נסחו את שני הכללים במילים תמיד**, גם כשנדמה לכם שאתם \"רואים\" את התשובה מיד. שנייה של ניסוח חוסכת טעות שעולה יותר משנייה.\n- **ספרו את מספר האפשרויות בהבטה מהירה.** ארבע — קצב רגיל. שש ומעלה — שיטת שני (או שלושה) המסננים, ובלי למהר.\n- **בדקו תמיד את התכונה הקבועה** לפני שאתם מסמנים סופית, גם אם אתם בטוחים שכבר מצאתם.\n- **אם אחרי סריקה מלאה נשארות שתי אפשרויות שנראות נכונות** — זה סימן בטוח שפספסתם תכונה. חִזרו לטבלה, לא לתשובות.\n- **אם עברו יותר מארבעים-חמישים שניות על מטריצה בודדת ואתם עדיין תקועים** — צמצמו לפי מה שכן בטוחים בו, סמנו את הכי סביר, ועברו הלאה. מטריצה אחת לא שווה לכם את כל שאר הפרק.\n\nזה הקורס האחרון בנושא המטריצות בסקשן הזה. הכלים כאן — שורה-עמודה-הצטלבות, זהות מורכבת, שיטת המסננים, ומיקום התא הריק — יעבדו על כל מטריצה שתפגשו, כולל כאלה שלא ראיתם בדיוק כמותן בתרגול. זו בדיוק המשמעות של ללמוד שיטה ולא לשנן תשובות.",
+        "examples": [
+          {
+            "title": "התא הריק בפינה העליונה",
+            "type": "text",
+            "content": "{{figmatrix:shape=hexagon,n=1,rot=0,color=ink;shape=hexagon,n=1,rot=90,color=ink;?/shape=hexagon,n=2,rot=0,color=ink;shape=hexagon,n=2,rot=90,color=ink;shape=hexagon,n=2,rot=180,color=ink/shape=hexagon,n=3,rot=0,color=ink;shape=hexagon,n=3,rot=90,color=ink;shape=hexagon,n=3,rot=180,color=ink}}\n\nהתא הריק כאן בפינה הימנית **העליונה** — לא בתחתונה כרגיל. השורה שבה הוא יושב היא השורה **הראשונה**, לא השלישית.\n\n**שורה (הראשונה, זו שבה יושב הריק):** שני התאים הגלויים בה הם משושה עם עצם אחד בסיבוב 0 ובסיבוב 90. כדי לוודא את הכלל, בודקים שורה שלמה אחרת — למשל השנייה: משושה עם שני עצמים, בסיבוב 0, 90, 180. הכלל: הכמות קבועה בתוך השורה (בשורה הראשונה — תמיד אחד).\n\n**עמודה (השלישית, זו שבה יושב הריק):** התא הגלוי היחיד בה הוא בשורה השנייה והשלישית — סיבוב 180 בשתיהן. הכלל: הסיבוב קבוע בתוך העמודה, ובעמודה השלישית הוא 180 מעלות.\n\n**תכונה קבועה:** הצבע — דיו בכל התאים.\n\nהצטלבות: שורה ראשונה — כמות אחת. עמודה שלישית — סיבוב 180. התשובה: משושה אחד בסיבוב 180 מעלות, בצבע דיו.\n\n{{figcell:shape=hexagon,n=1,rot=180,color=ink}}\n\nשימו לב שכאן היה חשוב במיוחד לומר לעצמכם מראש \"הריק בשורה 1, עמודה 3\" — כי קל להתבלבל ולחשוב שהוא שייך לשורה השנייה, שבה יש רק שני תאים גלויים ולא שלושה."
+          }
+        ],
+        "exercises": [
+          {
+            "number": 1,
+            "title": "הריק בקצה השורה, לא בפינה התחתונה",
+            "difficulty": "medium",
+            "description": "אמרו לעצמכם תחילה: באיזו שורה ובאיזו עמודה נמצא התא הריק? רק אחר כך פתרו.\n\n{{figmatrix:shape=star,fill=none,size=s;shape=star,fill=half,size=s;shape=star,fill=solid,size=s/shape=star,fill=none,size=m;shape=star,fill=half,size=m;shape=star,fill=solid,size=m/?;shape=star,fill=half,size=l;shape=star,fill=solid,size=l}}\n\nאפשרויות:\nא. {{figcell:shape=star,fill=none,size=l}}\nב. {{figcell:shape=star,fill=half,size=l}}\nג. {{figcell:shape=star,fill=solid,size=l}}\nד. {{figcell:shape=star,fill=none,size=s}}",
+            "solution": "התא הריק בשורה השלישית, עמודה ראשונה. שורה: הגודל עולה מלמעלה למטה — קטן, בינוני, גדול; בשורה השלישית הגודל גדול. עמודה: המילוי קבוע בתוך כל עמודה — ריק, חצי, מלא; בעמודה הראשונה המילוי ריק. תכונה קבועה: הצורה — כוכב.\n\nהצטלבות: כוכב גדול, ריק, אפשרות א.\n\n{{figcell:shape=star,fill=none,size=l}}"
+          },
+          {
+            "number": 2,
+            "title": "הריק באמצע השורה האמצעית",
+            "difficulty": "hard",
+            "description": "{{figmatrix:shape=trapezoid,n=1,color=ink,dot=tl;shape=trapezoid,n=1,color=ink,dot=tr;shape=trapezoid,n=1,color=ink,dot=br/shape=trapezoid,n=2,color=accent,dot=tl;shape=trapezoid,n=2,color=accent,dot=tr;?/shape=trapezoid,n=3,color=warm,dot=tl;shape=trapezoid,n=3,color=warm,dot=tr;shape=trapezoid,n=3,color=warm,dot=br}}\n\nאפשרויות:\nא. {{figcell:shape=trapezoid,n=2,color=accent,dot=br}}\nב. {{figcell:shape=trapezoid,n=2,color=accent,dot=tl}}\nג. {{figcell:shape=trapezoid,n=2,color=accent,dot=tr}}\nד. {{figcell:shape=trapezoid,n=1,color=ink,dot=br}}",
+            "solution": "התא הריק בשורה השנייה, עמודה שלישית. שורה: זהות מורכבת — הכמות עולה (1, 2, 3) ובד בבד הצבע משתנה (דיו, טורקיז, כתום), חוזרים יחד; בשורה השנייה — שני עצמים בצבע טורקיז. עמודה: מיקום הנקודה קבוע בתוך כל עמודה — שמאלית עליונה, ימנית עליונה, ימנית תחתונה; בעמודה השלישית — נקודה ימנית תחתונה. תכונה קבועה: הצורה — טרפז.\n\nהצטלבות: שני טרפזים בצבע טורקיז, עם נקודה ימנית תחתונה, אפשרות א.\n\n{{figcell:shape=trapezoid,n=2,color=accent,dot=br}}"
+          },
+          {
+            "number": 3,
+            "title": "הריק בקצה העליון",
+            "difficulty": "medium",
+            "description": "{{figmatrix:shape=pentagon,fill=none,rot=0;?;shape=pentagon,fill=solid,rot=0/shape=pentagon,fill=none,rot=90;shape=pentagon,fill=dots,rot=90;shape=pentagon,fill=solid,rot=90/shape=pentagon,fill=none,rot=180;shape=pentagon,fill=dots,rot=180;shape=pentagon,fill=solid,rot=180}}\n\nאפשרויות:\nא. {{figcell:shape=pentagon,fill=dots,rot=0}}\nב. {{figcell:shape=pentagon,fill=none,rot=0}}\nג. {{figcell:shape=pentagon,fill=solid,rot=0}}\nד. {{figcell:shape=pentagon,fill=dots,rot=90}}",
+            "solution": "התא הריק בשורה ראשונה, עמודה שנייה. שורה: הסיבוב קבוע בתוך כל שורה — 0, 90, 180 מעלות; בשורה הראשונה — 0 מעלות. עמודה: המילוי קבוע בתוך כל עמודה — ריק, נקודות, מלא; בעמודה השנייה — נקודות. תכונה קבועה: הצורה — מחומש.\n\nהצטלבות: מחומש מנוקד בסיבוב 0 מעלות, אפשרות א.\n\n{{figcell:shape=pentagon,fill=dots,rot=0}}"
+          }
+        ],
+        "quiz": [
+          {
+            "number": 1,
+            "question": "מה חסר בתא הריק? שימו לב שהוא לא בפינה — אמרו לעצמכם קודם באיזו שורה ואיזו עמודה הוא נמצא.\n\n{{figmatrix:shape=heart,size=s,color=ink;shape=heart,size=s,color=accent;shape=heart,size=s,color=warm/shape=heart,size=m,color=ink;shape=heart,size=m,color=accent;shape=heart,size=m,color=warm/shape=heart,size=l,color=ink;?;shape=heart,size=l,color=warm}}",
+            "type": "multiple-choice",
+            "options": [
+              "{{figcell:shape=heart,size=l,color=ink}}",
+              "{{figcell:shape=heart,size=l,color=accent}}",
+              "{{figcell:shape=heart,size=l,color=warm}}",
+              "{{figcell:shape=heart,size=s,color=accent}}"
+            ],
+            "correct_answer": "{{figcell:shape=heart,size=l,color=accent}}",
+            "explanation": "התא הריק בשורה שלישית, עמודה שנייה. שורה: הגודל עולה מלמעלה למטה — קטן, בינוני, גדול; בשורה השלישית — גדול. עמודה: הצבע קבוע בתוך כל עמודה — דיו, טורקיז, כתום; בעמודה השנייה — טורקיז. תכונה קבועה: הצורה — לב. הצטלבות: לב גדול בצבע טורקיז."
+          },
+          {
+            "number": 2,
+            "question": "מה חסר בתא הריק?\n\n{{figmatrix:shape=circle,n=1,fill=none;shape=circle,n=1,fill=half;shape=circle,n=1,fill=solid/?;shape=circle,n=2,fill=half;shape=circle,n=2,fill=solid/shape=circle,n=3,fill=none;shape=circle,n=3,fill=half;shape=circle,n=3,fill=solid}}",
+            "type": "multiple-choice",
+            "options": [
+              "{{figcell:shape=circle,n=2,fill=half}}",
+              "{{figcell:shape=circle,n=2,fill=solid}}",
+              "{{figcell:shape=circle,n=2,fill=none}}",
+              "{{figcell:shape=circle,n=1,fill=none}}"
+            ],
+            "correct_answer": "{{figcell:shape=circle,n=2,fill=none}}",
+            "explanation": "התא הריק בשורה שנייה, עמודה ראשונה. שורה: הכמות עולה מלמעלה למטה — אחד, שניים, שלושה; בשורה השנייה — שניים. עמודה: המילוי קבוע בתוך כל עמודה — ריק, חצי, מלא; בעמודה הראשונה — ריק. תכונה קבועה: הצורה — עיגול. הצטלבות: שני עיגולים ריקים."
+          },
+          {
+            "number": 3,
+            "question": "מה חסר בתא הריק?\n\n{{figmatrix:shape=diamond,fill=dots,size=s,dot=tl;shape=diamond,fill=dots,size=s,dot=tr;?/shape=diamond,fill=dots,size=m,dot=tl;shape=diamond,fill=dots,size=m,dot=tr;shape=diamond,fill=dots,size=m,dot=br/shape=diamond,fill=dots,size=l,dot=tl;shape=diamond,fill=dots,size=l,dot=tr;shape=diamond,fill=dots,size=l,dot=br}}",
+            "type": "multiple-choice",
+            "options": [
+              "{{figcell:shape=diamond,fill=dots,size=s,dot=tl}}",
+              "{{figcell:shape=diamond,fill=dots,size=s,dot=tr}}",
+              "{{figcell:shape=diamond,fill=dots,size=s,dot=br}}",
+              "{{figcell:shape=diamond,fill=dots,size=m,dot=br}}"
+            ],
+            "correct_answer": "{{figcell:shape=diamond,fill=dots,size=s,dot=br}}",
+            "explanation": "התא הריק בשורה ראשונה, עמודה שלישית. שורה: הגודל קבוע בתוך כל שורה — קטן, בינוני, גדול; בשורה הראשונה — קטן. עמודה: מיקום הנקודה קבוע בתוך כל עמודה — שמאלית עליונה, ימנית עליונה, ימנית תחתונה; בעמודה השלישית — ימנית תחתונה. תכונה קבועה: הצורה (מעוין) והמילוי (נקודות). הצטלבות: מעוין קטן מנוקד עם נקודה ימנית תחתונה."
+          },
+          {
+            "number": 4,
+            "question": "מה חסר בתא הריק? כאן הוא כן בפינה — שימו לב שהנוהל זהה בכל מקרה.\n\n{{figmatrix:shape=cross,n=1,rot=0;shape=cross,n=2,rot=0;shape=cross,n=3,rot=0/shape=cross,n=1,rot=90;shape=cross,n=2,rot=90;shape=cross,n=3,rot=90/shape=cross,n=1,rot=180;shape=cross,n=2,rot=180;?}}",
+            "type": "multiple-choice",
+            "options": [
+              "{{figcell:shape=cross,n=1,rot=180}}",
+              "{{figcell:shape=cross,n=2,rot=180}}",
+              "{{figcell:shape=cross,n=3,rot=180}}",
+              "{{figcell:shape=cross,n=3,rot=0}}"
+            ],
+            "correct_answer": "{{figcell:shape=cross,n=3,rot=180}}",
+            "explanation": "שורה: הסיבוב קבוע בתוך כל שורה — 0, 90, 180 מעלות; בשורה השלישית — 180. עמודה: הכמות עולה משמאל לימין — אחד, שניים, שלושה; בעמודה השלישית — שלושה. תכונה קבועה: הצורה — צלב. הצטלבות: שלושה צלבים בסיבוב 180 מעלות."
+          },
+          {
+            "number": 5,
+            "question": "מה חסר בתא הריק?\n\n{{figmatrix:shape=trapezoid,size=s,color=ink;shape=trapezoid,size=m,color=ink;shape=trapezoid,size=l,color=ink/shape=trapezoid,size=s,color=accent;?;shape=trapezoid,size=l,color=accent/shape=trapezoid,size=s,color=warm;shape=trapezoid,size=m,color=warm;shape=trapezoid,size=l,color=warm}}",
+            "type": "multiple-choice",
+            "options": [
+              "{{figcell:shape=trapezoid,size=s,color=accent}}",
+              "{{figcell:shape=trapezoid,size=l,color=accent}}",
+              "{{figcell:shape=trapezoid,size=m,color=accent}}",
+              "{{figcell:shape=trapezoid,size=m,color=ink}}"
+            ],
+            "correct_answer": "{{figcell:shape=trapezoid,size=m,color=accent}}",
+            "explanation": "התא הריק בשורה שנייה, עמודה שנייה. שורה: הצבע קבוע בתוך כל שורה — דיו, טורקיז, כתום; בשורה השנייה — טורקיז. עמודה: הגודל עולה משמאל לימין — קטן, בינוני, גדול; בעמודה השנייה — בינוני. תכונה קבועה: הצורה — טרפז. הצטלבות: טרפז בינוני בצבע טורקיז."
+          }
+        ]
+      }
+    ]
+  }
+}
