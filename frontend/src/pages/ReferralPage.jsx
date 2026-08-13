@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
 import MathDoodles from '../components/MathDoodles.jsx'
@@ -12,6 +13,23 @@ import {
   IconClipboard,
 } from '../components/icons.jsx'
 import { waHref, copyLink as copyToClipboard, shareInvite } from '../lib/invite.js'
+import {
+  fadeInUp,
+  fadeIn,
+  staggerContainer,
+  tapScale,
+  hoverLift,
+  DURATION,
+  EASE_OUT,
+  EASE_IN,
+} from '../lib/motion.js'
+import '../styles/account-growth.css'
+
+const copiedVariants = {
+  hidden: { opacity: 0, y: -4 },
+  show: { opacity: 1, y: 0, transition: { duration: DURATION.short, ease: EASE_OUT } },
+  exit: { opacity: 0, y: -4, transition: { duration: DURATION.short, ease: EASE_IN } },
+}
 
 // "חבר מביא חבר" — הקישור האישי של התלמיד, מי שהוא כבר הביא, וההטבות שמגיעות לו.
 //
@@ -83,9 +101,15 @@ export default function ReferralPage() {
   )
 
   return (
-    <section dir="rtl" className="referral-page">
+    <motion.section
+      dir="rtl"
+      className="referral-page"
+      initial="hidden"
+      animate="show"
+      variants={staggerContainer}
+    >
       {/* לוח הפתיחה — ההצעה מנוסחת כרווח, ומיד לצידה הקישור עצמו */}
-      <div className="invite-banner referral-hero">
+      <motion.div className="invite-banner referral-hero" variants={fadeInUp}>
         <MathDoodles className="invite-doodles" />
         <div className="invite-body">
           <span className="invite-eyebrow">
@@ -101,105 +125,133 @@ export default function ReferralPage() {
 
           <div className="invite-link-row">
             <code className="invite-link">{link}</code>
-            <a
+            <motion.a
               className="invite-btn invite-btn-wa"
               href={waHref(link)}
               target="_blank"
               rel="noreferrer"
+              {...tapScale}
             >
               שליחה בוואטסאפ
-            </a>
-            <button type="button" className="invite-btn invite-btn-primary" onClick={copyLink}>
-              <IconClipboard /> {copied ? 'הועתק' : 'העתקה'}
-            </button>
-            <button type="button" className="invite-btn" onClick={share}>
+            </motion.a>
+            <motion.button
+              type="button"
+              className="invite-btn invite-btn-primary"
+              onClick={copyLink}
+              {...tapScale}
+            >
+              <IconClipboard />{' '}
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.span
+                  key={copied ? 'copied' : 'copy'}
+                  variants={copiedVariants}
+                  initial="hidden"
+                  animate="show"
+                  exit="exit"
+                  style={{ display: 'inline-block' }}
+                >
+                  {copied ? 'הועתק' : 'העתקה'}
+                </motion.span>
+              </AnimatePresence>
+            </motion.button>
+            <motion.button type="button" className="invite-btn" onClick={share} {...tapScale}>
               <IconShare /> שיתוף
-            </button>
+            </motion.button>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* שתי ההטבות, מוצגות כהצעות ולא כשורה בטבלה */}
-      <div className="reward-cards">
-        <div className="reward-card">
+      <motion.div className="reward-cards" variants={staggerContainer}>
+        <motion.div className="reward-card" variants={fadeInUp} {...hoverLift}>
           <span className="reward-badge">{subPct}%</span>
           <h3>הנחה על החודש הבא</h3>
           <p>יורדת מהחידוש הקרוב של המנוי שלכם.</p>
-        </div>
-        <div className="reward-card">
+        </motion.div>
+        <motion.div className="reward-card" variants={fadeInUp} {...hoverLift}>
           <span className="reward-badge">{lessonPct}%</span>
           <h3>הנחה על שיעור פרטי בזום</h3>
           <p>שיעור פרטי בהנחה על כל חבר!</p>
-        </div>
-      </div>
-      <p className="reward-note">
+        </motion.div>
+      </motion.div>
+      <motion.p className="reward-note" variants={fadeInUp}>
         על כל חבר בוחרים אחת מהשתיים. ההטבה נפתחת כשהוא ממשיך למנוי מלא — לא
         בהרשמה עצמה.
-      </p>
+      </motion.p>
 
       {/* Counters */}
-      <div className="referral-stats">
-        <div className="card referral-stat">
+      <motion.div className="referral-stats" variants={staggerContainer}>
+        <motion.div className="card referral-stat" variants={fadeInUp}>
           <IconUsers />
           <strong>{data.total}</strong>
           <span>נרשמו דרככם</span>
-        </div>
-        <div className="card referral-stat">
+        </motion.div>
+        <motion.div className="card referral-stat" variants={fadeInUp}>
           <IconClock />
           <strong>{data.pending}</strong>
           <span>בתקופת התנסות</span>
-        </div>
-        <div className="card referral-stat">
+        </motion.div>
+        <motion.div className="card referral-stat" variants={fadeInUp}>
           <IconCheck />
           <strong>{data.qualified}</strong>
           <span>הטבות שנפתחו</span>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {/* Rewards waiting for a choice */}
-      {waiting.length > 0 && (
-        <div className="card referral-choose">
-          <h3>
-            <IconSpark />{' '}
-            {waiting.length === 1
-              ? 'הרווחתם הטבה — בחרו מה לקחת'
-              : `הרווחתם ${waiting.length} הטבות — בחרו מה לקחת`}
-          </h3>
-          {waiting.map((r) => (
-            <div key={r.id} className="referral-choice-row">
-              <span>
-                על <strong>{r.referred_name}</strong>, שהצטרף/ה {fmt(r.created_at)}
-              </span>
-              <div className="row-actions">
-                <button
-                  className="btn-sm"
-                  disabled={busy}
-                  onClick={() => choose(r.id, 'subscription')}
-                >
-                  {subPct}% על החודש הבא
-                </button>
-                <button
-                  className="btn-sm"
-                  disabled={busy}
-                  onClick={() => choose(r.id, 'lesson')}
-                >
-                  {lessonPct}% על שיעור פרטי
-                </button>
+      <AnimatePresence>
+        {waiting.length > 0 && (
+          <motion.div
+            className="card referral-choose"
+            initial="hidden"
+            animate="show"
+            exit="hidden"
+            variants={fadeIn}
+          >
+            <h3>
+              <IconSpark />{' '}
+              {waiting.length === 1
+                ? 'הרווחתם הטבה — בחרו מה לקחת'
+                : `הרווחתם ${waiting.length} הטבות — בחרו מה לקחת`}
+            </h3>
+            {waiting.map((r) => (
+              <div key={r.id} className="referral-choice-row">
+                <span>
+                  על <strong>{r.referred_name}</strong>, שהצטרף/ה {fmt(r.created_at)}
+                </span>
+                <div className="row-actions">
+                  <motion.button
+                    className="btn-sm"
+                    disabled={busy}
+                    onClick={() => choose(r.id, 'subscription')}
+                    {...tapScale}
+                  >
+                    {subPct}% על החודש הבא
+                  </motion.button>
+                  <motion.button
+                    className="btn-sm"
+                    disabled={busy}
+                    onClick={() => choose(r.id, 'lesson')}
+                    {...tapScale}
+                  >
+                    {lessonPct}% על שיעור פרטי
+                  </motion.button>
+                </div>
               </div>
-            </div>
-          ))}
-          <p className="sub-note">
-            אחרי הבחירה ההנחה מוחלת ידנית — היא תופיע בחידוש הבא או בשיעור הבא
-            שתקבעו. הבחירה סופית, אז שווה לחשוב רגע מה משתלם לכם יותר.
-          </p>
-        </div>
-      )}
+            ))}
+            <p className="sub-note">
+              אחרי הבחירה ההנחה מוחלת ידנית — היא תופיע בחידוש הבא או בשיעור הבא
+              שתקבעו. הבחירה סופית, אז שווה לחשוב רגע מה משתלם לכם יותר.
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      {/* Full list */}
+      {/* Full list — desktop table, mobile card list (no horizontal scroll) */}
       {data.referrals.length > 0 ? (
-        <div className="table-wrap card">
+        <motion.div className="table-wrap card referral-table-wrap" variants={fadeInUp}>
           <h3>מי הצטרף דרככם</h3>
-          <table className="data-table">
+          <table className="data-table referral-table-desktop">
             <thead>
               <tr>
                 <th>תלמיד</th>
@@ -237,9 +289,45 @@ export default function ReferralPage() {
               ))}
             </tbody>
           </table>
-        </div>
+
+          {/* Mobile: dense 4-column rows don't fit a phone width — a stacked
+              card per referral reads far better than a shrunk table. */}
+          <motion.div
+            className="referral-table-mobile"
+            initial="hidden"
+            animate="show"
+            variants={staggerContainer}
+          >
+            {data.referrals.map((r) => (
+              <motion.div key={r.id} className="referral-row-card" variants={fadeInUp}>
+                <div className="referral-row-card-head">
+                  <strong>{r.referred_name || '—'}</strong>
+                  <span className={r.status === 'qualified' ? 'status-ok' : 'status-off'}>
+                    {r.status === 'qualified'
+                      ? 'הטבה נפתחה'
+                      : r.status === 'canceled'
+                      ? 'בוטל'
+                      : 'בהתנסות'}
+                  </span>
+                </div>
+                <span className="muted">הצטרף/ה {fmt(r.created_at)}</span>
+                <span className="muted">
+                  {r.reward_used
+                    ? `מומשה (${fmt(r.reward_used_at)})`
+                    : r.reward_kind === 'subscription'
+                    ? `${Math.round(r.reward_percent)}% על החודש הבא — ממתינה למימוש`
+                    : r.reward_kind === 'lesson'
+                    ? `${Math.round(r.reward_percent)}% על שיעור פרטי — ממתינה למימוש`
+                    : r.status === 'qualified'
+                    ? 'בחרו הטבה למעלה'
+                    : 'תיפתח כשימשיך למנוי'}
+                </span>
+              </motion.div>
+            ))}
+          </motion.div>
+        </motion.div>
       ) : (
-        <div className="card referral-empty">
+        <motion.div className="card referral-empty" variants={fadeInUp}>
           <IconGift />
           <p>
             <strong>הקישור מוכן — נשאר רק לשלוח אותו.</strong>
@@ -247,11 +335,11 @@ export default function ReferralPage() {
             מהרגע שחבר מצטרף דרככם וממשיך למנוי, מגיעה לכם הנחה של {subPct}% על
             החודש הבא — או {lessonPct}% על שיעור פרטי.
           </p>
-          <a className="btn btn-wa" href={waHref(link)} target="_blank" rel="noreferrer">
+          <motion.a className="btn btn-wa" href={waHref(link)} target="_blank" rel="noreferrer" {...tapScale}>
             שליחה בוואטסאפ
-          </a>
-        </div>
+          </motion.a>
+        </motion.div>
       )}
-    </section>
+    </motion.section>
   )
 }

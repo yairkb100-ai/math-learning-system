@@ -1,21 +1,27 @@
+import { motion } from 'framer-motion'
+import { IconWarning } from './icons.jsx'
+import { fadeIn, tapScale } from '../lib/motion.js'
+
 export function Loading({ label = 'Loading…' }) {
   return (
-    <div className="status">
+    <motion.div className="status" variants={fadeIn} initial="hidden" animate="show">
       <div className="spinner" aria-hidden="true" />
       <span>{label}</span>
-    </div>
+    </motion.div>
   )
 }
 
 export function ErrorBox({ error, onRetry }) {
   return (
-    <div className="status error">
-      <p>⚠️ {String(error?.message || error)}</p>
+    <motion.div className="status error" variants={fadeIn} initial="hidden" animate="show">
+      <p>
+        <IconWarning /> {String(error?.message || error)}
+      </p>
       {onRetry && (
-        <button className="btn" onClick={onRetry}>
+        <motion.button className="btn" onClick={onRetry} {...tapScale}>
           Retry
-        </button>
+        </motion.button>
       )}
-    </div>
+    </motion.div>
   )
 }

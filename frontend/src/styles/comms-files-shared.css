@@ -1,0 +1,144 @@
+/* Scoped styles for the Messages / Files / invite-FAB / update-bar group of
+   the 2025 modernization pass. Imported only by files this group owns —
+   never add rules here that other groups' components rely on. Reuses the
+   existing theme variables (var(--accent) etc.) only, never a new color. */
+
+/* ---------- messages: mobile "slide the thread over the sidebar" ---------- */
+@media (max-width: 720px) {
+  .chat-layout {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+  }
+  .chat-layout .chat-sidebar,
+  .chat-layout .chat-main {
+    grid-area: 1 / 1;
+    min-width: 0;
+  }
+  .chat-layout .chat-sidebar {
+    max-height: none;
+    height: 100%;
+    background: var(--surface);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .chat-layout .chat-main {
+    height: 100%;
+    background: var(--surface);
+    transform: translateX(100%);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .chat-layout.has-active .chat-sidebar {
+    transform: translateX(-100%);
+    pointer-events: none;
+  }
+  .chat-layout.has-active .chat-main {
+    transform: translateX(0);
+  }
+}
+
+.chat-back-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+.chat-back-btn:hover {
+  background: var(--surface-2);
+}
+@media (max-width: 720px) {
+  .chat-back-btn {
+    display: inline-flex;
+  }
+  .chat-thread-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+/* touch targets on the chat contact list / compose row */
+@media (max-width: 720px) {
+  .chat-contact {
+    min-height: 56px;
+  }
+  .chat-attach-btn,
+  .chat-compose .btn {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  .chat-compose input {
+    font-size: 16px; /* prevent iOS auto-zoom */
+  }
+}
+
+/* ---------- file manager: mobile card layout ---------- */
+@media (max-width: 560px) {
+  .file-row {
+    flex-wrap: wrap;
+    row-gap: 8px;
+    padding: 12px;
+  }
+  .file-name {
+    flex-basis: 100%;
+    order: 1;
+  }
+  .file-icon {
+    order: 0;
+  }
+  .file-size {
+    order: 2;
+  }
+  .file-actions {
+    order: 3;
+    margin-inline-start: auto;
+  }
+  .file-actions .btn-sm {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 8px 14px;
+  }
+}
+
+/* ---------- safe-area aware fixed UI (FABs + update bar) ---------- */
+@supports (bottom: env(safe-area-inset-bottom)) {
+  .book-fab {
+    bottom: calc(22px + env(safe-area-inset-bottom));
+  }
+  .invite-fab-wrap {
+    bottom: calc(80px + env(safe-area-inset-bottom));
+  }
+  .update-bar {
+    bottom: calc(22px + env(safe-area-inset-bottom));
+  }
+  @media (max-width: 560px) {
+    .book-fab {
+      bottom: calc(16px + env(safe-area-inset-bottom));
+    }
+    .invite-fab-wrap {
+      bottom: calc(74px + env(safe-area-inset-bottom));
+    }
+  }
+  @media (max-width: 640px) {
+    .update-bar {
+      bottom: calc(128px + env(safe-area-inset-bottom));
+    }
+  }
+}
+
+/* BookLessonFab's inline calendar icon sizing (matches .invite-fab svg pattern) */
+.book-fab-icon svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}

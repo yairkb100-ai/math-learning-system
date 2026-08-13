@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import { useAuth } from '../context/AuthContext.jsx'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
 import MathDoodles from '../components/MathDoodles.jsx'
 import SearchBar from '../components/SearchBar.jsx'
 import InviteBanner from '../components/InviteBanner.jsx'
+import { fadeInUp, staggerContainer, tapScale, hoverLift } from '../lib/motion.js'
 import {
   IconLayers,
   IconClock,
@@ -13,6 +15,8 @@ import {
   IconGraduation,
   IconCompass,
 } from '../components/icons.jsx'
+
+const MotionLink = motion(Link)
 
 // School years, in curriculum order. `key` matches Course.grade on the server.
 const GRADES = [
@@ -122,8 +126,13 @@ export default function CourseList() {
       {/* Hero */}
       <div className="cat-hero">
         <MathDoodles className="hero-doodles" />
-        <div className="cat-hero-body">
-          <div className="cat-hero-text">
+        <motion.div
+          className="cat-hero-body"
+          variants={staggerContainer}
+          initial="hidden"
+          animate="show"
+        >
+          <motion.div className="cat-hero-text" variants={fadeInUp}>
             <span className="cat-eyebrow">
               <IconGraduation /> פלטפורמת הלימוד במתמטיקה
             </span>
@@ -156,12 +165,12 @@ export default function CourseList() {
                 </div>
               </div>
             )}
-          </div>
+          </motion.div>
 
-          <div className="cat-hero-search">
+          <motion.div className="cat-hero-search" variants={fadeInUp}>
             <SearchBar />
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
 
       {/* "חבר מביא חבר" — יושב בתוך .catalog כדי לרשת את משתני הלוח/הגיר. */}
@@ -183,26 +192,28 @@ export default function CourseList() {
 
       {activeGrades.length > 1 && (
         <div className="grade-filter" role="group" aria-label="סינון לפי כיתה">
-          <button
+          <motion.button
             type="button"
             className={`grade-pill${grade === 'all' ? ' is-on' : ''}`}
             aria-pressed={grade === 'all'}
             onClick={() => setGrade('all')}
+            {...tapScale}
           >
             הכול
             <span className="grade-pill-num">{courses.length}</span>
-          </button>
+          </motion.button>
           {activeGrades.map((g) => (
-            <button
+            <motion.button
               key={g.key}
               type="button"
               className={`grade-pill grade-${g.key}${grade === g.key ? ' is-on' : ''}`}
               aria-pressed={grade === g.key}
               onClick={() => setGrade(g.key)}
+              {...tapScale}
             >
               {g.pill}
               <span className="grade-pill-num">{gradeCounts[g.key]}</span>
-            </button>
+            </motion.button>
           ))}
         </div>
       )}
@@ -227,12 +238,20 @@ export default function CourseList() {
             {section.description && (
               <p className="cat-section-desc">{section.description}</p>
             )}
-            <div className="cat-grid">
+            <motion.div
+              className="cat-grid"
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.15 }}
+            >
               {section.courses.map((c) => (
-                <Link
+                <MotionLink
                   key={c.id}
                   to={`/courses/${c.id}`}
                   className={`cat-card ${gradeClass(c.grade)}`}
+                  variants={fadeInUp}
+                  {...hoverLift}
                 >
                   <span className="cat-card-bar" aria-hidden="true" />
                   <div className="cat-card-top">
@@ -262,9 +281,9 @@ export default function CourseList() {
                     התחילו ללמוד
                     <IconArrowStart className="cat-cta-arrow" />
                   </span>
-                </Link>
+                </MotionLink>
               ))}
-            </div>
+            </motion.div>
           </div>
         ))
       )}

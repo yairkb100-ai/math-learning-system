@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
+import { motion, AnimatePresence } from 'framer-motion'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
 import { IconLock } from '../components/icons.jsx'
+import { DURATION, EASE_OUT, EASE_IN, tapScale } from '../lib/motion.js'
 import '../styles/exams.css'
 
 const DIFFICULTY_HE = { easy: 'קל', medium: 'בינוני', hard: 'קשה' }
@@ -154,55 +156,87 @@ export default function ExamPlayer() {
         <h1>{exam.icon} {exam.title}</h1>
       </div>
 
-      <div className="exam-run-head">
-        <span className="exam-progress">
-          שאלה {step.index + 1} מתוך {step.total}
-        </span>
-        <span className={`exam-diff-badge exam-diff-${q.difficulty}`}>
-          {DIFFICULTY_HE[q.difficulty] || q.difficulty}
-        </span>
-        <span className={`exam-timer${urgent ? ' urgent' : ''}`}>
-          ⏱ {secondsLeft != null ? fmtTime(secondsLeft) : '--:--'}
-        </span>
-      </div>
+      <div className="exam-run-sticky">
+        <div className="exam-run-head">
+          <span className="exam-progress">
+            שאלה {step.index + 1} מתוך {step.total}
+          </span>
+          <span className={`exam-diff-badge exam-diff-${q.difficulty}`}>
+            {DIFFICULTY_HE[q.difficulty] || q.difficulty}
+          </span>
+          <motion.span
+            className={`exam-timer${urgent ? ' urgent' : ''}`}
+            animate={urgent ? { scale: [1, 1.07, 1] } : { scale: 1 }}
+            transition={
+              urgent
+                ? { duration: 0.7, repeat: Infinity, ease: 'easeInOut' }
+                : { duration: DURATION.short, ease: EASE_OUT }
+            }
+          >
+            ⏱ {secondsLeft != null ? fmtTime(secondsLeft) : '--:--'}
+          </motion.span>
+        </div>
 
-      <div className="exam-progress-bar">
-        <div className="exam-progress-fill" style={{ width: `${progressPct}%` }} />
-      </div>
-
-      <div className="card">
-        <p className="exam-question">{q.question}</p>
-
-        {isChoice ? (
-          <div className="exam-options">
-            {q.options.map((opt, i) => (
-              <button
-                key={i}
-                type="button"
-                className={`exam-option${answer === opt ? ' selected' : ''}`}
-                onClick={() => setAnswer(opt)}
-              >
-                <span className="exam-option-letter">{OPTION_LETTERS[i] || i + 1}</span>
-                <span>{opt}</span>
-              </button>
-            ))}
-          </div>
-        ) : (
-          <input
-            className="text-answer"
-            type="text"
-            value={answer}
-            onChange={(e) => setAnswer(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && handleNext()}
-            placeholder="הקלד/י את תשובתך…"
-            autoFocus
+        <div className="exam-progress-bar">
+          <motion.div
+            className="exam-progress-fill"
+            initial={false}
+            animate={{ scaleX: progressPct / 100 }}
+            transition={{ duration: DURATION.medium, ease: EASE_OUT }}
+            style={{ transformOrigin: 'right center' }}
           />
-        )}
-
-        <button className="btn" disabled={!answer.trim()} onClick={handleNext}>
-          {step.index + 1 >= step.total ? 'סיים מבחן' : 'לשאלה הבאה'}
-        </button>
+        </div>
       </div>
+
+      <AnimatePresence>
+        <motion.div
+          key={step.index}
+          className="card"
+          initial={{ opacity: 0, x: -12 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: 12, transition: { duration: 0.15, ease: EASE_IN } }}
+          transition={{ duration: DURATION.medium, ease: EASE_OUT }}
+        >
+          <p className="exam-question">{q.question}</p>
+
+          {isChoice ? (
+            <div className="exam-options">
+              {q.options.map((opt, i) => (
+                <motion.button
+                  key={i}
+                  type="button"
+                  className={`exam-option${answer === opt ? ' selected' : ''}`}
+                  onClick={() => setAnswer(opt)}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ duration: DURATION.short, ease: EASE_OUT }}
+                >
+                  <span className="exam-option-letter">{OPTION_LETTERS[i] || i + 1}</span>
+                  <span>{opt}</span>
+                </motion.button>
+              ))}
+            </div>
+          ) : (
+            <input
+              className="text-answer"
+              type="text"
+              value={answer}
+              onChange={(e) => setAnswer(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleNext()}
+              placeholder="הקלד/י את תשובתך…"
+              autoFocus
+            />
+          )}
+
+          <motion.button
+            className="btn"
+            disabled={!answer.trim()}
+            onClick={handleNext}
+            {...tapScale}
+          >
+            {step.index + 1 >= step.total ? 'סיים מבחן' : 'לשאלה הבאה'}
+          </motion.button>
+        </motion.div>
+      </AnimatePresence>
     </section>
   )
 }

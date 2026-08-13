@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import api from '../api.js'
 import MathText, { InlineMathText } from './MathText.jsx'
 import { celebrate } from '../lib/celebrate.js'
+import { fadeInUp, staggerContainer, tapScale, DURATION, EASE_OUT } from '../lib/motion.js'
+import '../styles/quiz.css'
 
 const t = (rtl, he, en) => (rtl ? he : en)
 
@@ -26,7 +29,12 @@ function OptionText({ text }) {
 
 export default function Quiz({ questions, chapterId, rtl }) {
   return (
-    <div className="quiz">
+    <motion.div
+      className="quiz"
+      variants={staggerContainer}
+      initial="hidden"
+      animate="show"
+    >
       {questions.map((q) => (
         <QuizQuestion
           key={q.number}
@@ -35,7 +43,7 @@ export default function Quiz({ questions, chapterId, rtl }) {
           rtl={rtl}
         />
       ))}
-    </div>
+    </motion.div>
   )
 }
 
@@ -73,7 +81,8 @@ function QuizQuestion({ question, chapterId, rtl }) {
   }
 
   return (
-    <div
+    <motion.div
+      variants={fadeInUp}
       className={
         'card quiz-q' +
         (result ? (result.correct ? ' is-correct' : ' is-wrong') : '')
@@ -89,7 +98,7 @@ function QuizQuestion({ question, chapterId, rtl }) {
       {options.length > 0 ? (
         <div className="options">
           {options.map((opt, i) => (
-            <label key={i} className="option">
+            <motion.label key={i} className="option" whileTap={{ scale: 0.98 }}>
               <input
                 type="radio"
                 name={`q-${chapterId}-${question.number}`}
@@ -99,7 +108,7 @@ function QuizQuestion({ question, chapterId, rtl }) {
                 disabled={loading}
               />
               <span><OptionText text={opt} /></span>
-            </label>
+            </motion.label>
           ))}
         </div>
       ) : (
@@ -114,37 +123,50 @@ function QuizQuestion({ question, chapterId, rtl }) {
       )}
 
       <div className="quiz-actions">
-        <button className="btn" onClick={submit} disabled={loading || !answer}>
+        <motion.button
+          className="btn"
+          onClick={submit}
+          disabled={loading || !answer}
+          {...tapScale}
+        >
           {loading ? t(rtl, 'בודק…', 'Checking…') : t(rtl, 'בדוק', 'Check')}
-        </button>
+        </motion.button>
       </div>
 
       {err && <p className="inline-error">⚠️ {String(err.message || err)}</p>}
 
-      {result && (
-        <div className={'verdict ' + (result.correct ? 'ok' : 'no')}>
-          {result.correct ? (
-            <strong>✓ {t(rtl, 'תשובה נכונה!', 'Correct!')}</strong>
-          ) : (
-            <>
-              <strong>✗ {t(rtl, 'לא נכון.', 'Incorrect.')}</strong>
-              {result.correct_answer != null && (
-                <span className="correct-answer">
-                  {t(rtl, 'התשובה הנכונה: ', 'Correct answer: ')}
-                  <OptionText text={result.correct_answer} />
-                </span>
-              )}
-            </>
-          )}
-          {/* Shown on right answers too — a student who guessed right still
-              needs the reasoning. */}
-          {result.explanation && (
-            <span className="quiz-explanation">
-              <InlineMathText text={result.explanation} />
-            </span>
-          )}
-        </div>
-      )}
-    </div>
+      <AnimatePresence>
+        {result && (
+          <motion.div
+            key="verdict"
+            className={'verdict ' + (result.correct ? 'ok' : 'no')}
+            initial={{ opacity: 0, y: -6, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: DURATION.medium, ease: EASE_OUT }}
+          >
+            {result.correct ? (
+              <strong>✓ {t(rtl, 'תשובה נכונה!', 'Correct!')}</strong>
+            ) : (
+              <>
+                <strong>✗ {t(rtl, 'לא נכון.', 'Incorrect.')}</strong>
+                {result.correct_answer != null && (
+                  <span className="correct-answer">
+                    {t(rtl, 'התשובה הנכונה: ', 'Correct answer: ')}
+                    <OptionText text={result.correct_answer} />
+                  </span>
+                )}
+              </>
+            )}
+            {/* Shown on right answers too — a student who guessed right still
+                needs the reasoning. */}
+            {result.explanation && (
+              <span className="quiz-explanation">
+                <InlineMathText text={result.explanation} />
+              </span>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   )
 }

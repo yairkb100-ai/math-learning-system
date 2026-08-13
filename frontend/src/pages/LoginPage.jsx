@@ -1,7 +1,26 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useAuth } from '../context/AuthContext.jsx'
 import api from '../api.js'
+import { fadeInUp, staggerContainer, tapScale, DURATION, EASE_OUT, EASE_IN } from '../lib/motion.js'
+
+// שקופית קטנה מתחת לשדה — לא רק "מופיע", גם "נעלם" יפה כשהשגיאה מתנקה.
+const errorVariants = {
+  hidden: { opacity: 0, y: -6, height: 0 },
+  show: {
+    opacity: 1,
+    y: 0,
+    height: 'auto',
+    transition: { duration: DURATION.short, ease: EASE_OUT },
+  },
+  exit: {
+    opacity: 0,
+    y: -6,
+    height: 0,
+    transition: { duration: DURATION.short, ease: EASE_IN },
+  },
+}
 
 export default function LoginPage() {
   const { login } = useAuth()
@@ -29,18 +48,25 @@ export default function LoginPage() {
 
   return (
     <div className="auth-page" dir="rtl">
-      <div className="auth-card">
-        <div className="auth-logo">
+      <motion.div
+        className="auth-card"
+        initial="hidden"
+        animate="show"
+        variants={staggerContainer}
+      >
+        <motion.div className="auth-logo" variants={fadeInUp}>
           <span className="brand-mark large">∑</span>
-        </div>
-        <h1>לומדת מתמטיקה</h1>
-        <p className="auth-tagline">מהיסודי ועד לתיכון</p>
-        <h2>התחברות למערכת</h2>
+        </motion.div>
+        <motion.h1 variants={fadeInUp}>לומדת מתמטיקה</motion.h1>
+        <motion.p className="auth-tagline" variants={fadeInUp}>
+          מהיסודי ועד לתיכון
+        </motion.p>
+        <motion.h2 variants={fadeInUp}>התחברות למערכת</motion.h2>
 
-        <form onSubmit={handleSubmit}>
+        <motion.form onSubmit={handleSubmit} variants={fadeInUp}>
           <div className="form-group">
             <label htmlFor="username">שם משתמש</label>
-            <input
+            <motion.input
               id="username"
               type="text"
               value={username}
@@ -48,12 +74,14 @@ export default function LoginPage() {
               required
               placeholder="הכנס שם משתמש"
               autoComplete="username"
+              whileFocus={{ scale: 1.01 }}
+              transition={{ duration: DURATION.short, ease: EASE_OUT }}
             />
           </div>
 
           <div className="form-group">
             <label htmlFor="password">סיסמה</label>
-            <input
+            <motion.input
               id="password"
               type="password"
               value={password}
@@ -61,20 +89,40 @@ export default function LoginPage() {
               required
               placeholder="••••••••"
               autoComplete="current-password"
+              whileFocus={{ scale: 1.01 }}
+              transition={{ duration: DURATION.short, ease: EASE_OUT }}
             />
           </div>
 
-          {error && <p className="auth-error">{error}</p>}
+          <AnimatePresence initial={false}>
+            {error && (
+              <motion.p
+                className="auth-error"
+                variants={errorVariants}
+                initial="hidden"
+                animate="show"
+                exit="exit"
+                style={{ overflow: 'hidden' }}
+              >
+                {error}
+              </motion.p>
+            )}
+          </AnimatePresence>
 
-          <button type="submit" className="btn btn-full" disabled={loading}>
+          <motion.button
+            type="submit"
+            className="btn btn-full"
+            disabled={loading}
+            {...tapScale}
+          >
             {loading ? 'מתחבר...' : 'כניסה'}
-          </button>
-        </form>
+          </motion.button>
+        </motion.form>
 
-        <p className="auth-switch">
+        <motion.p className="auth-switch" variants={fadeInUp}>
           אין לך חשבון? <Link to="/register">הרשמה</Link>
-        </p>
-      </div>
+        </motion.p>
+      </motion.div>
     </div>
   )
 }

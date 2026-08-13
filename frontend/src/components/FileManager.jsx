@@ -1,7 +1,11 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useAuth } from '../context/AuthContext.jsx'
 import api from '../api.js'
 import { Loading, ErrorBox } from './Status.jsx'
+import { IconFile, IconPencil, IconDownload, IconUpload, IconX } from './icons.jsx'
+import { fadeInUp, staggerContainer, tapScale, DURATION, EASE_IN } from '../lib/motion.js'
+import '../styles/comms-files-shared.css'
 
 function humanSize(bytes) {
   if (bytes == null) return ''
@@ -68,8 +72,9 @@ export default function FileManager({ courseId = null, title = 'קבצים' }) {
       <div className="file-manager-head">
         <h3>{title}</h3>
         {user?.role === 'admin' && (
-          <label className="btn btn-cta file-upload-btn">
-            {uploading ? 'מעלה…' : '⬆ העלה קובץ'}
+          <motion.label className="btn btn-cta file-upload-btn" {...tapScale}>
+            <IconUpload width={16} height={16} />
+            {uploading ? 'מעלה…' : 'העלה קובץ'}
             <input
               ref={inputRef}
               type="file"
@@ -77,7 +82,7 @@ export default function FileManager({ courseId = null, title = 'קבצים' }) {
               disabled={uploading}
               hidden
             />
-          </label>
+          </motion.label>
         )}
       </div>
 
@@ -88,40 +93,57 @@ export default function FileManager({ courseId = null, title = 'קבצים' }) {
       ) : files.length === 0 ? (
         <p className="muted empty-msg">אין קבצים עדיין.</p>
       ) : (
-        <ul className="file-list">
-          {files.map((f) => (
-            <li key={f.id} className="file-row">
-              <span className="file-icon">{f.kind === 'homework' ? '📝' : '📄'}</span>
-              <span className="file-name">
-                {f.original_name}
-                {f.kind === 'homework' && (
-                  <span className="type-tag">
-                    הגשה{f.uploader_name ? ` · ${f.uploader_name}` : ''}
-                  </span>
-                )}
-              </span>
-              <span className="file-size muted">{humanSize(f.size)}</span>
-              <span className="file-actions">
-                <button
-                  className="btn-sm"
-                  onClick={() =>
-                    api.downloadFile(f.id, f.original_name, f.external_url)
-                  }
-                >
-                  הורדה
-                </button>
-                {canDelete(f) && (
-                  <button
-                    className="btn-sm btn-danger"
-                    onClick={() => handleDelete(f)}
+        <motion.ul
+          className="file-list"
+          variants={staggerContainer}
+          initial="hidden"
+          animate="show"
+        >
+          <AnimatePresence initial={false}>
+            {files.map((f) => (
+              <motion.li
+                key={f.id}
+                className="file-row"
+                variants={fadeInUp}
+                exit={{ opacity: 0, x: 12, transition: { duration: DURATION.short, ease: EASE_IN } }}
+                layout
+              >
+                <span className="file-icon">
+                  {f.kind === 'homework' ? <IconPencil /> : <IconFile />}
+                </span>
+                <span className="file-name">
+                  {f.original_name}
+                  {f.kind === 'homework' && (
+                    <span className="type-tag">
+                      הגשה{f.uploader_name ? ` · ${f.uploader_name}` : ''}
+                    </span>
+                  )}
+                </span>
+                <span className="file-size muted">{humanSize(f.size)}</span>
+                <span className="file-actions">
+                  <motion.button
+                    className="btn-sm"
+                    onClick={() =>
+                      api.downloadFile(f.id, f.original_name, f.external_url)
+                    }
+                    {...tapScale}
                   >
-                    מחק
-                  </button>
-                )}
-              </span>
-            </li>
-          ))}
-        </ul>
+                    <IconDownload width={15} height={15} /> הורדה
+                  </motion.button>
+                  {canDelete(f) && (
+                    <motion.button
+                      className="btn-sm btn-danger"
+                      onClick={() => handleDelete(f)}
+                      {...tapScale}
+                    >
+                      <IconX width={15} height={15} /> מחק
+                    </motion.button>
+                  )}
+                </span>
+              </motion.li>
+            ))}
+          </AnimatePresence>
+        </motion.ul>
       )}
     </div>
   )

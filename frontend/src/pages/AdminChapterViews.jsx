@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback, useMemo } from 'react'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
+import '../styles/admin-ops.css'
 
 // Admin view: "who opened which chapter, and when". Each row is one chapter
 // open, logged server-side when a student fetches a chapter (see the backend
@@ -112,7 +113,7 @@ export default function AdminChapterViews() {
           <p>עדיין לא נרשמו צפיות בפרקים.</p>
         </div>
       ) : (
-        <div className="card">
+        <div className="card admin-ops-card">
           <div className="table-wrap">
             <table className="data-table">
               <thead>
@@ -127,18 +128,18 @@ export default function AdminChapterViews() {
               <tbody>
                 {shown.map((v) => (
                   <tr key={v.id}>
-                    <td>{v.user_name || v.username || `#${v.user_id}`}</td>
-                    <td>{v.course_title || '—'}</td>
-                    <td>
+                    <td data-label="תלמיד">{v.user_name || v.username || `#${v.user_id}`}</td>
+                    <td data-label="קורס">{v.course_title || '—'}</td>
+                    <td data-label="פרק">
                       {v.chapter_number != null ? `פרק ${v.chapter_number}` : ''}
                       {v.chapter_title ? ` · ${v.chapter_title}` : ''}
                     </td>
-                    <td className="muted">
+                    <td className="muted" data-label="מתי">
                       {v.created_at
                         ? new Date(v.created_at).toLocaleString('he-IL')
                         : '—'}
                     </td>
-                    <td>
+                    <td data-label="">
                       <button
                         className="btn-sm btn-danger"
                         title="מחק רישום"

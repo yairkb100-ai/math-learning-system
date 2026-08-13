@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback, useMemo } from 'react'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
+import '../styles/admin-ops.css'
 
 const REQ_STATUS = {
   pending: { he: 'ממתין', cls: 'pending' },
@@ -519,7 +520,7 @@ export default function AdminLessons() {
       </p>
 
       {/* 1 · Pending requests — the action center */}
-      <section className="card lesson-section">
+      <section className="card lesson-section admin-ops-card">
         <h2 className="section-h">
           בקשות ממתינות{pending.length > 0 && <span className="count-pill">{pending.length}</span>}
         </h2>
@@ -553,7 +554,7 @@ export default function AdminLessons() {
       </section>
 
       {/* 2 · Price list — the lengths offered and what each one costs */}
-      <section className="card lesson-section">
+      <section className="card lesson-section admin-ops-card">
         <h2 className="section-h">מסלולי שיעור ומחירים</h2>
         <p className="page-sub" style={{ marginTop: -4 }}>
           כאן קובעים אילו מסלולי שיעור אתם מציעים — לכל מסלול שם, אורך ומחיר. כמה
@@ -690,7 +691,7 @@ export default function AdminLessons() {
       </section>
 
       {/* 3 · Big availability calendar — the centerpiece */}
-      <section className="card lesson-section">
+      <section className="card lesson-section admin-ops-card">
         <div className="section-head-row">
           <h2 className="section-h" style={{ margin: 0 }}>לוח הזמינות</h2>
           <div className="cal-nav">
@@ -844,7 +845,7 @@ export default function AdminLessons() {
       </section>
 
       {/* 4 · The schedule, grouped by day */}
-      <section className="card lesson-section">
+      <section className="card lesson-section admin-ops-card">
         <div className="section-head-row">
           <h2 className="section-h" style={{ margin: 0 }}>
             לוח התורים
@@ -882,7 +883,7 @@ export default function AdminLessons() {
       </section>
 
       {/* 5 · Open availability (collapsed by default to keep the view calm) */}
-      <section className="card lesson-section">
+      <section className="card lesson-section admin-ops-card">
         <details className="avail-block">
           <summary className="avail-summary">＋ פתיחת זמינות ומועדים</summary>
 
@@ -1069,7 +1070,7 @@ export default function AdminLessons() {
 
       {/* 6 · Decided history */}
       {decided.length > 0 && (
-        <section className="card lesson-section">
+        <section className="card lesson-section admin-ops-card">
           <details className="avail-block">
             <summary className="avail-summary">היסטוריית בקשות ({decided.length})</summary>
             <div className="req-list" style={{ marginTop: 12 }}>

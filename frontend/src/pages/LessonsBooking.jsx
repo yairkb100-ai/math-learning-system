@@ -1,6 +1,22 @@
 import { useEffect, useMemo, useState, useCallback } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
+import {
+  fadeInUp,
+  staggerContainer,
+  tapScale,
+  DURATION,
+  EASE_OUT,
+  EASE_IN,
+} from '../lib/motion.js'
+import '../styles/account-growth.css'
+
+const confirmVariants = {
+  hidden: { opacity: 0, y: 10 },
+  show: { opacity: 1, y: 0, transition: { duration: DURATION.medium, ease: EASE_OUT } },
+  exit: { opacity: 0, y: 10, transition: { duration: DURATION.short, ease: EASE_IN } },
+}
 
 const STATUS = {
   pending: { he: 'ממתין לאישור', cls: 'pending' },
@@ -123,15 +139,21 @@ export default function LessonsBooking() {
   const priced = types.filter((t) => t.price_nis > 0)
 
   return (
-    <div dir="rtl" className="lessons-page booking-page">
-      <h1 className="page-title">📅 קביעת שיעור פרטי</h1>
-      <p className="page-sub">
+    <motion.div
+      dir="rtl"
+      className="lessons-page booking-page"
+      initial="hidden"
+      animate="show"
+      variants={staggerContainer}
+    >
+      <motion.h1 className="page-title" variants={fadeInUp}>📅 קביעת שיעור פרטי</motion.h1>
+      <motion.p className="page-sub" variants={fadeInUp}>
         בחרו יום ושעה שנוחים לכם ושלחו בקשה. הבקשה ממתינה לאישור המורה, ותקבלו עדכון כאן ברגע שתאושר.
-      </p>
+      </motion.p>
 
       {/* המחירון של המורה — מוצג רק אם הוגדרו מחירים */}
       {priced.length > 0 && (
-        <div className="lesson-price-strip">
+        <motion.div className="lesson-price-strip" variants={fadeInUp}>
           <span className="lps-label">מחירי השיעורים:</span>
           {priced.map((t) => (
             <span key={t.id} className="lps-item">
@@ -143,54 +165,62 @@ export default function LessonsBooking() {
             </span>
           ))}
           <span className="lps-hint">התשלום נסגר ישירות עם המורה.</span>
-        </div>
+        </motion.div>
       )}
 
       {/* My requests */}
       {activeReqs.length > 0 && (
-        <section className="card" style={{ marginBottom: 20 }}>
+        <motion.section className="card" style={{ marginBottom: 20 }} variants={fadeInUp}>
           <h2 className="section-h">הבקשות שלי</h2>
-          <div className="req-list">
-            {activeReqs.map((r) => {
-              const st = STATUS[r.status] || { he: r.status, cls: '' }
-              return (
-                <div key={r.id} className="req-row">
-                  <div className="req-when">
-                    <strong>{r.starts_at ? fmtFullDate(r.starts_at) : '—'}</strong>
-                    <span>
-                      {r.starts_at ? fmtTime(r.starts_at) : ''}
-                      {r.lesson_type_name ? ` · ${r.lesson_type_name}` : ''}
-                      {r.duration_min ? ` · ${r.duration_min} דק׳` : ''}
-                      {r.price_nis ? ` · ${shekels(r.price_nis)}` : ''}
-                    </span>
-                    {r.student_note && (
-                      <span className="req-note">“{r.student_note}”</span>
-                    )}
-                    {r.admin_note && (
-                      <span className="req-admin-note">מהמורה: {r.admin_note}</span>
-                    )}
-                  </div>
-                  <div className="req-actions">
-                    <span className={`lesson-badge ${st.cls}`}>{st.he}</span>
-                    {r.status === 'pending' && (
-                      <button
-                        className="btn-sm btn-ghost"
-                        disabled={busy}
-                        onClick={() => cancelReq(r.id)}
-                      >
-                        ביטול
-                      </button>
-                    )}
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        </section>
+          <motion.div className="req-list" initial="hidden" animate="show" variants={staggerContainer}>
+            <AnimatePresence>
+              {activeReqs.map((r) => {
+                const st = STATUS[r.status] || { he: r.status, cls: '' }
+                return (
+                  <motion.div
+                    key={r.id}
+                    className="req-row"
+                    variants={fadeInUp}
+                    exit={{ opacity: 0, height: 0, transition: { duration: DURATION.short, ease: EASE_IN } }}
+                  >
+                    <div className="req-when">
+                      <strong>{r.starts_at ? fmtFullDate(r.starts_at) : '—'}</strong>
+                      <span>
+                        {r.starts_at ? fmtTime(r.starts_at) : ''}
+                        {r.lesson_type_name ? ` · ${r.lesson_type_name}` : ''}
+                        {r.duration_min ? ` · ${r.duration_min} דק׳` : ''}
+                        {r.price_nis ? ` · ${shekels(r.price_nis)}` : ''}
+                      </span>
+                      {r.student_note && (
+                        <span className="req-note">“{r.student_note}”</span>
+                      )}
+                      {r.admin_note && (
+                        <span className="req-admin-note">מהמורה: {r.admin_note}</span>
+                      )}
+                    </div>
+                    <div className="req-actions">
+                      <span className={`lesson-badge ${st.cls}`}>{st.he}</span>
+                      {r.status === 'pending' && (
+                        <motion.button
+                          className="btn-sm btn-ghost"
+                          disabled={busy}
+                          onClick={() => cancelReq(r.id)}
+                          {...tapScale}
+                        >
+                          ביטול
+                        </motion.button>
+                      )}
+                    </div>
+                  </motion.div>
+                )
+              })}
+            </AnimatePresence>
+          </motion.div>
+        </motion.section>
       )}
 
       {/* Calendly-style picker: choose a day, then a time */}
-      <section className="card booking-card">
+      <motion.section className="card booking-card" variants={fadeInUp}>
         {days.length === 0 ? (
           <div className="booking-empty">
             <span className="booking-empty-emoji">🗓️</span>
@@ -202,13 +232,13 @@ export default function LessonsBooking() {
             {/* Step 1 — day */}
             <div className="booking-days">
               <h2 className="section-h">בחרו יום</h2>
-              <div className="day-strip">
+              <motion.div className="day-strip" initial="hidden" animate="show" variants={staggerContainer}>
                 {days.map((k) => {
                   const first = slotsByDay.get(k)[0]
                   const count = slotsByDay.get(k).length
                   const active = k === selectedDay
                   return (
-                    <button
+                    <motion.button
                       key={k}
                       type="button"
                       className={`booking-day${active ? ' active' : ''}`}
@@ -217,16 +247,18 @@ export default function LessonsBooking() {
                         setPickedSlot(null)
                         setNote('')
                       }}
+                      variants={fadeInUp}
+                      {...tapScale}
                     >
                       <span className="day-weekday">{fmtWeekday(first.starts_at)}</span>
                       <span className="day-date">{fmtDayMonth(first.starts_at)}</span>
                       <span className="day-count">
                         {count} {count === 1 ? 'מועד' : 'מועדים'}
                       </span>
-                    </button>
+                    </motion.button>
                   )
                 })}
-              </div>
+              </motion.div>
             </div>
 
             {/* Step 2 — time */}
@@ -234,76 +266,97 @@ export default function LessonsBooking() {
               <h2 className="section-h">
                 {selectedDay ? `בחרו שעה · ${fmtFullDate(dayTimes[0].starts_at)}` : 'בחרו שעה'}
               </h2>
-              <div className="time-grid">
-                {dayTimes.map((s) => (
-                  <button
-                    key={s.id}
-                    type="button"
-                    className={`time-slot${pickedSlot?.id === s.id ? ' active' : ''}`}
-                    disabled={busy}
-                    onClick={() => {
-                      setPickedSlot(s)
-                      setNote('')
-                    }}
-                    title={s.note || ''}
-                  >
-                    {fmtTime(s.starts_at)}
-                    {s.lesson_type_name && <span className="time-track">{s.lesson_type_name}</span>}
-                    <span className="time-dur">
-                      {s.duration_min} דק׳
-                      {s.price_nis ? ` · ${shekels(s.price_nis)}` : ''}
-                    </span>
-                  </button>
-                ))}
-              </div>
-
-              {/* Step 3 — confirm */}
-              {pickedSlot && (
-                <div className="booking-confirm">
-                  <div className="confirm-when">
-                    <strong>{fmtFullDate(pickedSlot.starts_at)}</strong>
-                    {pickedSlot.lesson_type_name && (
-                      <span className="confirm-track">{pickedSlot.lesson_type_name}</span>
-                    )}
-                    <span>
-                      {fmtTime(pickedSlot.starts_at)} · {pickedSlot.duration_min} דק׳
-                      {pickedSlot.price_nis ? ` · ${shekels(pickedSlot.price_nis)}` : ''}
-                    </span>
-                    {pickedSlot.note && <span className="slot-note">{pickedSlot.note}</span>}
-                  </div>
-                  <input
-                    type="text"
-                    className="text-input"
-                    placeholder="על מה תרצו לעבוד? (לא חובה)"
-                    value={note}
-                    maxLength={300}
-                    onChange={(e) => setNote(e.target.value)}
-                  />
-                  <div className="confirm-actions">
-                    <button
-                      className="btn-sm btn-primary"
-                      disabled={busy}
-                      onClick={submitRequest}
-                    >
-                      שליחת בקשה לשיעור
-                    </button>
-                    <button
-                      className="btn-sm btn-ghost"
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={selectedDay || 'none'}
+                  className="time-grid"
+                  initial="hidden"
+                  animate="show"
+                  exit="hidden"
+                  variants={staggerContainer}
+                >
+                  {dayTimes.map((s) => (
+                    <motion.button
+                      key={s.id}
+                      type="button"
+                      className={`time-slot${pickedSlot?.id === s.id ? ' active' : ''}`}
                       disabled={busy}
                       onClick={() => {
-                        setPickedSlot(null)
+                        setPickedSlot(s)
                         setNote('')
                       }}
+                      title={s.note || ''}
+                      variants={fadeInUp}
+                      {...tapScale}
                     >
-                      ביטול
-                    </button>
-                  </div>
-                </div>
-              )}
+                      {fmtTime(s.starts_at)}
+                      {s.lesson_type_name && <span className="time-track">{s.lesson_type_name}</span>}
+                      <span className="time-dur">
+                        {s.duration_min} דק׳
+                        {s.price_nis ? ` · ${shekels(s.price_nis)}` : ''}
+                      </span>
+                    </motion.button>
+                  ))}
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Step 3 — confirm */}
+              <AnimatePresence>
+                {pickedSlot && (
+                  <motion.div
+                    className="booking-confirm"
+                    variants={confirmVariants}
+                    initial="hidden"
+                    animate="show"
+                    exit="exit"
+                  >
+                    <div className="confirm-when">
+                      <strong>{fmtFullDate(pickedSlot.starts_at)}</strong>
+                      {pickedSlot.lesson_type_name && (
+                        <span className="confirm-track">{pickedSlot.lesson_type_name}</span>
+                      )}
+                      <span>
+                        {fmtTime(pickedSlot.starts_at)} · {pickedSlot.duration_min} דק׳
+                        {pickedSlot.price_nis ? ` · ${shekels(pickedSlot.price_nis)}` : ''}
+                      </span>
+                      {pickedSlot.note && <span className="slot-note">{pickedSlot.note}</span>}
+                    </div>
+                    <input
+                      type="text"
+                      className="text-input"
+                      placeholder="על מה תרצו לעבוד? (לא חובה)"
+                      value={note}
+                      maxLength={300}
+                      onChange={(e) => setNote(e.target.value)}
+                    />
+                    <div className="confirm-actions">
+                      <motion.button
+                        className="btn-sm btn-primary"
+                        disabled={busy}
+                        onClick={submitRequest}
+                        {...tapScale}
+                      >
+                        שליחת בקשה לשיעור
+                      </motion.button>
+                      <motion.button
+                        className="btn-sm btn-ghost"
+                        disabled={busy}
+                        onClick={() => {
+                          setPickedSlot(null)
+                          setNote('')
+                        }}
+                        {...tapScale}
+                      >
+                        ביטול
+                      </motion.button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </div>
         )}
-      </section>
-    </div>
+      </motion.section>
+    </motion.div>
   )
 }

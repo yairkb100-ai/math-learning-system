@@ -137,8 +137,17 @@
   padding: 44px 24px;
 }
 .analytics-empty-icon {
+  display: inline-flex;
   font-size: 3rem;
+  color: var(--accent-2, var(--accent));
   margin-bottom: 10px;
+}
+
+/* Horizontal-bar chart (per-subject accuracy) can outgrow the card on very
+   narrow phones once there are many subjects — scope the scroll to the
+   chart itself so the page body never gains horizontal scroll. */
+.analytics-hbar-scroll {
+  overflow-x: auto;
 }
 .analytics-empty h2 {
   margin: 0 0 8px;

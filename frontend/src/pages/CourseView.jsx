@@ -1,9 +1,11 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useParams, Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
 import { InlineMathText } from '../components/MathText.jsx'
 import MathDoodles from '../components/MathDoodles.jsx'
+import { fadeInUp, staggerContainer, hoverLift } from '../lib/motion.js'
 import {
   IconArrowStart,
   IconLayers,
@@ -13,6 +15,8 @@ import {
   IconCompass,
   IconLock,
 } from '../components/icons.jsx'
+
+const MotionLink = motion(Link)
 
 // Matches the catalog: courses are labelled by school year, not by difficulty.
 const GRADE_LABELS = {
@@ -157,12 +161,17 @@ export default function CourseView() {
         </div>
       )}
 
-      <ol className="chapter-list">
+      <motion.ol
+        className="chapter-list"
+        variants={staggerContainer}
+        initial="hidden"
+        animate="show"
+      >
         {chapters.map((ch) =>
           ch.locked ? (
             // Not a Link: a locked chapter has no content to show, and letting
             // the row navigate would land the student on the 402 paywall.
-            <li key={ch.number}>
+            <motion.li key={ch.number} variants={fadeInUp}>
               <div className="chapter-row is-locked">
                 <span className="chapter-num">{ch.number}</span>
                 <span className="chapter-title">{ch.title}</span>
@@ -171,12 +180,13 @@ export default function CourseView() {
                   {isRtl ? 'נעול' : 'Locked'}
                 </span>
               </div>
-            </li>
+            </motion.li>
           ) : (
-            <li key={ch.number}>
-              <Link
+            <motion.li key={ch.number} variants={fadeInUp}>
+              <MotionLink
                 to={`/courses/${id}/chapters/${ch.number}`}
                 className="chapter-row"
+                {...hoverLift}
               >
                 <span className="chapter-num">{ch.number}</span>
                 <span className="chapter-title">{ch.title}</span>
@@ -184,11 +194,11 @@ export default function CourseView() {
                   {isRtl ? 'התחל' : 'Start'}
                   <IconArrowStart className="chapter-go-arrow" />
                 </span>
-              </Link>
-            </li>
+              </MotionLink>
+            </motion.li>
           )
         )}
-      </ol>
+      </motion.ol>
     </section>
   )
 }

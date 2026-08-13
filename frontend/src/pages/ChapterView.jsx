@@ -1,10 +1,13 @@
 import { useEffect, useMemo, useState, useCallback, useRef } from 'react'
 import { useParams, Link } from 'react-router-dom'
+import { motion, AnimatePresence } from 'framer-motion'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
 import MathText, { InlineMathText } from '../components/MathText.jsx'
 import Quiz from '../components/Quiz.jsx'
 import { celebrate } from '../lib/celebrate.js'
+import { fadeInUp, tapScale, DURATION, EASE_OUT } from '../lib/motion.js'
+import '../styles/catalog-course.css'
 import {
   IconPlay,
   IconBook,
@@ -272,6 +275,16 @@ export default function ChapterView() {
       dir={rtl ? 'rtl' : 'ltr'}
       className={`chapter-view${rtl ? ' rtl' : ''}`}
     >
+      <div className="mobile-progress" aria-hidden="true">
+        <motion.div
+          className="mobile-progress-fill"
+          style={{ transformOrigin: rtl ? 'right' : 'left' }}
+          initial={false}
+          animate={{ scaleX: pct / 100 }}
+          transition={{ duration: DURATION.medium, ease: EASE_OUT }}
+        />
+      </div>
+
       <p className="crumbs">
         <Link to={`/courses/${id}`} className="crumb-link">
           <IconArrowStart className="crumb-arrow" />
@@ -298,37 +311,53 @@ export default function ChapterView() {
           </span>
         </div>
         <div className="step-track">
-          <div className="step-fill" style={{ width: `${pct}%` }} />
+          <motion.div
+            className="step-fill"
+            style={{ width: '100%', transformOrigin: rtl ? 'right' : 'left' }}
+            initial={false}
+            animate={{ scaleX: pct / 100 }}
+            transition={{ duration: DURATION.medium, ease: EASE_OUT }}
+          />
         </div>
       </div>
 
-      <StepBody
-        key={step}
-        step={current}
-        chapter={chapter}
-        courseId={id}
-        chapterNumber={number}
-        rtl={rtl}
-        completed={completed}
-        marking={marking}
-        markComplete={markComplete}
-        nextNumber={nextNumber}
-        nextLocked={nextLocked}
-        chapterFiles={chapterFiles}
-      />
+      <AnimatePresence>
+        <motion.div
+          key={step}
+          variants={fadeInUp}
+          initial="hidden"
+          animate="show"
+          exit="hidden"
+        >
+          <StepBody
+            step={current}
+            chapter={chapter}
+            courseId={id}
+            chapterNumber={number}
+            rtl={rtl}
+            completed={completed}
+            marking={marking}
+            markComplete={markComplete}
+            nextNumber={nextNumber}
+            nextLocked={nextLocked}
+            chapterFiles={chapterFiles}
+          />
+        </motion.div>
+      </AnimatePresence>
 
       <div className="card step-nav">
-        <button
+        <motion.button
           className="btn btn-ghost"
           onClick={() => setStep((s) => Math.max(0, s - 1))}
           disabled={step === 0}
+          {...tapScale}
         >
           <IconArrowStart className="btn-arrow-back" />
           {t(rtl, 'הקודם', 'Back')}
-        </button>
+        </motion.button>
         <span className="step-dots">
           {steps.map((s, i) => (
-            <button
+            <motion.button
               key={i}
               className={
                 'step-dot' +
@@ -337,14 +366,19 @@ export default function ChapterView() {
               }
               title={s.label}
               onClick={() => setStep(i)}
+              {...tapScale}
             />
           ))}
         </span>
         {!isLast ? (
-          <button className="btn" onClick={() => setStep((s) => s + 1)}>
+          <motion.button
+            className="btn"
+            onClick={() => setStep((s) => s + 1)}
+            {...tapScale}
+          >
             {t(rtl, 'הבא', 'Next')}
             <IconArrowStart className="btn-arrow" />
-          </button>
+          </motion.button>
         ) : (
           <span />
         )}
