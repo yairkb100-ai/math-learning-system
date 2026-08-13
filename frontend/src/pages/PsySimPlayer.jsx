@@ -199,37 +199,43 @@ export default function PsySimPlayer() {
                   transition={{ duration: QUICK, ease: EASE_OUT }}
                 >
                   <div className="psy-question-num">שאלה {index + 1}</div>
-                  <div className="psy-stem">
-                    <MathText text={current.stem} />
-                  </div>
-                  {current.figure && (
-                    <div className="psy-figure">
-                      <MathText text={current.figure} />
+                  <div className="psy-question-split">
+                    <div className="psy-question-content">
+                      <div className="psy-stem">
+                        <MathText text={current.stem} />
+                      </div>
+                      {current.figure && (
+                        <div className="psy-figure">
+                          <MathText text={current.figure} />
+                        </div>
+                      )}
                     </div>
-                  )}
-                  <motion.ul
-                    className="psy-options"
-                    variants={staggerContainer}
-                    initial="hidden"
-                    animate="show"
-                  >
-                    {current.options.map((opt, i) => (
-                      <motion.li key={i} variants={fadeInUp}>
-                        <motion.button
-                          type="button"
-                          className={`psy-option${answers[current.ref] === i ? ' is-chosen' : ''}`}
-                          onClick={() => choose(current.ref, i)}
-                          whileTap={{ scale: 0.98 }}
-                          transition={{ duration: DURATION.short, ease: EASE_OUT }}
-                        >
-                          <span className="psy-option-letter">{OPTION_LETTERS[i]}</span>
-                          <span className="psy-option-text">
-                            <MathText text={opt} />
-                          </span>
-                        </motion.button>
-                      </motion.li>
-                    ))}
-                  </motion.ul>
+                    <div className="psy-question-answer">
+                      <motion.ul
+                        className="psy-options"
+                        variants={staggerContainer}
+                        initial="hidden"
+                        animate="show"
+                      >
+                        {current.options.map((opt, i) => (
+                          <motion.li key={i} variants={fadeInUp}>
+                            <motion.button
+                              type="button"
+                              className={`psy-option${answers[current.ref] === i ? ' is-chosen' : ''}`}
+                              onClick={() => choose(current.ref, i)}
+                              whileTap={{ scale: 0.98 }}
+                              transition={{ duration: DURATION.short, ease: EASE_OUT }}
+                            >
+                              <span className="psy-option-letter">{OPTION_LETTERS[i]}</span>
+                              <span className="psy-option-text">
+                                <MathText text={opt} />
+                              </span>
+                            </motion.button>
+                          </motion.li>
+                        ))}
+                      </motion.ul>
+                    </div>
+                  </div>
 
                   <div className="psy-question-actions">
                     <motion.button

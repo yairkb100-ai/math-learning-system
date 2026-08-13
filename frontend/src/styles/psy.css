@@ -11,6 +11,12 @@
   margin: 0 auto;
   padding: 24px 16px 60px;
 }
+/* The drill screen hosts the same open two-column question split as the timed
+   player, so it needs the wider stage — the hub/results pages stay narrower
+   since their cards are meant to wrap, not spread. */
+.psy-drill {
+  max-width: 1560px;
+}
 
 /* ---------- hero ---------- */
 .psy-hero {
@@ -281,9 +287,9 @@
 
 /* ---------- player ---------- */
 .psy-player {
-  max-width: 1180px;
+  max-width: 1640px;
   margin: 0 auto;
-  padding: 16px 16px 50px;
+  padding: 16px 20px 50px;
 }
 .psy-player-bar {
   position: sticky;
@@ -328,12 +334,12 @@
   min-width: 0;
 }
 .psy-passage {
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  border-inline-start: 4px solid var(--accent);
-  border-radius: 12px;
-  padding: 16px 18px;
-  margin-bottom: 14px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  padding: 0 0 16px;
+  margin-bottom: 20px;
   line-height: 1.85;
   max-height: 46vh;
   overflow-y: auto;
@@ -343,12 +349,16 @@
   font-family: var(--font-display);
   color: var(--accent);
 }
+/* Flattened on purpose: the real exam doesn't box the question in a card, it
+   just spreads stem and options across the open page. The two-column split
+   below (content right, options left — RTL reading order) does the visual
+   work that a border used to. */
 .psy-question {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 20px;
-  box-shadow: var(--shadow);
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 4px 0 0;
+  box-shadow: none;
 }
 .psy-question-solo {
   margin-top: 16px;
@@ -361,7 +371,9 @@
   font-size: 0.85rem;
   color: var(--muted);
   font-weight: 700;
-  margin-bottom: 10px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
 }
 .psy-stopwatch {
   font-variant-numeric: tabular-nums;
@@ -370,33 +382,51 @@
 .psy-stopwatch.is-over {
   color: var(--no);
 }
+
+/* The split itself: content (stem/figure) reads first in RTL, so it sits in
+   the first grid column, which renders on the right; options sit second, on
+   the left — matching how the real exam lays a question out. */
+.psy-question-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 36px;
+  align-items: start;
+}
+.psy-question-content {
+  padding-inline-end: 36px;
+  border-inline-end: 1px solid var(--border);
+  min-width: 0;
+}
+.psy-question-answer {
+  min-width: 0;
+}
 .psy-stem {
-  font-size: 1.08rem;
-  line-height: 1.8;
+  font-size: 1.1rem;
+  line-height: 1.85;
 }
 .psy-figure {
   display: flex;
   justify-content: center;
-  margin: 14px 0;
+  margin: 18px 0 4px;
 }
 
 .psy-options {
   list-style: none;
-  margin: 16px 0 0;
+  margin: 0;
   padding: 0;
   display: grid;
-  gap: 8px;
+  gap: 10px;
 }
 .psy-option {
   width: 100%;
   display: flex;
-  align-items: flex-start;
-  gap: 12px;
+  align-items: center;
+  gap: 14px;
   text-align: start;
   border: 1px solid var(--border);
-  background: var(--surface);
+  background: transparent;
   border-radius: 10px;
-  padding: 12px 14px;
+  padding: 14px 16px;
   font: inherit;
   color: var(--text);
   cursor: pointer;
@@ -456,11 +486,13 @@
 .psy-navigator {
   position: sticky;
   top: 86px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 16px;
-  box-shadow: var(--shadow);
+  background: transparent;
+  border: none;
+  border-inline-start: 1px solid var(--border);
+  border-radius: 0;
+  padding: 4px 0;
+  padding-inline-start: 18px;
+  box-shadow: none;
 }
 .psy-navigator-head {
   font-size: 0.85rem;
@@ -961,6 +993,16 @@
   }
   .psy-player-grid {
     grid-template-columns: 1fr;
+  }
+  .psy-question-split {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .psy-question-content {
+    padding-inline-end: 0;
+    border-inline-end: none;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border);
   }
   /* The sidebar navigator doesn't fit next to the question pane here — it's
      replaced by a fixed bottom bar + bottom sheet (see .psy-mobile-navbar /

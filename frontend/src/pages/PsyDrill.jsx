@@ -19,6 +19,9 @@ const DOMAIN_HE = {
   verbal: 'מילולי',
   quantitative: 'כמותי',
   figural: 'צורני',
+  logic: 'לוגי',
+  spatial: 'מרחבי',
+  speed: 'זריזות ודיוק',
   english: 'אנגלית',
 }
 
@@ -199,50 +202,55 @@ export default function PsyDrill() {
               </aside>
             )}
 
-            <div className="psy-stem">
-              <MathText text={current.stem} />
-            </div>
-            {current.figure && (
-              <div className="psy-figure">
-                <MathText text={current.figure} />
+            <div className="psy-question-split">
+              <div className="psy-question-content">
+                <div className="psy-stem">
+                  <MathText text={current.stem} />
+                </div>
+                {current.figure && (
+                  <div className="psy-figure">
+                    <MathText text={current.figure} />
+                  </div>
+                )}
               </div>
-            )}
-
-            <motion.ul
-              className="psy-options"
-              variants={staggerContainer}
-              initial="hidden"
-              animate="show"
-            >
-              {current.options.map((opt, i) => {
-                const state = !result
-                  ? chosen === i
-                    ? ' is-chosen'
-                    : ''
-                  : i === result.correct_index
-                    ? ' is-key'
-                    : i === chosen
-                      ? ' is-wrong'
-                      : ''
-                return (
-                  <motion.li key={i} variants={fadeInUp}>
-                    <motion.button
-                      type="button"
-                      className={`psy-option${state}`}
-                      onClick={() => answer(i)}
-                      disabled={!!result}
-                      whileTap={result ? {} : { scale: 0.98 }}
-                      transition={{ duration: DURATION.short, ease: EASE_OUT }}
-                    >
-                      <span className="psy-option-letter">{OPTION_LETTERS[i]}</span>
-                      <span className="psy-option-text">
-                        <MathText text={opt} />
-                      </span>
-                    </motion.button>
-                  </motion.li>
-                )
-              })}
-            </motion.ul>
+              <div className="psy-question-answer">
+                <motion.ul
+                  className="psy-options"
+                  variants={staggerContainer}
+                  initial="hidden"
+                  animate="show"
+                >
+                  {current.options.map((opt, i) => {
+                    const state = !result
+                      ? chosen === i
+                        ? ' is-chosen'
+                        : ''
+                      : i === result.correct_index
+                        ? ' is-key'
+                        : i === chosen
+                          ? ' is-wrong'
+                          : ''
+                    return (
+                      <motion.li key={i} variants={fadeInUp}>
+                        <motion.button
+                          type="button"
+                          className={`psy-option${state}`}
+                          onClick={() => answer(i)}
+                          disabled={!!result}
+                          whileTap={result ? {} : { scale: 0.98 }}
+                          transition={{ duration: DURATION.short, ease: EASE_OUT }}
+                        >
+                          <span className="psy-option-letter">{OPTION_LETTERS[i]}</span>
+                          <span className="psy-option-text">
+                            <MathText text={opt} />
+                          </span>
+                        </motion.button>
+                      </motion.li>
+                    )
+                  })}
+                </motion.ul>
+              </div>
+            </div>
 
             <AnimatePresence>
               {result && (
