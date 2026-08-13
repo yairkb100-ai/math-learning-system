@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate, useParams, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion, MotionConfig } from 'framer-motion'
-import { AuthProvider } from './context/AuthContext.jsx'
+import { AuthProvider, useAuth } from './context/AuthContext.jsx'
 import PrivateRoute from './components/PrivateRoute.jsx'
 import Navbar from './components/Navbar.jsx'
 import BookLessonFab from './components/BookLessonFab.jsx'
@@ -12,6 +12,7 @@ import { pageTransition } from './lib/motion.js'
 
 import LoginPage from './pages/LoginPage.jsx'
 import RegisterPage from './pages/RegisterPage.jsx'
+import LandingPage from './pages/LandingPage.jsx'
 import CourseList from './pages/CourseList.jsx'
 import CourseView from './pages/CourseView.jsx'
 import ChapterView from './pages/ChapterView.jsx'
@@ -82,15 +83,13 @@ function AppRoutes() {
               לא יחתכו אותו. מכאן הוא נכנס לטופס ההרשמה כפרמטר. */}
           <Route path="/join/:code" element={<JoinRedirect />} />
 
+          {/* "/" is public: signed-out visitors see the SEO landing page
+              (this is the only URL Google ever gets real content from,
+              since every other route sits behind PrivateRoute), signed-in
+              students/admins see their course catalog as before. */}
+          <Route path="/" element={<HomeRoute />} />
+
           {/* Student */}
-          <Route
-            path="/"
-            element={
-              <PrivateRoute>
-                <CourseList />
-              </PrivateRoute>
-            }
-          />
           <Route
             path="/courses/:id"
             element={
@@ -329,6 +328,12 @@ function AppRoutes() {
 
 // /join/<קוד> → טופס ההרשמה עם הקוד. הקוד מנורמל לאותיות גדולות כי הוא מוקלד
 // ומועתק ידנית, ו-replace כדי שכפתור "אחורה" לא יחזיר אותנו להפניה.
+function HomeRoute() {
+  const { user, isLoading } = useAuth()
+  if (isLoading) return null
+  return user ? <CourseList /> : <LandingPage />
+}
+
 function JoinRedirect() {
   const { code } = useParams()
   return <Navigate to={`/register?ref=${encodeURIComponent((code || '').toUpperCase())}`} replace />

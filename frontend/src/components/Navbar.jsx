@@ -209,6 +209,15 @@ export default function Navbar() {
             </div>
           </div>
         )}
+
+        {/* Signed-out visitor (landing page / any public route) — just the
+            two entry points, no burger menu since there's nothing to list. */}
+        {!user && (
+          <div className="topbar-guest">
+            <Link to="/login" className="nav-link">התחברות</Link>
+            <Link to="/register" className="btn btn-sm">הרשמה</Link>
+          </div>
+        )}
       </div>
 
       {/* Mobile drawer — a real overlay + slide-in panel (below 1080px only;

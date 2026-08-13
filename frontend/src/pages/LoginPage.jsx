@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useAuth } from '../context/AuthContext.jsx'
 import api from '../api.js'
+import { usePageMeta } from '../lib/seo.js'
 import { fadeInUp, staggerContainer, tapScale, DURATION, EASE_OUT, EASE_IN } from '../lib/motion.js'
 
 // שקופית קטנה מתחת לשדה — לא רק "מופיע", גם "נעלם" יפה כשהשגיאה מתנקה.
@@ -23,6 +24,11 @@ const errorVariants = {
 }
 
 export default function LoginPage() {
+  usePageMeta({
+    title: 'התחברות',
+    description: 'התחברות ללומדת מתמטיקה — קורסים, תרגול ומבחנים לפי כיתה, והכנה לקרני.',
+    path: '/login',
+  })
   const { login } = useAuth()
   const navigate = useNavigate()
   const [username, setUsername] = useState('')
