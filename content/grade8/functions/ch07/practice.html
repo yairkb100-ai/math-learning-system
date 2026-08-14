@@ -104,14 +104,14 @@
       <span class="tag easy">קל</span></div>
     <div>מהו קצב ההשתנות של הפונקציה שבטבלה? האם הגרף שלה הוא קו ישר?<br><br>| x | 0 | 1 | 2 | 3 |<br>|---|---|---|---|---|<br>| y | 2 | 7 | 12 | 17 |</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">בכל פעם ש-x גדל ב-1, ערך ה-y גדל ב-5: <span class="eq">7 - 2 = 5</span>, <span class="eq">12 - 7 = 5</span>, <span class="eq">17 - 12 = 5</span>. קצב ההשתנות הוא 5, והוא קבוע — לכן הגרף הוא קו ישר.</div>
+    <div class="sol">בכל פעם ש-<span class="eq">x</span> גדל ב-1, ערך ה-<span class="eq">y</span> גדל ב-5: <span class="eq">7 - 2 = 5</span>, <span class="eq">12 - 7 = 5</span>, <span class="eq">17 - 12 = 5</span>. קצב ההשתנות הוא 5, והוא קבוע — לכן הגרף הוא קו ישר.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 2: קצב משתי נקודות</strong>
       <span class="tag easy">קל</span></div>
     <div>קו ישר עובר בנקודות <span class="eq">(2, 5)</span> ו-<span class="eq">(6, 13)</span>:<br><br><br><br>חשבו את קצב ההשתנות שלו.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">השינוי ב-y: <span class="eq">13 - 5 = 8</span>. השינוי ב-x: <span class="eq">6 - 2 = 4</span>. קצב ההשתנות: <span class="eq">8 : 4 = 2</span> — על כל יחידה ש-x גדל, y גדל ב-2.</div>
+    <div class="sol">השינוי ב-<span class="eq">y</span>: <span class="eq">13 - 5 = 8</span>. השינוי ב-<span class="eq">x</span>: <span class="eq">6 - 2 = 4</span>. קצב ההשתנות: <span class="eq">8 : 4 = 2</span> — על כל יחידה ש-<span class="eq">x</span> גדל, <span class="eq">y</span> גדל ב-2.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 3: מי הולך מהר יותר?</strong>
@@ -125,35 +125,49 @@
       <span class="tag hard">מאתגר</span></div>
     <div>נר בגובה 20 סנטימטרים הודלק, וכעבור 6 שעות גובהו היה 8 סנטימטרים (הנר מתקצר בקצב קבוע).<br><br>א. חשבו את קצב ההשתנות של גובה הנר. מה מסמן הסימן שלו?<br>ב. כעבור כמה שעות מההדלקה ייגמר הנר לגמרי?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">א. השינוי ב-y: <span class="eq">8 - 20 = -12</span>. השינוי ב-x: <span class="eq">6 - 0 = 6</span>. הקצב: <span class="eq">-12 : 6 = -2</span> — הנר מתקצר ב-2 סנטימטרים בכל שעה, והסימן השלילי מסמן שהפונקציה יורדת.<br>ב. מגובה 20 סנטימטרים, בקצב של 2 סנטימטרים לשעה: <span class="eq">20 : 2 = 10</span>. הנר ייגמר כעבור 10 שעות.</div>
+    <div class="sol">א. השינוי ב-<span class="eq">y</span>: <span class="eq">8 - 20 = -12</span>. השינוי ב-<span class="eq">x</span>: <span class="eq">6 - 0 = 6</span>. הקצב: <span class="eq">-12 : 6 = -2</span> — הנר מתקצר ב-2 סנטימטרים בכל שעה, והסימן השלילי מסמן שהפונקציה יורדת.<br>ב. מגובה 20 סנטימטרים, בקצב של 2 סנטימטרים לשעה: <span class="eq">20 : 2 = 10</span>. הנר ייגמר כעבור 10 שעות.</div>
   </div>
   <div class="ex">
-    <div class="ex-h"><strong>תרגיל 5: קצב מטבלה</strong>
+    <div class="ex-h"><strong>תרגיל 5: שני חוסכים עם פתיחה שונה</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>לדני יש כבר 20 שקלים בקופה והוא חוסך 3 שקלים בשבוע. לעומר יש רק 5 שקלים בקופה, אבל הוא חוסך 6 שקלים בשבוע. בנו טבלה עבור השבועות 0 עד 5 וקבעו באיזה שבוע יהיה לשניהם אותו סכום.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">טבלה: שבוע 0 — דני 20, עומר 5. שבוע 1 — 23, 11. שבוע 2 — 26, 17. שבוע 3 — 29, 23. שבוע 4 — 32, 29. שבוע 5 — 35, 35. בשבוע ה-5 לשניהם 35 שקלים — זהו רגע ההשוואה, ומכאן ואילך לעומר יהיה יותר, כי הקצב שלו גדול יותר.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 6: קצב מטבלה</strong>
       <span class="tag easy">קל</span></div>
     <div>כאשר x מקבל את הערכים 0, 1, 2, 3, ערכי ה-y של פונקציה הם 6, 10, 14, 18. מהו קצב ההשתנות שלה, ומה צורת הגרף?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
     <div class="sol">בכל פעם ש-x גדל ב-1, ערך ה-y גדל ב-4: <span class="eq">10 - 6 = 4</span>, <span class="eq">14 - 10 = 4</span>, <span class="eq">18 - 14 = 4</span>. הקצב הוא 4 והוא קבוע — הגרף הוא קו ישר.</div>
   </div>
   <div class="ex">
-    <div class="ex-h"><strong>תרגיל 6: קצב משתי נקודות</strong>
+    <div class="ex-h"><strong>תרגיל 7: קצב משתי נקודות</strong>
       <span class="tag easy">קל</span></div>
     <div>קו ישר עובר בנקודות <span class="eq">(0, 2)</span> ו-<span class="eq">(5, 22)</span>. חשבו את קצב ההשתנות שלו.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
     <div class="sol">השינוי ב-y: <span class="eq">22 - 2 = 20</span>. השינוי ב-x: <span class="eq">5 - 0 = 5</span>. הקצב: <span class="eq">20 : 5 = 4</span>.</div>
   </div>
   <div class="ex">
-    <div class="ex-h"><strong>תרגיל 7: מי רץ מהר יותר?</strong>
+    <div class="ex-h"><strong>תרגיל 8: מי רץ מהר יותר?</strong>
       <span class="tag med">בינוני</span></div>
     <div>רץ א' עבר 10 קילומטרים ב-2 שעות, ורץ ב' עבר 12 קילומטרים ב-3 שעות (שניהם בקצב קבוע). מי רץ מהר יותר, והגרף של מי תלול יותר?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
     <div class="sol">רץ א': <span class="eq">10 : 2 = 5</span> קילומטרים בשעה. רץ ב': <span class="eq">12 : 3 = 4</span> קילומטרים בשעה. רץ א' מהיר יותר, ולכן הגרף שלו תלול יותר — אף שרץ ב' עבר מרחק כולל גדול יותר.</div>
   </div>
   <div class="ex">
-    <div class="ex-h"><strong>תרגיל 8: אתגר: להמשיך את הקו</strong>
+    <div class="ex-h"><strong>תרגיל 9: אתגר: להמשיך את הקו</strong>
       <span class="tag hard">מאתגר</span></div>
     <div>קו ישר עובר בנקודות <span class="eq">(2, 11)</span> ו-<span class="eq">(7, 1)</span>. חשבו את קצב ההשתנות שלו, ומצאו את ערך ה-y כאשר <span class="eq">x = 9</span>.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
     <div class="sol">הקצב: <span class="eq"><span class="fr"><b>1 - 11</b><i>7 - 2</i></span> = <span class="fr"><b>-10</b><i>5</i></span> = -2</span>. מ-<span class="eq">x = 7</span> עד <span class="eq">x = 9</span> יש 2 צעדים, ובכל צעד y קטן ב-2: <span class="eq">1 + (-2) · 2 = -3</span>. כאשר <span class="eq">x = 9</span>, ערך ה-y הוא <span class="eq">-3</span>.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 10: אתגר: שני טלפונים נטענים</strong>
+      <span class="tag hard">מאתגר</span></div>
+    <div>סוללת טלפון א' עומדת על 20% ונטענת בקצב 15% לשעה. סוללת טלפון ב' עומדת על 50% ונטענת בקצב 5% לשעה. בנו טבלה עבור השעות 0, 1, 2, 3 וקבעו באיזו שעה לשני הטלפונים אותו אחוז טעינה, ומהו האחוז.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">טבלה: שעה 0 — טלפון א' 20%, טלפון ב' 50%. שעה 1 — 35%, 55%. שעה 2 — 50%, 60%. שעה 3 — 65%, 65%. בשעה 3 לשני הטלפונים 65% טעינה בדיוק. מכאן ואילך טלפון א' יטען מהר יותר, כי הקצב שלו (15% לשעה) גדול בהרבה מקצב טלפון ב' (5% לשעה).</div>
   </div>
 </div>
 
@@ -167,7 +181,7 @@
 <div class="credit" style="max-width:780px; margin:0 auto">© כל הזכויות שמורות ליאיר כהנא</div>
 
 <script>
-const quiz = [{"q": "בטבלה, כאשר x מקבל את הערכים 0, 1, 2, 3, ערכי ה-y הם 1, 4, 7, 10. מהו קצב ההשתנות?", "o": ["<span class=\"eq\">3</span>", "<span class=\"eq\">1</span>", "<span class=\"eq\">4</span>", "<span class=\"eq\">10</span>"], "a": 0}, {"q": "קו ישר עובר בנקודות <span class=\"eq\">(2, 5)</span> ו-<span class=\"eq\">(6, 17)</span>. מהו קצב ההשתנות שלו?", "o": ["<span class=\"eq\">3</span>", "<span class=\"eq\">4</span>", "<span class=\"eq\">12</span>", "<span class=\"eq\">2</span>"], "a": 0}, {"q": "נכון או לא נכון: אם קצב ההשתנות של פונקציה קבוע, הגרף שלה הוא קו ישר.", "o": ["נכון", "לא נכון"], "a": 0}, {"q": "לפונקציה מסוימת קצב השתנות שלילי. מה נכון לומר עליה?", "o": ["הפונקציה יורדת", "הפונקציה עולה", "הפונקציה קבועה", "הגרף שלה אינו קו ישר"], "a": 0}, {"q": "לקו א' קצב השתנות 5 ולקו ב' קצב השתנות 2. איזה קו תלול יותר?", "o": ["קו א'", "קו ב'", "שניהם באותה תלילות", "אי אפשר לדעת"], "a": 0}];
+const quiz = [{"q": "בטבלה, כאשר <span class=\"eq\">x</span> מקבל את הערכים 0, 1, 2, 3, ערכי ה-<span class=\"eq\">y</span> הם 1, 4, 7, 10. מהו קצב ההשתנות?", "o": ["<span class=\"eq\">3</span>", "<span class=\"eq\">1</span>", "<span class=\"eq\">4</span>", "<span class=\"eq\">10</span>"], "a": 0}, {"q": "קו ישר עובר בנקודות <span class=\"eq\">(2, 5)</span> ו-<span class=\"eq\">(6, 17)</span>. מהו קצב ההשתנות שלו?", "o": ["<span class=\"eq\">3</span>", "<span class=\"eq\">4</span>", "<span class=\"eq\">12</span>", "<span class=\"eq\">2</span>"], "a": 0}, {"q": "נכון או לא נכון: אם קצב ההשתנות של פונקציה קבוע, הגרף שלה הוא קו ישר.", "o": ["נכון", "לא נכון"], "a": 0}, {"q": "לפונקציה מסוימת קצב השתנות שלילי. מה נכון לומר עליה?", "o": ["הפונקציה יורדת", "הפונקציה עולה", "הפונקציה קבועה", "הגרף שלה אינו קו ישר"], "a": 0}, {"q": "לקו א' קצב השתנות 5 ולקו ב' קצב השתנות 2. איזה קו תלול יותר?", "o": ["קו א'", "קו ב'", "שניהם באותה תלילות", "אי אפשר לדעת"], "a": 0}];
 let answered = 0, correct = 0;
 document.getElementById('quiz').innerHTML = quiz.map((q, i) => `
   <div class="q">

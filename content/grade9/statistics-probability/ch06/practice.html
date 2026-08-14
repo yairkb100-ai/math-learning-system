@@ -128,39 +128,53 @@
     <div class="sol">א. נסמן ב-<span class="eq">k</span> את מספר הכדורים השחורים. בשלב הראשון ההסתברות לשחור היא <span class="eq"><span class="fr"><b>k</b><i>6</i></span></span>, ובשלב השני נשארו <span class="eq">5</span> כדורים ומהם <span class="eq">k-1</span> שחורים:<br><br><span class="eq"><span class="fr"><b>k</b><i>6</i></span> · <span class="fr"><b>k-1</b><i>5</i></span> = <span class="fr"><b>1</b><i>5</i></span></span><br><br><span class="eq"><span class="fr"><b>k(k-1)</b><i>30</i></span> = <span class="fr"><b>1</b><i>5</i></span></span><br><br>כפל בהצלבה: <span class="eq">5k(k-1) = 30</span>, כלומר<br><br><span class="eq">k(k-1) = 6</span><br><br>מחפשים שני מספרים שלמים עוקבים שמכפלתם <span class="eq">6</span>: הם <span class="eq">3</span> ו-<span class="eq">2</span>, ולכן <span class="eq">k = 3</span>.<br><br>בדיקה: <span class="eq"><span class="fr"><b>3</b><i>6</i></span> · <span class="fr"><b>2</b><i>5</i></span> = <span class="fr"><b>6</b><i>30</i></span> = <span class="fr"><b>1</b><i>5</i></span></span> — מתאים.<br><br>ב. "לפחות אחד לבן" הוא המאורע המשלים של "שניהם שחורים":<br><br><span class="eq">P = 1 - <span class="fr"><b>1</b><i>5</i></span> = <span class="fr"><b>4</b><i>5</i></span></span></div>
   </div>
   <div class="ex">
-    <div class="ex-h"><strong>תרגיל 5: שתי הטלות מטבע</strong>
+    <div class="ex-h"><strong>תרגיל 5: שאלה הפוכה: מהמכפלה אל ההסתברות החסרה</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>ליאב זורק לסל פעמיים, וזריקה אחת אינה משפיעה על הבאה אחריה. ידוע שההסתברות לקלוע בזריקה הראשונה היא <span class="eq">0.7</span>, וההסתברות שיקלע בשתי הזריקות היא <span class="eq">0.56</span>. מהי ההסתברות שיקלע בזריקה השנייה?</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">לפי כלל הכפל לאורך הענף, ההסתברות לקלוע בשתיהן היא מכפלת שתי ההסתברויות הבודדות. נסמן ב-<span class="eq">p</span> את ההסתברות לקלוע בזריקה השנייה:<br><br><span class="eq">0.7 · p = 0.56</span><br><br><span class="eq">p = <span class="fr"><b>0.56</b><i>0.7</i></span> = 0.8</span><br><br><b>תשובה:</b> ההסתברות לקלוע בזריקה השנייה היא <span class="eq">0.8</span>.<br><br><b>בדיקה:</b> <span class="eq">0.7 · 0.8 = 0.56</span>. מתאים.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 6: שתי הטלות מטבע</strong>
       <span class="tag easy">קל</span></div>
     <div>מטילים מטבע תקין פעמיים. מהי ההסתברות לקבל פלי בשתי ההטלות?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
     <div class="sol">כופלים לאורך הענף: <span class="eq"><span class="fr"><b>1</b><i>2</i></span> · <span class="fr"><b>1</b><i>2</i></span> = <span class="fr"><b>1</b><i>4</i></span></span>.</div>
   </div>
   <div class="ex">
-    <div class="ex-h"><strong>תרגיל 6: מטבע ואחריו קובייה</strong>
+    <div class="ex-h"><strong>תרגיל 7: מטבע ואחריו קובייה</strong>
       <span class="tag easy">קל</span></div>
     <div>מטילים מטבע ואחר כך קובייה תקינה. מהי ההסתברות לקבל עץ ואחריו <span class="eq">6</span>? כמה מסלולים יש בתרשים העץ?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
     <div class="sol">מספר המסלולים הוא <span class="eq">2 · 6 = 12</span>, ולכל מסלול הסתברות שווה. כפל לאורך הענף נותן <span class="eq"><span class="fr"><b>1</b><i>2</i></span> · <span class="fr"><b>1</b><i>6</i></span> = <span class="fr"><b>1</b><i>12</i></span></span>, ואכן מסלול אחד מתוך <span class="eq">12</span>.</div>
   </div>
   <div class="ex">
-    <div class="ex-h"><strong>תרגיל 7: עם החזרה מול בלי החזרה</strong>
+    <div class="ex-h"><strong>תרגיל 8: עם החזרה מול בלי החזרה</strong>
       <span class="tag med">בינוני</span></div>
     <div>בכד <span class="eq">6</span> כדורים אדומים ו-<span class="eq">4</span> כדורים כחולים. שולפים שני כדורים. חשבו את ההסתברות ששניהם אדומים פעם בשליפה עם החזרה ופעם בשליפה בלי החזרה.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
     <div class="sol">בכד <span class="eq">10</span> כדורים, ולכן <span class="eq">P(אדום) = <span class="fr"><b>6</b><i>10</i></span> = <span class="fr"><b>3</b><i>5</i></span></span>.<br><br>עם החזרה:<br><br><span class="eq"><span class="fr"><b>3</b><i>5</i></span> · <span class="fr"><b>3</b><i>5</i></span> = <span class="fr"><b>9</b><i>25</i></span></span><br><br>בלי החזרה נשארו בשלב השני <span class="eq">9</span> כדורים ומהם <span class="eq">5</span> אדומים:<br><br><span class="eq"><span class="fr"><b>6</b><i>10</i></span> · <span class="fr"><b>5</b><i>9</i></span> = <span class="fr"><b>30</b><i>90</i></span> = <span class="fr"><b>1</b><i>3</i></span></span><br><br>התוצאה בלי החזרה קטנה יותר, שכן <span class="eq"><span class="fr"><b>9</b><i>25</i></span> = 0.36</span> ואילו <span class="eq"><span class="fr"><b>1</b><i>3</i></span> ≈ 0.333</span>.</div>
   </div>
   <div class="ex">
-    <div class="ex-h"><strong>תרגיל 8: לפחות פלי אחד</strong>
+    <div class="ex-h"><strong>תרגיל 9: לפחות פלי אחד</strong>
       <span class="tag med">בינוני</span></div>
     <div>מטילים מטבע תקין שלוש פעמים. מהי ההסתברות לקבל לפחות פלי אחד?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
     <div class="sol">המאורע המשלים הוא "אף פעם לא פלי", כלומר עץ בכל שלוש ההטלות:<br><br><span class="eq">P(אף פעם לא פלי) = <span class="fr"><b>1</b><i>2</i></span> · <span class="fr"><b>1</b><i>2</i></span> · <span class="fr"><b>1</b><i>2</i></span> = <span class="fr"><b>1</b><i>8</i></span></span><br><br>ולכן<br><br><span class="eq">P(לפחות פלי אחד) = 1 - <span class="fr"><b>1</b><i>8</i></span> = <span class="fr"><b>7</b><i>8</i></span></span></div>
   </div>
   <div class="ex">
-    <div class="ex-h"><strong>תרגיל 9: אתגר: כמה אדומים בכד</strong>
+    <div class="ex-h"><strong>תרגיל 10: אתגר: כמה אדומים בכד</strong>
       <span class="tag hard">מאתגר</span></div>
     <div>בכד <span class="eq">6</span> כדורים, אדומים וכחולים בלבד. שולפים שני כדורים בלי החזרה, וההסתברות ששניהם אדומים היא <span class="eq"><span class="fr"><b>2</b><i>5</i></span></span>. כמה כדורים אדומים יש בכד?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
     <div class="sol">נסמן ב-<span class="eq">k</span> את מספר הכדורים האדומים. בשלב הראשון ההסתברות היא <span class="eq"><span class="fr"><b>k</b><i>6</i></span></span>, ובשלב השני נשארו <span class="eq">5</span> כדורים ומהם <span class="eq">k-1</span> אדומים:<br><br><span class="eq"><span class="fr"><b>k</b><i>6</i></span> · <span class="fr"><b>k-1</b><i>5</i></span> = <span class="fr"><b>2</b><i>5</i></span></span><br><br><span class="eq"><span class="fr"><b>k(k-1)</b><i>30</i></span> = <span class="fr"><b>2</b><i>5</i></span></span><br><br>כפל בהצלבה: <span class="eq">5k(k-1) = 60</span>, כלומר<br><br><span class="eq">k(k-1) = 12</span><br><br>שני מספרים שלמים עוקבים שמכפלתם <span class="eq">12</span> הם <span class="eq">4</span> ו-<span class="eq">3</span>, ולכן <span class="eq">k = 4</span>.<br><br>בדיקה: <span class="eq"><span class="fr"><b>4</b><i>6</i></span> · <span class="fr"><b>3</b><i>5</i></span> = <span class="fr"><b>12</b><i>30</i></span> = <span class="fr"><b>2</b><i>5</i></span></span> — מתאים. בכד <span class="eq">4</span> כדורים אדומים ו-<span class="eq">2</span> כחולים.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 11: אתגר: לפחות כרטיס זכייה אחד</strong>
+      <span class="tag hard">מאתגר</span></div>
+    <div>בקופסה <span class="eq">10</span> כרטיסים: <span class="eq">3</span> כרטיסי זכייה ו-<span class="eq">7</span> כרטיסים ריקים. בוחרים שני כרטיסים בזה אחר זה, בלי החזרה. מהי ההסתברות שלפחות כרטיס אחד מהשניים הוא כרטיס זכייה?</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">פורטים לשני שלבים:<br><br><b>שלב א' — הכרטיס הראשון:</b> ריק בהסתברות <span class="eq"><span class="fr"><b>7</b><i>10</i></span></span>, או זוכה בהסתברות <span class="eq"><span class="fr"><b>3</b><i>10</i></span></span>.<br><br><b>שלב ב' — הכרטיס השני:</b> אם הראשון היה ריק, נשארו <span class="eq">6</span> ריקים ו-<span class="eq">3</span> זוכים מתוך <span class="eq">9</span>.<br><br>המאורע "לפחות זכייה אחת" מתאים לשלושה מסלולים מתוך ארבעה, ולכן קל יותר לחשב את המשלים — "אף כרטיס זכייה", כלומר שני כרטיסים ריקים ברצף:<br><br><span class="eq">P(ריק, ריק) = <span class="fr"><b>7</b><i>10</i></span> · <span class="fr"><b>6</b><i>9</i></span> = <span class="fr"><b>42</b><i>90</i></span> = <span class="fr"><b>7</b><i>15</i></span></span><br><br><span class="eq">P(לפחות זכייה אחת) = 1 - <span class="fr"><b>7</b><i>15</i></span> = <span class="fr"><b>8</b><i>15</i></span></span><br><br><b>תשובה:</b> ההסתברות היא <span class="eq"><span class="fr"><b>8</b><i>15</i></span></span>.</div>
   </div>
 </div>
 

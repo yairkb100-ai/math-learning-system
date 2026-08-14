@@ -22,6 +22,11 @@
       "title": "דוגמה 3: מבודדים בעצמנו",
       "type": "text",
       "content": "פתרו: $\\begin{cases}2x+y=7 \\\\ 3x+2y=12\\end{cases}$.\n\nמבודדים $y$ מהראשונה: $y=7-2x$. מציבים בשנייה: $3x+2(7-2x)=12 \\Rightarrow -x=-2 \\Rightarrow x=2$. אז $y=7-4=3$.\n\nהפתרון: $(2,3)$. בדיקה: $2\\cdot 2+3=7$ ✓, $3\\cdot 2+2\\cdot 3=12$ ✓."
+    },
+    {
+      "title": "דוגמה 4: x מבודד עם מקדם",
+      "type": "text",
+      "content": "פתרו: $\\begin{cases}x=3y-4 \\\\ 2x+y=13\\end{cases}$.\n\nמציבים $x=3y-4$ בשנייה: $2(3y-4)+y=13 \\Rightarrow 6y-8+y=13 \\Rightarrow 7y=21 \\Rightarrow y=3$. אז $x=3\\cdot 3-4=5$.\n\nהפתרון: $(5,3)$. בדיקה: $2\\cdot 5+3=13$ ✓, $5=3\\cdot 3-4$ ✓."
     }
   ],
   "exercises": [
