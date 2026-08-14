@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>תרגול אינטראקטיבי — משפטי החפיפה צ.ז.צ ו-ז.צ.ז</title>
+<style>
+  @page { size: A4; margin: 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: #1a2233;
+         line-height: 1.7; margin: 0; padding: 20px; background: #f4f6fa; }
+  .sheet { background: #fff; max-width: 820px; margin: 0 auto 24px;
+           padding: 30px 36px; border-radius: 10px;
+           box-shadow: 0 2px 14px rgba(0,0,0,.09); }
+  header { border-bottom: 3px solid #2f6fed; padding-bottom: 12px; margin-bottom: 20px; }
+  h1 { margin: 0 0 4px; font-size: 24px; color: #14306b; }
+  .sub { color: #5b6780; font-size: 14px; }
+  .namebar { display: flex; gap: 26px; margin-top: 12px; font-size: 14px; }
+  .namebar span { flex: 1; border-bottom: 1px dotted #8894ab; padding-bottom: 3px; }
+  h2.q, h2.sec { font-size: 17px; margin: 24px 0 10px; color: #14306b;
+    background: #eef3fe; padding: 7px 12px; border-radius: 6px;
+    border-inline-start: 5px solid #2f6fed; }
+  .tag { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px;
+         margin-inline-start: 8px; vertical-align: middle; }
+  .easy { background: #dff5e3; color: #1c6b32; }
+  .med  { background: #fdf0d5; color: #8a5b06; }
+  .hard { background: #fadbdb; color: #8f2222; }
+  ol.items { margin: 6px 0; padding-inline-start: 22px; }
+  ol.items > li { margin-bottom: 13px; }
+  .fr { display: inline-flex; flex-direction: column; align-items: center;
+        vertical-align: middle; margin: 0 3px; font-size: .95em; line-height: 1.15; }
+  .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
+  .fr i { font-style: normal; padding: 0 4px; }
+  .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; margin: 0 3px; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
+  .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
+  .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
+  .fig { text-align: center; font-size: 13px; color: #5b6780; }
+  .lines div { border-bottom: 1px dotted #aab3c4; height: 24px; }
+  .numline { margin: 10px 0; }
+  .pagebreak { page-break-before: always; }
+  .key { background: #fffdf3; }
+  .key h1 { color: #8a5b06; }
+  .key header { border-bottom-color: #e0a800; }
+  .key .ans { background:#fff; border:1px solid #eadfb8; border-radius:6px;
+              padding:10px 14px; margin-bottom:10px; font-size:14.5px; }
+  .key .ans strong { color:#8a5b06; }
+  .credit { text-align:center; font-size: 12px; color: #8894ab; margin-top: 18px;
+            border-top: 1px solid #eef1f6; padding-top: 8px; }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .sheet { box-shadow: none; margin: 0; border-radius: 0; padding: 0; max-width: none; }
+    .noprint { display: none; }
+  }
+  .noprint { text-align:center; margin: 10px 0 20px; }
+  .noprint button { background: #2f6fed; color:#fff; border:0; padding:10px 26px;
+                    border-radius:6px; font-size:15px; cursor:pointer; font-family:inherit; }
+
+  .card { background: #fff; border-radius: 12px; padding: 22px 24px; margin: 0 auto 20px;
+          max-width: 780px; box-shadow: 0 2px 12px rgba(20,48,107,.08); }
+  .card h2 { font-size: 19px; color: #14306b; margin: 0 0 4px; }
+  .hint { color: #77839b; font-size: 14px; margin: 0 0 16px; }
+  .ex { border: 1px solid #e6eaf2; border-radius: 9px; padding: 14px 16px; margin-bottom: 12px; }
+  .ex-h { display: flex; align-items: center; gap: 9px; margin-bottom: 6px; }
+  .ex-h strong { color: #14306b; }
+  .reveal { margin-top: 9px; background: #fff; border: 1.5px solid #2f6fed; color: #2f6fed;
+            border-radius: 6px; padding: 6px 16px; cursor: pointer; font: inherit; font-size: 14px; }
+  .reveal:hover { background: #2f6fed; color: #fff; }
+  .sol { display: none; margin-top: 10px; background:#f3f8f4; border-inline-start:4px solid #34a853;
+         padding: 11px 14px; border-radius: 6px; font-size: 15px; }
+  .sol.show { display: block; }
+  .q { margin-bottom: 22px; padding-bottom: 18px; border-bottom: 1px solid #eef1f6; }
+  .qtext { font-weight: 600; margin-bottom: 10px; }
+  .opts { display: grid; gap: 8px; }
+  .opt { text-align: start; background: #f6f8fc; border: 2px solid #e2e8f2; border-radius: 8px;
+         padding: 10px 14px; cursor: pointer; font: inherit; color: inherit; }
+  .opt:hover:not(:disabled) { border-color: #2f6fed; background: #eef3fe; }
+  .opt.correct { background: #e4f6e9; border-color: #34a853; }
+  .opt.wrong { background: #fdecea; border-color: #d93025; }
+  .opt:disabled { cursor: default; }
+  .score { text-align:center; font-size:17px; font-weight:700; color:#14306b; margin-top:8px; }
+  h1.pt { max-width: 780px; margin: 0 auto 4px; color:#14306b; }
+  p.lead { max-width: 780px; margin: 0 auto 26px; color:#5b6780; }
+</style>
+</head>
+<body>
+
+<h1 class="pt">תרגול: משפטי החפיפה צ.ז.צ ו-ז.צ.ז</h1>
+<p class="lead">פרק 2 · שתי צלעות והזווית שביניהן, שתי זוויות והצלע שביניהן</p>
+
+<div class="card">
+  <h2>✏️ תרגילים</h2>
+  <p class="hint">נסו לפתור לבד, ורק אחר כך גלו את הפתרון.</p>
+  
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 1: איזה משפט מתאים</strong>
+      <span class="tag easy">קל</span></div>
+    <div>לכל קבוצת נתונים על המשולשים <span class="eq">ABC</span> ו-<span class="eq">DEF</span> קבעו אם היא מספיקה לחפיפה, ואם כן — לפי איזה משפט.<br><br>א. <span class="eq">AB = DE</span>, <span class="eq">\angle B = \angle E</span>, <span class="eq">BC = EF</span><br>ב. <span class="eq">\angle A = \angle D</span>, <span class="eq">AB = DE</span>, <span class="eq">\angle B = \angle E</span><br>ג. <span class="eq">AB = DE</span>, <span class="eq">BC = EF</span>, <span class="eq">\angle A = \angle D</span></div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. מספיק — הזווית <span class="eq">\angle B</span> נמצאת בין הצלעות <span class="eq">AB</span> ו-<span class="eq">BC</span>, ולכן זהו צ.ז.צ.<br>ב. מספיק — הצלע <span class="eq">AB</span> נמצאת בין הזוויות <span class="eq">\angle A</span> ו-<span class="eq">\angle B</span>, ולכן זהו ז.צ.ז.<br>ג. אינו מספיק — הצלעות הנתונות הן <span class="eq">AB</span> ו-<span class="eq">BC</span>, והזווית שביניהן היא <span class="eq">\angle B</span> ולא <span class="eq">\angle A</span>. זהו הצירוף צ.צ.ז, שאינו משפט חפיפה.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 2: השלמת הנתון החסר</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>במשולשים <span class="eq">ABC</span> ו-<span class="eq">KLM</span> נתון <span class="eq">AB = KL = 9</span> ו-<span class="eq">\angle A = \angle K = 55<sup>°</sup></span>. איזה נתון אחד נוסף ישלים את הנתונים למשפט צ.ז.צ, ואיזה נתון אחד נוסף ישלים אותם למשפט ז.צ.ז?</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">לצ.ז.צ: הזווית <span class="eq">\angle A</span> נמצאת בין <span class="eq">AB</span> ל-<span class="eq">AC</span>, ולכן צריך את הצלע השנייה היוצאת מ-<span class="eq">A</span> — כלומר את הנתון <span class="eq">AC = KM</span>.<br><br>לז.צ.ז: הצלע <span class="eq">AB</span> צריכה להיות בין שתי הזוויות הנתונות, ולכן צריך את הזווית שבקצה השני שלה — כלומר את הנתון <span class="eq">\angle B = \angle L</span>.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 3: קטעים שנחתכים</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>הקטעים <span class="eq">PR</span> ו-<span class="eq">QS</span> נחתכים בנקודה <span class="eq">O</span>, ונתון <span class="eq">PO = OR = 4</span> ו-<span class="eq">QO = OS = 6</span>. כתבו את שלושת הנתונים המובילים לחפיפה, ציינו את שם המשפט, והסיקו מסקנה אחת על הצלעות.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">בוחנים את המשולשים <span class="eq">POQ</span> ו-<span class="eq">ROS</span>.<br><br><span class="eq">PO = OR</span> — נתון.<br><br><span class="eq">QO = OS</span> — נתון.<br><br><span class="eq">\angle POQ = \angle ROS</span> — זוויות קודקודיות.<br><br>הזווית שב-<span class="eq">O</span> היא הזווית שבין שתי הצלעות הנתונות בכל משולש, ולכן <span class="eq">\triangle POQ \cong \triangle ROS</span> לפי צ.ז.צ.<br><br>מסקנה: <span class="eq">PQ = RS</span> (צלעות מתאימות במשולשים חופפים).</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 4: אתגר: חוצה זווית במשולש שווה-שוקיים</strong>
+      <span class="tag hard">מאתגר</span></div>
+    <div>במשולש <span class="eq">ABC</span> מתקיים <span class="eq">AB = AC</span>, והקטע <span class="eq">AD</span> הוא חוצה הזווית <span class="eq">\angle A</span> (כלומר <span class="eq">\angle BAD = \angle CAD</span>), כאשר <span class="eq">D</span> על הצלע <span class="eq">BC</span>. הוכיחו ש-<span class="eq">\triangle ABD \cong \triangle ACD</span>, והסיקו ש-<span class="eq">BD = DC</span>.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">נבחן את המשולשים <span class="eq">ABD</span> ו-<span class="eq">ACD</span>:<br><br><span class="eq">AB = AC</span> — נתון.<br><br><span class="eq">\angle BAD = \angle CAD</span> — נתון, <span class="eq">AD</span> חוצה זווית.<br><br><span class="eq">AD = AD</span> — צלע משותפת לשני המשולשים.<br><br>הזווית <span class="eq">\angle BAD</span> נמצאת בין הצלעות <span class="eq">AB</span> ו-<span class="eq">AD</span>, והזווית <span class="eq">\angle CAD</span> נמצאת בין <span class="eq">AC</span> ו-<span class="eq">AD</span> — כלומר בין שתי הצלעות הנתונות בכל משולש. לכן<br><br><span class="eq">\triangle ABD \cong \triangle ACD   (צ.ז.צ)</span><br><br>מהחפיפה נובע ששאר הצלעות המתאימות שוות, ובפרט <span class="eq">BD = DC</span>. כלומר, חוצה זווית הראש במשולש שווה-שוקיים הוא גם התיכון לבסיס — תוצאה שנחזור אליה בהמשך היחידה.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 5: בחירת המשפט המתאים</strong>
+      <span class="tag easy">קל</span></div>
+    <div>במשולשים <span class="eq">ABC</span> ו-<span class="eq">DEF</span> נתון <span class="eq">\angle A = \angle D</span>, <span class="eq">AC = DF</span> ו-<span class="eq">\angle C = \angle F</span>. לפי איזה משפט חפיפה נובעת החפיפה, ומהי ההתאמה בין הקודקודים?</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">הצלע <span class="eq">AC</span> נמצאת בין הזוויות <span class="eq">\angle A</span> ו-<span class="eq">\angle C</span>, והצלע <span class="eq">DF</span> נמצאת בין <span class="eq">\angle D</span> ו-<span class="eq">\angle F</span>. זהו בדיוק המבנה של ז.צ.ז, ולכן <span class="eq">\triangle ABC \cong \triangle DEF</span>. ההתאמה: <span class="eq">A rightarrow D</span>, <span class="eq">B rightarrow E</span>, <span class="eq">C rightarrow F</span>.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 6: השלמת נתון וחישוב זווית</strong>
+      <span class="tag easy">קל</span></div>
+    <div>במשולשים <span class="eq">ABC</span> ו-<span class="eq">KLM</span> נתון <span class="eq">\angle B = \angle L = 65<sup>°</sup></span> ו-<span class="eq">BC = LM = 12</span>. איזה נתון אחד ישלים את הנתונים לז.צ.ז? ואם נוסף הנתון <span class="eq">\angle C = \angle M = 40<sup>°</sup></span> — מהי <span class="eq">\angle K</span>?</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">הצלע <span class="eq">BC</span> נמצאת בין <span class="eq">\angle B</span> ל-<span class="eq">\angle C</span>, ולכן הנתון החסר הוא <span class="eq">\angle C = \angle M</span>. עם הנתון הנוסף מתקבל<br><br><span class="eq">\angle A = 180<sup>°</sup> - 65<sup>°</sup> - 40<sup>°</sup> = 75<sup>°</sup></span><br><br>ולפי החפיפה <span class="eq">\angle K = \angle A = 75<sup>°</sup></span>.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 7: אלכסון בדלתון</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>במרובע <span class="eq">ABCD</span> נתון <span class="eq">AB = AD</span> ו-<span class="eq">CB = CD</span>. מעבירים את האלכסון <span class="eq">AC</span>. הוכיחו ש-<span class="eq">\angle B = \angle D</span> בעזרת אחד ממשפטי החפיפה שנלמדו, או הסבירו מדוע הם אינם מספיקים כאן.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">בוחנים את <span class="eq">\triangle ABC</span> ואת <span class="eq">\triangle ADC</span>. נתון <span class="eq">AB = AD</span>, נתון <span class="eq">CB = CD</span>, והצלע <span class="eq">AC</span> משותפת ולכן <span class="eq">AC = AC</span>. אלה שלושה שוויונות בין <b>צלעות</b> בלבד, ולכן צ.ז.צ ו-ז.צ.ז אינם חלים כאן — אין בנתונים אף זווית. הצירוף הזה הוא צ.צ.צ, והוא אכן משפט חפיפה שיוצג בפרק הבא. לפיו <span class="eq">\triangle ABC \cong \triangle ADC</span> ומכאן <span class="eq">\angle B = \angle D</span>.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 8: אתגר: שני משולשים סביב נקודת חיתוך</strong>
+      <span class="tag hard">מאתגר</span></div>
+    <div>הקטעים <span class="eq">AC</span> ו-<span class="eq">BD</span> נחתכים בנקודה <span class="eq">O</span>, ונתון <span class="eq">AO = OC</span> וכן <span class="eq">AB \parallel CD</span>. הוכיחו ש-<span class="eq">\triangle AOB \cong \triangle COD</span>, והסיקו ש-<span class="eq">O</span> היא אמצע הקטע <span class="eq">BD</span>.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">נבחן את <span class="eq">\triangle AOB</span> ואת <span class="eq">\triangle COD</span>:<br><br><span class="eq">\angle OAB = \angle OCD</span> — זוויות מתחלפות בין הישרים המקבילים <span class="eq">AB</span> ו-<span class="eq">CD</span>, שאותם חותך הישר <span class="eq">AC</span>.<br><br><span class="eq">AO = OC</span> — נתון.<br><br><span class="eq">\angle AOB = \angle COD</span> — זוויות קודקודיות.<br><br>הצלע <span class="eq">AO</span> נמצאת בין הזוויות <span class="eq">\angle OAB</span> ו-<span class="eq">\angle AOB</span>, והצלע <span class="eq">OC</span> נמצאת בין <span class="eq">\angle OCD</span> ו-<span class="eq">\angle COD</span>, ולכן<br><br><span class="eq">\triangle AOB \cong \triangle COD   (ז.צ.ז)</span><br><br>מהחפיפה נובע <span class="eq">OB = OD</span>, כלומר <span class="eq">O</span> מחלקת את הקטע <span class="eq">BD</span> לשני חלקים שווים והיא אמצעו.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 9: אתגר: מדידת חיזוק משולש</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>מיכל בונה שני חיזוקים משולשים זהים: בכל אחד מוט אופקי באורך <span class="eq">45</span> ס"מ ומוט אנכי באורך <span class="eq">60</span> ס"מ המחוברים בזווית ישרה, ומוט אלכסוני שסוגר את המשולש. הוכיחו שהחיזוקים חופפים, חשבו את אורך המוט האלכסוני ואת היקף כל חיזוק.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">בשני החיזוקים המוט האופקי שווה (<span class="eq">45</span> ס"מ), המוט האנכי שווה (<span class="eq">60</span> ס"מ), והזווית שביניהם היא <span class="eq">90<sup>°</sup></span> בשניהם. הזווית יושבת בדיוק בין שני המוטות שנמדדו, ולכן המשולשים חופפים לפי צ.ז.צ.<br><br>אורך המוט האלכסוני הוא היתר:<br><br><span class="eq">c<sup>2</sup> = 45<sup>2</sup> + 60<sup>2</sup> = 2025 + 3600 = 5625</span><br><br><span class="eq">c = √<span class="rad">5625</span> = 75  ס"מ</span><br><br>ההיקף של כל חיזוק: <span class="eq">45 + 60 + 75 = 180</span> ס"מ. מיכל אינה חייבת למדוד את המוט האלכסוני — הוא נקבע מאליו מרגע ששני המוטות והזווית ביניהם נקבעו.</div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>🎯 מבחנון</h2>
+  <p class="hint">בחרו תשובה — ותקבלו משוב מיד.</p>
+  <div id="quiz"></div>
+  <div class="score" id="score"></div>
+</div>
+
+<div class="credit" style="max-width:780px; margin:0 auto">© כל הזכויות שמורות ליאיר כהנא</div>
+
+<script>
+const quiz = [{"q": "במשולשים <span class=\"eq\">ABC</span> ו-<span class=\"eq\">DEF</span> נתון <span class=\"eq\">AB = DE</span>, <span class=\"eq\">\\angle B = \\angle E</span> ו-<span class=\"eq\">BC = EF</span>. לפי איזה משפט נובעת החפיפה?", "o": ["צ.ז.צ", "ז.צ.ז", "צ.צ.צ", "אין די נתונים"], "a": 0}, {"q": "במשפט צ.ז.צ, היכן חייבת להימצא הזווית הנתונה?", "o": ["בין שתי הצלעות הנתונות", "מול הצלע הגדולה מבין השתיים", "מול הצלע הקטנה מבין השתיים", "בכל מקום במשולש — אין לכך חשיבות"], "a": 0}, {"q": "במשולשים <span class=\"eq\">ABC</span> ו-<span class=\"eq\">DEF</span> נתון <span class=\"eq\">\\angle A = \\angle D</span>, <span class=\"eq\">AB = DE</span> ו-<span class=\"eq\">\\angle B = \\angle E</span>. לפי איזה משפט נובעת החפיפה?", "o": ["ז.צ.ז", "צ.ז.צ", "צ.צ.צ", "אין די נתונים"], "a": 0}, {"q": "הקטעים <span class=\"eq\">AC</span> ו-<span class=\"eq\">BD</span> נחתכים בנקודה <span class=\"eq\">O</span>, ונתון <span class=\"eq\">AO = OC</span> ו-<span class=\"eq\">BO = OD</span>. מהו הנתון השלישי שמשלים את ההוכחה לפי צ.ז.צ?", "o": ["<span class=\"eq\">\\angle AOB = \\angle COD</span> — זוויות קודקודיות", "<span class=\"eq\">AB = CD</span> — צלעות מתאימות", "<span class=\"eq\">\\angle A = \\angle C</span> — זוויות הבסיס", "אין צורך בנתון נוסף"], "a": 0}, {"q": "במשולשים <span class=\"eq\">ABC</span> ו-<span class=\"eq\">DEF</span> נתון <span class=\"eq\">\\angle A = \\angle D = 50<sup>°</sup></span>, <span class=\"eq\">\\angle B = \\angle E = 60<sup>°</sup></span> ו-<span class=\"eq\">AB = DE = 7</span>. מהי <span class=\"eq\">\\angle F</span>?", "o": ["<span class=\"eq\">70<sup>°</sup></span>", "<span class=\"eq\">60<sup>°</sup></span>", "<span class=\"eq\">50<sup>°</sup></span>", "<span class=\"eq\">110<sup>°</sup></span>"], "a": 0}];
+let answered = 0, correct = 0;
+document.getElementById('quiz').innerHTML = quiz.map((q, i) => `
+  <div class="q">
+    <div class="qtext">${i + 1}. ${q.q}</div>
+    <div class="opts">${q.o.map((o, j) =>
+      `<button class="opt" data-q="${i}" data-o="${j}">${o}</button>`).join('')}</div>
+  </div>`).join('');
+document.querySelectorAll('.opt').forEach(btn => {
+  btn.onclick = () => {
+    const qi = +btn.dataset.q, oi = +btn.dataset.o, q = quiz[qi];
+    const group = btn.parentElement.querySelectorAll('.opt');
+    group.forEach(b => b.disabled = true);
+    group[q.a].classList.add('correct');
+    if (oi !== q.a) btn.classList.add('wrong'); else correct++;
+    if (++answered === quiz.length) {
+      document.getElementById('score').textContent =
+        `סיימתם! ${correct} מתוך ${quiz.length} נכונות ` +
+        (correct === quiz.length ? '🏆 מושלם!' : correct >= quiz.length - 2 ? '👍 יפה מאוד!' : '💪 שווה לחזור על הפרק');
+    }
+  };
+});
+</script>
+</body>
+</html>

@@ -23,6 +23,7 @@ const GRADES = [
   { key: '6', label: 'כיתה ו׳' },
   { key: '7', label: 'כיתה ז׳' },
   { key: '8', label: 'כיתה ח׳' },
+  { key: '9', label: 'כיתה ט׳' },
   { key: 'hs', label: 'תיכון' },
 ]
 

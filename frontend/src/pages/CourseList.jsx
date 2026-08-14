@@ -24,6 +24,7 @@ const GRADES = [
   { key: '6', chip: 'כיתה ו׳', pill: 'ו׳' },
   { key: '7', chip: 'כיתה ז׳', pill: 'ז׳' },
   { key: '8', chip: 'כיתה ח׳', pill: 'ח׳' },
+  { key: '9', chip: 'כיתה ט׳', pill: 'ט׳' },
   { key: 'hs', chip: 'תיכון', pill: 'תיכון' },
 ]
 const GRADE_BY_KEY = Object.fromEntries(GRADES.map((g) => [g.key, g]))

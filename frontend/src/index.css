@@ -726,6 +726,10 @@ h1 {
   --lv: #5a5fb0;         /* indigo */
   --lv-bg: #eaeaf8;
 }
+.grade-9 {
+  --lv: #8a4fb0;         /* violet */
+  --lv-bg: #f1e6f8;
+}
 .grade-hs {
   --lv: #d2604f;         /* warm coral */
   --lv-bg: #fbe9e6;

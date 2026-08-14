@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>דף עבודה — אמצע קטע</title>
+<style>
+  @page { size: A4; margin: 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: #1a2233;
+         line-height: 1.7; margin: 0; padding: 20px; background: #f4f6fa; }
+  .sheet { background: #fff; max-width: 820px; margin: 0 auto 24px;
+           padding: 30px 36px; border-radius: 10px;
+           box-shadow: 0 2px 14px rgba(0,0,0,.09); }
+  header { border-bottom: 3px solid #2f6fed; padding-bottom: 12px; margin-bottom: 20px; }
+  h1 { margin: 0 0 4px; font-size: 24px; color: #14306b; }
+  .sub { color: #5b6780; font-size: 14px; }
+  .namebar { display: flex; gap: 26px; margin-top: 12px; font-size: 14px; }
+  .namebar span { flex: 1; border-bottom: 1px dotted #8894ab; padding-bottom: 3px; }
+  h2.q, h2.sec { font-size: 17px; margin: 24px 0 10px; color: #14306b;
+    background: #eef3fe; padding: 7px 12px; border-radius: 6px;
+    border-inline-start: 5px solid #2f6fed; }
+  .tag { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px;
+         margin-inline-start: 8px; vertical-align: middle; }
+  .easy { background: #dff5e3; color: #1c6b32; }
+  .med  { background: #fdf0d5; color: #8a5b06; }
+  .hard { background: #fadbdb; color: #8f2222; }
+  ol.items { margin: 6px 0; padding-inline-start: 22px; }
+  ol.items > li { margin-bottom: 13px; }
+  .fr { display: inline-flex; flex-direction: column; align-items: center;
+        vertical-align: middle; margin: 0 3px; font-size: .95em; line-height: 1.15; }
+  .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
+  .fr i { font-style: normal; padding: 0 4px; }
+  .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; margin: 0 3px; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
+  .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
+  .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
+  .fig { text-align: center; font-size: 13px; color: #5b6780; }
+  .lines div { border-bottom: 1px dotted #aab3c4; height: 24px; }
+  .numline { margin: 10px 0; }
+  .pagebreak { page-break-before: always; }
+  .key { background: #fffdf3; }
+  .key h1 { color: #8a5b06; }
+  .key header { border-bottom-color: #e0a800; }
+  .key .ans { background:#fff; border:1px solid #eadfb8; border-radius:6px;
+              padding:10px 14px; margin-bottom:10px; font-size:14.5px; }
+  .key .ans strong { color:#8a5b06; }
+  .credit { text-align:center; font-size: 12px; color: #8894ab; margin-top: 18px;
+            border-top: 1px solid #eef1f6; padding-top: 8px; }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .sheet { box-shadow: none; margin: 0; border-radius: 0; padding: 0; max-width: none; }
+    .noprint { display: none; }
+  }
+  .noprint { text-align:center; margin: 10px 0 20px; }
+  .noprint button { background: #2f6fed; color:#fff; border:0; padding:10px 26px;
+                    border-radius:6px; font-size:15px; cursor:pointer; font-family:inherit; }
+</style>
+</head>
+<body>
+
+<div class="noprint"><button onclick="window.print()">🖨️ הדפסה / שמירה כ‑PDF</button></div>
+
+<div class="sheet">
+  <header>
+    <h1>דף עבודה — פרק 2: אמצע קטע</h1>
+    <div class="sub">ממוצע השיעורים - מהאמצע אל הקצה החסר</div>
+    <div class="namebar"><span>שם: </span><span>כיתה: </span><span>תאריך: </span></div>
+  </header>
+  <div class="note-box" style="background:#eef3fe; border-inline-start:4px solid #2f6fed; padding:10px 14px; border-radius:6px; font-size:14px; margin:18px 0">אמצע הקטע שקצותיו (x₁, y₁) ו-(x₂, y₂) הוא M = ((x₁+x₂)/2 , (y₁+y₂)/2) — ממוצע בכל ציר בנפרד. בכיוון ההפוך, כשנתונים קצה אחד והאמצע: הקצה החסר הוא כפליים האמצע פחות הקצה הידוע. תיכון במשולש מחשבים בשני צעדים — קודם אמצע הצלע, אחר כך מרחק לפי הנוסחה מהפרק הקודם. ואם לשני אלכסוני מרובע אותה נקודת אמצע, האלכסונים חוצים זה את זה והמרובע מקבילית.</div>
+  
+  <h2 class="q">שאלה 1 — אמצע קטע - סדרה ראשונה <span class="tag easy">קל</span></h2>
+  <p>מצאו את אמצע הקטע:</p><ol type="a"><li><span class="eq">A(2, 4)</span> ו-<span class="eq">B(8, 10)</span> ⟵ <span class="blank"></span></li><li><span class="eq">C(1, 3)</span> ו-<span class="eq">D(9, 5)</span> ⟵ <span class="blank"></span></li></ol>
+  
+  <h2 class="q">שאלה 2 — עם שיעורים שליליים <span class="tag easy">קל</span></h2>
+  <p>מצאו את אמצע הקטע שקצותיו <span class="eq">A(−6, 2)</span> ו-<span class="eq">B(4, 8)</span>.</p><p>התוצאה: <span class="blank"></span></p>
+  
+  <h2 class="q">שאלה 3 — אמצע על חצי משבצת <span class="tag easy">קל</span></h2>
+  <p>מצאו את אמצע הקטע שקצותיו <span class="eq">A(1, 2)</span> ו-<span class="eq">B(4, 7)</span>. שימו לב שהתוצאה אינה שלמה.</p><p>התוצאה: <span class="blank"></span></p>
+  
+  <h2 class="q">שאלה 4 — קטע שיוצא מהראשית <span class="tag easy">קל</span></h2>
+  <p>מצאו את אמצע הקטע שקצותיו ראשית הצירים <span class="eq">O(0, 0)</span> והנקודה <span class="eq">B(10, −6)</span>.</p><p>התוצאה: <span class="blank"></span></p>
+  
+  <h2 class="q">שאלה 5 — השלמת הנוסחה <span class="tag easy">קל</span></h2>
+  <p>השלימו את נוסחת אמצע הקטע שקצותיו <span class="eq">A(x₁, y₁)</span> ו-<span class="eq">B(x₂, y₂)</span>:</p><p><span class="eq">M = ( ___ , ___ )</span></p><p><div class="lines"><div></div><div></div></div></p>
+  
+  <h2 class="q">שאלה 6 — שני מינוסים <span class="tag med">בינוני</span></h2>
+  <p>מצאו את אמצע הקטע שקצותיו <span class="eq">A(−3, −5)</span> ו-<span class="eq">B(7, 1)</span>.</p>
+  <div class="lines"><div></div><div></div></div>
+  <h2 class="q">שאלה 7 — קצה חסר - סדרה ראשונה <span class="tag med">בינוני</span></h2>
+  <p>אמצע הקטע <span class="eq">AB</span> הוא <span class="eq">M(5, 4)</span>, והקצה <span class="eq">A</span> הוא <span class="eq">(2, 1)</span>. מצאו את <span class="eq">B</span> ובדקו את תשובתכם.</p>
+  <div class="lines"><div></div><div></div></div>
+  <h2 class="q">שאלה 8 — קצה חסר עם מינוסים <span class="tag med">בינוני</span></h2>
+  <p>אמצע הקטע <span class="eq">AB</span> הוא <span class="eq">M(2, 2)</span>, והקצה <span class="eq">A</span> הוא <span class="eq">(−1, 6)</span>. מצאו את <span class="eq">B</span>.</p>
+  <div class="lines"><div></div><div></div></div>
+  <h2 class="q">שאלה 9 — אורך תיכון <span class="tag med">בינוני</span></h2>
+  <p>במשולש שקודקודיו <span class="eq">A(0, 0)</span>, <span class="eq">B(8, 0)</span> ו-<span class="eq">C(4, 6)</span> מצאו את אמצע הצלע <span class="eq">AB</span> ואת אורך התיכון היוצא מ-<span class="eq">C</span>.</p>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 10 — בדיקה: האם זו נקודת האמצע? <span class="tag med">בינוני</span></h2>
+  <p>תלמיד טוען שאמצע הקטע שקצותיו <span class="eq">A(1, 2)</span> ו-<span class="eq">B(7, 10)</span> הוא <span class="eq">(4, 6)</span>. בדקו בחישוב אם הוא צודק.</p>
+  <div class="lines"><div></div><div></div></div>
+  <h2 class="q">שאלה 11 — סימון בשרטוט <span class="tag med">בינוני</span></h2>
+  <p>סמנו את הנקודות <span class="eq">A(−2, 1)</span> ו-<span class="eq">B(4, 5)</span>, חברו ביניהן בקטע, וסמנו עליו את נקודת האמצע. מהם שיעוריה?</p><div style="text-align:center;margin:10px 0"><svg width="250" height="250" viewBox="0 0 250 250"><line x1="16.0" y1="234.0" x2="16.0" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="234.0" x2="234.0" y2="234.0" stroke="#e6ebf5" stroke-width="1"/><line x1="34.2" y1="234.0" x2="34.2" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="215.8" x2="234.0" y2="215.8" stroke="#e6ebf5" stroke-width="1"/><line x1="52.3" y1="234.0" x2="52.3" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="197.7" x2="234.0" y2="197.7" stroke="#e6ebf5" stroke-width="1"/><line x1="70.5" y1="234.0" x2="70.5" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="179.5" x2="234.0" y2="179.5" stroke="#e6ebf5" stroke-width="1"/><line x1="88.7" y1="234.0" x2="88.7" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="161.3" x2="234.0" y2="161.3" stroke="#e6ebf5" stroke-width="1"/><line x1="106.8" y1="234.0" x2="106.8" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="143.2" x2="234.0" y2="143.2" stroke="#e6ebf5" stroke-width="1"/><line x1="125.0" y1="234.0" x2="125.0" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="125.0" x2="234.0" y2="125.0" stroke="#e6ebf5" stroke-width="1"/><line x1="143.2" y1="234.0" x2="143.2" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="106.8" x2="234.0" y2="106.8" stroke="#e6ebf5" stroke-width="1"/><line x1="161.3" y1="234.0" x2="161.3" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="88.7" x2="234.0" y2="88.7" stroke="#e6ebf5" stroke-width="1"/><line x1="179.5" y1="234.0" x2="179.5" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="70.5" x2="234.0" y2="70.5" stroke="#e6ebf5" stroke-width="1"/><line x1="197.7" y1="234.0" x2="197.7" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="52.3" x2="234.0" y2="52.3" stroke="#e6ebf5" stroke-width="1"/><line x1="215.8" y1="234.0" x2="215.8" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="34.2" x2="234.0" y2="34.2" stroke="#e6ebf5" stroke-width="1"/><line x1="234.0" y1="234.0" x2="234.0" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="16.0" x2="234.0" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="125.0" x2="234.0" y2="125.0" stroke="#14306b" stroke-width="1.8"/><line x1="125.0" y1="234.0" x2="125.0" y2="16.0" stroke="#14306b" stroke-width="1.8"/><polygon points="234.0,125.0 226.0,121.0 226.0,129.0" fill="#14306b"/><polygon points="125.0,16.0 121.0,24.0 129.0,24.0" fill="#14306b"/><text x="230.0" y="118.0" text-anchor="end" font-size="12" fill="#14306b" font-weight="700">x</text><text x="132.0" y="28.0" font-size="12" fill="#14306b" font-weight="700">y</text><text x="121.0" y="137.0" text-anchor="end" font-size="9" fill="#8893ad">0</text><text x="16.0" y="137.0" text-anchor="middle" font-size="8.5" fill="#8893ad">-6</text><text x="121.0" y="237.0" text-anchor="end" font-size="8.5" fill="#8893ad">-6</text><text x="34.2" y="137.0" text-anchor="middle" font-size="8.5" fill="#8893ad">-5</text><text x="121.0" y="218.8" text-anchor="end" font-size="8.5" fill="#8893ad">-5</text><text x="52.3" y="137.0" text-anchor="middle" font-size="8.5" fill="#8893ad">-4</text><text x="121.0" y="200.7" text-anchor="end" font-size="8.5" fill="#8893ad">-4</text><text x="70.5" y="137.0" text-anchor="middle" font-size="8.5" fill="#8893ad">-3</text><text x="121.0" y="182.5" text-anchor="end" font-size="8.5" fill="#8893ad">-3</text><text x="88.7" y="137.0" text-anchor="middle" font-size="8.5" fill="#8893ad">-2</text><text x="121.0" y="164.3" text-anchor="end" font-size="8.5" fill="#8893ad">-2</text><text x="106.8" y="137.0" text-anchor="middle" font-size="8.5" fill="#8893ad">-1</text><text x="121.0" y="146.2" text-anchor="end" font-size="8.5" fill="#8893ad">-1</text><text x="143.2" y="137.0" text-anchor="middle" font-size="8.5" fill="#8893ad">1</text><text x="121.0" y="109.8" text-anchor="end" font-size="8.5" fill="#8893ad">1</text><text x="161.3" y="137.0" text-anchor="middle" font-size="8.5" fill="#8893ad">2</text><text x="121.0" y="91.7" text-anchor="end" font-size="8.5" fill="#8893ad">2</text><text x="179.5" y="137.0" text-anchor="middle" font-size="8.5" fill="#8893ad">3</text><text x="121.0" y="73.5" text-anchor="end" font-size="8.5" fill="#8893ad">3</text><text x="197.7" y="137.0" text-anchor="middle" font-size="8.5" fill="#8893ad">4</text><text x="121.0" y="55.3" text-anchor="end" font-size="8.5" fill="#8893ad">4</text><text x="215.8" y="137.0" text-anchor="middle" font-size="8.5" fill="#8893ad">5</text><text x="121.0" y="37.2" text-anchor="end" font-size="8.5" fill="#8893ad">5</text><text x="234.0" y="137.0" text-anchor="middle" font-size="8.5" fill="#8893ad">6</text><text x="121.0" y="19.0" text-anchor="end" font-size="8.5" fill="#8893ad">6</text></svg></div>
+  
+  <h2 class="q">שאלה 12 — אתגר: אלכסונים החוצים זה את זה <span class="tag hard">מאתגר</span></h2>
+  <p>נתון מרובע שקודקודיו <span class="eq">A(1, 1)</span>, <span class="eq">B(5, 2)</span>, <span class="eq">C(7, 6)</span> ו-<span class="eq">D(3, 5)</span>. חשבו את אמצע האלכסון <span class="eq">AC</span> ואת אמצע האלכסון <span class="eq">BD</span>, והסיקו מסקנה.</p>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 13 — אתגר: השלמת מקבילית <span class="tag hard">מאתגר</span></h2>
+  <p>שלושה קודקודים של מקבילית <span class="eq">ABCD</span> הם <span class="eq">A(0, 0)</span>, <span class="eq">B(6, 2)</span> ו-<span class="eq">C(8, 7)</span>. מצאו את הקודקוד <span class="eq">D</span>.</p>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 14 — אתגר: האמצע והמרחק יחד <span class="tag hard">מאתגר</span></h2>
+  <p>נתון קטע שקצותיו <span class="eq">A(−3, 2)</span> ו-<span class="eq">B(5, 8)</span>. מצאו את נקודת האמצע <span class="eq">M</span>, חשבו את <span class="eq">AB</span> ואת <span class="eq">AM</span>, והראו ש-<span class="eq">AM</span> הוא בדיוק מחצית מ-<span class="eq">AB</span>.</p>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 15 — אתגר: קצה על ציר ה-y <span class="tag hard">מאתגר</span></h2>
+  <p>הקצה <span class="eq">A</span> של קטע נמצא על ציר ה-y בנקודה <span class="eq">(0, 3)</span>, ואמצע הקטע הוא <span class="eq">M(2, −1)</span>. מצאו את הקצה <span class="eq">B</span> ואת אורך הקטע <span class="eq">AB</span>.</p>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
+</div>
+
+<div class="sheet key pagebreak">
+  <header>
+    <h1>🔑 דף פתרונות למורה — פרק 2: אמצע קטע</h1>
+    <div class="sub">לא לחלוקה לתלמידים</div>
+  </header>
+  <div class="ans"><strong>שאלה 1.</strong> א. <span class="eq">((2 + 8)/2 , (4 + 10)/2) = (5, 7)</span> &nbsp; ב. <span class="eq">((1 + 9)/2 , (3 + 5)/2) = (5, 4)</span></div>
+<div class="ans"><strong>שאלה 2.</strong> <span class="eq">((−6 + 4)/2 , (2 + 8)/2) = (−1, 5)</span></div>
+<div class="ans"><strong>שאלה 3.</strong> <span class="eq">((1 + 4)/2 , (2 + 7)/2) = (2.5, 4.5)</span></div>
+<div class="ans"><strong>שאלה 4.</strong> <span class="eq">((0 + 10)/2 , (0 − 6)/2) = (5, −3)</span></div>
+<div class="ans"><strong>שאלה 5.</strong> <span class="eq">M = ((x₁ + x₂)/2 , (y₁ + y₂)/2)</span></div>
+<div class="ans"><strong>שאלה 6.</strong> <span class="eq">((−3 + 7)/2 , (−5 + 1)/2) = (2, −2)</span></div>
+<div class="ans"><strong>שאלה 7.</strong> <span class="eq">x = 2·5 − 2 = 8</span>, <span class="eq">y = 2·4 − 1 = 7</span>, ולכן <span class="eq">B(8, 7)</span> (בדיקה: הממוצעים הם 5 ו-4)</div>
+<div class="ans"><strong>שאלה 8.</strong> <span class="eq">x = 2·2 − (−1) = 5</span>, <span class="eq">y = 2·2 − 6 = −2</span>, ולכן <span class="eq">B(5, −2)</span></div>
+<div class="ans"><strong>שאלה 9.</strong> אמצע <span class="eq">AB</span> הוא <span class="eq">(4, 0)</span>; התיכון מ-C אנכי ואורכו <span class="eq">6 − 0 = 6</span></div>
+<div class="ans"><strong>שאלה 10.</strong> צודק: <span class="eq">((1 + 7)/2 , (2 + 10)/2) = (4, 6)</span></div>
+<div class="ans"><strong>שאלה 11.</strong> נקודת האמצע היא <span class="eq">((−2 + 4)/2 , (1 + 5)/2) = (1, 3)</span></div>
+<div class="ans"><strong>שאלה 12.</strong> אמצע <span class="eq">AC</span> הוא <span class="eq">(4, 3.5)</span> ואמצע <span class="eq">BD</span> הוא <span class="eq">(4, 3.5)</span> — אותה נקודה, ולכן האלכסונים חוצים זה את זה והמרובע מקבילית</div>
+<div class="ans"><strong>שאלה 13.</strong> אמצע <span class="eq">AC</span> הוא <span class="eq">(4, 3.5)</span>; ולכן <span class="eq">x = 2·4 − 6 = 2</span> ו-<span class="eq">y = 2·3.5 − 2 = 5</span>, כלומר <span class="eq">D(2, 5)</span></div>
+<div class="ans"><strong>שאלה 14.</strong> <span class="eq">M(1, 5)</span>; <span class="eq">AB = √(64 + 36) = 10</span>; <span class="eq">AM = √(16 + 9) = 5</span> — אכן מחצית</div>
+<div class="ans"><strong>שאלה 15.</strong> <span class="eq">B(4, −5)</span>; ואורך הקטע <span class="eq">AB = √(16 + 64) = √80 = 4√5</span></div>
+  <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
+</div>
+</body>
+</html>

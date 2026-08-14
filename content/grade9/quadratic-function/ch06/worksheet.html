@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>דף עבודה — בעיות מהחיים בעזרת הפרבולה</title>
+<style>
+  @page { size: A4; margin: 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: #1a2233;
+         line-height: 1.7; margin: 0; padding: 20px; background: #f4f6fa; }
+  .sheet { background: #fff; max-width: 820px; margin: 0 auto 24px;
+           padding: 30px 36px; border-radius: 10px;
+           box-shadow: 0 2px 14px rgba(0,0,0,.09); }
+  header { border-bottom: 3px solid #2f6fed; padding-bottom: 12px; margin-bottom: 20px; }
+  h1 { margin: 0 0 4px; font-size: 24px; color: #14306b; }
+  .sub { color: #5b6780; font-size: 14px; }
+  .namebar { display: flex; gap: 26px; margin-top: 12px; font-size: 14px; }
+  .namebar span { flex: 1; border-bottom: 1px dotted #8894ab; padding-bottom: 3px; }
+  h2.q, h2.sec { font-size: 17px; margin: 24px 0 10px; color: #14306b;
+    background: #eef3fe; padding: 7px 12px; border-radius: 6px;
+    border-inline-start: 5px solid #2f6fed; }
+  .tag { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px;
+         margin-inline-start: 8px; vertical-align: middle; }
+  .easy { background: #dff5e3; color: #1c6b32; }
+  .med  { background: #fdf0d5; color: #8a5b06; }
+  .hard { background: #fadbdb; color: #8f2222; }
+  ol.items { margin: 6px 0; padding-inline-start: 22px; }
+  ol.items > li { margin-bottom: 13px; }
+  .fr { display: inline-flex; flex-direction: column; align-items: center;
+        vertical-align: middle; margin: 0 3px; font-size: .95em; line-height: 1.15; }
+  .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
+  .fr i { font-style: normal; padding: 0 4px; }
+  .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; margin: 0 3px; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
+  .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
+  .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
+  .fig { text-align: center; font-size: 13px; color: #5b6780; }
+  .lines div { border-bottom: 1px dotted #aab3c4; height: 24px; }
+  .numline { margin: 10px 0; }
+  .pagebreak { page-break-before: always; }
+  .key { background: #fffdf3; }
+  .key h1 { color: #8a5b06; }
+  .key header { border-bottom-color: #e0a800; }
+  .key .ans { background:#fff; border:1px solid #eadfb8; border-radius:6px;
+              padding:10px 14px; margin-bottom:10px; font-size:14.5px; }
+  .key .ans strong { color:#8a5b06; }
+  .credit { text-align:center; font-size: 12px; color: #8894ab; margin-top: 18px;
+            border-top: 1px solid #eef1f6; padding-top: 8px; }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .sheet { box-shadow: none; margin: 0; border-radius: 0; padding: 0; max-width: none; }
+    .noprint { display: none; }
+  }
+  .noprint { text-align:center; margin: 10px 0 20px; }
+  .noprint button { background: #2f6fed; color:#fff; border:0; padding:10px 26px;
+                    border-radius:6px; font-size:15px; cursor:pointer; font-family:inherit; }
+</style>
+</head>
+<body>
+
+<div class="noprint"><button onclick="window.print()">🖨️ הדפסה / שמירה כ‑PDF</button></div>
+
+<div class="sheet">
+  <header>
+    <h1>דף עבודה — פרק 6: בעיות מהחיים בעזרת הפרבולה</h1>
+    <div class="sub">גובה מרבי, שטח מרבי והכנסה מרבית</div>
+    <div class="namebar"><span>שם: </span><span>כיתה: </span><span>תאריך: </span></div>
+  </header>
+  <div class="note-box" style="background:#eef3fe; border-inline-start:4px solid #2f6fed; padding:10px 14px; border-radius:6px; font-size:14px; margin:18px 0">כל בעיה בדף הזה מחפשת ערך קיצון — וערך קיצון נמצא תמיד בקודקוד. סדר העבודה: בונים פונקציה (בוחרים משתנה וכותבים את הגודל שרוצים למקסם), מוצאים את הקודקוד לפי x = −b חלקי 2a ומציבים, וחוזרים לסיפור עם תשובה במילים וביחידות. שיעור ה-x של הקודקוד עונה על השאלה מתי או באיזה גודל, ושיעור ה-y עונה על השאלה כמה. פתרון שאינו מתאים לסיפור — זמן שלילי, אורך שלילי או כמות שלילית — נפסל.</div>
+  
+  <h2 class="q">שאלה 1 — הכדור הראשון <span class="tag easy">קל</span></h2>
+  <p>גובה כדור במטרים נתון על ידי <span class="eq">h = −5t² + 20t</span>, כאשר <span class="eq">t</span> הוא הזמן בשניות.</p><ol type="a"><li>אחרי כמה שניות הכדור בגובה המרבי? <span class="blank"></span></li><li>מהו הגובה המרבי? <span class="blank"></span></li></ol>
+  
+  <h2 class="q">שאלה 2 — זריקה נמוכה <span class="tag easy">קל</span></h2>
+  <p>גובה כדור נתון על ידי <span class="eq">h = −5t² + 10t</span>.</p><ol type="a"><li>מתי הגובה מרבי? <span class="blank"></span></li><li>מהו הגובה המרבי? <span class="blank"></span></li><li>מתי הכדור חוזר לקרקע? <span class="blank"></span></li></ol>
+  
+  <h2 class="q">שאלה 3 — מלבן בהיקף נתון <span class="tag easy">קל</span></h2>
+  <p>היקף מלבן הוא 16 סנטימטרים. מהם ממדיו כאשר שטחו מרבי, ומהו השטח הזה?</p>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 4 — שני מספרים <span class="tag easy">קל</span></h2>
+  <p>סכומם של שני מספרים הוא 12. מהי המכפלה הגדולה ביותר שהם יכולים לתת?</p>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 5 — מה מספר האיבר החופשי? <span class="tag easy">קל</span></h2>
+  <p>גובה אבן נתון על ידי <span class="eq">h = −5t² + 15t + 20</span>. מהו הגובה שממנו נזרקה האבן, וכיצד קראתם זאת מהפונקציה?</p>
+  <div class="lines"><div></div><div></div></div>
+  <h2 class="q">שאלה 6 — בעיטה חזקה <span class="tag med">בינוני</span></h2>
+  <p>גובה כדור נתון על ידי <span class="eq">h = −5t² + 30t</span>.</p><ol type="a"><li>מתי מגיע הכדור לגובה המרבי, ומהו? <span class="blank"></span></li><li>אחרי כמה שניות הוא נוגע בקרקע? <span class="blank"></span></li></ol>
+  
+  <h2 class="q">שאלה 7 — זריקה מצוק <span class="tag med">בינוני</span></h2>
+  <p>גובה אבן נתון על ידי <span class="eq">h = −5t² + 20t + 60</span>. מצאו את הגובה המרבי ואת רגע הפגיעה בקרקע.</p>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 8 — גדר לאורך קיר <span class="tag med">בינוני</span></h2>
+  <p>לדני יש 36 מטרים של גדר לחלקה מלבנית, וצד אחד שלה נשען על קיר האסם ואינו זקוק לגדר. מהו השטח הגדול ביותר שאפשר לגדר?</p>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 9 — עוד מלבן <span class="tag med">בינוני</span></h2>
+  <p>היקף מלבן הוא 28 מטרים. מהו שטחו המרבי?</p>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 10 — הלימונדה של רוני <span class="tag med">בינוני</span></h2>
+  <p>במחיר 8 שקלים לכוס מוכרת רוני 40 כוסות ביום. על כל שקל שהיא מעלה במחיר היא מוכרת 4 כוסות פחות. באיזה מחיר ההכנסה מרבית, ומה תהיה?</p>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 11 — מכפלה מרבית <span class="tag med">בינוני</span></h2>
+  <p>סכומם של שני מספרים הוא 30. בנו פונקציה למכפלתם ומצאו את המכפלה הגדולה ביותר.</p>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 12 — קשת של גשר <span class="tag med">בינוני</span></h2>
+  <p>גובה קשת של גשר במטרים נתון על ידי <span class="eq">y = −0.5x² + 6x</span>, כאשר <span class="eq">x</span> הוא המרחק האופקי מקצה הקשת. מהו מפתח הקשת, ומהו גובהה המרבי?</p>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 13 — אתגר: זריקה מגג <span class="tag hard">מאתגר</span></h2>
+  <p>גובה אבן שנזרקה מגג נתון על ידי <span class="eq">h = −5t² + 20t + 25</span>.</p><ol type="a"><li>מהו גובה הגג? <span class="blank"></span></li><li>מהו הגובה המרבי? <span class="blank"></span></li><li>מתי האבן פוגעת בקרקע? הסבירו איזה פתרון נפסל ומדוע. <span class="blank"></span></li></ol>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 14 — אתגר: החלקה שליד הנחל <span class="tag hard">מאתגר</span></h2>
+  <p>חקלאי מגדר חלקה מלבנית ב-60 מטרים של גדר, כאשר צד אחד גובל בנחל ואינו זקוק לגדר. מצאו את ממדי החלקה ואת שטחה המרבי.</p>
+  <div class="lines"><div></div><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 15 — אתגר: הפונקציה שמאחורי המלבן <span class="tag hard">מאתגר</span></h2>
+  <p>היקף מלבן הוא 40 מטרים. סמנו ב-<span class="eq">x</span> את אחת הצלעות.</p><ol type="a"><li>כתבו את שטח המלבן כפונקציה של <span class="eq">x</span>, ומצאו מתי השטח מרבי ומהו.</li><li>מצאו את שתי הצלעות שעבורן שטח המלבן הוא 91 מ"ר בדיוק.</li></ol>
+  <div class="lines"><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 16 — אתגר: מחיר הכרטיס <span class="tag hard">מאתגר</span></h2>
+  <p>מחיר כרטיס להופעה הוא 20 שקלים ומגיעים 300 צופים. על כל שקל שמעלים במחיר מגיעים 10 צופים פחות. באיזה מחיר תתקבל ההכנסה הגדולה ביותר, ומה תהיה?</p>
+  <div class="lines"><div></div><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 17 — אתגר: עלות מזערית <span class="tag hard">מאתגר</span></h2>
+  <p>עלות ייצור של פריט בשקלים נתונה על ידי <span class="eq">C = 0.5x² − 12x + 200</span>, כאשר <span class="eq">x</span> הוא מספר הפריטים המיוצרים בשעה. מצאו את קצב הייצור שבו העלות מזערית ואת העלות עצמה, והסבירו מדוע הקודקוד הוא מינימום ולא מקסימום.</p>
+  <div class="lines"><div></div><div></div><div></div><div></div><div></div></div>
+  <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
+</div>
+
+<div class="sheet key pagebreak">
+  <header>
+    <h1>🔑 דף פתרונות למורה — פרק 6: בעיות מהחיים בעזרת הפרבולה</h1>
+    <div class="sub">לא לחלוקה לתלמידים</div>
+  </header>
+  <div class="ans"><strong>שאלה 1.</strong> א. <span class="eq">t = −20 : (−10) = 2</span> שניות &nbsp; ב. מציבים: <span class="eq">−20 + 40 = 20</span> מטרים</div>
+<div class="ans"><strong>שאלה 2.</strong> א. <span class="eq">t = −10 : (−10) = 1</span> שנייה &nbsp; ב. <span class="eq">−5 + 10 = 5</span> מטרים &nbsp; ג. <span class="eq">−5t(t − 2) = 0</span> ולכן <span class="eq">t = 2</span> שניות</div>
+<div class="ans"><strong>שאלה 3.</strong> סכום שתי צלעות סמוכות הוא 8, ולכן <span class="eq">S = x(8 − x) = −x² + 8x</span>. הקודקוד <span class="eq">x = 4</span> ו-<span class="eq">S = 16</span>: ריבוע שצלעו 4 ס"מ ושטחו 16 סמ"ר</div>
+<div class="ans"><strong>שאלה 4.</strong> <span class="eq">P = x(12 − x) = −x² + 12x</span>, הקודקוד <span class="eq">x = 6</span> ולכן שני המספרים 6 ו-6, והמכפלה <span class="eq">36</span></div>
+<div class="ans"><strong>שאלה 5.</strong> 20 מטרים — האיבר החופשי הוא הגובה ברגע <span class="eq">t = 0</span></div>
+<div class="ans"><strong>שאלה 6.</strong> א. <span class="eq">t = −30 : (−10) = 3</span> שניות, ומציבים: <span class="eq">−45 + 90 = 45</span> מטרים &nbsp; ב. <span class="eq">−5t(t − 6) = 0</span> ולכן <span class="eq">t = 6</span> שניות</div>
+<div class="ans"><strong>שאלה 7.</strong> <span class="eq">t = −20 : (−10) = 2</span> ומציבים: <span class="eq">−20 + 40 + 60 = 80</span> מטרים. לקרקע: מחלקים ב-<span class="eq">−5</span> ומקבלים <span class="eq">t² − 4t − 12 = 0</span>, כלומר <span class="eq">(t − 6)(t + 2) = 0</span>; <span class="eq">t = −2</span> נפסל, ולכן <span class="eq">t = 6</span> שניות</div>
+<div class="ans"><strong>שאלה 8.</strong> <span class="eq">S = x(36 − 2x) = −2x² + 36x</span>, הקודקוד <span class="eq">x = 9</span> ו-<span class="eq">S = −162 + 324 = 162</span>. הצדדים הניצבים לקיר 9 מטרים והצד המקביל 18 מטרים; השטח 162 מ"ר</div>
+<div class="ans"><strong>שאלה 9.</strong> סכום שתי צלעות סמוכות 14, <span class="eq">S = x(14 − x)</span>, הקודקוד <span class="eq">x = 7</span> ולכן ריבוע שצלעו 7 מטרים ושטחו <span class="eq">49</span> מ"ר</div>
+<div class="ans"><strong>שאלה 10.</strong> <span class="eq">R = (8 + x)(40 − 4x) = −4x² + 8x + 320</span>, הקודקוד <span class="eq">x = 1</span> ו-<span class="eq">R = −4 + 8 + 320 = 324</span>. מחיר 9 שקלים, 36 כוסות, הכנסה 324 שקלים (בדיקה: <span class="eq">9 · 36 = 324</span>)</div>
+<div class="ans"><strong>שאלה 11.</strong> <span class="eq">P = x(30 − x) = −x² + 30x</span>, הקודקוד <span class="eq">x = 15</span> ולכן שני המספרים 15 ו-15, והמכפלה <span class="eq">225</span></div>
+<div class="ans"><strong>שאלה 12.</strong> על הקרקע <span class="eq">−0.5x(x − 12) = 0</span>, ולכן <span class="eq">x = 0</span> או <span class="eq">x = 12</span> — המפתח 12 מטרים. הקודקוד <span class="eq">x = −6 : (−1) = 6</span> ומציבים: <span class="eq">−18 + 36 = 18</span> מטרים</div>
+<div class="ans"><strong>שאלה 13.</strong> א. עבור <span class="eq">t = 0</span> מתקבל <span class="eq">h = 25</span> — הגג בגובה 25 מטרים &nbsp; ב. <span class="eq">t = 2</span> ומציבים: <span class="eq">−20 + 40 + 25 = 45</span> מטרים &nbsp; ג. מחלקים ב-<span class="eq">−5</span>: <span class="eq">t² − 4t − 5 = 0</span>, כלומר <span class="eq">(t − 5)(t + 1) = 0</span>. <span class="eq">t = −1</span> נפסל כי הזמן אינו שלילי, ולכן הפגיעה אחרי 5 שניות</div>
+<div class="ans"><strong>שאלה 14.</strong> <span class="eq">S = x(60 − 2x) = −2x² + 60x</span>, הקודקוד <span class="eq">x = 15</span> ו-<span class="eq">S = −450 + 900 = 450</span>. הממדים 15 על 30 מטרים והשטח 450 מ"ר (בדיקה: <span class="eq">15 · 30 = 450</span>)</div>
+<div class="ans"><strong>שאלה 15.</strong> א. סכום שתי צלעות סמוכות 20, ולכן <span class="eq">S = x(20 − x) = −x² + 20x</span>. הקודקוד <span class="eq">x = 10</span> ו-<span class="eq">S = 100</span>: ריבוע שצלעו 10 מטרים ושטחו 100 מ"ר. ב. פותרים <span class="eq">x(20 − x) = 91</span>, כלומר <span class="eq">x² − 20x + 91 = 0</span>; <span class="eq">x = (20 ± √(400 − 364))/2 = (20 ± 6)/2</span>, ומכאן <span class="eq">x = 13</span> או <span class="eq">x = 7</span> — בשני המקרים אותו מלבן, שצלעותיו 7 מטרים ו-13 מטרים</div>
+<div class="ans"><strong>שאלה 16.</strong> <span class="eq">R = (20 + x)(300 − 10x) = −10x² + 100x + 6000</span>, הקודקוד <span class="eq">x = 5</span> ו-<span class="eq">R = −250 + 500 + 6000 = 6250</span>. מחיר 25 שקלים, 250 צופים, הכנסה 6250 שקלים</div>
+<div class="ans"><strong>שאלה 17.</strong> <span class="eq">x = 12 : 1 = 12</span> פריטים בשעה, ומציבים: <span class="eq">72 − 144 + 200 = 128</span> שקלים. הקודקוד הוא מינימום כי המקדם המוביל <span class="eq">0.5</span> חיובי והפרבולה נפתחת כלפי מעלה</div>
+  <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
+</div>
+</body>
+</html>

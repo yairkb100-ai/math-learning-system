@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>תרגול אינטראקטיבי — הוכחות בעזרת חפיפה</title>
+<style>
+  @page { size: A4; margin: 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: #1a2233;
+         line-height: 1.7; margin: 0; padding: 20px; background: #f4f6fa; }
+  .sheet { background: #fff; max-width: 820px; margin: 0 auto 24px;
+           padding: 30px 36px; border-radius: 10px;
+           box-shadow: 0 2px 14px rgba(0,0,0,.09); }
+  header { border-bottom: 3px solid #2f6fed; padding-bottom: 12px; margin-bottom: 20px; }
+  h1 { margin: 0 0 4px; font-size: 24px; color: #14306b; }
+  .sub { color: #5b6780; font-size: 14px; }
+  .namebar { display: flex; gap: 26px; margin-top: 12px; font-size: 14px; }
+  .namebar span { flex: 1; border-bottom: 1px dotted #8894ab; padding-bottom: 3px; }
+  h2.q, h2.sec { font-size: 17px; margin: 24px 0 10px; color: #14306b;
+    background: #eef3fe; padding: 7px 12px; border-radius: 6px;
+    border-inline-start: 5px solid #2f6fed; }
+  .tag { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px;
+         margin-inline-start: 8px; vertical-align: middle; }
+  .easy { background: #dff5e3; color: #1c6b32; }
+  .med  { background: #fdf0d5; color: #8a5b06; }
+  .hard { background: #fadbdb; color: #8f2222; }
+  ol.items { margin: 6px 0; padding-inline-start: 22px; }
+  ol.items > li { margin-bottom: 13px; }
+  .fr { display: inline-flex; flex-direction: column; align-items: center;
+        vertical-align: middle; margin: 0 3px; font-size: .95em; line-height: 1.15; }
+  .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
+  .fr i { font-style: normal; padding: 0 4px; }
+  .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; margin: 0 3px; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
+  .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
+  .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
+  .fig { text-align: center; font-size: 13px; color: #5b6780; }
+  .lines div { border-bottom: 1px dotted #aab3c4; height: 24px; }
+  .numline { margin: 10px 0; }
+  .pagebreak { page-break-before: always; }
+  .key { background: #fffdf3; }
+  .key h1 { color: #8a5b06; }
+  .key header { border-bottom-color: #e0a800; }
+  .key .ans { background:#fff; border:1px solid #eadfb8; border-radius:6px;
+              padding:10px 14px; margin-bottom:10px; font-size:14.5px; }
+  .key .ans strong { color:#8a5b06; }
+  .credit { text-align:center; font-size: 12px; color: #8894ab; margin-top: 18px;
+            border-top: 1px solid #eef1f6; padding-top: 8px; }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .sheet { box-shadow: none; margin: 0; border-radius: 0; padding: 0; max-width: none; }
+    .noprint { display: none; }
+  }
+  .noprint { text-align:center; margin: 10px 0 20px; }
+  .noprint button { background: #2f6fed; color:#fff; border:0; padding:10px 26px;
+                    border-radius:6px; font-size:15px; cursor:pointer; font-family:inherit; }
+
+  .card { background: #fff; border-radius: 12px; padding: 22px 24px; margin: 0 auto 20px;
+          max-width: 780px; box-shadow: 0 2px 12px rgba(20,48,107,.08); }
+  .card h2 { font-size: 19px; color: #14306b; margin: 0 0 4px; }
+  .hint { color: #77839b; font-size: 14px; margin: 0 0 16px; }
+  .ex { border: 1px solid #e6eaf2; border-radius: 9px; padding: 14px 16px; margin-bottom: 12px; }
+  .ex-h { display: flex; align-items: center; gap: 9px; margin-bottom: 6px; }
+  .ex-h strong { color: #14306b; }
+  .reveal { margin-top: 9px; background: #fff; border: 1.5px solid #2f6fed; color: #2f6fed;
+            border-radius: 6px; padding: 6px 16px; cursor: pointer; font: inherit; font-size: 14px; }
+  .reveal:hover { background: #2f6fed; color: #fff; }
+  .sol { display: none; margin-top: 10px; background:#f3f8f4; border-inline-start:4px solid #34a853;
+         padding: 11px 14px; border-radius: 6px; font-size: 15px; }
+  .sol.show { display: block; }
+  .q { margin-bottom: 22px; padding-bottom: 18px; border-bottom: 1px solid #eef1f6; }
+  .qtext { font-weight: 600; margin-bottom: 10px; }
+  .opts { display: grid; gap: 8px; }
+  .opt { text-align: start; background: #f6f8fc; border: 2px solid #e2e8f2; border-radius: 8px;
+         padding: 10px 14px; cursor: pointer; font: inherit; color: inherit; }
+  .opt:hover:not(:disabled) { border-color: #2f6fed; background: #eef3fe; }
+  .opt.correct { background: #e4f6e9; border-color: #34a853; }
+  .opt.wrong { background: #fdecea; border-color: #d93025; }
+  .opt:disabled { cursor: default; }
+  .score { text-align:center; font-size:17px; font-weight:700; color:#14306b; margin-top:8px; }
+  h1.pt { max-width: 780px; margin: 0 auto 4px; color:#14306b; }
+  p.lead { max-width: 780px; margin: 0 auto 26px; color:#5b6780; }
+</style>
+</head>
+<body>
+
+<h1 class="pt">תרגול: הוכחות בעזרת חפיפה</h1>
+<p class="lead">פרק 4 · טענה, נימוק ומסקנה - איך בונים הוכחה שורה אחר שורה</p>
+
+<div class="card">
+  <h2>✏️ תרגילים</h2>
+  <p class="hint">נסו לפתור לבד, ורק אחר כך גלו את הפתרון.</p>
+  
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 1: השלמת נימוקים בהוכחה נתונה</strong>
+      <span class="tag easy">קל</span></div>
+    <div>הקטעים <span class="eq">PR</span> ו-<span class="eq">QS</span> נחתכים בנקודה <span class="eq">O</span>, ונתון ש-<span class="eq">O</span> אמצע <span class="eq">PR</span> ואמצע <span class="eq">QS</span>. לפניכם הוכחה שממנה הושמטו הנימוקים. השלימו נימוק לכל שורה.<br><br>1. <span class="eq">PO = RO</span> — ?<br>2. <span class="eq">\angle POQ = \angle ROS</span> — ?<br>3. <span class="eq">QO = SO</span> — ?<br>4. <span class="eq">\triangle POQ \cong \triangle ROS</span> — ?<br>5. <span class="eq">PQ = RS</span> — ?</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">1. <span class="eq">PO = RO</span> — נתון, <span class="eq">O</span> אמצע <span class="eq">PR</span>.<br><br>2. <span class="eq">\angle POQ = \angle ROS</span> — זוויות קודקודיות. הן נוצרות מחיתוך שני הישרים <span class="eq">PR</span> ו-<span class="eq">QS</span>.<br><br>3. <span class="eq">QO = SO</span> — נתון, <span class="eq">O</span> אמצע <span class="eq">QS</span>.<br><br>4. <span class="eq">\triangle POQ \cong \triangle ROS</span> — לפי צ.ז.צ. שתי הצלעות הן אלה שבשורות 1 ו-3, והזווית שבשורה 2 נמצאת ביניהן.<br><br>5. <span class="eq">PQ = RS</span> — צלעות מתאימות במשולשים חופפים.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 2: הוכחה מלאה עם צלע משותפת</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>במרובע <span class="eq">ABCD</span> נתון <span class="eq">\angle BAC = \angle DAC</span> וכן <span class="eq">\angle BCA = \angle DCA</span>.<br><br>א. הוכיחו ש-<span class="eq">\triangle ABC \cong \triangle ADC</span>, וציינו את שם משפט החפיפה.<br>ב. הסיקו ש-<span class="eq">AB = AD</span>.<br>ג. הסיקו מסקנה נוספת על הצלעות <span class="eq">CB</span> ו-<span class="eq">CD</span>.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. נבחן את <span class="eq">\triangle ABC</span> ואת <span class="eq">\triangle ADC</span>:<br><br>1. <span class="eq">\angle BAC = \angle DAC</span> — נתון.<br><br>2. <span class="eq">AC = AC</span> — צלע משותפת לשני המשולשים.<br><br>3. <span class="eq">\angle BCA = \angle DCA</span> — נתון.<br><br>4. הצלע שבשורה 2 נמצאת בין שתי הזוויות שבשורות 1 ו-3, ולכן<br><br><span class="eq">\triangle ABC \cong \triangle ADC   (ז.צ.ז)</span><br><br>ב. <span class="eq">AB = AD</span> — צלעות מתאימות במשולשים חופפים. הקודקוד <span class="eq">B</span> מתאים ל-<span class="eq">D</span>, ולכן הצלע <span class="eq">AB</span> מתאימה ל-<span class="eq">AD</span>.<br><br>ג. <span class="eq">CB = CD</span> — גם הן צלעות מתאימות במשולשים חופפים. אפשר להוסיף גם <span class="eq">\angle B = \angle D</span>, זוויות מתאימות במשולשים חופפים. קיבלנו שהמרובע הוא דלתון.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 3: משולשים על צלעות שוות</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>במשולש <span class="eq">ABC</span> נתון <span class="eq">AB = AC</span>. על הצלע <span class="eq">AB</span> נבחרת הנקודה <span class="eq">P</span> ועל הצלע <span class="eq">AC</span> נבחרת הנקודה <span class="eq">Q</span>, כך ש-<span class="eq">AP = AQ</span>. מחברים את <span class="eq">P</span> עם <span class="eq">C</span> ואת <span class="eq">Q</span> עם <span class="eq">B</span>.<br><br>א. הוכיחו ש-<span class="eq">\triangle APC \cong \triangle AQB</span>.<br>ב. הסיקו ש-<span class="eq">PC = QB</span>.<br>ג. הוכיחו בנוסף ש-<span class="eq">PB = QC</span>, ונמקו כל שלב.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. נבחן את <span class="eq">\triangle APC</span> ואת <span class="eq">\triangle AQB</span>:<br><br>1. <span class="eq">AP = AQ</span> — נתון.<br><br>2. <span class="eq">\angle A = \angle A</span> — זווית משותפת לשני המשולשים. היא יושבת בין <span class="eq">AP</span> ל-<span class="eq">AC</span> במשולש הראשון, ובין <span class="eq">AQ</span> ל-<span class="eq">AB</span> בשני.<br><br>3. <span class="eq">AC = AB</span> — נתון (זהו הנתון <span class="eq">AB = AC</span>).<br><br>4. הזווית שבשורה 2 נמצאת בין שתי הצלעות שבשורות 1 ו-3, ולכן<br><br><span class="eq">\triangle APC \cong \triangle AQB   (צ.ז.צ)</span><br><br>ב. <span class="eq">PC = QB</span> — צלעות מתאימות במשולשים חופפים.<br><br>ג. הנקודה <span class="eq">P</span> נמצאת על הקטע <span class="eq">AB</span>, ולכן<br><br><span class="eq">PB = AB - AP</span><br><br>הנקודה <span class="eq">Q</span> נמצאת על הקטע <span class="eq">AC</span>, ולכן<br><br><span class="eq">QC = AC - AQ</span><br><br>נתון <span class="eq">AB = AC</span> וגם <span class="eq">AP = AQ</span>, ולכן שני החסרים שווים בהתאמה, ומכאן<br><br><span class="eq">PB = QC</span><br><br>הנימוק: הפרשים שווים של גדלים שווים.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 4: אתגר: שתי חפיפות ומקבילות</strong>
+      <span class="tag hard">מאתגר</span></div>
+    <div>במרובע <span class="eq">ABCD</span> נתון <span class="eq">AB = CD</span> וכן <span class="eq">AD = CB</span>. מעבירים את האלכסון <span class="eq">AC</span>, והאלכסון השני <span class="eq">BD</span> חותך אותו בנקודה <span class="eq">M</span>.<br><br>א. הוכיחו ש-<span class="eq">\triangle ABC \cong \triangle CDA</span> ונמקו כל שלב.<br>ב. הסיקו ש-<span class="eq">AB \parallel CD</span>.<br>ג. הוכיחו בעזרת חפיפה שנייה ש-<span class="eq">M</span> היא אמצע <span class="eq">AC</span>.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. נבחן את <span class="eq">\triangle ABC</span> ואת <span class="eq">\triangle CDA</span>:<br><br>1. <span class="eq">AB = CD</span> — נתון.<br><br>2. <span class="eq">BC = DA</span> — נתון.<br><br>3. <span class="eq">AC = CA</span> — צלע משותפת.<br><br>4. שלוש צלעות מתאימות שוות, ולכן<br><br><span class="eq">\triangle ABC \cong \triangle CDA   (צ.צ.צ)</span><br><br>ב. מן החפיפה נובע<br><br><span class="eq">\angle BAC = \angle DCA</span><br><br>זוויות מתאימות במשולשים חופפים. שתי הזוויות האלה הן זוויות מתחלפות שנוצרות כאשר הישר <span class="eq">AC</span> חותך את הישרים <span class="eq">AB</span> ו-<span class="eq">CD</span>. אם זוויות מתחלפות שוות — הישרים מקבילים, ולכן<br><br><span class="eq">AB \parallel CD</span><br><br>ג. עכשיו נבחן את <span class="eq">\triangle ABM</span> ואת <span class="eq">\triangle CDM</span>:<br><br>5. <span class="eq">\angle BAM = \angle DCM</span> — זוויות מתחלפות בין <span class="eq">AB</span> ל-<span class="eq">CD</span> המקבילים, שאותם חותך <span class="eq">AC</span>. זהו בדיוק מה שהוכח בסעיף ב.<br><br>6. <span class="eq">AB = CD</span> — נתון.<br><br>7. <span class="eq">\angle ABM = \angle CDM</span> — זוויות מתחלפות בין אותם ישרים מקבילים, שאותם חותך הישר <span class="eq">BD</span>.<br><br>8. הצלע שבשורה 6 נמצאת בין הזוויות שבשורות 5 ו-7, ולכן<br><br><span class="eq">\triangle ABM \cong \triangle CDM   (ז.צ.ז)</span><br><br>9. <span class="eq">AM = CM</span> — צלעות מתאימות במשולשים חופפים, ולכן <span class="eq">M</span> היא אמצע <span class="eq">AC</span>.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 5: הוכחה בסיסית עם זוויות קודקודיות</strong>
+      <span class="tag easy">קל</span></div>
+    <div>הקטעים <span class="eq">KM</span> ו-<span class="eq">LN</span> נחתכים בנקודה <span class="eq">O</span>, ונתון <span class="eq">KO = MO</span> וכן <span class="eq">LO = NO</span>. הוכיחו ש-<span class="eq">KL = MN</span>, ונמקו כל שלב.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">נבחן את <span class="eq">\triangle KOL</span> ואת <span class="eq">\triangle MON</span>:<br><br>1. <span class="eq">KO = MO</span> — נתון.<br><br>2. <span class="eq">\angle KOL = \angle MON</span> — זוויות קודקודיות.<br><br>3. <span class="eq">LO = NO</span> — נתון.<br><br>4. הזווית שבשורה 2 נמצאת בין שתי הצלעות שבשורות 1 ו-3, ולכן<br><br><span class="eq">\triangle KOL \cong \triangle MON   (צ.ז.צ)</span><br><br>5. <span class="eq">KL = MN</span> — צלעות מתאימות במשולשים חופפים.<br><br>אפשר להסיק גם <span class="eq">\angle K = \angle M</span>, ומכיוון שאלה זוויות מתחלפות ביחס לישר <span class="eq">KM</span> נובע מכך גם <span class="eq">KL \parallel MN</span>.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 6: זווית משותפת בקודקוד</strong>
+      <span class="tag easy">קל</span></div>
+    <div>במשולש <span class="eq">ABC</span> נבחרות הנקודה <span class="eq">D</span> על הצלע <span class="eq">AB</span> והנקודה <span class="eq">E</span> על הצלע <span class="eq">AC</span>, כך ש-<span class="eq">AD = AE</span> ו-<span class="eq">AB = AC</span>. הוכיחו ש-<span class="eq">BE = CD</span>.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">נבחן את <span class="eq">\triangle ABE</span> ואת <span class="eq">\triangle ACD</span>:<br><br>1. <span class="eq">AB = AC</span> — נתון.<br><br>2. <span class="eq">\angle A = \angle A</span> — זווית משותפת לשני המשולשים.<br><br>3. <span class="eq">AE = AD</span> — נתון.<br><br>4. הזווית שבשורה 2 יושבת בין <span class="eq">AB</span> ל-<span class="eq">AE</span> במשולש הראשון ובין <span class="eq">AC</span> ל-<span class="eq">AD</span> בשני, ולכן<br><br><span class="eq">\triangle ABE \cong \triangle ACD   (צ.ז.צ)</span><br><br>5. <span class="eq">BE = CD</span> — צלעות מתאימות במשולשים חופפים.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 7: מציאת נעלמים מתוך חפיפה</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>נתון <span class="eq">\triangle PQR \cong \triangle STU</span>. נתון גם <span class="eq">PQ = 4a - 3</span>, <span class="eq">ST = 17</span>, <span class="eq">\angle R = 2b + 14</span> ו-<span class="eq">\angle U = 62<sup>°</sup></span>. מצאו את <span class="eq">a</span> ואת <span class="eq">b</span>, והסבירו מדוע אסור להשוות את <span class="eq">PQ</span> ל-<span class="eq">TU</span>.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">לפי סדר האותיות בשם החפיפה, ההתאמה היא <span class="eq">P rightarrow S</span>, <span class="eq">Q rightarrow T</span>, <span class="eq">R rightarrow U</span>. לכן הצלע <span class="eq">PQ</span> מתאימה לצלע <span class="eq">ST</span> בלבד.<br><br><span class="eq">4a - 3 = 17</span><br><br><span class="eq">4a = 20</span><br><br><span class="eq">a = 5</span><br><br>בדיקה: <span class="eq">4 · 5 - 3 = 17</span>.<br><br>הזווית <span class="eq">\angle R</span> מתאימה ל-<span class="eq">\angle U</span>:<br><br><span class="eq">2b + 14 = 62</span><br><br><span class="eq">2b = 48</span><br><br><span class="eq">b = 24</span><br><br>בדיקה: <span class="eq">2 · 24 + 14 = 62</span>.<br><br>אסור להשוות את <span class="eq">PQ</span> ל-<span class="eq">TU</span> מפני ש-<span class="eq">TU</span> מתאימה ל-<span class="eq">QR</span> ולא ל-<span class="eq">PQ</span>. ההתאמה נקבעת אך ורק לפי סדר האותיות.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 8: מתיקון טענה אל הוכחה מלאה</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>תלמידה כותבת: "במרובע <span class="eq">ABCD</span> נתון <span class="eq">AB = CD</span> ו-<span class="eq">AD = CB</span>, ולכן <span class="eq">\triangle ABC \cong \triangle ADC</span> לפי צ.צ.צ". הסבירו מדוע הסדר שגוי, כתבו את החפיפה הנכונה עם הוכחה מלאה, והסיקו ממנה מסקנה על מקבילות.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol"><b>הטעות:</b> בסדר <span class="eq">\triangle ABC \cong \triangle ADC</span> ההתאמה היא <span class="eq">A rightarrow A</span>, <span class="eq">B rightarrow D</span>, <span class="eq">C rightarrow C</span>, ולכן היא מחייבת <span class="eq">AB = AD</span> — ואת זה לא נתון. הנתונים הם <span class="eq">AB = CD</span> ו-<span class="eq">AD = CB</span>, ולכן ההתאמה הנכונה היא <span class="eq">A rightarrow C</span>, <span class="eq">B rightarrow D</span>, <span class="eq">C rightarrow A</span>.<br><br><b>ההוכחה הנכונה:</b><br><br>1. <span class="eq">AB = CD</span> — נתון.<br><br>2. <span class="eq">BC = DA</span> — נתון.<br><br>3. <span class="eq">AC = CA</span> — צלע משותפת.<br><br>4. שלוש צלעות מתאימות שוות, ולכן<br><br><span class="eq">\triangle ABC \cong \triangle CDA   (צ.צ.צ)</span><br><br>5. <span class="eq">\angle BAC = \angle DCA</span> — זוויות מתאימות במשולשים חופפים.<br><br><b>המסקנה:</b> שתי הזוויות האלה הן זוויות מתחלפות שנוצרות כאשר הישר <span class="eq">AC</span> חותך את <span class="eq">AB</span> ואת <span class="eq">CD</span>. זוויות מתחלפות שוות מעידות על ישרים מקבילים, ולכן<br><br><span class="eq">AB \parallel CD</span><br><br>באותו אופן מן השוויון <span class="eq">\angle BCA = \angle DAC</span> נובע <span class="eq">BC \parallel AD</span>.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 9: אתגר: שרשרת של שתי חפיפות</strong>
+      <span class="tag hard">מאתגר</span></div>
+    <div>במשולש <span class="eq">ABC</span> נתון <span class="eq">AB = AC</span>. הנקודה <span class="eq">D</span> היא אמצע <span class="eq">BC</span>, והנקודה <span class="eq">E</span> נמצאת על הקטע <span class="eq">AD</span>. הוכיחו ש-<span class="eq">EB = EC</span>, ונמקו כל שלב. שימו לב שדרושות שתי חפיפות.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol"><b>חפיפה ראשונה — במשולשים <span class="eq">ABD</span> ו-<span class="eq">ACD</span>:</b><br><br>1. <span class="eq">AB = AC</span> — נתון.<br><br>2. <span class="eq">BD = DC</span> — נתון, <span class="eq">D</span> אמצע <span class="eq">BC</span>.<br><br>3. <span class="eq">AD = AD</span> — צלע משותפת.<br><br>4. <span class="eq">\triangle ABD \cong \triangle ACD   (צ.צ.צ)</span><br><br>5. <span class="eq">\angle ADB = \angle ADC</span> — זוויות מתאימות במשולשים חופפים.<br><br><b>חפיפה שנייה — במשולשים <span class="eq">EBD</span> ו-<span class="eq">ECD</span>:</b><br><br>6. <span class="eq">BD = DC</span> — נתון.<br><br>7. <span class="eq">\angle EDB = \angle EDC</span> — הנקודה <span class="eq">E</span> נמצאת על הקטע <span class="eq">AD</span>, ולכן אלה בדיוק הזוויות שבשורה 5.<br><br>8. <span class="eq">ED = ED</span> — צלע משותפת.<br><br>9. הזווית שבשורה 7 נמצאת בין הצלעות שבשורות 6 ו-8, ולכן<br><br><span class="eq">\triangle EBD \cong \triangle ECD   (צ.ז.צ)</span><br><br>10. <span class="eq">EB = EC</span> — צלעות מתאימות במשולשים חופפים.<br><br><b>הערה:</b> אפשר גם להמשיך מן השורה 5 ולהראות ש-<span class="eq">\angle ADB = 90<sup>°</sup></span>, שכן שתי הזוויות צמודות וסכומן <span class="eq">180<sup>°</sup></span>. אז שני המשולשים בחפיפה השנייה הם ישרי-זווית, אבל הנימוק צ.ז.צ עובד גם בלי זה.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 10: אתגר: הוכחה שמייצרת מקבילית</strong>
+      <span class="tag hard">מאתגר</span></div>
+    <div>האלכסונים <span class="eq">AC</span> ו-<span class="eq">BD</span> של המרובע <span class="eq">ABCD</span> נחתכים בנקודה <span class="eq">M</span>, ונתון ש-<span class="eq">M</span> אמצע שניהם. הוכיחו ש-<span class="eq">AB \parallel CD</span> וגם <span class="eq">AD \parallel BC</span>, ונמקו כל שלב.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol"><b>חפיפה ראשונה — במשולשים <span class="eq">AMB</span> ו-<span class="eq">CMD</span>:</b><br><br>1. <span class="eq">AM = CM</span> — נתון, <span class="eq">M</span> אמצע <span class="eq">AC</span>.<br><br>2. <span class="eq">\angle AMB = \angle CMD</span> — זוויות קודקודיות.<br><br>3. <span class="eq">BM = DM</span> — נתון, <span class="eq">M</span> אמצע <span class="eq">BD</span>.<br><br>4. <span class="eq">\triangle AMB \cong \triangle CMD   (צ.ז.צ)</span><br><br>5. <span class="eq">\angle BAM = \angle DCM</span> — זוויות מתאימות במשולשים חופפים.<br><br>6. שתי הזוויות האלה מתחלפות ביחס לישר <span class="eq">AC</span> החותך את <span class="eq">AB</span> ואת <span class="eq">CD</span>, ולכן<br><br><span class="eq">AB \parallel CD</span><br><br><b>חפיפה שנייה — במשולשים <span class="eq">AMD</span> ו-<span class="eq">CMB</span>:</b><br><br>7. <span class="eq">AM = CM</span> — נתון.<br><br>8. <span class="eq">\angle AMD = \angle CMB</span> — זוויות קודקודיות.<br><br>9. <span class="eq">DM = BM</span> — נתון.<br><br>10. <span class="eq">\triangle AMD \cong \triangle CMB   (צ.ז.צ)</span><br><br>11. <span class="eq">\angle DAM = \angle BCM</span> — זוויות מתאימות במשולשים חופפים.<br><br>12. גם הן זוויות מתחלפות ביחס לישר <span class="eq">AC</span>, ולכן<br><br><span class="eq">AD \parallel BC</span><br><br>הוכחנו שמרובע שאלכסוניו חוצים זה את זה הוא מקבילית.</div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>🎯 מבחנון</h2>
+  <p class="hint">בחרו תשובה — ותקבלו משוב מיד.</p>
+  <div id="quiz"></div>
+  <div class="score" id="score"></div>
+</div>
+
+<div class="credit" style="max-width:780px; margin:0 auto">© כל הזכויות שמורות ליאיר כהנא</div>
+
+<script>
+const quiz = [{"q": "בהוכחה גיאומטרית, מה חייב להופיע ליד כל טענה?", "o": ["נימוק — נתון, תכונה ידועה, או משפט", "מדידה בסרגל שמאשרת את הטענה", "שרטוט נוסף", "מספר סידורי בלבד"], "a": 0}, {"q": "במרובע <span class=\"eq\">ABCD</span> מעבירים את האלכסון <span class=\"eq\">AC</span>. איזה נתון השרטוט נותן בחינם על המשולשים <span class=\"eq\">ABC</span> ו-<span class=\"eq\">ADC</span>?", "o": ["<span class=\"eq\">AC = AC</span> — צלע משותפת", "<span class=\"eq\">AB = AD</span> — צלעות שוות", "<span class=\"eq\">\\angle B = \\angle D</span> — זוויות שוות", "השרטוט אינו נותן שום נתון"], "a": 0}, {"q": "הקטעים <span class=\"eq\">AC</span> ו-<span class=\"eq\">BD</span> נחתכים בנקודה <span class=\"eq\">M</span>. מה נכון תמיד, בלי שום נתון נוסף?", "o": ["<span class=\"eq\">\\angle AMB = \\angle CMD</span> — זוויות קודקודיות", "<span class=\"eq\">AM = CM</span> — הקטעים נחצים", "<span class=\"eq\">AB = CD</span> — צלעות מתאימות", "<span class=\"eq\">\\angle AMB = 90<sup>°</sup></span>"], "a": 0}, {"q": "הוכח ש-<span class=\"eq\">\\triangle ABC \\cong \\triangle DEF</span>. מה הנימוק הנכון לשוויון <span class=\"eq\">BC = EF</span>?", "o": ["צלעות מתאימות במשולשים חופפים", "צלע משותפת", "זוויות קודקודיות", "אי-שוויון המשולש"], "a": 0}, {"q": "הוכח ש-<span class=\"eq\">\\angle ADB = \\angle ADC</span>, והנקודות <span class=\"eq\">B</span>, <span class=\"eq\">D</span>, <span class=\"eq\">C</span> נמצאות על ישר אחד. מה נובע מכך?", "o": ["כל אחת מן הזוויות שווה <span class=\"eq\">90<sup>°</sup></span>, ולכן <span class=\"eq\">AD \\perp BC</span>", "כל אחת מן הזוויות שווה <span class=\"eq\">180<sup>°</sup></span>", "כל אחת מן הזוויות שווה <span class=\"eq\">60<sup>°</sup></span>", "אי אפשר להסיק דבר על גודל הזוויות"], "a": 0}];
+let answered = 0, correct = 0;
+document.getElementById('quiz').innerHTML = quiz.map((q, i) => `
+  <div class="q">
+    <div class="qtext">${i + 1}. ${q.q}</div>
+    <div class="opts">${q.o.map((o, j) =>
+      `<button class="opt" data-q="${i}" data-o="${j}">${o}</button>`).join('')}</div>
+  </div>`).join('');
+document.querySelectorAll('.opt').forEach(btn => {
+  btn.onclick = () => {
+    const qi = +btn.dataset.q, oi = +btn.dataset.o, q = quiz[qi];
+    const group = btn.parentElement.querySelectorAll('.opt');
+    group.forEach(b => b.disabled = true);
+    group[q.a].classList.add('correct');
+    if (oi !== q.a) btn.classList.add('wrong'); else correct++;
+    if (++answered === quiz.length) {
+      document.getElementById('score').textContent =
+        `סיימתם! ${correct} מתוך ${quiz.length} נכונות ` +
+        (correct === quiz.length ? '🏆 מושלם!' : correct >= quiz.length - 2 ? '👍 יפה מאוד!' : '💪 שווה לחזור על הפרק');
+    }
+  };
+});
+</script>
+</body>
+</html>

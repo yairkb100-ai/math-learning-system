@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>דף עבודה — הזזות של הפרבולה</title>
+<style>
+  @page { size: A4; margin: 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: #1a2233;
+         line-height: 1.7; margin: 0; padding: 20px; background: #f4f6fa; }
+  .sheet { background: #fff; max-width: 820px; margin: 0 auto 24px;
+           padding: 30px 36px; border-radius: 10px;
+           box-shadow: 0 2px 14px rgba(0,0,0,.09); }
+  header { border-bottom: 3px solid #2f6fed; padding-bottom: 12px; margin-bottom: 20px; }
+  h1 { margin: 0 0 4px; font-size: 24px; color: #14306b; }
+  .sub { color: #5b6780; font-size: 14px; }
+  .namebar { display: flex; gap: 26px; margin-top: 12px; font-size: 14px; }
+  .namebar span { flex: 1; border-bottom: 1px dotted #8894ab; padding-bottom: 3px; }
+  h2.q, h2.sec { font-size: 17px; margin: 24px 0 10px; color: #14306b;
+    background: #eef3fe; padding: 7px 12px; border-radius: 6px;
+    border-inline-start: 5px solid #2f6fed; }
+  .tag { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px;
+         margin-inline-start: 8px; vertical-align: middle; }
+  .easy { background: #dff5e3; color: #1c6b32; }
+  .med  { background: #fdf0d5; color: #8a5b06; }
+  .hard { background: #fadbdb; color: #8f2222; }
+  ol.items { margin: 6px 0; padding-inline-start: 22px; }
+  ol.items > li { margin-bottom: 13px; }
+  .fr { display: inline-flex; flex-direction: column; align-items: center;
+        vertical-align: middle; margin: 0 3px; font-size: .95em; line-height: 1.15; }
+  .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
+  .fr i { font-style: normal; padding: 0 4px; }
+  .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; margin: 0 3px; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
+  .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
+  .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
+  .fig { text-align: center; font-size: 13px; color: #5b6780; }
+  .lines div { border-bottom: 1px dotted #aab3c4; height: 24px; }
+  .numline { margin: 10px 0; }
+  .pagebreak { page-break-before: always; }
+  .key { background: #fffdf3; }
+  .key h1 { color: #8a5b06; }
+  .key header { border-bottom-color: #e0a800; }
+  .key .ans { background:#fff; border:1px solid #eadfb8; border-radius:6px;
+              padding:10px 14px; margin-bottom:10px; font-size:14.5px; }
+  .key .ans strong { color:#8a5b06; }
+  .credit { text-align:center; font-size: 12px; color: #8894ab; margin-top: 18px;
+            border-top: 1px solid #eef1f6; padding-top: 8px; }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .sheet { box-shadow: none; margin: 0; border-radius: 0; padding: 0; max-width: none; }
+    .noprint { display: none; }
+  }
+  .noprint { text-align:center; margin: 10px 0 20px; }
+  .noprint button { background: #2f6fed; color:#fff; border:0; padding:10px 26px;
+                    border-radius:6px; font-size:15px; cursor:pointer; font-family:inherit; }
+</style>
+</head>
+<body>
+
+<div class="noprint"><button onclick="window.print()">🖨️ הדפסה / שמירה כ‑PDF</button></div>
+
+<div class="sheet">
+  <header>
+    <h1>דף עבודה — פרק 3: הזזות של הפרבולה</h1>
+    <div class="sub">הזזה אנכית, הזזה אופקית וצורת הקודקוד</div>
+    <div class="namebar"><span>שם: </span><span>כיתה: </span><span>תאריך: </span></div>
+  </header>
+  <div class="note-box" style="background:#eef3fe; border-inline-start:4px solid #2f6fed; padding:10px 14px; border-radius:6px; font-size:14px; margin:18px 0">בפונקציה y = ax² + c המספר c מזיז את הפרבולה למעלה או למטה, והקודקוד הוא (0, c). בפונקציה y = a(x − p)² הקודקוד הוא (p, 0): הפרבולה זזה למקום שבו הסוגר מתאפס — מינוס בסוגר פירושו ימינה, ופלוס פירושו שמאלה. בצורת הקודקוד y = a(x − p)² + k הקודקוד הוא (p, k) וציר הסימטריה הוא הישר x = p. המקדם a אחראי רק לכיוון הפתיחה ולרוחב, ואינו מזיז את הקודקוד. כשבונים טבלה — בוחרים ערכי x סימטריים סביב הקודקוד.</div>
+  
+  <h2 class="q">שאלה 1 — הזזה אנכית <span class="tag easy">קל</span></h2>
+  <p>רשמו את הקודקוד של כל פרבולה:</p><ol type="a"><li><span class="eq">y = x² + 5</span> ⟵ <span class="blank"></span></li><li><span class="eq">y = x² − 3</span> ⟵ <span class="blank"></span></li><li><span class="eq">y = x² − 10</span> ⟵ <span class="blank"></span></li></ol>
+  
+  <h2 class="q">שאלה 2 — הזזה אופקית <span class="tag easy">קל</span></h2>
+  <p>רשמו את הקודקוד של כל פרבולה. שימו לב לסימן שבסוגר:</p><ol type="a"><li><span class="eq">y = (x − 7)²</span> ⟵ <span class="blank"></span></li><li><span class="eq">y = (x + 4)²</span> ⟵ <span class="blank"></span></li><li><span class="eq">y = (x − 1)²</span> ⟵ <span class="blank"></span></li></ol>
+  
+  <h2 class="q">שאלה 3 — טבלת ערכים <span class="tag easy">קל</span></h2>
+  <p>השלימו את טבלת הערכים של הפונקציה <span class="eq">y = x² + 2</span>:</p><table><tr><th>x</th><td>−2</td><td>−1</td><td>0</td><td>1</td><td>2</td></tr><tr><th>y</th><td><span class="blank"></span></td><td><span class="blank"></span></td><td><span class="blank"></span></td><td><span class="blank"></span></td><td><span class="blank"></span></td></tr></table>
+  
+  <h2 class="q">שאלה 4 — צורת הקודקוד <span class="tag easy">קל</span></h2>
+  <p>רשמו את הקודקוד של כל פרבולה:</p><ol type="a"><li><span class="eq">y = (x − 2)² + 3</span> ⟵ <span class="blank"></span></li><li><span class="eq">y = (x + 5)² − 1</span> ⟵ <span class="blank"></span></li></ol>
+  
+  <h2 class="q">שאלה 5 — מינימום או מקסימום <span class="tag easy">קל</span></h2>
+  <p>לכל פרבולה קבעו את כיוון הפתיחה ואת הערך המינימלי או המקסימלי שלה:</p><ol type="a"><li><span class="eq">y = 4(x − 1)² + 2</span> ⟵ <span class="blank"></span></li><li><span class="eq">y = −2(x + 3)² + 7</span> ⟵ <span class="blank"></span></li></ol>
+  
+  <h2 class="q">שאלה 6 — מינוס בסוגריים או מחוץ להם <span class="tag easy">קל</span></h2>
+  <p>לכל פונקציה רשמו את הקודקוד, ושימו לב היכן נמצא המספר:</p><ol type="a"><li><span class="eq">y = x² − 6</span> ⟵ <span class="blank"></span></li><li><span class="eq">y = (x − 6)²</span> ⟵ <span class="blank"></span></li><li><span class="eq">y = (x + 6)²</span> ⟵ <span class="blank"></span></li></ol>
+  
+  <h2 class="q">שאלה 7 — טבלה סימטרית סביב הקודקוד <span class="tag med">בינוני</span></h2>
+  <p>השלימו את טבלת הערכים של <span class="eq">y = (x − 3)²</span>, וסמנו בעיגול את המשבצת שבה נמצא הקודקוד:</p><table><tr><th>x</th><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr><tr><th>y</th><td><span class="blank"></span></td><td><span class="blank"></span></td><td><span class="blank"></span></td><td><span class="blank"></span></td><td><span class="blank"></span></td></tr></table>
+  
+  <h2 class="q">שאלה 8 — מהקודקוד אל המשוואה <span class="tag med">בינוני</span></h2>
+  <p>כתבו את משוואת הפרבולה בכל סעיף:</p><ol type="a"><li>קודקוד <span class="eq">(2, −5)</span> ומקדם <span class="eq">a = 1</span> ⟵ <span class="blank"></span></li><li>קודקוד <span class="eq">(−3, 4)</span> ומקדם <span class="eq">a = 2</span> ⟵ <span class="blank"></span></li></ol>
+  
+  <h2 class="q">שאלה 9 — ציר הסימטריה <span class="tag med">בינוני</span></h2>
+  <p>רשמו את ציר הסימטריה של כל פרבולה:</p><ol type="a"><li><span class="eq">y = (x − 8)² + 1</span> ⟵ <span class="blank"></span></li><li><span class="eq">y = −3(x + 2)² − 6</span> ⟵ <span class="blank"></span></li></ol>
+  
+  <h2 class="q">שאלה 10 — חיתוך עם ציר ה-y <span class="tag med">בינוני</span></h2>
+  <p>מצאו את נקודת החיתוך עם ציר ה-y של כל פרבולה (רמז: מציבים <span class="eq">x = 0</span>):</p><ol type="a"><li><span class="eq">y = (x − 4)² + 1</span> ⟵ <span class="blank"></span></li><li><span class="eq">y = 2(x + 1)² − 3</span> ⟵ <span class="blank"></span></li></ol>
+  
+  <h2 class="q">שאלה 11 — שלושה קודקודים על הצירים <span class="tag med">בינוני</span></h2>
+  <p>מצאו את הקודקוד של כל אחת מהפרבולות <span class="eq">y = x² + 3</span>, <span class="eq">y = (x − 4)²</span> ו-<span class="eq">y = (x + 2)² − 3</span>, וסמנו את שלוש הנקודות במערכת הצירים.</p><div style="text-align:center;margin:10px 0"><svg width="250" height="250" viewBox="0 0 250 250"><line x1="16.0" y1="234.0" x2="16.0" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="234.0" x2="234.0" y2="234.0" stroke="#e6ebf5" stroke-width="1"/><line x1="34.2" y1="234.0" x2="34.2" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="215.8" x2="234.0" y2="215.8" stroke="#e6ebf5" stroke-width="1"/><line x1="52.3" y1="234.0" x2="52.3" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="197.7" x2="234.0" y2="197.7" stroke="#e6ebf5" stroke-width="1"/><line x1="70.5" y1="234.0" x2="70.5" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="179.5" x2="234.0" y2="179.5" stroke="#e6ebf5" stroke-width="1"/><line x1="88.7" y1="234.0" x2="88.7" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="161.3" x2="234.0" y2="161.3" stroke="#e6ebf5" stroke-width="1"/><line x1="106.8" y1="234.0" x2="106.8" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="143.2" x2="234.0" y2="143.2" stroke="#e6ebf5" stroke-width="1"/><line x1="125.0" y1="234.0" x2="125.0" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="125.0" x2="234.0" y2="125.0" stroke="#e6ebf5" stroke-width="1"/><line x1="143.2" y1="234.0" x2="143.2" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="106.8" x2="234.0" y2="106.8" stroke="#e6ebf5" stroke-width="1"/><line x1="161.3" y1="234.0" x2="161.3" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="88.7" x2="234.0" y2="88.7" stroke="#e6ebf5" stroke-width="1"/><line x1="179.5" y1="234.0" x2="179.5" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="70.5" x2="234.0" y2="70.5" stroke="#e6ebf5" stroke-width="1"/><line x1="197.7" y1="234.0" x2="197.7" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="52.3" x2="234.0" y2="52.3" stroke="#e6ebf5" stroke-width="1"/><line x1="215.8" y1="234.0" x2="215.8" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="34.2" x2="234.0" y2="34.2" stroke="#e6ebf5" stroke-width="1"/><line x1="234.0" y1="234.0" x2="234.0" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="16.0" x2="234.0" y2="16.0" stroke="#e6ebf5" stroke-width="1"/><line x1="16.0" y1="125.0" x2="234.0" y2="125.0" stroke="#14306b" stroke-width="1.8"/><line x1="125.0" y1="234.0" x2="125.0" y2="16.0" stroke="#14306b" stroke-width="1.8"/><polygon points="234.0,125.0 226.0,121.0 226.0,129.0" fill="#14306b"/><polygon points="125.0,16.0 121.0,24.0 129.0,24.0" fill="#14306b"/><text x="230.0" y="118.0" text-anchor="end" font-size="12" fill="#14306b" font-weight="700">x</text><text x="132.0" y="28.0" font-size="12" fill="#14306b" font-weight="700">y</text><text x="121.0" y="137.0" text-anchor="end" font-size="9" fill="#8893ad">0</text><text x="16.0" y="137.0" text-anchor="middle" font-size="8.5" fill="#8893ad">-6</text><text x="121.0" y="237.0" text-anchor="end" font-size="8.5" fill="#8893ad">-6</text><text x="34.2" y="137.0" text-anchor="middle" font-size="8.5" fill="#8893ad">-5</text><text x="121.0" y="218.8" text-anchor="end" font-size="8.5" fill="#8893ad">-5</text><text x="52.3" y="137.0" text-anchor="middle" font-size="8.5" fill="#8893ad">-4</text><text x="121.0" y="200.7" text-anchor="end" font-size="8.5" fill="#8893ad">-4</text><text x="70.5" y="137.0" text-anchor="middle" font-size="8.5" fill="#8893ad">-3</text><text x="121.0" y="182.5" text-anchor="end" font-size="8.5" fill="#8893ad">-3</text><text x="88.7" y="137.0" text-anchor="middle" font-size="8.5" fill="#8893ad">-2</text><text x="121.0" y="164.3" text-anchor="end" font-size="8.5" fill="#8893ad">-2</text><text x="106.8" y="137.0" text-anchor="middle" font-size="8.5" fill="#8893ad">-1</text><text x="121.0" y="146.2" text-anchor="end" font-size="8.5" fill="#8893ad">-1</text><text x="143.2" y="137.0" text-anchor="middle" font-size="8.5" fill="#8893ad">1</text><text x="121.0" y="109.8" text-anchor="end" font-size="8.5" fill="#8893ad">1</text><text x="161.3" y="137.0" text-anchor="middle" font-size="8.5" fill="#8893ad">2</text><text x="121.0" y="91.7" text-anchor="end" font-size="8.5" fill="#8893ad">2</text><text x="179.5" y="137.0" text-anchor="middle" font-size="8.5" fill="#8893ad">3</text><text x="121.0" y="73.5" text-anchor="end" font-size="8.5" fill="#8893ad">3</text><text x="197.7" y="137.0" text-anchor="middle" font-size="8.5" fill="#8893ad">4</text><text x="121.0" y="55.3" text-anchor="end" font-size="8.5" fill="#8893ad">4</text><text x="215.8" y="137.0" text-anchor="middle" font-size="8.5" fill="#8893ad">5</text><text x="121.0" y="37.2" text-anchor="end" font-size="8.5" fill="#8893ad">5</text><text x="234.0" y="137.0" text-anchor="middle" font-size="8.5" fill="#8893ad">6</text><text x="121.0" y="19.0" text-anchor="end" font-size="8.5" fill="#8893ad">6</text></svg></div>
+  
+  <h2 class="q">שאלה 12 — מספר נקודות החיתוך עם ציר ה-x <span class="tag med">בינוני</span></h2>
+  <p>בלי לפתור משוואה, קבעו לכל פרבולה כמה נקודות חיתוך יש לה עם ציר ה-x. נמקו לפי מיקום הקודקוד וכיוון הפתיחה:</p><ol type="a"><li><span class="eq">y = (x − 5)² + 2</span></li><li><span class="eq">y = 2(x + 1)² − 8</span></li><li><span class="eq">y = −(x − 3)² − 1</span></li><li><span class="eq">y = −3(x + 2)²</span></li></ol>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 13 — אתגר: חקירה קצרה <span class="tag hard">מאתגר</span></h2>
+  <p>נתונה הפונקציה <span class="eq">y = (x − 1)² − 9</span>.</p><ol type="a"><li>מהו הקודקוד? <span class="blank"></span></li><li>מהי נקודת החיתוך עם ציר ה-y? <span class="blank"></span></li><li>מהן נקודות החיתוך עם ציר ה-x? <span class="blank"></span></li></ol>
+  
+  <h2 class="q">שאלה 14 — אתגר: שרשרת הזזות <span class="tag hard">מאתגר</span></h2>
+  <p>תארו כיצד מתקבלת הפרבולה <span class="eq">y = (x + 6)² − 2</span> מתוך הפרבולה הבסיסית <span class="eq">y = x²</span>: כמה יחידות לכל כיוון, ומהו הקודקוד שהתקבל?</p>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 15 — אתגר: מי צודק <span class="tag hard">מאתגר</span></h2>
+  <p>דנה טוענת שהפרבולה <span class="eq">y = (x + 3)²</span> הוזזה שלוש יחידות ימינה, ואיתי טוען שהיא הוזזה שלוש יחידות שמאלה. הציבו <span class="eq">x = −3</span> ו-<span class="eq">x = 3</span>, וקבעו מי צודק ומדוע.</p>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 16 — אתגר: מציאת המקדם מקודקוד ונקודה <span class="tag hard">מאתגר</span></h2>
+  <p>פרבולה שקודקודה <span class="eq">(2, 1)</span> עוברת גם בנקודה <span class="eq">(4, 9)</span>. מצאו את המקדם <span class="eq">a</span> ורשמו את משוואת הפרבולה בצורת הקודקוד.</p>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
+</div>
+
+<div class="sheet key pagebreak">
+  <header>
+    <h1>🔑 דף פתרונות למורה — פרק 3: הזזות של הפרבולה</h1>
+    <div class="sub">לא לחלוקה לתלמידים</div>
+  </header>
+  <div class="ans"><strong>שאלה 1.</strong> א. <span class="eq">(0, 5)</span> &nbsp; ב. <span class="eq">(0, −3)</span> &nbsp; ג. <span class="eq">(0, −10)</span></div>
+<div class="ans"><strong>שאלה 2.</strong> א. <span class="eq">(7, 0)</span> &nbsp; ב. <span class="eq">(−4, 0)</span> &nbsp; ג. <span class="eq">(1, 0)</span></div>
+<div class="ans"><strong>שאלה 3.</strong> <span class="eq">6</span>, <span class="eq">3</span>, <span class="eq">2</span>, <span class="eq">3</span>, <span class="eq">6</span> — כל ערך גדול ב-2 מהערך המתאים ב-<span class="eq">y = x²</span></div>
+<div class="ans"><strong>שאלה 4.</strong> א. <span class="eq">(2, 3)</span> &nbsp; ב. <span class="eq">(−5, −1)</span></div>
+<div class="ans"><strong>שאלה 5.</strong> א. פתוחה כלפי מעלה, ערך מינימלי <span class="eq">2</span> (בקודקוד <span class="eq">(1, 2)</span>) &nbsp; ב. פתוחה כלפי מטה, ערך מקסימלי <span class="eq">7</span> (בקודקוד <span class="eq">(−3, 7)</span>)</div>
+<div class="ans"><strong>שאלה 6.</strong> א. <span class="eq">(0, −6)</span> — הזזה של 6 יחידות למטה &nbsp; ב. <span class="eq">(6, 0)</span> — הסוגר מתאפס ב-<span class="eq">x = 6</span>, כלומר הזזה ימינה &nbsp; ג. <span class="eq">(−6, 0)</span> — הסוגר מתאפס ב-<span class="eq">x = −6</span>, כלומר הזזה שמאלה</div>
+<div class="ans"><strong>שאלה 7.</strong> <span class="eq">4</span>, <span class="eq">1</span>, <span class="eq">0</span>, <span class="eq">1</span>, <span class="eq">4</span> — הקודקוד הוא המשבצת <span class="eq">x = 3</span> שבה <span class="eq">y = 0</span></div>
+<div class="ans"><strong>שאלה 8.</strong> א. <span class="eq">y = (x − 2)² − 5</span> &nbsp; ב. <span class="eq">y = 2(x + 3)² + 4</span></div>
+<div class="ans"><strong>שאלה 9.</strong> א. הישר <span class="eq">x = 8</span> &nbsp; ב. הישר <span class="eq">x = −2</span></div>
+<div class="ans"><strong>שאלה 10.</strong> א. <span class="eq">(0 − 4)² + 1 = 17</span>, הנקודה <span class="eq">(0, 17)</span> &nbsp; ב. <span class="eq">2 · (0 + 1)² − 3 = −1</span>, הנקודה <span class="eq">(0, −1)</span></div>
+<div class="ans"><strong>שאלה 11.</strong> הקודקודים: <span class="eq">(0, 3)</span>, <span class="eq">(4, 0)</span> ו-<span class="eq">(−2, −3)</span></div>
+<div class="ans"><strong>שאלה 12.</strong> א. אין חיתוך — הקודקוד <span class="eq">(5, 2)</span> מעל הציר והפרבולה פתוחה כלפי מעלה &nbsp; ב. שתי נקודות — הקודקוד <span class="eq">(−1, −8)</span> מתחת לציר והפרבולה פתוחה כלפי מעלה &nbsp; ג. אין חיתוך — הקודקוד <span class="eq">(3, −1)</span> מתחת לציר והפרבולה פתוחה כלפי מטה &nbsp; ד. נקודת נגיעה אחת — הקודקוד <span class="eq">(−2, 0)</span> נמצא על הציר עצמו</div>
+<div class="ans"><strong>שאלה 13.</strong> א. <span class="eq">(1, −9)</span> &nbsp; ב. <span class="eq">(0 − 1)² − 9 = −8</span>, הנקודה <span class="eq">(0, −8)</span> &nbsp; ג. פותרים <span class="eq">(x − 1)² = 9</span>: <span class="eq">x = 4</span> או <span class="eq">x = −2</span>, הנקודות <span class="eq">(4, 0)</span> ו-<span class="eq">(−2, 0)</span></div>
+<div class="ans"><strong>שאלה 14.</strong> הפרבולה הבסיסית הוזזה 6 יחידות שמאלה (כי הסוגר מתאפס ב-<span class="eq">x = −6</span>) ועוד 2 יחידות למטה. הקודקוד שהתקבל: <span class="eq">(−6, −2)</span></div>
+<div class="ans"><strong>שאלה 15.</strong> איתי צודק. הצבה: <span class="eq">(−3 + 3)² = 0</span> — זה הערך הקטן ביותר, ולכן הקודקוד הוא <span class="eq">(−3, 0)</span>; לעומת זאת <span class="eq">(3 + 3)² = 36</span> — ערך גדול, ולכן שם בוודאי אין קודקוד. הפרבולה הוזזה שמאלה</div>
+<div class="ans"><strong>שאלה 16.</strong> מציבים בצורת הקודקוד <span class="eq">y = a(x − 2)² + 1</span> את הנקודה: <span class="eq">9 = a(4 − 2)² + 1 = 4a + 1</span>, ולכן <span class="eq">4a = 8</span> ו-<span class="eq">a = 2</span>. המשוואה: <span class="eq">y = 2(x − 2)² + 1</span></div>
+  <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
+</div>
+</body>
+</html>

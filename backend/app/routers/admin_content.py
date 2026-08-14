@@ -19,7 +19,7 @@ from app.schemas import (
 router = APIRouter(prefix="/api/admin", tags=["admin-content"])
 
 # כיתות הלימוד המוכרות לקטלוג — חייב להתאים ל-GRADES ב-CourseList.jsx.
-VALID_GRADES = {"5", "6", "7", "8", "hs"}
+VALID_GRADES = {"5", "6", "7", "8", "9", "hs"}
 
 # תקרות שפויות לשם ולתיאור — שם ארוך מדי שובר את שורות הרשימה ואת כרטיס הקטלוג.
 COURSE_TITLE_MAX = 120
