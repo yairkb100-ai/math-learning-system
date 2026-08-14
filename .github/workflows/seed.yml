@@ -1,0 +1,38 @@
+name: Seed database
+
+# Runs backend/seed.py against the production (Neon) database on every push
+# to main — replaces the old `python seed.py && uvicorn ...` Railway start
+# command, since Vercel's Python serverless functions have no "run once
+# before serving" hook. Idempotent: upserts courses/admin/plans/etc, safe to
+# re-run.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+jobs:
+  seed:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: python -m pip install --upgrade pip && pip install -r backend/requirements.txt
+
+      - name: Run seed
+        env:
+          PYTHONIOENCODING: utf-8
+          PYTHONUTF8: "1"
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+          BUNNY_STORAGE_ZONE: ${{ secrets.BUNNY_STORAGE_ZONE }}
+          BUNNY_STORAGE_API_KEY: ${{ secrets.BUNNY_STORAGE_API_KEY }}
+          BUNNY_PULL_ZONE_HOST: ${{ secrets.BUNNY_PULL_ZONE_HOST }}
+        run: python backend/seed.py
