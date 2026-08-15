@@ -1,0 +1,17 @@
+# Keeps `vercel deploy` from the CLI from uploading the whole working tree.
+# Git-integration deploys clone the repo and are unaffected by this file, but
+# the Python function bundle is trimmed separately via `functions.excludeFiles`
+# in vercel.json — the 225MB limit counts what the function bundles, not what
+# gets uploaded here.
+node_modules
+frontend/node_modules
+frontend/dist
+.git
+.claude
+__pycache__
+*.pyc
+.venv
+venv
+backend/uploads
+backend/*.db
+.env*
