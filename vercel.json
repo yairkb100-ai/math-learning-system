@@ -1,6 +1,7 @@
 {
   "buildCommand": "cd frontend && npm install && npm run build",
   "outputDirectory": "frontend/dist",
+  "regions": ["fra1"],
   "functions": {
     "api/index.py": {
       "excludeFiles": "{frontend,content,courses,scripts,.claude,.github}/**"
