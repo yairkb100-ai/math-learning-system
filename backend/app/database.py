@@ -42,10 +42,16 @@ _connect_args = (
 _is_postgres = SQLALCHEMY_DATABASE_URL.startswith("postgresql")
 _pool_kwargs = {"poolclass": NullPool} if _is_postgres else {}
 
+# pool_pre_ping issues a throwaway "SELECT 1" before every checkout to guard
+# against a stale connection handed back out of an idle pool. Under NullPool
+# every connection is freshly opened for this one request and never reused,
+# so there is no staleness to guard against — the ping was pure overhead,
+# doubling the round-trips to Neon on every single request. Keep it only for
+# the long-lived local/dev pool, where a connection really can go stale.
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL,
     connect_args=_connect_args,
-    pool_pre_ping=True,
+    pool_pre_ping=not _is_postgres,
     **_pool_kwargs,
 )
 

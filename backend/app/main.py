@@ -53,8 +53,23 @@ app.add_middleware(
 )
 
 
+# Vercel gives each warm process a fresh module import at most once, but a
+# process that DOES get reused for a second request must not pay this cost
+# twice — cheap insurance either way.
+_startup_done = False
+
+_MIGRATION_TABLES = (
+    "courses", "sections", "psy_attempts", "file_assets", "messages",
+    "users", "chapters", "exercises", "quiz_questions",
+)
+
+
 @app.on_event("startup")
 def on_startup() -> None:
+    global _startup_done
+    if _startup_done:
+        return
+
     Base.metadata.create_all(bind=engine)
     # Patch older SQLite tables that predate newly-added columns (create_all
     # won't ALTER an existing table). Keep dev DBs usable without a reset.
@@ -66,14 +81,36 @@ def on_startup() -> None:
     #
     # Everything below shares a single connection/transaction: under NullPool
     # (serverless — see database.py) each `engine.begin()` pays a fresh
-    # connect round-trip to Neon, and this hook used to open ~20 of them on
-    # every cold start.
+    # connect round-trip to Neon. This used to call inspector.get_columns()
+    # once per table (~10 round-trips) on every request — since every request
+    # appears to get a cold Vercel process, that alone added several seconds
+    # to every single API call. Fetch all tables' columns in ONE query instead.
     from sqlalchemy import inspect, text
 
     with engine.begin() as conn:
         inspector = inspect(conn)
-        if "courses" in inspector.get_table_names():
-            cols = {c["name"] for c in inspector.get_columns("courses")}
+        table_names = set(inspector.get_table_names())
+
+        if conn.dialect.name == "postgresql":
+            rows = conn.execute(
+                text(
+                    "SELECT table_name, column_name FROM information_schema.columns "
+                    "WHERE table_schema = 'public' AND table_name = ANY(:tables)"
+                ),
+                {"tables": [t for t in _MIGRATION_TABLES if t in table_names]},
+            ).fetchall()
+            columns_by_table = {}
+            for table_name, column_name in rows:
+                columns_by_table.setdefault(table_name, set()).add(column_name)
+        else:
+            columns_by_table = {
+                t: {c["name"] for c in inspector.get_columns(t)}
+                for t in _MIGRATION_TABLES
+                if t in table_names
+            }
+
+        if "courses" in table_names:
+            cols = columns_by_table.get("courses", set())
             if "section_id" not in cols:
                 conn.execute(
                     text("ALTER TABLE courses ADD COLUMN section_id INTEGER")
@@ -93,20 +130,20 @@ def on_startup() -> None:
                 conn.execute(
                     text("ALTER TABLE courses ADD COLUMN track VARCHAR NOT NULL DEFAULT 'school'")
                 )
-        if "sections" in inspector.get_table_names():
-            cols = {c["name"] for c in inspector.get_columns("sections")}
+        if "sections" in table_names:
+            cols = columns_by_table.get("sections", set())
             if "track" not in cols:
                 conn.execute(
                     text("ALTER TABLE sections ADD COLUMN track VARCHAR NOT NULL DEFAULT 'school'")
                 )
-        if "psy_attempts" in inspector.get_table_names():
-            cols = {c["name"] for c in inspector.get_columns("psy_attempts")}
+        if "psy_attempts" in table_names:
+            cols = columns_by_table.get("psy_attempts", set())
             if "score_percent" not in cols:
                 conn.execute(text("ALTER TABLE psy_attempts ADD COLUMN score_percent FLOAT"))
             if "domain_scores" not in cols:
                 conn.execute(text("ALTER TABLE psy_attempts ADD COLUMN domain_scores JSON"))
-        if "file_assets" in inspector.get_table_names():
-            cols = {c["name"] for c in inspector.get_columns("file_assets")}
+        if "file_assets" in table_names:
+            cols = columns_by_table.get("file_assets", set())
             if "kind" not in cols:
                 conn.execute(
                     text(
@@ -118,14 +155,14 @@ def on_startup() -> None:
                 conn.execute(
                     text("ALTER TABLE file_assets ADD COLUMN external_url VARCHAR")
                 )
-        if "messages" in inspector.get_table_names():
-            cols = {c["name"] for c in inspector.get_columns("messages")}
+        if "messages" in table_names:
+            cols = columns_by_table.get("messages", set())
             if "file_id" not in cols:
                 conn.execute(
                     text("ALTER TABLE messages ADD COLUMN file_id INTEGER")
                 )
-        if "users" in inspector.get_table_names():
-            cols = {c["name"] for c in inspector.get_columns("users")}
+        if "users" in table_names:
+            cols = columns_by_table.get("users", set())
             if "password_plain" not in cols:
                 conn.execute(
                     text("ALTER TABLE users ADD COLUMN password_plain VARCHAR")
@@ -151,26 +188,26 @@ def on_startup() -> None:
                     "ON users (referral_code)"
                 )
             )
-        if "chapters" in inspector.get_table_names():
-            cols = {c["name"] for c in inspector.get_columns("chapters")}
+        if "chapters" in table_names:
+            cols = columns_by_table.get("chapters", set())
             if "title_overridden" not in cols:
                 conn.execute(text(
                     "ALTER TABLE chapters ADD COLUMN title_overridden "
                     "BOOLEAN NOT NULL DEFAULT false"
                 ))
-        if "exercises" in inspector.get_table_names():
-            cols = {c["name"] for c in inspector.get_columns("exercises")}
+        if "exercises" in table_names:
+            cols = columns_by_table.get("exercises", set())
             if "answer" not in cols:
                 conn.execute(
                     text("ALTER TABLE exercises ADD COLUMN answer VARCHAR")
                 )
-        if "quiz_questions" in inspector.get_table_names():
-            cols = {c["name"] for c in inspector.get_columns("quiz_questions")}
+        if "quiz_questions" in table_names:
+            cols = columns_by_table.get("quiz_questions", set())
             if "explanation" not in cols:
                 conn.execute(
                     text("ALTER TABLE quiz_questions ADD COLUMN explanation TEXT")
                 )
-        if "lesson_slots" in inspector.get_table_names():
+        if "lesson_slots" in table_names:
             # כמו ב-seed.py: תקלת DDL לא תפיל את עליית האפליקציה.
             # SAVEPOINT (begin_nested) so a failure here rolls back only this
             # block, not the whole shared transaction above/below it.
@@ -192,7 +229,7 @@ def on_startup() -> None:
                     )
             except Exception as e:  # noqa: BLE001
                 print(f"  ! lesson_slots.lesson_type_id migration skipped: {e}")
-        if "lesson_types" in inspector.get_table_names():
+        if "lesson_types" in table_names:
             # כמה מסלולים רשאים לחלוק אותו משך, ולכן האינדקס הייחודי הישן יורד.
             # ה-try הוא כדי שתקלת DDL לא תפיל את עליית האפליקציה.
             try:
@@ -213,6 +250,8 @@ def on_startup() -> None:
                         )
             except Exception as e:  # noqa: BLE001
                 print(f"  ! lesson_types duration index rebuild skipped: {e}")
+
+    _startup_done = True
 
 
 app.include_router(courses.router)
