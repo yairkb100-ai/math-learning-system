@@ -130,10 +130,59 @@ def _course_unchanged(existing, course_obj, metadata):
     return True
 
 
+def _fill_chapter_children(chapter, ch):
+    """(Re)build a chapter's examples/exercises/quiz from the JSON.
+
+    These three are pure content: nothing in the schema references an Example,
+    Exercise or QuizQuestion row by id, so replacing them wholesale is safe.
+    Student data hangs off ``chapters.id`` (progress, views), never off these.
+    """
+    chapter.examples = [
+        Example(
+            title=ex.get("title", ""),
+            type=ex.get("type", "text"),
+            content=ex.get("content", ""),
+            language=ex.get("language"),
+        )
+        for ex in ch.get("examples", []) or []
+    ]
+    chapter.exercises = [
+        Exercise(
+            number=exc.get("number"),
+            title=exc.get("title"),
+            description=exc.get("description", ""),
+            difficulty=exc.get("difficulty", ""),
+            solution=exc.get("solution", ""),
+            answer=exc.get("answer"),
+        )
+        for exc in ch.get("exercises", []) or []
+    ]
+    chapter.quiz = [
+        QuizQuestion(
+            number=q.get("number"),
+            question=q.get("question", ""),
+            type=q.get("type", ""),
+            options=q.get("options"),
+            correct_answer=q.get("correct_answer", ""),
+            explanation=q.get("explanation"),
+        )
+        for q in ch.get("quiz", []) or []
+    ]
+
+
 def upsert_course(db, data):
-    """Create (or replace) a single course from a parsed schema object.
+    """Create (or update) a single course from a parsed schema object.
 
     Returns (slug, action) where action is "loaded" or "unchanged".
+
+    A changed course is updated IN PLACE, never deleted and rebuilt. Student
+    progress is keyed on ``courses.id`` (enrollments) and ``chapters.id``
+    (chapter_progress, chapter_views), and both relationships cascade on
+    delete — so the old rebuild-from-scratch approach silently wiped every
+    student's progress on a course each time its text changed. Chapters are
+    matched to the JSON by ``number``, so re-running the seed on edited
+    content keeps the same ids. Only a chapter that genuinely disappears from
+    the JSON is deleted (its progress goes with it, which is correct).
     """
     course_obj = data.get("course", data)
     metadata = course_obj.get("metadata", {})
@@ -142,121 +191,68 @@ def upsert_course(db, data):
     if not slug:
         slug = slugify(metadata.get("title", ""))
 
-    # Idempotent upsert: replace an existing course only when its content
-    # changed — a delete cascades to chapters and wipes student progress.
-    existing = db.query(Course).filter(Course.slug == slug).first()
-    relink_files = []
-    keep_chapter_titles = {}
-    keep_title = None
-    keep_description = None
-    if existing is not None:
+    course = db.query(Course).filter(Course.slug == slug).first()
+    is_new = course is None
+
+    if is_new:
+        course = Course(slug=slug, title="", description="", level="", language="")
+        db.add(course)
+    else:
         # Mark it as JSON-seeded even when unchanged, so the orphan cleanup can
         # tell seeded courses apart from admin-created ones.
-        if not existing.seeded:
-            existing.seeded = True
+        if not course.seeded:
+            course.seeded = True
         # Track is metadata, not content — patch it in place rather than letting
-        # a re-tag count as "changed" and rebuild the course, which would delete
-        # its chapters and every progress row hanging off them.
+        # a re-tag count as "changed".
         wanted_track = metadata.get("track", "school")
-        if existing.track != wanted_track:
-            existing.track = wanted_track
+        if course.track != wanted_track:
+            course.track = wanted_track
             print(f'  ~ {slug}: track → {wanted_track}')
-        if _course_unchanged(existing, course_obj, metadata):
+        if _course_unchanged(course, course_obj, metadata):
             return slug, "unchanged"
-        # FileAssets reference the course by FK. On Postgres a plain course
-        # delete violates that FK and crashes the seed (and the deploy).
-        # Detach them first and re-link to the replacement course below.
-        # The replacement row is built from the JSON, so an admin rename would be
-        # silently reverted the first time the course's content genuinely changes.
-        # Carry the overridden name across the delete.
-        if existing.title_overridden:
-            keep_title = existing.title
-            keep_description = existing.description
-        # אותה בעיה ברמת הפרק: השורה החדשה נבנית מה-JSON, ולכן שם שהמנהל בחר
-        # היה נמחק בפעם הראשונה שתוכן הקורס באמת משתנה. נשמר לפי מספר הפרק.
-        keep_chapter_titles = {
-            c.number: c.title for c in existing.chapters if c.title_overridden
-        }
-        relink_files = (
-            db.query(FileAsset).filter(FileAsset.course_id == existing.id).all()
-        )
-        for f in relink_files:
-            f.course_id = None
-        db.flush()
-        db.delete(existing)
-        db.flush()
 
-    course = Course(
-        title=keep_title if keep_title is not None else metadata.get("title", ""),
-        description=(
-            keep_description
-            if keep_title is not None
-            else metadata.get("description", "")
-        ),
-        title_overridden=keep_title is not None,
-        level=metadata.get("level", ""),
-        language=metadata.get("language", ""),
-        estimated_hours=metadata.get("estimated_hours"),
-        word_count=metadata.get("word_count"),
-        slug=slug,
-        seeded=True,
-        # Product area. Karni course JSON carries "track": "psy" in its
-        # metadata; everything else is school curriculum.
-        track=metadata.get("track", "school"),
-    )
+    # An admin rename wins over the JSON title; everything else follows the file.
+    if not course.title_overridden:
+        course.title = metadata.get("title", "")
+        course.description = metadata.get("description", "")
+    course.level = metadata.get("level", "")
+    course.language = metadata.get("language", "")
+    course.estimated_hours = metadata.get("estimated_hours")
+    course.word_count = metadata.get("word_count")
+    course.seeded = True
+    # Product area. Karni course JSON carries "track": "psy" in its metadata;
+    # everything else is school curriculum.
+    course.track = metadata.get("track", "school")
 
-    for text in course_obj.get("learning_objectives", []) or []:
-        course.objectives.append(LearningObjective(text=text))
+    # Objectives are plain content with nothing referencing them — replace.
+    course.objectives = [
+        LearningObjective(text=text)
+        for text in course_obj.get("learning_objectives", []) or []
+    ]
+
+    existing_chapters = {c.number: c for c in course.chapters}
+    seen_numbers = set()
 
     for ch in course_obj.get("chapters", []) or []:
-        kept = keep_chapter_titles.get(ch.get("number"))
-        chapter = Chapter(
-            number=ch.get("number"),
-            title=kept if kept is not None else ch.get("title", ""),
-            title_overridden=kept is not None,
-            content=ch.get("content", ""),
-        )
+        number = ch.get("number")
+        seen_numbers.add(number)
+        chapter = existing_chapters.get(number)
+        if chapter is None:
+            chapter = Chapter(number=number, title="", content="")
+            course.chapters.append(chapter)
+        # Same rule as the course title: a name the admin set by hand stays.
+        if not chapter.title_overridden:
+            chapter.title = ch.get("title", "")
+        chapter.content = ch.get("content", "")
+        _fill_chapter_children(chapter, ch)
 
-        for ex in ch.get("examples", []) or []:
-            chapter.examples.append(
-                Example(
-                    title=ex.get("title", ""),
-                    type=ex.get("type", "text"),
-                    content=ex.get("content", ""),
-                    language=ex.get("language"),
-                )
-            )
+    # Chapters dropped from the JSON are removed (delete-orphan takes their
+    # examples/exercises/quiz, and the progress rows that belong to them).
+    for number, chapter in existing_chapters.items():
+        if number not in seen_numbers:
+            course.chapters.remove(chapter)
 
-        for exc in ch.get("exercises", []) or []:
-            chapter.exercises.append(
-                Exercise(
-                    number=exc.get("number"),
-                    title=exc.get("title"),
-                    description=exc.get("description", ""),
-                    difficulty=exc.get("difficulty", ""),
-                    solution=exc.get("solution", ""),
-                    answer=exc.get("answer"),
-                )
-            )
-
-        for q in ch.get("quiz", []) or []:
-            chapter.quiz.append(
-                QuizQuestion(
-                    number=q.get("number"),
-                    question=q.get("question", ""),
-                    type=q.get("type", ""),
-                    options=q.get("options"),
-                    correct_answer=q.get("correct_answer", ""),
-                    explanation=q.get("explanation"),
-                )
-            )
-
-        course.chapters.append(chapter)
-
-    db.add(course)
     db.flush()
-    for f in relink_files:
-        f.course_id = course.id
     return slug, "loaded"
 
 
@@ -847,6 +843,58 @@ def _slug_by_course_filename():
         if slug and slug != stem:
             mapping[stem] = slug
     return mapping
+
+
+# Assets renamed in git after they were already registered in production.
+# Rows key on ``original_name``, and nothing ever deletes a row whose file
+# disappeared — so a plain rename would register the new name and leave the
+# old one listed alongside it, giving students two worksheets for one chapter
+# (one of them stale). Renaming the row in place instead keeps stored_name /
+# external_url, so the file itself is untouched and the fix is idempotent.
+ASSET_RENAMES = {
+    # y=mx+n → y=mx+b: the platform now writes the linear function one way.
+    ("grade7-algebra", "דף-עבודה-פרק-13-הפונקציה-הקווית-y-mx-n.pdf"):
+        "דף-עבודה-פרק-13-הפונקציה-הקווית-y-mx-b.pdf",
+    ("grade7-algebra", "מאגר-שאלות-פרק-13-הפונקציה-הקווית-y-mx-n.pdf"):
+        "מאגר-שאלות-פרק-13-הפונקציה-הקווית-y-mx-b.pdf",
+}
+
+
+def apply_asset_renames(db):
+    """Rename FileAsset rows whose git filename changed (see ASSET_RENAMES)."""
+    renamed = 0
+    for (slug, old_name), new_name in ASSET_RENAMES.items():
+        course = db.query(Course).filter(Course.slug == slug).first()
+        if course is None:
+            continue
+        row = (
+            db.query(FileAsset)
+            .filter(
+                FileAsset.course_id == course.id,
+                FileAsset.original_name == old_name,
+            )
+            .first()
+        )
+        if row is None:
+            continue
+        # If the new name somehow already exists, drop the stale row instead of
+        # creating a duplicate key on (course_id, original_name).
+        clash = (
+            db.query(FileAsset)
+            .filter(
+                FileAsset.course_id == course.id,
+                FileAsset.original_name == new_name,
+            )
+            .first()
+        )
+        if clash is not None:
+            db.delete(row)
+        else:
+            row.original_name = new_name
+        renamed += 1
+    db.commit()
+    if renamed:
+        print(f"  + Renamed {renamed} course asset(s)")
 
 
 def ensure_course_assets(db):
@@ -2204,6 +2252,7 @@ def main():
         ensure_psy_simulations(db)
         assign_topic_test_forms(db)
         ensure_course_grades(db)
+        apply_asset_renames(db)  # must precede ensure_course_assets
         ensure_course_assets(db)
         cleanup_orphaned_uploads(db)
     finally:
