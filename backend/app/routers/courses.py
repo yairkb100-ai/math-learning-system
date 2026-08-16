@@ -20,7 +20,7 @@ from app.access import (
     free_chapter_quota,
 )
 from app.database import get_db
-from app.dependencies import ContentAccess, require_content_access
+from app.dependencies import ContentAccess, access_for_course, require_content_access
 from app.models import Chapter, Course
 from app.schemas import (
     ChapterEnvelope,
@@ -69,11 +69,13 @@ def _locked_chapter_out(chapter: Chapter) -> ChapterOut:
     )
 
 
-def _course_detail(course: Course, *, full_access: bool) -> CourseDetail:
+def _course_detail(
+    course: Course, *, full_access: bool, ratio: float = FREE_CONTENT_RATIO
+) -> CourseDetail:
     # course.chapters ממוין לפי Chapter.number ברמת ה-relationship, כך שחיתוך
     # לפי המכסה נותן תמיד את הפרקים הראשונים בסדר הלימוד.
     total = len(course.chapters)
-    quota = total if full_access else free_chapter_quota(total)
+    quota = total if full_access else free_chapter_quota(total, ratio)
     return CourseDetail(
         id=course.id,
         slug=course.slug,
@@ -94,8 +96,19 @@ def _course_detail(course: Course, *, full_access: bool) -> CourseDetail:
         ],
         access_tier="full" if full_access else "free",
         unlocked_chapters=quota,
-        free_ratio=FREE_CONTENT_RATIO,
+        free_ratio=ratio,
     )
+
+
+def _access_by_course_id(
+    db: Session, access: ContentAccess, course_id: int
+) -> ContentAccess:
+    """דרגת הגישה למוצר של הקורס הזה. קורס שלא נמצא — נשארים עם מה שיש, כדי
+    שהנתיב ייפול על 404 של התוכן ולא על שגיאת גישה מטעה."""
+    course = db.get(Course, course_id)
+    if course is None:
+        return access
+    return access_for_course(db, access.user, course)
 
 
 # ---------------------------------------------------------------------------
@@ -142,7 +155,14 @@ def get_course(
     course = crud.get_course(db, course_id)
     if course is None:
         raise HTTPException(status_code=404, detail="Course not found")
-    return CourseEnvelope(course=_course_detail(course, full_access=access.is_full))
+    # הגישה נמדדת מול המוצר שאליו הקורס שייך: קורס קרני נעול למי שקנה רק את
+    # הלומדה (ורואה בו את הטעימה הצולבת), ולהפך.
+    access = access_for_course(db, access.user, course)
+    return CourseEnvelope(
+        course=_course_detail(
+            course, full_access=access.is_full, ratio=access.ratio
+        )
+    )
 
 
 @router.get(
@@ -158,7 +178,8 @@ def get_chapter(
     chapter = crud.get_chapter(db, course_id, number)
     if chapter is None:
         raise HTTPException(status_code=404, detail="Chapter not found")
-    if not chapter_is_unlocked(db, course_id, number, access.tier):
+    access = access_for_course(db, current_user, chapter.course)
+    if not chapter_is_unlocked(db, course_id, number, access.tier, access.ratio):
         raise HTTPException(status_code=402, detail="chapter_locked")
     # Log the open for the admin "what did each student view, and when" report.
     # Students only (admins browse content too); best-effort so a logging hiccup
@@ -189,10 +210,16 @@ def quiz_check(
     # הבוחן מזוהה לפי chapter_id, אז מתרגמים אותו לקורס+מספר כדי לבדוק את
     # אותה נעילה בדיוק שחלה על הפרק עצמו — אחרת אפשר היה לפתור בחנים נעולים.
     quiz_chapter = crud.get_chapter_by_id(db, payload.chapter_id)
-    if quiz_chapter is not None and not chapter_is_unlocked(
-        db, quiz_chapter.course_id, quiz_chapter.number, access.tier
-    ):
-        raise HTTPException(status_code=402, detail="chapter_locked")
+    if quiz_chapter is not None:
+        quiz_access = access_for_course(db, access.user, quiz_chapter.course)
+        if not chapter_is_unlocked(
+            db,
+            quiz_chapter.course_id,
+            quiz_chapter.number,
+            quiz_access.tier,
+            quiz_access.ratio,
+        ):
+            raise HTTPException(status_code=402, detail="chapter_locked")
     result = crud.check_quiz(
         db, payload.chapter_id, payload.question_number, payload.answer
     )
@@ -212,7 +239,8 @@ def exercise_solution(
     db: Session = Depends(get_db),
     access: ContentAccess = Depends(require_content_access),
 ) -> SolutionResult:
-    if not chapter_is_unlocked(db, course_id, number, access.tier):
+    access = _access_by_course_id(db, access, course_id)
+    if not chapter_is_unlocked(db, course_id, number, access.tier, access.ratio):
         raise HTTPException(status_code=402, detail="chapter_locked")
     solution = crud.get_exercise_solution(db, course_id, number, n)
     if solution is None:
@@ -232,7 +260,8 @@ def exercise_check(
     db: Session = Depends(get_db),
     access: ContentAccess = Depends(require_content_access),
 ) -> ExerciseCheckResult:
-    if not chapter_is_unlocked(db, course_id, number, access.tier):
+    access = _access_by_course_id(db, access, course_id)
+    if not chapter_is_unlocked(db, course_id, number, access.tier, access.ratio):
         raise HTTPException(status_code=402, detail="chapter_locked")
     result = crud.check_exercise(db, course_id, number, n, payload.answer)
     if result is None:

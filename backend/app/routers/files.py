@@ -13,7 +13,8 @@ from starlette.background import BackgroundTask
 from app import models, r2_storage
 from app.access import TIER_FULL, asset_is_unlocked
 from app.database import get_db
-from app.dependencies import get_current_user, user_access_tier
+from app.dependencies import ContentAccess, get_current_user, user_content_access
+from app.products import product_for_track
 
 router = APIRouter(prefix="/api/files", tags=["files"])
 
@@ -24,6 +25,23 @@ _BACKEND_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 UPLOAD_DIR = os.environ.get("UPLOAD_DIR", os.path.join(_BACKEND_DIR, "uploads"))
 
 MAX_UPLOAD_BYTES = int(os.environ.get("MAX_UPLOAD_MB", "50")) * 1024 * 1024
+
+
+def _asset_access(
+    db: Session, user: models.User, asset: models.FileAsset, cache: dict
+) -> ContentAccess:
+    """דרגת הגישה של המשתמש לקובץ, לפי המוצר של הקורס שאליו הוא שייך.
+
+    סרטון של קורס קרני נמדד מול מנוי קרני — אחרת מנוי לומדה בלבד היה יכול
+    להוריד את כל סרטוני ההכנה למבחן מ-``/api/files`` בלי לפתוח שם פרק אחד.
+    ה-``cache`` מחזיק את התוצאה לכל מוצר, כך שסינון רשימה שלמה מחשב פעמיים
+    לכל היותר.
+    """
+    course = db.get(models.Course, asset.course_id) if asset.course_id else None
+    product = product_for_track(course.track if course else None)
+    if product not in cache:
+        cache[product] = user_content_access(db, user, product)
+    return cache[product]
 
 
 def _ensure_upload_dir() -> None:
@@ -132,11 +150,18 @@ def list_files(
     assets = query.order_by(models.FileAsset.uploaded_at.desc()).all()
     # ...and on the free tier, only the material belonging to the chapters that
     # are actually open — the explainer videos are the bulk of a course's value.
-    tier = user_access_tier(db, current_user)
-    if tier == TIER_FULL:
-        return assets
-    cache: dict[int, set[int]] = {}
-    return [a for a in assets if asset_is_unlocked(db, a, tier, cache)]
+    access_cache: dict[str, ContentAccess] = {}
+    chapter_cache: dict[str, dict[int, set[int]]] = {}
+    visible = []
+    for asset in assets:
+        access = _asset_access(db, current_user, asset, access_cache)
+        if access.tier == TIER_FULL:
+            visible.append(asset)
+            continue
+        per_product = chapter_cache.setdefault(access.product, {})
+        if asset_is_unlocked(db, asset, access.tier, per_product, access.ratio):
+            visible.append(asset)
+    return visible
 
 
 @router.get("/{file_id}/download")
@@ -150,7 +175,8 @@ def download_file(
         raise HTTPException(status_code=404, detail="הקובץ לא נמצא")
     if not _can_access_asset(asset, current_user, db):
         raise HTTPException(status_code=403, detail="אין הרשאה לקובץ זה")
-    if not asset_is_unlocked(db, asset, user_access_tier(db, current_user)):
+    access = _asset_access(db, current_user, asset, {})
+    if not asset_is_unlocked(db, asset, access.tier, None, access.ratio):
         raise HTTPException(status_code=402, detail="chapter_locked")
     if asset.external_url:
         # Proxy the file from R2 through our own origin. A plain redirect to

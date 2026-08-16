@@ -4,6 +4,60 @@
    Reuses existing theme tokens only; no new colors introduced.
    --------------------------------------------------------------------- */
 
+/* ---------- עמוד המנוי: מצב הגישה לכל אחד משני המוצרים ---------- */
+.sub-products {
+  margin-top: 26px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.sub-products h3 {
+  margin: 0 0 14px;
+  color: var(--accent);
+}
+.product-status-cards {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.product-status {
+  flex: 1 1 220px;
+  padding: 16px 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+}
+/* מוצר פעיל מקבל את אותו הדגש של תוכנית מומלצת — קו צד בלבד, כדי שהכרטיס
+   הפעיל ייקרא במבט אחד בלי להכניס גוון חדש. */
+.product-status-on {
+  border-inline-start: 4px solid var(--accent-2);
+}
+.product-status h4 {
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+  color: var(--text);
+}
+.product-status p {
+  margin: 0 0 8px;
+  line-height: 1.6;
+}
+
+/* כותרת קבוצת תוכניות (לומדה / קרני / חבילה) במחירון התלמיד */
+.plan-group + .plan-group {
+  margin-top: 18px;
+}
+.plan-group-title {
+  margin: 0 0 10px;
+  font-size: 0.95rem;
+  color: var(--muted);
+  font-weight: 700;
+}
+.plan-offer-products {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
 /* Recommended plan highlight on the subscription page */
 .plan-offer-recommended {
   position: relative;

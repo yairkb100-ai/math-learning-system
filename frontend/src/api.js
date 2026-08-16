@@ -327,10 +327,16 @@ export const api = {
   myAccess: () => request('/me/access'),
   markWelcomeSeen: () => request('/me/welcome-seen', { method: 'POST' }),
   adminSubscriptions: () => request('/admin/subscriptions'),
-  assignSubscription: (userId, planCode) =>
+  // products = רשימת מוצרים לצמצום ההענקה (למשל ['karni'] מתוך חבילה).
+  // null/undefined = כל מה שהתוכנית כוללת. מחזיר שורת מנוי לכל מוצר.
+  assignSubscription: (userId, planCode, products = null) =>
     request('/admin/subscriptions', {
       method: 'POST',
-      body: JSON.stringify({ user_id: userId, plan_code: planCode }),
+      body: JSON.stringify({
+        user_id: userId,
+        plan_code: planCode,
+        ...(products ? { products } : {}),
+      }),
     }),
   extendSubscription: (subId, days = 30) =>
     request(`/admin/subscriptions/${subId}/extend`, {

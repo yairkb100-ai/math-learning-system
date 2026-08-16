@@ -14,7 +14,7 @@ from sqlalchemy.orm import Session
 from app import models
 from app.access import TIER_FREE, unlocked_exam_ids
 from app.database import get_db
-from app.dependencies import get_current_user, user_access_tier
+from app.dependencies import get_current_user, user_content_access
 from app.achievements import evaluate_achievements
 from app.schemas import (
     ExamListItem,
@@ -81,10 +81,8 @@ def _ensure_exam_unlocked(
     מקצוע פתוחים ללא מנוי (ראה app.access). נבדק בכל נקודת כניסה למבחן:
     הפרטים, השאלה הבאה וההגשה — אחרת אפשר היה לפתור מבחן נעול ישירות מה-API.
     """
-    if (
-        user_access_tier(db, current_user) == TIER_FREE
-        and exam.id not in unlocked_exam_ids(db)
-    ):
+    access = user_content_access(db, current_user)
+    if access.tier == TIER_FREE and exam.id not in unlocked_exam_ids(db, access.ratio):
         raise HTTPException(status_code=402, detail="content_locked")
 
 
@@ -175,8 +173,9 @@ def list_exams(
 
     # מבחן נעול נשאר ברשימה (שיהיה ברור מה עוד יש) אבל מסומן, והכניסה אליו
     # חסומה בנתיבי המבחן עצמם.
-    if user_access_tier(db, current_user) == TIER_FREE:
-        open_ids = unlocked_exam_ids(db)
+    access = user_content_access(db, current_user)
+    if access.tier == TIER_FREE:
+        open_ids = unlocked_exam_ids(db, access.ratio)
     else:
         open_ids = {e.id for e in exams}
 

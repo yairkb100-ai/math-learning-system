@@ -17,6 +17,7 @@ from datetime import datetime, timedelta
 from sqlalchemy.orm import Session
 
 from app import models
+from app.products import ALL_PRODUCTS
 
 TRIAL_PLAN_CODE = "trial"
 # ברירת המחדל הזו משמשת רק להקמה הראשונה של תוכנית ה-trial (כשעדיין אין שורה
@@ -76,14 +77,23 @@ def start_trial_if_needed(db: Session, user: models.User) -> models.Subscription
         return None
 
     now = datetime.utcnow()
-    sub = models.Subscription(
-        user_id=user.id,
-        plan_code=TRIAL_PLAN_CODE,
-        status="active",
-        started_at=now,
-        expires_at=now + timedelta(days=trial_duration_days(db)),
-    )
-    db.add(sub)
+    expires = now + timedelta(days=trial_duration_days(db))
+    # ההתנסות פותחת את *שני* המוצרים — הלומדה וההכנה לקרני — ולכן נוצרת שורה
+    # לכל אחד מהם: כך התלמיד מתנסה בהכל ובוחר בסוף מה לקנות, ומצד שני ביטול
+    # או רכישה של מוצר אחד בהמשך אינם נוגעים בשני.
+    subs = [
+        models.Subscription(
+            user_id=user.id,
+            plan_code=TRIAL_PLAN_CODE,
+            product=product,
+            status="active",
+            started_at=now,
+            expires_at=expires,
+        )
+        for product in ALL_PRODUCTS
+    ]
+    db.add_all(subs)
     db.commit()
-    db.refresh(sub)
-    return sub
+    for sub in subs:
+        db.refresh(sub)
+    return subs[0]

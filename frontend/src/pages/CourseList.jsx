@@ -7,6 +7,8 @@ import { Loading, ErrorBox } from '../components/Status.jsx'
 import MathDoodles from '../components/MathDoodles.jsx'
 import SearchBar from '../components/SearchBar.jsx'
 import InviteBanner from '../components/InviteBanner.jsx'
+import ProductUpsell from '../components/ProductUpsell.jsx'
+import { PRODUCT_LOMDA } from '../lib/products.js'
 import { fadeInUp, staggerContainer, tapScale, hoverLift } from '../lib/motion.js'
 import {
   IconLayers,
@@ -173,6 +175,11 @@ export default function CourseList() {
           </motion.div>
         </motion.div>
       </div>
+
+      {/* מי שרכש רק את ההכנה לקרני רואה כאן טעימה — שיידע שזה מחיר ולא היצע. */}
+      <ProductUpsell product={PRODUCT_LOMDA} title="הלומדה נמכרת בנפרד">
+        המנוי שלך פותח את ההכנה לקרני.
+      </ProductUpsell>
 
       {/* "חבר מביא חבר" — יושב בתוך .catalog כדי לרשת את משתני הלוח/הגיר. */}
       <InviteBanner />

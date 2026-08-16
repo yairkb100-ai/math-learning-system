@@ -25,6 +25,7 @@ from sqlalchemy.orm import Session
 from app import models, psy_scoring
 from app.database import get_db
 from app.dependencies import get_current_user, user_access_tier
+from app.products import PRODUCT_KARNI
 from app.access import TIER_FREE
 from app.schemas_psy import (
     PsyAnswerReview,
@@ -260,7 +261,7 @@ def list_simulations(
         .order_by(models.PsySimulation.order, models.PsySimulation.id)
         .all()
     )
-    free_tier = user_access_tier(db, current_user) == TIER_FREE
+    free_tier = user_access_tier(db, current_user, PRODUCT_KARNI) == TIER_FREE
     return [
         _sim_out(db, sim, current_user, locked=free_tier and not sim.free_preview)
         for sim in sims
@@ -283,7 +284,7 @@ def start_simulation(
     )
     if sim is None:
         raise HTTPException(status_code=404, detail="הסימולציה לא נמצאה")
-    if user_access_tier(db, current_user) == TIER_FREE and not sim.free_preview:
+    if user_access_tier(db, current_user, PRODUCT_KARNI) == TIER_FREE and not sim.free_preview:
         raise HTTPException(status_code=402, detail="content_locked")
     if not sim.sections:
         raise HTTPException(status_code=409, detail="לסימולציה אין פרקים")
@@ -733,7 +734,7 @@ def drill_questions(
 
     # Free tier drills the easier half of the bank; the graded material and the
     # full mocks are the paid product.
-    if user_access_tier(db, current_user) == TIER_FREE:
+    if user_access_tier(db, current_user, PRODUCT_KARNI) == TIER_FREE:
         q = q.filter(models.PsyItem.difficulty <= 2)
 
     return [_item_out(item) for item in q.order_by(func.random()).limit(limit).all()]
@@ -748,7 +749,7 @@ def drill_answer(
     item = db.query(models.PsyItem).filter(models.PsyItem.ref == payload.ref).first()
     if item is None:
         raise HTTPException(status_code=404, detail="השאלה לא נמצאה")
-    if user_access_tier(db, current_user) == TIER_FREE and item.difficulty > 2:
+    if user_access_tier(db, current_user, PRODUCT_KARNI) == TIER_FREE and item.difficulty > 2:
         # Same side door the practice router closes: without this, guessing refs
         # would hand out the locked half of the bank complete with solutions.
         raise HTTPException(status_code=402, detail="content_locked")
@@ -846,7 +847,7 @@ def overview(
         for c in courses
     ]
 
-    free_tier = user_access_tier(db, current_user) == TIER_FREE
+    free_tier = user_access_tier(db, current_user, PRODUCT_KARNI) == TIER_FREE
     sims = (
         db.query(models.PsySimulation)
         .filter(models.PsySimulation.is_published.is_(True))

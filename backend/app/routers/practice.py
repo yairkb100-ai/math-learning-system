@@ -7,9 +7,9 @@ from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from app import models
-from app.access import FREE_CONTENT_RATIO, TIER_FREE, unlocked_practice_ids
+from app.access import TIER_FREE, unlocked_practice_ids
 from app.database import get_db
-from app.dependencies import get_current_user, user_access_tier
+from app.dependencies import get_current_user, user_content_access
 from app.achievements import evaluate_achievements
 from app.schemas import (
     PracticeQuestionOut,
@@ -56,8 +56,11 @@ def list_questions(
         q = q.filter(models.PracticeQuestion.topic == topic)
     # בדרגת free הדגימה נעשית רק מ~42% השאלות הפתוחות בכל נושא — אותו כלל
     # שחל על פרקי הקורסים (ראה app.access).
-    if user_access_tier(db, current_user) == TIER_FREE:
-        q = q.filter(models.PracticeQuestion.id.in_(unlocked_practice_ids(db)))
+    access = user_content_access(db, current_user)
+    if access.tier == TIER_FREE:
+        q = q.filter(
+            models.PracticeQuestion.id.in_(unlocked_practice_ids(db, access.ratio))
+        )
     return q.order_by(func.random()).limit(limit).all()
 
 
@@ -77,9 +80,10 @@ def submit_attempt(
 
     # דלת צד: התשובה מגיעה עם הפתרון וההסבר, אז בלי הבדיקה הזו אפשר היה
     # לרוקן את החלק הנעול של המאגר ע"י ניחוש מזהים.
+    access = user_content_access(db, current_user)
     if (
-        user_access_tier(db, current_user) == TIER_FREE
-        and question.id not in unlocked_practice_ids(db)
+        access.tier == TIER_FREE
+        and question.id not in unlocked_practice_ids(db, access.ratio)
     ):
         raise HTTPException(status_code=402, detail="content_locked")
 
@@ -191,17 +195,20 @@ def topics(
     ]
     # דרגת הגישה + כמה שאלות פתוחות, כדי שעמוד התרגול יוכל להציג לדרגת free
     # כמה מהמאגר זמין לה בפועל (העיגול פר-נושא, אז האחוז האמיתי אינו בדיוק 42).
-    tier = user_access_tier(db, current_user)
+    access = user_content_access(db, current_user)
+    tier = access.tier
     total_questions = db.query(func.count(models.PracticeQuestion.id)).scalar() or 0
     open_questions = (
-        len(unlocked_practice_ids(db)) if tier == TIER_FREE else total_questions
+        len(unlocked_practice_ids(db, access.ratio))
+        if tier == TIER_FREE
+        else total_questions
     )
     return {
         "subjects": subjects,
         "topics": topic_list,
         "difficulties": ["easy", "medium", "hard"],
         "access_tier": tier,
-        "free_ratio": FREE_CONTENT_RATIO,
+        "free_ratio": access.ratio,
         "open_questions": open_questions,
         "total_questions": total_questions,
     }

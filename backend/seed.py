@@ -311,10 +311,13 @@ def ensure_plans(db):
     if db.query(SubscriptionPlan).first():
         print("  * Subscription plans already exist — skipping.")
         return
+    # ברירת המחדל היא חבילה (שני המוצרים). פיצול למנוי לומדה-בלבד /
+    # קרני-בלבד נעשה במסך המחירים — המספרים והשמות שם הם החלטה של המנהל.
+    both = "lomda,karni"
     plans = [
-        SubscriptionPlan(code="free", name=APPROVED_PLAN_NAME, price_nis=0, duration_days=0),
-        SubscriptionPlan(code="monthly", name="מנוי חודשי", price_nis=49, duration_days=30),
-        SubscriptionPlan(code="yearly", name="מנוי שנתי", price_nis=399, duration_days=365),
+        SubscriptionPlan(code="free", name=APPROVED_PLAN_NAME, price_nis=0, duration_days=0, products=both),
+        SubscriptionPlan(code="monthly", name="מנוי חודשי", price_nis=49, duration_days=30, products=both),
+        SubscriptionPlan(code="yearly", name="מנוי שנתי", price_nis=399, duration_days=365, products=both),
     ]
     db.add_all(plans)
     db.commit()
@@ -1161,6 +1164,38 @@ def run_light_migrations():
                     text("ALTER TABLE sections ADD COLUMN track VARCHAR NOT NULL DEFAULT 'school'")
                 )
             print("  ~ Migrated: added sections.track")
+
+    if "subscription_plans" in inspector.get_table_names():
+        cols = {c["name"] for c in inspector.get_columns("subscription_plans")}
+        if "products" not in cols:
+            # תוכנית שקיימת מלפני הפיצול לשני מוצרים נתנה בפועל את הכל, ולכן
+            # ברירת המחדל היא חבילה מלאה. כל צמצום הוא החלטה של המנהל במסך
+            # המחירים — לא תופעת לוואי של הדפלוי הזה.
+            with engine.begin() as conn:
+                conn.execute(text(
+                    "ALTER TABLE subscription_plans ADD COLUMN products "
+                    "VARCHAR NOT NULL DEFAULT 'lomda,karni'"
+                ))
+            print("  ~ Migrated: added subscription_plans.products")
+
+    if "subscriptions" in inspector.get_table_names():
+        cols = {c["name"] for c in inspector.get_columns("subscriptions")}
+        if "product" not in cols:
+            with engine.begin() as conn:
+                conn.execute(text(
+                    "ALTER TABLE subscriptions ADD COLUMN product "
+                    "VARCHAR NOT NULL DEFAULT 'lomda'"
+                ))
+                # כל מנוי קיים נתן גישה לכל התוכן, כולל אזור קרני. שורה אחת
+                # למוצר היא המבנה החדש, ולכן כל שורה קיימת מוכפלת — בלי זה כל
+                # התלמידים המשלמים היו מאבדים בשקט את ההכנה לקרני ברגע הדפלוי.
+                conn.execute(text(
+                    "INSERT INTO subscriptions "
+                    "(user_id, plan_code, product, status, started_at, expires_at) "
+                    "SELECT user_id, plan_code, 'karni', status, started_at, expires_at "
+                    "FROM subscriptions WHERE product = 'lomda'"
+                ))
+            print("  ~ Migrated: added subscriptions.product (+ mirrored rows for karni)")
 
     if "psy_attempts" in inspector.get_table_names():
         cols = {c["name"] for c in inspector.get_columns("psy_attempts")}

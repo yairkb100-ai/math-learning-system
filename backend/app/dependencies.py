@@ -8,9 +8,11 @@ from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 
 from app import models
-from app.access import TIER_FREE, TIER_FULL
+from app.access import FREE_CONTENT_RATIO, TIER_FREE, TIER_FULL
 from app.auth import decode_token
 from app.database import get_db
+from app.products import DEFAULT_PRODUCT, product_for_track
+from app.settings_store import cross_product_free_ratio
 from app.trials import start_trial_if_needed
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login")
@@ -39,14 +41,15 @@ def require_admin(current_user: models.User = Depends(get_current_user)) -> mode
     return current_user
 
 
-def user_has_active_subscription(db: Session, user: models.User) -> bool:
-    """מנוי בתוקף = שורה עם status='active' ותאריך תפוגה עתידי (או ללא תפוגה).
+def active_subscriptions(db: Session, user: models.User) -> dict[str, models.Subscription]:
+    """המנויים בתוקף של המשתמש, ממופים לפי מוצר ("lomda" / "karni").
 
-    מנוי מסוג "חינם" נשמר עם expires_at=NULL (duration_days=0) ולכן נחשב בתוקף
-    ללא הגבלת זמן. מנוי שפג תוקפו נחסם מיידית גם אם הסטטוס עדיין 'active'.
+    שורה אחת למוצר (ראה ``models.Subscription.product``), ולכן תלמיד שרכש רק
+    את אחד המוצרים מופיע כאן עם מפתח אחד בלבד — וזה בדיוק מה שמפריד בין גישה
+    מלאה לטעימה בכל אזור.
     """
     now = datetime.utcnow()
-    sub = (
+    rows = (
         db.query(models.Subscription)
         .filter(
             models.Subscription.user_id == user.id,
@@ -56,9 +59,28 @@ def user_has_active_subscription(db: Session, user: models.User) -> bool:
             (models.Subscription.expires_at.is_(None))
             | (models.Subscription.expires_at > now)
         )
-        .first()
+        .order_by(models.Subscription.expires_at.desc().nullsfirst())
+        .all()
     )
-    return sub is not None
+    by_product: dict[str, models.Subscription] = {}
+    for row in rows:
+        by_product.setdefault(row.product or DEFAULT_PRODUCT, row)
+    return by_product
+
+
+def user_has_active_subscription(
+    db: Session, user: models.User, product: str | None = None
+) -> bool:
+    """מנוי בתוקף = שורה עם status='active' ותאריך תפוגה עתידי (או ללא תפוגה).
+
+    מנוי מסוג "חינם" נשמר עם expires_at=NULL (duration_days=0) ולכן נחשב בתוקף
+    ללא הגבלת זמן. מנוי שפג תוקפו נחסם מיידית גם אם הסטטוס עדיין 'active'.
+
+    ``product=None`` שואל "יש מנוי בתוקף על *משהו*" — זו השאלה הנכונה לחסימה
+    גורפת. בדיקת גישה לתוכן מסוים תמיד מעבירה מוצר.
+    """
+    active = active_subscriptions(db, user)
+    return bool(active) if product is None else product in active
 
 
 def user_has_lapsed_subscription(db: Session, user: models.User) -> bool:
@@ -84,11 +106,50 @@ def user_has_lapsed_subscription(db: Session, user: models.User) -> bool:
     return has_history
 
 
-def user_access_tier(db: Session, user: models.User) -> str:
-    """דרגת הגישה לתוכן: ``full`` (100%) או ``free`` (42% מכל קורס).
+def user_content_access(
+    db: Session, user: models.User, product: str = DEFAULT_PRODUCT
+) -> "ContentAccess":
+    """דרגת הגישה של המשתמש למוצר מסוים, כולל שיעור הטעימה שחל עליו.
 
-    מנהל ומי שיש לו מנוי בתוקף — מלא. כל השאר — הטעימה. הנימוק לכלל הזה
-    (ולמה לא ``price_nis > 0``) מפורט ב-``app.access``.
+    שלושה מצבים אפשריים אחרי הפיצול לשני מוצרים:
+
+    1. יש מנוי בתוקף על המוצר הזה (או שזה מנהל) → ``full``.
+    2. יש מנוי בתוקף על המוצר *השני* בלבד → ``free`` בשיעור הצולב (ברירת
+       מחדל 20%, נערך במסך המחירים). כך תלמיד שקנה רק לומדה עדיין רואה טעימה
+       מאזור קרני ויודע מה הוא מפספס, במקום להיתקל בקיר.
+    3. אין שום מנוי בתוקף אבל יש היסטוריה → חסימה מלאה (402), בדיוק כמו לפני
+       הפיצול. אין היסטוריה בכלל → מופעלת התנסות (שפותחת את שני המוצרים).
+    """
+    if user.role == "admin":
+        return ContentAccess(user=user, tier=TIER_FULL, product=product, ratio=1.0)
+    active = active_subscriptions(db, user)
+    if product in active:
+        return ContentAccess(user=user, tier=TIER_FULL, product=product, ratio=1.0)
+    if active:
+        # מנוי על המוצר השני — טעימה מוקטנת, לא חסימה.
+        return ContentAccess(
+            user=user,
+            tier=TIER_FREE,
+            product=product,
+            ratio=cross_product_free_ratio(db),
+        )
+    if user_has_lapsed_subscription(db, user):
+        raise HTTPException(status_code=402, detail="no_active_subscription")
+    start_trial_if_needed(db, user)
+    if product in active_subscriptions(db, user):
+        return ContentAccess(user=user, tier=TIER_FULL, product=product, ratio=1.0)
+    return ContentAccess(
+        user=user, tier=TIER_FREE, product=product, ratio=FREE_CONTENT_RATIO
+    )
+
+
+def user_access_tier(
+    db: Session, user: models.User, product: str = DEFAULT_PRODUCT
+) -> str:
+    """דרגת הגישה לתוכן: ``full`` (100%) או ``free`` (טעימה בלבד).
+
+    מנהל ומי שיש לו מנוי בתוקף על המוצר — מלא. כל השאר — הטעימה. הנימוק לכלל
+    הזה (ולמה לא ``price_nis > 0``) מפורט ב-``app.access``.
 
     מי שיש לו היסטוריית מנוי כלשהי בלי מנוי בתוקף כרגע (מנוי/התנסות שפגו,
     או מנוי שהמנהל ביטל) נחסם כאן לגמרי (402 ``no_active_subscription``,
@@ -99,20 +160,19 @@ def user_access_tier(db: Session, user: models.User) -> str:
     היסטוריית מנויים עדיין (רשת ביטחון עד ש-``start_trial_if_needed`` מפעיל
     התנסות).
     """
-    if user.role == "admin":
-        return TIER_FULL
-    if user_has_lapsed_subscription(db, user):
-        raise HTTPException(status_code=402, detail="no_active_subscription")
-    start_trial_if_needed(db, user)
-    return TIER_FULL if user_has_active_subscription(db, user) else TIER_FREE
+    return user_content_access(db, user, product).tier
 
 
 @dataclass
 class ContentAccess:
-    """מי המשתמש ואיזו דרגת גישה לתוכן יש לו — ראה ``app.access``."""
+    """מי המשתמש, לאיזה מוצר, ואיזו דרגת גישה יש לו — ראה ``app.access``."""
 
     user: models.User
     tier: str
+    product: str = DEFAULT_PRODUCT
+    # שיעור התוכן הפתוח כשה-tier הוא ``free``. משתנה לפי הסיבה: טעימת ברירת
+    # המחדל למי שאין לו מנוי בכלל, או השיעור הצולב למוצר שלא נרכש.
+    ratio: float = FREE_CONTENT_RATIO
 
     @property
     def is_full(self) -> bool:
@@ -123,14 +183,24 @@ def require_content_access(
     current_user: models.User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ) -> ContentAccess:
-    """דרגת הגישה לתוכן של המשתמש המחובר.
+    """דרגת הגישה של המשתמש המחובר למוצר הלומדה.
 
     אם למשתמש יש מנוי שפג (כולל התנסות שהסתיימה) — הם חסומים מיידית (402)
     ומופנים לעדכן את המנוי. מנהל — תמיד יש גישה מלאה. מי שאין לו שום
-    היסטוריית מנויים מקבל התנסות אוטומטית (ורואה 42% אם ההתנסות טרם הופעלה
-    מסיבה כלשהי).
+    היסטוריית מנויים מקבל התנסות אוטומטית.
+
+    נתיב שמגיש תוכן של קורס מסוים חייב לחשב מחדש לפי ה-``track`` שלו
+    (``access_for_course``) — קורס קרני נמדד מול המוצר השני. התלות הזו נשארת
+    כברירת מחדל נוחה לנתיבים שאינם תלויי-קורס (בוחן, בדיקת תרגיל).
 
     יש להריץ על נתיבי צריכת התוכן בלבד (קורס, פרק, פתרון, בדיקת בוחן) — לא על
-    התחברות/פרופיל/ניהול. חסימת מנוי שפג נעשית בתוך ``user_access_tier`` עצמה.
+    התחברות/פרופיל/ניהול. חסימת מנוי שפג נעשית בתוך ``user_content_access``.
     """
-    return ContentAccess(user=current_user, tier=user_access_tier(db, current_user))
+    return user_content_access(db, current_user, DEFAULT_PRODUCT)
+
+
+def access_for_course(
+    db: Session, user: models.User, course: models.Course
+) -> ContentAccess:
+    """דרגת הגישה של המשתמש לקורס מסוים — לפי המוצר שאליו הקורס שייך."""
+    return user_content_access(db, user, product_for_track(course.track))

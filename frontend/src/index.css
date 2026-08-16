@@ -4422,6 +4422,22 @@ h4.prose-h {
 }
 .referral-empty strong { color: var(--text); }
 
+/* באנר "המוצר הזה נמכר בנפרד" בקטלוג — קו צד בגוון ה-highlighter, אותו
+   דגש שכבר משמש להערות "שים לב" בשאר האפליקציה. */
+.product-upsell {
+  border-inline-start: 4px solid var(--marker);
+  margin-bottom: 18px;
+}
+.product-upsell h3 {
+  margin: 0 0 8px;
+  color: var(--accent);
+}
+.product-upsell p {
+  margin: 0 0 12px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
 /* ---------- עמוד המנוי: תוכניות ותשלום ---------- */
 .sub-plans {
   margin-top: 26px;

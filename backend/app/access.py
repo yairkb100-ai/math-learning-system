@@ -27,14 +27,21 @@ from app.models import Chapter, Exam, FileAsset, PracticeQuestion
 # חלק התוכן הפתוח למי שאין לו מנוי בתוקף.
 FREE_CONTENT_RATIO = 0.42
 
+# חלק התוכן הפתוח במוצר *שני* שהתלמיד לא רכש — מי שמנוי על הלומדה בלבד רואה
+# טעימה קטנה יותר מאזור קרני, ולהפך. ברירת מחדל בלבד: המנהל עורך את המספר
+# בפועל במסך המחירים (``cross_product_free_ratio`` ב-``app.settings_store``).
+CROSS_PRODUCT_FREE_RATIO = 0.20
+
 TIER_FULL = "full"
 TIER_FREE = "free"
 
 
-def free_quota(total_items: int) -> int:
+def free_quota(total_items: int, ratio: float = FREE_CONTENT_RATIO) -> int:
     """כמה פריטים פתוחים מתוך קבוצה בת ``total_items`` ללא מנוי.
 
     כלל אחד לכל סוגי התוכן — פרקים בקורס, שאלות בנושא תרגול, מבחנים במקצוע.
+    ``ratio`` הוא שיעור הפתיחה: ברירת המחדל למי שאין לו מנוי כלל, ושיעור נמוך
+    יותר למוצר שהתלמיד לא רכש (ראה ``CROSS_PRODUCT_FREE_RATIO``).
 
     עיגול לקרוב: 42% הם היעד ולא תקרה, ועיגול כלפי מטה קיפח את הקבוצות הקצרות
     (קורס בן 4 פרקים קיבל פרק אחד — 25%). לכן קבוצה קטנה עשויה לחרוג מעט כלפי
@@ -46,14 +53,16 @@ def free_quota(total_items: int) -> int:
     """
     if total_items <= 0:
         return 0
-    return max(1, math.floor(total_items * FREE_CONTENT_RATIO + 0.5))
+    return max(1, math.floor(total_items * ratio + 0.5))
 
 
 # השם ההיסטורי — נתיבי הקורסים מייבאים אותו כך.
 free_chapter_quota = free_quota
 
 
-def unlocked_chapter_numbers(db: Session, course_id: int) -> set[int]:
+def unlocked_chapter_numbers(
+    db: Session, course_id: int, ratio: float = FREE_CONTENT_RATIO
+) -> set[int]:
     """מספרי הפרקים הפתוחים בקורס למי שאין לו מנוי — הראשונים לפי סדר הלימוד.
 
     לא מסתמך על ``number`` כרצף 1..N: יש קורסים שנבנו בהדרגה, והחיתוך נעשה על
@@ -66,14 +75,20 @@ def unlocked_chapter_numbers(db: Session, course_id: int) -> set[int]:
         .order_by(Chapter.number)
         .all()
     ]
-    return set(numbers[: free_chapter_quota(len(numbers))])
+    return set(numbers[: free_chapter_quota(len(numbers), ratio)])
 
 
-def chapter_is_unlocked(db: Session, course_id: int, number: int, tier: str) -> bool:
+def chapter_is_unlocked(
+    db: Session,
+    course_id: int,
+    number: int,
+    tier: str,
+    ratio: float = FREE_CONTENT_RATIO,
+) -> bool:
     """האם הפרק פתוח לדרגת הגישה הזו."""
     if tier == TIER_FULL:
         return True
-    return number in unlocked_chapter_numbers(db, course_id)
+    return number in unlocked_chapter_numbers(db, course_id, ratio)
 
 
 # קבצי הקורס משויכים לפרק לפי שמם ("…פרק-7….mp4") — אותה מוסכמה שהפרונט
@@ -93,6 +108,7 @@ def asset_is_unlocked(
     asset: FileAsset,
     tier: str,
     _cache: dict[int, set[int]] | None = None,
+    ratio: float = FREE_CONTENT_RATIO,
 ) -> bool:
     """האם קובץ הקורס פתוח לדרגת הגישה הזו.
 
@@ -112,13 +128,13 @@ def asset_is_unlocked(
     if number is None:
         return True  # קובץ כללי לקורס, לא שייך לפרק מסוים
     if _cache is None:
-        return number in unlocked_chapter_numbers(db, asset.course_id)
+        return number in unlocked_chapter_numbers(db, asset.course_id, ratio)
     if asset.course_id not in _cache:
-        _cache[asset.course_id] = unlocked_chapter_numbers(db, asset.course_id)
+        _cache[asset.course_id] = unlocked_chapter_numbers(db, asset.course_id, ratio)
     return number in _cache[asset.course_id]
 
 
-def unlocked_practice_ids(db: Session) -> set[int]:
+def unlocked_practice_ids(db: Session, ratio: float = FREE_CONTENT_RATIO) -> set[int]:
     """מזהי שאלות התרגול הפתוחות למי שאין לו מנוי.
 
     אותו עיקרון של "הפרקים הראשונים בכל קורס", מוקרן על מאגר התרגול: בכל
@@ -139,11 +155,11 @@ def unlocked_practice_ids(db: Session) -> set[int]:
         groups[(subject, topic)].append(qid)
     open_ids: set[int] = set()
     for ids in groups.values():
-        open_ids.update(ids[: free_quota(len(ids))])
+        open_ids.update(ids[: free_quota(len(ids), ratio)])
     return open_ids
 
 
-def unlocked_exam_ids(db: Session) -> set[int]:
+def unlocked_exam_ids(db: Session, ratio: float = FREE_CONTENT_RATIO) -> set[int]:
     """מזהי המבחנים הפתוחים למי שאין לו מנוי — ~42% הראשונים מכל הרשימה.
 
     המכסה גלובלית ולא פר-מקצוע בכוונה: הקטלוג בפועל מחזיק מבחן אחד לכל מקצוע,
@@ -157,4 +173,4 @@ def unlocked_exam_ids(db: Session) -> set[int]:
         .order_by(Exam.id)
         .all()
     ]
-    return set(ids[: free_quota(len(ids))])
+    return set(ids[: free_quota(len(ids), ratio)])
