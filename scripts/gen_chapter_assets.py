@@ -324,10 +324,16 @@ def macros(s):
     s = _art(s)
     s = _systems(s)
     s = _merge_math_runs(s)
-    s = re.sub(r'\[\[(\d+)/(\d+)\]\]',
-               r'<span class="fr"><b>\1</b><i>\2</i></span>', s)
+    # [[eq:...]] MUST run before the standalone [[a/b]] substitution. _row()
+    # escapes < and > on the way in (so the spans it emits itself survive), so
+    # a fraction already turned into <span class="fr"> markup would reach the
+    # student as literal escaped tags — "2 ÷ &lt;span class="fr"&gt;…" instead
+    # of "2 ÷ ½". The eq pattern already allows a nested [[a/b]]; _row turns it
+    # into a \frac that _convert_fracs renders.
     s = re.sub(r'\[\[eq:((?:[^\[\]]|\[[^\[\]]*\]|\[\[\d+/\d+\]\])*)\]\]',
                lambda m: f'<span class="eq">{_row(m.group(1))}</span>', s)
+    s = re.sub(r'\[\[(\d+)/(\d+)\]\]',
+               r'<span class="fr"><b>\1</b><i>\2</i></span>', s)
     s = s.replace('[[blank]]', '<span class="blank"></span>')
     s = re.sub(r'\[\[lines:(\d)\]\]',
                lambda m: '<div class="lines">' + '<div></div>' * int(m.group(1)) + '</div>',
@@ -497,6 +503,10 @@ def _scripts(s):
 def _row(t):
     """Render one row of math. Escaping happens before any HTML is
     emitted, so the spans produced downstream survive intact."""
+    # A [[a/b]] nested inside an [[eq:...]] island arrives here raw (macros()
+    # defers the standalone fraction substitution until after this runs), so
+    # hand it to the same \frac path the rest of the row uses.
+    t = re.sub(r'\[\[(\d+)/(\d+)\]\]', r'\\frac{\1}{\2}', t)
     t = t.replace('&', '&amp;').replace('>', '&gt;').replace('<', '&lt;')
     t = t.replace('\\times', '×').replace('\\div', '÷')
     t = t.replace('\\cdot', '·').replace('\\quad', ' ').replace('\\qquad', '  ')

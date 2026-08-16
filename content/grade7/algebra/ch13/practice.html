@@ -2,7 +2,7 @@
 <html lang="he" dir="rtl">
 <head>
 <meta charset="utf-8">
-<title>תרגול אינטראקטיבי — הפונקציה הקווית y=mx+n</title>
+<title>תרגול אינטראקטיבי — הפונקציה הקווית y = mx + b</title>
 <style>
   @page { size: A4; margin: 14mm; }
   * { box-sizing: border-box; }
@@ -92,33 +92,33 @@
 </head>
 <body>
 
-<h1 class="pt">תרגול: הפונקציה הקווית y=mx+n</h1>
-<p class="lead">פרק 13 · m הוא השיפוע (קצב השינוי), n הוא נקודת החיתוך עם ציר y</p>
+<h1 class="pt">תרגול: הפונקציה הקווית y = mx + b</h1>
+<p class="lead">פרק 13 · m הוא השיפוע (קצב השינוי), b הוא נקודת החיתוך עם ציר y</p>
 
 <div class="card">
   <h2>✏️ תרגילים</h2>
   <p class="hint">נסו לפתור לבד, ורק אחר כך גלו את הפתרון.</p>
   
   <div class="ex">
-    <div class="ex-h"><strong>תרגיל 1: זיהוי m ו-n</strong>
+    <div class="ex-h"><strong>תרגיל 1: זיהוי m ו-b</strong>
       <span class="tag easy">קל</span></div>
-    <div>בפונקציה <span class="eq">y=5x-2</span>, זהו את <span class="eq">m</span> ואת <span class="eq">n</span>. מהו <span class="eq">y</span> עבור <span class="eq">x=0</span>? האם הפונקציה עולה או יורדת?</div>
+    <div>בפונקציה <span class="eq">y=5x-2</span>, זהו את <span class="eq">m</span> ואת <span class="eq">b</span>. מהו <span class="eq">y</span> עבור <span class="eq">x=0</span>? האם הפונקציה עולה או יורדת?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol"><span class="eq">m=5, n=-2</span>. עבור <span class="eq">x=0</span>: <span class="eq">y=-2</span>. מכיוון ש-<span class="eq">m&gt;0</span>, הפונקציה עולה.</div>
+    <div class="sol"><span class="eq">m=5, b=-2</span>. עבור <span class="eq">x=0</span>: <span class="eq">y=-2</span>. מכיוון ש-<span class="eq">m&gt;0</span>, הפונקציה עולה.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 2: שיפוע שלילי</strong>
       <span class="tag easy">קל</span></div>
-    <div>בפונקציה <span class="eq">y=-2x+8</span>, זהו את <span class="eq">m</span> ואת <span class="eq">n</span>. האם הפונקציה עולה או יורדת?</div>
+    <div>בפונקציה <span class="eq">y=-2x+8</span>, זהו את <span class="eq">m</span> ואת <span class="eq">b</span>. האם הפונקציה עולה או יורדת?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol"><span class="eq">m=-2, n=8</span>. מכיוון ש-<span class="eq">m&lt;0</span>, הפונקציה יורדת.</div>
+    <div class="sol"><span class="eq">m=-2, b=8</span>. מכיוון ש-<span class="eq">m&lt;0</span>, הפונקציה יורדת.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 3: מציאת הפונקציה משתי נקודות</strong>
       <span class="tag med">בינוני</span></div>
     <div>מצאו את הפונקציה הקווית העוברת בנקודות <span class="eq">(2,9)</span> ו-<span class="eq">(5,18)</span>.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol"><span class="eq">m=<span class="fr"><b>18-9</b><i>5-2</i></span>=<span class="fr"><b>9</b><i>3</i></span>=3</span>. מציבים <span class="eq">(2,9)</span>: <span class="eq">9=3×2+n ⇒ n=3</span>. הפונקציה: <span class="eq">y=3x+3</span>.</div>
+    <div class="sol"><span class="eq">m=<span class="fr"><b>18-9</b><i>5-2</i></span>=<span class="fr"><b>9</b><i>3</i></span>=3</span>. מציבים <span class="eq">(2,9)</span>: <span class="eq">9=3×2+b ⇒ b=3</span>. הפונקציה: <span class="eq">y=3x+3</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 4: אתגר: עלות חניה</strong>
@@ -135,11 +135,11 @@
     <div class="sol">נקודת החיתוך פותרת את <span class="eq">x+4=4x-5</span>. פותרים: <span class="eq">9=3x ⇒ x=3</span>. מציבים ב-<span class="eq">y=x+4</span>: <span class="eq">y=3+4=7</span>. נקודת החיתוך: <span class="eq">(3,7)</span>.</div>
   </div>
   <div class="ex">
-    <div class="ex-h"><strong>תרגיל 6: זיהוי m ו-n — תרגול נוסף</strong>
+    <div class="ex-h"><strong>תרגיל 6: זיהוי m ו-b — תרגול נוסף</strong>
       <span class="tag easy">קל</span></div>
-    <div>זהו את <span class="eq">m</span> ואת <span class="eq">n</span> בפונקציה <span class="eq">y=5x+2</span>, וקבעו אם היא עולה או יורדת.</div>
+    <div>זהו את <span class="eq">m</span> ואת <span class="eq">b</span> בפונקציה <span class="eq">y=5x+2</span>, וקבעו אם היא עולה או יורדת.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol"><span class="eq">m=5, n=2</span>. מכיוון ש-<span class="eq">m&gt;0</span>, הפונקציה עולה.</div>
+    <div class="sol"><span class="eq">m=5, b=2</span>. מכיוון ש-<span class="eq">m&gt;0</span>, הפונקציה עולה.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 7: מציאת x מתוך y</strong>
@@ -153,12 +153,12 @@
       <span class="tag med">בינוני</span></div>
     <div>מצאו את הפונקציה הקווית העוברת בנקודות <span class="eq">(1,8)</span> ו-<span class="eq">(4,2)</span>.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol"><span class="eq">m=<span class="fr"><b>2-8</b><i>4-1</i></span>=<span class="fr"><b>-6</b><i>3</i></span>=-2</span>. מציבים <span class="eq">(1,8)</span>: <span class="eq">8=-2×1+n ⇒ n=10</span>. הפונקציה: <span class="eq">y=-2x+10</span>.</div>
+    <div class="sol"><span class="eq">m=<span class="fr"><b>2-8</b><i>4-1</i></span>=<span class="fr"><b>-6</b><i>3</i></span>=-2</span>. מציבים <span class="eq">(1,8)</span>: <span class="eq">8=-2×1+b ⇒ b=10</span>. הפונקציה: <span class="eq">y=-2x+10</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 9: אתגר: שכירות רכב</strong>
       <span class="tag hard">מאתגר</span></div>
-    <div>מחיר שכירות רכב: דמי בסיס <span class="eq">n=150</span> ₪, ותוספת <span class="eq">m=60</span> ₪ לכל יום. כתבו את הפונקציה, וחשבו את העלות עבור 5 ימים.</div>
+    <div>מחיר שכירות רכב: דמי בסיס <span class="eq">b=150</span> ₪, ותוספת <span class="eq">m=60</span> ₪ לכל יום. כתבו את הפונקציה, וחשבו את העלות עבור 5 ימים.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
     <div class="sol"><span class="eq">y=60x+150</span>. עבור <span class="eq">x=5</span>: <span class="eq">y=60×5+150=450</span> ₪.</div>
   </div>
@@ -174,7 +174,7 @@
 <div class="credit" style="max-width:780px; margin:0 auto">© כל הזכויות שמורות ליאיר כהנא</div>
 
 <script>
-const quiz = [{"q": "בפונקציה <span class=\"eq\">y=4x+9</span>, מהו השיפוע <span class=\"eq\">m</span> ומהי נקודת החיתוך <span class=\"eq\">n</span>?", "o": ["<span class=\"eq\">m=4, n=9</span>", "<span class=\"eq\">m=9, n=4</span>", "<span class=\"eq\">m=4, n=0</span>", "<span class=\"eq\">m=0, n=9</span>"], "a": 0}, {"q": "אם <span class=\"eq\">m&gt;0</span> בפונקציה קווית, מה קורה ל-<span class=\"eq\">y</span> ככל ש-<span class=\"eq\">x</span> גדל?", "o": ["<span class=\"eq\">y</span> גדל (הגרף עולה)", "<span class=\"eq\">y</span> קטן (הגרף יורד)", "<span class=\"eq\">y</span> קבוע", "אי אפשר לדעת"], "a": 0}, {"q": "נכון או לא נכון: <span class=\"eq\">n</span> בפונקציה <span class=\"eq\">y=mx+n</span> הוא הערך של <span class=\"eq\">y</span> כאשר <span class=\"eq\">x=0</span>.", "o": ["נכון", "לא נכון"], "a": 0}, {"q": "מצאו את <span class=\"eq\">m</span> מתוך הנקודות <span class=\"eq\">(2,7)</span> ו-<span class=\"eq\">(4,13)</span>.", "o": ["3", "6", "2", "13"], "a": 0}, {"q": "נכון או לא נכון: אם <span class=\"eq\">m</span> שלילי, הגרף של הפונקציה יורד ככל ש-<span class=\"eq\">x</span> גדל.", "o": ["נכון", "לא נכון"], "a": 0}];
+const quiz = [{"q": "בפונקציה <span class=\"eq\">y=4x+9</span>, מהו השיפוע <span class=\"eq\">m</span> ומהי נקודת החיתוך <span class=\"eq\">b</span>?", "o": ["<span class=\"eq\">m=9, b=4</span>", "<span class=\"eq\">m=4, b=0</span>", "<span class=\"eq\">m=4, b=9</span>", "<span class=\"eq\">m=0, b=9</span>"], "a": 2}, {"q": "אם <span class=\"eq\">m&gt;0</span> בפונקציה קווית, מה קורה ל-<span class=\"eq\">y</span> ככל ש-<span class=\"eq\">x</span> גדל?", "o": ["<span class=\"eq\">y</span> גדל (הגרף עולה)", "<span class=\"eq\">y</span> קטן (הגרף יורד)", "<span class=\"eq\">y</span> קבוע", "אי אפשר לדעת"], "a": 0}, {"q": "נכון או לא נכון: <span class=\"eq\">b</span> בפונקציה <span class=\"eq\">y=mx+b</span> הוא הערך של <span class=\"eq\">y</span> כאשר <span class=\"eq\">x=0</span>.", "o": ["לא נכון", "נכון"], "a": 1}, {"q": "מצאו את <span class=\"eq\">m</span> מתוך הנקודות <span class=\"eq\">(2,7)</span> ו-<span class=\"eq\">(4,13)</span>.", "o": ["6", "2", "13", "3"], "a": 3}, {"q": "נכון או לא נכון: אם <span class=\"eq\">m</span> שלילי, הגרף של הפונקציה יורד ככל ש-<span class=\"eq\">x</span> גדל.", "o": ["נכון", "לא נכון"], "a": 0}];
 let answered = 0, correct = 0;
 document.getElementById('quiz').innerHTML = quiz.map((q, i) => `
   <div class="q">

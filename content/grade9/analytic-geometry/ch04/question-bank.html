@@ -30,7 +30,7 @@
         vertical-align: middle; margin: 0 3px; font-size: .95em; line-height: 1.15; }
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
-  .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; margin: 0 3px; }
+  .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
   .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
          align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
   .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
@@ -71,11 +71,11 @@
 <div class="sheet">
   <header>
     <h1>מאגר שאלות — פרק 4: משוואת הישר</h1>
-    <div class="sub">24 שאלות · מציאת y = mx + n משיפוע, מנקודה, משתי נקודות ומגרף · דף פתרונות בעמוד האחרון</div>
+    <div class="sub">24 שאלות · מציאת y = mx + b משיפוע, מנקודה, משתי נקודות ומגרף · דף פתרונות בעמוד האחרון</div>
     <div class="namebar"><span>שם: </span><span>כיתה: </span><span>תאריך: </span></div>
   </header>
   
-  <h2 class="sec">חלק א' - זיהוי m ו-n 🔍 (שאלות 1–4)</h2>
+  <h2 class="sec">חלק א' - זיהוי m ו-b 🔍 (שאלות 1–4)</h2>
   <ol class="items" start="1">
 <li>מהו השיפוע של הישר <span class="eq">y = 8x − 3</span>?</li>
 <li>באיזו נקודה חותך הישר <span class="eq">y = −x + 11</span> את ציר ה-y?</li>
@@ -101,7 +101,7 @@
 <li>האם הנקודה <span class="eq">(2, 9)</span> נמצאת על הישר <span class="eq">y = 4x + 1</span>?</li>
 <li>האם הנקודה <span class="eq">(3, 5)</span> נמצאת על הישר <span class="eq">y = 2x − 2</span>?</li>
 <li>הנקודה <span class="eq">(k, 10)</span> נמצאת על הישר <span class="eq">y = 3x + 1</span>. מהו <span class="eq">k</span>?</li>
-<li>הישר <span class="eq">y = 2x + n</span> עובר בנקודה <span class="eq">(4, 5)</span>. מהו <span class="eq">n</span>?</li>
+<li>הישר <span class="eq">y = 2x + b</span> עובר בנקודה <span class="eq">(4, 5)</span>. מהו <span class="eq">b</span>?</li>
   </ol>
   <h2 class="sec">חלק ה' - חיתוך עם הצירים ✂️ (שאלות 17–20)</h2>
   <ol class="items" start="17">
@@ -127,20 +127,20 @@
   </header>
   <div class="ans"><strong>1.</strong> <span class="eq">m = 8</span></div>
 <div class="ans"><strong>2.</strong> <span class="eq">(0, 11)</span></div>
-<div class="ans"><strong>3.</strong> <span class="eq">m = −6</span> ו-<span class="eq">n = 0</span> (הישר עובר בראשית הצירים)</div>
-<div class="ans"><strong>4.</strong> <span class="eq">m = 0</span> (ישר אופקי) ו-<span class="eq">n = 5</span></div>
-<div class="ans"><strong>5.</strong> <span class="eq">7 = 2 · 3 + n</span> ולכן <span class="eq">n = 1</span>: <span class="eq">y = 2x + 1</span></div>
-<div class="ans"><strong>6.</strong> <span class="eq">2 = −3 · 1 + n</span> ולכן <span class="eq">n = 5</span>: <span class="eq">y = −3x + 5</span></div>
-<div class="ans"><strong>7.</strong> <span class="eq">4 = 1 · 4 + n</span> ולכן <span class="eq">n = 0</span>: <span class="eq">y = x</span></div>
-<div class="ans"><strong>8.</strong> <span class="eq">n = −2</span>: <span class="eq">y = 5x − 2</span></div>
-<div class="ans"><strong>9.</strong> <span class="eq">m = 3</span> ו-<span class="eq">n = 3</span>: <span class="eq">y = 3x + 3</span></div>
-<div class="ans"><strong>10.</strong> <span class="eq">m = 3</span>; <span class="eq">4 = 3 + n</span> ולכן <span class="eq">n = 1</span>: <span class="eq">y = 3x + 1</span></div>
-<div class="ans"><strong>11.</strong> <span class="eq">m = <span class="fr"><b>1 − 5</b><i>1 − (−1)</i></span> = −2</span>; <span class="eq">1 = −2 + n</span> ולכן <span class="eq">n = 3</span>: <span class="eq">y = −2x + 3</span></div>
-<div class="ans"><strong>12.</strong> <span class="eq">m = <span class="fr"><b>8 − (−1)</b><i>5 − 2</i></span> = 3</span>; <span class="eq">−1 = 6 + n</span> ולכן <span class="eq">n = −7</span>: <span class="eq">y = 3x − 7</span></div>
+<div class="ans"><strong>3.</strong> <span class="eq">m = −6</span> ו-<span class="eq">b = 0</span> (הישר עובר בראשית הצירים)</div>
+<div class="ans"><strong>4.</strong> <span class="eq">m = 0</span> (ישר אופקי) ו-<span class="eq">b = 5</span></div>
+<div class="ans"><strong>5.</strong> <span class="eq">7 = 2 · 3 + b</span> ולכן <span class="eq">b = 1</span>: <span class="eq">y = 2x + 1</span></div>
+<div class="ans"><strong>6.</strong> <span class="eq">2 = −3 · 1 + b</span> ולכן <span class="eq">b = 5</span>: <span class="eq">y = −3x + 5</span></div>
+<div class="ans"><strong>7.</strong> <span class="eq">4 = 1 · 4 + b</span> ולכן <span class="eq">b = 0</span>: <span class="eq">y = x</span></div>
+<div class="ans"><strong>8.</strong> <span class="eq">b = −2</span>: <span class="eq">y = 5x − 2</span></div>
+<div class="ans"><strong>9.</strong> <span class="eq">m = 3</span> ו-<span class="eq">b = 3</span>: <span class="eq">y = 3x + 3</span></div>
+<div class="ans"><strong>10.</strong> <span class="eq">m = 3</span>; <span class="eq">4 = 3 + b</span> ולכן <span class="eq">b = 1</span>: <span class="eq">y = 3x + 1</span></div>
+<div class="ans"><strong>11.</strong> <span class="eq">m = <span class="fr"><b>1 − 5</b><i>1 − (−1)</i></span> = −2</span>; <span class="eq">1 = −2 + b</span> ולכן <span class="eq">b = 3</span>: <span class="eq">y = −2x + 3</span></div>
+<div class="ans"><strong>12.</strong> <span class="eq">m = <span class="fr"><b>8 − (−1)</b><i>5 − 2</i></span> = 3</span>; <span class="eq">−1 = 6 + b</span> ולכן <span class="eq">b = −7</span>: <span class="eq">y = 3x − 7</span></div>
 <div class="ans"><strong>13.</strong> כן: <span class="eq">4 · 2 + 1 = 9</span></div>
 <div class="ans"><strong>14.</strong> לא: <span class="eq">2 · 3 − 2 = 4</span> ולא 5</div>
 <div class="ans"><strong>15.</strong> <span class="eq">10 = 3k + 1</span> ולכן <span class="eq">k = 3</span></div>
-<div class="ans"><strong>16.</strong> <span class="eq">5 = 8 + n</span> ולכן <span class="eq">n = −3</span></div>
+<div class="ans"><strong>16.</strong> <span class="eq">5 = 8 + b</span> ולכן <span class="eq">b = −3</span></div>
 <div class="ans"><strong>17.</strong> <span class="eq">x − 6 = 0</span> ולכן <span class="eq">(6, 0)</span></div>
 <div class="ans"><strong>18.</strong> <span class="eq">−3x + 9 = 0</span> ולכן <span class="eq">(3, 0)</span></div>
 <div class="ans"><strong>19.</strong> <span class="eq">(0, 2)</span></div>

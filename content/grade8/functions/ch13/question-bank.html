@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>מאגר שאלות — אי-שוויונות וישרים</title>
+<style>
+  @page { size: A4; margin: 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: #1a2233;
+         line-height: 1.7; margin: 0; padding: 20px; background: #f4f6fa; }
+  .sheet { background: #fff; max-width: 820px; margin: 0 auto 24px;
+           padding: 30px 36px; border-radius: 10px;
+           box-shadow: 0 2px 14px rgba(0,0,0,.09); }
+  header { border-bottom: 3px solid #7a3fd1; padding-bottom: 12px; margin-bottom: 20px; }
+  h1 { margin: 0 0 4px; font-size: 24px; color: #4a1f8a; }
+  .sub { color: #5b6780; font-size: 14px; }
+  .namebar { display: flex; gap: 26px; margin-top: 12px; font-size: 14px; }
+  .namebar span { flex: 1; border-bottom: 1px dotted #8894ab; padding-bottom: 3px; }
+  h2.q, h2.sec { font-size: 17px; margin: 24px 0 10px; color: #4a1f8a;
+    background: #f3edfc; padding: 7px 12px; border-radius: 6px;
+    border-inline-start: 5px solid #7a3fd1; }
+  .tag { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px;
+         margin-inline-start: 8px; vertical-align: middle; }
+  .easy { background: #dff5e3; color: #1c6b32; }
+  .med  { background: #fdf0d5; color: #8a5b06; }
+  .hard { background: #fadbdb; color: #8f2222; }
+  ol.items { margin: 6px 0; padding-inline-start: 22px; }
+  ol.items > li { margin-bottom: 13px; }
+  .fr { display: inline-flex; flex-direction: column; align-items: center;
+        vertical-align: middle; margin: 0 3px; font-size: .95em; line-height: 1.15; }
+  .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
+  .fr i { font-style: normal; padding: 0 4px; }
+  .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #4a1f8a; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
+  .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #4a1f8a; height: 1em; }
+  .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
+  .fig { text-align: center; font-size: 13px; color: #5b6780; }
+  .lines div { border-bottom: 1px dotted #aab3c4; height: 24px; }
+  .numline { margin: 10px 0; }
+  .pagebreak { page-break-before: always; }
+  .key { background: #fffdf3; }
+  .key h1 { color: #8a5b06; }
+  .key header { border-bottom-color: #e0a800; }
+  .key .ans { background:#fff; border:1px solid #eadfb8; border-radius:6px;
+              padding:10px 14px; margin-bottom:10px; font-size:14.5px; }
+  .key .ans strong { color:#8a5b06; }
+  .credit { text-align:center; font-size: 12px; color: #8894ab; margin-top: 18px;
+            border-top: 1px solid #eef1f6; padding-top: 8px; }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .sheet { box-shadow: none; margin: 0; border-radius: 0; padding: 0; max-width: none; }
+    .noprint { display: none; }
+  }
+  .noprint { text-align:center; margin: 10px 0 20px; }
+  .noprint button { background: #7a3fd1; color:#fff; border:0; padding:10px 26px;
+                    border-radius:6px; font-size:15px; cursor:pointer; font-family:inherit; }
+</style>
+</head>
+<body>
+
+<div class="noprint"><button onclick="window.print()">🖨️ הדפסה / שמירה כ‑PDF</button></div>
+
+<div class="sheet">
+  <header>
+    <h1>מאגר שאלות — פרק 13: אי-שוויונות וישרים</h1>
+    <div class="sub">30 שאלות · מתי פונקציה אחת גדולה מהשנייה — גרפית ואלגברית · דף פתרונות בעמוד האחרון</div>
+    <div class="namebar"><span>שם: </span><span>כיתה: </span><span>תאריך: </span></div>
+  </header>
+  
+  <h2 class="sec">חלק א' — מתי הישר מעל הציר 📈 (שאלות 1–5)</h2>
+  <ol class="items" start="1">
+<li>עבור אילו ערכי x הגרף של <span class="eq">y = x − 5</span> נמצא מעל ציר ה-x?</li>
+<li>עבור אילו ערכי x הגרף של <span class="eq">y = 3x + 6</span> נמצא מתחת לציר ה-x?</li>
+<li>מתי הפונקציה <span class="eq">y = −x + 4</span> חיובית?</li>
+<li>מתי הפונקציה <span class="eq">y = 2x</span> שלילית?</li>
+<li>מתי הפונקציה <span class="eq">y = −2x − 8</span> חיובית?</li>
+  </ol>
+  <h2 class="sec">חלק ב' — פתרון אי-שוויונות 🧮 (שאלות 6–10)</h2>
+  <ol class="items" start="6">
+<li>פתרו: <span class="eq">x + 4 &gt; 9</span></li>
+<li>פתרו: <span class="eq">3x &lt; 12</span></li>
+<li>פתרו: <span class="eq">2x − 5 ≥ 7</span></li>
+<li>פתרו: <span class="eq">5x + 3 ≤ 18</span></li>
+<li>פתרו: <span class="eq">4x − 1 &gt; 2x + 9</span></li>
+  </ol>
+  <h2 class="sec">חלק ג' — כשהסימן מתהפך 🔄 (שאלות 11–15)</h2>
+  <ol class="items" start="11">
+<li>פתרו: <span class="eq">−x &gt; 3</span></li>
+<li>פתרו: <span class="eq">−2x ≤ 10</span></li>
+<li>פתרו: <span class="eq">−5x &gt; −20</span></li>
+<li>פתרו: <span class="eq">3 − x &lt; 8</span></li>
+<li>פתרו: <span class="eq">6 − 2x ≥ 14</span></li>
+  </ol>
+  <h2 class="sec">חלק ד' — השוואה בין שתי פונקציות ⚖️ (שאלות 16–20)</h2>
+  <ol class="items" start="16">
+<li>נתונות <span class="eq">f(x) = x + 7</span> ו-<span class="eq">g(x) = 3x + 1</span>. מתי <span class="eq">f(x) &gt; g(x)</span>?</li>
+<li>נתונות <span class="eq">f(x) = 4x</span> ו-<span class="eq">g(x) = x + 9</span>. מתי <span class="eq">f(x) &gt; g(x)</span>?</li>
+<li>שני ישרים נחתכים ב-<span class="eq">(2, 5)</span> והישר f תלול יותר. מתי <span class="eq">f(x) &lt; g(x)</span>?</li>
+<li>מתי הישר <span class="eq">y = 2x + 1</span> גבוה מהישר <span class="eq">y = 2x + 5</span>? נמקו.</li>
+<li>מצאו את נקודת המפגש של <span class="eq">y = 2x − 4</span> ו-<span class="eq">y = x − 1</span>, ואת התחום שבו הישר הראשון גבוה יותר.</li>
+  </ol>
+  <h2 class="sec">חלק ה' — תחומים וציר המספרים 📏 (שאלות 21–25)</h2>
+  <ol class="items" start="21">
+<li>כתבו כתחום: כל המספרים הגדולים מ-4.</li>
+<li>כתבו כתחום: כל המספרים הקטנים או שווים ל-<span class="eq">−1</span>.</li>
+<li>על ציר המספרים העיגול בנקודה 3 ריק והחץ פונה ימינה. מהו האי-שוויון?</li>
+<li>על ציר המספרים העיגול בנקודה <span class="eq">−2</span> מלא והחץ פונה שמאלה. מהו האי-שוויון?</li>
+<li>פתרו את <span class="eq">2x + 6 &gt; 0</span> ותארו במילים כיצד ייראה הסימון על ציר המספרים.</li>
+  </ol>
+  <h2 class="sec">חלק ו' — אתגרים מהחיים 🏆 (שאלות 26–30)</h2>
+  <ol class="items" start="26">
+<li>חבילה כחולה <span class="eq">0.5x + 60</span> וחבילה ירוקה <span class="eq">1.5x + 20</span>. מתי הכחולה זולה יותר?</li>
+<li>מכון א' <span class="eq">10x + 100</span> ומכון ב' <span class="eq">20x + 40</span>. מתי מכון א' זול יותר?</li>
+<li>הסכום של יובל <span class="eq">10x + 80</span> ושל עומר <span class="eq">4x + 200</span>. מתי יובל עשיר יותר?</li>
+<li>מונית א' גובה <span class="eq">12</span> ש"ח ועוד <span class="eq">3</span> ש"ח לק"מ, ומונית ב' גובה <span class="eq">20</span> ש"ח ועוד <span class="eq">1</span> ש"ח לק"מ. מתי מונית א' זולה יותר?</li>
+<li>הראו שלאי-השוויון <span class="eq">3x + 2 &gt; 3x + 9</span> אין פתרון, והסבירו זאת בעזרת הגרפים.</li>
+  </ol>
+  <div class="credit">מאגר שאלות מקורי · © כל הזכויות שמורות ליאיר כהנא</div>
+</div>
+
+<div class="sheet key pagebreak">
+  <header>
+    <h1>🔑 פתרונות מלאים — מאגר שאלות פרק 13</h1>
+    <div class="sub">למורה / להורה / לבדיקה עצמית</div>
+  </header>
+  <div class="ans"><strong>1.</strong> <span class="eq">x − 5 &gt; 0</span> ⟵ <span class="eq">x &gt; 5</span></div>
+<div class="ans"><strong>2.</strong> <span class="eq">3x + 6 &lt; 0</span> ⟵ <span class="eq">3x &lt; −6</span> ⟵ <span class="eq">x &lt; −2</span></div>
+<div class="ans"><strong>3.</strong> <span class="eq">−x + 4 &gt; 0</span> ⟵ <span class="eq">−x &gt; −4</span> ⟵ <span class="eq">x &lt; 4</span></div>
+<div class="ans"><strong>4.</strong> <span class="eq">2x &lt; 0</span> ⟵ <span class="eq">x &lt; 0</span></div>
+<div class="ans"><strong>5.</strong> <span class="eq">−2x − 8 &gt; 0</span> ⟵ <span class="eq">−2x &gt; 8</span> ⟵ <span class="eq">x &lt; −4</span></div>
+<div class="ans"><strong>6.</strong> <span class="eq">x &gt; 5</span></div>
+<div class="ans"><strong>7.</strong> <span class="eq">x &lt; 4</span></div>
+<div class="ans"><strong>8.</strong> <span class="eq">2x ≥ 12</span> ⟵ <span class="eq">x ≥ 6</span></div>
+<div class="ans"><strong>9.</strong> <span class="eq">5x ≤ 15</span> ⟵ <span class="eq">x ≤ 3</span></div>
+<div class="ans"><strong>10.</strong> <span class="eq">2x &gt; 10</span> ⟵ <span class="eq">x &gt; 5</span></div>
+<div class="ans"><strong>11.</strong> מחלקים ב-<span class="eq">−1</span> והופכים: <span class="eq">x &lt; −3</span></div>
+<div class="ans"><strong>12.</strong> מחלקים ב-<span class="eq">−2</span> והופכים: <span class="eq">x ≥ −5</span></div>
+<div class="ans"><strong>13.</strong> מחלקים ב-<span class="eq">−5</span> והופכים: <span class="eq">x &lt; 4</span></div>
+<div class="ans"><strong>14.</strong> <span class="eq">−x &lt; 5</span>, מחלקים ב-<span class="eq">−1</span> והופכים: <span class="eq">x &gt; −5</span></div>
+<div class="ans"><strong>15.</strong> <span class="eq">−2x ≥ 8</span>, מחלקים ב-<span class="eq">−2</span> והופכים: <span class="eq">x ≤ −4</span></div>
+<div class="ans"><strong>16.</strong> <span class="eq">x + 7 &gt; 3x + 1</span> ⟵ <span class="eq">6 &gt; 2x</span> ⟵ <span class="eq">x &lt; 3</span></div>
+<div class="ans"><strong>17.</strong> <span class="eq">4x &gt; x + 9</span> ⟵ <span class="eq">3x &gt; 9</span> ⟵ <span class="eq">x &gt; 3</span></div>
+<div class="ans"><strong>18.</strong> <span class="eq">x &lt; 2</span> — f תלול יותר ולכן משמאל לנקודת המפגש הוא התחתון</div>
+<div class="ans"><strong>19.</strong> אף פעם. לשני הישרים אותו שיפוע 2, והם מקבילים; הישר <span class="eq">y = 2x + 1</span> נמצא תמיד 4 יחידות מתחת לישר השני</div>
+<div class="ans"><strong>20.</strong> <span class="eq">2x − 4 = x − 1</span> ⟵ <span class="eq">x = 3</span>, ואז <span class="eq">y = 2</span>: הנקודה <span class="eq">(3, 2)</span>. הישר הראשון גבוה יותר כאשר <span class="eq">x &gt; 3</span></div>
+<div class="ans"><strong>21.</strong> <span class="eq">x &gt; 4</span></div>
+<div class="ans"><strong>22.</strong> <span class="eq">x ≤ −1</span></div>
+<div class="ans"><strong>23.</strong> <span class="eq">x &gt; 3</span></div>
+<div class="ans"><strong>24.</strong> <span class="eq">x ≤ −2</span></div>
+<div class="ans"><strong>25.</strong> <span class="eq">2x &gt; −6</span> ⟵ <span class="eq">x &gt; −3</span>. על הציר: עיגול ריק בנקודה <span class="eq">−3</span> וחץ הפונה ימינה</div>
+<div class="ans"><strong>26.</strong> <span class="eq">0.5x + 60 &lt; 1.5x + 20</span> ⟵ <span class="eq">40 &lt; x</span> ⟵ <span class="eq">x &gt; 40</span> דקות</div>
+<div class="ans"><strong>27.</strong> <span class="eq">10x + 100 &lt; 20x + 40</span> ⟵ <span class="eq">60 &lt; 10x</span> ⟵ <span class="eq">x &gt; 6</span> ביקורים</div>
+<div class="ans"><strong>28.</strong> <span class="eq">10x + 80 &gt; 4x + 200</span> ⟵ <span class="eq">6x &gt; 120</span> ⟵ <span class="eq">x &gt; 20</span> שבועות</div>
+<div class="ans"><strong>29.</strong> <span class="eq">3x + 12 &lt; x + 20</span> ⟵ <span class="eq">2x &lt; 8</span> ⟵ <span class="eq">x &lt; 4</span> ק"מ</div>
+<div class="ans"><strong>30.</strong> מבטלים <span class="eq">3x</span> משני האגפים ומקבלים <span class="eq">2 &gt; 9</span> — טענה שקרית, ולכן אין פתרון. הגרפים הם שני ישרים מקבילים בעלי שיפוע 3, והראשון נמצא תמיד 7 יחידות מתחת לשני</div>
+  <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
+</div>
+</body>
+</html>

@@ -30,7 +30,7 @@
         vertical-align: middle; margin: 0 3px; font-size: .95em; line-height: 1.15; }
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
-  .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; margin: 0 3px; }
+  .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
   .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
          align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
   .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
@@ -93,7 +93,7 @@
 <body>
 
 <h1 class="pt">תרגול: משוואת הישר</h1>
-<p class="lead">פרק 4 · מציאת y = mx + n משיפוע, מנקודה, משתי נקודות ומגרף</p>
+<p class="lead">פרק 4 · מציאת y = mx + b משיפוע, מנקודה, משתי נקודות ומגרף</p>
 
 <div class="card">
   <h2>✏️ תרגילים</h2>
@@ -104,14 +104,14 @@
       <span class="tag easy">קל</span></div>
     <div>מצאו את משוואת הישר בכל סעיף:<br><br>א. שיפוע <span class="eq">4</span>, עובר בנקודה <span class="eq">(1,6)</span>.<br>ב. שיפוע <span class="eq">-2</span>, עובר בנקודה <span class="eq">(3,1)</span>.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">א. מציבים ב-<span class="eq">y = 4x + n</span>: <span class="eq">6 = 4 · 1 + n</span>, ולכן <span class="eq">n = 2</span>. המשוואה: <span class="eq">y = 4x + 2</span>.<br>ב. מציבים ב-<span class="eq">y = -2x + n</span>: <span class="eq">1 = -2 · 3 + n = -6 + n</span>, ולכן <span class="eq">n = 7</span>. המשוואה: <span class="eq">y = -2x + 7</span>.</div>
+    <div class="sol">א. מציבים ב-<span class="eq">y = 4x + b</span>: <span class="eq">6 = 4 · 1 + b</span>, ולכן <span class="eq">b = 2</span>. המשוואה: <span class="eq">y = 4x + 2</span>.<br>ב. מציבים ב-<span class="eq">y = -2x + b</span>: <span class="eq">1 = -2 · 3 + b = -6 + b</span>, ולכן <span class="eq">b = 7</span>. המשוואה: <span class="eq">y = -2x + 7</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 2: משתי נקודות</strong>
       <span class="tag med">בינוני</span></div>
     <div>מצאו את משוואת הישר העובר דרך <span class="eq">A(2,5)</span> ו-<span class="eq">B(6,17)</span>.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">השיפוע: <span class="eq">m = <span class="fr"><b>17-5</b><i>6-2</i></span> = <span class="fr"><b>12</b><i>4</i></span> = 3</span>. מציבים את <span class="eq">A</span> ב-<span class="eq">y = 3x + n</span>: <span class="eq">5 = 3 · 2 + n = 6 + n</span>, ולכן <span class="eq">n = -1</span>. המשוואה: <span class="eq">y = 3x - 1</span>. בדיקה על <span class="eq">B</span>: <span class="eq">3 · 6 - 1 = 17</span> — מתאים.</div>
+    <div class="sol">השיפוע: <span class="eq">m = <span class="fr"><b>17-5</b><i>6-2</i></span> = <span class="fr"><b>12</b><i>4</i></span> = 3</span>. מציבים את <span class="eq">A</span> ב-<span class="eq">y = 3x + b</span>: <span class="eq">5 = 3 · 2 + b = 6 + b</span>, ולכן <span class="eq">b = -1</span>. המשוואה: <span class="eq">y = 3x - 1</span>. בדיקה על <span class="eq">B</span>: <span class="eq">3 · 6 - 1 = 17</span> — מתאים.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 3: נקודה על הישר או מחוצה לו</strong>
@@ -132,35 +132,35 @@
       <span class="tag hard">מאתגר</span></div>
     <div>ישר עובר דרך <span class="eq">A(-2,7)</span> ו-<span class="eq">B(2,-1)</span>.<br><br>א. מצאו את משוואת הישר.<br>ב. מצאו את נקודות החיתוך שלו עם הצירים.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">א. השיפוע: <span class="eq">m = <span class="fr"><b>-1-7</b><i>2-(-2)</i></span> = <span class="fr"><b>-8</b><i>4</i></span> = -2</span>. מציבים את <span class="eq">B</span> ב-<span class="eq">y = -2x + n</span>: <span class="eq">-1 = -2 · 2 + n = -4 + n</span>, ולכן <span class="eq">n = 3</span>. המשוואה: <span class="eq">y = -2x + 3</span>. בדיקה על <span class="eq">A</span>: <span class="eq">-2 · (-2) + 3 = 7</span> — מתאים.<br>ב. עם ציר ה-<span class="eq">y</span>: הנקודה <span class="eq">(0,3)</span>. עם ציר ה-<span class="eq">x</span>: פותרים <span class="eq">-2x + 3 = 0</span> ומקבלים <span class="eq">x = 1.5</span>, כלומר הנקודה <span class="eq">(1.5, 0)</span>.</div>
+    <div class="sol">א. השיפוע: <span class="eq">m = <span class="fr"><b>-1-7</b><i>2-(-2)</i></span> = <span class="fr"><b>-8</b><i>4</i></span> = -2</span>. מציבים את <span class="eq">B</span> ב-<span class="eq">y = -2x + b</span>: <span class="eq">-1 = -2 · 2 + b = -4 + b</span>, ולכן <span class="eq">b = 3</span>. המשוואה: <span class="eq">y = -2x + 3</span>. בדיקה על <span class="eq">A</span>: <span class="eq">-2 · (-2) + 3 = 7</span> — מתאים.<br>ב. עם ציר ה-<span class="eq">y</span>: הנקודה <span class="eq">(0,3)</span>. עם ציר ה-<span class="eq">x</span>: פותרים <span class="eq">-2x + 3 = 0</span> ומקבלים <span class="eq">x = 1.5</span>, כלומר הנקודה <span class="eq">(1.5, 0)</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 6: זיהוי מהיר</strong>
       <span class="tag easy">קל</span></div>
     <div>מהם השיפוע ונקודת החיתוך עם ציר ה-<span class="eq">y</span> של הישר <span class="eq">y = -7x + 2</span>?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">השיפוע <span class="eq">m = -7</span> (הישר יורד), והמספר החופשי <span class="eq">n = 2</span>, ולכן החיתוך עם ציר ה-<span class="eq">y</span> הוא בנקודה <span class="eq">(0,2)</span>.</div>
+    <div class="sol">השיפוע <span class="eq">m = -7</span> (הישר יורד), והמספר החופשי <span class="eq">b = 2</span>, ולכן החיתוך עם ציר ה-<span class="eq">y</span> הוא בנקודה <span class="eq">(0,2)</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 7: משיפוע ומנקודה</strong>
       <span class="tag easy">קל</span></div>
     <div>מצאו את משוואת הישר שהשיפוע שלו <span class="eq">6</span> והוא עובר בנקודה <span class="eq">(2,9)</span>.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">מציבים ב-<span class="eq">y = 6x + n</span>: <span class="eq">9 = 6 · 2 + n = 12 + n</span>, ולכן <span class="eq">n = -3</span>. המשוואה: <span class="eq">y = 6x - 3</span>. בדיקה: <span class="eq">6 · 2 - 3 = 9</span>.</div>
+    <div class="sol">מציבים ב-<span class="eq">y = 6x + b</span>: <span class="eq">9 = 6 · 2 + b = 12 + b</span>, ולכן <span class="eq">b = -3</span>. המשוואה: <span class="eq">y = 6x - 3</span>. בדיקה: <span class="eq">6 · 2 - 3 = 9</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 8: משתי נקודות</strong>
       <span class="tag med">בינוני</span></div>
     <div>מצאו את משוואת הישר העובר דרך <span class="eq">A(1,-2)</span> ו-<span class="eq">B(4,7)</span>.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">השיפוע: <span class="eq">m = <span class="fr"><b>7-(-2)</b><i>4-1</i></span> = <span class="fr"><b>9</b><i>3</i></span> = 3</span>. מציבים את <span class="eq">A</span>: <span class="eq">-2 = 3 · 1 + n</span>, ולכן <span class="eq">n = -5</span>. המשוואה: <span class="eq">y = 3x - 5</span>. בדיקה על <span class="eq">B</span>: <span class="eq">3 · 4 - 5 = 7</span> — מתאים.</div>
+    <div class="sol">השיפוע: <span class="eq">m = <span class="fr"><b>7-(-2)</b><i>4-1</i></span> = <span class="fr"><b>9</b><i>3</i></span> = 3</span>. מציבים את <span class="eq">A</span>: <span class="eq">-2 = 3 · 1 + b</span>, ולכן <span class="eq">b = -5</span>. המשוואה: <span class="eq">y = 3x - 5</span>. בדיקה על <span class="eq">B</span>: <span class="eq">3 · 4 - 5 = 7</span> — מתאים.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 9: אתגר: מהצירים אל המשוואה</strong>
       <span class="tag hard">מאתגר</span></div>
     <div>ישר חותך את ציר ה-<span class="eq">y</span> בנקודה <span class="eq">(0,6)</span> ואת ציר ה-<span class="eq">x</span> בנקודה <span class="eq">(4,0)</span>. מצאו את משוואתו.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">שתי נקודות החיתוך הן שתי נקודות על הישר, ולכן <span class="eq">m = <span class="fr"><b>0-6</b><i>4-0</i></span> = <span class="fr"><b>-6</b><i>4</i></span> = -1.5</span>. המספר החופשי נקרא ישירות מנקודת החיתוך עם ציר ה-<span class="eq">y</span>: <span class="eq">n = 6</span>. המשוואה: <span class="eq">y = -1.5x + 6</span>. בדיקה: עבור <span class="eq">x = 4</span> מתקבל <span class="eq">-6 + 6 = 0</span> — מתאים.</div>
+    <div class="sol">שתי נקודות החיתוך הן שתי נקודות על הישר, ולכן <span class="eq">m = <span class="fr"><b>0-6</b><i>4-0</i></span> = <span class="fr"><b>-6</b><i>4</i></span> = -1.5</span>. המספר החופשי נקרא ישירות מנקודת החיתוך עם ציר ה-<span class="eq">y</span>: <span class="eq">b = 6</span>. המשוואה: <span class="eq">y = -1.5x + 6</span>. בדיקה: עבור <span class="eq">x = 4</span> מתקבל <span class="eq">-6 + 6 = 0</span> — מתאים.</div>
   </div>
 </div>
 
@@ -174,7 +174,7 @@
 <div class="credit" style="max-width:780px; margin:0 auto">© כל הזכויות שמורות ליאיר כהנא</div>
 
 <script>
-const quiz = [{"q": "מהי משוואת הישר שהשיפוע שלו <span class=\"eq\">3</span> והוא חותך את ציר ה-<span class=\"eq\">y</span> בנקודה <span class=\"eq\">(0,-4)</span>?", "o": ["<span class=\"eq\">y = 3x - 4</span>", "<span class=\"eq\">y = 3x + 4</span>", "<span class=\"eq\">y = -4x + 3</span>", "<span class=\"eq\">y = 4x - 3</span>"], "a": 0}, {"q": "מהי משוואת הישר שהשיפוע שלו <span class=\"eq\">2</span> והוא עובר בנקודה <span class=\"eq\">(1,4)</span>?", "o": ["<span class=\"eq\">y = 2x + 2</span>", "<span class=\"eq\">y = 2x + 4</span>", "<span class=\"eq\">y = 2x - 2</span>", "<span class=\"eq\">y = 4x + 2</span>"], "a": 0}, {"q": "איזו מהנקודות הבאות נמצאת על הישר <span class=\"eq\">y = 3x - 1</span>?", "o": ["<span class=\"eq\">(3,8)</span>", "<span class=\"eq\">(2,7)</span>", "<span class=\"eq\">(1,3)</span>", "<span class=\"eq\">(0,1)</span>"], "a": 0}, {"q": "מהי משוואת הישר העובר דרך הנקודות <span class=\"eq\">(0,5)</span> ו-<span class=\"eq\">(2,11)</span>?", "o": ["<span class=\"eq\">y = 3x + 5</span>", "<span class=\"eq\">y = 2x + 5</span>", "<span class=\"eq\">y = 6x + 5</span>", "<span class=\"eq\">y = 3x - 5</span>"], "a": 0}, {"q": "באיזו נקודה חותך הישר <span class=\"eq\">y = 2x - 10</span> את ציר ה-<span class=\"eq\">x</span>?", "o": ["<span class=\"eq\">(5,0)</span>", "<span class=\"eq\">(0,-10)</span>", "<span class=\"eq\">(-5,0)</span>", "<span class=\"eq\">(0,5)</span>"], "a": 0}];
+const quiz = [{"q": "מהי משוואת הישר שהשיפוע שלו <span class=\"eq\">3</span> והוא חותך את ציר ה-<span class=\"eq\">y</span> בנקודה <span class=\"eq\">(0,-4)</span>?", "o": ["<span class=\"eq\">y = 3x - 4</span>", "<span class=\"eq\">y = 3x + 4</span>", "<span class=\"eq\">y = -4x + 3</span>", "<span class=\"eq\">y = 4x - 3</span>"], "a": 0}, {"q": "מהי משוואת הישר שהשיפוע שלו <span class=\"eq\">2</span> והוא עובר בנקודה <span class=\"eq\">(1,4)</span>?", "o": ["<span class=\"eq\">y = 2x + 4</span>", "<span class=\"eq\">y = 2x - 2</span>", "<span class=\"eq\">y = 2x + 2</span>", "<span class=\"eq\">y = 4x + 2</span>"], "a": 2}, {"q": "איזו מהנקודות הבאות נמצאת על הישר <span class=\"eq\">y = 3x - 1</span>?", "o": ["<span class=\"eq\">(2,7)</span>", "<span class=\"eq\">(3,8)</span>", "<span class=\"eq\">(1,3)</span>", "<span class=\"eq\">(0,1)</span>"], "a": 1}, {"q": "מהי משוואת הישר העובר דרך הנקודות <span class=\"eq\">(0,5)</span> ו-<span class=\"eq\">(2,11)</span>?", "o": ["<span class=\"eq\">y = 2x + 5</span>", "<span class=\"eq\">y = 6x + 5</span>", "<span class=\"eq\">y = 3x - 5</span>", "<span class=\"eq\">y = 3x + 5</span>"], "a": 3}, {"q": "באיזו נקודה חותך הישר <span class=\"eq\">y = 2x - 10</span> את ציר ה-<span class=\"eq\">x</span>?", "o": ["<span class=\"eq\">(0,-10)</span>", "<span class=\"eq\">(-5,0)</span>", "<span class=\"eq\">(5,0)</span>", "<span class=\"eq\">(0,5)</span>"], "a": 2}];
 let answered = 0, correct = 0;
 document.getElementById('quiz').innerHTML = quiz.map((q, i) => `
   <div class="q">

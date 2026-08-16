@@ -100,65 +100,65 @@
   <p class="hint">נסו לפתור לבד, ורק אחר כך גלו את הפתרון.</p>
   
   <div class="ex">
-    <div class="ex-h"><strong>תרגיל 1: חיבור</strong>
+    <div class="ex-h"><strong>תרגיל 1: חיבור ישיר</strong>
       <span class="tag easy">קל</span></div>
     <div>פתרו: <span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>x+y=12</span><span>x-y=4</span></span></span>.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">מחברים: <span class="eq">2x=16 ⇒ x=8</span>. מציבים: <span class="eq">y=4</span>. הפתרון: <span class="eq">(8,4)</span>.</div>
+    <div class="sol">מקדמי <span class="eq">y</span> מנוגדים — מחברים אגף-אגף: <span class="eq">(x+y)+(x-y)=12+4</span>, כלומר <span class="eq">2x=16</span> ומכאן <span class="eq">x=8</span>. מציבים ב-<span class="eq">x+y=12</span>: <span class="eq">y=4</span>. הפתרון: <span class="eq">(8,4)</span>. בדיקה: <span class="eq">8+4=12</span> ✓, <span class="eq">8-4=4</span> ✓.</div>
   </div>
   <div class="ex">
-    <div class="ex-h"><strong>תרגיל 2: חיסור</strong>
+    <div class="ex-h"><strong>תרגיל 2: חיסור ישיר</strong>
       <span class="tag easy">קל</span></div>
     <div>פתרו: <span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>3x+y=14</span><span>x+y=8</span></span></span>.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">מחסרים את השנייה מהראשונה: <span class="eq">2x=6 ⇒ x=3</span>. מציבים: <span class="eq">3+y=8 ⇒ y=5</span>. הפתרון: <span class="eq">(3,5)</span>.</div>
+    <div class="sol">מקדמי <span class="eq">y</span> שווים — מחסרים את השנייה מהראשונה: <span class="eq">(3x+y)-(x+y)=14-8</span>, כלומר <span class="eq">2x=6</span> ומכאן <span class="eq">x=3</span>. מציבים ב-<span class="eq">x+y=8</span>: <span class="eq">y=5</span>. הפתרון: <span class="eq">(3,5)</span>. בדיקה: <span class="eq">3· 3+5=14</span> ✓, <span class="eq">3+5=8</span> ✓.</div>
   </div>
   <div class="ex">
-    <div class="ex-h"><strong>תרגיל 3: חיבור לביטול y</strong>
+    <div class="ex-h"><strong>תרגיל 3: מסדרים ואז מחברים</strong>
       <span class="tag med">בינוני</span></div>
-    <div>פתרו: <span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>2x+y=7</span><span>x-y=2</span></span></span>.</div>
+    <div>פתרו: <span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>2x=y+7</span><span>3x+y=13</span></span></span>.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">מחברים: <span class="eq">3x=9 ⇒ x=3</span>. מציבים: <span class="eq">3-y=2 ⇒ y=1</span>. הפתרון: <span class="eq">(3,1)</span>.</div>
+    <div class="sol">מסדרים את הראשונה לצורה <span class="eq">ax+by=c</span> על ידי העברת <span class="eq">y</span> שמאלה: <span class="eq">2x-y=7</span>. עכשיו מקדמי <span class="eq">y</span> מנוגדים — מחברים: <span class="eq">(2x-y)+(3x+y)=7+13</span>, כלומר <span class="eq">5x=20</span> ומכאן <span class="eq">x=4</span>. מציבים ב-<span class="eq">3x+y=13</span>: <span class="eq">12+y=13 ⇒ y=1</span>. הפתרון: <span class="eq">(4,1)</span>. בדיקה: <span class="eq">2· 4=8</span> ו-<span class="eq">1+7=8</span> ✓, <span class="eq">3· 4+1=13</span> ✓.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 4: הכפלה ואז חיסור</strong>
       <span class="tag med">בינוני</span></div>
     <div>פתרו: <span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>3x+2y=16</span><span>x+y=6</span></span></span>.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">מכפילים את השנייה ב-<span class="eq">2</span>: <span class="eq">2x+2y=12</span>. מחסרים מהראשונה: <span class="eq">x=4</span>. מציבים: <span class="eq">4+y=6 ⇒ y=2</span>. הפתרון: <span class="eq">(4,2)</span>.</div>
+    <div class="sol">מקדם <span class="eq">y</span> בראשונה הוא <span class="eq">2</span> ובשנייה <span class="eq">1</span>, ולכן מכפילים את השנייה ב-<span class="eq">2</span>: <span class="eq">2x+2y=12</span>. המקדמים שווים — מחסרים מהראשונה: <span class="eq">(3x+2y)-(2x+2y)=16-12</span>, כלומר <span class="eq">x=4</span>. מציבים ב-<span class="eq">x+y=6</span>: <span class="eq">y=2</span>. הפתרון: <span class="eq">(4,2)</span>. בדיקה: <span class="eq">3· 4+2· 2=16</span> ✓, <span class="eq">4+2=6</span> ✓.</div>
   </div>
   <div class="ex">
-    <div class="ex-h"><strong>תרגיל 5: אתגר: הכפלת שתיהן</strong>
+    <div class="ex-h"><strong>תרגיל 5: אתגר: מכפילים את שתיהן</strong>
       <span class="tag hard">מאתגר</span></div>
     <div>פתרו: <span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>2x+3y=13</span><span>3x-2y=0</span></span></span>.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">לביטול <span class="eq">y</span>: מכפילים ראשונה ב-<span class="eq">2</span> (<span class="eq">4x+6y=26</span>) ושנייה ב-<span class="eq">3</span> (<span class="eq">9x-6y=0</span>). מחברים: <span class="eq">13x=26 ⇒ x=2</span>. מציבים: <span class="eq">3· 2-2y=0 ⇒ y=3</span>. הפתרון: <span class="eq">(2,3)</span>.</div>
+    <div class="sol">נבטל את <span class="eq">y</span>. מקדמיו הם <span class="eq">3</span> ו-<span class="eq">(-2)</span>, והכפולה המשותפת היא <span class="eq">6</span>. מכפילים את הראשונה ב-<span class="eq">2</span>: <span class="eq">4x+6y=26</span>, ואת השנייה ב-<span class="eq">3</span>: <span class="eq">9x-6y=0</span>. עכשיו המקדמים מנוגדים — מחברים: <span class="eq">13x=26</span> ומכאן <span class="eq">x=2</span>. מציבים ב-<span class="eq">3x-2y=0</span>: <span class="eq">6-2y=0 ⇒ y=3</span>. הפתרון: <span class="eq">(2,3)</span>. בדיקה: <span class="eq">2· 2+3· 3=13</span> ✓, <span class="eq">3· 2-2· 3=0</span> ✓.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 6: חיבור ישיר</strong>
       <span class="tag easy">קל</span></div>
-    <div>פתרו: <span class="eq">x+y=16, x-y=4</span></div>
+    <div>פתרו: <span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>x+y=16</span><span>x-y=4</span></span></span></div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
     <div class="sol">מחברים: <span class="eq">2x=20 ⇒ x=10</span>. מציבים: <span class="eq">y=6</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 7: חיסור ישיר</strong>
       <span class="tag med">בינוני</span></div>
-    <div>פתרו: <span class="eq">3x+y=20, x+y=8</span></div>
+    <div>פתרו: <span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>3x+y=20</span><span>x+y=8</span></span></span></div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
     <div class="sol">מחסרים: <span class="eq">2x=12 ⇒ x=6</span>. מציבים: <span class="eq">y=2</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 8: הכפלת משוואה אחת</strong>
       <span class="tag med">בינוני</span></div>
-    <div>פתרו: <span class="eq">2x+y=11, 3x+2y=18</span></div>
+    <div>פתרו: <span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>2x+y=11</span><span>3x+2y=18</span></span></span></div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
     <div class="sol">מכפילים את הראשונה ב-<span class="eq">2</span>: <span class="eq">4x+2y=22</span>. מחסרים את השנייה: <span class="eq">x=4</span>. מציבים: <span class="eq">y=3</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 9: אתגר: הכפלת שתי המשוואות</strong>
       <span class="tag hard">מאתגר</span></div>
-    <div>פתרו: <span class="eq">3x+4y=10, 2x+3y=7</span></div>
+    <div>פתרו: <span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>3x+4y=10</span><span>2x+3y=7</span></span></span></div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
     <div class="sol">מכפילים ראשונה ב-<span class="eq">2</span> (<span class="eq">6x+8y=20</span>) ושנייה ב-<span class="eq">3</span> (<span class="eq">6x+9y=21</span>). מחסרים: <span class="eq">-y=-1 ⇒ y=1</span>. מציבים: <span class="eq">3x+4=10 ⇒ x=2</span>.</div>
   </div>
@@ -167,7 +167,7 @@
       <span class="tag hard">מאתגר</span></div>
     <div>בחצר יש תרנגולות וכבשים, יחד 12 ראשים ו-34 רגליים. כמה מכל סוג?</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol"><span class="eq">t</span> תרנגולות, <span class="eq">s</span> כבשים. <span class="eq">t+s=12, 2t+4s=34</span>. מכפילים הראשונה ב-<span class="eq">2</span>: <span class="eq">2t+2s=24</span>. מחסרים מהשנייה: <span class="eq">2s=10 ⇒ s=5</span>, ולכן <span class="eq">t=7</span>.</div>
+    <div class="sol"><span class="eq">t</span> תרנגולות, <span class="eq">s</span> כבשים. <span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>t+s=12</span><span>2t+4s=34</span></span></span>. מכפילים הראשונה ב-<span class="eq">2</span>: <span class="eq">2t+2s=24</span>. מחסרים מהשנייה: <span class="eq">2s=10 ⇒ s=5</span>, ולכן <span class="eq">t=7</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 11: חיבור עם מקדם שלילי</strong>
@@ -195,7 +195,7 @@
 <div class="credit" style="max-width:780px; margin:0 auto">© כל הזכויות שמורות ליאיר כהנא</div>
 
 <script>
-const quiz = [{"q": "כשמחברים את המשוואות <span class=\"eq\">x+y=10</span> ו-<span class=\"eq\">x-y=2</span>, איזה משתנה מתבטל?", "o": ["<span class=\"eq\">y</span>", "<span class=\"eq\">x</span>", "שניהם", "אף אחד"], "a": 0}, {"q": "פתרו: <span class=\"sys\"><span class=\"sysbrace\">{</span><span class=\"syseq\"><span>x+y=9</span><span>x-y=3</span></span></span>.", "o": ["<span class=\"eq\">(6,3)</span>", "<span class=\"eq\">(3,6)</span>", "<span class=\"eq\">(5,4)</span>", "<span class=\"eq\">(4,5)</span>"], "a": 0}, {"q": "נכון או לא נכון: לפעמים צריך להכפיל משוואה במספר לפני שמחברים או מחסרים.", "o": ["נכון", "לא נכון"], "a": 0}, {"q": "פתרו בחיסור: <span class=\"sys\"><span class=\"sysbrace\">{</span><span class=\"syseq\"><span>2x+y=8</span><span>x+y=5</span></span></span>.", "o": ["<span class=\"eq\">(3,2)</span>", "<span class=\"eq\">(2,3)</span>", "<span class=\"eq\">(4,1)</span>", "<span class=\"eq\">(1,4)</span>"], "a": 0}, {"q": "פתרו: <span class=\"sys\"><span class=\"sysbrace\">{</span><span class=\"syseq\"><span>3x-y=5</span><span>x+y=7</span></span></span>.", "o": ["<span class=\"eq\">(3,4)</span>", "<span class=\"eq\">(4,3)</span>", "<span class=\"eq\">(2,5)</span>", "<span class=\"eq\">(5,2)</span>"], "a": 0}];
+const quiz = [{"q": "במערכת <span class=\"sys\"><span class=\"sysbrace\">{</span><span class=\"syseq\"><span>3x+2y=16</span><span>3x-2y=2</span></span></span> — איזו פעולה תבטל מיד את <span class=\"eq\">y</span>?", "o": ["חיבור שתי המשוואות אגף-אגף", "חיסור המשוואה השנייה מהראשונה", "הכפלת המשוואה הראשונה ב-<span class=\"eq\">2</span>", "הכפלת שתי המשוואות ב-<span class=\"eq\">3</span>"], "a": 0}, {"q": "פתרו: <span class=\"sys\"><span class=\"sysbrace\">{</span><span class=\"syseq\"><span>6x-y=17</span><span>2x-y=5</span></span></span>.", "o": ["<span class=\"eq\">(4,7)</span>", "<span class=\"eq\">(3,1)</span>", "<span class=\"eq\">(4,3)</span>", "<span class=\"eq\">(1,3)</span>"], "a": 1}, {"q": "כדי לבטל את <span class=\"eq\">x</span> במערכת <span class=\"sys\"><span class=\"sysbrace\">{</span><span class=\"syseq\"><span>4x+3y=25</span><span>3x+5y=27</span></span></span>, במה כדאי להכפיל?", "o": ["את הראשונה ב-<span class=\"eq\">4</span> ואת השנייה ב-<span class=\"eq\">3</span>", "את הראשונה ב-<span class=\"eq\">5</span> ואת השנייה ב-<span class=\"eq\">3</span>", "את הראשונה ב-<span class=\"eq\">3</span> ואת השנייה ב-<span class=\"eq\">4</span>", "את שתיהן ב-<span class=\"eq\">2</span>"], "a": 2}, {"q": "פתרו לאחר ניקוי השברים: <span class=\"sys\"><span class=\"sysbrace\">{</span><span class=\"syseq\"><span><span class=\"fr\"><b>x</b><i>2</i></span>+<span class=\"fr\"><b>y</b><i>4</i></span>=5</span><span>x+y=14</span></span></span>.", "o": ["<span class=\"eq\">(8,6)</span>", "<span class=\"eq\">(6,8)</span>", "<span class=\"eq\">(4,10)</span>", "<span class=\"eq\">(10,4)</span>"], "a": 1}, {"q": "בשלב החיסור התקבל השוויון <span class=\"eq\">0=6</span>. מה המסקנה?", "o": ["למערכת אינסוף פתרונות", "הפתרון הוא <span class=\"eq\">(0,6)</span>", "הפתרון הוא <span class=\"eq\">(6,0)</span>", "למערכת אין פתרון"], "a": 3}];
 let answered = 0, correct = 0;
 document.getElementById('quiz').innerHTML = quiz.map((q, i) => `
   <div class="q">

@@ -30,7 +30,7 @@
         vertical-align: middle; margin: 0 3px; font-size: .95em; line-height: 1.15; }
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
-  .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; margin: 0 3px; }
+  .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
   .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
          align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
   .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
@@ -111,14 +111,14 @@
       <span class="tag easy">קל</span></div>
     <div>מצאו את משוואת הישר המקביל ל-<span class="eq">y = -2x + 5</span> והעובר בנקודה <span class="eq">(1,4)</span>.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">אותו שיפוע: <span class="eq">m = -2</span>. מציבים: <span class="eq">4 = -2 · 1 + n = -2 + n</span>, ולכן <span class="eq">n = 6</span>. המשוואה: <span class="eq">y = -2x + 6</span>.</div>
+    <div class="sol">אותו שיפוע: <span class="eq">m = -2</span>. מציבים: <span class="eq">4 = -2 · 1 + b = -2 + b</span>, ולכן <span class="eq">b = 6</span>. המשוואה: <span class="eq">y = -2x + 6</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 3: ישר מאונך דרך נקודה</strong>
       <span class="tag med">בינוני</span></div>
     <div>מצאו את משוואת הישר המאונך ל-<span class="eq">y = <span class="fr"><b>1</b><i>3</i></span>x + 2</span> והעובר בנקודה <span class="eq">(2,1)</span>.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">השיפוע המאונך הוא ההופכי הנגדי של <span class="eq"><span class="fr"><b>1</b><i>3</i></span></span>, כלומר <span class="eq">m = -3</span> (בדיקה: <span class="eq"><span class="fr"><b>1</b><i>3</i></span> · (-3) = -1</span>). מציבים: <span class="eq">1 = -3 · 2 + n = -6 + n</span>, ולכן <span class="eq">n = 7</span>. המשוואה: <span class="eq">y = -3x + 7</span>.</div>
+    <div class="sol">השיפוע המאונך הוא ההופכי הנגדי של <span class="eq"><span class="fr"><b>1</b><i>3</i></span></span>, כלומר <span class="eq">m = -3</span> (בדיקה: <span class="eq"><span class="fr"><b>1</b><i>3</i></span> · (-3) = -1</span>). מציבים: <span class="eq">1 = -3 · 2 + b = -6 + b</span>, ולכן <span class="eq">b = 7</span>. המשוואה: <span class="eq">y = -3x + 7</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 4: נקודת מפגש</strong>
@@ -132,7 +132,7 @@
       <span class="tag hard">מאתגר</span></div>
     <div>נתון הישר <span class="eq">y = 2x - 3</span>.<br><br>א. מצאו את משוואת הישר המאונך לו והעובר בנקודה <span class="eq">(1,4)</span>.<br>ב. מצאו את נקודת החיתוך של שני הישרים.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">א. השיפוע המאונך: <span class="eq">m = -<span class="fr"><b>1</b><i>2</i></span></span>. מציבים את <span class="eq">(1,4)</span>: <span class="eq">4 = -<span class="fr"><b>1</b><i>2</i></span> + n</span>, ולכן <span class="eq">n = <span class="fr"><b>9</b><i>2</i></span></span>. המשוואה: <span class="eq">y = -<span class="fr"><b>1</b><i>2</i></span>x + <span class="fr"><b>9</b><i>2</i></span></span>.<br>ב. משווים: <span class="eq">2x - 3 = -<span class="fr"><b>1</b><i>2</i></span>x + <span class="fr"><b>9</b><i>2</i></span></span>. נכפול את שני האגפים ב-<span class="eq">2</span>: <span class="eq">4x - 6 = -x + 9</span>, ומכאן <span class="eq">5x = 15</span> ו-<span class="eq">x = 3</span>. מציבים: <span class="eq">y = 2 · 3 - 3 = 3</span>. נקודת החיתוך: <span class="eq">(3,3)</span>.</div>
+    <div class="sol">א. השיפוע המאונך: <span class="eq">m = -<span class="fr"><b>1</b><i>2</i></span></span>. מציבים את <span class="eq">(1,4)</span>: <span class="eq">4 = -<span class="fr"><b>1</b><i>2</i></span> + b</span>, ולכן <span class="eq">b = <span class="fr"><b>9</b><i>2</i></span></span>. המשוואה: <span class="eq">y = -<span class="fr"><b>1</b><i>2</i></span>x + <span class="fr"><b>9</b><i>2</i></span></span>.<br>ב. משווים: <span class="eq">2x - 3 = -<span class="fr"><b>1</b><i>2</i></span>x + <span class="fr"><b>9</b><i>2</i></span></span>. נכפול את שני האגפים ב-<span class="eq">2</span>: <span class="eq">4x - 6 = -x + 9</span>, ומכאן <span class="eq">5x = 15</span> ו-<span class="eq">x = 3</span>. מציבים: <span class="eq">y = 2 · 3 - 3 = 3</span>. נקודת החיתוך: <span class="eq">(3,3)</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 6: זיהוי היחס</strong>
@@ -146,14 +146,14 @@
       <span class="tag easy">קל</span></div>
     <div>מצאו את משוואת הישר המקביל ל-<span class="eq">y = 3x + 8</span> והעובר בנקודה <span class="eq">(2,4)</span>.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">אותו שיפוע: <span class="eq">m = 3</span>. מציבים: <span class="eq">4 = 3 · 2 + n = 6 + n</span>, ולכן <span class="eq">n = -2</span>. המשוואה: <span class="eq">y = 3x - 2</span>.</div>
+    <div class="sol">אותו שיפוע: <span class="eq">m = 3</span>. מציבים: <span class="eq">4 = 3 · 2 + b = 6 + b</span>, ולכן <span class="eq">b = -2</span>. המשוואה: <span class="eq">y = 3x - 2</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 8: ישר מאונך דרך נקודה</strong>
       <span class="tag med">בינוני</span></div>
     <div>מצאו את משוואת הישר המאונך ל-<span class="eq">y = -5x + 2</span> והעובר בנקודה <span class="eq">(10,3)</span>.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">השיפוע המאונך הוא ההופכי הנגדי של <span class="eq">(-5)</span>, כלומר <span class="eq">m = <span class="fr"><b>1</b><i>5</i></span></span> (בדיקה: <span class="eq">-5 · <span class="fr"><b>1</b><i>5</i></span> = -1</span>). מציבים: <span class="eq">3 = <span class="fr"><b>1</b><i>5</i></span> · 10 + n = 2 + n</span>, ולכן <span class="eq">n = 1</span>. המשוואה: <span class="eq">y = <span class="fr"><b>1</b><i>5</i></span>x + 1</span>.</div>
+    <div class="sol">השיפוע המאונך הוא ההופכי הנגדי של <span class="eq">(-5)</span>, כלומר <span class="eq">m = <span class="fr"><b>1</b><i>5</i></span></span> (בדיקה: <span class="eq">-5 · <span class="fr"><b>1</b><i>5</i></span> = -1</span>). מציבים: <span class="eq">3 = <span class="fr"><b>1</b><i>5</i></span> · 10 + b = 2 + b</span>, ולכן <span class="eq">b = 1</span>. המשוואה: <span class="eq">y = <span class="fr"><b>1</b><i>5</i></span>x + 1</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 9: אתגר: משולש בין שלושה ישרים</strong>
@@ -174,7 +174,7 @@
 <div class="credit" style="max-width:780px; margin:0 auto">© כל הזכויות שמורות ליאיר כהנא</div>
 
 <script>
-const quiz = [{"q": "מהו השיפוע של ישר המקביל לישר <span class=\"eq\">y = 5x - 2</span>?", "o": ["<span class=\"eq\">5</span>", "<span class=\"eq\">-5</span>", "<span class=\"eq\"><span class=\"fr\"><b>1</b><i>5</i></span></span>", "<span class=\"eq\">-<span class=\"fr\"><b>1</b><i>5</i></span></span>"], "a": 0}, {"q": "מהו השיפוע של ישר המאונך לישר <span class=\"eq\">y = 4x + 1</span>?", "o": ["<span class=\"eq\">-<span class=\"fr\"><b>1</b><i>4</i></span></span>", "<span class=\"eq\"><span class=\"fr\"><b>1</b><i>4</i></span></span>", "<span class=\"eq\">4</span>", "<span class=\"eq\">-4</span>"], "a": 0}, {"q": "איזה זוג ישרים מאונך זה לזה?", "o": ["<span class=\"eq\">y = 2x + 1</span> ו-<span class=\"eq\">y = -<span class=\"fr\"><b>1</b><i>2</i></span>x + 4</span>", "<span class=\"eq\">y = 2x + 1</span> ו-<span class=\"eq\">y = 2x - 3</span>", "<span class=\"eq\">y = 2x + 1</span> ו-<span class=\"eq\">y = -2x + 1</span>", "<span class=\"eq\">y = 3x</span> ו-<span class=\"eq\">y = <span class=\"fr\"><b>1</b><i>3</i></span>x</span>"], "a": 0}, {"q": "מהי נקודת החיתוך של הישרים <span class=\"eq\">y = x + 3</span> ו-<span class=\"eq\">y = 2x + 1</span>?", "o": ["<span class=\"eq\">(2,5)</span>", "<span class=\"eq\">(5,2)</span>", "<span class=\"eq\">(1,4)</span>", "<span class=\"eq\">(3,6)</span>"], "a": 0}, {"q": "מהי משוואת הישר המקביל ל-<span class=\"eq\">y = -x + 7</span> והעובר בנקודה <span class=\"eq\">(0,2)</span>?", "o": ["<span class=\"eq\">y = -x + 2</span>", "<span class=\"eq\">y = x + 2</span>", "<span class=\"eq\">y = -x + 7</span>", "<span class=\"eq\">y = -2x + 7</span>"], "a": 0}];
+const quiz = [{"q": "מהו השיפוע של ישר המקביל לישר <span class=\"eq\">y = 5x - 2</span>?", "o": ["<span class=\"eq\">5</span>", "<span class=\"eq\">-5</span>", "<span class=\"eq\"><span class=\"fr\"><b>1</b><i>5</i></span></span>", "<span class=\"eq\">-<span class=\"fr\"><b>1</b><i>5</i></span></span>"], "a": 0}, {"q": "מהו השיפוע של ישר המאונך לישר <span class=\"eq\">y = 4x + 1</span>?", "o": ["<span class=\"eq\"><span class=\"fr\"><b>1</b><i>4</i></span></span>", "<span class=\"eq\">4</span>", "<span class=\"eq\">-<span class=\"fr\"><b>1</b><i>4</i></span></span>", "<span class=\"eq\">-4</span>"], "a": 2}, {"q": "איזה זוג ישרים מאונך זה לזה?", "o": ["<span class=\"eq\">y = 2x + 1</span> ו-<span class=\"eq\">y = 2x - 3</span>", "<span class=\"eq\">y = 2x + 1</span> ו-<span class=\"eq\">y = -<span class=\"fr\"><b>1</b><i>2</i></span>x + 4</span>", "<span class=\"eq\">y = 2x + 1</span> ו-<span class=\"eq\">y = -2x + 1</span>", "<span class=\"eq\">y = 3x</span> ו-<span class=\"eq\">y = <span class=\"fr\"><b>1</b><i>3</i></span>x</span>"], "a": 1}, {"q": "מהי נקודת החיתוך של הישרים <span class=\"eq\">y = x + 3</span> ו-<span class=\"eq\">y = 2x + 1</span>?", "o": ["<span class=\"eq\">(5,2)</span>", "<span class=\"eq\">(1,4)</span>", "<span class=\"eq\">(3,6)</span>", "<span class=\"eq\">(2,5)</span>"], "a": 3}, {"q": "מהי משוואת הישר המקביל ל-<span class=\"eq\">y = -x + 7</span> והעובר בנקודה <span class=\"eq\">(0,2)</span>?", "o": ["<span class=\"eq\">y = x + 2</span>", "<span class=\"eq\">y = -x + 7</span>", "<span class=\"eq\">y = -x + 2</span>", "<span class=\"eq\">y = -2x + 7</span>"], "a": 2}];
 let answered = 0, correct = 0;
 document.getElementById('quiz').innerHTML = quiz.map((q, i) => `
   <div class="q">

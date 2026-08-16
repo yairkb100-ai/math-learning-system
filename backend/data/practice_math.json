@@ -726,7 +726,7 @@
     "type": "numeric",
     "options": null,
     "correct_answer": "3",
-    "explanation": "בצורה y = mx + n השיפוע הוא m, כאן m = 3.",
+    "explanation": "בצורה y = mx + b השיפוע הוא m, כאן m = 3.",
     "difficulty": "easy"
   },
   {
@@ -736,7 +736,7 @@
     "type": "numeric",
     "options": null,
     "correct_answer": "2",
-    "explanation": "החיתוך עם ציר y הוא n, כלומר הערך של y כאשר x=0: 2.",
+    "explanation": "החיתוך עם ציר y הוא b, כלומר הערך של y כאשר x=0: 2.",
     "difficulty": "easy"
   },
   {

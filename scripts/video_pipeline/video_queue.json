@@ -1,621 +1,628 @@
 {
- "g5-ch04": {
-  "notebook_id": "00c2c4c9-2d6a-43f0-a584-f833bd137955",
-  "number": 4,
-  "output": "סרטון-פרק-4-צמצום-והרחבה.mp4",
-  "topic": "צמצום והרחבה",
-  "status": "done",
-  "grade": 5,
-  "artifact_id": "5c1fa8e3-3f90-4bb7-a260-69ebe120917a",
-  "submitted_at": 1784042529.374552
- },
- "g5-ch05": {
-  "notebook_id": "05fdfe0e-587a-41a2-a1a9-06172875453c",
-  "number": 5,
-  "output": "סרטון-פרק-5-חיבור-וחיסור-שברים.mp4",
-  "topic": "חיבור וחיסור שברים",
-  "status": "done",
-  "grade": 5,
-  "artifact_id": "bdb97c17-30c9-4918-83f3-260962d40c08",
-  "submitted_at": 1784042535.745732
- },
- "g6-ch01": {
-  "notebook_id": "403e9ad5-6af9-4263-a636-7fab4daafc4b",
-  "source_id": "60f34f27-e095-4f55-b4c9-dc7d378eb7c8",
-  "number": 1,
-  "topic": "שבר כמנת חילוק",
-  "output": "סרטון-פרק-1-שבר-כמנת-חילוק.mp4",
-  "status": "done",
-  "artifact_id": "ea31c1f4-6cf6-4f41-92ea-f7478bcea54d",
-  "submitted_at": 1784042542.294822
- },
- "g6-ch02": {
-  "notebook_id": "5677a913-c9d3-4e2f-970b-3373d168b9c7",
-  "source_id": "6714f73c-1e71-41b4-a8bb-fd4f8454fde2",
-  "number": 2,
-  "topic": "שברים ועשרוניים על ישר המספרים וצפיפות",
-  "output": "סרטון-פרק-2-שברים-ועשרוניים-על-ישר-המספרים.mp4",
-  "status": "done",
-  "artifact_id": "e41b2516-7a2e-43cc-a1e1-a1cf3bd3a460",
-  "submitted_at": 1784136377.858656
- },
- "g6-ch03": {
-  "notebook_id": "d2f6b70f-f5f9-4f5a-8014-5daf2ff9fb3b",
-  "source_id": "36e8a2b0-5d5a-47bf-abf5-2d6ff1fc87ba",
-  "number": 3,
-  "topic": "כפל שלם בשבר ובמספר מעורב",
-  "output": "סרטון-פרק-3-כפל-שלם-בשבר.mp4",
-  "status": "done",
-  "artifact_id": "90262513-00f7-4f89-9b98-0c8734565708",
-  "submitted_at": 1784136383.512663
- },
- "g6-ch04": {
-  "notebook_id": "8c9aa17b-aebc-404c-97dd-622dc3789e1a",
-  "source_id": "3c9ede19-b423-45fc-a9ae-3a192e2bcf61",
-  "number": 4,
-  "topic": "כפל שבר בשבר",
-  "output": "סרטון-פרק-4-כפל-שבר-בשבר.mp4",
-  "status": "done",
-  "artifact_id": "9a6f8d60-fdcc-40a4-9222-e5bf6f187fff",
-  "submitted_at": 1784136390.4636583
- },
- "g6-ch05": {
-  "notebook_id": "558fc680-dc30-4f9a-8ff3-163bdb8f498e",
-  "source_id": "2d1edaf9-1fc3-42fd-957e-20cba2721295",
-  "number": 5,
-  "topic": "כפל וחילוק עשרוניים ב-10, 100 ו-1000",
-  "output": "סרטון-פרק-5-כפל-וחילוק-עשרוניים-ב-10-100.mp4",
-  "status": "done",
-  "artifact_id": "24b76ff3-3ecb-4a81-b4a3-788ede5a767b",
-  "submitted_at": 1784272994.8305469
- },
- "g6-ch06": {
-  "notebook_id": "66267ca8-9f71-4c88-80ce-d0bf64832242",
-  "source_id": "adcfab12-f02b-45c3-9539-c4b126c75a7f",
-  "number": 6,
-  "topic": "כפל מספרים עשרוניים",
-  "output": "סרטון-פרק-6-כפל-עשרוניים.mp4",
-  "status": "done",
-  "artifact_id": "4bb26bbd-7852-468c-8e93-d7914dbcae20",
-  "submitted_at": 1784273000.2994826
- },
- "g6-ch07": {
-  "notebook_id": "0b1b37a3-20f6-400a-ab8c-e3bec4c0c2ed",
-  "source_id": "6d29a21f-ee31-47a7-abb3-e93c643cfb2c",
-  "number": 7,
-  "topic": "חילוק מספרים עשרוניים",
-  "output": "סרטון-פרק-7-חילוק-עשרוניים.mp4",
-  "status": "done",
-  "artifact_id": "c3e3b603-30c9-402f-8452-6137eff4b6a6",
-  "submitted_at": 1784273007.2919357
- },
- "g6-ch08": {
-  "notebook_id": "ebd387c9-4336-4a28-a607-7205181c3f84",
-  "source_id": "167949ab-465c-4315-9448-251381d1e599",
-  "number": 8,
-  "topic": "חלק של כמות — מציאת ערך החלק",
-  "output": "סרטון-פרק-8-חלק-של-כמות.mp4",
-  "status": "done"
- },
- "g6-ch09": {
-  "notebook_id": "c658198e-05ea-4419-b11f-296add61cebd",
-  "source_id": "ec91b815-40d6-4720-afae-35b8ef4105e5",
-  "number": 9,
-  "topic": "חלק של כמות — מציאת הכמות היסודית",
-  "output": "סרטון-פרק-9-מציאת-הכמות-היסודית.mp4",
-  "status": "done"
- },
- "g6-ch10": {
-  "notebook_id": "f9c01f61-ff51-423b-b5fc-6e38d8e38475",
-  "source_id": "b860a61b-0bc4-45ed-a7f8-044117e93335",
-  "number": 10,
-  "topic": "חילוק שברים פשוטים",
-  "output": "סרטון-פרק-10-חילוק-שברים.mp4",
-  "status": "done"
- },
- "g6-ch11": {
-  "notebook_id": "3576207c-4cfc-4899-937d-01827dc24b99",
-  "source_id": "72e05a30-fce9-4293-8976-1335a503cd8e",
-  "number": 11,
-  "topic": "שבר עשרוני מחזורי",
-  "output": "סרטון-פרק-11-שבר-עשרוני-מחזורי.mp4",
-  "status": "staged"
- },
- "g6-ch12": {
-  "notebook_id": "7f44c2cf-040f-4653-bfd8-78856b088cac",
-  "source_id": "b0eeef47-80c0-4fdd-904b-63b304b248f0",
-  "number": 12,
-  "topic": "חיבור וחיסור מספרים עשרוניים",
-  "output": "סרטון-פרק-12-חיבור-וחיסור-עשרוניים.mp4",
-  "status": "staged"
- },
- "g6-ch13": {
-  "notebook_id": "757c549f-8e7d-430b-8f17-f09cbe6adaa3",
-  "source_id": "5117c4a1-05c9-4661-bf4c-8783fcfde96c",
-  "number": 13,
-  "topic": "השלמה וחקר של סדרות שברים",
-  "output": "סרטון-פרק-13-סדרות-של-שברים.mp4",
-  "status": "staged"
- },
- "rr-ch01": {
-  "number": 1,
-  "topic": "מהו יחס",
-  "output": "סרטון-פרק-1-מהו-יחס.mp4",
-  "status": "done",
-  "course": "grade6-ratio-rate"
- },
- "rr-ch02": {
-  "number": 2,
-  "topic": "קנה מידה",
-  "output": "סרטון-פרק-2-קנה-מידה.mp4",
-  "status": "done",
-  "course": "grade6-ratio-rate"
- },
- "rr-ch03": {
-  "number": 3,
-  "topic": "בעיות תנועה - מהירות זמן ודרך",
-  "output": "סרטון-פרק-3-בעיות-תנועה.mp4",
-  "status": "done",
-  "course": "grade6-ratio-rate"
- },
- "rr-ch04": {
-  "number": 4,
-  "topic": "בעיות הספק",
-  "output": "סרטון-פרק-4-בעיות-הספק.mp4",
-  "status": "done",
-  "course": "grade6-ratio-rate"
- },
- "dv-ch03": {
-  "number": 3,
-  "topic": "סימני התחלקות ב-3 וב-9",
-  "output": "סרטון-פרק-3-סימני-התחלקות-3-9.mp4",
-  "status": "staged",
-  "course": "divisibility-primes",
-  "notebook_id": "337c70ed-02fb-4555-aa06-7131d5b4ebdd",
-  "source_id": "5d73e0a8-59ce-4f74-b309-fd44d095aeb2",
-  "grade": null,
-  "standalone_slug": null
- },
- "dv-ch04": {
-  "number": 4,
-  "topic": "מספרים ראשוניים ומספרים מורכבים",
-  "output": "סרטון-פרק-4-מספרים-ראשוניים-ומורכבים.mp4",
-  "status": "staged",
-  "course": "divisibility-primes",
-  "notebook_id": "f232f5e7-3865-4175-95b4-404f26c1ad95",
-  "source_id": "79b82b36-9ca9-415a-9d4a-7cdceef1f82b",
-  "grade": null,
-  "standalone_slug": null
- },
- "dv-ch05": {
-  "number": 5,
-  "topic": "פירוק לגורמים ראשוניים",
-  "output": "סרטון-פרק-5-פירוק-לגורמים-ראשוניים.mp4",
-  "status": "staged",
-  "course": "divisibility-primes",
-  "notebook_id": "5b149847-22bd-4d34-bf10-174d1b42bbfb",
-  "source_id": "8d58fb59-e81c-491b-8c8c-e7ee664c3687",
-  "grade": null,
-  "standalone_slug": null
- },
- "dv-ch06": {
-  "number": 6,
-  "topic": "מחלק משותף מקסימלי וכפולה משותפת מינימלית",
-  "output": "סרטון-פרק-6-מחלק-משותף-וכפולה-משותפת.mp4",
-  "status": "staged",
-  "course": "divisibility-primes",
-  "notebook_id": "456283c6-aa59-4224-8c52-e1748da4ef56",
-  "source_id": "667dc0cd-353b-474f-a921-4ae9b56b34b9",
-  "grade": null,
-  "standalone_slug": null
- },
- "sf-ch01": {
-  "number": 1,
-  "topic": "כפל רב-איבר ברב-איבר",
-  "output": "סרטון-פרק-1-כפל-רב-איבר-ברב-איבר.mp4",
-  "status": "staged",
-  "course": "shortcut-formulas",
-  "notebook_id": "8edc9aa0-7f30-4237-8d20-869dbfc57b6f",
-  "source_id": "3f04e1e6-d1d9-47d3-8bce-bdba0f4c334d",
-  "grade": null,
-  "standalone_slug": null
- },
- "sf-ch02": {
-  "number": 2,
-  "topic": "ריבוע של סכום",
-  "output": "סרטון-פרק-2-ריבוע-של-סכום.mp4",
-  "status": "staged",
-  "course": "shortcut-formulas",
-  "notebook_id": "2c96633f-abdf-4631-ba31-bc93df4f5bb3",
-  "source_id": "801b4178-e112-42f9-9678-2001b1cb49cd",
-  "grade": null,
-  "standalone_slug": null
- },
- "sf-ch03": {
-  "number": 3,
-  "topic": "ריבוע של הפרש",
-  "output": "סרטון-פרק-3-ריבוע-של-הפרש.mp4",
-  "status": "staged",
-  "course": "shortcut-formulas",
-  "notebook_id": "c7c8dd7e-b940-4e30-8e9b-c6e44a7f23bd",
-  "source_id": "c94eacec-902a-49b6-9734-8053e2908eea",
-  "grade": null,
-  "standalone_slug": null
- },
- "sf-ch04": {
-  "number": 4,
-  "topic": "הפרש ריבועים",
-  "output": "סרטון-פרק-4-הפרש-ריבועים.mp4",
-  "status": "staged",
-  "course": "shortcut-formulas",
-  "notebook_id": "1dd594b0-fbe5-432e-9f02-810481b33387",
-  "source_id": "ad550fc9-16e6-43cd-8fbf-ffbe012b080a",
-  "grade": null,
-  "standalone_slug": null
- },
- "g5f-ch06": {
-  "number": 6,
-  "topic": "חיבור וחיסור מספרים מעורבים",
-  "output": "סרטון-פרק-6-חיבור-וחיסור-מספרים-מעורבים.mp4",
-  "status": "pending",
-  "course": "grade5-simple-fractions"
- },
- "g5f-ch07": {
-  "number": 7,
-  "topic": "בעיות מילוליות בשברים",
-  "output": "סרטון-פרק-7-בעיות-מילוליות-בשברים.mp4",
-  "status": "pending",
-  "course": "grade5-simple-fractions"
- },
- "g5f-ch08": {
-  "number": 8,
-  "topic": "משימות חקר בשברים",
-  "output": "סרטון-פרק-8-משימות-חקר-בשברים.mp4",
-  "status": "pending",
-  "course": "grade5-simple-fractions"
- },
- "wn-ch01": {
-  "number": 1,
-  "topic": "מבנה המספר העשרוני וערך המקום",
-  "output": "סרטון-פרק-1-מבנה-המספר-וערך-המקום.mp4",
-  "status": "pending",
-  "course": "grade5-whole-numbers"
- },
- "wn-ch02": {
-  "number": 2,
-  "topic": "קריאה, כתיבה והשוואה של מספרים גדולים",
-  "output": "סרטון-פרק-2-קריאה-כתיבה-והשוואה-של-מספרים-גדולים.mp4",
-  "status": "pending",
-  "course": "grade5-whole-numbers"
- },
- "wn-ch03": {
-  "number": 3,
-  "topic": "עיגול מספרים והערכה",
-  "output": "סרטון-פרק-3-עיגול-מספרים-והערכה.mp4",
-  "status": "pending",
-  "course": "grade5-whole-numbers"
- },
- "wn-ch04": {
-  "number": 4,
-  "topic": "חיבור וחיסור במאונך — פריטה והשאלה",
-  "output": "סרטון-פרק-4-חיבור-וחיסור-במאונך.mp4",
-  "status": "pending",
-  "course": "grade5-whole-numbers"
- },
- "wn-ch05": {
-  "number": 5,
-  "topic": "כפל במאונך — שלב אחרי שלב",
-  "output": "סרטון-פרק-5-כפל-במאונך.mp4",
-  "status": "pending",
-  "course": "grade5-whole-numbers"
- },
- "wn-ch06": {
-  "number": 6,
-  "topic": "חילוק ארוך, שארית ובעיות רב-שלביות",
-  "output": "סרטון-פרק-6-חילוק-ארוך-ושארית.mp4",
-  "status": "pending",
-  "course": "grade5-whole-numbers"
- },
- "dec-ch01": {
-  "number": 1,
-  "topic": "מהו מספר עשרוני — עשיריות ומאיות",
-  "output": "סרטון-פרק-1-מהו-מספר-עשרוני.mp4",
-  "status": "pending",
-  "course": "grade5-decimals"
- },
- "dec-ch02": {
-  "number": 2,
-  "topic": "ערך המקום מימין לנקודה העשרונית וקריאה נכונה",
-  "output": "סרטון-פרק-2-ערך-המקום-מימין-לנקודה.mp4",
-  "status": "pending",
-  "course": "grade5-decimals"
- },
- "dec-ch03": {
-  "number": 3,
-  "topic": "המרה בין שבר פשוט לשבר עשרוני",
-  "output": "סרטון-פרק-3-משבר-פשוט-לשבר-עשרוני.mp4",
-  "status": "pending",
-  "course": "grade5-decimals"
- },
- "dec-ch04": {
-  "number": 4,
-  "topic": "השוואה וסידור של מספרים עשרוניים",
-  "output": "סרטון-פרק-4-השוואה-וסידור-של-מספרים-עשרוניים.mp4",
-  "status": "pending",
-  "course": "grade5-decimals"
- },
- "dec-ch05": {
-  "number": 5,
-  "topic": "עיגול מספרים עשרוניים והערכה",
-  "output": "סרטון-פרק-5-עיגול-מספרים-עשרוניים-והערכה.mp4",
-  "status": "pending",
-  "course": "grade5-decimals"
- },
- "qe-ch04": {
-  "number": 4,
-  "topic": "השלמה לריבוע — השיטה המלאה",
-  "output": "סרטון-פרק-4-השלמה-לריבוע.mp4",
-  "status": "pending",
-  "course": "quadratic-equations"
- },
- "qe-ch05": {
-  "number": 5,
-  "topic": "גרף הפונקציה הריבועית — הפרבולה",
-  "output": "סרטון-פרק-5-גרף-הפונקציה-הריבועית.mp4",
-  "status": "pending",
-  "course": "quadratic-equations"
- },
- "qe-ch06": {
-  "number": 6,
-  "topic": "אי-שוויונות ריבועיים — פתרון בעזרת הגרף וטבלת סימנים",
-  "output": "סרטון-פרק-6-אי-שוויונות-ריבועיים.mp4",
-  "status": "pending",
-  "course": "quadratic-equations"
- },
- "qe-ch07": {
-  "number": 7,
-  "topic": "מערכת משוואות שבה משוואה אחת ריבועית",
-  "output": "סרטון-פרק-7-מערכת-עם-משוואה-ריבועית.mp4",
-  "status": "pending",
-  "course": "quadratic-equations"
- },
- "drv-ch05": {
-  "number": 5,
-  "topic": "משוואת המשיק לגרף פונקציה",
-  "output": "סרטון-פרק-5-משוואת-המשיק-לגרף-פונקציה.mp4",
-  "status": "pending",
-  "course": "חשבון-דיפרנציאלי-נגזרות"
- },
- "drv-ch06": {
-  "number": 6,
-  "topic": "הנגזרת השנייה, קמירות ונקודות פיתול",
-  "output": "סרטון-פרק-6-הנגזרת-השנייה-קמירות-ונקודות-פיתול.mp4",
-  "status": "pending",
-  "course": "חשבון-דיפרנציאלי-נגזרות"
- },
- "drv-ch07": {
-  "number": 7,
-  "topic": "חקירת פונקציה מלאה ושרטוט הגרף",
-  "output": "סרטון-פרק-7-חקירת-פונקציה-מלאה-ושרטוט-הגרף.mp4",
-  "status": "pending",
-  "course": "חשבון-דיפרנציאלי-נגזרות"
- },
- "trg-ch06": {
-  "number": 6,
-  "topic": "הזוויות המיוחדות ומעגל היחידה",
-  "output": "סרטון-פרק-6-הזוויות-המיוחדות-ומעגל-היחידה.mp4",
-  "status": "pending",
-  "course": "טריגונומטריה-ממשולש-ישר-זווית-ועד-משפט-הקוסינוסים"
- },
- "trg-ch07": {
-  "number": 7,
-  "topic": "זהויות טריגונומטריות בסיסיות",
-  "output": "סרטון-פרק-7-זהויות-טריגונומטריות-בסיסיות.mp4",
-  "status": "pending",
-  "course": "טריגונומטריה-ממשולש-ישר-זווית-ועד-משפט-הקוסינוסים"
- },
- "trg-ch08": {
-  "number": 8,
-  "topic": "פתרון משוואות טריגונומטריות",
-  "output": "סרטון-פרק-8-פתרון-משוואות-טריגונומטריות.mp4",
-  "status": "pending",
-  "course": "טריגונומטריה-ממשולש-ישר-זווית-ועד-משפט-הקוסינוסים"
- },
- "qe-ch01": {
-  "number": 1,
-  "topic": "מבוא: הצורה הכללית וזיהוי מקדמים",
-  "output": "סרטון-פרק-1-הצורה-הכללית-וזיהוי-מקדמים.mp4",
-  "status": "pending",
-  "course": "quadratic-equations"
- },
- "qe-ch02": {
-  "number": 2,
-  "topic": "שיטות פתרון והדיסקרימיננט",
-  "output": "סרטון-פרק-2-שיטות-פתרון-והדיסקרימיננט.mp4",
-  "status": "pending",
-  "course": "quadratic-equations"
- },
- "qe-ch03": {
-  "number": 3,
-  "topic": "משפטי וייטה ובעיות מילוליות",
-  "output": "סרטון-פרק-3-משפטי-וייטה-ובעיות-מילוליות.mp4",
-  "status": "pending",
-  "course": "quadratic-equations"
- },
- "drv-ch01": {
-  "number": 1,
-  "topic": "מושג הגבול והגדרת הנגזרת",
-  "output": "סרטון-פרק-1-מושג-הגבול-והגדרת-הנגזרת.mp4",
-  "status": "pending",
-  "course": "חשבון-דיפרנציאלי-נגזרות"
- },
- "drv-ch02": {
-  "number": 2,
-  "topic": "כללי גזירה",
-  "output": "סרטון-פרק-2-כללי-גזירה.mp4",
-  "status": "pending",
-  "course": "חשבון-דיפרנציאלי-נגזרות"
- },
- "drv-ch03": {
-  "number": 3,
-  "topic": "חקירת פונקציות: עלייה, ירידה ונקודות קיצון",
-  "output": "סרטון-פרק-3-חקירת-פונקציות-עלייה-ירידה-וקיצון.mp4",
-  "status": "pending",
-  "course": "חשבון-דיפרנציאלי-נגזרות"
- },
- "drv-ch04": {
-  "number": 4,
-  "topic": "בעיות קיצון (אופטימיזציה)",
-  "output": "סרטון-פרק-4-בעיות-קיצון-אופטימיזציה.mp4",
-  "status": "pending",
-  "course": "חשבון-דיפרנציאלי-נגזרות"
- },
- "trg-ch01": {
-  "number": 1,
-  "topic": "היחסים הטריגונומטריים במשולש ישר-זווית",
-  "output": "סרטון-פרק-1-היחסים-הטריגונומטריים-במשולש-ישר-זווית.mp4",
-  "status": "pending",
-  "course": "טריגונומטריה-ממשולש-ישר-זווית-ועד-משפט-הקוסינוסים"
- },
- "trg-ch02": {
-  "number": 2,
-  "topic": "בעיות גובה ומרחק — זוויות רום ושפל",
-  "output": "סרטון-פרק-2-בעיות-גובה-ומרחק-זוויות-רום-ושפל.mp4",
-  "status": "pending",
-  "course": "טריגונומטריה-ממשולש-ישר-זווית-ועד-משפט-הקוסינוסים"
- },
- "trg-ch03": {
-  "number": 3,
-  "topic": "משפט הסינוסים",
-  "output": "סרטון-פרק-3-משפט-הסינוסים.mp4",
-  "status": "pending",
-  "course": "טריגונומטריה-ממשולש-ישר-זווית-ועד-משפט-הקוסינוסים"
- },
- "trg-ch04": {
-  "number": 4,
-  "topic": "משפט הקוסינוסים",
-  "output": "סרטון-פרק-4-משפט-הקוסינוסים.mp4",
-  "status": "pending",
-  "course": "טריגונומטריה-ממשולש-ישר-זווית-ועד-משפט-הקוסינוסים"
- },
- "trg-ch05": {
-  "number": 5,
-  "topic": "שטח משולש ובעיות משולבות",
-  "output": "סרטון-פרק-5-שטח-משולש-ובעיות-משולבות.mp4",
-  "status": "pending",
-  "course": "טריגונומטריה-ממשולש-ישר-זווית-ועד-משפט-הקוסינוסים"
- },
- "g5f-ch01": {
-  "number": 1,
-  "topic": "מהו שבר? המונה, המכנה ומשמעות החלוקה",
-  "output": "סרטון-פרק-1-מהו-שבר-המונה-המכנה-ומשמעות-החלוקה.mp4",
-  "status": "pending",
-  "course": "grade5-simple-fractions"
- },
- "g5f-ch02": {
-  "number": 2,
-  "topic": "השבר על ציר המספרים והשוואת שברים",
-  "output": "סרטון-פרק-2-השבר-על-ציר-המספרים-והשוואת-שברים.mp4",
-  "status": "pending",
-  "course": "grade5-simple-fractions"
- },
- "g5f-ch03": {
-  "number": 3,
-  "topic": "שברים גדולים מ-1 ומספרים מעורבים",
-  "output": "סרטון-פרק-3-שברים-גדולים-מ1-ומספרים-מעורבים.mp4",
-  "status": "pending",
-  "course": "grade5-simple-fractions"
- },
- "pw-ch02": {
-  "number": 2,
-  "topic": "ריבוע וחזקה שלישית — המשמעות הגיאומטרית",
-  "output": "סרטון-פרק-2-ריבוע-וחזקה-שלישית.mp4",
-  "status": "pending",
-  "course": "powers-and-exponents"
- },
- "pw-ch03": {
-  "number": 3,
-  "topic": "חוקי חזקות I: כפל וחילוק באותו בסיס",
-  "output": "סרטון-פרק-3-חוקי-חזקות-I.mp4",
-  "status": "pending",
-  "course": "powers-and-exponents"
- },
- "pw-ch04": {
-  "number": 4,
-  "topic": "חוקי חזקות II: חזקה של חזקה, מכפלה ומנה",
-  "output": "סרטון-פרק-4-חוקי-חזקות-II.mp4",
-  "status": "pending",
-  "course": "powers-and-exponents"
- },
- "pw-ch05": {
-  "number": 5,
-  "topic": "חזקה במעריך 0 וחזקות שליליות",
-  "output": "סרטון-פרק-5-חזקה-במעריך-0-וחזקות-שליליות.mp4",
-  "status": "pending",
-  "course": "powers-and-exponents"
- },
- "pw-ch06": {
-  "number": 6,
-  "topic": "חזקות של 10 וכתיב מדעי",
-  "output": "סרטון-פרק-6-חזקות-של-10-וכתיב-מדעי.mp4",
-  "status": "pending",
-  "course": "powers-and-exponents"
- },
- "pw-ch07": {
-  "number": 7,
-  "topic": "בסיס שלילי וסדר פעולות",
-  "output": "סרטון-פרק-7-בסיס-שלילי-וסדר-פעולות.mp4",
-  "status": "pending",
-  "course": "powers-and-exponents"
- },
- "pw-ch08": {
-  "number": 8,
-  "topic": "שורשים כחזקות — מעריך שברי",
-  "output": "סרטון-פרק-8-שורשים-כחזקות.mp4",
-  "status": "pending",
-  "course": "powers-and-exponents"
- },
- "te-ch02": {
-  "number": 2,
-  "topic": "שיטת ההצבה",
-  "output": "סרטון-פרק-2-שיטת-ההצבה.mp4",
-  "status": "pending",
-  "course": "two-equations-two-unknowns"
- },
- "te-ch03": {
-  "number": 3,
-  "topic": "שיטת ההשוואה",
-  "output": "סרטון-פרק-3-שיטת-ההשוואה.mp4",
-  "status": "pending",
-  "course": "two-equations-two-unknowns"
- },
- "te-ch04": {
-  "number": 4,
-  "topic": "שיטת החיבור והחיסור (אלימינציה)",
-  "output": "סרטון-פרק-4-שיטת-החיבור-והחיסור-אלימינציה.mp4",
-  "status": "pending",
-  "course": "two-equations-two-unknowns"
- },
- "te-ch05": {
-  "number": 5,
-  "topic": "פתרון גרפי ומספר הפתרונות",
-  "output": "סרטון-פרק-5-פתרון-גרפי-ומספר-הפתרונות.mp4",
-  "status": "pending",
-  "course": "two-equations-two-unknowns"
- },
- "te-ch06": {
-  "number": 6,
-  "topic": "בעיות מילוליות בשני נעלמים",
-  "output": "סרטון-פרק-6-בעיות-מילוליות-בשני-נעלמים.mp4",
-  "status": "pending",
-  "course": "two-equations-two-unknowns"
- },
- "g5f-ch04-regen": {
-  "number": 4,
-  "topic": "צמצום והרחבה",
-  "output": "סרטון-פרק-4-צמצום-והרחבה.mp4",
-  "status": "pending",
-  "course": "grade5-simple-fractions",
-  "regen_reason": "live video (asset 36) has two comparison panels that render blank for ~25s (missing fraction illustrations) plus an \"=\" that should be \">\" (9/12 vs 8/12). Illustration defect, not patchable. Publish replacement via safe_publish.publish_patched(36, ...), not publish_video."
- }
+  "g5-ch04": {
+    "notebook_id": "00c2c4c9-2d6a-43f0-a584-f833bd137955",
+    "number": 4,
+    "output": "סרטון-פרק-4-צמצום-והרחבה.mp4",
+    "topic": "צמצום והרחבה",
+    "status": "done",
+    "grade": 5,
+    "artifact_id": "5c1fa8e3-3f90-4bb7-a260-69ebe120917a",
+    "submitted_at": 1784042529.374552
+  },
+  "g5-ch05": {
+    "notebook_id": "05fdfe0e-587a-41a2-a1a9-06172875453c",
+    "number": 5,
+    "output": "סרטון-פרק-5-חיבור-וחיסור-שברים.mp4",
+    "topic": "חיבור וחיסור שברים",
+    "status": "done",
+    "grade": 5,
+    "artifact_id": "bdb97c17-30c9-4918-83f3-260962d40c08",
+    "submitted_at": 1784042535.745732
+  },
+  "g6-ch01": {
+    "notebook_id": "403e9ad5-6af9-4263-a636-7fab4daafc4b",
+    "source_id": "60f34f27-e095-4f55-b4c9-dc7d378eb7c8",
+    "number": 1,
+    "topic": "שבר כמנת חילוק",
+    "output": "סרטון-פרק-1-שבר-כמנת-חילוק.mp4",
+    "status": "done",
+    "artifact_id": "ea31c1f4-6cf6-4f41-92ea-f7478bcea54d",
+    "submitted_at": 1784042542.294822
+  },
+  "g6-ch02": {
+    "notebook_id": "5677a913-c9d3-4e2f-970b-3373d168b9c7",
+    "source_id": "6714f73c-1e71-41b4-a8bb-fd4f8454fde2",
+    "number": 2,
+    "topic": "שברים ועשרוניים על ישר המספרים וצפיפות",
+    "output": "סרטון-פרק-2-שברים-ועשרוניים-על-ישר-המספרים.mp4",
+    "status": "done",
+    "artifact_id": "e41b2516-7a2e-43cc-a1e1-a1cf3bd3a460",
+    "submitted_at": 1784136377.858656
+  },
+  "g6-ch03": {
+    "notebook_id": "d2f6b70f-f5f9-4f5a-8014-5daf2ff9fb3b",
+    "source_id": "36e8a2b0-5d5a-47bf-abf5-2d6ff1fc87ba",
+    "number": 3,
+    "topic": "כפל שלם בשבר ובמספר מעורב",
+    "output": "סרטון-פרק-3-כפל-שלם-בשבר.mp4",
+    "status": "done",
+    "artifact_id": "90262513-00f7-4f89-9b98-0c8734565708",
+    "submitted_at": 1784136383.512663
+  },
+  "g6-ch04": {
+    "notebook_id": "8c9aa17b-aebc-404c-97dd-622dc3789e1a",
+    "source_id": "3c9ede19-b423-45fc-a9ae-3a192e2bcf61",
+    "number": 4,
+    "topic": "כפל שבר בשבר",
+    "output": "סרטון-פרק-4-כפל-שבר-בשבר.mp4",
+    "status": "done",
+    "artifact_id": "9a6f8d60-fdcc-40a4-9222-e5bf6f187fff",
+    "submitted_at": 1784136390.4636583
+  },
+  "g6-ch05": {
+    "notebook_id": "558fc680-dc30-4f9a-8ff3-163bdb8f498e",
+    "source_id": "2d1edaf9-1fc3-42fd-957e-20cba2721295",
+    "number": 5,
+    "topic": "כפל וחילוק עשרוניים ב-10, 100 ו-1000",
+    "output": "סרטון-פרק-5-כפל-וחילוק-עשרוניים-ב-10-100.mp4",
+    "status": "done",
+    "artifact_id": "24b76ff3-3ecb-4a81-b4a3-788ede5a767b",
+    "submitted_at": 1784272994.8305469
+  },
+  "g6-ch06": {
+    "notebook_id": "66267ca8-9f71-4c88-80ce-d0bf64832242",
+    "source_id": "adcfab12-f02b-45c3-9539-c4b126c75a7f",
+    "number": 6,
+    "topic": "כפל מספרים עשרוניים",
+    "output": "סרטון-פרק-6-כפל-עשרוניים.mp4",
+    "status": "done",
+    "artifact_id": "4bb26bbd-7852-468c-8e93-d7914dbcae20",
+    "submitted_at": 1784273000.2994826
+  },
+  "g6-ch07": {
+    "notebook_id": "0b1b37a3-20f6-400a-ab8c-e3bec4c0c2ed",
+    "source_id": "6d29a21f-ee31-47a7-abb3-e93c643cfb2c",
+    "number": 7,
+    "topic": "חילוק מספרים עשרוניים",
+    "output": "סרטון-פרק-7-חילוק-עשרוניים.mp4",
+    "status": "done",
+    "artifact_id": "c3e3b603-30c9-402f-8452-6137eff4b6a6",
+    "submitted_at": 1784273007.2919357
+  },
+  "g6-ch08": {
+    "notebook_id": "ebd387c9-4336-4a28-a607-7205181c3f84",
+    "source_id": "167949ab-465c-4315-9448-251381d1e599",
+    "number": 8,
+    "topic": "חלק של כמות — מציאת ערך החלק",
+    "output": "סרטון-פרק-8-חלק-של-כמות.mp4",
+    "status": "done"
+  },
+  "g6-ch09": {
+    "notebook_id": "c658198e-05ea-4419-b11f-296add61cebd",
+    "source_id": "ec91b815-40d6-4720-afae-35b8ef4105e5",
+    "number": 9,
+    "topic": "חלק של כמות — מציאת הכמות היסודית",
+    "output": "סרטון-פרק-9-מציאת-הכמות-היסודית.mp4",
+    "status": "done"
+  },
+  "g6-ch10": {
+    "notebook_id": "f9c01f61-ff51-423b-b5fc-6e38d8e38475",
+    "source_id": "b860a61b-0bc4-45ed-a7f8-044117e93335",
+    "number": 10,
+    "topic": "חילוק שברים פשוטים",
+    "output": "סרטון-פרק-10-חילוק-שברים.mp4",
+    "status": "done"
+  },
+  "g6-ch11": {
+    "notebook_id": "3576207c-4cfc-4899-937d-01827dc24b99",
+    "source_id": "72e05a30-fce9-4293-8976-1335a503cd8e",
+    "number": 11,
+    "topic": "שבר עשרוני מחזורי",
+    "output": "סרטון-פרק-11-שבר-עשרוני-מחזורי.mp4",
+    "status": "staged"
+  },
+  "g6-ch12": {
+    "notebook_id": "7f44c2cf-040f-4653-bfd8-78856b088cac",
+    "source_id": "b0eeef47-80c0-4fdd-904b-63b304b248f0",
+    "number": 12,
+    "topic": "חיבור וחיסור מספרים עשרוניים",
+    "output": "סרטון-פרק-12-חיבור-וחיסור-עשרוניים.mp4",
+    "status": "staged"
+  },
+  "g6-ch13": {
+    "notebook_id": "757c549f-8e7d-430b-8f17-f09cbe6adaa3",
+    "source_id": "5117c4a1-05c9-4661-bf4c-8783fcfde96c",
+    "number": 13,
+    "topic": "השלמה וחקר של סדרות שברים",
+    "output": "סרטון-פרק-13-סדרות-של-שברים.mp4",
+    "status": "staged"
+  },
+  "rr-ch01": {
+    "number": 1,
+    "topic": "מהו יחס",
+    "output": "סרטון-פרק-1-מהו-יחס.mp4",
+    "status": "done",
+    "course": "grade6-ratio-rate"
+  },
+  "rr-ch02": {
+    "number": 2,
+    "topic": "קנה מידה",
+    "output": "סרטון-פרק-2-קנה-מידה.mp4",
+    "status": "done",
+    "course": "grade6-ratio-rate"
+  },
+  "rr-ch03": {
+    "number": 3,
+    "topic": "בעיות תנועה - מהירות זמן ודרך",
+    "output": "סרטון-פרק-3-בעיות-תנועה.mp4",
+    "status": "done",
+    "course": "grade6-ratio-rate"
+  },
+  "rr-ch04": {
+    "number": 4,
+    "topic": "בעיות הספק",
+    "output": "סרטון-פרק-4-בעיות-הספק.mp4",
+    "status": "done",
+    "course": "grade6-ratio-rate"
+  },
+  "dv-ch03": {
+    "number": 3,
+    "topic": "סימני התחלקות ב-3 וב-9",
+    "output": "סרטון-פרק-3-סימני-התחלקות-3-9.mp4",
+    "status": "staged",
+    "course": "divisibility-primes",
+    "notebook_id": "337c70ed-02fb-4555-aa06-7131d5b4ebdd",
+    "source_id": "5d73e0a8-59ce-4f74-b309-fd44d095aeb2",
+    "grade": null,
+    "standalone_slug": null
+  },
+  "dv-ch04": {
+    "number": 4,
+    "topic": "מספרים ראשוניים ומספרים מורכבים",
+    "output": "סרטון-פרק-4-מספרים-ראשוניים-ומורכבים.mp4",
+    "status": "staged",
+    "course": "divisibility-primes",
+    "notebook_id": "f232f5e7-3865-4175-95b4-404f26c1ad95",
+    "source_id": "79b82b36-9ca9-415a-9d4a-7cdceef1f82b",
+    "grade": null,
+    "standalone_slug": null
+  },
+  "dv-ch05": {
+    "number": 5,
+    "topic": "פירוק לגורמים ראשוניים",
+    "output": "סרטון-פרק-5-פירוק-לגורמים-ראשוניים.mp4",
+    "status": "staged",
+    "course": "divisibility-primes",
+    "notebook_id": "5b149847-22bd-4d34-bf10-174d1b42bbfb",
+    "source_id": "8d58fb59-e81c-491b-8c8c-e7ee664c3687",
+    "grade": null,
+    "standalone_slug": null
+  },
+  "dv-ch06": {
+    "number": 6,
+    "topic": "מחלק משותף מקסימלי וכפולה משותפת מינימלית",
+    "output": "סרטון-פרק-6-מחלק-משותף-וכפולה-משותפת.mp4",
+    "status": "staged",
+    "course": "divisibility-primes",
+    "notebook_id": "456283c6-aa59-4224-8c52-e1748da4ef56",
+    "source_id": "667dc0cd-353b-474f-a921-4ae9b56b34b9",
+    "grade": null,
+    "standalone_slug": null
+  },
+  "sf-ch01": {
+    "number": 1,
+    "topic": "כפל רב-איבר ברב-איבר",
+    "output": "סרטון-פרק-1-כפל-רב-איבר-ברב-איבר.mp4",
+    "status": "staged",
+    "course": "shortcut-formulas",
+    "notebook_id": "8edc9aa0-7f30-4237-8d20-869dbfc57b6f",
+    "source_id": "3f04e1e6-d1d9-47d3-8bce-bdba0f4c334d",
+    "grade": null,
+    "standalone_slug": null
+  },
+  "sf-ch02": {
+    "number": 2,
+    "topic": "ריבוע של סכום",
+    "output": "סרטון-פרק-2-ריבוע-של-סכום.mp4",
+    "status": "staged",
+    "course": "shortcut-formulas",
+    "notebook_id": "2c96633f-abdf-4631-ba31-bc93df4f5bb3",
+    "source_id": "801b4178-e112-42f9-9678-2001b1cb49cd",
+    "grade": null,
+    "standalone_slug": null
+  },
+  "sf-ch03": {
+    "number": 3,
+    "topic": "ריבוע של הפרש",
+    "output": "סרטון-פרק-3-ריבוע-של-הפרש.mp4",
+    "status": "staged",
+    "course": "shortcut-formulas",
+    "notebook_id": "c7c8dd7e-b940-4e30-8e9b-c6e44a7f23bd",
+    "source_id": "c94eacec-902a-49b6-9734-8053e2908eea",
+    "grade": null,
+    "standalone_slug": null
+  },
+  "sf-ch04": {
+    "number": 4,
+    "topic": "הפרש ריבועים",
+    "output": "סרטון-פרק-4-הפרש-ריבועים.mp4",
+    "status": "staged",
+    "course": "shortcut-formulas",
+    "notebook_id": "1dd594b0-fbe5-432e-9f02-810481b33387",
+    "source_id": "ad550fc9-16e6-43cd-8fbf-ffbe012b080a",
+    "grade": null,
+    "standalone_slug": null
+  },
+  "g5f-ch06": {
+    "number": 6,
+    "topic": "חיבור וחיסור מספרים מעורבים",
+    "output": "סרטון-פרק-6-חיבור-וחיסור-מספרים-מעורבים.mp4",
+    "status": "pending",
+    "course": "grade5-simple-fractions"
+  },
+  "g5f-ch07": {
+    "number": 7,
+    "topic": "בעיות מילוליות בשברים",
+    "output": "סרטון-פרק-7-בעיות-מילוליות-בשברים.mp4",
+    "status": "pending",
+    "course": "grade5-simple-fractions"
+  },
+  "g5f-ch08": {
+    "number": 8,
+    "topic": "משימות חקר בשברים",
+    "output": "סרטון-פרק-8-משימות-חקר-בשברים.mp4",
+    "status": "pending",
+    "course": "grade5-simple-fractions"
+  },
+  "wn-ch01": {
+    "number": 1,
+    "topic": "מבנה המספר העשרוני וערך המקום",
+    "output": "סרטון-פרק-1-מבנה-המספר-וערך-המקום.mp4",
+    "status": "pending",
+    "course": "grade5-whole-numbers"
+  },
+  "wn-ch02": {
+    "number": 2,
+    "topic": "קריאה, כתיבה והשוואה של מספרים גדולים",
+    "output": "סרטון-פרק-2-קריאה-כתיבה-והשוואה-של-מספרים-גדולים.mp4",
+    "status": "pending",
+    "course": "grade5-whole-numbers"
+  },
+  "wn-ch03": {
+    "number": 3,
+    "topic": "עיגול מספרים והערכה",
+    "output": "סרטון-פרק-3-עיגול-מספרים-והערכה.mp4",
+    "status": "pending",
+    "course": "grade5-whole-numbers"
+  },
+  "wn-ch04": {
+    "number": 4,
+    "topic": "חיבור וחיסור במאונך — פריטה והשאלה",
+    "output": "סרטון-פרק-4-חיבור-וחיסור-במאונך.mp4",
+    "status": "pending",
+    "course": "grade5-whole-numbers"
+  },
+  "wn-ch05": {
+    "number": 5,
+    "topic": "כפל במאונך — שלב אחרי שלב",
+    "output": "סרטון-פרק-5-כפל-במאונך.mp4",
+    "status": "pending",
+    "course": "grade5-whole-numbers"
+  },
+  "wn-ch06": {
+    "number": 6,
+    "topic": "חילוק ארוך, שארית ובעיות רב-שלביות",
+    "output": "סרטון-פרק-6-חילוק-ארוך-ושארית.mp4",
+    "status": "pending",
+    "course": "grade5-whole-numbers"
+  },
+  "dec-ch01": {
+    "number": 1,
+    "topic": "מהו מספר עשרוני — עשיריות ומאיות",
+    "output": "סרטון-פרק-1-מהו-מספר-עשרוני.mp4",
+    "status": "pending",
+    "course": "grade5-decimals"
+  },
+  "dec-ch02": {
+    "number": 2,
+    "topic": "ערך המקום מימין לנקודה העשרונית וקריאה נכונה",
+    "output": "סרטון-פרק-2-ערך-המקום-מימין-לנקודה.mp4",
+    "status": "pending",
+    "course": "grade5-decimals"
+  },
+  "dec-ch03": {
+    "number": 3,
+    "topic": "המרה בין שבר פשוט לשבר עשרוני",
+    "output": "סרטון-פרק-3-משבר-פשוט-לשבר-עשרוני.mp4",
+    "status": "pending",
+    "course": "grade5-decimals"
+  },
+  "dec-ch04": {
+    "number": 4,
+    "topic": "השוואה וסידור של מספרים עשרוניים",
+    "output": "סרטון-פרק-4-השוואה-וסידור-של-מספרים-עשרוניים.mp4",
+    "status": "pending",
+    "course": "grade5-decimals"
+  },
+  "dec-ch05": {
+    "number": 5,
+    "topic": "עיגול מספרים עשרוניים והערכה",
+    "output": "סרטון-פרק-5-עיגול-מספרים-עשרוניים-והערכה.mp4",
+    "status": "pending",
+    "course": "grade5-decimals"
+  },
+  "qe-ch04": {
+    "number": 4,
+    "topic": "השלמה לריבוע — השיטה המלאה",
+    "output": "סרטון-פרק-4-השלמה-לריבוע.mp4",
+    "status": "pending",
+    "course": "quadratic-equations"
+  },
+  "qe-ch05": {
+    "number": 5,
+    "topic": "גרף הפונקציה הריבועית — הפרבולה",
+    "output": "סרטון-פרק-5-גרף-הפונקציה-הריבועית.mp4",
+    "status": "pending",
+    "course": "quadratic-equations"
+  },
+  "qe-ch06": {
+    "number": 6,
+    "topic": "אי-שוויונות ריבועיים — פתרון בעזרת הגרף וטבלת סימנים",
+    "output": "סרטון-פרק-6-אי-שוויונות-ריבועיים.mp4",
+    "status": "pending",
+    "course": "quadratic-equations"
+  },
+  "qe-ch07": {
+    "number": 7,
+    "topic": "מערכת משוואות שבה משוואה אחת ריבועית",
+    "output": "סרטון-פרק-7-מערכת-עם-משוואה-ריבועית.mp4",
+    "status": "pending",
+    "course": "quadratic-equations"
+  },
+  "drv-ch05": {
+    "number": 5,
+    "topic": "משוואת המשיק לגרף פונקציה",
+    "output": "סרטון-פרק-5-משוואת-המשיק-לגרף-פונקציה.mp4",
+    "status": "pending",
+    "course": "חשבון-דיפרנציאלי-נגזרות"
+  },
+  "drv-ch06": {
+    "number": 6,
+    "topic": "הנגזרת השנייה, קמירות ונקודות פיתול",
+    "output": "סרטון-פרק-6-הנגזרת-השנייה-קמירות-ונקודות-פיתול.mp4",
+    "status": "pending",
+    "course": "חשבון-דיפרנציאלי-נגזרות"
+  },
+  "drv-ch07": {
+    "number": 7,
+    "topic": "חקירת פונקציה מלאה ושרטוט הגרף",
+    "output": "סרטון-פרק-7-חקירת-פונקציה-מלאה-ושרטוט-הגרף.mp4",
+    "status": "pending",
+    "course": "חשבון-דיפרנציאלי-נגזרות"
+  },
+  "trg-ch06": {
+    "number": 6,
+    "topic": "הזוויות המיוחדות ומעגל היחידה",
+    "output": "סרטון-פרק-6-הזוויות-המיוחדות-ומעגל-היחידה.mp4",
+    "status": "pending",
+    "course": "טריגונומטריה-ממשולש-ישר-זווית-ועד-משפט-הקוסינוסים"
+  },
+  "trg-ch07": {
+    "number": 7,
+    "topic": "זהויות טריגונומטריות בסיסיות",
+    "output": "סרטון-פרק-7-זהויות-טריגונומטריות-בסיסיות.mp4",
+    "status": "pending",
+    "course": "טריגונומטריה-ממשולש-ישר-זווית-ועד-משפט-הקוסינוסים"
+  },
+  "trg-ch08": {
+    "number": 8,
+    "topic": "פתרון משוואות טריגונומטריות",
+    "output": "סרטון-פרק-8-פתרון-משוואות-טריגונומטריות.mp4",
+    "status": "pending",
+    "course": "טריגונומטריה-ממשולש-ישר-זווית-ועד-משפט-הקוסינוסים"
+  },
+  "qe-ch01": {
+    "number": 1,
+    "topic": "מבוא: הצורה הכללית וזיהוי מקדמים",
+    "output": "סרטון-פרק-1-הצורה-הכללית-וזיהוי-מקדמים.mp4",
+    "status": "pending",
+    "course": "quadratic-equations"
+  },
+  "qe-ch02": {
+    "number": 2,
+    "topic": "שיטות פתרון והדיסקרימיננט",
+    "output": "סרטון-פרק-2-שיטות-פתרון-והדיסקרימיננט.mp4",
+    "status": "pending",
+    "course": "quadratic-equations"
+  },
+  "qe-ch03": {
+    "number": 3,
+    "topic": "משפטי וייטה ובעיות מילוליות",
+    "output": "סרטון-פרק-3-משפטי-וייטה-ובעיות-מילוליות.mp4",
+    "status": "pending",
+    "course": "quadratic-equations"
+  },
+  "drv-ch01": {
+    "number": 1,
+    "topic": "מושג הגבול והגדרת הנגזרת",
+    "output": "סרטון-פרק-1-מושג-הגבול-והגדרת-הנגזרת.mp4",
+    "status": "pending",
+    "course": "חשבון-דיפרנציאלי-נגזרות"
+  },
+  "drv-ch02": {
+    "number": 2,
+    "topic": "כללי גזירה",
+    "output": "סרטון-פרק-2-כללי-גזירה.mp4",
+    "status": "pending",
+    "course": "חשבון-דיפרנציאלי-נגזרות"
+  },
+  "drv-ch03": {
+    "number": 3,
+    "topic": "חקירת פונקציות: עלייה, ירידה ונקודות קיצון",
+    "output": "סרטון-פרק-3-חקירת-פונקציות-עלייה-ירידה-וקיצון.mp4",
+    "status": "pending",
+    "course": "חשבון-דיפרנציאלי-נגזרות"
+  },
+  "drv-ch04": {
+    "number": 4,
+    "topic": "בעיות קיצון (אופטימיזציה)",
+    "output": "סרטון-פרק-4-בעיות-קיצון-אופטימיזציה.mp4",
+    "status": "pending",
+    "course": "חשבון-דיפרנציאלי-נגזרות"
+  },
+  "trg-ch01": {
+    "number": 1,
+    "topic": "היחסים הטריגונומטריים במשולש ישר-זווית",
+    "output": "סרטון-פרק-1-היחסים-הטריגונומטריים-במשולש-ישר-זווית.mp4",
+    "status": "pending",
+    "course": "טריגונומטריה-ממשולש-ישר-זווית-ועד-משפט-הקוסינוסים"
+  },
+  "trg-ch02": {
+    "number": 2,
+    "topic": "בעיות גובה ומרחק — זוויות רום ושפל",
+    "output": "סרטון-פרק-2-בעיות-גובה-ומרחק-זוויות-רום-ושפל.mp4",
+    "status": "pending",
+    "course": "טריגונומטריה-ממשולש-ישר-זווית-ועד-משפט-הקוסינוסים"
+  },
+  "trg-ch03": {
+    "number": 3,
+    "topic": "משפט הסינוסים",
+    "output": "סרטון-פרק-3-משפט-הסינוסים.mp4",
+    "status": "pending",
+    "course": "טריגונומטריה-ממשולש-ישר-זווית-ועד-משפט-הקוסינוסים"
+  },
+  "trg-ch04": {
+    "number": 4,
+    "topic": "משפט הקוסינוסים",
+    "output": "סרטון-פרק-4-משפט-הקוסינוסים.mp4",
+    "status": "pending",
+    "course": "טריגונומטריה-ממשולש-ישר-זווית-ועד-משפט-הקוסינוסים"
+  },
+  "trg-ch05": {
+    "number": 5,
+    "topic": "שטח משולש ובעיות משולבות",
+    "output": "סרטון-פרק-5-שטח-משולש-ובעיות-משולבות.mp4",
+    "status": "pending",
+    "course": "טריגונומטריה-ממשולש-ישר-זווית-ועד-משפט-הקוסינוסים"
+  },
+  "g5f-ch01": {
+    "number": 1,
+    "topic": "מהו שבר? המונה, המכנה ומשמעות החלוקה",
+    "output": "סרטון-פרק-1-מהו-שבר-המונה-המכנה-ומשמעות-החלוקה.mp4",
+    "status": "pending",
+    "course": "grade5-simple-fractions"
+  },
+  "g5f-ch02": {
+    "number": 2,
+    "topic": "השבר על ציר המספרים והשוואת שברים",
+    "output": "סרטון-פרק-2-השבר-על-ציר-המספרים-והשוואת-שברים.mp4",
+    "status": "pending",
+    "course": "grade5-simple-fractions"
+  },
+  "g5f-ch03": {
+    "number": 3,
+    "topic": "שברים גדולים מ-1 ומספרים מעורבים",
+    "output": "סרטון-פרק-3-שברים-גדולים-מ1-ומספרים-מעורבים.mp4",
+    "status": "pending",
+    "course": "grade5-simple-fractions"
+  },
+  "pw-ch02": {
+    "number": 2,
+    "topic": "ריבוע וחזקה שלישית — המשמעות הגיאומטרית",
+    "output": "סרטון-פרק-2-ריבוע-וחזקה-שלישית.mp4",
+    "status": "pending",
+    "course": "powers-and-exponents"
+  },
+  "pw-ch03": {
+    "number": 3,
+    "topic": "חוקי חזקות I: כפל וחילוק באותו בסיס",
+    "output": "סרטון-פרק-3-חוקי-חזקות-I.mp4",
+    "status": "pending",
+    "course": "powers-and-exponents"
+  },
+  "pw-ch04": {
+    "number": 4,
+    "topic": "חוקי חזקות II: חזקה של חזקה, מכפלה ומנה",
+    "output": "סרטון-פרק-4-חוקי-חזקות-II.mp4",
+    "status": "pending",
+    "course": "powers-and-exponents"
+  },
+  "pw-ch05": {
+    "number": 5,
+    "topic": "חזקה במעריך 0 וחזקות שליליות",
+    "output": "סרטון-פרק-5-חזקה-במעריך-0-וחזקות-שליליות.mp4",
+    "status": "pending",
+    "course": "powers-and-exponents"
+  },
+  "pw-ch06": {
+    "number": 6,
+    "topic": "חזקות של 10 וכתיב מדעי",
+    "output": "סרטון-פרק-6-חזקות-של-10-וכתיב-מדעי.mp4",
+    "status": "pending",
+    "course": "powers-and-exponents"
+  },
+  "pw-ch07": {
+    "number": 7,
+    "topic": "בסיס שלילי וסדר פעולות",
+    "output": "סרטון-פרק-7-בסיס-שלילי-וסדר-פעולות.mp4",
+    "status": "pending",
+    "course": "powers-and-exponents"
+  },
+  "pw-ch08": {
+    "number": 8,
+    "topic": "שורשים כחזקות — מעריך שברי",
+    "output": "סרטון-פרק-8-שורשים-כחזקות.mp4",
+    "status": "pending",
+    "course": "powers-and-exponents"
+  },
+  "te-ch02": {
+    "number": 2,
+    "topic": "שיטת ההצבה",
+    "output": "סרטון-פרק-2-שיטת-ההצבה.mp4",
+    "status": "pending",
+    "course": "two-equations-two-unknowns"
+  },
+  "te-ch03": {
+    "number": 3,
+    "topic": "שיטת ההשוואה",
+    "output": "סרטון-פרק-3-שיטת-ההשוואה.mp4",
+    "status": "pending",
+    "course": "two-equations-two-unknowns"
+  },
+  "te-ch04": {
+    "number": 4,
+    "topic": "שיטת החיבור והחיסור (אלימינציה)",
+    "output": "סרטון-פרק-4-שיטת-החיבור-והחיסור-אלימינציה.mp4",
+    "status": "pending",
+    "course": "two-equations-two-unknowns"
+  },
+  "te-ch05": {
+    "number": 5,
+    "topic": "פתרון גרפי ומספר הפתרונות",
+    "output": "סרטון-פרק-5-פתרון-גרפי-ומספר-הפתרונות.mp4",
+    "status": "pending",
+    "course": "two-equations-two-unknowns"
+  },
+  "te-ch06": {
+    "number": 6,
+    "topic": "בעיות מילוליות בשני נעלמים",
+    "output": "סרטון-פרק-6-בעיות-מילוליות-בשני-נעלמים.mp4",
+    "status": "pending",
+    "course": "two-equations-two-unknowns"
+  },
+  "g5f-ch04-regen": {
+    "number": 4,
+    "topic": "צמצום והרחבה",
+    "output": "סרטון-פרק-4-צמצום-והרחבה.mp4",
+    "status": "pending",
+    "course": "grade5-simple-fractions",
+    "regen_reason": "live video (asset 36) has two comparison panels that render blank for ~25s (missing fraction illustrations) plus an \"=\" that should be \">\" (9/12 vs 8/12). Illustration defect, not patchable. Publish replacement via safe_publish.publish_patched(36, ...), not publish_video."
+  },
+  "te-ch07": {
+    "number": 7,
+    "topic": "בעיות מילוליות מתקדמות בשני נעלמים",
+    "output": "סרטון-פרק-7-בעיות-מילוליות-מתקדמות-בשני-נעלמים.mp4",
+    "status": "pending",
+    "course": "two-equations-two-unknowns"
+  }
 }

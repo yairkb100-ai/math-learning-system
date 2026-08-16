@@ -30,7 +30,7 @@
         vertical-align: middle; margin: 0 3px; font-size: .95em; line-height: 1.15; }
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
-  .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; margin: 0 3px; }
+  .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
   .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
          align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
   .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
@@ -71,10 +71,10 @@
 <div class="sheet">
   <header>
     <h1>דף עבודה — פרק 4: משוואת הישר</h1>
-    <div class="sub">מציאת y = mx + n משיפוע, מנקודה, משתי נקודות ומגרף</div>
+    <div class="sub">מציאת y = mx + b משיפוע, מנקודה, משתי נקודות ומגרף</div>
     <div class="namebar"><span>שם: </span><span>כיתה: </span><span>תאריך: </span></div>
   </header>
-  <div class="note-box" style="background:#eef3fe; border-inline-start:4px solid #2f6fed; padding:10px 14px; border-radius:6px; font-size:14px; margin:18px 0">משוואת הישר היא y = mx + n. המספר m הוא השיפוע — כמה y משתנה בכל צעד אחד ימינה; המספר n הוא נקודת החיתוך עם ציר ה-y, כלומר הישר עובר תמיד ב-(0, n). כדי למצוא משוואה מנקודה ומשיפוע: מציבים את השיפוע, מציבים את שיעורי הנקודה ומחלצים את n. כשנתונות שתי נקודות מחשבים קודם את השיפוע לפי ההפרשים. נקודה נמצאת על הישר אם ההצבה במשוואה נותנת בדיוק את שיעור ה-y שלה. חיתוך עם ציר ה-x מתקבל מהצבת y = 0.</div>
+  <div class="note-box" style="background:#eef3fe; border-inline-start:4px solid #2f6fed; padding:10px 14px; border-radius:6px; font-size:14px; margin:18px 0">משוואת הישר היא y = mx + b. המספר m הוא השיפוע — כמה y משתנה בכל צעד אחד ימינה; המספר b הוא נקודת החיתוך עם ציר ה-y, כלומר הישר עובר תמיד ב-(0, b). כדי למצוא משוואה מנקודה ומשיפוע: מציבים את השיפוע, מציבים את שיעורי הנקודה ומחלצים את b. כשנתונות שתי נקודות מחשבים קודם את השיפוע לפי ההפרשים. נקודה נמצאת על הישר אם ההצבה במשוואה נותנת בדיוק את שיעור ה-y שלה. חיתוך עם ציר ה-x מתקבל מהצבת y = 0.</div>
   
   <h2 class="q">שאלה 1 — מי השיפוע ומי המספר החופשי? <span class="tag easy">קל</span></h2>
   <p>לכל ישר רשמו את השיפוע ואת נקודת החיתוך עם ציר ה-y:</p><ol type="a"><li><span class="eq">y = 5x − 4</span> ⟵ m = <span class="blank"></span>, חיתוך ב-<span class="blank"></span></li><li><span class="eq">y = −x + 3</span> ⟵ m = <span class="blank"></span>, חיתוך ב-<span class="blank"></span></li><li><span class="eq">y = 2x</span> ⟵ m = <span class="blank"></span>, חיתוך ב-<span class="blank"></span></li></ol>
@@ -101,7 +101,7 @@
   <p>באיזו נקודה חותך הישר <span class="eq">y = 3x − 12</span> את ציר ה-x? (רמז: על ציר ה-x מתקיים <span class="eq">y = 0</span>.)</p>
   <div class="lines"><div></div><div></div></div>
   <h2 class="q">שאלה 9 — מציאת המספר החופשי <span class="tag med">בינוני</span></h2>
-  <p>הישר <span class="eq">y = 4x + n</span> עובר בנקודה <span class="eq">(2, 3)</span>. מצאו את <span class="eq">n</span> וכתבו את משוואת הישר.</p>
+  <p>הישר <span class="eq">y = 4x + b</span> עובר בנקודה <span class="eq">(2, 3)</span>. מצאו את <span class="eq">b</span> וכתבו את משוואת הישר.</p>
   <div class="lines"><div></div><div></div></div>
   <h2 class="q">שאלה 10 — מציאת השיפוע החסר <span class="tag med">בינוני</span></h2>
   <p>הישר <span class="eq">y = mx − 1</span> עובר בנקודה <span class="eq">(3, 8)</span>. מצאו את <span class="eq">m</span> וכתבו את משוואת הישר.</p>
@@ -116,7 +116,7 @@
   <p>הנקודה <span class="eq">(a, 13)</span> נמצאת על הישר <span class="eq">y = 4x + 1</span>. מצאו את <span class="eq">a</span>.</p>
   <div class="lines"><div></div><div></div><div></div></div>
   <h2 class="q">שאלה 14 — אתגר: ישר אופקי וישר אנכי <span class="tag hard">מאתגר</span></h2>
-  <p>א. מצאו את משוואת הישר העובר דרך <span class="eq">(2, 5)</span> ו-<span class="eq">(7, 5)</span>.</p><p>ב. דרך <span class="eq">(3, 1)</span> ו-<span class="eq">(3, 8)</span> עובר ישר. מדוע אי אפשר לכתוב את משוואתו בצורה <span class="eq">y = mx + n</span>? מהי משוואתו?</p>
+  <p>א. מצאו את משוואת הישר העובר דרך <span class="eq">(2, 5)</span> ו-<span class="eq">(7, 5)</span>.</p><p>ב. דרך <span class="eq">(3, 1)</span> ו-<span class="eq">(3, 8)</span> עובר ישר. מדוע אי אפשר לכתוב את משוואתו בצורה <span class="eq">y = mx + b</span>? מהי משוואתו?</p>
   <div class="lines"><div></div><div></div><div></div></div>
   <h2 class="q">שאלה 15 — אתגר: שטח המשולש שנוצר <span class="tag hard">מאתגר</span></h2>
   <p>הישר <span class="eq">y = −2x + 6</span> יוצר עם שני הצירים משולש ישר-זווית. מצאו את שתי נקודות החיתוך עם הצירים וחשבו את שטח המשולש.</p>
@@ -130,17 +130,17 @@
     <div class="sub">לא לחלוקה לתלמידים</div>
   </header>
   <div class="ans"><strong>שאלה 1.</strong> א. m = <span class="eq">5</span>, חיתוך ב-<span class="eq">(0, −4)</span> &nbsp; ב. m = <span class="eq">−1</span>, חיתוך ב-<span class="eq">(0, 3)</span> &nbsp; ג. m = <span class="eq">2</span>, חיתוך ב-<span class="eq">(0, 0)</span></div>
-<div class="ans"><strong>שאלה 2.</strong> א. <span class="eq">5 = 3 · 1 + n</span> ולכן <span class="eq">n = 2</span>: <span class="eq">y = 3x + 2</span> &nbsp; ב. <span class="eq">6 = −1 · 2 + n</span> ולכן <span class="eq">n = 8</span>: <span class="eq">y = −x + 8</span></div>
+<div class="ans"><strong>שאלה 2.</strong> א. <span class="eq">5 = 3 · 1 + b</span> ולכן <span class="eq">b = 2</span>: <span class="eq">y = 3x + 2</span> &nbsp; ב. <span class="eq">6 = −1 · 2 + b</span> ולכן <span class="eq">b = 8</span>: <span class="eq">y = −x + 8</span></div>
 <div class="ans"><strong>שאלה 3.</strong> א. <span class="eq">(0, −9)</span> &nbsp; ב. <span class="eq">(0, 4)</span></div>
 <div class="ans"><strong>שאלה 4.</strong> א. כן: <span class="eq">2 · 3 + 5 = 11</span> &nbsp; ב. לא: <span class="eq">2 · 1 + 5 = 7</span> ולא 6</div>
 <div class="ans"><strong>שאלה 5.</strong> חיתוך ב-<span class="eq">(0, −2)</span>, שיפוע <span class="eq">1</span>, ולכן <span class="eq">y = x − 2</span></div>
-<div class="ans"><strong>שאלה 6.</strong> <span class="eq">m = <span class="fr"><b>9 − 3</b><i>3 − 1</i></span> = 3</span>; מציבים: <span class="eq">3 = 3 · 1 + n</span> ולכן <span class="eq">n = 0</span>. המשוואה: <span class="eq">y = 3x</span></div>
-<div class="ans"><strong>שאלה 7.</strong> <span class="eq">m = <span class="fr"><b>−1 − 7</b><i>2 − (−2)</i></span> = <span class="fr"><b>−8</b><i>4</i></span> = −2</span>; מציבים: <span class="eq">−1 = −2 · 2 + n</span> ולכן <span class="eq">n = 3</span>. המשוואה: <span class="eq">y = −2x + 3</span></div>
+<div class="ans"><strong>שאלה 6.</strong> <span class="eq">m = <span class="fr"><b>9 − 3</b><i>3 − 1</i></span> = 3</span>; מציבים: <span class="eq">3 = 3 · 1 + b</span> ולכן <span class="eq">b = 0</span>. המשוואה: <span class="eq">y = 3x</span></div>
+<div class="ans"><strong>שאלה 7.</strong> <span class="eq">m = <span class="fr"><b>−1 − 7</b><i>2 − (−2)</i></span> = <span class="fr"><b>−8</b><i>4</i></span> = −2</span>; מציבים: <span class="eq">−1 = −2 · 2 + b</span> ולכן <span class="eq">b = 3</span>. המשוואה: <span class="eq">y = −2x + 3</span></div>
 <div class="ans"><strong>שאלה 8.</strong> פותרים <span class="eq">3x − 12 = 0</span>: <span class="eq">x = 4</span>. הנקודה: <span class="eq">(4, 0)</span></div>
-<div class="ans"><strong>שאלה 9.</strong> <span class="eq">3 = 4 · 2 + n = 8 + n</span>, ולכן <span class="eq">n = −5</span>. המשוואה: <span class="eq">y = 4x − 5</span></div>
+<div class="ans"><strong>שאלה 9.</strong> <span class="eq">3 = 4 · 2 + b = 8 + b</span>, ולכן <span class="eq">b = −5</span>. המשוואה: <span class="eq">y = 4x − 5</span></div>
 <div class="ans"><strong>שאלה 10.</strong> <span class="eq">8 = 3m − 1</span>, ולכן <span class="eq">3m = 9</span> ו-<span class="eq">m = 3</span>. המשוואה: <span class="eq">y = 3x − 1</span></div>
 <div class="ans"><strong>שאלה 11.</strong> עם ציר ה-y: <span class="eq">(0, 8)</span>. עם ציר ה-x: <span class="eq">−2x + 8 = 0</span> ולכן <span class="eq">(4, 0)</span></div>
-<div class="ans"><strong>שאלה 12.</strong> <span class="eq">m = <span class="fr"><b>−4 − 6</b><i>2 − (−3)</i></span> = <span class="fr"><b>−10</b><i>5</i></span> = −2</span>; מציבים: <span class="eq">6 = −2 · (−3) + n = 6 + n</span> ולכן <span class="eq">n = 0</span>. המשוואה: <span class="eq">y = −2x</span> — הישר עובר בראשית הצירים <span class="eq">(0, 0)</span></div>
+<div class="ans"><strong>שאלה 12.</strong> <span class="eq">m = <span class="fr"><b>−4 − 6</b><i>2 − (−3)</i></span> = <span class="fr"><b>−10</b><i>5</i></span> = −2</span>; מציבים: <span class="eq">6 = −2 · (−3) + b = 6 + b</span> ולכן <span class="eq">b = 0</span>. המשוואה: <span class="eq">y = −2x</span> — הישר עובר בראשית הצירים <span class="eq">(0, 0)</span></div>
 <div class="ans"><strong>שאלה 13.</strong> מציבים: <span class="eq">13 = 4a + 1</span>, ולכן <span class="eq">4a = 12</span> ו-<span class="eq">a = 3</span></div>
 <div class="ans"><strong>שאלה 14.</strong> א. שתי הנקודות באותו גובה, ולכן השיפוע <span class="eq">0</span> והמשוואה <span class="eq">y = 5</span> &nbsp; ב. לשתי הנקודות אותו שיעור x, ולכן ההפרש במכנה הוא <span class="eq">0</span> והשיפוע אינו מוגדר; זהו ישר אנכי שמשוואתו <span class="eq">x = 3</span></div>
 <div class="ans"><strong>שאלה 15.</strong> עם ציר ה-y: <span class="eq">(0, 6)</span>. עם ציר ה-x: <span class="eq">−2x + 6 = 0</span> ולכן <span class="eq">(3, 0)</span>. הניצבים הם <span class="eq">3</span> ו-<span class="eq">6</span>, והשטח <span class="eq"><span class="fr"><b>3 · 6</b><i>2</i></span> = 9</span></div>
