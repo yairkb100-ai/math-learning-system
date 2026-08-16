@@ -22,6 +22,9 @@ DEFAULTS: dict[str, tuple[object, type]] = {
     "referral_sub_discount_pct": (20.0, float),
     # לחלופין: אחוז הנחה על שיעור פרטי בזום.
     "referral_lesson_discount_pct": (15.0, float),
+    # כמה אחוז מהתוכן של מוצר שהתלמיד *לא* רכש נשארים פתוחים כטעימה — מנוי
+    # לומדה שנכנס לאזור קרני, ולהפך. 0 = נעילה מלאה של המוצר השני.
+    "cross_product_free_pct": (20.0, float),
     # הטלפון שאליו מעבירים תשלום עבור מנוי. אין סליקה במערכת, ולכן זה המספר
     # שהתלמיד רואה בעמוד המנוי. ריק = לא מוצג כלל, במקום להציג מספר שגוי.
     "payment_phone": ("", str),
@@ -55,6 +58,20 @@ def set_settings(db: Session, values: dict) -> dict:
         row.value = str(value)
     db.commit()
     return all_settings(db)
+
+
+def cross_product_free_ratio(db: Session) -> float:
+    """שיעור התוכן הפתוח במוצר שהתלמיד לא רכש, כשבר (0.2 = 20%).
+
+    נשמר כאחוז ולא כשבר כי זה מה שהמנהל מקליד במסך המחירים. נחתך ל-0..1 כדי
+    שערך שגוי (למשל 200) לא יפתח בשקט את כל המוצר השני.
+    """
+    pct = get_setting(db, "cross_product_free_pct")
+    try:
+        pct = float(pct)
+    except (TypeError, ValueError):
+        pct = 20.0
+    return min(max(pct, 0.0), 100.0) / 100.0
 
 
 def effective_lesson_price(db: Session) -> float:

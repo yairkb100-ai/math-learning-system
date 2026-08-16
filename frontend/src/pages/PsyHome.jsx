@@ -5,6 +5,7 @@ import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
 import { IconLock } from '../components/icons.jsx'
 import { fadeInUp, staggerContainer, hoverLift, tapScale, DURATION, EASE_OUT } from '../lib/motion.js'
+import { PRODUCT_KARNI } from '../lib/products.js'
 import '../styles/psy.css'
 
 const DOMAIN_HE = {
@@ -30,10 +31,20 @@ function fmtDate(iso) {
 export default function PsyHome() {
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
+  // האם המשתמש רכש את ההכנה לקרני. מי שקנה רק את הלומדה מגיע לכאן ורואה
+  // טעימה — בלי המשפט הזה הוא היה חושב שהאזור פשוט דל בתוכן.
+  const [karni, setKarni] = useState(null)
   const navigate = useNavigate()
 
   useEffect(() => {
     let alive = true
+    api
+      .myAccess()
+      .then((a) => {
+        if (!alive) return
+        setKarni((a?.products || []).find((p) => p.product === PRODUCT_KARNI) || null)
+      })
+      .catch(() => {})
     api
       .psyOverview()
       .then((d) => alive && setData(d))
@@ -113,6 +124,29 @@ export default function PsyHome() {
           </div>
         </dl>
       </motion.section>
+
+      {karni?.state === 'not_purchased' && (
+        <motion.section
+          className="psy-panel psy-upsell"
+          variants={fadeInUp}
+          initial="hidden"
+          animate="show"
+        >
+          <h2>ההכנה לקרני נמכרת בנפרד</h2>
+          <p>
+            המנוי שלך פותח את הלומדה. כאן פתוחים לך כ-
+            {Math.round((karni.free_ratio ?? 0.2) * 100)}% מהתוכן כטעימה — הקורסים
+            המלאים, מאגר התרגול והסימולציות בתנאי אמת נפתחים עם מנוי להכנה לקרני.
+          </p>
+          <div className="psy-hero-actions">
+            <motion.div {...tapScale}>
+              <Link className="psy-btn psy-btn-primary" to="/subscription">
+                למחירים ולרכישה
+              </Link>
+            </motion.div>
+          </div>
+        </motion.section>
+      )}
 
       <motion.section
         className="psy-panel"

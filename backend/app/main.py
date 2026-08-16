@@ -136,6 +136,28 @@ def on_startup() -> None:
                 conn.execute(
                     text("ALTER TABLE sections ADD COLUMN track VARCHAR NOT NULL DEFAULT 'school'")
                 )
+        if "subscription_plans" in table_names:
+            cols = columns_by_table.get("subscription_plans", set())
+            if "products" not in cols:
+                conn.execute(text(
+                    "ALTER TABLE subscription_plans ADD COLUMN products "
+                    "VARCHAR NOT NULL DEFAULT 'lomda,karni'"
+                ))
+        if "subscriptions" in table_names:
+            cols = columns_by_table.get("subscriptions", set())
+            if "product" not in cols:
+                # ראה seed.run_light_migrations: כל מנוי קיים כיסה את שני
+                # המוצרים, ולכן השורה מוכפלת ל-karni ולא רק מסומנת lomda.
+                conn.execute(text(
+                    "ALTER TABLE subscriptions ADD COLUMN product "
+                    "VARCHAR NOT NULL DEFAULT 'lomda'"
+                ))
+                conn.execute(text(
+                    "INSERT INTO subscriptions "
+                    "(user_id, plan_code, product, status, started_at, expires_at) "
+                    "SELECT user_id, plan_code, 'karni', status, started_at, expires_at "
+                    "FROM subscriptions WHERE product = 'lomda'"
+                ))
         if "psy_attempts" in table_names:
             cols = columns_by_table.get("psy_attempts", set())
             if "score_percent" not in cols:

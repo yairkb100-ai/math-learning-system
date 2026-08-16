@@ -3,7 +3,9 @@
 from datetime import datetime
 from typing import List, Optional
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
+
+from app.products import parse_products
 
 
 # ---------------------------------------------------------------------------
@@ -463,6 +465,16 @@ class PlanOut(BaseModel):
     price_nis: float
     duration_days: int
     is_active: bool
+    # אילו מוצרים התוכנית פותחת: ["lomda"], ["karni"] או שניהם (חבילה).
+    products: List[str] = []
+
+    @field_validator("products", mode="before")
+    @classmethod
+    def _parse_products(cls, value):
+        """במסד זו מחרוזת מופרדת בפסיקים; ללקוח זו רשימה."""
+        if value is None or isinstance(value, str):
+            return parse_products(value)
+        return list(value)
 
 
 class SubscriptionOut(BaseModel):
@@ -471,6 +483,8 @@ class SubscriptionOut(BaseModel):
     id: int
     user_id: int
     plan_code: str
+    # המוצר שהשורה פותחת — "lomda" או "karni".
+    product: str = "lomda"
     status: str
     started_at: datetime
     expires_at: Optional[datetime] = None
@@ -480,11 +494,34 @@ class SubscriptionOut(BaseModel):
 class SubscriptionAssign(BaseModel):
     user_id: int
     plan_code: str
+    # ברירת מחדל: כל המוצרים שהתוכנית כוללת. אפשר לצמצם למוצר בודד כשמעניקים
+    # לתלמיד רק חלק מחבילה (למשל הארכה של הלומדה בלבד).
+    products: Optional[List[str]] = None
 
 
 class SubscriptionExtend(BaseModel):
     # מספר הימים להארכה; ברירת מחדל 30 (חודש)
     days: int = 30
+
+
+class ProductAccessOut(BaseModel):
+    """מצב הגישה של המשתמש למוצר בודד — לומדה או קרני.
+
+    ``state``: admin | trial | active (מנוי בתוקף על המוצר) | not_purchased
+    (יש מנוי בתוקף על המוצר השני בלבד — טעימה מוקטנת) | trial_ended | blocked.
+    """
+
+    product: str
+    label: str
+    state: str
+    has_access: bool
+    plan_code: Optional[str] = None
+    plan_name: Optional[str] = None
+    expires_at: Optional[datetime] = None
+    seconds_left: Optional[int] = None
+    is_trial: bool = False
+    # שיעור התוכן שפתוח כשאין גישה מלאה למוצר הזה.
+    free_ratio: float = 0.42
 
 
 class AccessStatusOut(BaseModel):
@@ -508,6 +545,9 @@ class AccessStatusOut(BaseModel):
     free_ratio: float = 0.42
     welcome_seen: bool = True
     server_time: datetime
+    # פירוט פר-מוצר. השדות שמעליו נשארים "המצב הטוב ביותר" מבין המוצרים, כדי
+    # שכל מסך ותיק (חלון הברוכים-הבאים, טיימר ההתנסות) ימשיך לעבוד כפי שהוא.
+    products: List[ProductAccessOut] = []
 
 
 # ---------------------------------------------------------------------------
@@ -891,6 +931,8 @@ class PlanCreate(BaseModel):
     price_nis: float = 0
     duration_days: int = 30
     is_active: bool = True
+    # ריק = שני המוצרים (חבילה) — ההתנהגות שהייתה לפני הפיצול.
+    products: Optional[List[str]] = None
 
 
 class PlanUpdate(BaseModel):
@@ -900,10 +942,12 @@ class PlanUpdate(BaseModel):
     price_nis: Optional[float] = None
     duration_days: Optional[int] = None
     is_active: Optional[bool] = None
+    products: Optional[List[str]] = None
 
 
 class SettingsIn(BaseModel):
     lesson_price_nis: Optional[float] = None
+    cross_product_free_pct: Optional[float] = None
     referral_sub_discount_pct: Optional[float] = None
     referral_lesson_discount_pct: Optional[float] = None
     payment_phone: Optional[str] = None
@@ -911,6 +955,7 @@ class SettingsIn(BaseModel):
 
 class SettingsOut(BaseModel):
     lesson_price_nis: float
+    cross_product_free_pct: float = 20.0
     referral_sub_discount_pct: float
     referral_lesson_discount_pct: float
     payment_phone: str = ""
@@ -921,6 +966,7 @@ class PricingOut(BaseModel):
 
     plans: List[PlanOut]
     lesson_price_nis: float
+    cross_product_free_pct: float = 20.0
     referral_sub_discount_pct: float
     referral_lesson_discount_pct: float
     payment_phone: str = ""

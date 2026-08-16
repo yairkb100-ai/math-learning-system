@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
 import { fadeInUp, staggerContainer } from '../lib/motion.js'
+import { PRODUCTS, productLabel, productsLabel } from '../lib/products.js'
 import '../styles/admin-ops.css'
 
 const statusHe = { active: 'פעיל', expired: 'פג', canceled: 'בוטל' }
@@ -24,7 +25,9 @@ export default function AdminSubscriptions() {
   const [plans, setPlans] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  const [form, setForm] = useState({ user_id: '', plan_code: '' })
+  // product='' = כל מה שהתוכנית כוללת. הצמצום נחוץ כשמאריכים לתלמיד עם
+  // חבילה רק את אחד המוצרים (למשל: שילם על הלומדה, קרני עוד לא).
+  const [form, setForm] = useState({ user_id: '', plan_code: '', product: '' })
   const [busy, setBusy] = useState(false)
   const [onlyInactive, setOnlyInactive] = useState(false) // פילטר: רק מנויים שאינם בתוקף
 
@@ -58,8 +61,12 @@ export default function AdminSubscriptions() {
     if (!form.user_id || !form.plan_code) return
     setBusy(true)
     try {
-      await api.assignSubscription(Number(form.user_id), form.plan_code)
-      setForm({ user_id: '', plan_code: '' })
+      await api.assignSubscription(
+        Number(form.user_id),
+        form.plan_code,
+        form.product ? [form.product] : null
+      )
+      setForm({ user_id: '', plan_code: '', product: '' })
       load()
     } catch (err) {
       alert(err.message)
@@ -83,7 +90,12 @@ export default function AdminSubscriptions() {
   // אישור גישה קבועה לתלמיד — הלחיץ המרכזי אחרי שתקופת ההתנסות נגמרה.
   // תוכנית "free" היא ללא הגבלת זמן (duration_days=0 → expires_at=NULL).
   async function approve(userId) {
-    if (!confirm(`לאשר גישה מלאה ללומדה ל${userName(userId)} (ללא הגבלת זמן)?`)) return
+    if (
+      !confirm(
+        `לאשר ל${userName(userId)} גישה מלאה לשני המוצרים — לומדה + קרני — ללא הגבלת זמן?`
+      )
+    )
+      return
     setBusy(true)
     try {
       await api.assignSubscription(userId, 'free')
@@ -96,7 +108,12 @@ export default function AdminSubscriptions() {
   }
 
   async function cancel(sub) {
-    if (!confirm(`לבטל את המנוי של ${userName(sub.user_id)}? הגישה לתוכן תיחסם מיידית.`))
+    if (
+      !confirm(
+        `לבטל ל${userName(sub.user_id)} את המנוי על ${productLabel(sub.product)}? ` +
+          'הגישה לאזור הזה תיחסם מיידית (המוצר השני לא מושפע).'
+      )
+    )
       return
     setBusy(true)
     try {
@@ -147,6 +164,7 @@ export default function AdminSubscriptions() {
             <div className="muted">
               {p.duration_days ? `ל-${p.duration_days} ימים` : 'ללא הגבלת זמן'}
             </div>
+            <div className="muted">{productsLabel(p.products)}</div>
           </motion.div>
         ))}
       </motion.div>
@@ -155,7 +173,9 @@ export default function AdminSubscriptions() {
       <div className="card form-card admin-ops-card">
         <h3>הענקת מנוי לתלמיד</h3>
         <p className="muted" style={{ marginTop: 0 }}>
-          אם לתלמיד כבר יש מנוי בתוקף — ההענקה מאריכה אותו במקום ליצור כפול.
+          תוכנית חבילה יוצרת שורת מנוי לכל מוצר, כך שאפשר להאריך או לבטל כל אחד
+          בנפרד. אם כבר יש מנוי בתוקף על אותו מוצר — ההענקה מאריכה אותו במקום
+          ליצור כפול.
         </p>
         <form onSubmit={assign} className="inline-form">
           <div className="form-group">
@@ -184,6 +204,20 @@ export default function AdminSubscriptions() {
               {plans.map((p) => (
                 <option key={p.id} value={p.code}>
                   {p.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="form-group">
+            <label>מוצר</label>
+            <select
+              value={form.product}
+              onChange={(e) => setForm({ ...form, product: e.target.value })}
+            >
+              <option value="">כל מה שהתוכנית כוללת</option>
+              {PRODUCTS.map((p) => (
+                <option key={p.code} value={p.code}>
+                  {p.label} בלבד
                 </option>
               ))}
             </select>
@@ -231,6 +265,7 @@ export default function AdminSubscriptions() {
           <thead>
             <tr>
               <th>תלמיד</th>
+              <th>מוצר</th>
               <th>תוכנית</th>
               <th>סטטוס</th>
               <th>התחלה</th>
@@ -243,6 +278,7 @@ export default function AdminSubscriptions() {
             {visibleSubs.map((s) => (
               <tr key={s.id}>
                 <td data-label="תלמיד">{userName(s.user_id)}</td>
+                <td data-label="מוצר">{productLabel(s.product)}</td>
                 <td data-label="תוכנית">{planName(s.plan_code)}</td>
                 <td data-label="סטטוס">
                   <span className={s.is_active ? 'status-ok' : 'status-off'}>

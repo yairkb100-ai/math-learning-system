@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
 import { DURATION } from '../lib/motion.js'
+import { PRODUCTS } from '../lib/products.js'
 import '../styles/admin-ops.css'
 
 // מחירים — הכל נערך כאן ושום מחיר אינו כתוב בקוד.
@@ -12,7 +13,28 @@ import '../styles/admin-ops.css'
 // יושבים בטבלת ההגדרות. ה-``code`` של תוכנית לא ניתן לעריכה בכוונה — מנויים
 // קיימים מצביעים עליו כמחרוזת, ושינויו היה מנתק אותם מהתוכנית. אין צורך להמציא
 // אותו: אם משאירים את השדה ריק הוא נוצר בשרת מהשם, ומאותו רגע קפוא כמו כל קוד.
-const BLANK = { code: '', name: '', price_nis: 0, duration_days: 30 }
+const BLANK = {
+  code: '',
+  name: '',
+  price_nis: 0,
+  duration_days: 30,
+  products: PRODUCTS.map((p) => p.code),
+}
+
+// כל תוכנית פותחת מוצר אחד או את שניהם (חבילה). שלוש האפשרויות מוצגות
+// כבורר אחד ולא כשתי תיבות סימון: "לא נבחר כלום" הוא מצב שאין לו משמעות
+// עסקית — תוכנית חייבת למכור משהו — והשרת ממילא דוחה אותו.
+const PRODUCT_CHOICES = [
+  { value: 'lomda', label: 'הלומדה בלבד', products: ['lomda'] },
+  { value: 'karni', label: 'הכנה לקרני בלבד', products: ['karni'] },
+  { value: 'both', label: 'חבילה — לומדה + קרני', products: ['lomda', 'karni'] },
+]
+
+const choiceOf = (products) =>
+  (products || []).length >= 2 ? 'both' : (products || [])[0] || 'both'
+
+const productsOf = (choice) =>
+  PRODUCT_CHOICES.find((c) => c.value === choice)?.products || ['lomda', 'karni']
 
 // A cleared number field reads as "" and Number("") is 0 — without this a
 // stray backspace + "שמור" would quietly set a price to zero.
@@ -62,6 +84,7 @@ export default function AdminPricing() {
       name: p.name,
       price_nis: p.price_nis,
       duration_days: p.duration_days,
+      products: p.products || [],
     }
 
   const edit = (p, field, value) =>
@@ -73,7 +96,8 @@ export default function AdminPricing() {
     return (
       d.name !== p.name ||
       Number(d.price_nis) !== p.price_nis ||
-      Number(d.duration_days) !== p.duration_days
+      Number(d.duration_days) !== p.duration_days ||
+      (d.products || []).join(',') !== (p.products || []).join(',')
     )
   }
 
@@ -85,6 +109,7 @@ export default function AdminPricing() {
         name: d.name,
         price_nis: num(d.price_nis, 'מחיר'),
         duration_days: num(d.duration_days, 'משך'),
+        products: d.products,
       })
       flash(`"${d.name}" עודכן`)
       load()
@@ -146,6 +171,8 @@ export default function AdminPricing() {
     try {
       const next = await api.adminSavePricing({
         lesson_price_nis: num(pricing.lesson_price_nis, 'מחיר שיעור פרטי'),
+        cross_product_free_pct: num(
+          pricing.cross_product_free_pct, 'טעימה מהמוצר השני'),
         referral_sub_discount_pct: num(pricing.referral_sub_discount_pct, 'הנחה על החודש הבא'),
         referral_lesson_discount_pct: num(
           pricing.referral_lesson_discount_pct, 'הנחה על שיעור פרטי'),
@@ -198,6 +225,7 @@ export default function AdminPricing() {
             <tr>
               <th>קוד</th>
               <th>שם התוכנית</th>
+              <th>מה נפתח</th>
               <th>מחיר (₪)</th>
               <th>משך (ימים)</th>
               <th>מוצגת</th>
@@ -216,6 +244,27 @@ export default function AdminPricing() {
                       value={d.name}
                       onChange={(e) => edit(p, 'name', e.target.value)}
                     />
+                  </td>
+                  <td data-label="מה נפתח">
+                    {/* תוכניות ההתנסות והגישה המאושרת פותחות תמיד את הכל —
+                        הן לא נמכרות, ולכן אין מה לפצל בהן. */}
+                    {['trial', 'free'].includes(p.code) ? (
+                      <span className="muted">לומדה + קרני</span>
+                    ) : (
+                      <select
+                        className="cell-input"
+                        value={choiceOf(d.products)}
+                        onChange={(e) =>
+                          edit(p, 'products', productsOf(e.target.value))
+                        }
+                      >
+                        {PRODUCT_CHOICES.map((c) => (
+                          <option key={c.value} value={c.value}>
+                            {c.label}
+                          </option>
+                        ))}
+                      </select>
+                    )}
                   </td>
                   <td data-label="מחיר (₪)">
                     <input
@@ -296,6 +345,24 @@ export default function AdminPricing() {
             />
           </div>
           <div className="form-group">
+            <label>מה התוכנית פותחת</label>
+            <select
+              value={choiceOf(newPlan.products)}
+              onChange={(e) =>
+                setNewPlan({ ...newPlan, products: productsOf(e.target.value) })
+              }
+            >
+              {PRODUCT_CHOICES.map((c) => (
+                <option key={c.value} value={c.value}>
+                  {c.label}
+                </option>
+              ))}
+            </select>
+            <span className="field-hint">
+              לחבילה קבעו מחיר משלה — היא אינה סכום שתי התוכניות
+            </span>
+          </div>
+          <div className="form-group">
             <label>מחיר (₪)</label>
             <input
               type="number"
@@ -319,6 +386,38 @@ export default function AdminPricing() {
             הוסף תוכנית
           </button>
         </form>
+      </div>
+
+      {/* טעימה מהמוצר שלא נרכש */}
+      <div className="card form-card admin-ops-card">
+        <h3>טעימה מהמוצר השני</h3>
+        <p className="muted" style={{ marginTop: 0 }}>
+          תלמיד שרכש מוצר אחד רואה חלק מהתוכן של המוצר השני — כדי שידע מה יש שם
+          ויוכל להוסיף אותו. האחוז חל על שני הכיוונים (מנוי לומדה שנכנס לקרני,
+          ומנוי קרני שנכנס ללומדה). 0 = נעילה מלאה.
+        </p>
+        <form onSubmit={savePricing} className="inline-form">
+          <div className="form-group">
+            <label>אחוז פתוח מהמוצר שלא נרכש (%)</label>
+            <input
+              type="number"
+              min="0"
+              max="100"
+              value={pricing?.cross_product_free_pct ?? 20}
+              onChange={(e) =>
+                setPricing({ ...pricing, cross_product_free_pct: e.target.value })
+              }
+            />
+            <span className="field-hint">ברירת מחדל: 20%</span>
+          </div>
+          <button className="btn" disabled={busy}>
+            שמור
+          </button>
+        </form>
+        <p className="muted">
+          מי שאין לו מנוי כלל (לפני תחילת ההתנסות) ממשיך לראות את טעימת ברירת
+          המחדל של 42% — האחוז כאן נוגע רק למי שכבר קנה מוצר אחד.
+        </p>
       </div>
 
       {/* Lesson price + referral offer */}

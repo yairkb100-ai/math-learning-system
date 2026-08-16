@@ -1,8 +1,11 @@
 """Subscription plans and per-user subscriptions (manual admin management).
 
-ניהול מנויים ידני: מנהל משייך/מאריך/מבטל מנוי לתלמיד. מנוי בתוקף = 100%
-מהתוכן; בלעדיו התלמיד יורד לדרגת ``free`` ורואה 42% מכל קורס (``app.access``).
-אין סליקה אוטומטית.
+ניהול מנויים ידני: מנהל משייך/מאריך/מבטל מנוי לתלמיד. אין סליקה אוטומטית.
+
+מאז הפיצול לשני מוצרים (``app.products``) המנוי אינו גורף: לכל תוכנית יש
+רשימת מוצרים — הלומדה, ההכנה לקרני או שניהם (חבילה במחיר משלה) — והענקתה
+יוצרת שורת מנוי לכל מוצר. מנוי בתוקף על מוצר = 100% מהתוכן שלו; בלעדיו
+התלמיד רואה טעימה בלבד באותו אזור (``app.access``).
 """
 
 from datetime import datetime, timedelta
@@ -13,13 +16,21 @@ from sqlalchemy.orm import Session
 from app import models
 from app.access import FREE_CONTENT_RATIO
 from app.database import get_db
+from app.settings_store import cross_product_free_ratio
 from app.dependencies import get_current_user, require_admin
+from app.products import (
+    ALL_PRODUCTS,
+    PRODUCT_LABELS,
+    parse_products,
+    serialize_products,
+)
 from app.referrals import qualify_referral_for
 from app.schemas import (
     AccessStatusOut,
     PlanCreate,
     PlanOut,
     PlanUpdate,
+    ProductAccessOut,
     SubscriptionAssign,
     SubscriptionExtend,
     SubscriptionOut,
@@ -29,10 +40,10 @@ from app.trials import TRIAL_PLAN_CODE, start_trial_if_needed, trial_duration_da
 router = APIRouter(prefix="/api", tags=["subscriptions"])
 
 
-def _active_sub_for(db: Session, user_id: int) -> models.Subscription | None:
-    """המנוי הפעיל (בתוקף) של המשתמש, אם קיים."""
+def _active_subs_by_product(db: Session, user_id: int) -> dict[str, models.Subscription]:
+    """המנויים בתוקף של המשתמש, ממופים לפי מוצר."""
     now = datetime.utcnow()
-    return (
+    rows = (
         db.query(models.Subscription)
         .filter(
             models.Subscription.user_id == user_id,
@@ -43,8 +54,29 @@ def _active_sub_for(db: Session, user_id: int) -> models.Subscription | None:
             | (models.Subscription.expires_at > now)
         )
         .order_by(models.Subscription.expires_at.desc().nullsfirst())
-        .first()
+        .all()
     )
+    out: dict[str, models.Subscription] = {}
+    for row in rows:
+        out.setdefault(row.product or "lomda", row)
+    return out
+
+
+def _active_sub_for(db: Session, user_id: int) -> models.Subscription | None:
+    """המנוי הפעיל "הטוב ביותר" של המשתמש — התפוגה הרחוקה מבין המוצרים.
+
+    משמש את השדות הישנים של ``/api/me/access``, שנשארו כדי שמסכים שנכתבו
+    לפני הפיצול (טיימר ההתנסות, חלון הברוכים-הבאים) ימשיכו לעבוד.
+    """
+    active = _active_subs_by_product(db, user_id)
+    if not active:
+        return None
+    # None (ללא תפוגה) גובר על כל תאריך.
+    return sorted(
+        active.values(),
+        key=lambda s: (s.expires_at is None, s.expires_at or datetime.min),
+        reverse=True,
+    )[0]
 
 
 def _generate_plan_code(db: Session, name: str) -> str:
@@ -116,6 +148,9 @@ def admin_create_plan(
         price_nis=payload.price_nis,
         duration_days=payload.duration_days,
         is_active=payload.is_active,
+        # ריק = חבילה מלאה. ``serialize_products`` גם מנקה ערכים לא מוכרים,
+        # כך שתוכנית לעולם לא נשמרת בלי אף מוצר (= תוכנית שלא פותחת כלום).
+        products=serialize_products(payload.products or ALL_PRODUCTS),
     )
     db.add(plan)
     db.commit()
@@ -153,6 +188,14 @@ def admin_update_plan(
         plan.name = payload.name.strip()
     if payload.is_active is not None:
         plan.is_active = payload.is_active
+    if payload.products is not None:
+        if not [p for p in payload.products if p in ALL_PRODUCTS]:
+            raise HTTPException(
+                status_code=400, detail="יש לבחור לפחות מוצר אחד לתוכנית"
+            )
+        # שינוי המוצרים משפיע על *הענקות עתידיות* בלבד — מנויים קיימים כבר
+        # מוצמדים למוצר בשורה שלהם, כך שצמצום חבילה לא שולל גישה ממי שקנה.
+        plan.products = serialize_products(payload.products)
     db.commit()
     db.refresh(plan)
     return plan
@@ -208,6 +251,97 @@ def my_subscription(
     return sub
 
 
+def _product_access_rows(
+    db: Session, user: models.User, now: datetime
+) -> list[ProductAccessOut]:
+    """מצב הגישה של המשתמש לכל אחד משני המוצרים.
+
+    זה מה שמאפשר לפרונט להציג "הלומדה פעילה עד 1.9, קרני לא נרכש" במקום מצב
+    גישה אחד גורף — ולהציע רכישה בדיוק במקום שבו התלמיד נתקל בנעילה.
+    """
+    if user.role == "admin":
+        return [
+            ProductAccessOut(
+                product=p,
+                label=PRODUCT_LABELS[p],
+                state="admin",
+                has_access=True,
+                free_ratio=1.0,
+            )
+            for p in ALL_PRODUCTS
+        ]
+
+    active = _active_subs_by_product(db, user.id)
+    plan_names = {
+        code: name
+        for code, name in db.query(
+            models.SubscriptionPlan.code, models.SubscriptionPlan.name
+        ).all()
+    }
+    cross_ratio = cross_product_free_ratio(db)
+    rows: list[ProductAccessOut] = []
+    for product in ALL_PRODUCTS:
+        sub = active.get(product)
+        if sub is not None:
+            is_trial = sub.plan_code == TRIAL_PLAN_CODE
+            rows.append(
+                ProductAccessOut(
+                    product=product,
+                    label=PRODUCT_LABELS[product],
+                    state="trial" if is_trial else "active",
+                    has_access=True,
+                    plan_code=sub.plan_code,
+                    plan_name=plan_names.get(sub.plan_code),
+                    expires_at=sub.expires_at,
+                    seconds_left=(
+                        max(0, int((sub.expires_at - now).total_seconds()))
+                        if sub.expires_at
+                        else None
+                    ),
+                    is_trial=is_trial,
+                    free_ratio=1.0,
+                )
+            )
+            continue
+
+        last = (
+            db.query(models.Subscription)
+            .filter(
+                models.Subscription.user_id == user.id,
+                models.Subscription.product == product,
+            )
+            .order_by(models.Subscription.started_at.desc())
+            .first()
+        )
+        if active:
+            # יש מנוי בתוקף על המוצר השני → המוצר הזה פשוט לא נרכש, והתלמיד
+            # רואה בו טעימה מוקטנת (ולא חסימה).
+            state = "not_purchased"
+            ratio = cross_ratio
+        else:
+            state = (
+                "trial_ended"
+                if last is not None and last.plan_code == TRIAL_PLAN_CODE
+                else "blocked"
+            )
+            ratio = FREE_CONTENT_RATIO
+        rows.append(
+            ProductAccessOut(
+                product=product,
+                label=PRODUCT_LABELS[product],
+                state=state,
+                has_access=False,
+                plan_code=last.plan_code if last else None,
+                plan_name=plan_names.get(last.plan_code) if last else None,
+                expires_at=last.expires_at if last else None,
+                seconds_left=0,
+                is_trial=state == "trial_ended",
+                free_ratio=ratio,
+            )
+        )
+    return rows
+
+
 @router.get("/me/access", response_model=AccessStatusOut)
 def my_access(
     db: Session = Depends(get_db),
@@ -229,6 +363,7 @@ def my_access(
             welcome_seen=True,
             free_ratio=FREE_CONTENT_RATIO,
             server_time=now,
+            products=_product_access_rows(db, current_user, now),
         )
 
     start_trial_if_needed(db, current_user)
@@ -258,6 +393,7 @@ def my_access(
             welcome_seen=welcome_seen,
             free_ratio=FREE_CONTENT_RATIO,
             server_time=now,
+            products=_product_access_rows(db, current_user, now),
         )
 
     # אין מנוי בתוקף — נבדיל בין "ההתנסות נגמרה" לבין מנוי בתשלום שפג/בוטל
@@ -279,6 +415,7 @@ def my_access(
         welcome_seen=welcome_seen,
         free_ratio=FREE_CONTENT_RATIO,
         server_time=now,
+        products=_product_access_rows(db, current_user, now),
     )
 
 
@@ -306,13 +443,18 @@ def list_subscriptions(
     )
 
 
-@router.post("/admin/subscriptions", response_model=SubscriptionOut, status_code=201)
+@router.post("/admin/subscriptions", response_model=list[SubscriptionOut], status_code=201)
 def assign_subscription(
     payload: SubscriptionAssign,
     db: Session = Depends(get_db),
     _: models.User = Depends(require_admin),
-) -> SubscriptionOut:
-    """הענקת מנוי לתלמיד. אם כבר קיים מנוי פעיל — מאריך אותו במקום ליצור כפול."""
+) -> list[SubscriptionOut]:
+    """הענקת מנוי לתלמיד — שורה לכל מוצר שהתוכנית כוללת.
+
+    תוכנית חבילה יוצרת שתי שורות (לומדה + קרני), ולכן ביטול או הארכה של אחת
+    מהן בהמשך אינם נוגעים בשנייה. אם כבר קיימת שורה פעילה לאותו מוצר — היא
+    מוארכת במקום להיווצר כפילות.
+    """
     user = db.query(models.User).filter(models.User.id == payload.user_id).first()
     if not user:
         raise HTTPException(status_code=404, detail="משתמש לא נמצא")
@@ -326,35 +468,48 @@ def assign_subscription(
 
     now = datetime.utcnow()
 
+    # ברירת המחדל היא כל מה שהתוכנית כוללת; המנהל יכול לצמצם למוצר בודד
+    # (למשל להאריך רק את הלומדה למי שמחזיק חבילה).
+    products = [p for p in (payload.products or parse_products(plan.products)) if p in ALL_PRODUCTS]
+    if not products:
+        raise HTTPException(status_code=400, detail="לא נבחר מוצר להענקה")
+
     # אישור מנוי אמיתי לתלמיד הוא אירוע ההמרה של "חבר מביא חבר": מכאן מי שהביא
     # אותו זכאי להטבה. נעשה לפני ה-commit של המנוי כדי ששניהם ייכתבו יחד.
     qualify_referral_for(db, user_id=user.id, plan_code=plan.code, now=now)
 
-    # מנוי פעיל קיים → הארכה (במקום שורה כפולה)
-    active = _active_sub_for(db, user.id)
-    if active is not None:
-        if plan.duration_days:
-            base = max(active.expires_at or now, now)
-            active.expires_at = base + timedelta(days=plan.duration_days)
-        else:
-            active.expires_at = None  # תוכנית ללא הגבלת זמן (חינם)
-        active.plan_code = plan.code
-        db.commit()
-        db.refresh(active)
-        return active
+    active = _active_subs_by_product(db, user.id)
+    result: list[models.Subscription] = []
+    for product in products:
+        existing = active.get(product)
+        if existing is not None:
+            # מנוי פעיל קיים לאותו מוצר → הארכה, במקום שורה כפולה.
+            if plan.duration_days:
+                base = max(existing.expires_at or now, now)
+                existing.expires_at = base + timedelta(days=plan.duration_days)
+            else:
+                existing.expires_at = None  # תוכנית ללא הגבלת זמן (חינם)
+            existing.plan_code = plan.code
+            result.append(existing)
+            continue
+        expires = (
+            now + timedelta(days=plan.duration_days) if plan.duration_days else None
+        )
+        sub = models.Subscription(
+            user_id=user.id,
+            plan_code=plan.code,
+            product=product,
+            status="active",
+            started_at=now,
+            expires_at=expires,
+        )
+        db.add(sub)
+        result.append(sub)
 
-    expires = now + timedelta(days=plan.duration_days) if plan.duration_days else None
-    sub = models.Subscription(
-        user_id=user.id,
-        plan_code=plan.code,
-        status="active",
-        started_at=now,
-        expires_at=expires,
-    )
-    db.add(sub)
     db.commit()
-    db.refresh(sub)
-    return sub
+    for sub in result:
+        db.refresh(sub)
+    return result
 
 
 @router.post("/admin/subscriptions/{sub_id}/extend", response_model=SubscriptionOut)

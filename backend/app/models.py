@@ -397,6 +397,10 @@ class SubscriptionPlan(Base):
     price_nis = Column(Float, nullable=False, default=0)
     duration_days = Column(Integer, nullable=False, default=30)
     is_active = Column(Boolean, default=True, nullable=False)
+    # אילו מוצרים התוכנית פותחת — "lomda", "karni" או שניהם (חבילה). מחרוזת
+    # מופרדת בפסיקים ולא טבלת קשר: שני ערכים אפשריים, וקריאה/עריכה שלהם
+    # מהממשק צריכה להישאר שורה אחת. ראה app.products.
+    products = Column(String, nullable=False, default="lomda,karni")
 
 
 class Subscription(Base):
@@ -405,6 +409,10 @@ class Subscription(Base):
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     plan_code = Column(String, nullable=False, default="free")
+    # המוצר שהשורה הזו פותחת: "lomda" או "karni". שורה אחת למוצר בכוונה —
+    # תלמיד שקנה לומדה בינואר וקרני בפברואר מחזיק שני תאריכי תפוגה שונים,
+    # וביטול של אחד מהם לא נוגע בשני. תוכנית חבילה יוצרת שתי שורות.
+    product = Column(String, nullable=False, default="lomda", index=True)
     status = Column(String, nullable=False, default="active")  # active|expired|canceled
     started_at = Column(DateTime, default=datetime.utcnow)
     expires_at = Column(DateTime, nullable=True)

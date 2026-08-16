@@ -196,7 +196,11 @@ def admin_set_pricing(
     db: Session = Depends(get_db),
     _: models.User = Depends(require_admin),
 ) -> SettingsOut:
-    for field in ("referral_sub_discount_pct", "referral_lesson_discount_pct"):
+    for field in (
+        "referral_sub_discount_pct",
+        "referral_lesson_discount_pct",
+        "cross_product_free_pct",
+    ):
         value = getattr(payload, field)
         if value is not None and not (0 <= value <= 100):
             raise HTTPException(status_code=400, detail="אחוז הנחה חייב להיות בין 0 ל-100")
