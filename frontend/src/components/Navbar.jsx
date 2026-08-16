@@ -139,7 +139,7 @@ export default function Navbar() {
               anything that lives only in the student list is unreachable
               for an admin. הכנה לקרני is content an admin has to be able
               to open and check, so it appears in both. */}
-          <NavItem to="/psy" indicator={indicator}>הכנה לקרני</NavItem>
+          <NavItem to="/psy" className="nav-link-karni" indicator={indicator}>הכנה לקרני</NavItem>
           {messagesLink}
         </>
       )
@@ -155,7 +155,7 @@ export default function Navbar() {
           {myRewards > 0 && <span className="nav-badge nav-badge-reward">{myRewards}</span>}
         </NavItem>
         <NavItem to="/practice" indicator={indicator}>תרגול</NavItem>
-        <NavItem to="/psy" indicator={indicator}>הכנה לקרני</NavItem>
+        <NavItem to="/psy" className="nav-link-karni" indicator={indicator}>הכנה לקרני</NavItem>
         <NavItem to="/exams" indicator={indicator}>מבחנים</NavItem>
         <NavItem to="/analytics" indicator={indicator}>אנליטיקה</NavItem>
         <NavItem to="/progress" indicator={indicator}>ההתקדמות שלי</NavItem>
