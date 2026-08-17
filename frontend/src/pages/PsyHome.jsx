@@ -221,7 +221,11 @@ export default function PsyHome() {
                         to={`/psy/drill?domain=${t.domain}&topic=${encodeURIComponent(t.topic)}`}
                       >
                         <span className="psy-topic-card-name">{t.topic}</span>
-                        <span className="psy-topic-card-count">{t.count} שאלות</span>
+                        <span className="psy-topic-card-count">
+                          {t.open_count != null && t.open_count < t.count
+                            ? `${t.open_count} מתוך ${t.count} שאלות`
+                            : `${t.count} שאלות`}
+                        </span>
                         {t.answered > 0 && (
                           <span
                             className={`psy-topic-card-acc${
