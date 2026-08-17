@@ -22,7 +22,7 @@ from collections import defaultdict
 
 from sqlalchemy.orm import Session
 
-from app.models import Chapter, Exam, FileAsset, PracticeQuestion
+from app.models import Chapter, Exam, FileAsset, PracticeQuestion, PsyItem
 
 # חלק התוכן הפתוח למי שאין לו מנוי בתוקף.
 FREE_CONTENT_RATIO = 0.42
@@ -174,3 +174,36 @@ def unlocked_exam_ids(db: Session, ratio: float = FREE_CONTENT_RATIO) -> set[int
         .all()
     ]
     return set(ids[: free_quota(len(ids), ratio)])
+
+
+def unlocked_psy_item_ids(db: Session, ratio: float = FREE_CONTENT_RATIO) -> set[int]:
+    """מזהי השאלות הפתוחות במאגר הצורני (הכנה לקרני) לדרגת ``free``.
+
+    אותו עיקרון שכבר חל על מאגר התרגול הבית-ספרי (``unlocked_practice_ids``),
+    מוקרן על מאגר קרני: בכל צמד (תחום, נושא) פתוחות ~``ratio`` מהשאלות, עם
+    מינימום שאלה אחת — כך שכל נושא נשאר ניתן לטעימה אבל המאגר כולו לא. זה מה
+    שהופך את המספר שהמנהל מקליד במסך המחירים לשולט גם כאן ולא רק בקורסים.
+
+    המיון הוא לפי ``(difficulty, id)`` ולא לפי ``id`` בלבד: הטעימה אמורה להיות
+    השאלות הקלות בנושא — בדיוק כמו שבקורס נפתחים הפרקים הראשונים בסדר הלימוד
+    ולא פרקים אקראיים. זה גם משמר את הכוונה של הגייט הקודם (``difficulty <= 2``),
+    רק שגודל הפרוסה נקבע עכשיו לפי האחוז ולא לפי סף קושי קבוע.
+
+    ``id`` כשובר-שוויון שומר על יציבות: תלמיד שראה שאלה אתמול לא מגלה שהיא
+    ננעלה היום רק מפני שנוספה למאגר שאלה אחרת באותה דרגת קושי.
+
+    המאגר קטן (מאות בודדות), ולכן שליפתו לקיבוץ בזיכרון זולה משאילתת
+    חלון-לכל-קבוצה — אותו שיקול כמו במאגר הבית-ספרי.
+    """
+    groups: dict[tuple, list[int]] = defaultdict(list)
+    for qid, domain, topic in (
+        db.query(PsyItem.id, PsyItem.domain, PsyItem.topic)
+        .filter(PsyItem.is_active == True)  # noqa: E712
+        .order_by(PsyItem.difficulty, PsyItem.id)
+        .all()
+    ):
+        groups[(domain, topic)].append(qid)
+    open_ids: set[int] = set()
+    for ids in groups.values():
+        open_ids.update(ids[: free_quota(len(ids), ratio)])
+    return open_ids

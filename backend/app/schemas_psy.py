@@ -237,6 +237,9 @@ class PsyTopicCard(BaseModel):
     domain: str
     topic: str
     count: int          # active items in the bank
+    # כמה מהן פתוחות בפועל בדרגת ``free`` (הטעימה). ``None`` = גישה מלאה, ואז
+    # ``count`` הוא גם המספר הפתוח ואין מה להציג בנפרד.
+    open_count: Optional[int] = None
     answered: int = 0
     accuracy: Optional[float] = None
 
