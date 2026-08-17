@@ -24,9 +24,9 @@ from sqlalchemy.orm import Session
 
 from app import models, psy_scoring
 from app.database import get_db
-from app.dependencies import get_current_user, user_access_tier, user_content_access
+from app.dependencies import get_current_user, user_content_access
 from app.products import PRODUCT_KARNI
-from app.access import TIER_FREE, unlocked_psy_item_ids
+from app.access import TIER_FREE, unlocked_psy_item_ids, unlocked_simulation_ids
 from app.schemas_psy import (
     PsyAnswerReview,
     PsyAttemptStart,
@@ -261,9 +261,15 @@ def list_simulations(
         .order_by(models.PsySimulation.order, models.PsySimulation.id)
         .all()
     )
-    free_tier = user_access_tier(db, current_user, PRODUCT_KARNI) == TIER_FREE
+    access = user_content_access(db, current_user, PRODUCT_KARNI)
+    open_ids = (
+        unlocked_simulation_ids(db, access.ratio)
+        if access.tier == TIER_FREE
+        else set()
+    )
     return [
-        _sim_out(db, sim, current_user, locked=free_tier and not sim.free_preview)
+        _sim_out(db, sim, current_user,
+                 locked=access.tier == TIER_FREE and sim.id not in open_ids)
         for sim in sims
     ]
 
@@ -284,7 +290,8 @@ def start_simulation(
     )
     if sim is None:
         raise HTTPException(status_code=404, detail="הסימולציה לא נמצאה")
-    if user_access_tier(db, current_user, PRODUCT_KARNI) == TIER_FREE and not sim.free_preview:
+    access = user_content_access(db, current_user, PRODUCT_KARNI)
+    if access.tier == TIER_FREE and sim.id not in unlocked_simulation_ids(db, access.ratio):
         raise HTTPException(status_code=402, detail="content_locked")
     if not sim.sections:
         raise HTTPException(status_code=409, detail="לסימולציה אין פרקים")
@@ -734,7 +741,7 @@ def drill_questions(
 
     # הטעימה במאגר נמדדת באותו אחוז שחל על הקורסים (ברירת מחדל 20% למי שקנה
     # רק את הלומדה, 42% למי שאין לו מנוי כלל) ולא בסף קושי קבוע — ראה
-    # unlocked_psy_item_ids. הסימולציות נשארות מגודרות ב-free_preview.
+    # unlocked_psy_item_ids (ולסימולציות — unlocked_simulation_ids).
     access = user_content_access(db, current_user, PRODUCT_KARNI)
     if access.tier == TIER_FREE:
         q = q.filter(models.PsyItem.id.in_(unlocked_psy_item_ids(db, access.ratio)))
@@ -852,6 +859,9 @@ def overview(
 
     karni_access = user_content_access(db, current_user, PRODUCT_KARNI)
     free_tier = karni_access.tier == TIER_FREE
+    open_sim_ids = (
+        unlocked_simulation_ids(db, karni_access.ratio) if free_tier else set()
+    )
     sims = (
         db.query(models.PsySimulation)
         .filter(models.PsySimulation.is_published.is_(True))
@@ -970,7 +980,8 @@ def overview(
         courses=course_cards,
         topics=topic_cards,
         simulations=[
-            _sim_out(db, sim, current_user, locked=free_tier and not sim.free_preview)
+            _sim_out(db, sim, current_user,
+                     locked=free_tier and sim.id not in open_sim_ids)
             for sim in sims
         ],
         recent_attempts=[_attempt_summary(a) for a in attempts],

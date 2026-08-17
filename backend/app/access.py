@@ -22,7 +22,14 @@ from collections import defaultdict
 
 from sqlalchemy.orm import Session
 
-from app.models import Chapter, Exam, FileAsset, PracticeQuestion, PsyItem
+from app.models import (
+    Chapter,
+    Exam,
+    FileAsset,
+    PracticeQuestion,
+    PsyItem,
+    PsySimulation,
+)
 
 # חלק התוכן הפתוח למי שאין לו מנוי בתוקף.
 FREE_CONTENT_RATIO = 0.42
@@ -207,3 +214,34 @@ def unlocked_psy_item_ids(db: Session, ratio: float = FREE_CONTENT_RATIO) -> set
     for ids in groups.values():
         open_ids.update(ids[: free_quota(len(ids), ratio)])
     return open_ids
+
+
+def unlocked_simulation_ids(db: Session, ratio: float = FREE_CONTENT_RATIO) -> set[int]:
+    """מזהי הסימולציות הפתוחות בדרגת ``free`` — ``ratio`` הראשונות בקטלוג.
+
+    מכסה גלובלית ולא פר-סוג, מאותו שיקול שמפורט ב-``unlocked_exam_ids``:
+    הסימולציות אינן מתחלקות לקבוצות טבעיות, ומכסה-לקבוצה עם מינימום פריט אחד
+    הייתה פותחת את כולן. רק סימולציות מפורסמות נספרות.
+
+    ``free_preview`` הפך מ"תמיד פתוח" ל**סדר עדיפות בתוך המכסה**: המסומנות
+    ממוינות ראשונות, ולכן הן אלה שנכנסות לפרוסה. בקטלוג הנוכחי (35 סימולציות,
+    12 מסומנות) אחוז של 20% פותח בדיוק 7 — ששת המיני-מבחנים ועוד אחת, כלומר
+    מה שהדגל התכוון אליו מלכתחילה, אבל בגודל שהמנהל קובע.
+
+    המשמעות: האחוז הוא התקרה, גם עבור סימולציה מסומנת. אחוז נמוך במיוחד ינעל
+    גם ``free_preview`` — זו הכוונה, אחרת המספר במסך המחירים מפסיק להיות
+    השליט בפועל ברגע שמסמנים מספיק סימולציות.
+    """
+    ids = [
+        sid
+        for (sid,) in db.query(PsySimulation.id)
+        .filter(PsySimulation.is_published == True)  # noqa: E712
+        # ``free_preview`` יורד (True קודם) — הטעימות שהמנהל בחר נכנסות ראשונות.
+        .order_by(
+            PsySimulation.free_preview.desc(),
+            PsySimulation.order,
+            PsySimulation.id,
+        )
+        .all()
+    ]
+    return set(ids[: free_quota(len(ids), ratio)])

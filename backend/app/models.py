@@ -789,8 +789,9 @@ class PsySimulation(Base):
     kind = Column(String, nullable=False, default="full")  # full | section | mini
     order = Column(Integer, nullable=False, default=0)
     is_published = Column(Boolean, nullable=False, default=True, index=True)
-    # Full mocks are the premium draw; minis stay open so a trial user can taste
-    # the engine. Enforced in the router, stored here so admins can flip it.
+    # סדר העדיפות בתוך מכסת הטעימה, לא "תמיד פתוח": המסומנות נכנסות ראשונות
+    # לאחוז שהמנהל קבע (המיני-מבחנים, שנועדו להראות את המנוע), אבל האחוז הוא
+    # התקרה גם עבורן. ראה access.unlocked_simulation_ids.
     free_preview = Column(Boolean, nullable=False, default=False)
 
     sections = relationship(
