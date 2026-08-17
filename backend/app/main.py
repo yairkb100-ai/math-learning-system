@@ -58,9 +58,13 @@ app.add_middleware(
 # twice — cheap insurance either way.
 _startup_done = False
 
+# כל טבלה שנבדקת בבלוק המיגרציה למטה חייבת להופיע כאן: העמודות נשלפות מראש
+# בשאילתה אחת, וטבלה חסרה ברשימה מקבלת קבוצת עמודות ריקה — כלומר כל בקשה
+# הייתה מריצה שוב את ה-ALTER ונופלת על "column already exists".
 _MIGRATION_TABLES = (
     "courses", "sections", "psy_attempts", "file_assets", "messages",
     "users", "chapters", "exercises", "quiz_questions",
+    "subscriptions", "subscription_plans",
 )
 
 
