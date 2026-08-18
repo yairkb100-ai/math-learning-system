@@ -132,7 +132,33 @@ export default function AdminSubscriptions() {
     (u) => u.role !== 'admin' && !activeUserIds.has(u.id)
   )
 
-  const visibleSubs = onlyInactive ? subs.filter((s) => !s.is_active) : subs
+  // קיבוץ המנויים לתלמיד → מוצר. לתלמיד ותיק יכולות להיות כמה שורות לאותו
+  // מוצר (מנוי שפג ואחריו חדש); מוצג המנוי הרלוונטי — זה שבתוקף, ואם אין
+  // אז המאוחר ביותר — כדי שהתא יראה את המצב הנוכחי ולא היסטוריה.
+  const byUser = new Map()
+  for (const sub of subs) {
+    const entry = byUser.get(sub.user_id) || {}
+    const prev = entry[sub.product]
+    const newer =
+      !prev ||
+      (sub.is_active && !prev.is_active) ||
+      (sub.is_active === prev.is_active &&
+        new Date(sub.started_at) > new Date(prev.started_at))
+    if (newer) entry[sub.product] = sub
+    byUser.set(sub.user_id, entry)
+  }
+  const rows = [...byUser.entries()]
+    .map(([userId, products]) => ({
+      userId,
+      products,
+      latest: Math.max(
+        ...Object.values(products).map((s) => new Date(s.started_at).getTime())
+      ),
+      anyActive: Object.values(products).some((s) => s.is_active),
+    }))
+    .sort((a, b) => b.latest - a.latest)
+
+  const visibleRows = onlyInactive ? rows.filter((r) => !r.anyActive) : rows
 
   if (loading) return <Loading label="טוען מנויים…" />
   if (error) return <ErrorBox error={error} onRetry={load} />
@@ -251,7 +277,10 @@ export default function AdminSubscriptions() {
         </div>
       )}
 
-      {/* Subscriptions table */}
+      {/* Subscriptions table — שורה אחת לתלמיד, תא לכל מוצר.
+          שורה נפרדת לכל מוצר הכפילה את אורך הטבלה בלי להוסיף מידע: השם חזר
+          פעמיים, והמנהל נאלץ לחפש את שתי השורות של אותו תלמיד כדי להבין מה
+          פתוח לו. */}
       <div className="table-wrap card admin-ops-card">
         <label className="sub-filter">
           <input
@@ -259,79 +288,84 @@ export default function AdminSubscriptions() {
             checked={onlyInactive}
             onChange={(e) => setOnlyInactive(e.target.checked)}
           />
-          הצג רק מנויים שאינם בתוקף
+          הצג רק תלמידים ללא מנוי בתוקף
         </label>
         <table className="data-table">
           <thead>
             <tr>
               <th>תלמיד</th>
-              <th>מוצר</th>
-              <th>תוכנית</th>
-              <th>סטטוס</th>
-              <th>התחלה</th>
-              <th>תפוגה</th>
-              <th>נותרו</th>
+              {PRODUCTS.map((p) => (
+                <th key={p.code}>{p.label}</th>
+              ))}
               <th>פעולות</th>
             </tr>
           </thead>
           <tbody>
-            {visibleSubs.map((s) => (
-              <tr key={s.id}>
-                <td data-label="תלמיד">{userName(s.user_id)}</td>
-                <td data-label="מוצר">{productLabel(s.product)}</td>
-                <td data-label="תוכנית">{planName(s.plan_code)}</td>
-                <td data-label="סטטוס">
-                  <span className={s.is_active ? 'status-ok' : 'status-off'}>
-                    {s.is_active
-                      ? 'בתוקף'
-                      : s.status === 'active'
-                      ? 'פג' /* סטטוס 'active' + תאריך שעבר = פג בפועל */
-                      : statusHe[s.status] || s.status}
-                  </span>
-                </td>
-                <td className="muted" data-label="התחלה">
-                  {new Date(s.started_at).toLocaleDateString('he-IL')}
-                </td>
-                <td className="muted" data-label="תפוגה">
-                  {s.expires_at
-                    ? new Date(s.expires_at).toLocaleDateString('he-IL')
-                    : '—'}
-                </td>
-                <td className="muted" data-label="נותרו">{daysLeftLabel(s)}</td>
+            {visibleRows.map((row) => (
+              <tr key={row.userId}>
+                <td data-label="תלמיד">{userName(row.userId)}</td>
+                {PRODUCTS.map((p) => {
+                  const sub = row.products[p.code]
+                  return (
+                    <td key={p.code} data-label={p.label}>
+                      {!sub ? (
+                        <span className="muted">לא נרכש</span>
+                      ) : (
+                        <div className="sub-cell">
+                          <span className={sub.is_active ? 'status-ok' : 'status-off'}>
+                            {sub.is_active
+                              ? 'בתוקף'
+                              : sub.status === 'active'
+                                ? 'פג' /* סטטוס 'active' + תאריך שעבר = פג בפועל */
+                                : statusHe[sub.status] || sub.status}
+                          </span>
+                          <span className="muted">{planName(sub.plan_code)}</span>
+                          <span className="muted">
+                            {sub.expires_at
+                              ? `עד ${new Date(sub.expires_at).toLocaleDateString('he-IL')} (${daysLeftLabel(sub)})`
+                              : 'ללא הגבלת זמן'}
+                          </span>
+                          <div className="row-actions">
+                            <button
+                              className="btn-sm"
+                              disabled={busy}
+                              onClick={() => extend(sub)}
+                              title={`הארכת ${p.label} בחודש`}
+                            >
+                              +חודש
+                            </button>
+                            {sub.is_active && (
+                              <button
+                                className="btn-sm btn-danger"
+                                disabled={busy}
+                                onClick={() => cancel(sub)}
+                                title={`ביטול ${p.label}`}
+                              >
+                                בטל
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </td>
+                  )
+                })}
                 <td data-label="פעולות">
                   <div className="row-actions">
-                    {s.plan_code === 'trial' && (
-                      <button
-                        className="btn-sm"
-                        disabled={busy}
-                        onClick={() => approve(s.user_id)}
-                      >
-                        אשר גישה
-                      </button>
-                    )}
                     <button
                       className="btn-sm"
                       disabled={busy}
-                      onClick={() => extend(s)}
+                      onClick={() => approve(row.userId)}
                     >
-                      הארך בחודש
+                      אשר גישה מלאה
                     </button>
-                    {s.is_active && (
-                      <button
-                        className="btn-sm btn-danger"
-                        disabled={busy}
-                        onClick={() => cancel(s)}
-                      >
-                        בטל מנוי
-                      </button>
-                    )}
                   </div>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-        {visibleSubs.length === 0 && (
+        {visibleRows.length === 0 && (
           <p className="muted empty-msg">אין מנויים להצגה.</p>
         )}
       </div>

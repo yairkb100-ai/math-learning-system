@@ -118,3 +118,17 @@
     justify-content: flex-end;
   }
 }
+
+/* תא מוצר בטבלת המנויים: סטטוס, תוכנית, תפוגה ופעולות בערימה אחת, כדי
+   ששורה אחת לתלמיד תכיל את שני המוצרים בלי לגלוש לרוחב. */
+.sub-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+.sub-cell .row-actions {
+  margin-top: 4px;
+}
