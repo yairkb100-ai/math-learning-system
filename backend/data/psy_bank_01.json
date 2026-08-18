@@ -374,7 +374,7 @@
       "correct_index": 2,
       "difficulty": 2,
       "target_seconds": 60,
-      "explanation": "נפח גליל = שטח הבסיס × הגובה = π × 3² × 10 = 90π.",
+      "explanation": "נפח הגליל הוא שטח הבסיס כפול הגובה: $\\pi \\times 3^2 \\times 10 = 90\\pi$.",
       "solution": "60π היא מלכודת של מי שהכפיל את הרדיוס בשניים במקום להעלות בריבוע ($2 \\times 3 \\times 10$)."
     },
     {
