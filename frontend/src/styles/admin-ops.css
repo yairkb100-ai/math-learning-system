@@ -132,3 +132,16 @@
 .sub-cell .row-actions {
   margin-top: 4px;
 }
+.sub-cell-plan {
+  color: var(--text);
+}
+
+/* במובייל התא הופך לכרטיס: כותרת המוצר מעל הערימה, לא לצידה — אחרת
+   התווית מיושרת למרכז של בלוק בן ארבע שורות ונראית תלושה. */
+@media (max-width: 640px) {
+  .data-table td.sub-td {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+}

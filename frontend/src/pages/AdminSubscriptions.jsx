@@ -155,6 +155,11 @@ export default function AdminSubscriptions() {
         ...Object.values(products).map((s) => new Date(s.started_at).getTime())
       ),
       anyActive: Object.values(products).some((s) => s.is_active),
+      // שני המוצרים פתוחים ללא תפוגה — "אשר גישה" לא היה עושה כלום, ולכן
+      // מוצג טקסט במקום כפתור שמזמין לחיצה מיותרת.
+      fullyApproved: PRODUCTS.every(
+        (p) => products[p.code]?.is_active && !products[p.code]?.expires_at
+      ),
     }))
     .sort((a, b) => b.latest - a.latest)
 
@@ -307,7 +312,7 @@ export default function AdminSubscriptions() {
                 {PRODUCTS.map((p) => {
                   const sub = row.products[p.code]
                   return (
-                    <td key={p.code} data-label={p.label}>
+                    <td key={p.code} data-label={p.label} className="sub-td">
                       {!sub ? (
                         <span className="muted">לא נרכש</span>
                       ) : (
@@ -319,7 +324,7 @@ export default function AdminSubscriptions() {
                                 ? 'פג' /* סטטוס 'active' + תאריך שעבר = פג בפועל */
                                 : statusHe[sub.status] || sub.status}
                           </span>
-                          <span className="muted">{planName(sub.plan_code)}</span>
+                          <span className="sub-cell-plan">{planName(sub.plan_code)}</span>
                           <span className="muted">
                             {sub.expires_at
                               ? `עד ${new Date(sub.expires_at).toLocaleDateString('he-IL')} (${daysLeftLabel(sub)})`
@@ -332,7 +337,7 @@ export default function AdminSubscriptions() {
                               onClick={() => extend(sub)}
                               title={`הארכת ${p.label} בחודש`}
                             >
-                              +חודש
+                              הארך חודש
                             </button>
                             {sub.is_active && (
                               <button
@@ -351,15 +356,19 @@ export default function AdminSubscriptions() {
                   )
                 })}
                 <td data-label="פעולות">
-                  <div className="row-actions">
-                    <button
-                      className="btn-sm"
-                      disabled={busy}
-                      onClick={() => approve(row.userId)}
-                    >
-                      אשר גישה מלאה
-                    </button>
-                  </div>
+                  {row.fullyApproved ? (
+                    <span className="muted">גישה מלאה</span>
+                  ) : (
+                    <div className="row-actions">
+                      <button
+                        className="btn-sm"
+                        disabled={busy}
+                        onClick={() => approve(row.userId)}
+                      >
+                        אשר גישה מלאה
+                      </button>
+                    </div>
+                  )}
                 </td>
               </tr>
             ))}
