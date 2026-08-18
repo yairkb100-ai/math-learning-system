@@ -3,6 +3,7 @@ import { useParams, useLocation, useNavigate, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
+import { InlineMathText, BidiSafeText } from '../components/MathText.jsx'
 import { celebrate } from '../lib/celebrate.js'
 import {
   fadeInUp,
@@ -150,22 +151,28 @@ export default function ExamResults() {
                 {a.is_correct ? '✓' : '✗'}
               </span>
               <span className="exam-review-q">
-                {i + 1}. {a.question}
+                {i + 1}. <InlineMathText text={a.question} />
               </span>
               <span className={`exam-diff-badge exam-diff-${a.difficulty}`}>
                 {DIFFICULTY_HE[a.difficulty] || a.difficulty}
               </span>
             </div>
             <div className="exam-review-answers">
+              {/* Answer strings are the graded values — shown verbatim, only
+                  bidi-isolated so the math inside them stops reordering. */}
               <span className={a.is_correct ? 'ans-ok' : 'ans-no'}>
-                התשובה שלך: {a.user_answer || '—'}
+                התשובה שלך: {a.user_answer ? <BidiSafeText text={a.user_answer} /> : '—'}
               </span>
               {!a.is_correct && (
-                <span className="ans-ok">התשובה הנכונה: {a.correct_answer}</span>
+                <span className="ans-ok">
+                  התשובה הנכונה: <BidiSafeText text={a.correct_answer} />
+                </span>
               )}
             </div>
             {a.explanation && (
-              <div className="exam-review-expl">💡 {a.explanation}</div>
+              <div className="exam-review-expl">
+                💡 <InlineMathText text={a.explanation} />
+              </div>
             )}
           </motion.div>
         ))}
