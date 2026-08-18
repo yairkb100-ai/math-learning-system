@@ -948,6 +948,7 @@ class PlanUpdate(BaseModel):
 class SettingsIn(BaseModel):
     lesson_price_nis: Optional[float] = None
     cross_product_free_pct: Optional[float] = None
+    free_simulations_count: Optional[int] = None
     referral_sub_discount_pct: Optional[float] = None
     referral_lesson_discount_pct: Optional[float] = None
     payment_phone: Optional[str] = None
@@ -956,6 +957,7 @@ class SettingsIn(BaseModel):
 class SettingsOut(BaseModel):
     lesson_price_nis: float
     cross_product_free_pct: float = 20.0
+    free_simulations_count: int = 4
     referral_sub_discount_pct: float
     referral_lesson_discount_pct: float
     payment_phone: str = ""

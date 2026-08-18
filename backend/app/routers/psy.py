@@ -26,6 +26,7 @@ from app import models, psy_scoring
 from app.database import get_db
 from app.dependencies import get_current_user, user_content_access
 from app.products import PRODUCT_KARNI
+from app.settings_store import free_simulations_count
 from app.access import TIER_FREE, unlocked_psy_item_ids, unlocked_simulation_ids
 from app.schemas_psy import (
     PsyAnswerReview,
@@ -263,7 +264,7 @@ def list_simulations(
     )
     access = user_content_access(db, current_user, PRODUCT_KARNI)
     open_ids = (
-        unlocked_simulation_ids(db, access.ratio)
+        unlocked_simulation_ids(db, free_simulations_count(db))
         if access.tier == TIER_FREE
         else set()
     )
@@ -291,7 +292,9 @@ def start_simulation(
     if sim is None:
         raise HTTPException(status_code=404, detail="הסימולציה לא נמצאה")
     access = user_content_access(db, current_user, PRODUCT_KARNI)
-    if access.tier == TIER_FREE and sim.id not in unlocked_simulation_ids(db, access.ratio):
+    if access.tier == TIER_FREE and sim.id not in unlocked_simulation_ids(
+        db, free_simulations_count(db)
+    ):
         raise HTTPException(status_code=402, detail="content_locked")
     if not sim.sections:
         raise HTTPException(status_code=409, detail="לסימולציה אין פרקים")
@@ -796,7 +799,16 @@ def drill_topics(
     db: Session = Depends(get_db),
     current_user: models.User = Depends(get_current_user),
 ) -> List[dict]:
-    """Topics available in the bank, with how many active items each holds."""
+    """נושאי המאגר, וכמה שאלות פעילות יש בכל אחד.
+
+    ``open_count`` הוא כמה מהן פתוחות לתלמיד הזה בפועל (``None`` = גישה מלאה).
+    בלעדיו הצ'יפ בעמוד התרגול הכריז על המספר המלא בזמן ש-``/drill`` מחזיר רק
+    את הפרוסה — התוכן היה חסום כמו שצריך, אבל המספר שיקר.
+    """
+    access = user_content_access(db, current_user, PRODUCT_KARNI)
+    open_ids = (
+        unlocked_psy_item_ids(db, access.ratio) if access.tier == TIER_FREE else None
+    )
     q = (
         db.query(
             models.PsyItem.domain,
@@ -808,8 +820,28 @@ def drill_topics(
     if domain:
         q = q.filter(models.PsyItem.domain == domain)
     rows = q.group_by(models.PsyItem.domain, models.PsyItem.topic).all()
+    open_per_topic: Dict[tuple, int] = {}
+    if open_ids is not None:
+        oq = db.query(
+            models.PsyItem.domain, models.PsyItem.topic, func.count(models.PsyItem.id)
+        ).filter(
+            models.PsyItem.is_active.is_(True),
+            models.PsyItem.topic.isnot(None),
+            models.PsyItem.id.in_(open_ids),
+        )
+        if domain:
+            oq = oq.filter(models.PsyItem.domain == domain)
+        open_per_topic = {
+            (d, t): n
+            for d, t, n in oq.group_by(models.PsyItem.domain, models.PsyItem.topic).all()
+        }
     return [
-        {"domain": d, "topic": t, "count": c}
+        {
+            "domain": d,
+            "topic": t,
+            "count": c,
+            "open_count": open_per_topic.get((d, t), 0) if open_ids is not None else None,
+        }
         for d, t, c in sorted(rows, key=lambda r: (r[0], r[1]))
     ]
 
@@ -860,7 +892,7 @@ def overview(
     karni_access = user_content_access(db, current_user, PRODUCT_KARNI)
     free_tier = karni_access.tier == TIER_FREE
     open_sim_ids = (
-        unlocked_simulation_ids(db, karni_access.ratio) if free_tier else set()
+        unlocked_simulation_ids(db, free_simulations_count(db)) if free_tier else set()
     )
     sims = (
         db.query(models.PsySimulation)

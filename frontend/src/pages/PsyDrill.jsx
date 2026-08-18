@@ -163,7 +163,12 @@ export default function PsyDrill() {
             onClick={() => setTopic(t.topic)}
             {...tapScale}
           >
-            {t.topic} <span className="psy-chip-num">{t.count}</span>
+            {t.topic}{' '}
+            <span className="psy-chip-num">
+              {t.open_count != null && t.open_count < t.count
+                ? `${t.open_count}/${t.count}`
+                : t.count}
+            </span>
           </motion.button>
         ))}
       </div>
