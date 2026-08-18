@@ -206,6 +206,8 @@ def admin_set_pricing(
             raise HTTPException(status_code=400, detail="אחוז הנחה חייב להיות בין 0 ל-100")
     if payload.lesson_price_nis is not None and payload.lesson_price_nis < 0:
         raise HTTPException(status_code=400, detail="מחיר לא יכול להיות שלילי")
+    if payload.free_simulations_count is not None and payload.free_simulations_count < 0:
+        raise HTTPException(status_code=400, detail="מספר הסימולציות לא יכול להיות שלילי")
     return SettingsOut(
         **settings_store.set_settings(db, payload.model_dump(exclude_none=True))
     )
