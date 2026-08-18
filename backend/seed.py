@@ -1249,6 +1249,15 @@ def run_light_migrations():
                 conn.execute(text("ALTER TABLE psy_attempts ADD COLUMN domain_scores JSON"))
             print("  ~ Migrated: added psy_attempts.domain_scores")
 
+    if "psy_simulations" in inspector.get_table_names():
+        cols = {c["name"] for c in inspector.get_columns("psy_simulations")}
+        if "level" not in cols:
+            # Nullable on purpose: every form that existed before the advanced
+            # tier IS the standard tier, and NULL is exactly that.
+            with engine.begin() as conn:
+                conn.execute(text("ALTER TABLE psy_simulations ADD COLUMN level VARCHAR"))
+            print("  ~ Migrated: added psy_simulations.level")
+
 
     if "chapters" in inspector.get_table_names():
         cols = {c["name"] for c in inspector.get_columns("chapters")}
@@ -2138,6 +2147,152 @@ _PSY_SIMULATIONS = [
              "blueprint": [{"count": 7, "topic": "דקדוק"}, {"count": 4, "topic": "השלמת משפטים"}]},
         ],
     },
+    # ------------------------------------------------------------------
+    # שתי סימולציות ברמה מתקדמת. שתי החלטות מפורשות מבדילות אותן מ"סימולציה
+    # מלאה 1":
+    # 1. min_difficulty: 3 בכל שורת blueprint שהמאגר תומך בה — כלומר הטופס
+    #    נשען רק על החצי הקשה של המאגר, ולא על התפלגות הקושי המלאה.
+    # 2. כיסוי מאל"ף ועד תי"ו: שבעת התחומים, כולל לוגיקה, מרחב וזריזות,
+    #    שאינם מופיעים כלל ב"סימולציה מלאה 1".
+    # אנגלית היא היוצא מן הכלל היחיד: המאגר מחזיק רק 10 פריטים באנגלית בקושי
+    # 3+, ופרק שלם משם היה חוזר על עצמו בין שתי הסימולציות ובין ניסיונות
+    # חוזרים — ולכן שם הרצפה היא 2. שאר הרצפות נבדקו מול גודל המאגר בפועל.
+    {
+        "slug": "karni-full-advanced-1",
+        "title": "סימולציה מלאה 2 — מתקדמת",
+        "description": "מבחן שלם מאל\"ף ועד תי\"ו בקושי מוגבר — כל שבעת התחומים, שאלות מהחצי הקשה של המאגר בלבד, 115 שאלות ב-82 דקות",
+        "kind": "full",
+        "level": "advanced",
+        "order": 21,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "verbal", "title": "אנלוגיות",
+             "minutes": 5, "num_questions": 10,
+             "blueprint": [{"count": 10, "topic": "אנלוגיות", "min_difficulty": 3}]},
+            {"order": 1, "domain": "quantitative", "title": "חשיבה כמותית — חלק א",
+             "minutes": 11, "num_questions": 12,
+             "blueprint": [{"count": 12, "min_difficulty": 3}]},
+            {"order": 2, "domain": "figural", "title": "מטריצות וסדרות צורות",
+             "minutes": 8, "num_questions": 12,
+             "blueprint": [
+                 {"count": 6, "topic": "מטריצות", "min_difficulty": 3},
+                 {"count": 6, "topic": "סדרות צורות", "min_difficulty": 3},
+             ]},
+            {"order": 3, "domain": "verbal", "title": "הבנה, השלמה ואוצר מילים",
+             "minutes": 8, "num_questions": 10,
+             "blueprint": [
+                 {"count": 4, "topic": "הבנה והסקה", "min_difficulty": 3},
+                 {"count": 4, "topic": "השלמת משפטים", "min_difficulty": 3},
+                 {"count": 2, "topic": "אוצר מילים וניבים", "min_difficulty": 3},
+             ]},
+            {"order": 4, "domain": "quantitative", "title": "סדרות מספרים ואותיות",
+             "minutes": 6, "num_questions": 10,
+             "blueprint": [
+                 {"count": 7, "topic": "סדרות מספרים ואותיות", "domain": "quantitative",
+                  "min_difficulty": 3},
+                 {"count": 3, "topic": "סדרות מספרים ואותיות", "domain": "verbal",
+                  "min_difficulty": 3},
+             ]},
+            {"order": 5, "domain": "figural", "title": "אנלוגיות צורניות ויוצא דופן",
+             "minutes": 8, "num_questions": 12,
+             "blueprint": [
+                 {"count": 6, "topic": "אנלוגיות צורניות", "min_difficulty": 3},
+                 {"count": 6, "topic": "יוצא דופן צורני", "min_difficulty": 3},
+             ]},
+            {"order": 6, "domain": "logic", "title": "חשיבה לוגית",
+             "minutes": 8, "num_questions": 8,
+             "blueprint": [{"count": 8, "min_difficulty": 3}]},
+            {"order": 7, "domain": "quantitative", "title": "חשיבה כמותית — חלק ב",
+             "minutes": 11, "num_questions": 11,
+             "blueprint": [{"count": 11, "min_difficulty": 3}]},
+            {"order": 8, "domain": "spatial", "title": "חשיבה מרחבית",
+             "minutes": 6, "num_questions": 8,
+             "blueprint": [{"count": 8, "topic": "חשיבה מרחבית", "min_difficulty": 3}]},
+            {"order": 9, "domain": "speed", "title": "זריזות ודיוק",
+             "minutes": 4, "num_questions": 12,
+             "blueprint": [{"count": 12, "min_difficulty": 3}]},
+            {"order": 10, "domain": "english", "title": "אנגלית",
+             "minutes": 7, "num_questions": 10,
+             "blueprint": [
+                 {"count": 4, "topic": "דקדוק", "min_difficulty": 2},
+                 {"count": 3, "topic": "השלמת משפטים", "min_difficulty": 2},
+                 {"count": 3, "topic": "אוצר מילים", "min_difficulty": 2},
+             ]},
+        ],
+    },
+    {
+        "slug": "karni-full-advanced-2",
+        "title": "סימולציה מלאה 3 — מתקדמת",
+        "description": "מבחן שלם מאל\"ף ועד תי\"ו בקושי מוגבר, בסדר פרקים אחר ובדגש כמותי-מרחבי — 117 שאלות ב-87 דקות",
+        "kind": "full",
+        "level": "advanced",
+        "order": 22,
+        "free_preview": False,
+        # סדר הפרקים ותמהיל הנושאים שונים בכוונה מסימולציה 2: המעבר בין תחומים
+        # הוא חלק ממה שהמבחן מודד, ושתי סימולציות באותו סדר בדיוק היו מאמנות
+        # את הסדר במקום את התוכן. הפרק הכמותי הממוקד כאן נשען על נושאים
+        # מפורשים (אחוזים, יחס, תנועה) ולא על שליפה כללית, כדי שהחזרה תיפול
+        # על נושאים אחרים מאלה שסימולציה 2 שולפת.
+        "sections": [
+            {"order": 0, "domain": "quantitative", "title": "חשיבה כמותית — חלק א",
+             "minutes": 11, "num_questions": 12,
+             "blueprint": [{"count": 12, "min_difficulty": 3}]},
+            {"order": 1, "domain": "figural", "title": "סדרות צורות ומטריצות",
+             "minutes": 7, "num_questions": 10,
+             "blueprint": [
+                 {"count": 5, "topic": "סדרות צורות", "min_difficulty": 3},
+                 {"count": 5, "topic": "מטריצות", "min_difficulty": 3},
+             ]},
+            {"order": 2, "domain": "verbal", "title": "אנלוגיות",
+             "minutes": 6, "num_questions": 12,
+             "blueprint": [{"count": 12, "topic": "אנלוגיות", "min_difficulty": 3}]},
+            {"order": 3, "domain": "logic", "title": "פאזל תנאים",
+             "minutes": 8, "num_questions": 8,
+             "blueprint": [{"count": 8, "topic": "פאזל תנאים", "min_difficulty": 3}]},
+            {"order": 4, "domain": "quantitative", "title": "אחוזים, יחס ותנועה",
+             "minutes": 9, "num_questions": 9,
+             "blueprint": [
+                 {"count": 3, "topic": "אחוזים", "min_difficulty": 3},
+                 {"count": 3, "topic": "יחס ופרופורציה", "min_difficulty": 3},
+                 {"count": 3, "topic": "תנועה", "min_difficulty": 3},
+             ]},
+            {"order": 5, "domain": "verbal", "title": "הבנה והסקה",
+             "minutes": 8, "num_questions": 8,
+             "blueprint": [{"count": 8, "topic": "הבנה והסקה", "min_difficulty": 3}]},
+            {"order": 6, "domain": "spatial", "title": "חשיבה מרחבית",
+             # שמונה ולא עשר: במאגר 16 פריטי מרחב בקושי 3+, ופרק שלוקח עשרה
+             # מהם מחזיר כמעט אותן הפריטים בכל ניסיון חוזר.
+             "minutes": 6, "num_questions": 8,
+             "blueprint": [{"count": 8, "topic": "חשיבה מרחבית", "min_difficulty": 3}]},
+            {"order": 7, "domain": "quantitative", "title": "סדרות מספרים ואותיות",
+             "minutes": 6, "num_questions": 10,
+             "blueprint": [
+                 {"count": 7, "topic": "סדרות מספרים ואותיות", "domain": "quantitative",
+                  "min_difficulty": 3},
+                 {"count": 3, "topic": "סדרות מספרים ואותיות", "domain": "verbal",
+                  "min_difficulty": 3},
+             ]},
+            {"order": 8, "domain": "figural", "title": "יוצא דופן ואנלוגיות צורניות",
+             "minutes": 7, "num_questions": 10,
+             "blueprint": [
+                 {"count": 5, "topic": "יוצא דופן צורני", "min_difficulty": 3},
+                 {"count": 5, "topic": "אנלוגיות צורניות", "min_difficulty": 3},
+             ]},
+            {"order": 9, "domain": "speed", "title": "זריזות ודיוק",
+             "minutes": 4, "num_questions": 12,
+             "blueprint": [{"count": 12, "min_difficulty": 3}]},
+            {"order": 10, "domain": "english", "title": "אנגלית",
+             "minutes": 7, "num_questions": 10,
+             "blueprint": [
+                 {"count": 4, "topic": "דקדוק", "min_difficulty": 2},
+                 {"count": 3, "topic": "אוצר מילים", "min_difficulty": 2},
+                 {"count": 3, "topic": "השלמת משפטים", "min_difficulty": 2},
+             ]},
+            {"order": 11, "domain": "quantitative", "title": "חשיבה כמותית — חלק ב",
+             "minutes": 8, "num_questions": 8,
+             "blueprint": [{"count": 8, "min_difficulty": 3}]},
+        ],
+    },
 ]
 
 
@@ -2158,6 +2313,7 @@ def ensure_psy_simulations(db):
         sim.title = spec["title"]
         sim.description = spec.get("description")
         sim.kind = spec.get("kind", "full")
+        sim.level = spec.get("level")
         sim.order = spec.get("order", 0)
         sim.free_preview = spec.get("free_preview", False)
         sim.is_published = spec.get("is_published", True)

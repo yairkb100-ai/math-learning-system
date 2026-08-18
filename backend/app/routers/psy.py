@@ -101,7 +101,10 @@ def _draw_section_items(
 ) -> List[str]:
     """Pick the refs for one section: a fixed form if authored, else a draw.
 
-    A blueprint row is ``{count, topic?, qtype?, domain?, difficulty?}``. Rows
+    A blueprint row is ``{count, topic?, qtype?, domain?, difficulty?,
+    min_difficulty?}``. ``difficulty`` pins an exact level; ``min_difficulty``
+    sets a floor, which is what the advanced forms use — pinning an exact level
+    would starve topics whose hard items sit at 3 and 4 alike. Rows
     are filled in order and already-picked refs are excluded, so a narrow row
     later in the list cannot silently duplicate an earlier pick.
 
@@ -134,6 +137,8 @@ def _draw_section_items(
             q = q.filter(models.PsyItem.qtype == row["qtype"])
         if row.get("difficulty"):
             q = q.filter(models.PsyItem.difficulty == int(row["difficulty"]))
+        if row.get("min_difficulty"):
+            q = q.filter(models.PsyItem.difficulty >= int(row["min_difficulty"]))
         if seen:
             q = q.filter(~models.PsyItem.ref.in_(seen))
 
@@ -175,6 +180,10 @@ def _draw_section_items(
             if row.get("difficulty"):
                 cluster_q = cluster_q.filter(
                     models.PsyItem.difficulty == int(row["difficulty"])
+                )
+            if row.get("min_difficulty"):
+                cluster_q = cluster_q.filter(
+                    models.PsyItem.difficulty >= int(row["min_difficulty"])
                 )
             cluster = cluster_q.order_by(
                 models.PsyItem.passage_order, models.PsyItem.id
@@ -248,6 +257,7 @@ def _sim_out(
         title=sim.title,
         description=sim.description,
         kind=sim.kind,
+        level=sim.level,
         total_minutes=sum(s.minutes for s in sim.sections),
         total_questions=sum(s.num_questions for s in sim.sections),
         sections=[PsySimSectionInfo.model_validate(s) for s in sim.sections],

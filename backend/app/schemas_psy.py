@@ -99,6 +99,9 @@ class PsySimulationOut(BaseModel):
     title: str
     description: Optional[str] = None
     kind: str
+    # None for the standard forms, "advanced" for the harder tier. Drives the
+    # badge on the catalog card.
+    level: Optional[str] = None
     total_minutes: int
     total_questions: int
     sections: List[PsySimSectionInfo]
