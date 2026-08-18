@@ -941,6 +941,47 @@ def apply_asset_renames(db):
         print(f"  + Renamed {renamed} course asset(s)")
 
 
+# Storage keys are content-addressed: "<base>-<10 hex of sha1>.<ext>". The
+# suffix is what busts an edge cache sitting in front of the public URL, and it
+# doubles as the record of WHICH bytes the stored object holds.
+_DIGEST_SUFFIX = re.compile(r"-[0-9a-f]{10}$")
+
+
+def _content_key(stored_name, src):
+    """The storage key ``src``'s current bytes belong at.
+
+    Any digest a previous refresh appended is stripped first, so the suffix
+    never accumulates (``uuid-d1-d2-d3.pdf``) and identical content always maps
+    to the same key.
+    """
+    with open(src, "rb") as fh:
+        digest = hashlib.sha1(fh.read()).hexdigest()[:10]
+    base, ext = os.path.splitext(stored_name)
+    return f"{_DIGEST_SUFFIX.sub('', base)}-{digest}{ext}"
+
+
+def _refresh_key(stored_name, src, row_size, src_size):
+    """Key to re-upload ``src`` under, or None if storage is already current.
+
+    The decision is made from the file's HASH, not from ``row_size``: seed
+    updates ``FileAsset.size`` from the git file even on the code path that
+    never touches object storage (it takes that path whenever R2 is
+    unconfigured), so a row can report the new size while the stored object
+    still serves the old bytes. That is not hypothetical — it silently held
+    back 88 regenerated worksheets until 2026-08-18, and no size comparison
+    can detect it, because by then both sides of that comparison agreed.
+    """
+    want = _content_key(stored_name, src)
+    if stored_name == want:
+        return None                     # stored object matches the git file
+    if not _DIGEST_SUFFIX.search(os.path.splitext(stored_name)[0]):
+        # Legacy key from before content-addressing: nothing in it encodes the
+        # content, so fall back to the size check rather than re-uploading
+        # every asset once on the next deploy.
+        return None if row_size == src_size else want
+    return want
+
+
 def ensure_course_assets(db):
     """Register downloadable course files from ``courses/assets/<slug>/``.
 
@@ -1007,8 +1048,6 @@ def ensure_course_assets(db):
                     migrated += 1
                     continue
                 if use_r2 and exists.external_url:
-                    if exists.size == src_size:
-                        continue  # already on R2, unchanged
                     # A content-only edit (regenerated PDF, fixed rendering
                     # bug, ...) changes the file's bytes but not its name.
                     # Overwriting the storage object can't be trusted to bust
@@ -1016,14 +1055,15 @@ def ensure_course_assets(db):
                     # a custom domain proxied through Cloudflare's cache) — a
                     # plain re-upload could keep serving the stale cached PDF.
                     # The only thing that reliably busts a cache is a new
-                    # PATH, so give the refreshed file a hashed storage name
-                    # and drop the old object. Unchanged content reproduces
-                    # the same hash and the same path, so this doesn't rename
+                    # PATH, so the refreshed file gets a key ending in the hash
+                    # of its content, and the old object is dropped. Unchanged
+                    # content reproduces the same key, so this does not rename
                     # on every deploy.
-                    with open(src, "rb") as fh:
-                        digest = hashlib.sha1(fh.read()).hexdigest()[:10]
-                    ext = os.path.splitext(exists.stored_name)[1]
-                    new_stored = f"{os.path.splitext(exists.stored_name)[0]}-{digest}{ext}"
+                    new_stored = _refresh_key(
+                        exists.stored_name, src, exists.size, src_size
+                    )
+                    if new_stored is None:
+                        continue  # storage already holds these bytes
                     try:
                         new_url = r2_storage.upload(src, new_stored)
                     except Exception as exc:  # noqa: BLE001 — network/HTTP errors
