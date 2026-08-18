@@ -324,6 +324,47 @@ def ensure_plans(db):
     print("  + Created 3 subscription plans (free / monthly / yearly)")
 
 
+_PLAN_PRODUCTS_FLAG = "plan_products_assigned"
+
+# שיוך חד-פעמי של התוכניות שהיו קיימות ברגע הפיצול לשני מוצרים. המיגרציה
+# סימנה את כולן כחבילה — בכוונה, כדי שאף לקוח קיים לא יאבד גישה — אבל זה
+# הפך את "הכנה למבחני קרני" לתוכנית שפותחת גם את הלומדה. כאן נקבע השיוך
+# שהמנהל התכוון אליו, לפי קוד התוכנית (הקוד קפוא; השם ניתן לעריכה ולכן אינו
+# מפתח אמין).
+_PLAN_PRODUCTS_ROLLOUT = {
+    "monthly": "lomda",      # מנוי חודשי לומדת מתמטיקה
+    "yearly": "lomda",       # מנוי דו-חודשי לומדת מתמטיקה
+    "plan-2": "karni",       # הכנה למבחני קרני
+    "plan": "lomda,karni",   # לומדה + הכנה למבחני קרני (חבילה)
+}
+
+
+def rollout_plan_products(db):
+    """מציב את המוצרים לתוכניות שנוצרו לפני הפיצול — פעם אחת בלבד.
+
+    הדגל ב-``app_settings`` הוא מה שהופך את זה לחד-פעמי: מרגע שרץ, כל שינוי
+    שהמנהל יעשה במסך המחירים הוא הקובע, והפריסה הבאה לא תדרוס אותו. תוכנית
+    שאינה ברשימה (למשל ``trial``/``free``, או תוכנית שנוצרה אחרי הפיצול)
+    לא נגעת בה.
+    """
+    if db.get(AppSetting, _PLAN_PRODUCTS_FLAG) is not None:
+        return
+    changed = []
+    for code, products in _PLAN_PRODUCTS_ROLLOUT.items():
+        plan = (
+            db.query(SubscriptionPlan)
+            .filter(SubscriptionPlan.code == code)
+            .first()
+        )
+        if plan is None or plan.products == products:
+            continue
+        plan.products = products
+        changed.append(f"{code}→{products}")
+    db.add(AppSetting(key=_PLAN_PRODUCTS_FLAG, value="1"))
+    db.commit()
+    print(f"  + Plan products rollout: {', '.join(changed) if changed else 'nothing to change'}")
+
+
 # המשכים שהיו כתובים בקוד לפני שהמחירון הפך לניתן לעריכה.
 _DEFAULT_LESSON_DURATIONS = (30, 45, 60)
 _LESSON_TYPES_FLAG = "lesson_types_seeded"
@@ -2240,6 +2281,7 @@ def main():
     try:
         ensure_admin(db)
         ensure_plans(db)
+        rollout_plan_products(db)
         ensure_lesson_types(db)
         rollout_free_trial(db)
         ensure_practice_questions(db)
