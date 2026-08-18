@@ -332,6 +332,31 @@
   margin: 0;
   font-size: 1.1rem;
 }
+/* כותרת + תווית רמה באותה שורה; התווית נדחקת לקצה ולא נשברת. */
+.psy-sim-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  /* הכרטיס יורד עד כ-190px בעמודה צרה, ותווית שלא נשברת הייתה
+     מרסקת שם את הכותרת לארבע שורות של מילה אחת. עם wrap + בסיס לכותרת
+     התווית פשוט יורדת לשורה משלה כשאין מקום לשתיהן. */
+  flex-wrap: wrap;
+}
+.psy-sim-head h3 {
+  flex: 1 1 140px;
+}
+.psy-sim-tag {
+  flex: none;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  border-radius: 999px;
+  padding: 3px 10px;
+  white-space: nowrap;
+  color: var(--lv, var(--muted));
+  background: var(--lv-bg, var(--surface-2));
+}
 .psy-sim-desc {
   margin: 0;
   color: var(--muted);

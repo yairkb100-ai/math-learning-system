@@ -62,7 +62,7 @@ _startup_done = False
 # בשאילתה אחת, וטבלה חסרה ברשימה מקבלת קבוצת עמודות ריקה — כלומר כל בקשה
 # הייתה מריצה שוב את ה-ALTER ונופלת על "column already exists".
 _MIGRATION_TABLES = (
-    "courses", "sections", "psy_attempts", "file_assets", "messages",
+    "courses", "sections", "psy_attempts", "psy_simulations", "file_assets", "messages",
     "users", "chapters", "exercises", "quiz_questions",
     "subscriptions", "subscription_plans",
 )
@@ -168,6 +168,10 @@ def on_startup() -> None:
                 conn.execute(text("ALTER TABLE psy_attempts ADD COLUMN score_percent FLOAT"))
             if "domain_scores" not in cols:
                 conn.execute(text("ALTER TABLE psy_attempts ADD COLUMN domain_scores JSON"))
+        if "psy_simulations" in table_names:
+            cols = columns_by_table.get("psy_simulations", set())
+            if "level" not in cols:
+                conn.execute(text("ALTER TABLE psy_simulations ADD COLUMN level VARCHAR"))
         if "file_assets" in table_names:
             cols = columns_by_table.get("file_assets", set())
             if "kind" not in cols:

@@ -787,6 +787,10 @@ class PsySimulation(Base):
     title = Column(String, nullable=False)
     description = Column(Text, nullable=True)
     kind = Column(String, nullable=False, default="full")  # full | section | mini
+    # Difficulty tier shown as a badge in the catalog. NULL = the standard form.
+    # "advanced" forms draw only from difficulty 3+ items and run on a tighter
+    # clock, so the label is a promise about the draw, not decoration.
+    level = Column(String, nullable=True)  # None | advanced
     order = Column(Integer, nullable=False, default=0)
     is_published = Column(Boolean, nullable=False, default=True, index=True)
     # סדר העדיפות בתוך מכסת הטעימה, לא "תמיד פתוח": המסומנות נכנסות ראשונות
