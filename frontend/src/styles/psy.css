@@ -353,13 +353,29 @@
   color: var(--ok);
   font-weight: 600;
 }
+/* "נדרש מנוי פעיל" יושב במקום של כפתור ה-CTA ולכן מקבל את אותו משקל ויזואלי:
+   גלולה מלאה בצבע הגיר הצהוב (--marker) עם דיו כהה, ולא הערה אפורה שנבלעת. */
 .psy-sim-lock {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 6px;
-  color: var(--muted);
-  font-size: 0.88rem;
+  justify-content: center;
+  gap: 8px;
   margin-top: auto;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--marker);
+  border: 1px solid var(--text);
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 0.98rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-align: center;
+}
+.psy-sim-lock svg {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
 }
 .psy-sim-card .psy-btn {
   margin-top: auto;
