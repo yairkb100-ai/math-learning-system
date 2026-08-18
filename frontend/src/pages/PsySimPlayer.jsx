@@ -4,12 +4,11 @@ import { motion, AnimatePresence } from 'framer-motion'
 import api from '../api.js'
 import MathText from '../components/MathText.jsx'
 import { Loading, ErrorBox } from '../components/Status.jsx'
-import { fadeInUp, staggerContainer, tapScale, overlayFade, DURATION, EASE_OUT, EASE_IN } from '../lib/motion.js'
+import { fadeInUp, staggerContainer, tapScale, overlayFade, DURATION, EASE_OUT } from '../lib/motion.js'
 import '../styles/psy.css'
 
 // Assessment page — motion here is minimal and never gets in the way of the
-// clock. Question-to-question transitions stay fast and skippable.
-const QUICK = 0.16
+// clock. Timings all come from lib/motion.js; this file defines none of its own.
 
 const OPTION_LETTERS = ['א', 'ב', 'ג', 'ד', 'ה']
 const AUTOSAVE_MS = 15000
@@ -188,16 +187,19 @@ export default function PsySimPlayer() {
               </aside>
             )}
 
-            <AnimatePresence mode="wait">
-              {current && (
-                <motion.article
-                  key={current.ref}
-                  className="psy-question"
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -6, transition: { duration: QUICK * 0.7, ease: EASE_IN } }}
-                  transition={{ duration: QUICK, ease: EASE_OUT }}
-                >
+            {/* אין כאן AnimatePresence בכוונה: זו שאלה במבחן על השעון.
+                mode="wait" חוסם את ה-mount של השאלה הבאה עד שאנימציית היציאה
+                מסתיימת (אסור לפי CLAUDE.md), וגם בלי mode השאלה היוצאת נשארת
+                ב-flow עד שהיציאה נגמרת — ובטאב ברקע rAF לא רץ והיא לא נגמרת.
+                ה-key כבר מייצר remount ואנימציית כניסה בכל מעבר שאלה. */}
+            {current && (
+              <motion.article
+                key={current.ref}
+                className="psy-question"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: DURATION.short, ease: EASE_OUT }}
+              >
                   <div className="psy-question-num">שאלה {index + 1}</div>
                   <div className="psy-question-split">
                     <div className="psy-question-content">
@@ -269,9 +271,8 @@ export default function PsySimPlayer() {
                       </motion.button>
                     </div>
                   </div>
-                </motion.article>
-              )}
-            </AnimatePresence>
+              </motion.article>
+            )}
           </main>
 
           {/* desktop/tablet: always-visible sidebar navigator */}

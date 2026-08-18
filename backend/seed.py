@@ -1477,12 +1477,17 @@ def ensure_psy_sections(db):
     db.commit()
 
 
-def _load_psy_bank_files():
+def _load_psy_bank_files(failures=None):
     """Yield (passages, items) from every ``data/psy_bank_*.json`` file.
 
     Each file is ``{"passages": [...], "items": [...]}``; either key may be
     absent. Items are keyed by ``ref`` — a stable content-side id, so a fixed
     typo updates the row instead of creating a twin.
+
+    A file that will not parse is skipped rather than raised, so one bad edit
+    cannot take the whole boot down — but the path is appended to ``failures``
+    when a list is passed, because a caller that *deletes* rows has to know the
+    picture is incomplete. See the retirement pass in ensure_psy_items().
     """
     pattern = os.path.join(_BACKEND_DIR, "data", "psy_bank_*.json")
     for path in sorted(glob.glob(pattern)):
@@ -1491,6 +1496,8 @@ def _load_psy_bank_files():
                 data = json.load(fh)
         except (OSError, ValueError) as exc:
             print(f"  ! Could not read psy bank {path}: {exc}")
+            if failures is not None:
+                failures.append(path)
             continue
         yield data.get("passages", []) or [], data.get("items", []) or []
 
@@ -1504,7 +1511,11 @@ def ensure_psy_items(db):
     orphaning the drill history attached to the old row.
     """
     added = updated = 0
-    for passages, items in _load_psy_bank_files():
+    # Every passage in every file first, then the items. Committing passages
+    # per-file meant an item could only reference a passage defined in its own
+    # file or an alphabetically earlier one; a reference to a later file
+    # resolved to NULL and shipped a reading question with no text.
+    for passages, _items in _load_psy_bank_files():
         for p in passages:
             row = db.query(PsyPassage).filter(PsyPassage.slug == p["slug"]).first()
             if row is None:
@@ -1517,8 +1528,9 @@ def ensure_psy_items(db):
             row.figure = p.get("figure")
             row.source = p.get("source")
             row.word_count = p.get("word_count")
-        db.commit()
+    db.commit()
 
+    for _passages, items in _load_psy_bank_files():
         for it in items:
             row = db.query(PsyItem).filter(PsyItem.ref == it["ref"]).first()
             if row is None:
@@ -1533,7 +1545,11 @@ def ensure_psy_items(db):
                     db.query(PsyPassage).filter(PsyPassage.slug == it["passage"]).first()
                 )
                 if passage is None:
-                    print(f'  ! item {it["ref"]}: passage {it["passage"]} not found')
+                    print(
+                        f'  ! item {it["ref"]}: passage {it["passage"]} not found'
+                        " — deactivating, a reading question without its text"
+                        " is unanswerable"
+                    )
             row.domain = it["domain"]
             row.qtype = it["qtype"]
             row.topic = it.get("topic")
@@ -1550,20 +1566,38 @@ def ensure_psy_items(db):
             row.target_seconds = it.get("target_seconds", 60)
             row.tags = it.get("tags")
             row.source = it.get("source")
-            row.is_active = it.get("is_active", True)
+            # A declared-but-missing passage deactivates the item. It used to
+            # print a warning and ship anyway, leaving the student a question
+            # about a text that was never rendered.
+            row.is_active = it.get("is_active", True) and not (
+                it.get("passage") and passage is None
+            )
         db.commit()
 
     # Drop items no bank file defines any more. Without this, retiring a question
     # leaves it live in the drill and in every future simulation draw — which is
     # exactly what happened when the area was repointed from פסיכומטרי to קרני.
     # PsyItem cascades to psy_drill_attempts, so the history goes with it.
+    # A single unreadable file used to be enough to delete everything it
+    # defines: the loader swallowed the parse error, so its refs never made it
+    # into wanted_refs and the pass below dropped them — items, passages and
+    # the drill history cascading off them — while the deploy reported success.
+    # The `if wanted_refs` guard only ever protected against *every* file
+    # failing at once.
+    failures = []
     wanted_refs = set()
     wanted_passages = set()
-    for passages, items in _load_psy_bank_files():
+    for passages, items in _load_psy_bank_files(failures):
         wanted_passages.update(p["slug"] for p in passages)
         wanted_refs.update(i["ref"] for i in items)
     removed = 0
-    if wanted_refs:
+    if failures:
+        print(
+            f"  ! Skipping psy retirement: {len(failures)} bank file(s) unreadable "
+            f"({', '.join(os.path.basename(f) for f in failures)}). "
+            "Nothing was deleted — fix the file and re-run."
+        )
+    elif wanted_refs:
         for row in db.query(PsyItem).filter(~PsyItem.ref.in_(wanted_refs)).all():
             db.delete(row)
             removed += 1

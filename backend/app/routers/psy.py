@@ -140,6 +140,7 @@ def _draw_section_items(
         candidates = q.order_by(func.random()).limit(count * 4).all()
 
         taken = 0
+        deferred: List[models.PsyItem] = []
         for item in candidates:
             if taken >= count or item.ref in seen:
                 continue
@@ -148,22 +149,59 @@ def _draw_section_items(
                 seen.add(item.ref)
                 taken += 1
                 continue
-            # Passage item → take the whole cluster, in authored order.
-            cluster = (
-                db.query(models.PsyItem)
-                .filter(
-                    models.PsyItem.passage_id == item.passage_id,
-                    models.PsyItem.is_active.is_(True),
-                )
-                .order_by(models.PsyItem.passage_order, models.PsyItem.id)
-                .all()
+            # Passage item → take the cluster in authored order, but never past
+            # the row's count: a cluster is 5 questions, so appending it whole
+            # handed a "10 questions" section up to 14 and broke both the card's
+            # promise and the clock. A cluster is only worth starting if at
+            # least two of its questions fit — reading 200 words for a single
+            # question is a bad trade — so with one slot left we defer and try
+            # to fill from standalone items first.
+            remaining = count - taken
+            if remaining < 2:
+                deferred.append(item)
+                continue
+            # The cluster carries the row's own constraints. Pulling it by
+            # passage_id alone let a ``difficulty: 2`` row hand back items of
+            # difficulty 3 and 4 — the filters applied to the candidate query
+            # but not to the members dragged in behind it.
+            cluster_q = db.query(models.PsyItem).filter(
+                models.PsyItem.passage_id == item.passage_id,
+                models.PsyItem.is_active.is_(True),
             )
+            if row.get("topic"):
+                cluster_q = cluster_q.filter(models.PsyItem.topic == row["topic"])
+            if row.get("qtype"):
+                cluster_q = cluster_q.filter(models.PsyItem.qtype == row["qtype"])
+            if row.get("difficulty"):
+                cluster_q = cluster_q.filter(
+                    models.PsyItem.difficulty == int(row["difficulty"])
+                )
+            cluster = cluster_q.order_by(
+                models.PsyItem.passage_order, models.PsyItem.id
+            ).all()
+            # A passage another section already used is not worth reopening:
+            # the student would meet the same 200 words twice, a few questions
+            # at a time. Leave it and fill from somewhere else.
+            if any(m.ref in seen for m in cluster):
+                deferred.append(item)
+                continue
             for member in cluster:
-                if member.ref in seen:
-                    continue
+                if taken >= count:
+                    break
                 picked.append(member.ref)
                 seen.add(member.ref)
                 taken += 1
+
+        # Nothing standalone was left to fill the last slot — better a lone
+        # passage question than a section that comes up short.
+        for item in deferred:
+            if taken >= count:
+                break
+            if item.ref in seen:
+                continue
+            picked.append(item.ref)
+            seen.add(item.ref)
+            taken += 1
 
     return picked
 
@@ -749,7 +787,25 @@ def drill_questions(
     if access.tier == TIER_FREE:
         q = q.filter(models.PsyItem.id.in_(unlocked_psy_item_ids(db, access.ratio)))
 
-    return [_item_out(item) for item in q.order_by(func.random()).limit(limit).all()]
+    items = q.order_by(func.random()).limit(limit).all()
+    # Keep a passage's questions together. Random order served p5, p2, p4, p6,
+    # p4… — the student re-read the same 200-word text from scratch four times
+    # in one drill. Standalone items keep their random position; the first time
+    # a passage appears fixes where its whole group sits.
+    first_seen: Dict[int, int] = {}
+    for i, item in enumerate(items):
+        if item.passage_id is not None:
+            first_seen.setdefault(item.passage_id, i)
+    drawn_at = {id(item): i for i, item in enumerate(items)}
+    items.sort(
+        key=lambda it: (
+            first_seen[it.passage_id]
+            if it.passage_id is not None
+            else drawn_at[id(it)],
+            it.passage_order or 0,
+        )
+    )
+    return [_item_out(item) for item in items]
 
 
 @router.post("/drill/answer", response_model=PsyDrillResult)

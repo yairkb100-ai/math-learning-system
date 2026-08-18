@@ -19,10 +19,6 @@ const DOMAIN_HE = {
 }
 const DOMAIN_ORDER = ['verbal', 'quantitative', 'figural', 'logic', 'spatial', 'speed', 'english']
 
-function pct(n) {
-  return `${Math.round(n * 100)}%`
-}
-
 export default function PsyResults() {
   const { attemptId } = useParams()
   const [data, setData] = useState(null)
@@ -91,9 +87,9 @@ export default function PsyResults() {
           <div className="psy-gauge" aria-hidden="true">
             <motion.div
               className="psy-gauge-fill"
-              initial={{ width: 0 }}
-              animate={{ width: `${data.score_percent ?? 0}%` }}
-              transition={{ duration: 0.6, ease: EASE_OUT, delay: 0.15 }}
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: (data.score_percent ?? 0) / 100 }}
+              transition={{ duration: DURATION.long, ease: EASE_OUT, delay: 0.15 }}
             />
           </div>
           {data.readiness && <div className="psy-readiness">{data.readiness.label}</div>}
@@ -185,9 +181,9 @@ export default function PsyResults() {
                 <div className="psy-topic-bar" aria-hidden="true">
                   <motion.div
                     className={`psy-topic-fill${t.accuracy < 0.6 ? ' is-weak' : ''}`}
-                    initial={{ width: 0 }}
-                    animate={{ width: pct(t.accuracy) }}
-                    transition={{ duration: 0.5, ease: EASE_OUT, delay: 0.1 }}
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: t.accuracy }}
+                    transition={{ duration: DURATION.long, ease: EASE_OUT, delay: 0.1 }}
                   />
                 </div>
                 <div className="psy-topic-stat">

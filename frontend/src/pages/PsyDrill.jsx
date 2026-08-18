@@ -4,12 +4,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import api from '../api.js'
 import MathText from '../components/MathText.jsx'
 import { Loading, ErrorBox } from '../components/Status.jsx'
-import { fadeInUp, staggerContainer, tapScale, DURATION, EASE_OUT, EASE_IN } from '../lib/motion.js'
+import { fadeInUp, staggerContainer, tapScale, DURATION, EASE_OUT } from '../lib/motion.js'
 import '../styles/psy.css'
-
-// Drill flow is answered repeatedly in quick succession — the question
-// transition must stay fast and never block rapid tapping.
-const QUICK = 0.15
 
 const OPTION_LETTERS = ['א', 'ב', 'ג', 'ד', 'ה']
 // All four exam domains. The figural and english chips were missing, so a topic
@@ -179,20 +175,24 @@ export default function PsyDrill() {
         </div>
       )}
 
+      {/* אין כאן AnimatePresence בכוונה. השאלה היא התוכן הקריטי של המסך, ו-
+          CLAUDE.md אוסר על mode="wait" לתוכן כזה; אבל גם AnimatePresence בלי
+          mode משאיר את השאלה היוצאת ב-flow עד שאנימציית היציאה מסתיימת — ואם
+          היא לא מסתיימת (טאב ברקע: rAF לא רץ, וזה נבדק) שתי שאלות נערמות זו
+          על זו. ה-key על ה-article כבר גורם ל-remount ולאנימציית כניסה בכל
+          מעבר, בלי אנימציית יציאה שיכולה להיתקע. */}
       {loading ? (
         <Loading />
       ) : !current ? (
         <p className="psy-empty">אין עדיין שאלות בנושא הזה. המאגר מתמלא בהדרגה.</p>
       ) : (
-        <AnimatePresence mode="wait">
-          <motion.article
-            key={current.ref ?? index}
-            className="psy-question psy-question-solo"
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6, transition: { duration: QUICK * 0.7, ease: EASE_IN } }}
-            transition={{ duration: QUICK, ease: EASE_OUT }}
-          >
+        <motion.article
+          key={current.ref ?? index}
+          className="psy-question psy-question-solo"
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: DURATION.short, ease: EASE_OUT }}
+        >
             <div className="psy-question-num">
               שאלה {index + 1} מתוך {items.length}
               <span className={`psy-stopwatch${elapsed > current.target_seconds ? ' is-over' : ''}`}>
@@ -287,8 +287,7 @@ export default function PsyDrill() {
                 </motion.div>
               )}
             </AnimatePresence>
-          </motion.article>
-        </AnimatePresence>
+        </motion.article>
       )}
     </div>
   )
