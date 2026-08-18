@@ -12,6 +12,9 @@
   --accent-2: #2f9e6a;     /* ירוק — הדגשות */
   --cta: #1f7a8c;          /* טורקיז חי — פעולה ראשית */
   --cta-dark: #176070;     /* טורקיז כהה למעברים */
+  --marker: #f2b134;       /* מבטא גיר צהוב — מוגדר גם ב-.catalog/.course-view/
+                              .chapter-view, וכאן ב-:root כדי שאזורים אחרים
+                              (למשל .psy-home) לא יקבלו var() ריק ויאבדו את הפס */
   --ok: #2f8f6d;
   --ok-bg: #e4f2ea;
   --no: #b23a2c;
@@ -733,6 +736,13 @@ h1 {
 .grade-hs {
   --lv: #d2604f;         /* warm coral */
   --lv-bg: #fbe9e6;
+}
+/* גוון שביעי לרמפה. שנות הלימוד מכסות שישה גוונים, ולמבחן קרני שבעה תחומים —
+   אנגלית מקבלת אמבר-חרדל, הגוון היחיד שנבדל מכל השישה. אינו קשור לשנת לימוד,
+   ולכן שם נייטרלי ולא ‎.grade-*‎. */
+.lv-amber {
+  --lv: #c0882e;         /* amber-mustard */
+  --lv-bg: #f7eeda;
 }
 
 /* Tablet: cards get a smaller floor so two still fit side by side in portrait
