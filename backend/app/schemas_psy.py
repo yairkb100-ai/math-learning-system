@@ -21,6 +21,7 @@ class PsyPassageOut(BaseModel):
     kind: str
     body: str
     figure: Optional[str] = None
+    word_count: Optional[int] = None
 
     model_config = ConfigDict(from_attributes=True)
 
