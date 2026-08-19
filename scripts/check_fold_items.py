@@ -26,10 +26,13 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from foldcheck import FoldError, parse_figpunched, solve  # noqa: E402
+from foldcheck import (  # noqa: E402
+    FoldError, parse_figfold, parse_figpunched, solve, unfold,
+)
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "backend" / "data"
+COURSES = ROOT / "courses"
 
 QTYPE = "fold-punch"
 # The caption after "|" is not part of the spec, and "}" ends the token.
@@ -117,6 +120,61 @@ def check_item(item):
     return problems
 
 
+def check_course_prose():
+    """Verify every fold answer a course *teaches* is the one that really opens.
+
+    A wrong answer in the item bank costs a student one question. A wrong worked
+    example in the theory chapter teaches the wrong method, so it is checked by
+    the same reference implementation: each ``figfold`` is paired with the
+    ``figpunched`` figures that follow it before the next ``figfold`` — the
+    "and this is what it opens to" figure — and at least one of them has to be
+    exactly the computed hole set. A ``figfold`` with no answer figure after it
+    is a question being posed, not an answer being claimed, so it is skipped.
+    """
+    problems = []
+    checked = 0
+    for path in sorted(COURSES.glob("*.json")):
+        try:
+            course = json.loads(path.read_text(encoding="utf-8"))["course"]
+        except (OSError, KeyError, json.JSONDecodeError) as exc:
+            problems.append(f"{path.name}: cannot read — {exc}")
+            continue
+        for chapter in course["chapters"]:
+            blocks = [("content", chapter.get("content", ""))]
+            blocks += [
+                (f"example[{i}]", e.get("content", ""))
+                for i, e in enumerate(chapter.get("examples", []))
+            ]
+            blocks += [
+                (f"exercise{e.get('number', i)}",
+                 e.get("description", "") + "\n" + e.get("solution", ""))
+                for i, e in enumerate(chapter.get("exercises", []))
+            ]
+            for where, text in blocks:
+                parts = FIGFOLD.split(text)
+                for k in range(1, len(parts), 2):
+                    spec, after = parts[k], parts[k + 1]
+                    answers = FIGPUNCHED.findall(after)
+                    if not answers:
+                        continue
+                    loc = f"{path.name} ch{chapter['number']} {where}"
+                    try:
+                        size, folds, holes = parse_figfold(spec)
+                        want = unfold(size, folds, holes)
+                    except (FoldError, ValueError) as exc:
+                        problems.append(f"{loc}: unreadable figfold — {exc}")
+                        continue
+                    checked += 1
+                    if not any(
+                        parse_figpunched(a) == (size, want) for a in answers
+                    ):
+                        problems.append(
+                            f"{loc}: figfold '{spec}' opens to {sorted(want)}, "
+                            f"but no figpunched after it shows that"
+                        )
+    return checked, problems
+
+
 def main():
     problems = []
     checked = 0
@@ -134,7 +192,11 @@ def main():
             checked += 1
             problems.extend(f"{path.name} · {p}" for p in check_item(item))
 
+    prose_checked, prose_problems = check_course_prose()
+    problems.extend(prose_problems)
+
     print(f"{checked} items checked in {len(files)} bank files")
+    print(f"{prose_checked} worked fold answers checked in course text")
     if problems:
         print(f"\n{len(problems)} problem(s):")
         for p in problems:
