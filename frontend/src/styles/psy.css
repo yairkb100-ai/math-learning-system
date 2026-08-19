@@ -336,7 +336,6 @@
 }
 .psy-plan-list > li {
   flex: 1 1 330px;
-  max-width: 520px;
 }
 .psy-plan-item {
   display: grid;
@@ -386,7 +385,6 @@
 }
 .psy-sim-list > .psy-sim-card {
   flex: 1 1 300px;
-  max-width: 430px;
 }
 .psy-sim-card {
   display: flex;
@@ -497,7 +495,6 @@
 }
 .psy-course-list > li {
   flex: 1 1 300px;
-  max-width: 430px;
 }
 /* בין ה-li לכרטיס יושב עוטף ה-hover של framer-motion, ולכן ‎height: 100%‎ על
    הכרטיס לבדו לא מגיע לגובה השורה. שרשרת flex קצרה מעבירה את המתיחה הלאה,
@@ -1450,14 +1447,10 @@
     flex: 0 0 28px;
     height: 28px;
   }
-  .psy-course-list > li,
-  .psy-topic-cards > li,
-  .psy-domain-group.is-core .psy-topic-cards > li,
-  .psy-sim-list > .psy-sim-card,
-  .psy-plan-list > li {
-    flex-basis: 100%;
-    max-width: none;
-  }
+  /* אין כאן כפייה של עמודה אחת: ה-flex-basis של הכרטיסים (250-330px) כבר
+     נותן עמודה אחת מתחת ל-~600px מעצמו. הכפייה שהייתה כאן גם נפלה בפועל —
+     כללי הבסיס של ‎.psy-topic-cards‎ יושבים אחרי המדיה-קוורי בקובץ וגברו
+     עליה, כך שחלק מהקבוצות נשארו דו-טוריות וחלק לא. */
   .psy-hero-stats {
     flex-wrap: wrap;
     gap: 10px;
@@ -1550,7 +1543,6 @@
 }
 .psy-topic-cards > li {
   flex: 1 1 250px;
-  max-width: 380px;
 }
 .psy-topic-card {
   display: flex;
@@ -1651,10 +1643,58 @@
    יותר משקל, אז הם לא נדחסים לאותה רשת של תחום שולי */
 .psy-domain-group.is-core .psy-topic-cards > li {
   flex-basis: 290px;
-  max-width: 430px;
 }
 .psy-hero-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+}
+
+/* ---------- רוחב הכרטיסים לפי מידת המסך ----------
+   הבלוק הזה חייב לשבת בסוף הקובץ. כללי הבסיס של הרשימות מפוזרים למעלה, ומדיה-
+   קוורי שיושב באמצע הקובץ מפסיד להם בסדר המקור — בדיוק מה שקרה קודם והשאיר חצי
+   מהקבוצות דו-טוריות בנייד בזמן שהשאר היו חד-טוריות. */
+
+/* דסקטופ: תקרה לרוחב הכרטיס, כדי שקבוצה עם פריט אחד לא תימתח לכל 1480px.
+   התקרה נדיבה בכוונה — קבוצה של 2-3 פריטים ממלאת איתה את השורה במקום
+   להשאיר חצי שורה ריקה, ובשורה מלאה (4 כרטיסים) היא בכלל לא נוגעת. */
+@media (min-width: 1000px) {
+  .psy-course-list > li,
+  .psy-sim-list > .psy-sim-card {
+    max-width: 620px;
+  }
+  .psy-domain-group.is-core .psy-topic-cards > li {
+    max-width: 520px;
+  }
+  .psy-topic-cards > li {
+    max-width: 430px;
+  }
+  .psy-plan-list > li {
+    max-width: 560px;
+  }
+}
+
+/* טאבלט: שתי עמודות תמיד. אחוזים ולא פיקסלים — כך זה לא תלוי ב-gap ולא
+   ב-flex-basis של הדסקטופ, ואין תקרה שמשאירה חצי שורה ריקה. */
+@media (min-width: 620px) and (max-width: 999px) {
+  .psy-course-list > li,
+  .psy-topic-cards > li,
+  .psy-domain-group.is-core .psy-topic-cards > li,
+  .psy-sim-list > .psy-sim-card,
+  .psy-plan-list > li {
+    flex-basis: 45%;
+    max-width: none;
+  }
+}
+
+/* נייד: עמודה אחת מלאה. */
+@media (max-width: 619px) {
+  .psy-course-list > li,
+  .psy-topic-cards > li,
+  .psy-domain-group.is-core .psy-topic-cards > li,
+  .psy-sim-list > .psy-sim-card,
+  .psy-plan-list > li {
+    flex-basis: 100%;
+    max-width: none;
+  }
 }
