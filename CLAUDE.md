@@ -51,3 +51,24 @@ fadeInUp, pageTransition, tapScale, hoverLift, overlayFade) — **לא** להג�
 
 תמיד לוודא לפני push ש-`git diff --stat origin/main..HEAD` מראה **רק** את הקבצים הרלוונטיים —
 סשנים מקבילים עובדים על אותו repo ועלולים לזהם merge commits בטעות.
+
+**איך למזג בפועל על המכונה הזאת:** `gh` **לא מותקן** כאן, אז `gh pr merge` נכשל ב-`command not
+found` ואין טוקן ל-API. מה שעובד: לבנות את הקומיט ב-worktree מבודד מ-`origin/main`, לדחוף אותו
+ל-branch, ואז למזג ב-fast-forward ישירות —
+
+```bash
+git rev-list --left-right --count origin/main...origin/<branch>   # חייב להיות 0 ואז N
+git push origin origin/<branch>:main
+```
+
+ה-`0` באגף השמאלי הוא התנאי: הוא מוכיח שה-branch יושב בדיוק על קצה `main`, ושהדחיפה לא תגרור
+איתה שינויים של סשנים מקבילים. אם הוא לא 0 — לעשות rebase ולבדוק שוב, לא לכפות.
+
+**מחיקת ה-branch אחרי המיזוג נחסמת** ע"י ה-classifier (`git push origin --delete`). לא להיתקע
+על זה: לדווח שהענף נשאר, ולאמת את הפריסה מול האתר החי (`curl` על ה-bundle ב-`index.html`
+ואז grep על הכלל החדש) ולא מול git.
+
+**לקרוא את `CLAUDE.md` מ-`origin/main` לפני שמסתמכים עליו.** ה-branch המקומי יכול להיות עשרות
+קומיטים מאחור, והעותק שנטען לקונטקסט בתחילת הסשן הוא אז גרסה ישנה — זה כבר גרם לבקש מהמשתמש
+ללחוץ "Merge" ידנית אחרי שהכלל כאן כבר השתנה. `git show origin/main:CLAUDE.md` בתחילת עבודה
+שנוגעת בפריסה.
