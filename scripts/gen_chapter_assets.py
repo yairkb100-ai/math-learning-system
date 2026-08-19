@@ -21,6 +21,10 @@ Macros:
   [[sys:A ; B]]-> braced system, one equation stacked above the other
   [[blank]]    -> answer blank
   [[lines:N]]  -> N dotted answer lines
+
+``$...$`` (the syntax the course chapters are authored in) is accepted
+everywhere the macros are, and any bare LTR math left in the source is
+isolated automatically — see _dollar_math / _isolate_bare_math.
 """
 
 import json
@@ -35,6 +39,88 @@ CR = '© כל הזכויות שמורות ליאיר כהנא'
 # \sqrt[n]{...} root index in square brackets) or a bare [[a/b]] fraction.
 _TOKEN = r'\[\[eq:(?:[^\[\]]|\[\[\d+/\d+\]\]|\[[^\[\]]*\])*\]\]|\[\[\d+/\d+\]\]'
 _RUN = re.compile(r'(?:' + _TOKEN + r')(?:[ \t]*(?:' + _TOKEN + r'))+')
+
+# Anything already spoken for and therefore off limits to _isolate_bare_math:
+# a macro island, a $...$ island, the "kind:param" head of an art token
+# (``{{grid:10x10/45|caption}}`` — the param must survive untouched, the caption
+# must not), and any inline HTML the author wrote by hand. That last one is not
+# hypothetical: the bank sheets contain ``<b>לפני</b> 1``, where "b> 1" looks
+# exactly like a math run and wrapping it shredded the tag.
+_ISLAND = re.compile(
+    r'\[\[.*?\]\]|\$\$?[^$]*\$\$?|\{\{[a-z]+:[^|}]*|</?[a-zA-Z][^>]*>|&[#a-zA-Z0-9]+;',
+    re.S)
+
+# A bare left-to-right math run: starts and ends on a term, holds at least one
+# operator, and never crosses a Hebrew letter. A "term" is a whole run of
+# digits/letters (``mx``, ``2x``, ``1,000``, ``4.5``) — matching a single
+# character instead made the pass non-idempotent: ``y = mx + b`` stopped at
+# ``y = m``, and the lookbehind then blocked ``x + b`` until the next run.
+_ATOM = r'(?:[0-9A-Za-z][0-9A-Za-z.,]*[⁰¹²³⁴-⁹]*|[⁰¹²³⁴-⁹]+)'
+_BARE_MATH = re.compile(r"""
+    (?<![0-9A-Za-z֐-׿])
+    \(?
+    """ + _ATOM + r"""
+    (?:[ \t]*[-+*/=<>()−×÷·≤≥≠^][ \t]*""" + _ATOM + r""")+
+    \)?
+""", re.X)
+# What makes a run worth isolating. A superscript counts on its own: the
+# reported bug was ``(2²)³``, where the only "operator" is the closing bracket
+# the exponent hangs off, and an operator-only test left it bare.
+_MATH_SIGNAL = re.compile(r'[-+*/=<>−×÷·≤≥≠^⁰¹²³⁴-⁹]')
+
+
+def _dollar_math(s):
+    """``$x^2 = 9$`` -> ``[[eq:x^2 = 9]]``.
+
+    The chapters are authored with ``$...$`` and the sheets with ``[[eq:]]``;
+    both end up in the same _row() renderer, so accepting either here means an
+    author can no longer ship a literal dollar sign to a student by using the
+    other file's convention.
+    """
+    return re.sub(r'\$\$?([^$]+)\$\$?',
+                  lambda m: '[[eq:' + m.group(1).strip() + ']]', s)
+
+
+def _isolate_bare_math(s):
+    """Wrap un-marked LTR math runs in [[eq:]] so they stop reordering.
+
+    Hebrew is RTL, so ``6 × 4 = 24`` inside a sentence is laid out
+    right-to-left by Unicode rule N1 — every neutral char between two numbers
+    takes the paragraph direction — and prints as ``24 = 4 × 6``. Doing it here
+    rather than in the source means the sheets are correct whether or not the
+    author remembered the macro. Runs already inside an island are left alone,
+    and a trailing period or comma is pushed back out so sentence punctuation
+    keeps its RTL position.
+    """
+    islands = []
+
+    def stash(m):
+        islands.append(m.group(0))
+        return f'\x00{len(islands) - 1}\x00'
+
+    s = _ISLAND.sub(stash, s)
+
+    def wrap(m):
+        run = m.group(0).strip()
+        head = tail = ''
+        while run and run[-1] in '.,':
+            tail = run[-1] + tail
+            run = run[:-1].rstrip()
+        # An unpaired bracket belongs to the Hebrew sentence, not to the
+        # formula: keeping "(" inside the island would print it on the wrong
+        # side of the expression.
+        while run.startswith('(') and run.count('(') > run.count(')'):
+            head += '('
+            run = run[1:]
+        while run.endswith(')') and run.count(')') > run.count('('):
+            tail = ')' + tail
+            run = run[:-1]
+        if len(run) < 3 or not _MATH_SIGNAL.search(run):
+            return m.group(0)
+        return head + '[[eq:' + run + ']]' + tail
+
+    s = _BARE_MATH.sub(wrap, s)
+    return re.sub('\x00(\\d+)\x00', lambda m: islands[int(m.group(1))], s)
 
 
 def _merge_math_runs(s):
@@ -320,7 +406,28 @@ def _sqrt_root(s):
         i = idx + len(needle)
 
 
+_EQ_TOKEN = re.compile(r'\[\[eq:((?:[^\[\]]|\[[^\[\]]*\]|\[\[\d+/\d+\]\])*)\]\]')
+
+
+def isolate_inline_math(s):
+    """Plain text -> text with every math run in an LTR-isolated span.
+
+    The whole of macros() cannot be used on already-rendered HTML, so this is
+    the shared slice of it: accept ``$...$``, isolate bare LTR runs, render
+    both through _row(). scripts/fix_sheet_bidi.py repairs the sheets that were
+    generated before this existed with exactly this function, so a repaired
+    sheet and a freshly generated one can never disagree.
+    """
+    s = _isolate_bare_math(_dollar_math(s))
+    return _EQ_TOKEN.sub(lambda m: f'<span class="eq">{_row(m.group(1))}</span>', s)
+
+
 def macros(s):
+    # Both normalisations run on the raw source, BEFORE _art emits any HTML —
+    # afterwards the string holds <svg>/<div style="…"> markup whose attributes
+    # look exactly like bare math to _isolate_bare_math.
+    s = _dollar_math(s)
+    s = _isolate_bare_math(s)
     s = _art(s)
     s = _systems(s)
     s = _merge_math_runs(s)
@@ -330,8 +437,7 @@ def macros(s):
     # student as literal escaped tags — "2 ÷ &lt;span class="fr"&gt;…" instead
     # of "2 ÷ ½". The eq pattern already allows a nested [[a/b]]; _row turns it
     # into a \frac that _convert_fracs renders.
-    s = re.sub(r'\[\[eq:((?:[^\[\]]|\[[^\[\]]*\]|\[\[\d+/\d+\]\])*)\]\]',
-               lambda m: f'<span class="eq">{_row(m.group(1))}</span>', s)
+    s = _EQ_TOKEN.sub(lambda m: f'<span class="eq">{_row(m.group(1))}</span>', s)
     s = re.sub(r'\[\[(\d+)/(\d+)\]\]',
                r'<span class="fr"><b>\1</b><i>\2</i></span>', s)
     s = s.replace('[[blank]]', '<span class="blank"></span>')
@@ -532,7 +638,11 @@ def tex2html(s):
         if cases:
             return _sys_html([_row(r) for r in cases.group(1).split('\\\\')])
         return f'<span class="eq">{_row(inner)}</span>'
-    s = re.sub(r'\$\$?([^$]+)\$\$?', conv, s)
+    # $...$ and any bare LTR run both become [[eq:]] islands first, so the two
+    # notations render identically and nothing is left to reorder in the RTL
+    # page. Art tokens are stripped below, so isolating inside them is moot.
+    s = _isolate_bare_math(_dollar_math(s))
+    s = re.sub(r'\[\[eq:((?:[^\[\]]|\[[^\[\]]*\]|\[\[\d+/\d+\]\])*)\]\]', conv, s)
     s = re.sub(r'\*\*([^*]+)\*\*', r'<b>\1</b>', s)
     s = re.sub(r'\{\{[^}]*\}\}', '', s)  # strip art tokens
     s = s.replace('\n', '<br>')
