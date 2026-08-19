@@ -22,6 +22,7 @@ import {
   IconPaperclip,
   IconFile,
   IconWarning,
+  IconLines,
   IconLock,
 } from '../components/icons.jsx'
 
@@ -382,6 +383,14 @@ export default function ChapterView() {
   )
 }
 
+function jumpToSection(e, i) {
+  const el = document.getElementById(`chapter-sec-${i}`)
+  if (!el) return
+  e.preventDefault()
+  const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+  el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' })
+}
+
 function StepBody({
   step,
   chapter,
@@ -407,10 +416,36 @@ function StepBody({
     )
   }
   if (step.kind === 'content') {
+    // The whole lesson lives on one step, so it needs a map. Below three
+    // headings the list is longer than the trip it saves, and it is skipped.
+    const toc = step.sections
+      .map((sec, i) => ({ title: sec.title, i }))
+      .filter((s) => s.title)
     return (
       <article className="chapter-content card step-card">
+        {toc.length >= 3 && (
+          <nav className="chapter-toc" aria-label={t(rtl, 'תוכן העניינים', 'Contents')}>
+            <h2 className="chapter-toc-title">
+              <IconLines className="step-title-icon" />
+              {t(rtl, 'בפרק הזה', 'In this lesson')}
+            </h2>
+            <ol className="chapter-toc-list">
+              {toc.map(({ title, i }) => (
+                <li key={i}>
+                  <a href={`#chapter-sec-${i}`} onClick={(e) => jumpToSection(e, i)}>
+                    <InlineMathText text={title} />
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+        )}
         {step.sections.map((sec, i) => (
-          <div key={i} className={i > 0 ? 'step-section' : ''}>
+          <div
+            key={i}
+            id={`chapter-sec-${i}`}
+            className={i > 0 ? 'step-section' : ''}
+          >
             {sec.title && (
               <h2 className="step-title">
                 <InlineMathText text={sec.title} />

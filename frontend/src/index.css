@@ -2379,6 +2379,53 @@ h4.prose-h {
   border-top: 2px dashed #e2e8f2;
 }
 
+/* Chapter table of contents — the lesson is one long step, so the headings
+   double as its map. `scroll-margin-top` clears the sticky .topbar (measured
+   at 86px) plus a little air; without it a jump parks the heading underneath
+   the bar. Overshooting only leaves extra space, so this errs high for the
+   taller wrapped bar on narrow screens. */
+.chapter-content > [id^='chapter-sec-'] {
+  scroll-margin-top: 100px;
+}
+.chapter-toc {
+  margin: 0 0 26px;
+  padding: 16px 18px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.chapter-toc-title {
+  margin: 0 0 10px;
+  font-size: 1rem;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.chapter-toc-list {
+  margin: 0;
+  padding-inline-start: 22px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 4px 22px;
+}
+.chapter-toc-list li {
+  margin: 0;
+  color: var(--muted);
+}
+.chapter-toc-list a {
+  color: var(--accent);
+  text-decoration: none;
+  /* A tap target that clears 44px without stretching the list visually. */
+  display: inline-block;
+  padding: 6px 0;
+  line-height: 1.35;
+}
+.chapter-toc-list a:hover,
+.chapter-toc-list a:focus-visible {
+  text-decoration: underline;
+}
+
 /* ===== site footer / copyright ===== */
 .site-footer {
   text-align: center;
