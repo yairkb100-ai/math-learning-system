@@ -1087,6 +1087,14 @@ h4.prose-h {
   text-align: left;
 }
 
+/* טקסט שנבדק מול תשובה שמורה (תשובות במבחן/בתרגול) לא עובר דרך KaTeX —
+   אסור לשנות את המחרוזת עצמה. במקום זה עוטפים רק את קטעי הנוסחה שבתוכה
+   כדי שהם יישארו LTR מבודד ולא יתהפכו בתוך משפט עברי. */
+.bidi-math {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
 /* examples */
 .example .example-head,
 .exercise .exercise-head {

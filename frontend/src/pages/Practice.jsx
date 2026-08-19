@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
 import { IconLock } from '../components/icons.jsx'
+import MathText, { InlineMathText, BidiSafeText } from '../components/MathText.jsx'
 import { celebrate } from '../lib/celebrate.js'
 import { fadeInUp, staggerContainer, tapScale, hoverLift, DURATION, EASE_OUT, EASE_IN } from '../lib/motion.js'
 import '../styles/practice.css'
@@ -511,7 +512,10 @@ function QuestionCard({
         </span>
       </div>
 
-      <p className="practice-question-text">{question.question}</p>
+      {/* Authored prose — block renderer, same as Quiz.jsx's question stem. */}
+      <div className="practice-question-text">
+        <MathText text={question.question} />
+      </div>
 
       {isMC ? (
         <motion.div
@@ -534,7 +538,9 @@ function QuestionCard({
               <span className="practice-option-marker">
                 {OPTION_LETTERS[i] || i + 1}
               </span>
-              <span>{opt}</span>
+              {/* GRADED: `opt` is submitted and compared verbatim — display-only
+                  bidi isolation, no KaTeX rewrite. */}
+              <span><BidiSafeText text={opt} /></span>
             </motion.button>
           ))}
         </motion.div>
@@ -565,11 +571,13 @@ function QuestionCard({
             <strong>{result.is_correct ? '✓ תשובה נכונה!' : '✗ תשובה שגויה'}</strong>
             {!result.is_correct && (
               <span className="correct-answer">
-                התשובה הנכונה: {result.correct_answer}
+                התשובה הנכונה: <BidiSafeText text={result.correct_answer} />
               </span>
             )}
             {result.explanation && (
-              <span className="practice-verdict-explain">{result.explanation}</span>
+              <span className="practice-verdict-explain">
+                <InlineMathText text={result.explanation} />
+              </span>
             )}
           </motion.div>
         )}
@@ -688,17 +696,21 @@ function SessionSummary({ log, earned, onRestart, onNew }) {
           <motion.div variants={staggerContainer} initial="hidden" animate="show">
             {wrong.map((e, i) => (
               <motion.div key={i} className="practice-review-item" variants={fadeInUp}>
-                <p className="practice-review-q">{e.question}</p>
+                <p className="practice-review-q">
+                  <InlineMathText text={e.question} />
+                </p>
                 <div className="practice-review-answers">
                   <span className="practice-review-yours">
-                    תשובתך: {e.yourAnswer}
+                    תשובתך: <BidiSafeText text={e.yourAnswer} />
                   </span>
                   <span className="practice-review-correct">
-                    הנכונה: {e.correctAnswer}
+                    הנכונה: <BidiSafeText text={e.correctAnswer} />
                   </span>
                 </div>
                 {e.explanation && (
-                  <p className="practice-review-expl">{e.explanation}</p>
+                  <p className="practice-review-expl">
+                    <InlineMathText text={e.explanation} />
+                  </p>
                 )}
               </motion.div>
             ))}

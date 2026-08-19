@@ -75,6 +75,83 @@ export function InlineMathText({ text }) {
   return <>{renderInline(String(text || ''), 'im')}</>
 }
 
+// ---- bidi-safe plain text (display only, never rewrites the string) --------
+// For strings that are COMPARED, not authored: quiz/exam/practice option
+// labels and the stored correct answer. Those are graded — the chosen string is
+// matched against the stored one — so they must not go through KaTeX, which
+// would replace the text the student sees with re-typeset markup.
+//
+// Instead we leave every character exactly as it is and only wrap each run of
+// LTR math (digits/latin/superscripts plus the neutral chars between them) in a
+// bidi-isolating span. Unicode bidi rule N1 otherwise resolves those neutrals
+// (parens, "=", "·", "/") to RTL inside a Hebrew line, which flips
+// "(2²)³ = 64" into fragments laid out right-to-left. Hebrew runs are emitted
+// untouched, and the concatenated text content is identical to the input.
+
+// A "strong" LTR character: latin letters, digits, super/subscript digits.
+const IS_LTR_STRONG = /[0-9A-Za-z²³¹⁰⁴-⁹₀-₉]/
+// Direction-neutral characters that may sit *between* two strong ones. These
+// are exactly the ones bidi rule N1 hands to the surrounding RTL context.
+const IS_NEUTRAL =
+  /[\s()[\]{}+\-*/\\^,.:;'"<>%=−–·×÷≤≥≠≈±°→√π]/
+// Only runs that actually look like math get isolated — a bare counting number
+// or a lone latin word inside Hebrew prose is left alone, so "4 בלוקים" and
+// "שאלה 3" keep their natural flow.
+const MATH_SHAPED =
+  /[()[\]{}+\-*/^<>=−–·×÷≤≥≠≈±→√²³¹⁰⁴-⁹₀-₉]/
+
+// Brackets and signs that belong to the expression even when they sit at its
+// very edge: "(2²)³" must isolate together with its opening parenthesis, or the
+// lone "(" resolves RTL and drifts to the far side of the expression.
+const EDGE_NEUTRAL = /[()[\]{}+\-−–]/
+
+// Find the LTR runs in `src`: each starts and ends on a strong character (then
+// grows over any edge brackets/signs) and may span neutrals in between.
+// Returns [start, end) index pairs.
+function ltrRuns(src) {
+  const runs = []
+  let i = 0
+  while (i < src.length) {
+    if (!IS_LTR_STRONG.test(src[i])) {
+      i++
+      continue
+    }
+    let start = i
+    let end = i + 1 // one past the last STRONG char seen
+    let j = i + 1
+    while (j < src.length && (IS_LTR_STRONG.test(src[j]) || IS_NEUTRAL.test(src[j]))) {
+      if (IS_LTR_STRONG.test(src[j])) end = j + 1
+      j++
+    }
+    while (start > 0 && EDGE_NEUTRAL.test(src[start - 1])) start--
+    while (end < src.length && EDGE_NEUTRAL.test(src[end])) end++
+    runs.push([start, end])
+    i = end
+  }
+  return runs
+}
+
+export function BidiSafeText({ text }) {
+  const src = String(text ?? '')
+  const nodes = []
+  let last = 0
+  let k = 0
+  for (const [start, end] of ltrRuns(src)) {
+    const run = src.slice(start, end)
+    if (!MATH_SHAPED.test(run)) continue
+    if (start > last) nodes.push(src.slice(last, start))
+    nodes.push(
+      <span key={`bs-${k++}`} className="bidi-math">
+        {run}
+      </span>
+    )
+    last = end
+  }
+  if (!nodes.length) return <>{src}</>
+  if (last < src.length) nodes.push(src.slice(last))
+  return <>{nodes}</>
+}
+
 // ---- illustrations: {{kind:param|caption}} ---------------------------------
 // A line made only of art tokens becomes a row of friendly SVG figures.
 // `param` is kind-specific: most kinds use "n/d" (a fraction), some use a bare

@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
 import { IconLock } from '../components/icons.jsx'
+import MathText, { BidiSafeText } from '../components/MathText.jsx'
 import { DURATION, EASE_OUT, EASE_IN, tapScale } from '../lib/motion.js'
 import '../styles/exams.css'
 
@@ -197,7 +198,11 @@ export default function ExamPlayer() {
           exit={{ opacity: 0, x: 12, transition: { duration: 0.15, ease: EASE_IN } }}
           transition={{ duration: DURATION.medium, ease: EASE_OUT }}
         >
-          <p className="exam-question">{q.question}</p>
+          {/* The stem is authored prose — same block renderer Quiz.jsx uses,
+              so `$…$` typesets instead of showing a literal dollar sign. */}
+          <div className="exam-question">
+            <MathText text={q.question} />
+          </div>
 
           {isChoice ? (
             <div className="exam-options">
@@ -211,7 +216,9 @@ export default function ExamPlayer() {
                   transition={{ duration: DURATION.short, ease: EASE_OUT }}
                 >
                   <span className="exam-option-letter">{OPTION_LETTERS[i] || i + 1}</span>
-                  <span>{opt}</span>
+                  {/* GRADED: `opt` is submitted verbatim (setAnswer(opt)), so it
+                      is only bidi-isolated for display, never re-rendered. */}
+                  <span><BidiSafeText text={opt} /></span>
                 </motion.button>
               ))}
             </div>

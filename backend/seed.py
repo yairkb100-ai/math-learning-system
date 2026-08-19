@@ -45,6 +45,7 @@ from app.models import (  # noqa: E402
     LearningObjective,
     LessonType,
     LoginEvent,
+    PracticeAttempt,
     PracticeQuestion,
     PsyItem,
     PsyPassage,
@@ -596,32 +597,120 @@ def _load_practice_bank_files():
             )
 
 
+# ``2²`` and its LaTeX rewrite ``2^{2}`` must hash to the same key, so Unicode
+# superscripts are folded down to plain digits before the key is built.
+_SUPERSCRIPT_DIGITS = str.maketrans("⁰¹²³⁴⁵⁶⁷⁸⁹", "0123456789")
+
+
+def _practice_key(text):
+    """Stable match key for upserting a practice question.
+
+    Matching on the exact question string breaks whenever a question's
+    *presentation* changes — e.g. when bare math is wrapped in ``$…$`` so it
+    stops reordering inside Hebrew RTL text. That would insert a duplicate row
+    next to every rewritten question and leave students seeing both variants.
+    Keeping only Hebrew letters and digits yields a key that survives those
+    rewrites — Latin runs are dropped entirely so that a bare ``sin(30°)`` and
+    its LaTeX form ``\\sin(30^\\circ)`` still hash the same — while remaining
+    unique across the whole bank (asserted by tests/test_practice_key.py).
+    """
+    text = (text or "").translate(_SUPERSCRIPT_DIGITS)
+    key = "".join(re.findall(r"[֐-׿0-9]", text))
+    if len(key) >= 4:
+        return key
+    # English-language questions carry no Hebrew at all — key them on their
+    # Latin text instead, with LaTeX commands stripped.
+    return "".join(re.findall(r"[0-9a-z]", re.sub(r"\\[a-zA-Z]+", " ", text.lower())))
+
+
+def _merge_duplicate_practice_rows(db, rows):
+    """Collapse rows that are the same question written two different ways.
+
+    The bank used to be keyed by exact question text, so a question that
+    appeared with an ASCII minus in one source and a Unicode minus in another
+    became two rows. Only one of the pair is refreshed by the upsert below,
+    which would leave a stale twin — still showing the bidi-broken bare math —
+    in the pool students draw from. Attempts are repointed at the surviving
+    (oldest) row, so answer history is preserved.
+    """
+    groups = {}
+    for row in rows:
+        groups.setdefault((row.subject, _practice_key(row.question)), []).append(row)
+    merged = 0
+    for dupes in groups.values():
+        if len(dupes) < 2:
+            continue
+        dupes.sort(key=lambda r: r.id)
+        keep = dupes[0]
+        for extra in dupes[1:]:
+            db.query(PracticeAttempt).filter(
+                PracticeAttempt.question_id == extra.id
+            ).update({PracticeAttempt.question_id: keep.id}, synchronize_session=False)
+            db.delete(extra)
+            merged += 1
+    if merged:
+        db.commit()
+        print(f"  ~ Merged {merged} duplicate practice question(s) into their twin")
+    return merged
+
+
 def ensure_practice_questions(db):
     """Upsert the shared practice question bank.
 
-    Idempotent by exact question text: a question is inserted only if no row
-    with that text already exists. Existing rows (and their student attempt
-    history) are never modified or deleted, so this is safe to run on every
-    boot and lets the bank grow over time via new ``data/practice_*.json`` files.
+    Idempotent by ``_practice_key`` (question text ignoring math markup): a
+    question is inserted only if no row matches, and a matching row has its
+    text and metadata refreshed in place. Rows are never deleted and their id
+    is stable, so student attempt history survives a rewrite of the bank.
+
+    A question whose Hebrew wording itself was corrected no longer matches by
+    key, so a second lookup falls back to (subject, topic, correct_answer) and
+    accepts it only when it identifies exactly one not-yet-matched row.
     """
-    existing = {q for (q,) in db.query(PracticeQuestion.question).all()}
+    all_rows = db.query(PracticeQuestion).all()
+    if _merge_duplicate_practice_rows(db, all_rows):
+        all_rows = db.query(PracticeQuestion).all()
+    by_key = {}
+    by_ident = {}
+    for row in all_rows:
+        # Keyed per subject: a few questions live in both the math bank and the
+        # psychometric one on purpose, and they must stay two separate rows.
+        by_key.setdefault((row.subject, _practice_key(row.question)), row)
+        by_ident.setdefault(
+            (row.subject, row.topic, row.correct_answer), []).append(row)
     rows = list(_PRACTICE_QUESTIONS) + list(_load_practice_bank_files())
-    added = 0
+    fields = ("question", "topic", "type", "options", "correct_answer",
+              "explanation", "difficulty")
+    matched = set()
+    added = updated = 0
     for subject, topic, q, qtype, options, answer, expl, diff in rows:
-        if q in existing:
+        key = (subject, _practice_key(q))
+        row = by_key.get(key)
+        if row is None:
+            candidates = [r for r in by_ident.get((subject, topic, answer), [])
+                          if id(r) not in matched]
+            if len(candidates) == 1:
+                row = candidates[0]
+        if row is not None:
+            matched.add(id(row))
+            values = (q, topic, qtype, options, answer, expl, diff)
+            changed = False
+            for field, value in zip(fields, values):
+                if value is not None and getattr(row, field) != value:
+                    setattr(row, field, value)
+                    changed = True
+            updated += 1 if changed else 0
             continue
-        existing.add(q)  # guard against duplicates within this run
-        db.add(
-            PracticeQuestion(
-                subject=subject, topic=topic, question=q, type=qtype,
-                options=options, correct_answer=answer, explanation=expl,
-                difficulty=diff, estimated_time=60,
-            )
+        row = PracticeQuestion(
+            subject=subject, topic=topic, question=q, type=qtype,
+            options=options, correct_answer=answer, explanation=expl,
+            difficulty=diff, estimated_time=60,
         )
+        db.add(row)
+        by_key[key] = row  # guard against duplicates within this run
         added += 1
     db.commit()
-    if added:
-        print(f"  + Added {added} practice questions (bank now growing idempotently)")
+    if added or updated:
+        print(f"  + Practice bank: {added} added, {updated} updated in place")
     else:
         print("  * Practice questions already up to date — nothing to add.")
 
