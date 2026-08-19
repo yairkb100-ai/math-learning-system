@@ -49,24 +49,27 @@ TABLE_ILLUSTRATED = {
 
 # The table itself. Each row: display name, the bank topics that back it, and
 # the courses that teach it.
+V, Q, F, S = "verbal", "quantitative", "figural", "spatial"
+
 TABLE = [
     # חשיבה מילולית
-    ("יוצא דופן מילולי",   ["יוצא דופן"],                    ["karni-verbal-odd-one-out"]),
-    ("השלמת משפטים",       ["השלמת משפטים"],                 ["karni-verbal-completion"]),
-    ("אוצר מילים",         ["אוצר מילים וניבים"],            ["karni-verbal-vocabulary"]),
-    ("הקבלות מילוליות",    ["אנלוגיות"],                     ["karni-verbal-analogies"]),
-    ("בעיות מילוליות",     ["תנועה", "הספק", "ממוצע",
-                            "יחס ופרופורציה"],               ["karni-quant-word-problems"]),
+    ("יוצא דופן מילולי",   [(V, "יוצא דופן")],               ["karni-verbal-odd-one-out"]),
+    ("השלמת משפטים",       [(V, "השלמת משפטים")],            ["karni-verbal-completion"]),
+    ("אוצר מילים",         [(V, "אוצר מילים וניבים")],       ["karni-verbal-vocabulary"]),
+    ("הקבלות מילוליות",    [(V, "אנלוגיות")],                ["karni-verbal-analogies"]),
+    ("בעיות מילוליות",     [(Q, "תנועה"), (Q, "הספק"), (Q, "ממוצע"),
+                            (Q, "יחס ופרופורציה")],          ["karni-quant-word-problems"]),
     # חשיבה כמותית
-    ("סדרות חשבוניות",     ["סדרות מספרים ואותיות"],         ["karni-series"]),
-    ("תרגילים",            ["מספרים וחזקות", "שברים ועשרוניים",
-                            "אלגברה", "אחוזים"],             ["karni-quant-numbers"]),
+    ("סדרות חשבוניות",     [(Q, "סדרות מספרים ואותיות"),
+                            (V, "סדרות מספרים ואותיות")],    ["karni-series"]),
+    ("תרגילים",            [(Q, "מספרים וחזקות"), (Q, "שברים ועשרוניים"),
+                            (Q, "אלגברה"), (Q, "אחוזים")],   ["karni-quant-numbers"]),
     # צורות
-    ("צורות ברצף",         ["סדרות צורות"],                  ["karni-figural-series"]),
-    ("תבניות — מטריצות",   ["מטריצות"],                      ["karni-figural-matrices"]),
-    ("תבניות — שטיחים",    ["שטיחים ותבניות"],               ["karni-carpets"]),
-    ("תבניות — קיפולים",   ["קיפולים וניקובים"],             ["karni-fold-punch"]),
-    ("הקבלות צורניות",     ["אנלוגיות צורניות"],             ["karni-figural-analogies"]),
+    ("צורות ברצף",         [(F, "סדרות צורות")],             ["karni-figural-series"]),
+    ("תבניות — מטריצות",   [(F, "מטריצות")],                 ["karni-figural-matrices"]),
+    ("תבניות — שטיחים",    [(F, "שטיחים ותבניות")],          ["karni-carpets"]),
+    ("תבניות — קיפולים",   [(S, "קיפולים וניקובים")],        ["karni-fold-punch"]),
+    ("הקבלות צורניות",     [(F, "אנלוגיות צורניות")],        ["karni-figural-analogies"]),
 ]
 
 ART_TOKEN = re.compile(r"\{\{[a-z-]+(?::[^|}]+)?(?:\|(?:[^}]|\}(?!\}))*)?\}\}")
@@ -80,7 +83,7 @@ def load_bank_topics():
             data = json.load(fh)
         for item in data.get("items", []) or []:
             if item.get("is_active", True):
-                counts[item.get("topic")] += 1
+                counts[(item.get("domain"), item.get("topic"))] += 1
     return counts
 
 
@@ -98,7 +101,7 @@ def load_sim_topics():
         for section in sim["sections"]:
             for row in section.get("blueprint") or []:
                 if row.get("topic"):
-                    counts[row["topic"]] += 1
+                    counts[(row.get("domain") or section["domain"], row["topic"])] += 1
     return counts
 
 
