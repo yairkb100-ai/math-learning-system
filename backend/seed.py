@@ -1338,6 +1338,15 @@ def run_light_migrations():
                 conn.execute(text("ALTER TABLE psy_attempts ADD COLUMN domain_scores JSON"))
             print("  ~ Migrated: added psy_attempts.domain_scores")
 
+    if "psy_simulations" in inspector.get_table_names():
+        cols = {c["name"] for c in inspector.get_columns("psy_simulations")}
+        if "level" not in cols:
+            # Nullable on purpose: every form that existed before the advanced
+            # tier IS the standard tier, and NULL is exactly that.
+            with engine.begin() as conn:
+                conn.execute(text("ALTER TABLE psy_simulations ADD COLUMN level VARCHAR"))
+            print("  ~ Migrated: added psy_simulations.level")
+
 
     if "chapters" in inspector.get_table_names():
         cols = {c["name"] for c in inspector.get_columns("chapters")}
@@ -1460,13 +1469,14 @@ _PSY_SECTIONS = [
     {
         "slug": "psy-verbal",
         "title": "חשיבה מילולית",
-        "description": "אנלוגיות, השלמת משפטים, יוצא דופן, אוצר מילים והבנת הנקרא — הפרק שבו נבחנת היכולת לזהות קשר בין מילים ולקרוא מהר ומדויק",
+        "description": "הקבלות מילוליות, השלמת משפטים, יוצא דופן, אוצר מילים והבנת הנקרא — הפרק שבו נבחנת היכולת לזהות קשר בין מילים ולקרוא מהר ומדויק",
         "order": 1,
         "course_slugs": [
             "karni-verbal-analogies",
             "karni-verbal-completion",
             "karni-verbal-odd-one-out",
             "karni-verbal-reading",
+            "karni-verbal-vocabulary",
         ],
     },
     {
@@ -1491,12 +1501,13 @@ _PSY_SECTIONS = [
     {
         "slug": "psy-figural",
         "title": "חשיבה צורנית",
-        "description": "חוקיות של צורות: מטריצות, סדרות צורות, אנלוגיות צורניות ויוצא דופן — הפרק שאי אפשר ללמוד בעל פה, רק לאמן את העין",
+        "description": "חוקיות של צורות: צורות ברצף, תבניות ושטיחים, מטריצות, הקבלות צורניות ויוצא דופן — הפרק שאי אפשר ללמוד בעל פה, רק לאמן את העין",
         "order": 4,
         "course_slugs": [
             "karni-figural-basics",
             "karni-figural-series",
             "karni-figural-matrices",
+            "karni-carpets",
             "karni-figural-analogies",
         ],
     },
@@ -1517,9 +1528,9 @@ _PSY_SECTIONS = [
     {
         "slug": "psy-spatial",
         "title": "חשיבה מרחבית",
-        "description": "קיפול פרישות לגוף תלת-ממדי וזיהוי הפרישה הנכונה מתוך הגוף — הפרק שדורש לסובב את הצורה בראש",
+        "description": "קיפול נייר וניקוב (\"ביסים\"), קיפול פרישות לגוף תלת-ממדי וזיהוי הפרישה הנכונה מתוך הגוף — הפרק שדורש לסובב ולקפל את הצורה בראש",
         "order": 7,
-        "course_slugs": ["karni-spatial-nets"],
+        "course_slugs": ["karni-fold-punch", "karni-spatial-nets"],
     },
     {
         "slug": "psy-speed",
@@ -2183,10 +2194,629 @@ _PSY_SIMULATIONS = [
              ]},
         ],
     },
+    # שטיחים: שמונה שאלות לטופס ולא עשר — המאגר מחזיק 40 פריטים, וחמישה
+    # טפסים של עשר היו נאלצים לחזור על שאלות בין הטפסים. ראה
+    # assign_topic_test_forms(), שחותך את חמשת הטפסים מרשימה אחת.
+    {
+        "slug": "karni-test-carpets-1",
+        "title": "שטיחים ותבניות — מבחן 1",
+        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 76,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "figural", "title": "שטיחים ותבניות",
+             "minutes": 6, "num_questions": 8,
+             "blueprint": [{"count": 8, "topic": "שטיחים ותבניות"}]},
+        ],
+    },
+    {
+        "slug": "karni-test-carpets-2",
+        "title": "שטיחים ותבניות — מבחן 2",
+        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 77,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "figural", "title": "שטיחים ותבניות",
+             "minutes": 6, "num_questions": 8,
+             "blueprint": [{"count": 8, "topic": "שטיחים ותבניות"}]},
+        ],
+    },
+    {
+        "slug": "karni-test-carpets-3",
+        "title": "שטיחים ותבניות — מבחן 3",
+        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 78,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "figural", "title": "שטיחים ותבניות",
+             "minutes": 6, "num_questions": 8,
+             "blueprint": [{"count": 8, "topic": "שטיחים ותבניות"}]},
+        ],
+    },
+    {
+        "slug": "karni-test-carpets-4",
+        "title": "שטיחים ותבניות — מבחן 4",
+        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 79,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "figural", "title": "שטיחים ותבניות",
+             "minutes": 6, "num_questions": 8,
+             "blueprint": [{"count": 8, "topic": "שטיחים ותבניות"}]},
+        ],
+    },
+    {
+        "slug": "karni-test-carpets-5",
+        "title": "שטיחים ותבניות — מבחן 5",
+        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 80,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "figural", "title": "שטיחים ותבניות",
+             "minutes": 6, "num_questions": 8,
+             "blueprint": [{"count": 8, "topic": "שטיחים ותבניות"}]},
+        ],
+    },
+    # קיפולים וניקובים ("ביסים") — אותו שיקול גודל-מאגר כמו בשטיחים.
+    {
+        "slug": "karni-test-fold-1",
+        "title": "קיפולים וניקובים — מבחן 1",
+        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 91,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "spatial", "title": "קיפולים וניקובים",
+             "minutes": 6, "num_questions": 8,
+             "blueprint": [{"count": 8, "topic": "קיפולים וניקובים"}]},
+        ],
+    },
+    {
+        "slug": "karni-test-fold-2",
+        "title": "קיפולים וניקובים — מבחן 2",
+        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 92,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "spatial", "title": "קיפולים וניקובים",
+             "minutes": 6, "num_questions": 8,
+             "blueprint": [{"count": 8, "topic": "קיפולים וניקובים"}]},
+        ],
+    },
+    {
+        "slug": "karni-test-fold-3",
+        "title": "קיפולים וניקובים — מבחן 3",
+        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 93,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "spatial", "title": "קיפולים וניקובים",
+             "minutes": 6, "num_questions": 8,
+             "blueprint": [{"count": 8, "topic": "קיפולים וניקובים"}]},
+        ],
+    },
+    {
+        "slug": "karni-test-fold-4",
+        "title": "קיפולים וניקובים — מבחן 4",
+        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 94,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "spatial", "title": "קיפולים וניקובים",
+             "minutes": 6, "num_questions": 8,
+             "blueprint": [{"count": 8, "topic": "קיפולים וניקובים"}]},
+        ],
+    },
+    {
+        "slug": "karni-test-fold-5",
+        "title": "קיפולים וניקובים — מבחן 5",
+        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 95,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "spatial", "title": "קיפולים וניקובים",
+             "minutes": 6, "num_questions": 8,
+             "blueprint": [{"count": 8, "topic": "קיפולים וניקובים"}]},
+        ],
+    },
+    # אוצר מילים: 55 פריטים במאגר, ולכן חמישה טפסים של עשר נחתכים ללא חפיפה.
+    {
+        "slug": "karni-test-vocab-1",
+        "title": "אוצר מילים — מבחן 1",
+        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 101,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "verbal", "title": "אוצר מילים",
+             "minutes": 6, "num_questions": 10,
+             "blueprint": [{"count": 10, "topic": "אוצר מילים וניבים"}]},
+        ],
+    },
+    {
+        "slug": "karni-test-vocab-2",
+        "title": "אוצר מילים — מבחן 2",
+        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 102,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "verbal", "title": "אוצר מילים",
+             "minutes": 6, "num_questions": 10,
+             "blueprint": [{"count": 10, "topic": "אוצר מילים וניבים"}]},
+        ],
+    },
+    {
+        "slug": "karni-test-vocab-3",
+        "title": "אוצר מילים — מבחן 3",
+        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 103,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "verbal", "title": "אוצר מילים",
+             "minutes": 6, "num_questions": 10,
+             "blueprint": [{"count": 10, "topic": "אוצר מילים וניבים"}]},
+        ],
+    },
+    {
+        "slug": "karni-test-vocab-4",
+        "title": "אוצר מילים — מבחן 4",
+        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 104,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "verbal", "title": "אוצר מילים",
+             "minutes": 6, "num_questions": 10,
+             "blueprint": [{"count": 10, "topic": "אוצר מילים וניבים"}]},
+        ],
+    },
+    {
+        "slug": "karni-test-vocab-5",
+        "title": "אוצר מילים — מבחן 5",
+        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 105,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "verbal", "title": "אוצר מילים",
+             "minutes": 6, "num_questions": 10,
+             "blueprint": [{"count": 10, "topic": "אוצר מילים וניבים"}]},
+        ],
+    },
+    # חמשת הנושאים המילוליים והכמותיים שבטבלת קרני קיבלו עד כה טפסי תרגול
+    # רק דרך הפרקים המלאים. חמישה טפסים לנושא, כמו שכבר יש לכל נושא צורני.
+    {
+        "slug": "karni-test-vanalogy-1",
+        "title": "הקבלות מילוליות — מבחן 1",
+        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 111,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "verbal", "title": "הקבלות מילוליות",
+             "minutes": 6, "num_questions": 8,
+             "blueprint": [
+                 {"count": 8, "topic": "אנלוגיות"},
+             ]},
+        ],
+    },
+    {
+        "slug": "karni-test-vanalogy-2",
+        "title": "הקבלות מילוליות — מבחן 2",
+        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 112,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "verbal", "title": "הקבלות מילוליות",
+             "minutes": 6, "num_questions": 8,
+             "blueprint": [
+                 {"count": 8, "topic": "אנלוגיות"},
+             ]},
+        ],
+    },
+    {
+        "slug": "karni-test-vanalogy-3",
+        "title": "הקבלות מילוליות — מבחן 3",
+        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 113,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "verbal", "title": "הקבלות מילוליות",
+             "minutes": 6, "num_questions": 8,
+             "blueprint": [
+                 {"count": 8, "topic": "אנלוגיות"},
+             ]},
+        ],
+    },
+    {
+        "slug": "karni-test-vanalogy-4",
+        "title": "הקבלות מילוליות — מבחן 4",
+        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 114,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "verbal", "title": "הקבלות מילוליות",
+             "minutes": 6, "num_questions": 8,
+             "blueprint": [
+                 {"count": 8, "topic": "אנלוגיות"},
+             ]},
+        ],
+    },
+    {
+        "slug": "karni-test-vanalogy-5",
+        "title": "הקבלות מילוליות — מבחן 5",
+        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 115,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "verbal", "title": "הקבלות מילוליות",
+             "minutes": 6, "num_questions": 8,
+             "blueprint": [
+                 {"count": 8, "topic": "אנלוגיות"},
+             ]},
+        ],
+    },
+    # יוצא דופן מילולי.
+    {
+        "slug": "karni-test-vodd-1",
+        "title": "יוצא דופן מילולי — מבחן 1",
+        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 121,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "verbal", "title": "יוצא דופן מילולי",
+             "minutes": 7, "num_questions": 10,
+             "blueprint": [
+                 {"count": 10, "topic": "יוצא דופן"},
+             ]},
+        ],
+    },
+    {
+        "slug": "karni-test-vodd-2",
+        "title": "יוצא דופן מילולי — מבחן 2",
+        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 122,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "verbal", "title": "יוצא דופן מילולי",
+             "minutes": 7, "num_questions": 10,
+             "blueprint": [
+                 {"count": 10, "topic": "יוצא דופן"},
+             ]},
+        ],
+    },
+    {
+        "slug": "karni-test-vodd-3",
+        "title": "יוצא דופן מילולי — מבחן 3",
+        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 123,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "verbal", "title": "יוצא דופן מילולי",
+             "minutes": 7, "num_questions": 10,
+             "blueprint": [
+                 {"count": 10, "topic": "יוצא דופן"},
+             ]},
+        ],
+    },
+    {
+        "slug": "karni-test-vodd-4",
+        "title": "יוצא דופן מילולי — מבחן 4",
+        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 124,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "verbal", "title": "יוצא דופן מילולי",
+             "minutes": 7, "num_questions": 10,
+             "blueprint": [
+                 {"count": 10, "topic": "יוצא דופן"},
+             ]},
+        ],
+    },
+    {
+        "slug": "karni-test-vodd-5",
+        "title": "יוצא דופן מילולי — מבחן 5",
+        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 125,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "verbal", "title": "יוצא דופן מילולי",
+             "minutes": 7, "num_questions": 10,
+             "blueprint": [
+                 {"count": 10, "topic": "יוצא דופן"},
+             ]},
+        ],
+    },
+    # השלמת משפטים.
+    {
+        "slug": "karni-test-vcomp-1",
+        "title": "השלמת משפטים — מבחן 1",
+        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 131,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "verbal", "title": "השלמת משפטים",
+             "minutes": 7, "num_questions": 10,
+             "blueprint": [
+                 {"count": 10, "topic": "השלמת משפטים"},
+             ]},
+        ],
+    },
+    {
+        "slug": "karni-test-vcomp-2",
+        "title": "השלמת משפטים — מבחן 2",
+        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 132,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "verbal", "title": "השלמת משפטים",
+             "minutes": 7, "num_questions": 10,
+             "blueprint": [
+                 {"count": 10, "topic": "השלמת משפטים"},
+             ]},
+        ],
+    },
+    {
+        "slug": "karni-test-vcomp-3",
+        "title": "השלמת משפטים — מבחן 3",
+        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 133,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "verbal", "title": "השלמת משפטים",
+             "minutes": 7, "num_questions": 10,
+             "blueprint": [
+                 {"count": 10, "topic": "השלמת משפטים"},
+             ]},
+        ],
+    },
+    {
+        "slug": "karni-test-vcomp-4",
+        "title": "השלמת משפטים — מבחן 4",
+        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 134,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "verbal", "title": "השלמת משפטים",
+             "minutes": 7, "num_questions": 10,
+             "blueprint": [
+                 {"count": 10, "topic": "השלמת משפטים"},
+             ]},
+        ],
+    },
+    {
+        "slug": "karni-test-vcomp-5",
+        "title": "השלמת משפטים — מבחן 5",
+        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 135,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "verbal", "title": "השלמת משפטים",
+             "minutes": 7, "num_questions": 10,
+             "blueprint": [
+                 {"count": 10, "topic": "השלמת משפטים"},
+             ]},
+        ],
+    },
+    # בעיות מילוליות — טופס מעורב בכוונה: "בעיה מילולית" אינה נושא אחד במאגר
+    # אלא חמישה, והמבחן האמיתי מגיש אותם מעורבבים. טופס מרובה-נושאים
+    # נשאר על שליפה אקראית; ראה assign_topic_test_forms().
+    {
+        "slug": "karni-test-wordprob-1",
+        "title": "בעיות מילוליות — מבחן 1",
+        "description": "10 שאלות ב-9 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 141,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "quantitative", "title": "בעיות מילוליות",
+             "minutes": 9, "num_questions": 10,
+             "blueprint": [
+                 {"count": 3, "topic": "תנועה"},
+                 {"count": 2, "topic": "הספק"},
+                 {"count": 2, "topic": "ממוצע"},
+                 {"count": 2, "topic": "אחוזים"},
+                 {"count": 1, "topic": "יחס ופרופורציה"},
+             ]},
+        ],
+    },
+    {
+        "slug": "karni-test-wordprob-2",
+        "title": "בעיות מילוליות — מבחן 2",
+        "description": "10 שאלות ב-9 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 142,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "quantitative", "title": "בעיות מילוליות",
+             "minutes": 9, "num_questions": 10,
+             "blueprint": [
+                 {"count": 3, "topic": "תנועה"},
+                 {"count": 2, "topic": "הספק"},
+                 {"count": 2, "topic": "ממוצע"},
+                 {"count": 2, "topic": "אחוזים"},
+                 {"count": 1, "topic": "יחס ופרופורציה"},
+             ]},
+        ],
+    },
+    {
+        "slug": "karni-test-wordprob-3",
+        "title": "בעיות מילוליות — מבחן 3",
+        "description": "10 שאלות ב-9 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 143,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "quantitative", "title": "בעיות מילוליות",
+             "minutes": 9, "num_questions": 10,
+             "blueprint": [
+                 {"count": 3, "topic": "תנועה"},
+                 {"count": 2, "topic": "הספק"},
+                 {"count": 2, "topic": "ממוצע"},
+                 {"count": 2, "topic": "אחוזים"},
+                 {"count": 1, "topic": "יחס ופרופורציה"},
+             ]},
+        ],
+    },
+    {
+        "slug": "karni-test-wordprob-4",
+        "title": "בעיות מילוליות — מבחן 4",
+        "description": "10 שאלות ב-9 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 144,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "quantitative", "title": "בעיות מילוליות",
+             "minutes": 9, "num_questions": 10,
+             "blueprint": [
+                 {"count": 3, "topic": "תנועה"},
+                 {"count": 2, "topic": "הספק"},
+                 {"count": 2, "topic": "ממוצע"},
+                 {"count": 2, "topic": "אחוזים"},
+                 {"count": 1, "topic": "יחס ופרופורציה"},
+             ]},
+        ],
+    },
+    {
+        "slug": "karni-test-wordprob-5",
+        "title": "בעיות מילוליות — מבחן 5",
+        "description": "10 שאלות ב-9 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 145,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "quantitative", "title": "בעיות מילוליות",
+             "minutes": 9, "num_questions": 10,
+             "blueprint": [
+                 {"count": 3, "topic": "תנועה"},
+                 {"count": 2, "topic": "הספק"},
+                 {"count": 2, "topic": "ממוצע"},
+                 {"count": 2, "topic": "אחוזים"},
+                 {"count": 1, "topic": "יחס ופרופורציה"},
+             ]},
+        ],
+    },
+    # תרגילים — שורת "תרגילים" בטבלת קרני היא חשבון ישיר בלי סיפור,
+    # ובמאגר היא מפוזרת על ארבעה נושאים. אותו שיקול כמו בבעיות המילוליות.
+    {
+        "slug": "karni-test-drill-1",
+        "title": "תרגילים — מבחן 1",
+        "description": "12 שאלות ב-8 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 151,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "quantitative", "title": "תרגילים",
+             "minutes": 8, "num_questions": 12,
+             "blueprint": [
+                 {"count": 4, "topic": "מספרים וחזקות"},
+                 {"count": 4, "topic": "שברים ועשרוניים"},
+                 {"count": 2, "topic": "אלגברה"},
+                 {"count": 2, "topic": "אחוזים"},
+             ]},
+        ],
+    },
+    {
+        "slug": "karni-test-drill-2",
+        "title": "תרגילים — מבחן 2",
+        "description": "12 שאלות ב-8 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 152,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "quantitative", "title": "תרגילים",
+             "minutes": 8, "num_questions": 12,
+             "blueprint": [
+                 {"count": 4, "topic": "מספרים וחזקות"},
+                 {"count": 4, "topic": "שברים ועשרוניים"},
+                 {"count": 2, "topic": "אלגברה"},
+                 {"count": 2, "topic": "אחוזים"},
+             ]},
+        ],
+    },
+    {
+        "slug": "karni-test-drill-3",
+        "title": "תרגילים — מבחן 3",
+        "description": "12 שאלות ב-8 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 153,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "quantitative", "title": "תרגילים",
+             "minutes": 8, "num_questions": 12,
+             "blueprint": [
+                 {"count": 4, "topic": "מספרים וחזקות"},
+                 {"count": 4, "topic": "שברים ועשרוניים"},
+                 {"count": 2, "topic": "אלגברה"},
+                 {"count": 2, "topic": "אחוזים"},
+             ]},
+        ],
+    },
+    {
+        "slug": "karni-test-drill-4",
+        "title": "תרגילים — מבחן 4",
+        "description": "12 שאלות ב-8 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 154,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "quantitative", "title": "תרגילים",
+             "minutes": 8, "num_questions": 12,
+             "blueprint": [
+                 {"count": 4, "topic": "מספרים וחזקות"},
+                 {"count": 4, "topic": "שברים ועשרוניים"},
+                 {"count": 2, "topic": "אלגברה"},
+                 {"count": 2, "topic": "אחוזים"},
+             ]},
+        ],
+    },
+    {
+        "slug": "karni-test-drill-5",
+        "title": "תרגילים — מבחן 5",
+        "description": "12 שאלות ב-8 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 155,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "quantitative", "title": "תרגילים",
+             "minutes": 8, "num_questions": 12,
+             "blueprint": [
+                 {"count": 4, "topic": "מספרים וחזקות"},
+                 {"count": 4, "topic": "שברים ועשרוניים"},
+                 {"count": 2, "topic": "אלגברה"},
+                 {"count": 2, "topic": "אחוזים"},
+             ]},
+        ],
+    },
     {
         "slug": "karni-full-1",
         "title": "סימולציה מלאה 1",
-        "description": "מבחן קרני שלם בתנאי אמת — עשרה פרקים קצרים ברצף, כ-100 שאלות בכשעתיים, בדיוק כמו במבחן",
+        "description": "מבחן קרני שלם בתנאי אמת — אחד-עשר פרקים קצרים ברצף, 117 שאלות ב-77 דקות, בדיוק כמו במבחן",
         "kind": "full",
         "order": 20,
         "free_preview": False,
@@ -2202,9 +2832,15 @@ _PSY_SIMULATIONS = [
              "blueprint": [{"count": 12, "topic": "אנלוגיות"}]},
             {"order": 1, "domain": "quantitative", "title": "חשיבה כמותית — חלק א",
              "minutes": 10, "num_questions": 12, "blueprint": [{"count": 12}]},
-            {"order": 2, "domain": "figural", "title": "מטריצות וסדרות צורות",
+            # שורת "תבניות" בטבלת הנושאים של קרני מונה יחד שטיחים, מטריצות
+            # וקיפולים, ולכן הפרק הזה מחזיק את שלושת סוגי התבנית ולא רק מטריצה.
+            {"order": 2, "domain": "figural", "title": "תבניות: מטריצות, שטיחים וצורות ברצף",
              "minutes": 8, "num_questions": 12,
-             "blueprint": [{"count": 6, "topic": "מטריצות"}, {"count": 6, "topic": "סדרות צורות"}]},
+             "blueprint": [
+                 {"count": 4, "topic": "מטריצות"},
+                 {"count": 4, "topic": "שטיחים ותבניות"},
+                 {"count": 4, "topic": "סדרות צורות"},
+             ]},
             {"order": 3, "domain": "verbal", "title": "השלמת משפטים",
              "minutes": 6, "num_questions": 10,
              "blueprint": [{"count": 10, "topic": "השלמת משפטים"}]},
@@ -2219,12 +2855,177 @@ _PSY_SIMULATIONS = [
              "blueprint": [{"count": 9, "topic": "אוצר מילים"}]},
             {"order": 7, "domain": "quantitative", "title": "חשיבה כמותית — חלק ב",
              "minutes": 10, "num_questions": 11, "blueprint": [{"count": 11}]},
-            {"order": 8, "domain": "verbal", "title": "יוצא דופן וסדרות אותיות",
+            {"order": 8, "domain": "verbal", "title": "יוצא דופן, אוצר מילים וסדרות אותיות",
              "minutes": 6, "num_questions": 10,
-             "blueprint": [{"count": 6, "topic": "יוצא דופן"}, {"count": 4, "topic": "סדרות מספרים ואותיות"}]},
+             "blueprint": [
+                 {"count": 4, "topic": "יוצא דופן"},
+                 {"count": 3, "topic": "אוצר מילים וניבים"},
+                 {"count": 3, "topic": "סדרות מספרים ואותיות"},
+             ]},
             {"order": 9, "domain": "english", "title": "אנגלית — דקדוק והשלמת משפטים",
              "minutes": 6, "num_questions": 11,
              "blueprint": [{"count": 7, "topic": "דקדוק"}, {"count": 4, "topic": "השלמת משפטים"}]},
+            {"order": 10, "domain": "spatial", "title": "קיפולים וניקובים",
+             "minutes": 6, "num_questions": 8,
+             "blueprint": [{"count": 8, "topic": "קיפולים וניקובים"}]},
+        ],
+    },
+    # ------------------------------------------------------------------
+    # שתי סימולציות ברמה מתקדמת. שתי החלטות מפורשות מבדילות אותן מ"סימולציה
+    # מלאה 1":
+    # 1. min_difficulty: 3 בכל שורת blueprint שהמאגר תומך בה — כלומר הטופס
+    #    נשען רק על החצי הקשה של המאגר, ולא על התפלגות הקושי המלאה.
+    # 2. כיסוי מאל"ף ועד תי"ו: שבעת התחומים, כולל לוגיקה, מרחב וזריזות,
+    #    שאינם מופיעים כלל ב"סימולציה מלאה 1".
+    # אנגלית היא היוצא מן הכלל היחיד: המאגר מחזיק רק 10 פריטים באנגלית בקושי
+    # 3+, ופרק שלם משם היה חוזר על עצמו בין שתי הסימולציות ובין ניסיונות
+    # חוזרים — ולכן שם הרצפה היא 2. שאר הרצפות נבדקו מול גודל המאגר בפועל.
+    {
+        "slug": "karni-full-advanced-1",
+        "title": "סימולציה מלאה 2 — מתקדמת",
+        "description": "מבחן שלם מאל\"ף ועד תי\"ו בקושי מוגבר — כל שבעת התחומים, שאלות מהחצי הקשה של המאגר בלבד, 117 שאלות ב-84 דקות",
+        "kind": "full",
+        "level": "advanced",
+        "order": 21,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "verbal", "title": "הקבלות מילוליות",
+             "minutes": 5, "num_questions": 10,
+             "blueprint": [{"count": 10, "topic": "אנלוגיות", "min_difficulty": 3}]},
+            {"order": 1, "domain": "quantitative", "title": "חשיבה כמותית — חלק א",
+             "minutes": 11, "num_questions": 12,
+             "blueprint": [{"count": 12, "min_difficulty": 3}]},
+            {"order": 2, "domain": "figural", "title": "תבניות: מטריצות, שטיחים וצורות ברצף",
+             "minutes": 8, "num_questions": 12,
+             "blueprint": [
+                 {"count": 4, "topic": "מטריצות", "min_difficulty": 3},
+                 {"count": 4, "topic": "שטיחים ותבניות", "min_difficulty": 3},
+                 {"count": 4, "topic": "סדרות צורות", "min_difficulty": 3},
+             ]},
+            {"order": 3, "domain": "verbal", "title": "הבנה, השלמה ואוצר מילים",
+             "minutes": 8, "num_questions": 10,
+             "blueprint": [
+                 {"count": 4, "topic": "הבנה והסקה", "min_difficulty": 3},
+                 {"count": 4, "topic": "השלמת משפטים", "min_difficulty": 3},
+                 {"count": 2, "topic": "אוצר מילים וניבים", "min_difficulty": 3},
+             ]},
+            {"order": 4, "domain": "quantitative", "title": "סדרות מספרים ואותיות",
+             "minutes": 6, "num_questions": 10,
+             "blueprint": [
+                 {"count": 7, "topic": "סדרות מספרים ואותיות", "domain": "quantitative",
+                  "min_difficulty": 3},
+                 {"count": 3, "topic": "סדרות מספרים ואותיות", "domain": "verbal",
+                  "min_difficulty": 3},
+             ]},
+            {"order": 5, "domain": "figural", "title": "אנלוגיות צורניות ויוצא דופן",
+             "minutes": 8, "num_questions": 12,
+             "blueprint": [
+                 {"count": 6, "topic": "אנלוגיות צורניות", "min_difficulty": 3},
+                 {"count": 6, "topic": "יוצא דופן צורני", "min_difficulty": 3},
+             ]},
+            {"order": 6, "domain": "logic", "title": "חשיבה לוגית",
+             "minutes": 8, "num_questions": 8,
+             "blueprint": [{"count": 8, "min_difficulty": 3}]},
+            {"order": 7, "domain": "quantitative", "title": "חשיבה כמותית — חלק ב",
+             "minutes": 11, "num_questions": 11,
+             "blueprint": [{"count": 11, "min_difficulty": 3}]},
+            {"order": 8, "domain": "spatial", "title": "קיפולים, ניקובים וחשיבה מרחבית",
+             "minutes": 8, "num_questions": 10,
+             "blueprint": [
+                 {"count": 5, "topic": "קיפולים וניקובים", "min_difficulty": 3},
+                 {"count": 5, "topic": "חשיבה מרחבית", "min_difficulty": 3},
+             ]},
+            {"order": 9, "domain": "speed", "title": "זריזות ודיוק",
+             "minutes": 4, "num_questions": 12,
+             "blueprint": [{"count": 12, "min_difficulty": 3}]},
+            {"order": 10, "domain": "english", "title": "אנגלית",
+             "minutes": 7, "num_questions": 10,
+             "blueprint": [
+                 {"count": 4, "topic": "דקדוק", "min_difficulty": 2},
+                 {"count": 3, "topic": "השלמת משפטים", "min_difficulty": 2},
+                 {"count": 3, "topic": "אוצר מילים", "min_difficulty": 2},
+             ]},
+        ],
+    },
+    {
+        "slug": "karni-full-advanced-2",
+        "title": "סימולציה מלאה 3 — מתקדמת",
+        "description": "מבחן שלם מאל\"ף ועד תי\"ו בקושי מוגבר, בסדר פרקים אחר ובדגש כמותי-מרחבי — 122 שאלות ב-90 דקות",
+        "kind": "full",
+        "level": "advanced",
+        "order": 22,
+        "free_preview": False,
+        # סדר הפרקים ותמהיל הנושאים שונים בכוונה מסימולציה 2: המעבר בין תחומים
+        # הוא חלק ממה שהמבחן מודד, ושתי סימולציות באותו סדר בדיוק היו מאמנות
+        # את הסדר במקום את התוכן. הפרק הכמותי הממוקד כאן נשען על נושאים
+        # מפורשים (אחוזים, יחס, תנועה) ולא על שליפה כללית, כדי שהחזרה תיפול
+        # על נושאים אחרים מאלה שסימולציה 2 שולפת.
+        "sections": [
+            {"order": 0, "domain": "quantitative", "title": "חשיבה כמותית — חלק א",
+             "minutes": 11, "num_questions": 12,
+             "blueprint": [{"count": 12, "min_difficulty": 3}]},
+            {"order": 1, "domain": "figural", "title": "צורות ברצף, מטריצות ושטיחים",
+             "minutes": 8, "num_questions": 12,
+             "blueprint": [
+                 {"count": 4, "topic": "סדרות צורות", "min_difficulty": 3},
+                 {"count": 4, "topic": "מטריצות", "min_difficulty": 3},
+                 {"count": 4, "topic": "שטיחים ותבניות", "min_difficulty": 3},
+             ]},
+            {"order": 2, "domain": "verbal", "title": "הקבלות ואוצר מילים",
+             "minutes": 6, "num_questions": 12,
+             "blueprint": [
+                 {"count": 8, "topic": "אנלוגיות", "min_difficulty": 3},
+                 {"count": 4, "topic": "אוצר מילים וניבים", "min_difficulty": 3},
+             ]},
+            {"order": 3, "domain": "logic", "title": "פאזל תנאים",
+             "minutes": 8, "num_questions": 8,
+             "blueprint": [{"count": 8, "topic": "פאזל תנאים", "min_difficulty": 3}]},
+            {"order": 4, "domain": "quantitative", "title": "אחוזים, יחס ותנועה",
+             "minutes": 9, "num_questions": 9,
+             "blueprint": [
+                 {"count": 3, "topic": "אחוזים", "min_difficulty": 3},
+                 {"count": 3, "topic": "יחס ופרופורציה", "min_difficulty": 3},
+                 {"count": 3, "topic": "תנועה", "min_difficulty": 3},
+             ]},
+            {"order": 5, "domain": "verbal", "title": "הבנה והסקה",
+             "minutes": 8, "num_questions": 8,
+             "blueprint": [{"count": 8, "topic": "הבנה והסקה", "min_difficulty": 3}]},
+            {"order": 6, "domain": "spatial", "title": "חשיבה מרחבית וקיפולים",
+             # חמישה פריטי מרחב ולא עשרה: במאגר 16 פריטי מרחב בקושי 3+, ופרק
+             # שלוקח עשרה מהם מחזיר כמעט אותם פריטים בכל ניסיון חוזר. שאלות
+             # הקיפול הן מאגר נפרד ורחב יותר, ולכן הן נושאות את שאר הפרק.
+             "minutes": 8, "num_questions": 11,
+             "blueprint": [
+                 {"count": 6, "topic": "קיפולים וניקובים", "min_difficulty": 3},
+                 {"count": 5, "topic": "חשיבה מרחבית", "min_difficulty": 3},
+             ]},
+            {"order": 7, "domain": "quantitative", "title": "סדרות מספרים ואותיות",
+             "minutes": 6, "num_questions": 10,
+             "blueprint": [
+                 {"count": 7, "topic": "סדרות מספרים ואותיות", "domain": "quantitative",
+                  "min_difficulty": 3},
+                 {"count": 3, "topic": "סדרות מספרים ואותיות", "domain": "verbal",
+                  "min_difficulty": 3},
+             ]},
+            {"order": 8, "domain": "figural", "title": "יוצא דופן ואנלוגיות צורניות",
+             "minutes": 7, "num_questions": 10,
+             "blueprint": [
+                 {"count": 5, "topic": "יוצא דופן צורני", "min_difficulty": 3},
+                 {"count": 5, "topic": "אנלוגיות צורניות", "min_difficulty": 3},
+             ]},
+            {"order": 9, "domain": "speed", "title": "זריזות ודיוק",
+             "minutes": 4, "num_questions": 12,
+             "blueprint": [{"count": 12, "min_difficulty": 3}]},
+            {"order": 10, "domain": "english", "title": "אנגלית",
+             "minutes": 7, "num_questions": 10,
+             "blueprint": [
+                 {"count": 4, "topic": "דקדוק", "min_difficulty": 2},
+                 {"count": 3, "topic": "אוצר מילים", "min_difficulty": 2},
+                 {"count": 3, "topic": "השלמת משפטים", "min_difficulty": 2},
+             ]},
+            {"order": 11, "domain": "quantitative", "title": "חשיבה כמותית — חלק ב",
+             "minutes": 8, "num_questions": 8,
+             "blueprint": [{"count": 8, "min_difficulty": 3}]},
         ],
     },
 ]
@@ -2247,6 +3048,7 @@ def ensure_psy_simulations(db):
         sim.title = spec["title"]
         sim.description = spec.get("description")
         sim.kind = spec.get("kind", "full")
+        sim.level = spec.get("level")
         sim.order = spec.get("order", 0)
         sim.free_preview = spec.get("free_preview", False)
         sim.is_published = spec.get("is_published", True)
@@ -2330,9 +3132,16 @@ def assign_topic_test_forms(db):
         sections = [sim.sections[0] for _, sim in sims if sim.sections]
         if not sections:
             continue
-        topic = (sections[0].blueprint or [{}])[0].get("topic")
+        blueprint = sections[0].blueprint or [{}]
+        topics = {row.get("topic") for row in blueprint}
+        topic = blueprint[0].get("topic")
         per = sections[0].num_questions
         if not topic:
+            continue
+        if len(topics) > 1:
+            # A deliberately mixed paper (בעיות מילוליות, תרגילים). Cutting it
+            # from one topic's refs would silently drop the other four, so leave
+            # it on the blueprint draw, which honours every row.
             continue
         refs = [
             r for (r,) in db.query(PsyItem.ref)

@@ -41,6 +41,12 @@ const DOMAIN_RAMP = {
 }
 
 const KIND_HE = { mini: 'מיני-תרגול', section: 'פרק בודד', full: 'סימולציה מלאה' }
+// תווית רמה על כרטיס הסימולציה. רק לטופס שה-API מחזיר לו level — לשאר אין תווית
+// בכלל, כדי ש"רמה מתקדמת" יבלוט במקום להיבלע ברעש. הגוון מגיע ממחלקת
+// הרמפה הקיימת (--lv / --lv-bg), בדיוק כמו DOMAIN_RAMP למעלה.
+const LEVEL_TAG = {
+  advanced: { label: 'רמה מתקדמת', ramp: 'grade-hs' },
+}
 const KIND_ORDER = ['mini', 'section', 'full']
 const KIND_LEAD = {
   mini: 'סבב קצר בתחום אחד — הדרך הרגילה לבדוק אם נושא נכנס.',
@@ -524,7 +530,14 @@ export default function PsyHome() {
                     whileHover={s.locked ? {} : { y: -3 }}
                     transition={{ duration: DURATION.short, ease: EASE_OUT }}
                   >
-                    <h3>{s.title}</h3>
+                    <div className="psy-sim-head">
+                      <h3>{s.title}</h3>
+                      {LEVEL_TAG[s.level] && (
+                        <span className={`psy-sim-tag ${LEVEL_TAG[s.level].ramp}`}>
+                          {LEVEL_TAG[s.level].label}
+                        </span>
+                      )}
+                    </div>
                     {s.description && <p className="psy-sim-desc">{s.description}</p>}
                     <div className="psy-sim-meta">
                       <span>{s.total_minutes} דקות</span>

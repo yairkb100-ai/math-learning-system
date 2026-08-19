@@ -55,6 +55,12 @@ ACCOUNTS = [
 MAX_RETRIES = 3    # after this many resets an entry is parked as "failed"
 STALL_HOURS = 30   # no new video for this long, with work pending = something's wrong
 DAILY_QUOTA = 3    # NotebookLM videos per account per day
+# NotebookLM caps an account at 100 notebooks. The pipeline creates one per
+# chapter and used to never delete any, so all three accounts silently filled
+# to the cap and `create` began failing with "Resource exhausted" — nothing
+# could be staged anywhere. Keep enough headroom for a day's staging.
+NOTEBOOK_CAP = 100
+NOTEBOOK_FREE_TARGET = DAILY_QUOTA * 3
 # NotebookLM sessions die in roughly 4 hours, so this runs hourly to pick up a
 # fresh login quickly rather than waiting for tomorrow morning. Hourly toasts
 # about the same dead session would just train the user to ignore them.
@@ -153,6 +159,53 @@ def auth_ok(profile):
     return True, "ok"
 
 
+def notebook_count(profile):
+    """How many notebooks this account holds, or None if it can't be read."""
+    r = subprocess.run(
+        ["notebooklm", "-p", profile, "list", "--json"],
+        capture_output=True, text=True, encoding="utf-8", errors="replace",
+    )
+    out = (r.stdout or "") + (r.stderr or "")
+    start = out.find("{")
+    if start == -1:
+        start = out.find("[")
+    if start == -1:
+        return None
+    try:
+        d = json.loads(out[start:])
+    except json.JSONDecodeError:
+        return None
+    if isinstance(d, dict):
+        if d.get("error"):
+            return None
+        d = d.get("notebooks")
+    return len(d) if isinstance(d, list) else None
+
+
+def bound_account(profile):
+    """Email this profile's stored session ACTUALLY belongs to, or None.
+
+    A live session is not the same as the RIGHT session. Notebooks are
+    account-scoped, so a profile that quietly re-bound to another Google
+    account passes every auth probe and then fails each submit with
+    rpc_code=7 / PERMISSION_DENIED — the notebooks belong to the account the
+    queue was staged under, not to whoever is signed in now. That is exactly
+    how account2 spent 2026-08-18 bound to hthrua100 while the watchdog logged
+    "auth OK" three times an hour. None means "could not tell" and is treated
+    as no evidence of a problem, never as proof of one.
+    """
+    import asyncio
+    state = Path.home() / ".notebooklm" / "profiles" / profile / "storage_state.json"
+    if not state.exists():
+        return None
+    try:
+        from notebooklm.auth import build_cookie_jar, enumerate_accounts
+        accounts = asyncio.run(enumerate_accounts(build_cookie_jar(storage_path=state)))
+    except Exception:
+        return None
+    return accounts[0].email if accounts else None
+
+
 def unstick(stuck_hours):
     """Reset entries that have been 'generating' too long back to 'staged'.
 
@@ -241,8 +294,14 @@ def main():
 
     # 1. Auth probe — the failure mode that silently killed the pipeline before.
     auth, dead = {}, []
+    wrong = []
     for _, profile, account in ACCOUNTS:
         ok, detail = auth_ok(profile)
+        if ok:
+            who = bound_account(profile)
+            if who and who.split("@")[0].lower() != account.lower():
+                ok, detail = False, f"wrong account bound: {who} (expected {account})"
+                wrong.append(f"{profile}: {who} != {account}")
         auth[profile] = {"ok": ok, "detail": detail, "account": account}
         log(f"auth {profile} ({account}): {'OK' if ok else 'DEAD — ' + detail}")
         if not ok:
@@ -250,8 +309,12 @@ def main():
 
     auth_toast_at = prev.get("last_auth_toast")
     if dead and due(auth_toast_at, AUTH_TOAST_EVERY_H):
-        toast("סרטוני לומדה: התחברות פגה",
-              "צריך notebooklm login ל: " + ", ".join(dead))
+        if wrong:
+            toast("סרטוני לומדה: פרופיל קשור לחשבון הלא נכון",
+                  "; ".join(wrong) + " — צריך להתחבר מחדש לחשבון הנכון")
+        else:
+            toast("סרטוני לומדה: התחברות פגה",
+                  "צריך notebooklm login ל: " + ", ".join(dead))
         auth_toast_at = datetime.now().isoformat(timespec="seconds")
     if len(dead) == len(ACCOUNTS):
         log("all accounts dead — skipping grind, nothing can be generated")
@@ -273,6 +336,39 @@ def main():
 
     # 2. Un-stick, so a dead artifact can't idle every account.
     freed, parked = unstick(ARGS.stuck_hours)
+
+    # 2a. Reclaim notebook slots. Every account is capped at 100 notebooks and
+    # the pipeline never deleted any, so all three filled up and `create`
+    # started returning "Resource exhausted" — at which point no chapter can be
+    # staged anywhere, however healthy the auth and quota look. Topping up
+    # below is pointless while the cap is hit, so this runs first.
+    reclaimed = {}
+    for _, profile, _ in ACCOUNTS:
+        if not auth[profile]["ok"]:
+            continue
+        used = notebook_count(profile)
+        if used is None:
+            log(f"{profile}: could not read notebook count — skipping cleanup")
+            continue
+        free = NOTEBOOK_CAP - used
+        if free >= NOTEBOOK_FREE_TARGET:
+            log(f"{profile}: {used}/{NOTEBOOK_CAP} notebooks, {free} free — no cleanup needed")
+            continue
+        log(f"{profile}: {used}/{NOTEBOOK_CAP} notebooks, only {free} free — reclaiming")
+        # --orphans is what actually keeps the cap clear: most of the notebooks
+        # on a full account belong to no queue at all (retired queue files), so
+        # sweeping only queue-tracked ones frees a handful and the cap returns
+        # within days. Orphan deletion is limited to notebooks the pipeline
+        # named itself, so a hand-made notebook is never touched.
+        r = subprocess.run(
+            [PY, str(HERE / "cleanup_notebooks.py"), "--profile", profile,
+             "--apply", "--orphans", "--limit", str(NOTEBOOK_FREE_TARGET * 2)],
+            capture_output=True, text=True, encoding="utf-8",
+            errors="replace", cwd=str(HERE),
+        )
+        tail = ((r.stdout or "") + (r.stderr or "")).strip().splitlines()[-1:]
+        log(f"{profile}: cleanup -> {tail[0] if tail else 'no output'}")
+        reclaimed[profile] = tail[0] if tail else ""
 
     # 2b. Keep every live account fed. Notebooks are account-scoped, so an
     # account with nothing staged of its own contributes nothing no matter how

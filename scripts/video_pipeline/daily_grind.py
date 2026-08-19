@@ -97,6 +97,28 @@ def qa(mp4):
     return verdict.get("ok", False), verdict.get("flags", []), frames
 
 
+def record_published(mp4_name, url):
+    """Stamp the object URL onto every queue entry for this video.
+
+    'done' alone is not proof a video shipped — the grinder sets it before
+    publishing, which is exactly why a QA-held video needs requeue() below.
+    cleanup_notebooks.py deletes a notebook only against this stamp, so the
+    proof has to live in the queue rather than in a print statement.
+    """
+    for queue, _ in ACCOUNTS:
+        qf = HERE / queue
+        if not qf.exists():
+            continue
+        q = json.loads(qf.read_text(encoding="utf-8"))
+        changed = False
+        for e in q.values():
+            if e.get("output") == mp4_name and e.get("status") == "done":
+                e["published_url"] = url
+                changed = True
+        if changed:
+            qf.write_text(json.dumps(q, ensure_ascii=False, indent=1), encoding="utf-8")
+
+
 def requeue(mp4_name):
     """Send a QA-rejected video back to 'staged' on every queue that carries it.
 
@@ -156,6 +178,7 @@ def ship_new_videos():
                 continue
             try:
                 url = publish_video(slug_dir.name, mp4)  # deletes local on success
+                record_published(mp4.name, url)
                 print(f"published {mp4.name} -> {url}", flush=True)
                 print(f"  frames for visual review: {frames}", flush=True)
                 published += 1

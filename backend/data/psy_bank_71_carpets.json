@@ -1,0 +1,1019 @@
+{
+  "_comment": "מאגר קרני — שטיחים ותבניות: רשת גדולה של אריחים חוזרים שממנה חסר אריח אחד. סוגי החוקיות: מחזור לרוחב השורה, מחזור לאורך העמודה, הזזה אלכסונית, לוח שחמט, הצטלבות שורה-עמודה, סימטריית שיקוף וחוקיות משולבת. השורות נקראות מימין לשמאל, ולכן האריח הראשון בכל שורה של הטוקן הוא האריח הימני. כל פריט אומת בסקריפט שפותר את השטיח מחדש מהאריחים הגלויים בלבד ומוודא שאין כלל חלופי שנותן אריח אחר.",
+  "items": [
+    {
+      "ref": "carpet-01",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "מחזור של שני אריחים לרוחב השורה",
+      "stem": "איזה אריח משלים את השטיח במקום סימן השאלה?",
+      "figure": "{{figcarpet:shape=circle,fill=none,color=ink;shape=square,fill=none,color=ink;shape=circle,fill=none,color=ink;shape=square,fill=none,color=ink/shape=circle,fill=none,color=ink;?;shape=circle,fill=none,color=ink;shape=square,fill=none,color=ink/shape=circle,fill=none,color=ink;shape=square,fill=none,color=ink;shape=circle,fill=none,color=ink;shape=square,fill=none,color=ink/shape=circle,fill=none,color=ink;shape=square,fill=none,color=ink;shape=circle,fill=none,color=ink;shape=square,fill=none,color=ink}}",
+      "options": [
+        "{{figcell:shape=circle,fill=none,color=ink}}",
+        "{{figcell:shape=triangle,fill=none,color=ink}}",
+        "{{figcell:shape=square,fill=none,color=ink}}",
+        "{{figcell:shape=square,fill=solid,color=ink}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 1,
+      "target_seconds": 30,
+      "explanation": "כל שורה בשטיח בנויה מזוג חוזר: עיגול, ריבוע, עיגול, ריבוע. האריח החסר יושב בשורה השנייה מלמעלה ובמקום השני מימין, כלומר במקום של הריבוע הריק.",
+      "solution": "בשטיח לא סורקים את כל הרשת אלא קוראים רק את השורה של האריח החסר, מימין לשמאל, ומחפשים את אורך המחזור. כאן המחזור הוא שניים, ולכן כל מקום שני חוזר על עצמו; העמודה מאשרת את אותה תשובה. המסיח עם העיגול הוא בדיוק הפאזה ההפוכה — הוא האריח השכן, לא האריח החסר.",
+      "tags": [
+        "שטיח",
+        "מחזור",
+        "שורה"
+      ]
+    },
+    {
+      "ref": "carpet-02",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "מחזור של שלושה אריחים לרוחב השורה",
+      "stem": "איזה אריח משלים את השטיח במקום סימן השאלה?",
+      "figure": "{{figcarpet:shape=star,fill=none,color=ink;shape=triangle,fill=none,color=ink;shape=hexagon,fill=none,color=ink;shape=star,fill=none,color=ink;shape=triangle,fill=none,color=ink/shape=star,fill=none,color=ink;shape=triangle,fill=none,color=ink;shape=hexagon,fill=none,color=ink;shape=star,fill=none,color=ink;shape=triangle,fill=none,color=ink/shape=star,fill=none,color=ink;shape=triangle,fill=none,color=ink;shape=hexagon,fill=none,color=ink;?;shape=triangle,fill=none,color=ink/shape=star,fill=none,color=ink;shape=triangle,fill=none,color=ink;shape=hexagon,fill=none,color=ink;shape=star,fill=none,color=ink;shape=triangle,fill=none,color=ink}}",
+      "options": [
+        "{{figcell:shape=star,fill=none,color=ink}}",
+        "{{figcell:shape=triangle,fill=none,color=ink}}",
+        "{{figcell:shape=hexagon,fill=none,color=ink}}",
+        "{{figcell:shape=star,n=2,fill=none,color=ink}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 2,
+      "target_seconds": 35,
+      "explanation": "כל שורה חוזרת על שלישייה קבועה: כוכב, משולש, משושה, ושוב כוכב. המקום החסר הוא הרביעי מימין, ולכן הוא פותח מחזור חדש בכוכב.",
+      "solution": "כשמחזור השורה ארוך משניים, סִפרו על האצבעות מהאריח הימני של השורה: אחת, שתיים, שלוש, ואז חוזר. אפשר גם לקצר: מקום מספר 4 מתנהג כמו מקום מספר 1, כי 4 פחות 3 שווה 1. המשושה הוא המסיח הצפוי — הוא האריח שנמצא ממש מימין לחסר, ותלמיד שממשיך את הסדר בלי לספור נופל עליו.",
+      "tags": [
+        "שטיח",
+        "מחזור",
+        "שורה"
+      ]
+    },
+    {
+      "ref": "carpet-03",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "מחזור צבעים לרוחב השורה",
+      "stem": "בשטיח שלפניכם חסר אריח אחד. איזה אריח צריך לבוא במקומו?",
+      "figure": "{{figcarpet:shape=square,fill=solid,color=ink;shape=square,fill=solid,color=accent;shape=square,fill=solid,color=warm;shape=square,fill=solid,color=ink;shape=square,fill=solid,color=accent;shape=square,fill=solid,color=warm/shape=square,fill=solid,color=ink;shape=square,fill=solid,color=accent;shape=square,fill=solid,color=warm;shape=square,fill=solid,color=ink;shape=square,fill=solid,color=accent;shape=square,fill=solid,color=warm/shape=square,fill=solid,color=ink;shape=square,fill=solid,color=accent;shape=square,fill=solid,color=warm;shape=square,fill=solid,color=ink;shape=square,fill=solid,color=accent;shape=square,fill=solid,color=warm/shape=square,fill=solid,color=ink;shape=square,fill=solid,color=accent;shape=square,fill=solid,color=warm;shape=square,fill=solid,color=ink;?;shape=square,fill=solid,color=warm/shape=square,fill=solid,color=ink;shape=square,fill=solid,color=accent;shape=square,fill=solid,color=warm;shape=square,fill=solid,color=ink;shape=square,fill=solid,color=accent;shape=square,fill=solid,color=warm/shape=square,fill=solid,color=ink;shape=square,fill=solid,color=accent;shape=square,fill=solid,color=warm;shape=square,fill=solid,color=ink;shape=square,fill=solid,color=accent;shape=square,fill=solid,color=warm}}",
+      "options": [
+        "{{figcell:shape=square,fill=solid,color=ink}}",
+        "{{figcell:shape=square,fill=solid,color=accent}}",
+        "{{figcell:shape=square,fill=solid,color=warm}}",
+        "{{figcell:shape=circle,fill=solid,color=accent}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 2,
+      "target_seconds": 35,
+      "explanation": "הצורה זהה בכל השטיח, ורק הצבע משתנה במחזור קבוע של שלושה: כהה, טורקיז, כתום. המקום החסר הוא החמישי מימין, ולכן צבעו טורקיז — בדיוק כמו המקום השני.",
+      "solution": "כשכל האריחים הם אותה צורה, התכונה שמשתנה היא הכלל, וכאן זה הצבע. קִראו את השורה של האריח החסר בלבד וסמנו לעצמכם כל שלושה מקומות; אין צורך להסתכל על שאר השטיח. המסיח הכתום הוא פשוט האריח השכן משמאל, והמסיח בצורת עיגול נכשל בצורה גם כשהצבע שלו נכון.",
+      "tags": [
+        "שטיח",
+        "מחזור",
+        "צבע"
+      ]
+    },
+    {
+      "ref": "carpet-04",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "מחזור מילויים לרוחב השורה",
+      "stem": "איזה אריח משלים את השטיח במקום סימן השאלה?",
+      "figure": "{{figcarpet:shape=hexagon,fill=solid,color=ink;shape=hexagon,fill=stripes,color=ink;shape=hexagon,fill=none,color=ink;shape=hexagon,fill=dots,color=ink;shape=hexagon,fill=solid,color=ink/shape=hexagon,fill=solid,color=ink;shape=hexagon,fill=stripes,color=ink;shape=hexagon,fill=none,color=ink;shape=hexagon,fill=dots,color=ink;shape=hexagon,fill=solid,color=ink/shape=hexagon,fill=solid,color=ink;shape=hexagon,fill=stripes,color=ink;shape=hexagon,fill=none,color=ink;shape=hexagon,fill=dots,color=ink;?/shape=hexagon,fill=solid,color=ink;shape=hexagon,fill=stripes,color=ink;shape=hexagon,fill=none,color=ink;shape=hexagon,fill=dots,color=ink;shape=hexagon,fill=solid,color=ink/shape=hexagon,fill=solid,color=ink;shape=hexagon,fill=stripes,color=ink;shape=hexagon,fill=none,color=ink;shape=hexagon,fill=dots,color=ink;shape=hexagon,fill=solid,color=ink}}",
+      "options": [
+        "{{figcell:shape=hexagon,fill=dots,color=ink}}",
+        "{{figcell:shape=hexagon,fill=stripes,color=ink}}",
+        "{{figcell:shape=triangle,fill=solid,color=ink}}",
+        "{{figcell:shape=hexagon,fill=solid,color=ink}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 3,
+      "target_seconds": 40,
+      "explanation": "המילוי חוזר בכל שורה במחזור של ארבעה: מלא, פסים, ריק, נקודות. המקום החסר הוא החמישי מימין, ולכן הוא פותח מחזור חדש ומקבל משושה מלא.",
+      "solution": "מחזור באורך ארבעה נראה ארוך, אבל אפשר לחסוך: המקום החמישי תמיד זהה למקום הראשון, כי ההפרש ביניהם הוא בדיוק מחזור אחד. השוו לאריח הימני ביותר באותה שורה וסיימתם. המסיח עם הנקודות נלקח מהמקום הרביעי, כלומר מהאריח השכן מימין, וזו הטעות הנפוצה כשממשיכים לפי תחושה במקום לספור.",
+      "tags": [
+        "שטיח",
+        "מחזור",
+        "מילוי"
+      ]
+    },
+    {
+      "ref": "carpet-05",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "מחזור גדלים לרוחב השורה",
+      "stem": "השלימו את האריח החסר בשטיח.",
+      "figure": "{{figcarpet:shape=pentagon,fill=none,size=l,color=ink;shape=pentagon,fill=none,size=s,color=ink;shape=pentagon,fill=none,size=l,color=ink;shape=pentagon,fill=none,size=s,color=ink/shape=pentagon,fill=none,size=l,color=ink;shape=pentagon,fill=none,size=s,color=ink;shape=pentagon,fill=none,size=l,color=ink;shape=pentagon,fill=none,size=s,color=ink/shape=pentagon,fill=none,size=l,color=ink;shape=pentagon,fill=none,size=s,color=ink;shape=pentagon,fill=none,size=l,color=ink;shape=pentagon,fill=none,size=s,color=ink/shape=pentagon,fill=none,size=l,color=ink;shape=pentagon,fill=none,size=s,color=ink;shape=pentagon,fill=none,size=l,color=ink;shape=pentagon,fill=none,size=s,color=ink/shape=pentagon,fill=none,size=l,color=ink;shape=pentagon,fill=none,size=s,color=ink;?;shape=pentagon,fill=none,size=s,color=ink/shape=pentagon,fill=none,size=l,color=ink;shape=pentagon,fill=none,size=s,color=ink;shape=pentagon,fill=none,size=l,color=ink;shape=pentagon,fill=none,size=s,color=ink}}",
+      "options": [
+        "{{figcell:shape=pentagon,fill=none,size=l,color=ink}}",
+        "{{figcell:shape=pentagon,fill=none,size=s,color=ink}}",
+        "{{figcell:shape=pentagon,fill=none,size=m,color=ink}}",
+        "{{figcell:shape=pentagon,fill=solid,size=l,color=ink}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 1,
+      "target_seconds": 30,
+      "explanation": "בכל שורה מתחלפים מחומש גדול ומחומש קטן לסירוגין, והמקום השלישי מימין הוא מקום של מחומש גדול.",
+      "solution": "כשמתחלפות שתי אפשרויות בלבד, השאלה היחידה היא באיזו פאזה נמצא המקום החסר: מקומות אי-זוגיים מימין הם גדולים והזוגיים קטנים. אפשר לוודא בעמודה — כל העמודה הזאת גדולה. שימו לב שגודל בינוני כלל אינו מופיע בשטיח, ולכן המסיח הבינוני נפסל מיד, ולא צריך אפילו להתלבט לגביו.",
+      "tags": [
+        "שטיח",
+        "מחזור",
+        "גודל"
+      ]
+    },
+    {
+      "ref": "carpet-06",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "מחזור כמויות לרוחב השורה",
+      "stem": "איזה אריח משלים את השטיח במקום סימן השאלה?",
+      "figure": "{{figcarpet:shape=diamond,n=1,fill=none,color=ink;shape=diamond,n=2,fill=none,color=ink;shape=diamond,n=3,fill=none,color=ink;shape=diamond,n=1,fill=none,color=ink;shape=diamond,n=2,fill=none,color=ink/shape=diamond,n=1,fill=none,color=ink;shape=diamond,n=2,fill=none,color=ink;?;shape=diamond,n=1,fill=none,color=ink;shape=diamond,n=2,fill=none,color=ink/shape=diamond,n=1,fill=none,color=ink;shape=diamond,n=2,fill=none,color=ink;shape=diamond,n=3,fill=none,color=ink;shape=diamond,n=1,fill=none,color=ink;shape=diamond,n=2,fill=none,color=ink/shape=diamond,n=1,fill=none,color=ink;shape=diamond,n=2,fill=none,color=ink;shape=diamond,n=3,fill=none,color=ink;shape=diamond,n=1,fill=none,color=ink;shape=diamond,n=2,fill=none,color=ink}}",
+      "options": [
+        "{{figcell:shape=diamond,n=2,fill=none,color=ink}}",
+        "{{figcell:shape=diamond,n=3,fill=none,color=ink}}",
+        "{{figcell:shape=diamond,n=1,fill=none,color=ink}}",
+        "{{figcell:shape=square,n=3,fill=none,color=ink}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 2,
+      "target_seconds": 33,
+      "explanation": "מספר המעוינים בכל שורה עולה אחד, שניים, שלושה ואז חוזר להתחלה. המקום החסר הוא השלישי מימין, ולכן יש בו שלושה מעוינים.",
+      "solution": "ספרו את הצורות בכל אריח בשורה של האריח החסר; הכמות היא הכלל, והצורה רק רקע קבוע. מקום שלישי הוא סוף המחזור, ולכן הכמות המרבית. המסיח עם שני מעוינים חוזר על האריח שמימין לחסר, והמסיח עם שלושה ריבועים נכון בכמות אך משנה את הצורה שקבועה בכל השטיח.",
+      "tags": [
+        "שטיח",
+        "מחזור",
+        "כמות"
+      ]
+    },
+    {
+      "ref": "carpet-07",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "מחזור של שני אריחים לאורך העמודה",
+      "stem": "איזה אריח משלים את השטיח במקום סימן השאלה?",
+      "figure": "{{figcarpet:shape=cross,fill=none,color=ink;shape=cross,fill=none,color=ink;shape=cross,fill=none,color=ink;shape=cross,fill=none,color=ink/shape=diamond,fill=none,color=ink;shape=diamond,fill=none,color=ink;shape=diamond,fill=none,color=ink;shape=diamond,fill=none,color=ink/shape=cross,fill=none,color=ink;shape=cross,fill=none,color=ink;shape=cross,fill=none,color=ink;shape=cross,fill=none,color=ink/shape=diamond,fill=none,color=ink;?;shape=diamond,fill=none,color=ink;shape=diamond,fill=none,color=ink/shape=cross,fill=none,color=ink;shape=cross,fill=none,color=ink;shape=cross,fill=none,color=ink;shape=cross,fill=none,color=ink}}",
+      "options": [
+        "{{figcell:shape=cross,fill=none,color=ink}}",
+        "{{figcell:shape=diamond,fill=none,size=l,color=ink}}",
+        "{{figcell:shape=star,fill=none,color=ink}}",
+        "{{figcell:shape=diamond,fill=none,color=ink}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 1,
+      "target_seconds": 30,
+      "explanation": "כאן החוקיות רצה לאורך העמודות: שורות אי-זוגיות מלאות בצלבים ושורות זוגיות במעוינים. האריח החסר בשורה הרביעית מלמעלה ובמקום השני מימין, ולכן הוא מעוין.",
+      "solution": "לפני שסופרים משהו, בדקו לאיזה כיוון השטיח משתנה. כאן כל שורה אחידה, ולכן די להסתכל למעלה ולמטה באותה עמודה: מעל החסר יש צלב, מתחתיו יש צלב, ולכן בתווך חייב לבוא מעוין. המסיח עם הצלב הוא בדיוק האריח שמעל, וזו הטעות של מי שמעתיק את השכן במקום להמשיך את הסירוגין.",
+      "tags": [
+        "שטיח",
+        "מחזור",
+        "עמודה"
+      ]
+    },
+    {
+      "ref": "carpet-08",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "מחזור צבעים לאורך העמודה",
+      "stem": "בשטיח שלפניכם חסר אריח אחד. איזה אריח צריך לבוא במקומו?",
+      "figure": "{{figcarpet:shape=square,fill=solid,color=accent;shape=square,fill=solid,color=accent;shape=square,fill=solid,color=accent;shape=square,fill=solid,color=accent/shape=square,fill=solid,color=warm;shape=square,fill=solid,color=warm;shape=square,fill=solid,color=warm;shape=square,fill=solid,color=warm/shape=square,fill=solid,color=ink;shape=square,fill=solid,color=ink;shape=square,fill=solid,color=ink;shape=square,fill=solid,color=ink/shape=square,fill=solid,color=accent;shape=square,fill=solid,color=accent;shape=square,fill=solid,color=accent;shape=square,fill=solid,color=accent/shape=square,fill=solid,color=warm;shape=square,fill=solid,color=warm;?;shape=square,fill=solid,color=warm/shape=square,fill=solid,color=ink;shape=square,fill=solid,color=ink;shape=square,fill=solid,color=ink;shape=square,fill=solid,color=ink}}",
+      "options": [
+        "{{figcell:shape=square,fill=solid,color=accent}}",
+        "{{figcell:shape=square,fill=solid,color=ink}}",
+        "{{figcell:shape=square,fill=solid,color=warm}}",
+        "{{figcell:shape=circle,fill=solid,color=warm}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 2,
+      "target_seconds": 35,
+      "explanation": "הצבעים חוזרים לאורך כל עמודה במחזור טורקיז, כתום, כהה. האריח החסר נמצא בשורה החמישית, שהיא כמו השורה השנייה, ולכן צבעו כתום.",
+      "solution": "שטיח שכל שורה בו אחידה מסגיר מיד שהכלל הוא אנכי. סִפרו למטה שלוש שורות מהשורה העליונה, וכל שורה חמישית תתאים לשורה השנייה. המסיח בצבע כהה מתאים לשורה השלישית ולשישית ולא לשורה שלנו, והמסיח העגול נכשל בצורה למרות שהצבע שלו נכון.",
+      "tags": [
+        "שטיח",
+        "מחזור",
+        "עמודה",
+        "צבע"
+      ]
+    },
+    {
+      "ref": "carpet-09",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "מחזור כמויות לאורך העמודה",
+      "stem": "איזה אריח משלים את השטיח במקום סימן השאלה?",
+      "figure": "{{figcarpet:shape=star,n=1,fill=none,color=ink;shape=star,n=1,fill=none,color=ink;shape=star,n=1,fill=none,color=ink;shape=star,n=1,fill=none,color=ink;shape=star,n=1,fill=none,color=ink/shape=star,n=3,fill=none,color=ink;shape=star,n=3,fill=none,color=ink;shape=star,n=3,fill=none,color=ink;shape=star,n=3,fill=none,color=ink;shape=star,n=3,fill=none,color=ink/shape=star,n=1,fill=none,color=ink;shape=star,n=1,fill=none,color=ink;shape=star,n=1,fill=none,color=ink;?;shape=star,n=1,fill=none,color=ink/shape=star,n=3,fill=none,color=ink;shape=star,n=3,fill=none,color=ink;shape=star,n=3,fill=none,color=ink;shape=star,n=3,fill=none,color=ink;shape=star,n=3,fill=none,color=ink/shape=star,n=1,fill=none,color=ink;shape=star,n=1,fill=none,color=ink;shape=star,n=1,fill=none,color=ink;shape=star,n=1,fill=none,color=ink;shape=star,n=1,fill=none,color=ink/shape=star,n=3,fill=none,color=ink;shape=star,n=3,fill=none,color=ink;shape=star,n=3,fill=none,color=ink;shape=star,n=3,fill=none,color=ink;shape=star,n=3,fill=none,color=ink}}",
+      "options": [
+        "{{figcell:shape=star,n=3,fill=none,color=ink}}",
+        "{{figcell:shape=star,n=1,fill=none,color=ink}}",
+        "{{figcell:shape=circle,n=1,fill=none,color=ink}}",
+        "{{figcell:shape=star,n=2,fill=none,color=ink}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 2,
+      "target_seconds": 32,
+      "explanation": "בשורות הזוגיות מלמעלה יש שלושה כוכבים בכל אריח, ובשורות האי-זוגיות כוכב בודד. השורה השלישית היא אי-זוגית, ולכן באריח החסר כוכב אחד.",
+      "solution": "כשכל השורה נראית זהה, ההשוואה הנכונה היא אנכית: הביטו באריח שמעל החסר ובאריח שמתחתיו — בשניהם שלושה כוכבים, ולכן באמצע חייב לבוא אריח אחר. המסיח עם שני כוכבים הוא פשרה שלא קיימת בשטיח כלל, כי הכמויות היחידות שמופיעות הן אחת ושלוש.",
+      "tags": [
+        "שטיח",
+        "מחזור",
+        "עמודה",
+        "כמות"
+      ]
+    },
+    {
+      "ref": "carpet-10",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "מחזור גדלים לאורך העמודה",
+      "stem": "השלימו את האריח החסר בשטיח.",
+      "figure": "{{figcarpet:shape=pentagon,fill=none,size=s,color=ink;shape=pentagon,fill=none,size=s,color=ink;shape=pentagon,fill=none,size=s,color=ink;shape=pentagon,fill=none,size=s,color=ink/shape=pentagon,fill=none,size=m,color=ink;shape=pentagon,fill=none,size=m,color=ink;shape=pentagon,fill=none,size=m,color=ink;shape=pentagon,fill=none,size=m,color=ink/shape=pentagon,fill=none,size=l,color=ink;shape=pentagon,fill=none,size=l,color=ink;shape=pentagon,fill=none,size=l,color=ink;shape=pentagon,fill=none,size=l,color=ink/shape=pentagon,fill=none,size=s,color=ink;shape=pentagon,fill=none,size=s,color=ink;shape=pentagon,fill=none,size=s,color=ink;shape=pentagon,fill=none,size=s,color=ink/shape=pentagon,fill=none,size=m,color=ink;shape=pentagon,fill=none,size=m,color=ink;shape=pentagon,fill=none,size=m,color=ink;shape=pentagon,fill=none,size=m,color=ink/?;shape=pentagon,fill=none,size=l,color=ink;shape=pentagon,fill=none,size=l,color=ink;shape=pentagon,fill=none,size=l,color=ink}}",
+      "options": [
+        "{{figcell:shape=pentagon,fill=none,size=l,color=ink}}",
+        "{{figcell:shape=pentagon,fill=none,size=m,color=ink}}",
+        "{{figcell:shape=pentagon,fill=none,size=s,color=ink}}",
+        "{{figcell:shape=pentagon,fill=solid,size=l,color=ink}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 3,
+      "target_seconds": 38,
+      "explanation": "הגודל גדל לאורך העמודה במחזור קטן, בינוני, גדול, וחוזר חלילה. השורה השישית היא כמו השלישית, ולכן האריח החסר הוא מחומש גדול.",
+      "solution": "אריח חסר בפינה מפחיד, אבל הוא בדיוק כמו כל אריח אחר: קִראו את העמודה שלו מלמעלה למטה עד אליו. שש שורות הן בדיוק שני מחזורים של שלוש, ולכן השורה האחרונה חוזרת על השלישית. המסיח הבינוני הוא האריח שנמצא ממש מעל החסר, וזו הטעות של מי שמעתיק שכן במקום לסגור מחזור.",
+      "tags": [
+        "שטיח",
+        "מחזור",
+        "עמודה",
+        "גודל"
+      ]
+    },
+    {
+      "ref": "carpet-11",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "מילוי מתחלף לאורך העמודה",
+      "stem": "איזה אריח משלים את השטיח במקום סימן השאלה?",
+      "figure": "{{figcarpet:shape=heart,fill=solid,color=ink;shape=heart,fill=solid,color=ink;shape=heart,fill=solid,color=ink;shape=heart,fill=solid,color=ink;shape=heart,fill=solid,color=ink/shape=heart,fill=none,color=ink;shape=heart,fill=none,color=ink;shape=heart,fill=none,color=ink;shape=heart,fill=none,color=ink;shape=heart,fill=none,color=ink/shape=heart,fill=solid,color=ink;shape=heart,fill=solid,color=ink;?;shape=heart,fill=solid,color=ink;shape=heart,fill=solid,color=ink/shape=heart,fill=none,color=ink;shape=heart,fill=none,color=ink;shape=heart,fill=none,color=ink;shape=heart,fill=none,color=ink;shape=heart,fill=none,color=ink/shape=heart,fill=solid,color=ink;shape=heart,fill=solid,color=ink;shape=heart,fill=solid,color=ink;shape=heart,fill=solid,color=ink;shape=heart,fill=solid,color=ink}}",
+      "options": [
+        "{{figcell:shape=heart,fill=none,color=ink}}",
+        "{{figcell:shape=heart,fill=half,color=ink}}",
+        "{{figcell:shape=heart,fill=solid,color=ink}}",
+        "{{figcell:shape=circle,fill=solid,color=ink}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 2,
+      "target_seconds": 34,
+      "explanation": "שורות מלאות ושורות ריקות מתחלפות לסירוגין מלמעלה למטה, והאריח החסר נמצא בשורה השלישית, שהיא שורה מלאה.",
+      "solution": "באריח שנמצא במרכז השטיח יש יתרון: אפשר לבדוק אותו גם מלמעלה וגם מלמטה. שתי השורות הסמוכות ריקות, ולכן השורה שבתווך חייבת להיות מלאה. המסיח החצי-מלא נראה כמו פשרה הגיונית בין ריק למלא, אבל מילוי כזה אינו מופיע באף אריח בשטיח, ולכן הוא נפסל.",
+      "tags": [
+        "שטיח",
+        "סירוגין",
+        "עמודה",
+        "מילוי"
+      ]
+    },
+    {
+      "ref": "carpet-12",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "סיבוב מצטבר לאורך העמודה",
+      "stem": "בשטיח שלפניכם חסר אריח אחד. איזה אריח צריך לבוא במקומו?",
+      "figure": "{{figcarpet:shape=arrow,fill=solid,rot=0,color=ink;shape=arrow,fill=solid,rot=0,color=ink;shape=arrow,fill=solid,rot=0,color=ink;shape=arrow,fill=solid,rot=0,color=ink/shape=arrow,fill=solid,rot=90,color=ink;shape=arrow,fill=solid,rot=90,color=ink;shape=arrow,fill=solid,rot=90,color=ink;shape=arrow,fill=solid,rot=90,color=ink/shape=arrow,fill=solid,rot=180,color=ink;?;shape=arrow,fill=solid,rot=180,color=ink;shape=arrow,fill=solid,rot=180,color=ink/shape=arrow,fill=solid,rot=270,color=ink;shape=arrow,fill=solid,rot=270,color=ink;shape=arrow,fill=solid,rot=270,color=ink;shape=arrow,fill=solid,rot=270,color=ink}}",
+      "options": [
+        "{{figcell:shape=arrow,fill=solid,rot=90,color=ink}}",
+        "{{figcell:shape=arrow,fill=solid,rot=180,color=ink}}",
+        "{{figcell:shape=arrow,fill=solid,rot=270,color=ink}}",
+        "{{figcell:shape=triangle,fill=solid,rot=180,color=ink}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 3,
+      "target_seconds": 40,
+      "explanation": "כל שורה מסובבת ברבע סיבוב ביחס לשורה שמעליה, ולכן בשורה השלישית כל החצים הפוכים ומצביעים כלפי מטה.",
+      "solution": "בשטיח של חצים אל תשוו צורות אלא כיוונים. קִראו את העמודה של האריח החסר: החץ העליון מצביע למעלה, השני ימינה, ולכן השלישי מצביע למטה — רבע סיבוב בכל שורה. המסיח שמצביע שמאלה הוא השורה הרביעית ולא השלישית, כלומר סיבוב אחד יותר מדי.",
+      "tags": [
+        "שטיח",
+        "סיבוב",
+        "עמודה"
+      ]
+    },
+    {
+      "ref": "carpet-13",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "כל שורה מוזזת צעד אחד ימינה",
+      "stem": "איזה אריח משלים את השטיח במקום סימן השאלה?",
+      "figure": "{{figcarpet:shape=circle,fill=none,color=ink;shape=square,fill=none,color=ink;shape=triangle,fill=none,color=ink;shape=star,fill=none,color=ink/shape=square,fill=none,color=ink;shape=triangle,fill=none,color=ink;shape=star,fill=none,color=ink;shape=circle,fill=none,color=ink/shape=triangle,fill=none,color=ink;?;shape=circle,fill=none,color=ink;shape=square,fill=none,color=ink/shape=star,fill=none,color=ink;shape=circle,fill=none,color=ink;shape=square,fill=none,color=ink;shape=triangle,fill=none,color=ink}}",
+      "options": [
+        "{{figcell:shape=triangle,fill=none,color=ink}}",
+        "{{figcell:shape=circle,fill=none,color=ink}}",
+        "{{figcell:shape=square,fill=none,color=ink}}",
+        "{{figcell:shape=star,fill=none,color=ink}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 3,
+      "target_seconds": 40,
+      "explanation": "ארבע הצורות חוזרות בכל שורה, אבל כל שורה מוזזת צעד אחד ימינה ביחס לשורה שמעליה, כך שנוצרים אלכסונים של אותה צורה. האלכסון שעובר בשורה השלישית מלמעלה ובמקום השני מימין הוא אלכסון הכוכבים.",
+      "solution": "זה הכלל האופייני ביותר לשטיח אמיתי: אותה סדרה חוזרת בכל שורה, רק מוזזת. במקום לקרוא שורה שלמה, עקבו אחרי האלכסון שיוצא מהאריח החסר כלפי מעלה ושמאלה — הוא מוביל ישר לתשובה. המסיח עם המשולש הוא בדיוק האריח שמעל החסר, וזו הטעות של מי ששוכח שהשורה זזה.",
+      "tags": [
+        "שטיח",
+        "אלכסון",
+        "הזזה"
+      ]
+    },
+    {
+      "ref": "carpet-14",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "כל שורה מוזזת צעד אחד שמאלה",
+      "stem": "בשטיח שלפניכם חסר אריח אחד. איזה אריח צריך לבוא במקומו?",
+      "figure": "{{figcarpet:shape=triangle,fill=none,color=ink;shape=diamond,fill=none,color=ink;shape=star,fill=none,color=ink;shape=heart,fill=none,color=ink;shape=arrow,fill=none,color=ink/?;shape=triangle,fill=none,color=ink;shape=diamond,fill=none,color=ink;shape=star,fill=none,color=ink;shape=heart,fill=none,color=ink/shape=heart,fill=none,color=ink;shape=arrow,fill=none,color=ink;shape=triangle,fill=none,color=ink;shape=diamond,fill=none,color=ink;shape=star,fill=none,color=ink/shape=star,fill=none,color=ink;shape=heart,fill=none,color=ink;shape=arrow,fill=none,color=ink;shape=triangle,fill=none,color=ink;shape=diamond,fill=none,color=ink}}",
+      "options": [
+        "{{figcell:shape=triangle,fill=none,color=ink}}",
+        "{{figcell:shape=diamond,fill=none,color=ink}}",
+        "{{figcell:shape=arrow,fill=none,color=ink}}",
+        "{{figcell:shape=heart,fill=none,color=ink}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 3,
+      "target_seconds": 42,
+      "explanation": "חמש הצורות חוזרות בכל שורה, וכל שורה מוזזת צעד אחד שמאלה ביחס לשורה שמעליה, כך שהצורה שיוצאת מהקצה השמאלי חוזרת מימין. באריח החסר, שנמצא בקצה הימני של השורה השנייה, מגיע החץ.",
+      "solution": "כשההזזה שמאלה, האריח שהיה בקצה השמאלי גולש חזרה לקצה הימני של השורה הבאה. לכן לאריח חסר בקצה הימני כדאי להסתכל בקצה השמאלי של השורה שמעליו, ולא ישירות מעליו. המסיח עם המשולש הוא האריח שנמצא ישירות מעל החסר, וזו הטעות של מי שמניח שהשטיח בנוי מעמודות אחידות.",
+      "tags": [
+        "שטיח",
+        "אלכסון",
+        "הזזה"
+      ]
+    },
+    {
+      "ref": "carpet-15",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "אלכסוני צבע בשטיח",
+      "stem": "איזה אריח משלים את השטיח במקום סימן השאלה?",
+      "figure": "{{figcarpet:shape=circle,fill=solid,color=ink;shape=circle,fill=solid,color=accent;shape=circle,fill=solid,color=warm;shape=circle,fill=solid,color=ink;shape=circle,fill=solid,color=accent;shape=circle,fill=solid,color=warm/shape=circle,fill=solid,color=accent;shape=circle,fill=solid,color=warm;shape=circle,fill=solid,color=ink;shape=circle,fill=solid,color=accent;shape=circle,fill=solid,color=warm;shape=circle,fill=solid,color=ink/shape=circle,fill=solid,color=warm;shape=circle,fill=solid,color=ink;shape=circle,fill=solid,color=accent;shape=circle,fill=solid,color=warm;shape=circle,fill=solid,color=ink;shape=circle,fill=solid,color=accent/shape=circle,fill=solid,color=ink;shape=circle,fill=solid,color=accent;?;shape=circle,fill=solid,color=ink;shape=circle,fill=solid,color=accent;shape=circle,fill=solid,color=warm/shape=circle,fill=solid,color=accent;shape=circle,fill=solid,color=warm;shape=circle,fill=solid,color=ink;shape=circle,fill=solid,color=accent;shape=circle,fill=solid,color=warm;shape=circle,fill=solid,color=ink/shape=circle,fill=solid,color=warm;shape=circle,fill=solid,color=ink;shape=circle,fill=solid,color=accent;shape=circle,fill=solid,color=warm;shape=circle,fill=solid,color=ink;shape=circle,fill=solid,color=accent}}",
+      "options": [
+        "{{figcell:shape=circle,fill=solid,color=accent}}",
+        "{{figcell:shape=circle,fill=solid,color=warm}}",
+        "{{figcell:shape=circle,fill=solid,color=ink}}",
+        "{{figcell:shape=square,fill=solid,color=warm}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 3,
+      "target_seconds": 40,
+      "explanation": "שלושת הצבעים חוזרים לרוחב כל שורה, וכל שורה מוזזת צעד אחד ימינה, ולכן הצבעים יוצרים פסים אלכסוניים. האריח החסר יושב על הפס הכתום.",
+      "solution": "בשטיח צבעוני חפשו קודם אלכסונים, כי אלכסון של צבע אחד קופץ לעין מהר יותר מכל ספירה. אם אינכם בטוחים, קִראו את השורה של החסר עד אליו ואז אמתו מול האריח שנמצא מעליו ומשמאלו — הוא חייב להיות באותו צבע. המסיח הטורקיז יושב על האלכסון השכן, והמסיח המרובע נכשל בצורה גם כשצבעו נכון.",
+      "tags": [
+        "שטיח",
+        "אלכסון",
+        "צבע"
+      ]
+    },
+    {
+      "ref": "carpet-16",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "אלכסוני מילוי בשטיח",
+      "stem": "איזה אריח משלים את השטיח במקום סימן השאלה?",
+      "figure": "{{figcarpet:shape=square,fill=none,color=ink;shape=square,fill=solid,color=ink;shape=square,fill=dots,color=ink;shape=square,fill=stripes,color=ink/shape=square,fill=solid,color=ink;shape=square,fill=dots,color=ink;shape=square,fill=stripes,color=ink;shape=square,fill=none,color=ink/shape=square,fill=dots,color=ink;shape=square,fill=stripes,color=ink;shape=square,fill=none,color=ink;shape=square,fill=solid,color=ink/shape=square,fill=stripes,color=ink;shape=square,fill=none,color=ink;shape=square,fill=solid,color=ink;shape=square,fill=dots,color=ink/shape=square,fill=none,color=ink;shape=square,fill=solid,color=ink;?;shape=square,fill=stripes,color=ink/shape=square,fill=solid,color=ink;shape=square,fill=dots,color=ink;shape=square,fill=stripes,color=ink;shape=square,fill=none,color=ink}}",
+      "options": [
+        "{{figcell:shape=square,fill=dots,color=ink}}",
+        "{{figcell:shape=square,fill=stripes,color=ink}}",
+        "{{figcell:shape=square,fill=solid,color=ink}}",
+        "{{figcell:shape=circle,fill=dots,color=ink}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 4,
+      "target_seconds": 45,
+      "explanation": "ארבעת המילויים — ריק, מלא, נקודות, פסים — חוזרים בכל שורה, וכל שורה מוזזת צעד אחד ימינה, כך שכל מילוי יוצר אלכסון משלו. האריח החסר נופל על אלכסון הנקודות.",
+      "solution": "כשכל האריחים הם אותה צורה, בדקו אם המילויים מסתדרים באלכסון: הצמידו אצבע לאריח החסר וטפסו למעלה ושמאלה. המילוי שתפגשו הוא התשובה. המסיח המלא הוא בדיוק האריח שמעל החסר, וזו הטעות השכיחה של קריאה אנכית בשטיח שכולו אלכסוני.",
+      "tags": [
+        "שטיח",
+        "אלכסון",
+        "מילוי"
+      ]
+    },
+    {
+      "ref": "carpet-17",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "אלכסון של כיווני חץ",
+      "stem": "בשטיח שלפניכם חסר אריח אחד. איזה אריח צריך לבוא במקומו?",
+      "figure": "{{figcarpet:shape=arrow,fill=solid,rot=0,color=ink;shape=arrow,fill=solid,rot=90,color=ink;shape=arrow,fill=solid,rot=180,color=ink;shape=arrow,fill=solid,rot=270,color=ink/shape=arrow,fill=solid,rot=270,color=ink;shape=arrow,fill=solid,rot=0,color=ink;shape=arrow,fill=solid,rot=90,color=ink;shape=arrow,fill=solid,rot=180,color=ink/shape=arrow,fill=solid,rot=180,color=ink;shape=arrow,fill=solid,rot=270,color=ink;shape=arrow,fill=solid,rot=0,color=ink;shape=arrow,fill=solid,rot=90,color=ink/shape=arrow,fill=solid,rot=90,color=ink;shape=arrow,fill=solid,rot=180,color=ink;shape=arrow,fill=solid,rot=270,color=ink;?/shape=arrow,fill=solid,rot=0,color=ink;shape=arrow,fill=solid,rot=90,color=ink;shape=arrow,fill=solid,rot=180,color=ink;shape=arrow,fill=solid,rot=270,color=ink/shape=arrow,fill=solid,rot=270,color=ink;shape=arrow,fill=solid,rot=0,color=ink;shape=arrow,fill=solid,rot=90,color=ink;shape=arrow,fill=solid,rot=180,color=ink}}",
+      "options": [
+        "{{figcell:shape=arrow,fill=solid,rot=90,color=ink}}",
+        "{{figcell:shape=arrow,fill=solid,rot=180,color=ink}}",
+        "{{figcell:shape=arrow,fill=solid,rot=270,color=ink}}",
+        "{{figcell:shape=arrow,fill=solid,rot=0,color=ink}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 5,
+      "target_seconds": 52,
+      "explanation": "ארבעת הכיוונים חוזרים בכל שורה, וכל שורה מוזזת צעד אחד שמאלה, ולכן כל כיוון יוצר אלכסון. האריח החסר נמצא על האלכסון של החצים המצביעים למעלה.",
+      "solution": "ארבעה מסיחים שנבדלים רק בכיוון מחייבים דיוק ולא ניחוש: מצאו את האלכסון של האריח החסר וקִראו ממנו כיוון אחד בלבד. כאן ההזזה שמאלה, ולכן האלכסון של אותו כיוון עולה למעלה וימינה. מסיח שמצביע ימינה הוא האריח שמעל החסר — נכון לשורה שמעל, לא לשורה שלנו.",
+      "tags": [
+        "שטיח",
+        "אלכסון",
+        "סיבוב"
+      ]
+    },
+    {
+      "ref": "carpet-18",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "הזזה אלכסונית בשטיח גדול",
+      "stem": "איזה אריח משלים את השטיח במקום סימן השאלה?",
+      "figure": "{{figcarpet:shape=circle,fill=none,color=ink;shape=square,fill=none,color=ink;shape=triangle,fill=none,color=ink;shape=star,fill=none,color=ink;shape=hexagon,fill=none,color=ink;shape=diamond,fill=none,color=ink/shape=diamond,fill=none,color=ink;shape=circle,fill=none,color=ink;shape=square,fill=none,color=ink;shape=triangle,fill=none,color=ink;shape=star,fill=none,color=ink;shape=hexagon,fill=none,color=ink/shape=hexagon,fill=none,color=ink;shape=diamond,fill=none,color=ink;shape=circle,fill=none,color=ink;shape=square,fill=none,color=ink;shape=triangle,fill=none,color=ink;shape=star,fill=none,color=ink/shape=star,fill=none,color=ink;shape=hexagon,fill=none,color=ink;shape=diamond,fill=none,color=ink;shape=circle,fill=none,color=ink;shape=square,fill=none,color=ink;shape=triangle,fill=none,color=ink/shape=triangle,fill=none,color=ink;shape=star,fill=none,color=ink;shape=hexagon,fill=none,color=ink;?;shape=circle,fill=none,color=ink;shape=square,fill=none,color=ink/shape=square,fill=none,color=ink;shape=triangle,fill=none,color=ink;shape=star,fill=none,color=ink;shape=hexagon,fill=none,color=ink;shape=diamond,fill=none,color=ink;shape=circle,fill=none,color=ink}}",
+      "options": [
+        "{{figcell:shape=hexagon,fill=none,color=ink}}",
+        "{{figcell:shape=circle,fill=none,color=ink}}",
+        "{{figcell:shape=diamond,fill=none,color=ink}}",
+        "{{figcell:shape=star,fill=none,color=ink}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 4,
+      "target_seconds": 50,
+      "explanation": "שש הצורות חוזרות בכל שורה, וכל שורה מוזזת צעד אחד שמאלה, כך שכל צורה יוצרת אלכסון רצוף. האריח החסר יושב על אלכסון המעוינים.",
+      "solution": "שטיח של שש על שש נראה עמוס, אבל אין צורך לפענח אותו כולו: בחרו את האלכסון שעובר דרך האריח החסר ובדקו שתי דוגמאות בלבד עליו. אם שתיהן זהות, זו התשובה. המסיח עם המשושה הוא האריח שמימין לחסר, והמסיח עם העיגול הוא האריח שמעליו — שניהם שכנים, ולכן שניהם מפרים את ההזזה.",
+      "tags": [
+        "שטיח",
+        "אלכסון",
+        "הזזה"
+      ]
+    },
+    {
+      "ref": "carpet-19",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "אלכסוני גודל בשטיח",
+      "stem": "השלימו את האריח החסר בשטיח.",
+      "figure": "{{figcarpet:shape=circle,fill=none,size=s,color=ink;shape=circle,fill=none,size=m,color=ink;shape=circle,fill=none,size=l,color=ink;shape=circle,fill=none,size=s,color=ink;shape=circle,fill=none,size=m,color=ink;shape=circle,fill=none,size=l,color=ink/shape=circle,fill=none,size=m,color=ink;shape=circle,fill=none,size=l,color=ink;shape=circle,fill=none,size=s,color=ink;shape=circle,fill=none,size=m,color=ink;shape=circle,fill=none,size=l,color=ink;shape=circle,fill=none,size=s,color=ink/shape=circle,fill=none,size=l,color=ink;shape=circle,fill=none,size=s,color=ink;shape=circle,fill=none,size=m,color=ink;shape=circle,fill=none,size=l,color=ink;shape=circle,fill=none,size=s,color=ink;shape=circle,fill=none,size=m,color=ink/shape=circle,fill=none,size=s,color=ink;shape=circle,fill=none,size=m,color=ink;?;shape=circle,fill=none,size=s,color=ink;shape=circle,fill=none,size=m,color=ink;shape=circle,fill=none,size=l,color=ink/shape=circle,fill=none,size=m,color=ink;shape=circle,fill=none,size=l,color=ink;shape=circle,fill=none,size=s,color=ink;shape=circle,fill=none,size=m,color=ink;shape=circle,fill=none,size=l,color=ink;shape=circle,fill=none,size=s,color=ink/shape=circle,fill=none,size=l,color=ink;shape=circle,fill=none,size=s,color=ink;shape=circle,fill=none,size=m,color=ink;shape=circle,fill=none,size=l,color=ink;shape=circle,fill=none,size=s,color=ink;shape=circle,fill=none,size=m,color=ink}}",
+      "options": [
+        "{{figcell:shape=circle,fill=none,size=m,color=ink}}",
+        "{{figcell:shape=circle,fill=none,size=s,color=ink}}",
+        "{{figcell:shape=circle,fill=solid,size=s,color=ink}}",
+        "{{figcell:shape=circle,fill=none,size=l,color=ink}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 4,
+      "target_seconds": 45,
+      "explanation": "הגדלים קטן, בינוני, גדול חוזרים בכל שורה, וכל שורה מוזזת צעד אחד ימינה, ולכן העיגולים באותו גודל יוצרים אלכסונים. האריח החסר נמצא על אלכסון העיגולים הגדולים.",
+      "solution": "גודל הוא תכונה שקל לקרוא באלכסון, כי אלכסון של עיגולים גדולים בולט לעין. עִקבו מהאריח החסר כלפי מעלה ושמאלה, וּודאו על שתי חוליות. המסיח הבינוני נלקח מהאריח השכן מימין באותה שורה, והמסיח הקטן והמלא מוסיף מילוי שאינו קיים בשום מקום בשטיח.",
+      "tags": [
+        "שטיח",
+        "אלכסון",
+        "גודל"
+      ]
+    },
+    {
+      "ref": "carpet-20",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "שתי צורות מתחלפות כמו לוח שחמט",
+      "stem": "איזה אריח משלים את השטיח במקום סימן השאלה?",
+      "figure": "{{figcarpet:shape=circle,fill=none,color=ink;shape=square,fill=none,color=ink;shape=circle,fill=none,color=ink;shape=square,fill=none,color=ink/shape=square,fill=none,color=ink;shape=circle,fill=none,color=ink;shape=square,fill=none,color=ink;shape=circle,fill=none,color=ink/shape=circle,fill=none,color=ink;shape=square,fill=none,color=ink;?;shape=square,fill=none,color=ink/shape=square,fill=none,color=ink;shape=circle,fill=none,color=ink;shape=square,fill=none,color=ink;shape=circle,fill=none,color=ink}}",
+      "options": [
+        "{{figcell:shape=square,fill=none,color=ink}}",
+        "{{figcell:shape=circle,fill=none,color=ink}}",
+        "{{figcell:shape=circle,fill=solid,color=ink}}",
+        "{{figcell:shape=triangle,fill=none,color=ink}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 1,
+      "target_seconds": 30,
+      "explanation": "העיגולים והריבועים מתחלפים לסירוגין גם לרוחב וגם לאורך, בדיוק כמו משבצות לוח שחמט. שכניו הישירים של האריח החסר הם ריבועים, ולכן הוא עצמו עיגול.",
+      "solution": "בשטיח מסוג לוח שחמט אין צורך לספור בכלל: הסתכלו על ארבעת השכנים הישירים של האריח החסר, וקחו את הצורה ההפוכה מהם. אם השכנים ריבועים — התשובה עיגול. המסיח המרובע הוא בדיוק אריח שכן שהועתק, והמסיח עם העיגול המלא נכון בצורה אך מוסיף מילוי שאינו קיים בשטיח.",
+      "tags": [
+        "שטיח",
+        "לוח שחמט",
+        "סירוגין"
+      ]
+    },
+    {
+      "ref": "carpet-21",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "שני צבעים מתחלפים כמו לוח שחמט",
+      "stem": "בשטיח שלפניכם חסר אריח אחד. איזה אריח צריך לבוא במקומו?",
+      "figure": "{{figcarpet:shape=square,fill=solid,color=ink;shape=square,fill=solid,color=warm;shape=square,fill=solid,color=ink;shape=square,fill=solid,color=warm;shape=square,fill=solid,color=ink;shape=square,fill=solid,color=warm/shape=square,fill=solid,color=warm;shape=square,fill=solid,color=ink;shape=square,fill=solid,color=warm;shape=square,fill=solid,color=ink;shape=square,fill=solid,color=warm;shape=square,fill=solid,color=ink/shape=square,fill=solid,color=ink;shape=square,fill=solid,color=warm;shape=square,fill=solid,color=ink;shape=square,fill=solid,color=warm;shape=square,fill=solid,color=ink;shape=square,fill=solid,color=warm/shape=square,fill=solid,color=warm;shape=square,fill=solid,color=ink;shape=square,fill=solid,color=warm;shape=square,fill=solid,color=ink;?;shape=square,fill=solid,color=ink/shape=square,fill=solid,color=ink;shape=square,fill=solid,color=warm;shape=square,fill=solid,color=ink;shape=square,fill=solid,color=warm;shape=square,fill=solid,color=ink;shape=square,fill=solid,color=warm/shape=square,fill=solid,color=warm;shape=square,fill=solid,color=ink;shape=square,fill=solid,color=warm;shape=square,fill=solid,color=ink;shape=square,fill=solid,color=warm;shape=square,fill=solid,color=ink}}",
+      "options": [
+        "{{figcell:shape=square,fill=solid,color=ink}}",
+        "{{figcell:shape=circle,fill=solid,color=warm}}",
+        "{{figcell:shape=square,fill=solid,color=accent}}",
+        "{{figcell:shape=square,fill=solid,color=warm}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 2,
+      "target_seconds": 34,
+      "explanation": "הריבועים הכהים והכתומים מתחלפים לסירוגין בשני הכיוונים. שכניו של האריח החסר כהים, ולכן הוא ריבוע כתום.",
+      "solution": "שטיח שחמט נפתר במבט אחד על השכנים, ולא בסריקה של שש שורות. ודאו את הסירוגין גם לרוחב וגם לאורך, כי אם רק אחד מהם מתחלף הכלל שונה. המסיח בצבע טורקיז נפסל מיד — צבע שלישי כלל אינו מופיע בשטיח, ומסיח שמכניס ערך חדש הוא כמעט תמיד מסיח.",
+      "tags": [
+        "שטיח",
+        "לוח שחמט",
+        "צבע"
+      ]
+    },
+    {
+      "ref": "carpet-22",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "מלא וריק לסירוגין בשני הכיוונים",
+      "stem": "איזה אריח משלים את השטיח במקום סימן השאלה?",
+      "figure": "{{figcarpet:shape=hexagon,fill=solid,color=ink;shape=hexagon,fill=none,color=ink;shape=hexagon,fill=solid,color=ink;shape=hexagon,fill=none,color=ink;shape=hexagon,fill=solid,color=ink/shape=hexagon,fill=none,color=ink;shape=hexagon,fill=solid,color=ink;shape=hexagon,fill=none,color=ink;shape=hexagon,fill=solid,color=ink;shape=hexagon,fill=none,color=ink/shape=hexagon,fill=solid,color=ink;?;shape=hexagon,fill=solid,color=ink;shape=hexagon,fill=none,color=ink;shape=hexagon,fill=solid,color=ink/shape=hexagon,fill=none,color=ink;shape=hexagon,fill=solid,color=ink;shape=hexagon,fill=none,color=ink;shape=hexagon,fill=solid,color=ink;shape=hexagon,fill=none,color=ink/shape=hexagon,fill=solid,color=ink;shape=hexagon,fill=none,color=ink;shape=hexagon,fill=solid,color=ink;shape=hexagon,fill=none,color=ink;shape=hexagon,fill=solid,color=ink}}",
+      "options": [
+        "{{figcell:shape=hexagon,fill=none,color=ink}}",
+        "{{figcell:shape=hexagon,fill=solid,color=ink}}",
+        "{{figcell:shape=hexagon,fill=half,color=ink}}",
+        "{{figcell:shape=pentagon,fill=none,color=ink}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 2,
+      "target_seconds": 33,
+      "explanation": "המשושים המלאים והריקים מתחלפים לסירוגין לרוחב ולאורך. כל שכניו של האריח החסר מלאים, ולכן הוא משושה ריק.",
+      "solution": "כשכל האריחים הם אותה צורה, בדקו את המילוי אצל השכן מימין ואצל השכן מלמעלה: אם שניהם מלאים, האריח החסר ריק. אין צורך לקרוא את השטיח כולו. המסיח החצי-מלא מנסה לפשר בין שתי האפשרויות, אבל בשטיח הזה קיימים רק שני מצבים, מלא או ריק.",
+      "tags": [
+        "שטיח",
+        "לוח שחמט",
+        "מילוי"
+      ]
+    },
+    {
+      "ref": "carpet-23",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "חצים הפוכים לסירוגין",
+      "stem": "השלימו את האריח החסר בשטיח.",
+      "figure": "{{figcarpet:shape=arrow,fill=solid,rot=0,color=ink;shape=arrow,fill=solid,rot=180,color=ink;shape=arrow,fill=solid,rot=0,color=ink;shape=arrow,fill=solid,rot=180,color=ink/shape=arrow,fill=solid,rot=180,color=ink;shape=arrow,fill=solid,rot=0,color=ink;shape=arrow,fill=solid,rot=180,color=ink;shape=arrow,fill=solid,rot=0,color=ink/shape=arrow,fill=solid,rot=0,color=ink;shape=arrow,fill=solid,rot=180,color=ink;shape=arrow,fill=solid,rot=0,color=ink;shape=arrow,fill=solid,rot=180,color=ink/shape=arrow,fill=solid,rot=180,color=ink;shape=arrow,fill=solid,rot=0,color=ink;shape=arrow,fill=solid,rot=180,color=ink;shape=arrow,fill=solid,rot=0,color=ink/shape=arrow,fill=solid,rot=0,color=ink;?;shape=arrow,fill=solid,rot=0,color=ink;shape=arrow,fill=solid,rot=180,color=ink/shape=arrow,fill=solid,rot=180,color=ink;shape=arrow,fill=solid,rot=0,color=ink;shape=arrow,fill=solid,rot=180,color=ink;shape=arrow,fill=solid,rot=0,color=ink}}",
+      "options": [
+        "{{figcell:shape=arrow,fill=solid,rot=0,color=ink}}",
+        "{{figcell:shape=arrow,fill=solid,rot=90,color=ink}}",
+        "{{figcell:shape=arrow,fill=solid,rot=180,color=ink}}",
+        "{{figcell:shape=triangle,fill=solid,rot=180,color=ink}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 3,
+      "target_seconds": 38,
+      "explanation": "החצים מצביעים למעלה ולמטה לסירוגין, גם לרוחב השורה וגם לאורך העמודה. שכניו של האריח החסר מצביעים למעלה, ולכן הוא מצביע למטה.",
+      "solution": "בשטיח של כיוונים בלבד, השוו את האריח החסר לשכן שמימינו ולשכן שמעליו — הוא חייב להיות הפוך משניהם. שימו לב שהמסיחים נבדלים רק בזווית, ולכן חשוב לקבוע כיוון לפני שמסתכלים באפשרויות. חץ שמצביע הצידה אינו מופיע כלל בשטיח, ולכן הוא נפסל מיד.",
+      "tags": [
+        "שטיח",
+        "לוח שחמט",
+        "סיבוב"
+      ]
+    },
+    {
+      "ref": "carpet-24",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "כמות מתחלפת כמו לוח שחמט",
+      "stem": "איזה אריח משלים את השטיח במקום סימן השאלה?",
+      "figure": "{{figcarpet:shape=star,n=1,fill=none,color=ink;shape=star,n=2,fill=none,color=ink;shape=star,n=1,fill=none,color=ink;shape=star,n=2,fill=none,color=ink;shape=star,n=1,fill=none,color=ink/shape=star,n=2,fill=none,color=ink;shape=star,n=1,fill=none,color=ink;shape=star,n=2,fill=none,color=ink;?;shape=star,n=2,fill=none,color=ink/shape=star,n=1,fill=none,color=ink;shape=star,n=2,fill=none,color=ink;shape=star,n=1,fill=none,color=ink;shape=star,n=2,fill=none,color=ink;shape=star,n=1,fill=none,color=ink/shape=star,n=2,fill=none,color=ink;shape=star,n=1,fill=none,color=ink;shape=star,n=2,fill=none,color=ink;shape=star,n=1,fill=none,color=ink;shape=star,n=2,fill=none,color=ink}}",
+      "options": [
+        "{{figcell:shape=star,n=1,fill=none,color=ink}}",
+        "{{figcell:shape=star,n=2,fill=none,color=ink}}",
+        "{{figcell:shape=star,n=1,fill=solid,color=ink}}",
+        "{{figcell:shape=circle,n=1,fill=none,color=ink}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 2,
+      "target_seconds": 32,
+      "explanation": "אריחים עם כוכב אחד ואריחים עם שני כוכבים מתחלפים לסירוגין בשני הכיוונים, ולכל שכניו של האריח החסר יש שני כוכבים. לכן באריח החסר כוכב אחד.",
+      "solution": "ספירה של צורות היא התכונה הקלה ביותר לבדיקה, אז התחילו ממנה: אם מימין לאריח החסר ומעליו יש שתיים, בו עצמו יש אחת. המסיח עם שני כוכבים הוא העתקה של שכן, והמסיח עם כוכב מלא נכון בכמות אך מוסיף מילוי שאינו קיים באף אריח.",
+      "tags": [
+        "שטיח",
+        "לוח שחמט",
+        "כמות"
+      ]
+    },
+    {
+      "ref": "carpet-25",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "השורה קובעת צורה והעמודה קובעת מילוי",
+      "stem": "איזה אריח משלים את השטיח במקום סימן השאלה?",
+      "figure": "{{figcarpet:shape=circle,fill=none,color=ink;shape=circle,fill=solid,color=ink;shape=circle,fill=dots,color=ink;shape=circle,fill=stripes,color=ink/shape=square,fill=none,color=ink;shape=square,fill=solid,color=ink;shape=square,fill=dots,color=ink;shape=square,fill=stripes,color=ink/shape=triangle,fill=none,color=ink;?;shape=triangle,fill=dots,color=ink;shape=triangle,fill=stripes,color=ink/shape=star,fill=none,color=ink;shape=star,fill=solid,color=ink;shape=star,fill=dots,color=ink;shape=star,fill=stripes,color=ink}}",
+      "options": [
+        "{{figcell:shape=square,fill=solid,color=ink}}",
+        "{{figcell:shape=triangle,fill=solid,color=ink}}",
+        "{{figcell:shape=triangle,fill=dots,color=ink}}",
+        "{{figcell:shape=triangle,fill=none,color=ink}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 3,
+      "target_seconds": 42,
+      "explanation": "בכל שורה יש צורה אחת בלבד, ובכל עמודה מילוי אחד בלבד: השורה השלישית היא שורת המשולשים והעמודה השנייה מימין היא עמודת המלאים, ולכן חסר משולש מלא.",
+      "solution": "בשטיח שבו גם השורות וגם העמודות אחידות בתכונה משלהן, קִראו קודם את השורה של האריח החסר וקִחו ממנה תכונה אחת, ואז את העמודה שלו וקִחו ממנה את התכונה השנייה. המלכודת היא מסיח שמקיים רק חצי מהכלל: המשולש הריק נכון בשורה ושייך לעמודה הימנית, והריבוע המלא נכון בעמודה אבל שייך לשורה שמעל.",
+      "tags": [
+        "שטיח",
+        "הצטלבות",
+        "שורה",
+        "עמודה"
+      ]
+    },
+    {
+      "ref": "carpet-26",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "השורה קובעת מילוי והעמודה קובעת צורה",
+      "stem": "בשטיח שלפניכם חסר אריח אחד. איזה אריח צריך לבוא במקומו?",
+      "figure": "{{figcarpet:shape=circle,fill=none,color=ink;shape=square,fill=none,color=ink;shape=triangle,fill=none,color=ink;shape=star,fill=none,color=ink;shape=hexagon,fill=none,color=ink/shape=circle,fill=solid,color=ink;shape=square,fill=solid,color=ink;shape=triangle,fill=solid,color=ink;?;shape=hexagon,fill=solid,color=ink/shape=circle,fill=dots,color=ink;shape=square,fill=dots,color=ink;shape=triangle,fill=dots,color=ink;shape=star,fill=dots,color=ink;shape=hexagon,fill=dots,color=ink/shape=circle,fill=stripes,color=ink;shape=square,fill=stripes,color=ink;shape=triangle,fill=stripes,color=ink;shape=star,fill=stripes,color=ink;shape=hexagon,fill=stripes,color=ink}}",
+      "options": [
+        "{{figcell:shape=star,fill=none,color=ink}}",
+        "{{figcell:shape=heart,fill=solid,color=ink}}",
+        "{{figcell:shape=hexagon,fill=solid,color=ink}}",
+        "{{figcell:shape=star,fill=solid,color=ink}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 3,
+      "target_seconds": 42,
+      "explanation": "כל עמודה שומרת על צורה אחת וכל שורה שומרת על מילוי אחד. האריח החסר נמצא בעמודת הכוכבים ובשורה המלאה, ולכן חסר כוכב מלא.",
+      "solution": "שאלו שתי שאלות נפרדות: איזו צורה חוזרת בעמודה של האריח החסר, ואיזה מילוי חוזר בשורה שלו. את התשובה מרכיבים מהשתיים, ואין צורך להביט בשאר השטיח. המסיח עם הכוכב הריק לקח את המילוי מהשורה העליונה, והמסיח עם הלב מכניס צורה שאינה קיימת בשטיח כלל.",
+      "tags": [
+        "שטיח",
+        "הצטלבות",
+        "שורה",
+        "עמודה"
+      ]
+    },
+    {
+      "ref": "carpet-27",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "השורה קובעת כמות והעמודה קובעת צורה",
+      "stem": "איזה אריח משלים את השטיח במקום סימן השאלה?",
+      "figure": "{{figcarpet:shape=circle,n=1,fill=none,color=ink;shape=square,n=1,fill=none,color=ink;shape=triangle,n=1,fill=none,color=ink;shape=star,n=1,fill=none,color=ink/shape=circle,n=2,fill=none,color=ink;shape=square,n=2,fill=none,color=ink;shape=triangle,n=2,fill=none,color=ink;shape=star,n=2,fill=none,color=ink/shape=circle,n=3,fill=none,color=ink;shape=square,n=3,fill=none,color=ink;shape=triangle,n=3,fill=none,color=ink;shape=star,n=3,fill=none,color=ink/shape=circle,n=4,fill=none,color=ink;shape=square,n=4,fill=none,color=ink;?;shape=star,n=4,fill=none,color=ink}}",
+      "options": [
+        "{{figcell:shape=triangle,n=3,fill=none,color=ink}}",
+        "{{figcell:shape=star,n=4,fill=none,color=ink}}",
+        "{{figcell:shape=triangle,n=4,fill=none,color=ink}}",
+        "{{figcell:shape=triangle,n=2,fill=none,color=ink}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 4,
+      "target_seconds": 44,
+      "explanation": "הכמות נקבעת לפי השורה — אחת, שתיים, שלוש, ארבע — והצורה נקבעת לפי העמודה. האריח החסר נמצא בשורה הרביעית ובעמודת המשולשים, ולכן יש בו ארבעה משולשים.",
+      "solution": "כשמדובר בכמות, סִפרו רק אריח אחד מהשורה של החסר ואריח אחד מהעמודה שלו; זה מספיק כדי לקבוע את שתי התכונות. המסיח עם שלושה משולשים נכון בצורה אך לקח את הכמות מהשורה שמעל, וזו הטעות של מי שסופר בטעות שורה אחת גבוה מדי.",
+      "tags": [
+        "שטיח",
+        "הצטלבות",
+        "כמות",
+        "צורה"
+      ]
+    },
+    {
+      "ref": "carpet-28",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "השורה קובעת צורה והעמודה קובעת מילוי בשטיח גדול",
+      "stem": "איזה אריח משלים את השטיח במקום סימן השאלה?",
+      "figure": "{{figcarpet:shape=circle,fill=none,color=ink;shape=circle,fill=solid,color=ink;shape=circle,fill=dots,color=ink;shape=circle,fill=stripes,color=ink;shape=circle,fill=grid,color=ink/shape=square,fill=none,color=ink;shape=square,fill=solid,color=ink;shape=square,fill=dots,color=ink;shape=square,fill=stripes,color=ink;shape=square,fill=grid,color=ink/shape=triangle,fill=none,color=ink;shape=triangle,fill=solid,color=ink;shape=triangle,fill=dots,color=ink;shape=triangle,fill=stripes,color=ink;shape=triangle,fill=grid,color=ink/shape=star,fill=none,color=ink;shape=star,fill=solid,color=ink;?;shape=star,fill=stripes,color=ink;shape=star,fill=grid,color=ink/shape=hexagon,fill=none,color=ink;shape=hexagon,fill=solid,color=ink;shape=hexagon,fill=dots,color=ink;shape=hexagon,fill=stripes,color=ink;shape=hexagon,fill=grid,color=ink}}",
+      "options": [
+        "{{figcell:shape=star,fill=dots,color=ink}}",
+        "{{figcell:shape=star,fill=stripes,color=ink}}",
+        "{{figcell:shape=triangle,fill=dots,color=ink}}",
+        "{{figcell:shape=star,fill=none,color=ink}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 4,
+      "target_seconds": 46,
+      "explanation": "השורה הרביעית היא שורת הכוכבים והעמודה השלישית מימין היא עמודת הנקודות, ולכן האריח החסר הוא כוכב ממולא בנקודות.",
+      "solution": "ככל שהשטיח גדול יותר, כך חשוב יותר לא לסרוק אותו כולו: קִראו שני אריחים מהשורה של החסר ושני אריחים מהעמודה שלו, וזהו. הצליבו ורק אז הביטו באפשרויות. המסיח עם הכוכב בפסים לקח את המילוי מהעמודה השכנה, והמסיח עם המשולש בנקודות לקח את הצורה מהשורה שמעל.",
+      "tags": [
+        "שטיח",
+        "הצטלבות",
+        "שורה",
+        "עמודה"
+      ]
+    },
+    {
+      "ref": "carpet-29",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "השורה קובעת צבע והעמודה קובעת צורה",
+      "stem": "בשטיח שלפניכם חסר אריח אחד. איזה אריח צריך לבוא במקומו?",
+      "figure": "{{figcarpet:shape=circle,fill=solid,color=ink;shape=square,fill=solid,color=ink;shape=triangle,fill=solid,color=ink;shape=star,fill=solid,color=ink;shape=hexagon,fill=solid,color=ink;shape=diamond,fill=solid,color=ink/shape=circle,fill=solid,color=accent;shape=square,fill=solid,color=accent;shape=triangle,fill=solid,color=accent;shape=star,fill=solid,color=accent;shape=hexagon,fill=solid,color=accent;shape=diamond,fill=solid,color=accent/shape=circle,fill=solid,color=warm;shape=square,fill=solid,color=warm;shape=triangle,fill=solid,color=warm;shape=star,fill=solid,color=warm;shape=hexagon,fill=solid,color=warm;shape=diamond,fill=solid,color=warm/shape=circle,fill=solid,color=ink;shape=square,fill=solid,color=ink;shape=triangle,fill=solid,color=ink;shape=star,fill=solid,color=ink;shape=hexagon,fill=solid,color=ink;shape=diamond,fill=solid,color=ink/shape=circle,fill=solid,color=accent;?;shape=triangle,fill=solid,color=accent;shape=star,fill=solid,color=accent;shape=hexagon,fill=solid,color=accent;shape=diamond,fill=solid,color=accent/shape=circle,fill=solid,color=warm;shape=square,fill=solid,color=warm;shape=triangle,fill=solid,color=warm;shape=star,fill=solid,color=warm;shape=hexagon,fill=solid,color=warm;shape=diamond,fill=solid,color=warm}}",
+      "options": [
+        "{{figcell:shape=square,fill=solid,color=ink}}",
+        "{{figcell:shape=square,fill=solid,color=accent}}",
+        "{{figcell:shape=circle,fill=solid,color=accent}}",
+        "{{figcell:shape=square,fill=solid,color=warm}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 4,
+      "target_seconds": 44,
+      "explanation": "כל שורה צבועה בצבע אחד, במחזור כהה, טורקיז, כתום, וכל עמודה שומרת על צורה אחת. השורה החמישית היא טורקיז והעמודה השנייה מימין היא עמודת הריבועים, ולכן חסר ריבוע טורקיז.",
+      "solution": "הפרידו בין שתי התכונות לפני שמסתכלים באפשרויות: הצבע מגיע מהשורה, הצורה מגיעה מהעמודה. בשטיח בן שש שורות ושלושה צבעים, השורה החמישית חוזרת על השנייה. המסיח בצבע כהה נכון בצורה אך לקח את הצבע מהשורה הרביעית, והמסיח העגול נכון בצבע ושייך לעמודה הימנית.",
+      "tags": [
+        "שטיח",
+        "הצטלבות",
+        "צבע",
+        "צורה"
+      ]
+    },
+    {
+      "ref": "carpet-30",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "השורה קובעת גודל והעמודה קובעת צורה",
+      "stem": "השלימו את האריח החסר בשטיח.",
+      "figure": "{{figcarpet:shape=diamond,fill=none,size=s,color=ink;shape=cross,fill=none,size=s,color=ink;shape=heart,fill=none,size=s,color=ink;shape=arrow,fill=none,size=s,color=ink/shape=diamond,fill=none,size=m,color=ink;shape=cross,fill=none,size=m,color=ink;shape=heart,fill=none,size=m,color=ink;shape=arrow,fill=none,size=m,color=ink/shape=diamond,fill=none,size=l,color=ink;shape=cross,fill=none,size=l,color=ink;shape=heart,fill=none,size=l,color=ink;?/shape=diamond,fill=none,size=s,color=ink;shape=cross,fill=none,size=s,color=ink;shape=heart,fill=none,size=s,color=ink;shape=arrow,fill=none,size=s,color=ink/shape=diamond,fill=none,size=m,color=ink;shape=cross,fill=none,size=m,color=ink;shape=heart,fill=none,size=m,color=ink;shape=arrow,fill=none,size=m,color=ink/shape=diamond,fill=none,size=l,color=ink;shape=cross,fill=none,size=l,color=ink;shape=heart,fill=none,size=l,color=ink;shape=arrow,fill=none,size=l,color=ink}}",
+      "options": [
+        "{{figcell:shape=arrow,fill=none,size=m,color=ink}}",
+        "{{figcell:shape=heart,fill=none,size=l,color=ink}}",
+        "{{figcell:shape=arrow,fill=none,size=s,color=ink}}",
+        "{{figcell:shape=arrow,fill=none,size=l,color=ink}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 3,
+      "target_seconds": 40,
+      "explanation": "הגודל נקבע לפי השורה במחזור קטן, בינוני, גדול, והצורה נקבעת לפי העמודה. האריח החסר נמצא בשורה השלישית, שהיא שורת הגדולים, ובעמודת החצים.",
+      "solution": "שתי תכונות בלתי תלויות דורשות שתי בדיקות קצרות: מהי הצורה שחוזרת בעמודה, ומהו הגודל שחוזר בשורה. אל תניחו שהגודל ממשיך לגדול לנצח — כאן הוא מתאפס כל שלוש שורות. המסיח הבינוני עם החץ נכון בצורה אך לקח את הגודל מהשורה השנייה.",
+      "tags": [
+        "שטיח",
+        "הצטלבות",
+        "גודל",
+        "צורה"
+      ]
+    },
+    {
+      "ref": "carpet-31",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "שיקוף סביב הציר האנכי המרכזי",
+      "stem": "איזה אריח משלים את השטיח במקום סימן השאלה?",
+      "figure": "{{figcarpet:shape=circle,fill=none,color=ink;shape=square,fill=none,color=ink;shape=square,fill=none,color=ink;shape=circle,fill=none,color=ink/shape=triangle,fill=none,color=ink;shape=star,fill=none,color=ink;shape=star,fill=none,color=ink;shape=triangle,fill=none,color=ink/shape=hexagon,fill=none,color=ink;shape=diamond,fill=none,color=ink;shape=diamond,fill=none,color=ink;?/shape=cross,fill=none,color=ink;shape=heart,fill=none,color=ink;shape=heart,fill=none,color=ink;shape=cross,fill=none,color=ink}}",
+      "options": [
+        "{{figcell:shape=diamond,fill=none,color=ink}}",
+        "{{figcell:shape=circle,fill=none,color=ink}}",
+        "{{figcell:shape=hexagon,fill=none,color=ink}}",
+        "{{figcell:shape=hexagon,fill=solid,color=ink}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 3,
+      "target_seconds": 40,
+      "explanation": "השטיח סימטרי סביב הציר האנכי שבאמצעו: כל אריח שווה לאריח שמולו בצדה השני של השורה. מול האריח החסר, בקצה הימני של אותה שורה, יש משושה.",
+      "solution": "כששני חצאי השורה נראים כמו תמונת ראי, אל תחפשו מחזור — מדדו מרחק מהציר. האריח החסר הוא הרביעי מימין, ולכן בן זוגו הוא הראשון מימין באותה שורה. המסיח עם המעוין הוא האריח השכן שנמצא בפנים השורה, וזו הטעות של מי שממשיך את הרצף במקום לשקף.",
+      "tags": [
+        "שטיח",
+        "סימטריה",
+        "שיקוף"
+      ]
+    },
+    {
+      "ref": "carpet-32",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "שיקוף סביב הציר האנכי בשורה בת חמישה",
+      "stem": "בשטיח שלפניכם חסר אריח אחד. איזה אריח צריך לבוא במקומו?",
+      "figure": "{{figcarpet:shape=circle,fill=none,color=ink;shape=square,fill=none,color=ink;shape=triangle,fill=none,color=ink;shape=square,fill=none,color=ink;shape=circle,fill=none,color=ink/shape=star,fill=none,color=ink;shape=hexagon,fill=none,color=ink;shape=diamond,fill=none,color=ink;shape=hexagon,fill=none,color=ink;shape=star,fill=none,color=ink/shape=cross,fill=none,color=ink;shape=heart,fill=none,color=ink;shape=arrow,fill=none,color=ink;shape=heart,fill=none,color=ink;shape=cross,fill=none,color=ink/shape=pentagon,fill=none,color=ink;shape=trapezoid,fill=none,color=ink;shape=halfcircle,fill=none,color=ink;shape=trapezoid,fill=none,color=ink;?/shape=circle,fill=none,color=ink;shape=triangle,fill=none,color=ink;shape=square,fill=none,color=ink;shape=triangle,fill=none,color=ink;shape=circle,fill=none,color=ink}}",
+      "options": [
+        "{{figcell:shape=pentagon,fill=none,color=ink}}",
+        "{{figcell:shape=trapezoid,fill=none,color=ink}}",
+        "{{figcell:shape=halfcircle,fill=none,color=ink}}",
+        "{{figcell:shape=circle,fill=none,color=ink}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 3,
+      "target_seconds": 42,
+      "explanation": "כל שורה בשטיח סימטרית סביב האריח האמצעי שלה, ולכן הקצה השמאלי זהה לקצה הימני. בקצה הימני של השורה הרביעית יש מחומש, ולכן זו התשובה.",
+      "solution": "בשורה באורך אי-זוגי האריח האמצעי הוא ציר הראי, והזוגות נמדדים ממנו החוצה. לאריח חסר בקצה אחד, הביטו בקצה הנגדי של אותה שורה בלבד. המסיח עם הטרפז הוא בן הזוג של המקום השני, לא של הקצה, וזו הטעות של מי שמשקף ביחס לאריח הלא נכון.",
+      "tags": [
+        "שטיח",
+        "סימטריה",
+        "שיקוף"
+      ]
+    },
+    {
+      "ref": "carpet-33",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "שיקוף סביב הציר האופקי המרכזי",
+      "stem": "איזה אריח משלים את השטיח במקום סימן השאלה?",
+      "figure": "{{figcarpet:shape=circle,fill=none,color=ink;shape=square,fill=none,color=ink;shape=triangle,fill=none,color=ink;shape=star,fill=none,color=ink/shape=hexagon,fill=none,color=ink;shape=diamond,fill=none,color=ink;shape=cross,fill=none,color=ink;shape=heart,fill=none,color=ink/shape=pentagon,fill=none,color=ink;shape=arrow,fill=none,color=ink;shape=trapezoid,fill=none,color=ink;shape=halfcircle,fill=none,color=ink/shape=pentagon,fill=none,color=ink;shape=arrow,fill=none,color=ink;shape=trapezoid,fill=none,color=ink;shape=halfcircle,fill=none,color=ink/shape=hexagon,fill=none,color=ink;shape=diamond,fill=none,color=ink;?;shape=heart,fill=none,color=ink/shape=circle,fill=none,color=ink;shape=square,fill=none,color=ink;shape=triangle,fill=none,color=ink;shape=star,fill=none,color=ink}}",
+      "options": [
+        "{{figcell:shape=triangle,fill=none,color=ink}}",
+        "{{figcell:shape=cross,fill=none,color=ink}}",
+        "{{figcell:shape=diamond,fill=none,color=ink}}",
+        "{{figcell:shape=trapezoid,fill=none,color=ink}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 4,
+      "target_seconds": 45,
+      "explanation": "השטיח משוקף סביב הקו האופקי שבין השורה השלישית לרביעית: השורה החמישית זהה לשנייה, ולכן במקום החסר בא צלב.",
+      "solution": "כשאין מחזור בתוך השורה, בדקו אם השטיח מקופל על עצמו לגובה: השורה הראשונה והאחרונה זהות, וכך גם השנייה והחמישית. אחרי שזיהיתם את בת הזוג של השורה, פשוט העתיקו ממנה את האריח באותו מקום. המסיח עם הטרפז נלקח מהשורה השכנה מלמעלה ולא מבת הזוג הנכונה של השורה.",
+      "tags": [
+        "שטיח",
+        "סימטריה",
+        "שיקוף"
+      ]
+    },
+    {
+      "ref": "carpet-34",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "שיקוף צבעים סביב הציר האנכי",
+      "stem": "איזה אריח משלים את השטיח במקום סימן השאלה?",
+      "figure": "{{figcarpet:shape=circle,fill=solid,color=ink;shape=circle,fill=solid,color=accent;shape=circle,fill=solid,color=warm;shape=circle,fill=solid,color=accent;shape=circle,fill=solid,color=ink/shape=circle,fill=solid,color=accent;shape=circle,fill=solid,color=warm;shape=circle,fill=solid,color=ink;shape=circle,fill=solid,color=warm;shape=circle,fill=solid,color=accent/shape=circle,fill=solid,color=warm;shape=circle,fill=solid,color=ink;shape=circle,fill=solid,color=accent;shape=circle,fill=solid,color=ink;?/shape=circle,fill=solid,color=ink;shape=circle,fill=solid,color=warm;shape=circle,fill=solid,color=accent;shape=circle,fill=solid,color=warm;shape=circle,fill=solid,color=ink}}",
+      "options": [
+        "{{figcell:shape=circle,fill=solid,color=ink}}",
+        "{{figcell:shape=circle,fill=solid,color=accent}}",
+        "{{figcell:shape=circle,fill=solid,color=warm}}",
+        "{{figcell:shape=square,fill=solid,color=warm}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 4,
+      "target_seconds": 42,
+      "explanation": "כל שורה צבועה כמו תמונת ראי סביב האריח האמצעי שלה, ולכן שני קצות השורה זהים בצבעם. בקצה הימני של השורה השלישית יש עיגול כתום.",
+      "solution": "בשטיח צבעוני שאין בו מחזור פשוט, בדקו קודם אם השורה נקראת אותו דבר משני הכיוונים. אם כן, בן הזוג של הקצה השמאלי הוא הקצה הימני, ואין צורך בשום ספירה. המסיח הכהה נכון לשורה הראשונה והרביעית ולא לשורה שלנו, והמסיח המרובע נכשל בצורה שקבועה בכל השטיח.",
+      "tags": [
+        "שטיח",
+        "סימטריה",
+        "צבע"
+      ]
+    },
+    {
+      "ref": "carpet-35",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "שיקוף מילויים סביב הציר האנכי",
+      "stem": "בשטיח שלפניכם חסר אריח אחד. איזה אריח צריך לבוא במקומו?",
+      "figure": "{{figcarpet:shape=square,fill=none,color=ink;shape=square,fill=solid,color=ink;shape=square,fill=dots,color=ink;shape=square,fill=dots,color=ink;shape=square,fill=solid,color=ink;shape=square,fill=none,color=ink/shape=square,fill=solid,color=ink;shape=square,fill=dots,color=ink;shape=square,fill=stripes,color=ink;shape=square,fill=stripes,color=ink;shape=square,fill=dots,color=ink;shape=square,fill=solid,color=ink/shape=square,fill=dots,color=ink;shape=square,fill=stripes,color=ink;shape=square,fill=grid,color=ink;shape=square,fill=grid,color=ink;shape=square,fill=stripes,color=ink;shape=square,fill=dots,color=ink/shape=square,fill=stripes,color=ink;shape=square,fill=grid,color=ink;shape=square,fill=none,color=ink;shape=square,fill=none,color=ink;?;shape=square,fill=stripes,color=ink/shape=square,fill=grid,color=ink;shape=square,fill=none,color=ink;shape=square,fill=solid,color=ink;shape=square,fill=solid,color=ink;shape=square,fill=none,color=ink;shape=square,fill=grid,color=ink/shape=square,fill=none,color=ink;shape=square,fill=dots,color=ink;shape=square,fill=stripes,color=ink;shape=square,fill=stripes,color=ink;shape=square,fill=dots,color=ink;shape=square,fill=none,color=ink}}",
+      "options": [
+        "{{figcell:shape=square,fill=stripes,color=ink}}",
+        "{{figcell:shape=square,fill=none,color=ink}}",
+        "{{figcell:shape=circle,fill=grid,color=ink}}",
+        "{{figcell:shape=square,fill=grid,color=ink}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 4,
+      "target_seconds": 46,
+      "explanation": "כל שורה משוקפת סביב הציר האנכי המרכזי, כך שהמקום החמישי מימין שווה למקום השני מימין. בשורה הרביעית המילוי שם הוא רשת.",
+      "solution": "בשורה באורך זוגי אין אריח אמצעי, והציר עובר בין שני האריחים שבתווך; לכן המקום הראשון מזדווג עם השישי, השני עם החמישי והשלישי עם הרביעי. מצאו את בן הזוג של האריח החסר והעתיקו ממנו. המסיח בפסים הוא האריח שבקצה השמאלי של השורה, כלומר בן זוגו של מקום אחר לגמרי.",
+      "tags": [
+        "שטיח",
+        "סימטריה",
+        "מילוי"
+      ]
+    },
+    {
+      "ref": "carpet-36",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "פסים אלכסוניים של שלוש צורות",
+      "stem": "איזה אריח משלים את השטיח במקום סימן השאלה?",
+      "figure": "{{figcarpet:shape=circle,fill=none,color=ink;shape=triangle,fill=none,color=ink;shape=square,fill=none,color=ink;shape=circle,fill=none,color=ink;shape=triangle,fill=none,color=ink;shape=square,fill=none,color=ink/shape=triangle,fill=none,color=ink;shape=square,fill=none,color=ink;shape=circle,fill=none,color=ink;shape=triangle,fill=none,color=ink;shape=square,fill=none,color=ink;shape=circle,fill=none,color=ink/shape=square,fill=none,color=ink;shape=circle,fill=none,color=ink;shape=triangle,fill=none,color=ink;shape=square,fill=none,color=ink;?;shape=triangle,fill=none,color=ink/shape=circle,fill=none,color=ink;shape=triangle,fill=none,color=ink;shape=square,fill=none,color=ink;shape=circle,fill=none,color=ink;shape=triangle,fill=none,color=ink;shape=square,fill=none,color=ink/shape=triangle,fill=none,color=ink;shape=square,fill=none,color=ink;shape=circle,fill=none,color=ink;shape=triangle,fill=none,color=ink;shape=square,fill=none,color=ink;shape=circle,fill=none,color=ink/shape=square,fill=none,color=ink;shape=circle,fill=none,color=ink;shape=triangle,fill=none,color=ink;shape=square,fill=none,color=ink;shape=circle,fill=none,color=ink;shape=triangle,fill=none,color=ink}}",
+      "options": [
+        "{{figcell:shape=circle,fill=none,color=ink}}",
+        "{{figcell:shape=triangle,fill=none,color=ink}}",
+        "{{figcell:shape=square,fill=none,color=ink}}",
+        "{{figcell:shape=circle,fill=solid,color=ink}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 3,
+      "target_seconds": 40,
+      "explanation": "שלוש הצורות מסודרות בפסים אלכסוניים היורדים משמאל למעלה לימין למטה, וכל צורה חוזרת כל שלושה מקומות. האריח החסר נופל על פס העיגולים.",
+      "solution": "פס אלכסוני מזוהים לפי כך שהצורה חוזרת גם בשורה הבאה, אבל מוסטת מקום אחד. במקום לספור את כל השורה, לכו מהאריח החסר צעד אחד למטה ואחד ימינה — תמצאו את אותה צורה בדיוק. המסיח עם המשולש הוא הפס הסמוך, וזו הטעות של מי שסוטה אלכסון אחד.",
+      "tags": [
+        "שטיח",
+        "אלכסון",
+        "פסים"
+      ]
+    },
+    {
+      "ref": "carpet-37",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "פסים אלכסוניים של שלושה צבעים",
+      "stem": "השלימו את האריח החסר בשטיח.",
+      "figure": "{{figcarpet:shape=circle,fill=solid,color=accent;shape=circle,fill=solid,color=warm;shape=circle,fill=solid,color=ink;shape=circle,fill=solid,color=accent;shape=circle,fill=solid,color=warm/shape=circle,fill=solid,color=ink;shape=circle,fill=solid,color=accent;shape=circle,fill=solid,color=warm;shape=circle,fill=solid,color=ink;shape=circle,fill=solid,color=accent/shape=circle,fill=solid,color=warm;shape=circle,fill=solid,color=ink;shape=circle,fill=solid,color=accent;shape=circle,fill=solid,color=warm;shape=circle,fill=solid,color=ink/shape=circle,fill=solid,color=accent;?;shape=circle,fill=solid,color=ink;shape=circle,fill=solid,color=accent;shape=circle,fill=solid,color=warm/shape=circle,fill=solid,color=ink;shape=circle,fill=solid,color=accent;shape=circle,fill=solid,color=warm;shape=circle,fill=solid,color=ink;shape=circle,fill=solid,color=accent}}",
+      "options": [
+        "{{figcell:shape=circle,fill=solid,color=accent}}",
+        "{{figcell:shape=circle,fill=solid,color=warm}}",
+        "{{figcell:shape=circle,fill=solid,color=ink}}",
+        "{{figcell:shape=square,fill=solid,color=warm}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 4,
+      "target_seconds": 42,
+      "explanation": "שלושת הצבעים יוצרים פסים אלכסוניים העולים משמאל למטה לימין למעלה. האריח החסר יושב על הפס הכתום, יחד עם האריח שנמצא מעליו ומימינו.",
+      "solution": "בפסים אלכסוניים די לבדוק שני אריחים: אחד באלכסון אחד מהחסר וְאחד באלכסון שני ממנו, ולראות ששניהם באותו צבע. אם הם מסכימים, מצאתם את הפס. המסיח הטורקיז יושב על הפס השכן, ומי שקורא רק את השורה בלי לשים לב לכיוון האלכסון נופל עליו.",
+      "tags": [
+        "שטיח",
+        "אלכסון",
+        "צבע"
+      ]
+    },
+    {
+      "ref": "carpet-38",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "צורה לפי לוח שחמט וצבע לפי אלכסון",
+      "stem": "בשטיח שלפניכם חסר אריח אחד. איזה אריח צריך לבוא במקומו?",
+      "figure": "{{figcarpet:shape=circle,fill=solid,color=ink;shape=square,fill=solid,color=accent;shape=circle,fill=solid,color=warm;shape=square,fill=solid,color=ink;shape=circle,fill=solid,color=accent;shape=square,fill=solid,color=warm/shape=square,fill=solid,color=warm;shape=circle,fill=solid,color=ink;shape=square,fill=solid,color=accent;shape=circle,fill=solid,color=warm;shape=square,fill=solid,color=ink;shape=circle,fill=solid,color=accent/shape=circle,fill=solid,color=accent;shape=square,fill=solid,color=warm;shape=circle,fill=solid,color=ink;?;shape=circle,fill=solid,color=warm;shape=square,fill=solid,color=ink/shape=square,fill=solid,color=ink;shape=circle,fill=solid,color=accent;shape=square,fill=solid,color=warm;shape=circle,fill=solid,color=ink;shape=square,fill=solid,color=accent;shape=circle,fill=solid,color=warm/shape=circle,fill=solid,color=warm;shape=square,fill=solid,color=ink;shape=circle,fill=solid,color=accent;shape=square,fill=solid,color=warm;shape=circle,fill=solid,color=ink;shape=square,fill=solid,color=accent/shape=square,fill=solid,color=accent;shape=circle,fill=solid,color=warm;shape=square,fill=solid,color=ink;shape=circle,fill=solid,color=accent;shape=square,fill=solid,color=warm;shape=circle,fill=solid,color=ink}}",
+      "options": [
+        "{{figcell:shape=circle,fill=solid,color=accent}}",
+        "{{figcell:shape=square,fill=solid,color=ink}}",
+        "{{figcell:shape=square,fill=solid,color=accent}}",
+        "{{figcell:shape=square,fill=solid,color=warm}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 5,
+      "target_seconds": 55,
+      "explanation": "הצורה מתחלפת לסירוגין כמו לוח שחמט, ואילו הצבע יוצר פסים אלכסוניים של שלושה צבעים. במקום החסר נפגשים ריבוע ופס טורקיז.",
+      "solution": "כששתי תכונות עובדות במקביל, פענחו כל אחת בנפרד ורק בסוף חברו אותן. את הצורה קובעים לפי השכנים הישירים, ואת הצבע לפי האלכסון, ואין קשר בין השניים. שני מסיחים כאן נכונים בדיוק בחצי מהכלל: העיגול הטורקיז נכון בצבע ושגוי בצורה, והריבוע הכהה נכון בצורה ושגוי בצבע.",
+      "tags": [
+        "שטיח",
+        "משולב",
+        "לוח שחמט",
+        "אלכסון"
+      ]
+    },
+    {
+      "ref": "carpet-39",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "צורה לפי העמודה וגודל לפי מחזור השורות",
+      "stem": "איזה אריח משלים את השטיח במקום סימן השאלה?",
+      "figure": "{{figcarpet:shape=diamond,fill=none,size=s,color=ink;shape=cross,fill=none,size=s,color=ink;shape=diamond,fill=none,size=s,color=ink;shape=cross,fill=none,size=s,color=ink/shape=diamond,fill=none,size=m,color=ink;shape=cross,fill=none,size=m,color=ink;shape=diamond,fill=none,size=m,color=ink;shape=cross,fill=none,size=m,color=ink/shape=diamond,fill=none,size=l,color=ink;shape=cross,fill=none,size=l,color=ink;shape=diamond,fill=none,size=l,color=ink;shape=cross,fill=none,size=l,color=ink/shape=diamond,fill=none,size=s,color=ink;shape=cross,fill=none,size=s,color=ink;shape=diamond,fill=none,size=s,color=ink;shape=cross,fill=none,size=s,color=ink/shape=diamond,fill=none,size=m,color=ink;shape=cross,fill=none,size=m,color=ink;shape=diamond,fill=none,size=m,color=ink;shape=cross,fill=none,size=m,color=ink/shape=diamond,fill=none,size=l,color=ink;shape=cross,fill=none,size=l,color=ink;shape=diamond,fill=none,size=l,color=ink;?}}",
+      "options": [
+        "{{figcell:shape=diamond,fill=none,size=l,color=ink}}",
+        "{{figcell:shape=cross,fill=none,size=m,color=ink}}",
+        "{{figcell:shape=cross,fill=none,size=s,color=ink}}",
+        "{{figcell:shape=cross,fill=none,size=l,color=ink}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 4,
+      "target_seconds": 46,
+      "explanation": "הצורה מתחלפת בין מעוין לצלב לפי מקום העמודה, והגודל עולה קטן, בינוני, גדול לפי מחזור של שלוש שורות. השורה השישית היא שורת הגדולים, והעמודה הרביעית מימין היא עמודת הצלבים.",
+      "solution": "אריח חסר בפינה נפתר בשתי קריאות: קִראו את העמודה שלו כדי לקבוע צורה, ואת השורה שלו כדי לקבוע גודל. אם התכונות אינן תלויות זו בזו, כל אחת נקבעת לחוד. המסיח עם המעוין הגדול נכון בגודל אך לקח את הצורה מהעמודה השכנה.",
+      "tags": [
+        "שטיח",
+        "משולב",
+        "עמודה",
+        "גודל"
+      ]
+    },
+    {
+      "ref": "carpet-40",
+      "domain": "figural",
+      "qtype": "carpet",
+      "topic": "שטיחים ותבניות",
+      "subtopic": "צורה וצבע נעים באלכסונים מנוגדים",
+      "stem": "בשטיח שלפניכם חסר אריח אחד. איזה אריח צריך לבוא במקומו?",
+      "figure": "{{figcarpet:shape=circle,fill=solid,color=ink;shape=square,fill=solid,color=accent;shape=triangle,fill=solid,color=warm;shape=star,fill=solid,color=ink;shape=hexagon,fill=solid,color=accent/shape=square,fill=solid,color=warm;shape=triangle,fill=solid,color=ink;shape=star,fill=solid,color=accent;shape=hexagon,fill=solid,color=warm;shape=circle,fill=solid,color=ink/shape=triangle,fill=solid,color=accent;shape=star,fill=solid,color=warm;?;shape=circle,fill=solid,color=accent;shape=square,fill=solid,color=warm/shape=star,fill=solid,color=ink;shape=hexagon,fill=solid,color=accent;shape=circle,fill=solid,color=warm;shape=square,fill=solid,color=ink;shape=triangle,fill=solid,color=accent/shape=hexagon,fill=solid,color=warm;shape=circle,fill=solid,color=ink;shape=square,fill=solid,color=accent;shape=triangle,fill=solid,color=warm;shape=star,fill=solid,color=ink}}",
+      "options": [
+        "{{figcell:shape=hexagon,fill=solid,color=ink}}",
+        "{{figcell:shape=hexagon,fill=solid,color=accent}}",
+        "{{figcell:shape=star,fill=solid,color=ink}}",
+        "{{figcell:shape=hexagon,fill=solid,color=warm}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 5,
+      "target_seconds": 55,
+      "explanation": "הצורות נעות באלכסון אחד והצבעים באלכסון ההפוך, ולכן שני הכללים מצטלבים בדיוק במרכז. באריח החסר נפגשים משושה וצבע כהה.",
+      "solution": "בשטיח שיש בו שני אלכסונים מנוגדים, אל תנסו לראות את שניהם בבת אחת: הצורה קבועה באלכסון שיורד ימינה, והצבע קבוע באלכסון שעולה ימינה, אז קִבעו כל תכונה בנפרד. רק אז הרכיבו את התשובה והשוו לאפשרויות. המשושה הטורקיז הוא המסיח המסוכן — הצורה שלו נכונה לחלוטין, אבל הצבע נלקח מהאלכסון השכן.",
+      "tags": [
+        "שטיח",
+        "משולב",
+        "אלכסון",
+        "צורה",
+        "צבע"
+      ]
+    }
+  ]
+}
