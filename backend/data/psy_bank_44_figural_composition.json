@@ -1,0 +1,400 @@
+{
+  "_comment": "קרני — הפרק הצורני, משפחת ההרכבה: חלק ושלם (גוף מאוחד מול חלקים נפרדים), הכלה והחלפת תפקידים (צורה בתוך צורה), ומרחב שלילי (צורה שמשתמעת מסימני הפינות). אלה הרלציות שהמבחן האמיתי נשען עליהן מעבר להחלפת תכונה בודדת.",
+  "items": [
+    {
+      "ref": "k-fcmp-01",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "החלפת תפקידים בין הצורה החיצונית לפנימית",
+      "stem": "בזוג הראשון הצורה החיצונית והפנימית החליפו תפקידים. השלימו את הזוג השני.",
+      "figure": "{{figpair:shape=star,fill=solid,color=accent,in=circle,infill=solid,incolor=ink;shape=circle,fill=solid,color=accent,in=star,infill=solid,incolor=ink/shape=hexagon,fill=solid,color=accent,in=cross,infill=solid,incolor=ink;?}}",
+      "options": [
+        "{{figcell:shape=hexagon,fill=solid,color=accent,in=cross,infill=solid,incolor=ink}}",
+        "{{figcell:shape=cross,fill=solid,color=accent,in=cross,infill=solid,incolor=ink}}",
+        "{{figcell:shape=cross,fill=solid,color=accent,in=hexagon,infill=solid,incolor=ink}}",
+        "{{figcell:shape=cross,fill=solid,color=ink,in=hexagon,infill=solid,incolor=accent}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 2,
+      "target_seconds": 40,
+      "explanation": "בזוג הראשון הכוכב שהחזיק עיגול הפך לעיגול שמחזיק כוכב: אותן שתי צורות בדיוק, רק שהחיצונית נכנסה פנימה והפנימית יצאה החוצה. לכן המשושה שמחזיק צלב הופך לצלב שמחזיק משושה.",
+      "solution": "בשאלת הכלה שאלו את עצמכם קודם מי מחזיק את מי, ורק אז מה השתנה — כאן שום צורה לא נעלמה ואף אחת לא נוספה, רק התחלפו התפקידים. שימו לב שהצבעים לא התחלפו יחד עם הצורות: החיצונית נשארה טורקיז והפנימית כהה, ולכן המסיח שהחליף גם את הצבעים מוסיף פעולה שלא הייתה בזוג הראשון. המסיח שבו הצלב מחזיק צלב מייצג תלמיד שהחליף את החיצונית ושכח את הפנימית, והמשושה שמחזיק צלב הוא פשוט העתקה של האיבר השלישי.",
+      "tags": [
+        "אנלוגיה",
+        "הכלה",
+        "החלפת תפקידים"
+      ]
+    },
+    {
+      "ref": "k-fcmp-02",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "חלקים נפרדים מתאחדים לצורה אחת",
+      "stem": "בזוג הראשון החלקים הנפרדים התאחדו לצורה אחת. השלימו את הזוג השני.",
+      "figure": "{{figpair:shape=circle,n=4;shape=circle,n=4,merge=on/shape=triangle,n=3;?}}",
+      "options": [
+        "{{figcell:shape=triangle,n=3,merge=on}}",
+        "{{figcell:shape=triangle,n=4,merge=on}}",
+        "{{figcell:shape=triangle,n=3,merge=on,fill=solid}}",
+        "{{figcell:shape=triangle,n=3}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 2,
+      "target_seconds": 40,
+      "explanation": "ארבעת העיגולים הנפרדים הפכו לגוף אחד שקו המתאר שלו עשוי מארבע בליטות — אותם חלקים בדיוק, רק מחוברים. לכן שלושת המשולשים הופכים לצורה אחת בעלת שלוש בליטות.",
+      "solution": "כשצורה אחת בזוג עשויה מכמה עותקים והשנייה נראית כמו גוף אחד, ספרו את הבליטות בקו המתאר — הן חייבות להיות בדיוק כמספר החלקים המקוריים. המסיח בעל ארבע הבליטות מייצג תלמיד שקלט ״הכול מתאחד״ אך לא שמר על הכמות, המסיח הצבוע מוסיף מילוי שלא היה באיבר השני, והמשולשים הנפרדים הם אי-הפעלה של הכלל.",
+      "tags": [
+        "אנלוגיה",
+        "חלק ושלם",
+        "ספירת חלקים"
+      ]
+    },
+    {
+      "ref": "k-fcmp-03",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "צורה אחת מתפרקת לחלקיה",
+      "stem": "בזוג הראשון הצורה האחת התפרקה לחלקים. השלימו את הזוג השני.",
+      "figure": "{{figpair:shape=circle,n=4,merge=on;shape=circle,n=4/shape=triangle,n=3,merge=on;?}}",
+      "options": [
+        "{{figcell:shape=triangle,n=4}}",
+        "{{figcell:shape=triangle,n=3}}",
+        "{{figcell:shape=circle,n=3}}",
+        "{{figcell:shape=triangle,n=3,merge=on}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 2,
+      "target_seconds": 40,
+      "explanation": "הגוף האחד בעל ארבע הבליטות התפרק לארבעה עיגולים נפרדים. לגוף השני יש שלוש בליטות, ולכן הוא מתפרק לשלושה משולשים נפרדים.",
+      "solution": "זהו הכיוון ההפוך של שאלת החיבור, ולכן מספר החלקים אינו נתון אלא נספר מתוך קו המתאר — שלוש בליטות פירושן שלושה חלקים, לא ארבעה. המסיח בעל ארבעת המשולשים מייצג תלמיד שהעתיק את הכמות מהזוג הראשון במקום לספור בזוג שלו, והצורה המאוחדת היא אי-הפעלה של הכלל.",
+      "tags": [
+        "אנלוגיה",
+        "שלם וחלקים",
+        "ספירת חלקים"
+      ]
+    },
+    {
+      "ref": "k-fcmp-04",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "צורה שנמחקה ונשארו רק הפינות",
+      "stem": "בזוג הראשון הצורה נמחקה ונשארו ממנה רק סימני הפינות. השלימו את הזוג השני.",
+      "figure": "{{figpair:shape=square;shape=square,edge=corners/shape=triangle;?}}",
+      "options": [
+        "{{figcell:shape=triangle,edge=dashed}}",
+        "{{figcell:shape=square,edge=corners}}",
+        "{{figcell:shape=triangle}}",
+        "{{figcell:shape=triangle,edge=corners}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 2,
+      "target_seconds": 40,
+      "explanation": "הריבוע נעלם ובמקומו נשארו ארבעה עיגולים נגוסים, אחד בכל פינה, שהנגיסה שלהם מסמנת את הפינה. במשולש שלוש פינות, ולכן נשארים שלושה עיגולים נגוסים.",
+      "solution": "בשאלות ״מרחב שלילי״ הצורה אינה מצוירת אלא משתמעת מן החורים, ולכן מה שצריך לשמור עליו הוא מספר הפינות ולא קו המתאר. ספרו את פינות הצורה המקורית וּודאו שבתשובה יש בדיוק אותו מספר סימנים. המסיח המקווקו מייצג תלמיד שהבין ״הקו נחלש״ אך עדיין מצייר את הצורה עצמה, המשולש המלא הוא אי-הפעלה של הכלל, והריבוע הנגוס הוא העתקה של האיבר השני.",
+      "tags": [
+        "אנלוגיה",
+        "מרחב שלילי",
+        "פינות"
+      ]
+    },
+    {
+      "ref": "k-fcmp-05",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "גוף מאוחד שצומח בבליטה בכל שלב",
+      "stem": "כמה בליטות יהיו בגוף הבא בסדרה?",
+      "figure": "{{figrow:shape=circle,n=2,merge=on;shape=circle,n=3,merge=on;shape=circle,n=4,merge=on;?}}",
+      "options": [
+        "{{figcell:shape=circle,n=5,merge=on}}",
+        "{{figcell:shape=circle,n=4,merge=on}}",
+        "{{figcell:shape=circle,n=6,merge=on}}",
+        "{{figcell:shape=circle,n=5}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 2,
+      "target_seconds": 35,
+      "explanation": "בכל שלב מתווספת בליטה אחת לגוף המאוחד: שתיים, שלוש, ארבע — ולכן בשלב הבא חמש.",
+      "solution": "גוף מאוחד נראה מסובך אך הוא נקרא כמו סדרת מספרים: ספרו את הבליטות בכל אחד מן האיברים והמשיכו את המניין. המסיח בעל שש הבליטות מייצג תלמיד שקפץ שני שלבים, המסיח עם חמישה עיגולים נפרדים שומר על הכמות אך שובר את ההתאחדות שהיא חלק מן הסדרה, וארבע הבליטות הן חזרה על האיבר האחרון.",
+      "tags": [
+        "סדרה",
+        "חלק ושלם",
+        "ספירת חלקים"
+      ]
+    },
+    {
+      "ref": "k-fcmp-06",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "הצורה הפנימית מוסיפה צלע בכל שלב",
+      "stem": "איזו צורה ממשיכה את הסדרה?",
+      "figure": "{{figrow:shape=circle,in=triangle,infill=solid,incolor=ink;shape=circle,in=square,infill=solid,incolor=ink;shape=circle,in=pentagon,infill=solid,incolor=ink;?}}",
+      "options": [
+        "{{figcell:shape=circle,in=square,infill=solid,incolor=ink}}",
+        "{{figcell:shape=hexagon,in=circle,infill=solid,incolor=ink}}",
+        "{{figcell:shape=circle,in=hexagon,infill=solid,incolor=ink}}",
+        "{{figcell:shape=circle,in=pentagon,infill=solid,incolor=ink}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 2,
+      "target_seconds": 40,
+      "explanation": "העיגול החיצוני קבוע, והצורה שבתוכו מוסיפה צלע בכל שלב: משולש, מרובע, מחומש — ולכן הבא הוא משושה.",
+      "solution": "כששני מרכיבים מופיעים בכל תא, בדקו קודם מי מהם קבוע; המשתנה הוא שנושא את הכלל. כאן החיצוני קבוע והפנימי סופר צלעות, ולכן ספרו צלעות ואל תסתפקו בתחושת ״הצורה מתעגלת״. המסיח שבו המשושה עבר החוצה מייצג תלמיד שאיבד את מי מחזיק את מי, והמחומש הפנימי הוא חזרה על האיבר האחרון.",
+      "tags": [
+        "סדרה",
+        "הכלה",
+        "ספירת צלעות"
+      ]
+    },
+    {
+      "ref": "k-fcmp-07",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "השורה קובעת את הצורה החיצונית, העמודה את הפנימית",
+      "stem": "איזו צורה משלימה את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:shape=square,in=circle,infill=solid,incolor=ink;shape=square,in=triangle,infill=solid,incolor=ink;shape=square,in=star,infill=solid,incolor=ink/shape=circle,in=circle,infill=solid,incolor=ink;shape=circle,in=triangle,infill=solid,incolor=ink;shape=circle,in=star,infill=solid,incolor=ink/shape=triangle,in=circle,infill=solid,incolor=ink;shape=triangle,in=triangle,infill=solid,incolor=ink;?}}",
+      "options": [
+        "{{figcell:shape=square,in=star,infill=solid,incolor=ink}}",
+        "{{figcell:shape=triangle,in=triangle,infill=solid,incolor=ink}}",
+        "{{figcell:shape=star,in=triangle,infill=solid,incolor=ink}}",
+        "{{figcell:shape=triangle,in=star,infill=solid,incolor=ink}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 2,
+      "target_seconds": 45,
+      "explanation": "כל שורה שומרת על צורה חיצונית אחת (ריבוע, עיגול, משולש) וכל עמודה שומרת על צורה פנימית אחת (עיגול, משולש, כוכב). התא החסר יושב בשורת המשולש ובעמודת הכוכב, ולכן משולש שמחזיק כוכב.",
+      "solution": "במטריצת הכלה יש להצליב שתי תכונות שנראות דומות — מי בחוץ ומי בפנים — ולכן קִבעו קודם את החיצוני מן השורה, אחר כך את הפנימי מן העמודה, ורק אז חפשו את התשובה. המלכודת היא המסיח שבו הכוכב מחזיק משולש: שתי הצורות נכונות אך התפקידים הפוכים, והוא נראה נכון למי שסימן לעצמו רק ״משולש וכוכב״.",
+      "tags": [
+        "מטריצה",
+        "הצטלבות",
+        "הכלה"
+      ]
+    },
+    {
+      "ref": "k-fcmp-08",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "העמודה קובעת עד כמה הצורה מצוירת",
+      "stem": "איזו צורה משלימה את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:shape=triangle;shape=triangle,edge=dashed;shape=triangle,edge=corners/shape=square;shape=square,edge=dashed;shape=square,edge=corners/shape=pentagon;shape=pentagon,edge=dashed;?}}",
+      "options": [
+        "{{figcell:shape=pentagon,edge=corners}}",
+        "{{figcell:shape=square,edge=corners}}",
+        "{{figcell:shape=pentagon,edge=dashed}}",
+        "{{figcell:shape=hexagon,edge=corners}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 3,
+      "target_seconds": 45,
+      "explanation": "כל שורה שומרת על צורה אחת וכל עמודה קובעת כמה ממנה מצויר: קו מלא, קו מקווקו, ורק סימני פינות. התא החסר הוא בשורת המחומש ובעמודת הפינות, ולכן מחומש שנשארו ממנו חמישה סימני פינה.",
+      "solution": "העמודה השלישית אינה מציירת צורה חדשה אלא מוחקת עוד מן הקו, ולכן זהו רצף של היעלמות ולא רצף של צורות. כדי לזהות איזו צורה מסתתרת בסימני הפינות פשוט ספרו אותם. המסיח בעל שישה סימנים הוא משושה ולא מחומש — בדיוק הטעות של מי שראה ״הרבה עיגולים נגוסים״ ולא ספר.",
+      "tags": [
+        "מטריצה",
+        "מרחב שלילי",
+        "פינות"
+      ]
+    },
+    {
+      "ref": "k-fcmp-09",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "העמודה קובעת מכמה חלקים בנוי הגוף",
+      "stem": "איזו צורה משלימה את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:shape=circle,n=2,merge=on;shape=circle,n=3,merge=on;shape=circle,n=4,merge=on/shape=triangle,n=2,merge=on;shape=triangle,n=3,merge=on;shape=triangle,n=4,merge=on/shape=pentagon,n=2,merge=on;shape=pentagon,n=3,merge=on;?}}",
+      "options": [
+        "{{figcell:shape=pentagon,n=3,merge=on}}",
+        "{{figcell:shape=pentagon,n=4,merge=on}}",
+        "{{figcell:shape=circle,n=4,merge=on}}",
+        "{{figcell:shape=pentagon,n=4}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 3,
+      "target_seconds": 45,
+      "explanation": "כל שורה בנויה מסוג חלק אחד (עיגול, משולש, מחומש) וכל עמודה קובעת כמה חלקים התאחדו: שניים, שלושה, ארבעה. התא החסר הוא בשורת המחומש ובעמודת הארבעה, ולכן גוף אחד שבנוי מארבעה מחומשים.",
+      "solution": "בגוף מאוחד קל לראות את סוג החלק וקשה לספור אותם, ולכן התחילו דווקא מן הספירה: עברו על קו המתאר וסמנו כל בליטה. המסיח שבו ארבעת המחומשים נשארו נפרדים מקיים את הכמות אך לא את ההתאחדות שכל שאר תאי המטריצה שומרים עליה.",
+      "tags": [
+        "מטריצה",
+        "הצטלבות",
+        "חלק ושלם"
+      ]
+    },
+    {
+      "ref": "k-fcmp-10",
+      "domain": "figural",
+      "qtype": "odd-one-out",
+      "topic": "יוצא דופן צורני",
+      "subtopic": "גוף מאוחד מול חלקים נפרדים",
+      "stem": "איזו צורה יוצאת דופן?",
+      "options": [
+        "{{figcell:shape=circle,n=3,merge=on}}",
+        "{{figcell:shape=pentagon,n=3}}",
+        "{{figcell:shape=triangle,n=3,merge=on}}",
+        "{{figcell:shape=hexagon,n=3,merge=on}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 2,
+      "target_seconds": 35,
+      "explanation": "בשלוש מן הצורות שלושת החלקים התאחדו לגוף אחד בעל קו מתאר רציף, ורק במחומשים שלושת החלקים נשארו נפרדים זה מזה.",
+      "solution": "כשכל ארבע התשובות בנויות מאותו מספר חלקים, סוג החלק אינו יכול להיות הכלל — הוא שונה בכל תשובה ולכן היה מוציא את כולן. חפשו תכונה שדווקא כן חוזרת בשלוש: כאן זו השאלה אם יש קו מפריד בין החלקים. זו טעות נפוצה לפסול את המחומשים ״כי הם מחומשים״ ולא בגלל הכלל האמיתי.",
+      "tags": [
+        "יוצא דופן",
+        "חלק ושלם"
+      ]
+    },
+    {
+      "ref": "k-fcmp-11",
+      "domain": "figural",
+      "qtype": "odd-one-out",
+      "topic": "יוצא דופן צורני",
+      "subtopic": "צורה שמחזיקה עותק של עצמה",
+      "stem": "איזו צורה יוצאת דופן?",
+      "options": [
+        "{{figcell:shape=square,in=circle,infill=solid,incolor=ink}}",
+        "{{figcell:shape=circle,in=triangle,infill=solid,incolor=ink}}",
+        "{{figcell:shape=star,in=star,infill=solid,incolor=ink}}",
+        "{{figcell:shape=triangle,in=star,infill=solid,incolor=ink}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 2,
+      "target_seconds": 35,
+      "explanation": "בשלוש מן הצורות הצורה הפנימית שונה מן החיצונית, ורק בכוכב הצורה הפנימית היא עותק קטן של החיצונית.",
+      "solution": "כשכל תשובה מכילה שתי צורות, אל תשוו את הצורות עצמן אלא את היחס ביניהן — זהות או שונות. הבדיקה מהירה: עברו תשובה־תשובה ושאלו רק ״האם הפנימית והחיצונית אותה צורה?״. תלמיד שמחפש איזו צורה מופיעה פעמיים ברשימה יסתבך לשווא, כי הכוכב מופיע גם בתשובה אחרת.",
+      "tags": [
+        "יוצא דופן",
+        "הכלה"
+      ]
+    },
+    {
+      "ref": "k-fcmp-12",
+      "domain": "figural",
+      "qtype": "odd-one-out",
+      "topic": "יוצא דופן צורני",
+      "subtopic": "מספר החלקים בגוף המאוחד",
+      "stem": "איזו צורה יוצאת דופן?",
+      "options": [
+        "{{figcell:shape=circle,n=3,merge=on}}",
+        "{{figcell:shape=triangle,n=3,merge=on}}",
+        "{{figcell:shape=pentagon,n=4,merge=on}}",
+        "{{figcell:shape=hexagon,n=3,merge=on}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 3,
+      "target_seconds": 40,
+      "explanation": "בשלוש מן הצורות הגוף המאוחד בנוי משלושה חלקים, ובמחומשים הוא בנוי מארבעה.",
+      "solution": "סוג החלק שונה בכל אחת מארבע התשובות ולכן אינו יכול לשמש כלל; מה שנשאר להשוות הוא הכמות. ספרו את הבליטות בקו המתאר של כל גוף לפני שאתם מסתכלים על צורתן, ואל תשפטו לפי הרוחב — גוף מארבעה חלקים אינו בהכרח נראה רחב יותר על המסך.",
+      "tags": [
+        "יוצא דופן",
+        "חלק ושלם",
+        "ספירת חלקים"
+      ]
+    },
+    {
+      "ref": "k-fcmp-13",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "הצורה הפנימית מוסרת",
+      "stem": "בזוג הראשון אחת משתי הצורות נעלמה. השלימו את הזוג השני.",
+      "figure": "{{figpair:shape=square,fill=solid,color=accent,in=circle,infill=solid,incolor=ink;shape=square,fill=solid,color=accent/shape=star,fill=solid,color=accent,in=cross,infill=solid,incolor=ink;?}}",
+      "options": [
+        "{{figcell:shape=cross,fill=solid,color=accent}}",
+        "{{figcell:shape=star,fill=solid,color=accent}}",
+        "{{figcell:shape=star,fill=solid,color=accent,in=cross,infill=solid,incolor=ink}}",
+        "{{figcell:shape=star,fill=none,color=accent}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 2,
+      "target_seconds": 35,
+      "explanation": "בזוג הראשון נשארה הצורה החיצונית והפנימית נמחקה. לכן מן הכוכב שמחזיק צלב נשאר הכוכב בלבד.",
+      "solution": "כששתי צורות הופכות לאחת, ההכרעה היחידה היא מי מהן נשארה — החיצונית או הפנימית — וזאת קובעים מן הזוג הראשון בלבד. המסיח שבו נשאר הצלב מייצג בדיוק את הבחירה ההפוכה, והמסיח של הכוכב הריק מוסיף פעולה שנייה: הוא לא רק מחק את הפנימית אלא גם ביטל את הצבע של החיצונית.",
+      "tags": [
+        "אנלוגיה",
+        "הכלה",
+        "מחיקה"
+      ]
+    },
+    {
+      "ref": "k-fcmp-14",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "מסימני פינות לצורה מלאה",
+      "stem": "בזוג הראשון הצורה המשתמעת קיבלה גוף מלא. השלימו את הזוג השני.",
+      "figure": "{{figpair:shape=triangle,edge=corners;shape=triangle,fill=solid/shape=square,edge=corners;?}}",
+      "options": [
+        "{{figcell:shape=square}}",
+        "{{figcell:shape=square,fill=solid}}",
+        "{{figcell:shape=triangle,fill=solid}}",
+        "{{figcell:shape=hexagon,fill=solid}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 3,
+      "target_seconds": 45,
+      "explanation": "בזוג הראשון שלושת סימני הפינה חשפו משולש, והמשולש הזה צויר מלא. ארבעת סימני הפינה בזוג השני חושפים ריבוע, ולכן התשובה היא ריבוע מלא.",
+      "solution": "כאן צריך שני צעדים: קודם לזהות איזו צורה מסתתרת מאחורי הפינות — לפי מספרן — ורק אחר כך להחיל עליה את הפעולה. תלמיד שמדלג על הצעד הראשון בוחר את המשולש המלא, כי הוא זוכר את הצורה מן הזוג הראשון במקום לספור את הפינות בזוג שלו. הריבוע הריק מבצע רק את הצעד הראשון ועוצר לפני המילוי.",
+      "tags": [
+        "אנלוגיה",
+        "מרחב שלילי",
+        "שני שלבים"
+      ]
+    },
+    {
+      "ref": "k-fcmp-15",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "צורה משתמעת שמוסיפה פינה בכל שלב",
+      "stem": "איזו צורה ממשיכה את הסדרה?",
+      "figure": "{{figrow:shape=triangle,edge=corners;shape=square,edge=corners;shape=pentagon,edge=corners;?}}",
+      "options": [
+        "{{figcell:shape=pentagon,edge=corners}}",
+        "{{figcell:shape=hexagon}}",
+        "{{figcell:shape=diamond,edge=corners}}",
+        "{{figcell:shape=hexagon,edge=corners}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 3,
+      "target_seconds": 45,
+      "explanation": "בכל שלב מתווסף סימן פינה אחד — שלושה, ארבעה, חמישה — ולכן באיבר הבא שישה סימנים, שהם המשושה המשתמע.",
+      "solution": "אין כאן צורות מצוירות אלא רק פינות, ולכן הסדרה נקראת בספירה: ספרו את העיגולים הנגוסים בכל תא ורשמו לעצמכם את המספרים. המסיח של המשושה המצויר במלואו נכון במספר הפינות אך שובר את הצורה שבה כל הסדרה מוצגת, והמעוין המשתמע חוזר לארבע פינות במקום להתקדם.",
+      "tags": [
+        "סדרה",
+        "מרחב שלילי",
+        "ספירת פינות"
+      ]
+    },
+    {
+      "ref": "k-fcmp-16",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "העמודה קובעת אם יש צורה פנימית ואיך היא צבועה",
+      "stem": "איזו צורה משלימה את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:shape=square;shape=square,in=circle;shape=square,in=circle,infill=solid/shape=triangle;shape=triangle,in=circle;shape=triangle,in=circle,infill=solid/shape=pentagon;shape=pentagon,in=circle;?}}",
+      "options": [
+        "{{figcell:shape=pentagon,in=circle}}",
+        "{{figcell:shape=triangle,in=circle,infill=solid}}",
+        "{{figcell:shape=pentagon,in=circle,infill=solid}}",
+        "{{figcell:shape=pentagon,fill=solid,in=circle}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 2,
+      "target_seconds": 40,
+      "explanation": "כל שורה שומרת על צורה חיצונית אחת, והעמודה קובעת את מצב הפנים: ריק לגמרי, עיגול בקו בלבד, עיגול צבוע. התא החסר הוא בשורת המחומש ובעמודת העיגול הצבוע.",
+      "solution": "כשעמודה אחת מוסיפה רכיב והבאה צובעת אותו, ודאו שהתשובה מבצעת את שני הדברים ולא רק אחד מהם. המסיח שבו המחומש עצמו צבוע והעיגול נשאר ריק הופך את התפקידים: הצבע נכון בכמותו אך יושב על הצורה הלא נכונה, וזו הטעות שהמטריצה הזאת מכוונת אליה.",
+      "tags": [
+        "מטריצה",
+        "הצטלבות",
+        "הכלה"
+      ]
+    }
+  ]
+}

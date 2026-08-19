@@ -24,8 +24,43 @@
 //   size   s | m | l                                          (default m)
 //   color  ink | accent | warm  — a *shape* attribute an item can key on
 //   dot    tl | tr | bl | br | c — a small marker in a corner of the cell
+//   in     a second shape drawn INSIDE the first, same vocabulary as `shape`.
+//          `infill` / `incolor` set its fill and colour. This is what makes an
+//          outer↔inner swap ("star holding a circle" → "circle holding a star")
+//          expressible, which is one of the relations the real exam leans on.
+//   edge   solid | dashed | corners                           (default solid)
+//          `dashed` draws the same outline as a broken line; `corners` draws
+//          ONLY the vertices, as pac-man discs whose mouths are the interior
+//          angles — the shape is not drawn at all, it is implied by the gaps.
+//          The trio solid → dashed → corners is a real Karni progression, so
+//          the three are deliberately one attribute and not three shapes.
+//   merge  on — the `n` copies are pushed together and drawn as ONE silhouette
+//          (only the outer contour survives). This is the part↔whole relation:
+//          four separate circles versus the single scalloped hill they make.
+//   panel  several DIFFERENT shapes in one cell, split into sub-panels by
+//          divider lines, e.g. "panel=c-s-t-r". One letter per sub-panel,
+//          "-" between them (as in `board`), "*" after a letter fills it:
+//            c circle · s square · t triangle · d diamond · p pentagon
+//            h hexagon · r star · x empty
+//          Two letters draw side by side, three in a row, four as a 2×2.
+//          This is the layout family: the same shapes redistributed, the
+//          fill moving from one sub-panel to another, a shape travelling
+//          through the panels.
+//   group  identical to `panel` but WITHOUT the divider lines — the shapes
+//          share one undivided cell. `group=…` → `panel=…` is exactly the
+//          "these shapes get separated" relation, and it only reads as one
+//          relation because both sides are drawn by the same code.
+//   board  a black/white square board, e.g. "board=110-011-001" for 3×3.
+//          "-" separates rows (","/";"/"/" are already taken). Per cell:
+//          0 empty · 1 filled · x empty with an ✕ · + empty with a ✚.
+//          A board replaces the shape entirely; other shape attributes are
+//          ignored. Boards are their own family of items (grid patterns), and
+//          being a cell attribute they drop straight into rows and matrices.
 //
 // Example: "shape=triangle,n=2,fill=solid,rot=90"
+// Example: "shape=square,in=circle,infill=solid"   (square holding a disc)
+// Example: "shape=triangle,edge=corners"           (implied triangle)
+// Example: "shape=circle,n=4,merge=on"             (one scalloped silhouette)
 //
 // ---------------------------------------------------------------------------
 // Tokens (used inside an item's stem / figure / options):
@@ -76,6 +111,14 @@ export function parseCell(spec) {
     color: 'ink',
     dot: null,
     blank: false,
+    in: null,
+    infill: 'none',
+    incolor: null,
+    edge: 'solid',
+    merge: null,
+    board: null,
+    panel: null,
+    group: null,
   }
   const raw = String(spec ?? '').trim()
   if (raw === '?' || raw === '') {
@@ -115,12 +158,80 @@ function starPoints(r) {
   return pts.map((p) => p.join(',')).join(' ')
 }
 
-export function Shape({ kind, r, stroke, fillRef }) {
+// Vertices of the polygon kinds, in draw order. `edge=corners` needs the
+// actual corner points and the two edge directions leaving each one, which the
+// point-string helpers above throw away.
+function vertsFor(kind, r) {
+  const poly = (sides, startAngle = -90) => {
+    const pts = []
+    for (let i = 0; i < sides; i++) {
+      const a = ((startAngle + (360 / sides) * i) * Math.PI) / 180
+      pts.push([r * Math.cos(a), r * Math.sin(a)])
+    }
+    return pts
+  }
+  switch (kind) {
+    case 'square':
+      return [
+        [-r, -r],
+        [r, -r],
+        [r, r],
+        [-r, r],
+      ]
+    case 'triangle':
+      return poly(3)
+    case 'diamond':
+      return poly(4)
+    case 'pentagon':
+      return poly(5)
+    case 'hexagon':
+      return poly(6)
+    default:
+      return null
+  }
+}
+
+// One "pac-man" disc sitting on a corner: a full circle minus the wedge the
+// polygon's interior occupies, so the missing mouths are what reconstructs the
+// shape in the student's head. Built as a sampled polyline rather than an SVG
+// arc command on purpose — the large-arc/sweep flags depend on the winding of
+// each kind, and getting one of them wrong silently draws the complementary
+// wedge, which is a distractor-shaped bug.
+function pacmanPath(v, prev, next, rc) {
+  const unit = (a, b) => {
+    const dx = b[0] - a[0]
+    const dy = b[1] - a[1]
+    const L = Math.hypot(dx, dy) || 1
+    return [dx / L, dy / L]
+  }
+  const d1 = unit(v, prev)
+  const d2 = unit(v, next)
+  const a1 = Math.atan2(d2[1], d2[0])
+  const a2 = Math.atan2(d1[1], d1[0])
+  // The mouth spans the interior angle; the disc keeps the reflex remainder,
+  // which is the side the outward bisector points to.
+  const am = Math.atan2(-(d1[1] + d2[1]), -(d1[0] + d2[0]))
+  const TWO = Math.PI * 2
+  const norm = (x) => ((x % TWO) + TWO) % TWO
+  const ccwSpan = norm(a2 - a1)
+  const ccw = norm(am - a1) < ccwSpan
+  const span = ccw ? ccwSpan : ccwSpan - TWO
+  const steps = 24
+  let d = `M ${v[0].toFixed(2)} ${v[1].toFixed(2)}`
+  for (let i = 0; i <= steps; i++) {
+    const a = a1 + (span * i) / steps
+    d += ` L ${(v[0] + rc * Math.cos(a)).toFixed(2)} ${(v[1] + rc * Math.sin(a)).toFixed(2)}`
+  }
+  return `${d} Z`
+}
+
+export function Shape({ kind, r, stroke, fillRef, dash = false }) {
   const common = {
     fill: fillRef,
     stroke,
     strokeWidth: 2,
     strokeLinejoin: 'round',
+    ...(dash ? { strokeDasharray: '6 4' } : null),
   }
   switch (kind) {
     case 'square':
@@ -186,6 +297,212 @@ function HalfOverlay({ kind, r, color, id }) {
   )
 }
 
+// One copy of the cell's shape: the outline (solid / dashed / implied by its
+// corners) plus the optional nested shape. Kept separate from FigCell so a
+// merged silhouette and a plain cell agree on what "one shape" looks like.
+function CellShape({ c, r, color, inColor, fillOf }) {
+  const verts = c.edge === 'corners' ? vertsFor(c.shape, r) : null
+  if (verts) {
+    const rc = Math.max(4, r * 0.36)
+    return (
+      <>
+        {verts.map((v, k) => (
+          <path
+            key={k}
+            d={pacmanPath(
+              v,
+              verts[(k - 1 + verts.length) % verts.length],
+              verts[(k + 1) % verts.length],
+              rc
+            )}
+            fill={c.fill === 'solid' ? color : '#fff'}
+            stroke={color}
+            strokeWidth={2}
+            strokeLinejoin="round"
+          />
+        ))}
+      </>
+    )
+  }
+  return (
+    <>
+      <Shape
+        kind={c.shape}
+        r={r}
+        stroke={color}
+        fillRef={fillOf(c.fill, color)}
+        dash={c.edge === 'dashed'}
+      />
+      {c.in && (
+        <Shape
+          kind={c.in}
+          r={r * 0.44}
+          stroke={inColor}
+          fillRef={fillOf(c.infill, inColor)}
+        />
+      )}
+    </>
+  )
+}
+
+// `merge=on`: the copies are drawn as a single outer contour. The union fill
+// is painted first, then the outlines are re-drawn through a mask that hides
+// everything already inside the union — so the seams between the copies vanish
+// and four circles read as one scalloped hill.
+function MergedSilhouette({ c, r, color, fillOf, uid, positions }) {
+  const at = (extra) =>
+    positions.map(([x, y], i) => (
+      <g key={i} transform={`translate(${x} ${y})`}>
+        {extra(i)}
+      </g>
+    ))
+  return (
+    <>
+      <mask id={`union-${uid}`} maskUnits="userSpaceOnUse" x={-9999} y={-9999} width={19998} height={19998}>
+        <rect x={-9999} y={-9999} width={19998} height={19998} fill="#fff" />
+        {at(() => <Shape kind={c.shape} r={r} stroke="none" fillRef="#000" />)}
+      </mask>
+      {c.fill !== 'none' &&
+        at(() => <Shape kind={c.shape} r={r} stroke="none" fillRef={fillOf(c.fill, color)} />)}
+      <g mask={`url(#union-${uid})`}>
+        {at(() => (
+          <Shape kind={c.shape} r={r} stroke={color} fillRef="none" dash={c.edge === 'dashed'} />
+        ))}
+      </g>
+    </>
+  )
+}
+
+// Sub-panel shape codes. Deliberately one letter each: a sub-panel cannot use
+// the full `key=value` grammar, because "," and "=" already belong to the
+// attribute level, and a nested escape would be unreadable in a bank file.
+const PANEL_SHAPES = {
+  c: 'circle',
+  s: 'square',
+  t: 'triangle',
+  d: 'diamond',
+  p: 'pentagon',
+  h: 'hexagon',
+  r: 'star',
+  x: null,
+}
+
+// A cell split into sub-panels, each holding its own shape — the layout family
+// (shapes redistributed, regrouped, or travelling between panels). `dividers`
+// is what separates "panel" from "group": same shapes, same places, only the
+// lines differ, so an item can key on the split itself.
+function Panel({ codes, px, pad, color, dividers }) {
+  const k = codes.length
+  const cols = k <= 3 ? k : 2
+  const rows = Math.ceil(k / cols)
+  const inner = px - pad * 2
+  const cw = inner / cols
+  const ch = inner / rows
+  const r = Math.max(4, Math.min(cw, ch) / 2 - 4)
+
+  const shapes = codes.map((code, i) => {
+    const kind = PANEL_SHAPES[code[0]]
+    if (!kind) return null
+    const col = i % cols
+    const row = Math.floor(i / cols)
+    return (
+      <g
+        key={`s${i}`}
+        transform={`translate(${pad + cw * col + cw / 2} ${pad + ch * row + ch / 2})`}
+      >
+        <Shape kind={kind} r={r} stroke={color} fillRef={code.includes('*') ? color : 'none'} />
+      </g>
+    )
+  })
+
+  const lines = []
+  if (dividers) {
+    for (let i = 1; i < cols; i++) {
+      lines.push(
+        <line
+          key={`v${i}`}
+          x1={pad + cw * i}
+          y1={pad}
+          x2={pad + cw * i}
+          y2={px - pad}
+          stroke={color}
+          strokeWidth={1.5}
+        />
+      )
+    }
+    for (let i = 1; i < rows; i++) {
+      lines.push(
+        <line
+          key={`h${i}`}
+          x1={pad}
+          y1={pad + ch * i}
+          x2={px - pad}
+          y2={pad + ch * i}
+          stroke={color}
+          strokeWidth={1.5}
+        />
+      )
+    }
+  }
+  return (
+    <>
+      {lines}
+      {shapes}
+    </>
+  )
+}
+
+// A black/white board — the "which square completes the pattern" family. Drawn
+// as its own thing rather than as n copies of `square`, because the pattern is
+// carried by which *positions* are filled, and positions are what the copy
+// grid deliberately abstracts away.
+function Board({ rows, px, pad, color }) {
+  const k = Math.max(rows.length, ...rows.map((r) => r.length))
+  const inner = px - pad * 2
+  const gap = inner / (k * 7)
+  const cell = (inner - gap * (k - 1)) / k
+  const out = []
+  rows.forEach((row, ri) => {
+    for (let ci = 0; ci < k; ci++) {
+      const ch = row[ci] || '0'
+      const x = pad + ci * (cell + gap)
+      const y = pad + ri * (cell + gap)
+      out.push(
+        <rect
+          key={`r${ri}-${ci}`}
+          x={x}
+          y={y}
+          width={cell}
+          height={cell}
+          fill={ch === '1' ? color : '#fff'}
+          stroke={color}
+          strokeWidth={1.5}
+        />
+      )
+      if (ch === 'x') {
+        out.push(
+          <path
+            key={`m${ri}-${ci}`}
+            d={`M ${x + cell * 0.2} ${y + cell * 0.2} L ${x + cell * 0.8} ${y + cell * 0.8} M ${x + cell * 0.8} ${y + cell * 0.2} L ${x + cell * 0.2} ${y + cell * 0.8}`}
+            stroke={color}
+            strokeWidth={1.5}
+          />
+        )
+      } else if (ch === '+') {
+        out.push(
+          <path
+            key={`m${ri}-${ci}`}
+            d={`M ${x + cell / 2} ${y + cell * 0.18} V ${y + cell * 0.82} M ${x + cell * 0.18} ${y + cell / 2} H ${x + cell * 0.82}`}
+            stroke={color}
+            strokeWidth={1.5}
+          />
+        )
+      }
+    }
+  })
+  return <>{out}</>
+}
+
 let patternSeq = 0
 
 /** One cell of a figural item: the frame plus n copies of the shape. */
@@ -224,6 +541,18 @@ export function FigCell({ spec, boxed = true, px = 76 }) {
     )
   }
 
+  const fillOf = (mode, tint) =>
+    mode === 'solid'
+      ? tint
+      : mode === 'dots'
+        ? `url(#dots-${uid})`
+        : mode === 'stripes'
+          ? `url(#stripes-${uid})`
+          : mode === 'grid'
+            ? `url(#grid-${uid})`
+            : 'none'
+  const inColor = COLORS[c.incolor] || color
+
   // Copies are laid out on a shrinking grid so 1..6 all stay inside the frame.
   const cols = c.n <= 1 ? 1 : c.n <= 4 ? 2 : 3
   const rows = Math.ceil(c.n / cols)
@@ -232,30 +561,48 @@ export function FigCell({ spec, boxed = true, px = 76 }) {
   const base = Math.min(cellW, cellH) / 2 - 3
   const r = Math.max(5, base * (SIZES[c.size] || SIZES.m))
 
-  const copies = []
-  for (let i = 0; i < c.n; i++) {
-    const col = i % cols
-    const row = Math.floor(i / cols)
-    const cx = pad + cellW * col + cellW / 2
-    const cy = pad + cellH * row + cellH / 2
-    const fillRef =
-      c.fill === 'solid'
-        ? color
-        : c.fill === 'dots'
-          ? `url(#dots-${uid})`
-          : c.fill === 'stripes'
-            ? `url(#stripes-${uid})`
-            : c.fill === 'grid'
-              ? `url(#grid-${uid})`
-              : 'none'
-    copies.push(
-      <g key={i} transform={`translate(${cx} ${cy}) rotate(${c.rot})`}>
-        <Shape kind={c.shape} r={r} stroke={color} fillRef={fillRef} />
-        {c.fill === 'half' && (
-          <HalfOverlay kind={c.shape} r={r} color={color} id={`${uid}-${i}`} />
-        )}
-      </g>
+  let body
+  if (c.board) {
+    body = <Board rows={c.board.split('-')} px={px} pad={pad} color={color} />
+  } else if (c.panel || c.group) {
+    body = (
+      <Panel
+        codes={(c.panel || c.group).split('-')}
+        px={px}
+        pad={pad}
+        color={color}
+        dividers={Boolean(c.panel)}
+      />
     )
+  } else if (c.merge) {
+    // Merged copies sit on one line and overlap, so the union has no gaps: the
+    // spacing is a fraction of the radius, not of the frame.
+    const mr = Math.max(6, Math.min(inner / 2, inner / (0.75 * c.n + 0.9)) * (SIZES[c.size] || SIZES.m))
+    const step = mr * 1.35
+    const positions = []
+    for (let i = 0; i < c.n; i++) {
+      positions.push([px / 2 + (i - (c.n - 1) / 2) * step, px / 2])
+    }
+    body = (
+      <MergedSilhouette c={c} r={mr} color={color} fillOf={fillOf} uid={uid} positions={positions} />
+    )
+  } else {
+    const copies = []
+    for (let i = 0; i < c.n; i++) {
+      const col = i % cols
+      const row = Math.floor(i / cols)
+      const cx = pad + cellW * col + cellW / 2
+      const cy = pad + cellH * row + cellH / 2
+      copies.push(
+        <g key={i} transform={`translate(${cx} ${cy}) rotate(${c.rot})`}>
+          <CellShape c={c} r={r} color={color} inColor={inColor} fillOf={fillOf} />
+          {c.fill === 'half' && c.edge !== 'corners' && (
+            <HalfOverlay kind={c.shape} r={r} color={color} id={`${uid}-${i}`} />
+          )}
+        </g>
+      )
+    }
+    body = <>{copies}</>
   }
 
   const dotPos = {
@@ -300,7 +647,7 @@ export function FigCell({ spec, boxed = true, px = 76 }) {
           strokeWidth={1.5}
         />
       )}
-      {copies}
+      {body}
       {dotPos && <circle cx={dotPos[0]} cy={dotPos[1]} r={3.5} fill={WARM} />}
     </svg>
   )
