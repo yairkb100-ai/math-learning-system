@@ -77,12 +77,6 @@ function splitContent(content) {
     .filter((s) => s.body || s.title)
 }
 
-function chunk(arr, size) {
-  const out = []
-  for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size))
-  return out
-}
-
 function buildSteps(chapter, rtl, videoFile) {
   const steps = []
   // Explainer video (uploaded as a course file named "…פרק-N….mp4") opens
@@ -95,17 +89,21 @@ function buildSteps(chapter, rtl, videoFile) {
       file: videoFile,
     })
   }
-  // Content: two sections per step keeps screens rich but not endless.
-  chunk(splitContent(chapter.content), 2).forEach((group, i) => {
+  // One step per KIND, never split by length. A chapter used to be chopped
+  // into two sections per screen, which turned a 700-word median chapter into
+  // ten clicks with a quarter page on each — scrolling one lesson is what a
+  // student actually wants, and it keeps the step count fixed and predictable
+  // (at most: video, lesson, examples, exercises, quiz, finish) instead of
+  // growing with the chapter.
+  const sections = splitContent(chapter.content)
+  if (sections.length > 0) {
     steps.push({
       kind: 'content',
       Icon: IconBook,
-      label:
-        group[0].title || (i === 0 ? t(rtl, 'פתיחה', 'Introduction') : ''),
-      sections: group,
-      first: i === 0,
+      label: t(rtl, 'תוכן הפרק', 'Lesson'),
+      sections,
     })
-  })
+  }
   const examples = chapter.examples || []
   if (examples.length > 0) {
     steps.push({
@@ -116,17 +114,14 @@ function buildSteps(chapter, rtl, videoFile) {
     })
   }
   const exercises = chapter.exercises || []
-  chunk(exercises, 3).forEach((group, i, all) => {
+  if (exercises.length > 0) {
     steps.push({
       kind: 'exercises',
       Icon: IconPencil,
-      label:
-        all.length > 1
-          ? `${t(rtl, 'תרגילים', 'Exercises')} (${i + 1}/${all.length})`
-          : t(rtl, 'תרגילים', 'Exercises'),
-      exercises: group,
+      label: t(rtl, 'תרגילים', 'Exercises'),
+      exercises,
     })
-  })
+  }
   if ((chapter.quiz || []).length > 0) {
     steps.push({
       kind: 'quiz',
