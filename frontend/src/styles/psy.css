@@ -4,12 +4,28 @@
    deliberately NOT relied on here: this area mounts outside those roots, and an
    undefined var() would silently kill the whole background shorthand. */
 
-.psy-home,
+/* ‎.content‎ הגלובלי חוסם ב-1200px, וזה מה שדחס את מרכז ההכנה לקרני לעמודה
+   צרה עם המון גלילה. עמוד הבית של האזור פורץ אותו — ורק הוא: הנגן והתרגול
+   מנהלים רוחב משלהם, ושאר האתר לא מושפע. */
+/* צאצא ולא ילד ישיר — בין ‎.content‎ לעמוד יושב עוטף המעבר של framer-motion. */
+.content:has(.psy-home) {
+  max-width: 1520px;
+}
+/* הניווט חייב להתרחב יחד איתו, אחרת הלוגו והתפריט נעצרים 100px לפני קצה
+   התוכן והעמוד נראה לא מיושר. */
+.app:has(.psy-home) .topbar-inner {
+  max-width: 1520px;
+}
+.psy-home {
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 24px 0 72px;
+}
 .psy-results,
 .psy-drill {
-  max-width: 1080px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 24px 16px 60px;
+  padding: 24px 8px 72px;
 }
 /* The drill screen hosts the same open two-column question split as the timed
    player, so it needs the wider stage — the hub/results pages stay narrower
@@ -66,18 +82,26 @@
 }
 
 /* ---------- panels ---------- */
+/* פאנל = מקטע בעמוד, לא כרטיס. משטח לבן שעוטף קבוצה שעוטפת כרטיסים היה
+   שלוש מסגרות מקוננות סביב כל פריט — זה מה שגרם לעמוד להיקרא עמוס. כאן
+   המקטע שקוף, והכרטיסים הם המשטח היחיד. הפאנלים שכן צריכים משקל
+   (‎.psy-panel-lead‎, ‎.psy-upsell‎) מבקשים את המשטח בעצמם למטה. */
 .psy-panel {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 22px;
-  margin-top: 22px;
-  box-shadow: var(--shadow);
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin-top: 52px;
+  box-shadow: none;
 }
 /* "ההכנה לקרני נמכרת בנפרד" — אותו קו צד בגוון ה-highlighter שמסמן באנר
    מכירה בקטלוג (.product-upsell), כדי ששני המקומות ייקראו כאותו מסר. */
 .psy-upsell {
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-inline-start: 4px solid var(--marker);
+  border-radius: var(--radius);
+  padding: 22px;
+  box-shadow: var(--shadow);
 }
 .psy-upsell p {
   color: var(--muted);
@@ -86,29 +110,41 @@
 }
 .psy-panel > h2 {
   font-family: var(--font-display);
-  font-size: 1.35rem;
-  margin: 0 0 14px;
+  font-size: 1.7rem;
+  margin: 0 0 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
   color: var(--accent);
+}
+/* בפאנלים שהם כן כרטיס, הכותרת חוזרת להיות כותרת של כרטיס — בלי קו מפריד
+   שכופל את המסגרת שכבר יש להם. */
+.psy-panel-lead > h2,
+.psy-upsell > h2 {
+  padding-bottom: 0;
+  border-bottom: 0;
 }
 
 /* ---------- הפאנל המוביל: "הצעד הבא שלך" ----------
    הרגע השני בחשיבותו בעמוד אחרי ההירו. מסגרת מלאה בגוון ה-CTA + כותרת
    גדולה יותר, כדי שהעין תנחת עליו מיד אחרי ההירו ולא על רשימת הקורסים. */
 .psy-panel-lead {
+  background: var(--surface);
   border: 2px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 22px;
   box-shadow: var(--shadow-hover);
   margin-top: 26px;
 }
 .psy-panel-lead > h2 {
   font-size: 1.6rem;
+  margin-bottom: 14px;
 }
 
 /* ---------- הפאנל הנסוג: היסטוריה ----------
    רקע, לא הוראה. בלי משטח לבן ובלי צל — הוא נקרא כהערת שוליים לעמוד. */
 .psy-panel-quiet {
-  background: transparent;
-  box-shadow: none;
-  border-style: dashed;
+  border-top: 1px solid var(--border);
+  padding-top: 18px;
 }
 
 /* ---------- כרטיס הצעד הבא ---------- */
@@ -165,7 +201,7 @@
    קבוצות הסימולציות אינן נושאות מחלקת רמפה — ו-var לא-פתיר היה מוחק את כל
    ההצהרה המקוצרת ומשאיר את הפס בלתי נראה. */
 .psy-domain-group {
-  margin-top: 22px;
+  margin-top: 36px;
 }
 /* הקבוצה הראשונה בפאנל נצמדת לכותרת. אחים סמוכים ולא ‎:first-of-type‎ — בפאנל
    "הנושאים" יש ‎.psy-panel-head‎ שהוא גם div, והוא היה חוטף את ‎:first-of-type‎
@@ -173,12 +209,20 @@
 .psy-panel > h2 + .psy-domain-group,
 .psy-panel-head + .psy-domain-group,
 .psy-plan-sub + .psy-domain-group {
-  margin-top: 4px;
+  margin-top: 8px;
 }
+/* הכותרת היא המחיצה בין הנושאים: ריבוע בגוון התחום, שם התחום בגוון הזה,
+   וקו שיער מתחת לכל הרוחב. זה מפריד חזק יותר מקופסה צבועה — ומוסיף אפס
+   משטחים לעמוד. */
 .psy-domain-head {
-  border-inline-start: 4px solid var(--lv, var(--muted));
-  padding-inline-start: 12px;
-  margin-bottom: 10px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+  padding-bottom: 8px;
+  margin-bottom: 18px;
+  border-bottom: 2px solid var(--lv-bg, var(--border));
 }
 .psy-domain-head-row {
   display: flex;
@@ -187,14 +231,31 @@
   gap: 10px;
 }
 .psy-domain-head h3 {
+  display: flex;
+  align-items: center;
+  gap: 9px;
   margin: 0;
   font-family: var(--font-display);
-  font-size: 1.05rem;
+  font-size: 1.15rem;
   font-weight: 400;
   color: var(--lv, var(--muted));
 }
+/* ריבוע-הכיתה של הקטלוג בקטן — אותו רעיון, אותו משתנה גוון */
+.psy-domain-head h3::before {
+  content: '';
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  background: var(--lv, var(--muted));
+}
 .psy-domain-head.is-core h3 {
-  font-size: 1.45rem;
+  font-size: 1.5rem;
+}
+.psy-domain-head.is-core h3::before {
+  width: 13px;
+  height: 13px;
+  border-radius: 4px;
 }
 .psy-domain-tag {
   font-size: 0.72rem;
@@ -205,23 +266,24 @@
   color: var(--lv, var(--muted));
   background: var(--lv-bg, var(--surface-2));
 }
+/* המשפט המסביר יורד לשורה משלו מתחת לכותרת; המספרים נשארים בקצה השורה. */
 .psy-domain-lead {
-  margin: 6px 0 0;
-  color: var(--text);
+  flex: 1 0 100%;
+  order: 3;
+  margin: 8px 0 0;
+  color: var(--muted);
   font-size: 0.95rem;
   line-height: 1.6;
 }
 .psy-domain-stats {
-  margin: 4px 0 0;
+  margin: 0;
   color: var(--muted);
-  font-size: 0.82rem;
+  font-size: 0.84rem;
+  white-space: nowrap;
 }
-/* תחומי הליבה מקבלים גם רווח נשימה סביבם, לא רק כותרת גדולה */
+/* תחומי הליבה מקבלים רווח נשימה סביבם וכותרת גדולה — בלי קופסה צבועה. */
 .psy-domain-group.is-core {
-  margin-top: 28px;
-  padding: 16px 16px 18px;
-  border-radius: 14px;
-  background: var(--lv-bg, var(--surface-2));
+  margin-top: 48px;
 }
 .psy-panel > h2 + .psy-domain-group.is-core,
 .psy-panel-head + .psy-domain-group.is-core,
@@ -240,12 +302,14 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 20px;
 }
 .psy-panel-head h2 {
   margin: 0;
   font-family: var(--font-display);
-  font-size: 1.35rem;
+  font-size: 1.7rem;
   color: var(--accent);
 }
 .psy-empty {
@@ -266,8 +330,13 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  display: grid;
-  gap: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.psy-plan-list > li {
+  flex: 1 1 330px;
+  max-width: 520px;
 }
 .psy-plan-item {
   display: grid;
@@ -311,9 +380,13 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.psy-sim-list > .psy-sim-card {
+  flex: 1 1 300px;
+  max-width: 430px;
 }
 .psy-sim-card {
   display: flex;
@@ -321,8 +394,12 @@
   gap: 8px;
   border: 1px solid var(--border);
   border-radius: 14px;
-  padding: 16px;
+  padding: 18px;
   background: var(--surface);
+}
+.psy-sim-card h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
 }
 .psy-sim-card.is-locked {
   background: #faf8f3;
@@ -407,35 +484,71 @@
 }
 
 /* ---------- course cards ---------- */
+/* flex ולא grid: ברשת ‎auto-fill‎ קבוצה עם קורס אחד השאירה כרטיס בודד ליד
+   שלושה מקומות ריקים, וזה נראה כמו באג. כאן הפריטים מתמתחים למלא את השורה
+   עד תקרה, כך שקבוצה קטנה נראית מלאה וקבוצה גדולה נשארת רשת מסודרת. */
 .psy-course-list {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.psy-course-list > li {
+  flex: 1 1 300px;
+  max-width: 430px;
+}
+/* בין ה-li לכרטיס יושב עוטף ה-hover של framer-motion, ולכן ‎height: 100%‎ על
+   הכרטיס לבדו לא מגיע לגובה השורה. שרשרת flex קצרה מעבירה את המתיחה הלאה,
+   כך שכל הכרטיסים בשורה נשארים בגובה אחיד. */
+.psy-course-list > li,
+.psy-topic-cards > li {
+  display: flex;
+}
+.psy-course-list > li > *,
+.psy-topic-cards > li > * {
+  display: flex;
+  width: 100%;
+}
+/* והכרטיס עצמו חייב למלא את העוטף — בתוך flex container הרוחב שלו נגזר
+   מהתוכן, וכרטיסים היו יוצאים ברוחב מילת הכותרת. */
+.psy-course-list .psy-course-card,
+.psy-topic-cards .psy-topic-card {
+  width: 100%;
 }
 .psy-course-card {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 14px;
+  gap: 8px;
+  padding: 18px;
   border: 1px solid var(--border);
-  border-radius: 12px;
-  background: var(--surface-2);
+  border-radius: 14px;
+  background: var(--surface);
   color: var(--text);
   height: 100%;
 }
 .psy-course-card:hover {
   border-color: var(--accent);
+  box-shadow: var(--shadow);
 }
 .psy-course-title {
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.08rem;
+  line-height: 1.35;
 }
+/* התיאורים באים באורכים שונים מאוד, וזה מה שהפך את הרשת לקיר טקסט משונן.
+   שלוש שורות לכל כרטיס — הגובה מתיישר והעין רואה רשת, לא ערימה. */
 .psy-course-desc {
   color: var(--muted);
-  font-size: 0.86rem;
-  line-height: 1.5;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
 }
 .psy-course-progress {
   margin-top: auto;
@@ -1337,11 +1450,13 @@
     flex: 0 0 28px;
     height: 28px;
   }
-  .psy-sim-list,
-  .psy-course-list,
-  .psy-topic-cards,
-  .psy-domain-group.is-core .psy-topic-cards {
-    grid-template-columns: 1fr;
+  .psy-course-list > li,
+  .psy-topic-cards > li,
+  .psy-domain-group.is-core .psy-topic-cards > li,
+  .psy-sim-list > .psy-sim-card,
+  .psy-plan-list > li {
+    flex-basis: 100%;
+    max-width: none;
   }
   .psy-hero-stats {
     flex-wrap: wrap;
@@ -1361,17 +1476,28 @@
   .psy-drill {
     padding-inline: 8px;
   }
-  /* ההירו והפאנל המוביל מצטמצמים בריפוד אבל שומרים על ההיררכיה */
+  /* ההירו והפאנלים-כרטיס מצטמצמים בריפוד אבל שומרים על ההיררכיה */
   .psy-hero {
     padding: 26px 18px;
   }
-  .psy-panel {
+  .psy-panel-lead,
+  .psy-upsell {
     padding: 18px 14px;
   }
-  /* קבוצת ליבה: הריפוד הפנימי + הריפוד של הפאנל יוצרים יחד שוליים כפולים
-     שדוחסים את הכרטיסים; בנייד מספיק פס צד אחד. */
+  /* בנייד המקטעים מתקרבים — 52px בין מקטעים על מסך צר זה גלילה ריקה */
+  .psy-panel {
+    margin-top: 34px;
+  }
+  .psy-domain-group,
   .psy-domain-group.is-core {
-    padding: 12px 10px 14px;
+    margin-top: 26px;
+  }
+  .psy-panel > h2,
+  .psy-panel-head h2 {
+    font-size: 1.4rem;
+  }
+  .psy-domain-head.is-core h3 {
+    font-size: 1.2rem;
   }
   .psy-next {
     padding: 14px;
@@ -1387,9 +1513,6 @@
   }
   .psy-plan-acc {
     grid-column: 1 / -1;
-  }
-  .psy-domain-head.is-core h3 {
-    font-size: 1.25rem;
   }
   .psy-panel-lead > h2 {
     font-size: 1.35rem;
@@ -1421,33 +1544,41 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+.psy-topic-cards > li {
+  flex: 1 1 250px;
+  max-width: 380px;
 }
 .psy-topic-card {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  padding: 12px 14px;
+  padding: 15px 16px;
   border: 1px solid var(--border);
-  border-radius: 12px;
-  background: var(--surface-2);
+  border-radius: 14px;
+  background: var(--surface);
   color: var(--text);
   height: 100%;
   min-height: 44px;
 }
 .psy-topic-card:hover {
   border-color: var(--accent);
+  box-shadow: var(--shadow);
   text-decoration: none;
 }
 /* נושא שעוד לא נגעו בו נראה כמו משבצת ריקה שמחכה למילוי, לא ככרטיס תקול */
 .psy-topic-card.is-new {
   border-style: dashed;
-  background: var(--surface);
+  background: transparent;
 }
 .psy-topic-card-name {
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.02rem;
+  line-height: 1.35;
 }
 .psy-topic-card-count {
   font-size: 0.8rem;
@@ -1458,8 +1589,8 @@
    שגם אם יונפש בעתיד הוא נשאר בתקציב התנועה של המערכת. */
 .psy-topic-meter {
   display: block;
-  height: 6px;
-  margin: 8px 0 2px;
+  height: 4px;
+  margin: 10px 0 2px;
   border-radius: 999px;
   background: var(--border);
   overflow: hidden;
@@ -1516,20 +1647,11 @@
   font-weight: 700;
 }
 
-/* בתוך קבוצת ליבה הרקע כבר צבוע ב---lv-bg, אז הכרטיסים עולים ללבן כדי
-   לשמור על ניגוד */
-.psy-domain-group.is-core .psy-topic-card,
-.psy-domain-group.is-core .psy-course-card {
-  background: var(--surface);
-}
-.psy-domain-group.is-core .psy-topic-card.is-new {
-  background: var(--surface-2);
-}
 /* תחומי הליבה מקבלים כרטיסים רחבים יותר — יש בהם יותר נושאים וכל אחד נושא
    יותר משקל, אז הם לא נדחסים לאותה רשת של תחום שולי */
-.psy-domain-group.is-core .psy-topic-cards {
-  grid-template-columns: repeat(auto-fill, minmax(238px, 1fr));
-  gap: 12px;
+.psy-domain-group.is-core .psy-topic-cards > li {
+  flex-basis: 290px;
+  max-width: 430px;
 }
 .psy-hero-actions {
   display: flex;
