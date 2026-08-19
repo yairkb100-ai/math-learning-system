@@ -35,6 +35,13 @@
 //   {{figmatrix:<c>;<c>;<c>/<c>;…}}        a 3×3 matrix, "?" for the missing one
 //   {{figpair:<A>;<B>/<C>;?}}              A is to B as C is to ?
 //   {{figodd:<spec>;<spec>;<spec>;<spec>}} odd-one-out row, all cells drawn
+//   {{figcarpet:<c>;<c>/<c>;<c>}}         a carpet: 2–6 × 2–6 tiles, drawn edge
+//                                          to edge, "?" for the missing tile
+//   {{figfold:size=4;fold=r2l;hole=1,1}}   fold-and-punch, drawn as a strip:
+//                                          open sheet → each fold → punched
+//                                          stack → "?"
+//   {{figpunched:size=4;hole=0,1}}         the OPEN sheet with holes — this is
+//                                          what the four options are
 //
 // Rows read right-to-left, matching how a Hebrew-speaking student scans them.
 
@@ -42,6 +49,9 @@ const INK = '#1d3b34'
 const ACCENT = '#1f7a8c'
 const WARM = '#c98a1e'
 const FILL_SOFT = '#dfeae4'
+// The same hairline the .fig-cell frame uses — named once so the paper grid
+// of {{figfold}} / {{figpunched}} and the carpet's tile separators match it.
+const GRID_LINE = '#c9d6cf'
 
 const COLORS = { ink: INK, accent: ACCENT, warm: WARM }
 const SIZES = { s: 0.62, m: 0.82, l: 1.0 }
@@ -347,6 +357,380 @@ function Pair({ left, right, px }) {
   )
 }
 
+// ---------------------------------------------------------------------------
+// fold & punch — {{figfold}} / {{figpunched}}
+// ---------------------------------------------------------------------------
+// A square sheet is folded a few times, a punch goes through the folded stack,
+// and the student says what the re-opened sheet looks like. The unfolding is
+// *computed*, never eyeballed: scripts/foldcheck.py owns the semantics and
+// scripts/check_fold_items.py runs every bank item through it. The three
+// helpers below are a straight port of that Python, so the drawing and the
+// validator cannot drift apart.
+//
+// COORDINATES, as everywhere else in this file: r=0 is the top row, c=0 is the
+// RIGHTMOST column (the sheet reads right-to-left). After a fold the remaining
+// rectangle is re-indexed in its own frame, again r=0 top, c=0 at its right.
+//
+// FOLDS. Each fold names the half that lands on top of the other, so what is
+// left is the *other* half: r2l keeps the left half, l2r the right, t2b the
+// bottom, b2t the top. Unfolding is reflection across every fold line, in
+// reverse order.
+
+const FOLD_NAMES = ['r2l', 'l2r', 't2b', 'b2t']
+
+/** [rows, cols] of the stack after applying `folds` to a size×size sheet. */
+export function foldedDims(size, folds) {
+  let h = parseInt(size, 10)
+  if (!(h >= 2)) throw new Error(`size must be at least 2, got ${size}`)
+  let w = h
+  for (const f of folds) {
+    if (!FOLD_NAMES.includes(f)) throw new Error(`unknown fold ${f}`)
+    if (f === 'r2l' || f === 'l2r') {
+      if (w % 2) throw new Error(`cannot halve a width of ${w} with fold ${f}`)
+      w /= 2
+    } else {
+      if (h % 2) throw new Error(`cannot halve a height of ${h} with fold ${f}`)
+      h /= 2
+    }
+  }
+  return [h, w]
+}
+
+const cellKey = (r, c) => `${r},${c}`
+const cellOfKey = (k) => k.split(',').map(Number)
+
+/**
+ * Open the sheet back up: holes addressed in the folded stack's own frame come
+ * back as cells of the full size×size sheet — up to 2**folds.length each.
+ */
+export function unfoldHoles(size, folds, holes) {
+  let [h, w] = foldedDims(size, folds)
+  holes.forEach(([r, c]) => {
+    if (!(r >= 0 && r < h && c >= 0 && c < w)) {
+      throw new Error(`hole (${r},${c}) is outside the ${h}x${w} folded stack`)
+    }
+  })
+  let cells = new Set(holes.map(([r, c]) => cellKey(r, c)))
+  // Reverse order: the last fold made is the first one opened.
+  for (let i = folds.length - 1; i >= 0; i--) {
+    const f = folds[i]
+    const opened = new Set()
+    if (f === 'r2l' || f === 'l2r') {
+      const parentW = w * 2
+      // r2l keeps the left half  -> parent columns w..2w-1, so c += w.
+      // l2r keeps the right half -> parent columns 0..w-1,  so c stays.
+      const shift = f === 'r2l' ? w : 0
+      cells.forEach((k) => {
+        const [r, c] = cellOfKey(k)
+        const c0 = c + shift
+        opened.add(cellKey(r, c0))
+        opened.add(cellKey(r, parentW - 1 - c0))
+      })
+      w = parentW
+    } else {
+      const parentH = h * 2
+      // t2b keeps the bottom half -> parent rows h..2h-1, so r += h.
+      // b2t keeps the top half    -> parent rows 0..h-1,  so r stays.
+      const shift = f === 't2b' ? h : 0
+      cells.forEach((k) => {
+        const [r, c] = cellOfKey(k)
+        const r0 = r + shift
+        opened.add(cellKey(r0, c))
+        opened.add(cellKey(parentH - 1 - r0, c))
+      })
+      h = parentH
+    }
+    cells = opened
+  }
+  return [...cells].map(cellOfKey)
+}
+
+/** `size=4;fold=r2l;fold=b2t;hole=1,1` -> { size, folds, holes }. */
+export function parseFoldSpec(param) {
+  let size = 4
+  const folds = []
+  const holes = []
+  String(param ?? '')
+    .split(';')
+    .forEach((clause) => {
+      const s = clause.trim()
+      if (!s) return
+      const eq = s.indexOf('=')
+      const k = (eq === -1 ? s : s.slice(0, eq)).trim()
+      const v = (eq === -1 ? '' : s.slice(eq + 1)).trim()
+      if (k === 'size') {
+        size = parseInt(v, 10)
+        if (!(size >= 2 && size <= 6)) throw new Error(`size must be 2-6, got ${v}`)
+      } else if (k === 'fold') {
+        folds.push(v)
+      } else if (k === 'hole') {
+        const [r, c] = v.split(',')
+        holes.push([parseInt(r, 10), parseInt(c, 10)])
+      } else {
+        throw new Error(`unknown clause ${s} in figfold`)
+      }
+    })
+  if (!holes.length) throw new Error('figfold needs at least one hole=r,c')
+  return { size, folds, holes }
+}
+
+/** `size=4;hole=0,1;hole=0,2` -> { size, holes } on the OPEN sheet. */
+export function parsePunchedSpec(param) {
+  let size = 4
+  const seen = new Set()
+  String(param ?? '')
+    .split(';')
+    .forEach((clause) => {
+      const s = clause.trim()
+      if (!s) return
+      const eq = s.indexOf('=')
+      const k = (eq === -1 ? s : s.slice(0, eq)).trim()
+      const v = (eq === -1 ? '' : s.slice(eq + 1)).trim()
+      if (k === 'size') size = parseInt(v, 10)
+      else if (k === 'hole') {
+        const [r, c] = v.split(',')
+        seen.add(cellKey(parseInt(r, 10), parseInt(c, 10)))
+      } else throw new Error(`unknown clause ${s} in figpunched`)
+    })
+  return { size, holes: [...seen].map(cellOfKey) }
+}
+
+// --- drawing ---------------------------------------------------------------
+
+// A short arrow, drawn by hand rather than with a <marker> so it needs no ids
+// (several of these can share one page with no chance of a collision).
+function TinyArrow({ x1, y1, x2, y2, color = ACCENT, width = 1.8 }) {
+  const dx = x2 - x1
+  const dy = y2 - y1
+  const len = Math.hypot(dx, dy) || 1
+  const ux = dx / len
+  const uy = dy / len
+  const head = 7
+  const halfW = 4.2
+  const bx = x2 - ux * head
+  const by = y2 - uy * head
+  return (
+    <g>
+      <line x1={x1} y1={y1} x2={bx} y2={by} stroke={color} strokeWidth={width} strokeLinecap="round" />
+      <polygon
+        points={`${x2},${y2} ${bx - uy * halfW},${by + ux * halfW} ${bx + uy * halfW},${by - ux * halfW}`}
+        fill={color}
+      />
+    </g>
+  )
+}
+
+/**
+ * One sheet (or folded stack): the paper, its faint cell grid, the punched
+ * holes, and — when another fold follows — the fold line with the moving half
+ * shaded, which is the only thing that tells r2l from l2r on a square sheet.
+ */
+function Paper({ h, w, cell, holes = [], nextFold = null }) {
+  const W = w * cell
+  const H = h * cell
+  const grid = []
+  for (let i = 1; i < w; i++) {
+    grid.push(<line key={`v${i}`} x1={i * cell} y1={0} x2={i * cell} y2={H} stroke={GRID_LINE} strokeWidth={0.7} />)
+  }
+  for (let i = 1; i < h; i++) {
+    grid.push(<line key={`h${i}`} x1={0} y1={i * cell} x2={W} y2={i * cell} stroke={GRID_LINE} strokeWidth={0.7} />)
+  }
+
+  let moving = null
+  let foldLine = null
+  let foldArrow = null
+  if (nextFold === 'r2l' || nextFold === 'l2r') {
+    const right = nextFold === 'r2l'
+    moving = <rect x={right ? W / 2 : 0} y={0} width={W / 2} height={H} fill={FILL_SOFT} />
+    foldLine = <line x1={W / 2} y1={-2} x2={W / 2} y2={H + 2} stroke={ACCENT} strokeWidth={1.8} strokeDasharray="5 4" />
+    const from = right ? W * 0.82 : W * 0.18
+    const to = right ? W * 0.56 : W * 0.44
+    foldArrow = <TinyArrow x1={from} y1={H / 2} x2={to} y2={H / 2} />
+  } else if (nextFold === 't2b' || nextFold === 'b2t') {
+    const top = nextFold === 't2b'
+    moving = <rect x={0} y={top ? 0 : H / 2} width={W} height={H / 2} fill={FILL_SOFT} />
+    foldLine = <line x1={-2} y1={H / 2} x2={W + 2} y2={H / 2} stroke={ACCENT} strokeWidth={1.8} strokeDasharray="5 4" />
+    const from = top ? H * 0.18 : H * 0.82
+    const to = top ? H * 0.44 : H * 0.56
+    foldArrow = <TinyArrow x1={W / 2} y1={from} x2={W / 2} y2={to} />
+  }
+
+  return (
+    <g>
+      <rect x={0} y={0} width={W} height={H} fill="#fff" stroke={INK} strokeWidth={1.6} />
+      {moving}
+      {grid}
+      {foldLine}
+      {foldArrow}
+      {holes.map(([r, c], i) => (
+        <circle
+          key={`p${i}`}
+          cx={(w - 1 - c) * cell + cell / 2}
+          cy={r * cell + cell / 2}
+          r={cell * 0.27}
+          fill={INK}
+        />
+      ))}
+      <rect x={0} y={0} width={W} height={H} fill="none" stroke={INK} strokeWidth={1.6} />
+    </g>
+  )
+}
+
+/** The blank panel that asks "and opened up again, what does it look like?" */
+function QuestionPanel({ side }) {
+  return (
+    <g>
+      <rect
+        x={0}
+        y={0}
+        width={side}
+        height={side}
+        rx={7}
+        fill="#fff"
+        stroke={ACCENT}
+        strokeWidth={2}
+        strokeDasharray="6 5"
+      />
+      <text
+        x={side / 2}
+        y={side / 2 + side * 0.16}
+        textAnchor="middle"
+        fontSize={side * 0.45}
+        fontWeight="700"
+        fill={ACCENT}
+      >
+        ?
+      </text>
+    </g>
+  )
+}
+
+/**
+ * The whole story as one right-to-left strip: the open sheet, the stack after
+ * each fold, the punched stack, and the "?" panel. Every panel is drawn at the
+ * same scale, so the paper visibly halves at each step.
+ */
+function FoldStrip({ size, folds, holes, px }) {
+  const cell = Math.max(9, Math.min(20, Math.round((px || 104) / size)))
+  const slot = size * cell
+  const gap = 26
+  const pad = 8
+
+  const panels = [{ h: size, w: size, nextFold: folds[0] || null, holes: [] }]
+  folds.forEach((f, i) => {
+    const [h, w] = foldedDims(size, folds.slice(0, i + 1))
+    panels.push({ h, w, nextFold: folds[i + 1] || null, holes: [] })
+  })
+  // The punch goes through the last state — the folded stack.
+  panels[panels.length - 1].holes = holes
+
+  const total = panels.length + 1
+  const W = total * slot + (total - 1) * gap + pad * 2
+  const H = slot + pad * 2
+  const slotX = (i) => W - pad - (i + 1) * slot - i * gap
+
+  return (
+    <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} className="fig-fold" role="img">
+      {panels.map((p, i) => (
+        <g
+          key={`s${i}`}
+          transform={`translate(${slotX(i) + (slot - p.w * cell) / 2} ${pad + (slot - p.h * cell) / 2})`}
+        >
+          <Paper h={p.h} w={p.w} cell={cell} holes={p.holes} nextFold={p.nextFold} />
+        </g>
+      ))}
+      <g transform={`translate(${slotX(total - 1)} ${pad})`}>
+        <QuestionPanel side={slot} />
+      </g>
+      {panels.map((_, i) => (
+        <TinyArrow
+          key={`a${i}`}
+          x1={slotX(i) - 5}
+          y1={H / 2}
+          x2={slotX(i) - gap + 5}
+          y2={H / 2}
+          color={WARM}
+        />
+      ))}
+    </svg>
+  )
+}
+
+function FoldFigure({ param, px }) {
+  try {
+    const { size, folds, holes } = parseFoldSpec(param)
+    unfoldHoles(size, folds, holes) // validates dims and hole bounds
+    return <FoldStrip size={size} folds={folds} holes={holes} px={px} />
+  } catch {
+    return null
+  }
+}
+
+/**
+ * The OPEN sheet with holes — this is what the four answer options are, so it
+ * has to stay small and stay readable small.
+ */
+function PunchedFigure({ param, px }) {
+  let size
+  let holes
+  try {
+    ;({ size, holes } = parsePunchedSpec(param))
+    if (!(size >= 2 && size <= 8)) return null
+  } catch {
+    return null
+  }
+  const cell = Math.max(11, Math.min(26, Math.round((px || 92) / size)))
+  const pad = 5
+  const side = size * cell + pad * 2
+  return (
+    <svg width={side} height={side} viewBox={`0 0 ${side} ${side}`} className="fig-punched" role="img">
+      <g transform={`translate(${pad} ${pad})`}>
+        <Paper h={size} w={size} cell={cell} holes={holes.filter(([r, c]) => r >= 0 && r < size && c >= 0 && c < size)} />
+      </g>
+    </svg>
+  )
+}
+
+// ---------------------------------------------------------------------------
+// carpet — {{figcarpet}}
+// ---------------------------------------------------------------------------
+// Same cell grammar as a matrix, but the tiles touch: a carpet is read as one
+// repeating surface, and the moment the tiles get gaps and rounded frames the
+// eye starts reading a table of separate pictures instead. Hence the 1px gap
+// over a dark backdrop (that gap *is* the separating line) and boxed={false}
+// on the cells.
+
+function Carpet({ rows, px }) {
+  const cols = Math.max(...rows.map((r) => r.length))
+  const cell = px || (Math.max(cols, rows.length) >= 5 ? 46 : 56)
+  return (
+    <div
+      className="fig-carpet"
+      dir="rtl"
+      style={{
+        display: 'inline-flex',
+        flexDirection: 'column',
+        gap: '1px',
+        background: GRID_LINE,
+        border: `2px solid ${INK}`,
+        borderRadius: '4px',
+        overflow: 'hidden',
+        maxWidth: '100%',
+      }}
+    >
+      {rows.map((row, r) => (
+        <div key={r} style={{ display: 'flex', gap: '1px' }}>
+          {row.map((spec, i) => (
+            <div key={i} style={{ background: '#fff', display: 'flex' }}>
+              <FigCell spec={spec} boxed={false} px={cell} />
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  )
+}
+
 /**
  * Render one `{{fig…:…}}` token body. `name` is the token name without the
  * `fig` prefix stripped — callers pass the full name.
@@ -363,6 +747,14 @@ export function renderFigureToken(name, param, px) {
       const rows = body.split('/').map((r) => r.split(';'))
       return <Matrix rows={rows} px={px || 68} />
     }
+    case 'figcarpet': {
+      const rows = body.split('/').map((r) => r.split(';'))
+      return <Carpet rows={rows} px={px} />
+    }
+    case 'figfold':
+      return <FoldFigure param={body} px={px} />
+    case 'figpunched':
+      return <PunchedFigure param={body} px={px} />
     case 'figpair': {
       const [a, b] = body.split('/')
       return (
@@ -386,6 +778,9 @@ export const FIGURE_KINDS = {
   figodd: ({ param }) => renderFigureToken('figodd', param),
   figmatrix: ({ param }) => renderFigureToken('figmatrix', param),
   figpair: ({ param }) => renderFigureToken('figpair', param),
+  figcarpet: ({ param }) => renderFigureToken('figcarpet', param),
+  figfold: ({ param }) => renderFigureToken('figfold', param),
+  figpunched: ({ param }) => renderFigureToken('figpunched', param),
 }
 
 export default function FigureArt({ name, param, px }) {
