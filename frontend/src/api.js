@@ -549,6 +549,24 @@ export const api = {
       method: 'POST',
       body: JSON.stringify(payload),
     }),
+  // שמירה שיוצאת גם כשהעמוד נסגר או מתפרק. ‎fetch‎ רגיל מבוטל כשהטאב נסגר,
+  // ולכן תשובות שניתנו מאז השמירה התקופתית האחרונה (עד 15 שניות) פשוט אבדו.
+  // ‎keepalive‎ מבטיח שהבקשה תישלח עד הסוף; ‎sendBeacon‎ לא מתאים כאן כי אי
+  // אפשר לצרף לו כותרת Authorization.
+  psySaveSectionBeacon: (attemptId, payload) => {
+    const token = getToken()
+    if (!token) return
+    try {
+      fetch(`${BASE}/psy/attempts/${attemptId}/save`, {
+        method: 'POST',
+        keepalive: true,
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify(payload),
+      }).catch(() => {})
+    } catch {
+      /* יציאה מהעמוד — אין למי לדווח */
+    }
+  },
   psySubmitSection: (attemptId, payload) =>
     request(`/psy/attempts/${attemptId}/section`, {
       method: 'POST',

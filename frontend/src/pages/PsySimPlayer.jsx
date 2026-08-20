@@ -37,6 +37,12 @@ export default function PsySimPlayer() {
   // visible sidebar, since the sidebar doesn't fit next to the question pane
   // under ~900px.
   const [navOpen, setNavOpen] = useState(false)
+  // כשל בהגשת פרק מוצג בתוך הנגן ולא מחליף אותו: קודם `setError` החליף את כל
+  // עץ המבחן ב-ErrorBox בלי כפתור ובלי דרך חזרה, בזמן שהשעון בשרת המשיך לרוץ.
+  const [submitError, setSubmitError] = useState(null)
+  // הפרק שהשעון שלו אזל בזמן שהתלמיד לא היה כאן. הוא לא מוגש בשקט אלא מחכה
+  // לאישור מפורש — קודם הוא נסגר ונוקד תוך פחות משנייה מאחורי כפתור "התחל".
+  const [expiredSection, setExpiredSection] = useState(false)
 
   // Refs so the timer and the unload handler always see current values without
   // re-subscribing every keystroke.
@@ -45,6 +51,14 @@ export default function PsySimPlayer() {
   const timingsRef = useRef({}) // {ref: seconds accumulated on that question}
   const shownAt = useRef(Date.now())
   const submittingRef = useRef(false)
+  // דדליין מוחלט ולא ספירת פעימות. השעון היה שרשרת setTimeout שקופאת בטאב
+  // ברקע (ספארי מקפיא לגמרי, כרום מאט לפעימה בדקה), כך שתלמיד שנעל את המסך
+  // לארבע דקות חזר לשעון שמראה ארבע דקות יותר ממה שנשאר לו באמת.
+  const deadlineRef = useRef(null)
+  const sectionIndexRef = useRef(null)
+  // ה-autosave שנמצא כרגע באוויר. בלי להמתין לו לפני ההגשה הוא נחת אחריה
+  // ודרס את הניקוד שההגשה כתבה.
+  const autosaveRef = useRef(null)
 
   answersRef.current = answers
   flaggedRef.current = flagged
@@ -65,17 +79,29 @@ export default function PsySimPlayer() {
     setIndex(nextIndex)
   }
 
-  // ---- load / resume -------------------------------------------------------
-  const loadSection = useCallback(async (id) => {
-    const s = await api.psySection(id)
-    setSection(s)
-    setSecondsLeft(s.seconds_left)
-    setAnswers(s.saved || {})
-    setIndex(0)
-    timingsRef.current = {}
-    shownAt.current = Date.now()
-    submittingRef.current = false
+  // השרת הוא בעל השעון: כל תשובה שלו שנושאת seconds_left מקדמת את הדדליין
+  // המקומי, כך שסטייה מצטברת מתאפסת במקום להישאר.
+  const syncClock = useCallback((seconds) => {
+    if (seconds == null) return
+    deadlineRef.current = Date.now() + seconds * 1000
+    setSecondsLeft(seconds)
   }, [])
+
+  // ---- load / resume -------------------------------------------------------
+  const loadSection = useCallback(
+    async (id) => {
+      const s = await api.psySection(id)
+      setSection(s)
+      sectionIndexRef.current = s.section_index
+      syncClock(s.seconds_left)
+      setAnswers(s.saved || {})
+      setIndex(0)
+      timingsRef.current = {}
+      shownAt.current = Date.now()
+      submittingRef.current = false
+    },
+    [syncClock]
+  )
 
   useEffect(() => {
     let alive = true
@@ -85,6 +111,9 @@ export default function PsySimPlayer() {
         if (!alive) return
         setAttemptId(res.attempt_id)
         await loadSection(res.attempt_id)
+        if (!alive) return
+        // ניסיון שהמשכנו אליו והשעון שלו כבר אזל: עוצרים ומבקשים אישור.
+        if (res.section_expired) setExpiredSection(true)
       })
       .catch((e) => alive && setError(e))
     return () => {
@@ -93,22 +122,28 @@ export default function PsySimPlayer() {
   }, [slug, loadSection])
 
   // ---- countdown; the server owns the real clock, this only mirrors it -----
+  // נגזר מ-Date.now() מול דדליין מוחלט, ולא מספירת פעימות: פעימה שהדפדפן דילג
+  // עליה בטאב ברקע כבר לא "חוסכת" זמן לתלמיד. הפעימה מהירה מ-1s כדי שהחזרה
+  // לפוקוס תתעדכן מיד ולא עד שנייה שלמה אחריה.
   useEffect(() => {
-    if (secondsLeft == null || !attemptId) return
-    if (secondsLeft <= 0) {
-      submitSection()
-      return
+    if (!attemptId || deadlineRef.current == null || expiredSection) return
+    const tick = () => {
+      const left = Math.max(0, Math.round((deadlineRef.current - Date.now()) / 1000))
+      setSecondsLeft(left)
+      if (left <= 0) submitSection()
     }
-    const t = setTimeout(() => setSecondsLeft((s) => s - 1), 1000)
-    return () => clearTimeout(t)
+    tick()
+    const t = setInterval(tick, 250)
+    return () => clearInterval(t)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [secondsLeft, attemptId])
+  }, [attemptId, section, expiredSection])
 
-  // ---- periodic autosave ---------------------------------------------------
+  // חזרה לפוקוס = הזדמנות לסנכרן. שמירה מחזירה את seconds_left האמיתי, ולכן
+  // היא משמשת גם כשמירה וגם כתיקון שעון בבת אחת.
   useEffect(() => {
-    if (!attemptId || !section) return
-    const t = setInterval(() => {
-      if (submittingRef.current) return
+    if (!attemptId || !section || expiredSection) return
+    const onVisible = () => {
+      if (document.visibilityState !== 'visible' || submittingRef.current) return
       api
         .psySaveSection(attemptId, {
           section_index: section.section_index,
@@ -116,19 +151,78 @@ export default function PsySimPlayer() {
           timings: timingsRef.current,
           flagged: Object.keys(flaggedRef.current).filter((k) => flaggedRef.current[k]),
         })
+        .then((r) => {
+          if (r?.expired) setExpiredSection(true)
+          else syncClock(r?.seconds_left)
+        })
+        .catch(() => {})
+    }
+    document.addEventListener('visibilitychange', onVisible)
+    return () => document.removeEventListener('visibilitychange', onVisible)
+  }, [attemptId, section, expiredSection, syncClock])
+
+  // ---- periodic autosave ---------------------------------------------------
+  const savePayload = useCallback(
+    () => ({
+      section_index: sectionIndexRef.current,
+      answers: answersRef.current,
+      timings: timingsRef.current,
+      flagged: Object.keys(flaggedRef.current).filter((k) => flaggedRef.current[k]),
+    }),
+    []
+  )
+
+  useEffect(() => {
+    if (!attemptId || !section || expiredSection) return
+    const t = setInterval(() => {
+      if (submittingRef.current) return
+      const p = api
+        .psySaveSection(attemptId, savePayload())
+        .then((r) => {
+          if (r?.expired) setExpiredSection(true)
+          else syncClock(r?.seconds_left)
+        })
         // A failed autosave is not worth interrupting the exam over; the next
         // tick retries and the real submit carries everything anyway.
         .catch(() => {})
+      autosaveRef.current = p
+      p.finally(() => {
+        if (autosaveRef.current === p) autosaveRef.current = null
+      })
     }, AUTOSAVE_MS)
     return () => clearInterval(t)
-  }, [attemptId, section])
+  }, [attemptId, section, expiredSection, savePayload, syncClock])
+
+  // ---- יציאה מהעמוד --------------------------------------------------------
+  // הנגן מוצג בתוך הפריסה הרגילה עם Navbar, כך שכל קישור ניווט לחיץ באמצע
+  // מבחן. בלי הבלוק הזה יציאה (swipe-back, לחיצה על הלוגו, סגירת הטאב) איבדה
+  // בשקט כל תשובה שניתנה מאז השמירה האחרונה — עד 15 שניות של עבודה.
+  useEffect(() => {
+    if (!attemptId) return
+    const flush = () => {
+      if (submittingRef.current || sectionIndexRef.current == null) return
+      api.psySaveSectionBeacon(attemptId, savePayload())
+    }
+    window.addEventListener('pagehide', flush)
+    window.addEventListener('beforeunload', flush)
+    return () => {
+      window.removeEventListener('pagehide', flush)
+      window.removeEventListener('beforeunload', flush)
+      flush()
+    }
+  }, [attemptId, savePayload])
 
   async function submitSection() {
     if (submittingRef.current || !attemptId || !section) return
     submittingRef.current = true
     setBusy(true)
+    setSubmitError(null)
     stampTime(current?.ref)
     try {
+      // שמירה שכבר יצאה לדרך חייבת לנחות לפני ההגשה. אחרת היא נוחתת *אחריה*
+      // ודורסת את הניקוד שהשרת בדיוק כתב — הכותרת הראתה 78% בזמן שבסקירה כל
+      // שאלות הפרק סומנו שגויות.
+      if (autosaveRef.current) await autosaveRef.current.catch(() => {})
       const res = await api.psySubmitSection(attemptId, {
         section_index: section.section_index,
         answers: answersRef.current,
@@ -140,9 +234,12 @@ export default function PsySimPlayer() {
         return
       }
       setFlagged({})
+      setExpiredSection(false)
       await loadSection(attemptId)
     } catch (e) {
-      setError(e)
+      // הנגן נשאר על המסך. כישלון רשת רגעי הוא בדיוק הרגע שבו אסור לזרוק את
+      // התלמיד מהמבחן — השעון בשרת ממשיך לרוץ בזמן שהוא מנסה להבין מה קרה.
+      setSubmitError(e)
       submittingRef.current = false
     } finally {
       setBusy(false)
@@ -155,6 +252,36 @@ export default function PsySimPlayer() {
 
   if (error) return <ErrorBox error={error} />
   if (!section) return <Loading />
+
+  // פרק שהזמן שלו אזל בהיעדרות: אישור מפורש לפני שהוא נסגר ומנוקד.
+  if (expiredSection) {
+    return (
+      <section className="psy-player" dir="rtl">
+        <div className="psy-expired">
+          <h2>הזמן של הפרק הזה נגמר</h2>
+          <p>
+            השעון של «{section.title}» אזל בזמן שלא היית כאן. הפרק ייסגר וינוקד לפי
+            התשובות שהספיקו להישמר, ואחר כך תמשיך לפרק הבא.
+          </p>
+          {submitError && (
+            <p className="psy-inline-error">לא הצלחנו לסגור את הפרק. אפשר לנסות שוב.</p>
+          )}
+          <motion.button
+            type="button"
+            className="psy-btn psy-btn-primary"
+            disabled={busy}
+            onClick={() => {
+              setExpiredSection(false)
+              submitSection()
+            }}
+            {...tapScale}
+          >
+            {busy ? 'סוגר…' : 'הבנתי, המשך לפרק הבא'}
+          </motion.button>
+        </div>
+      </section>
+    )
+  }
 
   const answeredCount = items.filter((it) => answers[it.ref] != null).length
   const lastSection = section.section_index >= section.sections_total - 1
@@ -176,6 +303,23 @@ export default function PsySimPlayer() {
           {fmtTime(secondsLeft ?? 0)}
         </div>
       </header>
+
+      {/* כישלון הגשה: באנר בתוך המבחן עם ניסיון חוזר. השעון בשרת ממשיך לרוץ,
+          ולכן החלפת כל העמוד בהודעת שגיאה בלי כפתור גבתה מהתלמיד זמן אמיתי. */}
+      {submitError && (
+        <div className="psy-submit-error" role="alert">
+          <span>לא הצלחנו להגיש את הפרק. המבחן שלך נשמר — אפשר לנסות שוב.</span>
+          <motion.button
+            type="button"
+            className="psy-btn psy-btn-primary"
+            onClick={submitSection}
+            disabled={busy}
+            {...tapScale}
+          >
+            {busy ? 'שולח…' : 'נסה שוב'}
+          </motion.button>
+        </div>
+      )}
 
       <div className="psy-player-grid">
           <main className="psy-question-pane">

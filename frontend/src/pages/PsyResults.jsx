@@ -159,6 +159,22 @@ export default function PsyResults() {
             </tbody>
           </table>
         </div>
+
+        {/* מובייל: רשימת כרטיסים אמיתית במקום טבלה מכווצת, בדיוק כמו
+            .psy-history-cards בעמוד הבית. בלי זה כל הפירוט לפי פרק פשוט נעלם
+            בטלפון — ‎.psy-table-wrap‎ מוסתר שם, ולא היה לו תחליף. */}
+        <ul className="psy-section-cards">
+          {data.sections.map((s) => (
+            <li key={s.section_index} className="psy-section-card">
+              <span className="psy-section-card-title">{s.title}</span>
+              <span className="psy-section-card-stats">
+                <span>{s.total ? `${s.correct}/${s.total} נכונות` : 'ללא ניקוד'}</span>
+                <span>{s.unanswered} לא נענו</span>
+                <span>{Math.round(s.seconds / 60)} דק׳</span>
+              </span>
+            </li>
+          ))}
+        </ul>
       </motion.section>
 
       {data.topics.length > 0 && (

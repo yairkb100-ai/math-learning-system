@@ -34,6 +34,10 @@ export default function PsyDrill() {
   const [result, setResult] = useState(null)
   const [tally, setTally] = useState({ answered: 0, correct: 0 })
   const [error, setError] = useState(null)
+  // כשל בשליחת תשובה בודדת מוצג ליד השאלה ולא כשגיאה גלובלית: `error` חוסם את
+  // כל העמוד ולעולם לא מתאפס, כך שניתוק רשת רגעי מחק את הסבב, המונה והפילטרים
+  // והשאיר הודעה באנגלית בלי שום דרך לחזור חוץ מרענון ידני.
+  const [answerError, setAnswerError] = useState(null)
   const [loading, setLoading] = useState(true)
 
   // Elapsed time per question — the drill grades pace, not just accuracy.
@@ -105,6 +109,7 @@ export default function PsyDrill() {
     if (result || sending.current || !current) return
     const seq = round.current
     sending.current = true
+    setAnswerError(null)
     setChosen(optionIndex)
     const seconds = Math.round((Date.now() - shownAt.current) / 1000)
     try {
@@ -117,7 +122,8 @@ export default function PsyDrill() {
       }))
     } catch (e) {
       if (seq !== round.current) return
-      setError(e)
+      setAnswerError(e)
+      setChosen(null)
     } finally {
       sending.current = false
     }
@@ -277,6 +283,12 @@ export default function PsyDrill() {
                 </motion.ul>
               </div>
             </div>
+
+            {answerError && (
+              <p className="psy-inline-error" role="alert">
+                לא הצלחנו לשמור את התשובה. בדוק את החיבור ובחר שוב.
+              </p>
+            )}
 
             <AnimatePresence>
               {result && (
