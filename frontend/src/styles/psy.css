@@ -17,9 +17,21 @@
   max-width: 1520px;
 }
 .psy-home {
+  /* ‎--chalk-line‎ / ‎--chalk-dim‎ מוגדרים ב-index.css רק על ‎.catalog/.course-view/
+     .chapter-view‎, והאזור הזה יושב מחוצה להם — var() ריק היה מוחק את כל
+     קיצור ה-background של ההירו. אותם ערכים בדיוק, בהיקף מקומי. */
+  --chalk-line: rgba(255, 255, 255, 0.22);
+  --chalk-dim: rgba(255, 255, 255, 0.82);
+  /* גוון האזור — בדיוק האינדיגו של תווית "הכנה לקרני" בניווט (‎.nav-link-karni‎
+     ב-index.css, #5a5fb0), כדי ששני המקומות ייקראו כאותו מוצר. אין כאן גוון
+     חדש: זה גם המבטא הקיים של כיתה ח׳ (‎.grade-8‎). */
+  --psy-brand: #5a5fb0;
+  --psy-brand-deep: #4a4f9c;
   max-width: 1480px;
   margin: 0 auto;
-  padding: 24px 0 72px;
+  /* שוליים אופקיים לכל האזור — קודם התוכן נגע כמעט בקצה החלון ברוחב מלא.
+     רחבים יותר מקודם אבל עדיין צרים מהחסימה של הלומדה (‎.content‎ ב-1200px). */
+  padding: 24px clamp(14px, 3.4vw, 60px) 72px;
 }
 .psy-results,
 .psy-drill {
@@ -35,50 +47,62 @@
 }
 
 /* ---------- hero ---------- */
+/* ההירו באינדיגו של האזור, בלי רקע משבצות ובמידות מרוסנות. הגרסה הקודמת
+   (ירוק לוח, ‎2.7rem‎, ריפוד 38px, ‎--shadow-hover‎) נקראה כמסה אחת גדולה
+   שהשתלטה על תחילת העמוד. */
 .psy-hero {
+  position: relative;
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: 28px;
+  gap: 24px;
   align-items: center;
-  background: linear-gradient(135deg, var(--board) 0%, var(--board-edge) 100%);
-  color: var(--chalk);
-  border-radius: var(--radius);
-  padding: 38px 32px;
-  box-shadow: var(--shadow-hover);
+  border: 1px solid var(--psy-brand-deep);
+  background: linear-gradient(135deg, var(--psy-brand) 0%, var(--psy-brand-deep) 100%);
+  color: #fff;
+  border-radius: 18px;
+  padding: 20px 24px;
+  box-shadow: var(--shadow);
+}
+.psy-hero > * {
+  position: relative;
+  z-index: 1;
 }
 .psy-hero h1 {
   font-family: var(--font-display);
-  font-size: 2.7rem;
-  margin: 0 0 10px;
+  font-size: 1.7rem;
+  margin: 0 0 6px;
 }
 .psy-hero p {
-  margin: 0 0 18px;
-  max-width: 62ch;
-  line-height: 1.7;
-  opacity: 0.9;
+  margin: 0 0 14px;
+  max-width: 54ch;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--chalk-dim);
+  opacity: 1;
 }
 .psy-hero-stats {
   display: flex;
-  gap: 26px;
+  gap: 12px;
   margin: 0;
 }
 .psy-hero-stats div {
   text-align: center;
   /* אותו טיפול בדיוק כמו .psy-domain-score בדוח הציון — אותו ערך, לא גוון חדש */
   background: rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 12px 16px;
-  min-width: 104px;
+  border: 1px solid var(--chalk-line);
+  border-radius: 10px;
+  padding: 8px 10px;
+  min-width: 80px;
 }
 .psy-hero-stats dt {
-  font-size: 0.8rem;
-  opacity: 0.75;
-  margin-bottom: 4px;
+  font-size: 0.7rem;
+  color: var(--chalk-dim);
+  margin-bottom: 2px;
 }
 .psy-hero-stats dd {
   margin: 0;
   font-family: var(--font-display);
-  font-size: 1.9rem;
+  font-size: 1.2rem;
 }
 
 /* ---------- panels ---------- */
@@ -129,15 +153,16 @@
    גדולה יותר, כדי שהעין תנחת עליו מיד אחרי ההירו ולא על רשימת הקורסים. */
 .psy-panel-lead {
   background: var(--surface);
-  border: 2px solid var(--accent);
-  border-radius: var(--radius);
-  padding: 22px;
-  box-shadow: var(--shadow-hover);
-  margin-top: 26px;
+  border: 1px solid var(--psy-brand);
+  border-radius: 18px;
+  padding: 16px 18px;
+  box-shadow: var(--shadow);
+  margin-top: 22px;
 }
 .psy-panel-lead > h2 {
-  font-size: 1.6rem;
-  margin-bottom: 14px;
+  font-size: 1.25rem;
+  margin-bottom: 10px;
+  color: var(--psy-brand-deep);
 }
 
 /* ---------- הפאנל הנסוג: היסטוריה ----------
@@ -154,10 +179,10 @@
 .psy-next {
   display: flex;
   align-items: flex-start;
-  gap: 14px;
-  padding: 18px 20px;
-  border-radius: 14px;
-  border: 1px solid var(--accent);
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--psy-brand);
   background: var(--surface-2);
   color: var(--text);
   min-height: 44px;
@@ -171,10 +196,10 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  background: var(--cta);
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: var(--psy-brand);
   color: #fff;
 }
 .psy-next-body {
@@ -185,9 +210,9 @@
 }
 .psy-next-label {
   font-family: var(--font-display);
-  font-size: 1.25rem;
+  font-size: 1.05rem;
   line-height: 1.3;
-  color: var(--accent);
+  color: var(--psy-brand-deep);
 }
 .psy-next-why {
   color: var(--muted);
