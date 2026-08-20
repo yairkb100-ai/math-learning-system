@@ -5,12 +5,17 @@
     py scripts/fix_sheet_bidi.py                  # repair every sheet
     py scripts/fix_sheet_bidi.py content/grade7/algebra/ch03
 
-Why not just regenerate? Because gen_chapter_assets.py has a Python SVG port
-for only 4 of the art kinds the sheets actually use (triangle, angle, quad,
-righttriangle, angles, rect, grid and linesystem have none), so rebuilding the
-grade9 geometry sheets would silently delete 129 figures that students need in
-order to answer the questions. Until those ports exist, the shipped HTML is the
-only copy of those figures — so this patches the text around them instead.
+Why not just regenerate? Historically because gen_chapter_assets.py had a Python
+SVG port for only 4 of the art kinds the sheets use, so rebuilding the grade9
+geometry sheets silently deleted 129 figures that students need in order to
+answer the questions. **That is fixed** — triangle, righttriangle, angle,
+angles, quad, rect, grid and linesystem are all ported now, and regeneration is
+safe again: `py scripts/gen_chapter_assets.py <chapter>` reproduces those
+figures byte-for-byte (see the per-kind guards in scripts/test_sheet_math.py).
+
+This script is still the lighter tool when all you want is the bidi repair:
+it rewrites text nodes in place and leaves everything else — including any
+figure produced by an older generator — byte-for-byte alone.
 
 The transformation is gen_chapter_assets.isolate_inline_math, i.e. the exact
 same code path a freshly generated sheet goes through. Only text nodes are
