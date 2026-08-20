@@ -4,18 +4,9 @@
    deliberately NOT relied on here: this area mounts outside those roots, and an
    undefined var() would silently kill the whole background shorthand. */
 
-/* ‎.content‎ הגלובלי חוסם ב-1200px, וזה מה שדחס את מרכז ההכנה לקרני לעמודה
-   צרה עם המון גלילה. עמוד הבית של האזור פורץ אותו — ורק הוא: הנגן והתרגול
-   מנהלים רוחב משלהם, ושאר האתר לא מושפע. */
-/* צאצא ולא ילד ישיר — בין ‎.content‎ לעמוד יושב עוטף המעבר של framer-motion. */
-.content:has(.psy-home) {
-  max-width: 1520px;
-}
-/* הניווט חייב להתרחב יחד איתו, אחרת הלוגו והתפריט נעצרים 100px לפני קצה
-   התוכן והעמוד נראה לא מיושר. */
-.app:has(.psy-home) .topbar-inner {
-  max-width: 1520px;
-}
+/* פעם עמוד הבית של האזור פרץ את החסימה הגלובלית (1520px) והשתרע כמעט מקצה
+   לקצה. הוא חזר לעמודה הסטנדרטית של האתר — ‎.content‎ ב-1200px עם 20px ריפוד —
+   כך שהשוליים כאן זהים לכל שאר הלומדה. */
 .psy-home {
   /* ‎--chalk-line‎ / ‎--chalk-dim‎ מוגדרים ב-index.css רק על ‎.catalog/.course-view/
      .chapter-view‎, והאזור הזה יושב מחוצה להם — var() ריק היה מוחק את כל
@@ -27,11 +18,9 @@
      חדש: זה גם המבטא הקיים של כיתה ח׳ (‎.grade-8‎). */
   --psy-brand: #5a5fb0;
   --psy-brand-deep: #4a4f9c;
-  max-width: 1480px;
   margin: 0 auto;
-  /* שוליים אופקיים לכל האזור — קודם התוכן נגע כמעט בקצה החלון ברוחב מלא.
-     רחבים יותר מקודם אבל עדיין צרים מהחסימה של הלומדה (‎.content‎ ב-1200px). */
-  padding: 24px clamp(14px, 3.4vw, 60px) 72px;
+  /* השוליים האופקיים מגיעים מ-‎.content‎ הסטנדרטי, כמו בכל עמוד אחר. */
+  padding: 24px 0 72px;
 }
 .psy-results,
 .psy-drill {
@@ -423,14 +412,15 @@
 .psy-sim-card h3 {
   font-family: var(--font-display);
   font-weight: 400;
-}
-.psy-sim-card.is-locked {
-  background: #faf8f3;
-  border-style: dashed;
-}
-.psy-sim-card h3 {
   margin: 0;
   font-size: 1.1rem;
+}
+/* סימולציה נעולה היא מוצר שרוצים למכור, לא כרטיס תקול: משטח מלא ומסגרת מלאה
+   כמו לכל השאר, והנעילה מסומנת בקו הצד בגוון ה-highlighter — אותו גוון של
+   גלולת "נדרש מנוי פעיל" למטה, כך ששני הסימנים נקראים כמסר אחד. */
+.psy-sim-card.is-locked {
+  background: var(--surface);
+  border-inline-start: 4px solid var(--marker);
 }
 /* כותרת + תווית רמה באותה שורה; התווית נדחקת לקצה ולא נשברת. */
 .psy-sim-head {
@@ -683,16 +673,16 @@
   font-family: var(--font-display);
   color: var(--accent);
 }
-/* Flattened on purpose: the real exam doesn't box the question in a card, it
-   just spreads stem and options across the open page. The two-column split
-   below (content right, options left — RTL reading order) does the visual
-   work that a border used to. */
+/* דף המבחן הוא משטח מלא ולא שקוף: כשהשאלה הייתה שקופה, שרבוטי דף המשבצות של
+   הרקע עברו מבעד לשאלה ולתשובות והמבחן נקרא כלא-גמור. הפריסה נשארת פתוחה —
+   הפיצול לשתי עמודות (תוכן מימין, תשובות משמאל) עדיין עושה את העבודה
+   הוויזואלית — רק שעכשיו הוא יושב על נייר ולא על הרקע. */
 .psy-question {
-  background: transparent;
-  border: none;
-  border-radius: 0;
-  padding: 4px 0 0;
-  box-shadow: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+  box-shadow: var(--shadow);
 }
 .psy-question-solo {
   margin-top: 16px;
@@ -758,7 +748,8 @@
   gap: 14px;
   text-align: start;
   border: 1px solid var(--border);
-  background: transparent;
+  /* לא שקוף — אחרת שרבוטי הרקע נקראים מבעד לטקסט של התשובה */
+  background: var(--surface);
   border-radius: 10px;
   padding: 14px 16px;
   font: inherit;
@@ -1586,10 +1577,14 @@
   box-shadow: var(--shadow);
   text-decoration: none;
 }
-/* נושא שעוד לא נגעו בו נראה כמו משבצת ריקה שמחכה למילוי, לא ככרטיס תקול */
+/* המסגרת המקווקוות והרקע השקוף גרמו לנושא שטרם תורגל להיראות כמו placeholder
+   תקול ולהיבלע ברקע העמוד — בדיוק ההפך ממה שרוצים, כי אלה הנושאים שהכי כדאי
+   ללחוץ עליהם. כאן הוא הכרטיס הבולט ביותר ברשת: משטח מלא, מסגרת בגוון ה-CTA
+   ופס-צד באותו גוון. */
 .psy-topic-card.is-new {
-  border-style: dashed;
-  background: transparent;
+  background: var(--surface);
+  border-color: var(--accent);
+  border-inline-start: 4px solid var(--accent);
 }
 .psy-topic-card-name {
   font-family: var(--font-display);
