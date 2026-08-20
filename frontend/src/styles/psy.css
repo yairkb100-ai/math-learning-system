@@ -617,7 +617,11 @@
 }
 .psy-player-bar {
   position: sticky;
-  top: 0;
+  /* ‎.topbar‎ הוא sticky ב-‎top: 0‎ עם ‎z-index: 10‎ ורקע אטום, ולכן סרגל המבחן
+     ב-‎top: 0; z-index: 5‎ נעלם מאחוריו ברגע שגוללים — כולל שעון הספירה
+     לאחור ומצב האזהרה האדום, לכל אורך הפרק. אותו היסט ש-‎.psy-navigator‎
+     כבר משתמש בו. */
+  top: 86px;
   z-index: 5;
   display: flex;
   align-items: center;
@@ -1425,6 +1429,82 @@
   }
 }
 
+/* הודעת שגיאה מקומית — ליד השאלה, במקום להחליף את כל העמוד */
+.psy-inline-error {
+  margin: 10px 0 0;
+  padding: 10px 12px;
+  border: 1px solid var(--no);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--no);
+  font-size: 0.9rem;
+}
+/* כישלון הגשת פרק — באנר בתוך המבחן, לא מסך שגיאה במקומו */
+.psy-submit-error {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 12px;
+  padding: 12px 16px;
+  border: 1px solid var(--no);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--text);
+}
+/* פרק שהזמן שלו אזל בהיעדרות — מסך אישור לפני שהוא נסגר ומנוקד */
+.psy-expired {
+  max-width: 520px;
+  margin: 60px auto;
+  padding: 26px 24px;
+  border: 1px solid var(--border);
+  border-inline-start: 4px solid var(--marker);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  text-align: start;
+}
+.psy-expired h2 {
+  font-family: var(--font-display);
+  margin: 0 0 10px;
+  color: var(--accent);
+}
+.psy-expired p {
+  margin: 0 0 16px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+/* "לפי פרק" בדוח התוצאות — הטבלה בדסקטופ, כרטיסים בנייד. */
+.psy-section-cards {
+  display: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 10px;
+}
+.psy-section-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+.psy-section-card-title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+}
+.psy-section-card-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  font-size: 0.84rem;
+  color: var(--muted);
+}
+
 /* history table -> card list swap, plus general touch-target/no-h-scroll
    cleanup for the whole psy area on phones */
 @media (max-width: 640px) {
@@ -1432,6 +1512,9 @@
     display: none;
   }
   .psy-history-cards {
+    display: grid;
+  }
+  .psy-section-cards {
     display: grid;
   }
   .psy-hero-actions .psy-btn,

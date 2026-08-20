@@ -98,6 +98,7 @@ def _draw_section_items(
     db: Session,
     section: models.PsySimSection,
     exclude: Optional[set] = None,
+    allowed_ids: Optional[set] = None,
 ) -> List[str]:
     """Pick the refs for one section: a fixed form if authored, else a draw.
 
@@ -108,6 +109,12 @@ def _draw_section_items(
     are filled in order and already-picked refs are excluded, so a narrow row
     later in the list cannot silently duplicate an earlier pick.
 
+    ``allowed_ids`` limits the draw to the item ids the student's access tier
+    actually opens. A free-tier student sitting a preview mock used to be drawn
+    the whole bank, and the results screen then handed him the correct answer
+    and the worked solution for every locked question in it — the 20% slice was
+    cosmetic the moment one free simulation existed.
+
     ``exclude`` carries the refs already used by *earlier sections of the same
     attempt*. Without it, a two-quantitative-section mock drawn from a thin bank
     can hand the student the same question twice in one sitting.
@@ -117,7 +124,19 @@ def _draw_section_items(
     would be worse than useless.
     """
     if section.item_refs:
-        return list(section.item_refs)
+        refs = list(section.item_refs)
+        if allowed_ids is None:
+            return refs
+        # טופס כתוב-מראש עובר את אותו סינון. בלעדיו סימולציית הטעימה המשיכה
+        # להגיש לתלמיד בדרגת free שאלות שלא נפתחו לו — הדוח אמנם מצנזר את
+        # הפתרון, אבל עדיף מבחן קצר ועקבי על מבחן שרובו חסום.
+        open_refs = {
+            r
+            for (r,) in db.query(models.PsyItem.ref).filter(
+                models.PsyItem.ref.in_(refs), models.PsyItem.id.in_(allowed_ids)
+            )
+        }
+        return [r for r in refs if r in open_refs]
 
     picked: List[str] = []
     seen: set[str] = set(exclude or ())
@@ -131,6 +150,8 @@ def _draw_section_items(
             models.PsyItem.is_active.is_(True),
             models.PsyItem.domain == (row.get("domain") or section.domain),
         )
+        if allowed_ids is not None:
+            q = q.filter(models.PsyItem.id.in_(allowed_ids))
         if row.get("topic"):
             q = q.filter(models.PsyItem.topic == row["topic"])
         if row.get("qtype"):
@@ -173,6 +194,11 @@ def _draw_section_items(
                 models.PsyItem.passage_id == item.passage_id,
                 models.PsyItem.is_active.is_(True),
             )
+            # אותה מלכודת שההערה מתחת כבר מתארת לגבי הקושי, רק עם דרגת הגישה:
+            # הסינון חל על שאילתת המועמדים אבל לא על החברים שנגררים אחרי הקטע,
+            # ולכן כל הדליפות של דרגת free הגיעו מכאן — מקבץ של קטע קריאה.
+            if allowed_ids is not None:
+                cluster_q = cluster_q.filter(models.PsyItem.id.in_(allowed_ids))
             if row.get("topic"):
                 cluster_q = cluster_q.filter(models.PsyItem.topic == row["topic"])
             if row.get("qtype"):
@@ -188,6 +214,11 @@ def _draw_section_items(
             cluster = cluster_q.order_by(
                 models.PsyItem.passage_order, models.PsyItem.id
             ).all()
+            # מקבץ שנשארו בו פחות משתי שאלות פתוחות לא שווה 200 מילות קריאה —
+            # אותו שיקול כמו ב-``remaining < 2`` למעלה.
+            if len(cluster) < 2:
+                deferred.append(item)
+                continue
             # A passage another section already used is not worth reopening:
             # the student would meet the same 200 words twice, a few questions
             # at a time. Leave it and fill from somewhere else.
@@ -340,15 +371,17 @@ def start_simulation(
     if sim is None:
         raise HTTPException(status_code=404, detail="הסימולציה לא נמצאה")
     access = user_content_access(db, current_user, PRODUCT_KARNI)
-    if access.tier == TIER_FREE and sim.id not in unlocked_simulation_ids(
-        db, free_simulations_count(db)
-    ):
-        raise HTTPException(status_code=402, detail="content_locked")
     if not sim.sections:
         raise HTTPException(status_code=409, detail="לסימולציה אין פרקים")
 
     # One live attempt per student. Resuming beats silently starting a second
     # paper and losing the first — and it stops a refresh from resetting the clock.
+    #
+    # This runs *before* the lock gate on purpose. A student whose Karni
+    # subscription lapsed mid-simulation was thrown a 402 by that gate, which
+    # left him unable to reach — or close — a paper he had legitimately opened,
+    # while the hub kept offering "המשך את «…»" as its main call to action.
+    # A paper already open stays reachable; only opening a *new* one is gated.
     existing = (
         db.query(models.PsyAttempt)
         .filter(
@@ -360,14 +393,51 @@ def start_simulation(
         .first()
     )
     if existing is not None:
+        # Two rapid clicks (or two tabs) both used to miss the SELECT above and
+        # each create a paper, splitting the answers between two attempts and
+        # stranding one in_progress forever. There is no unique constraint to
+        # lean on, so converge here instead: keep the newest, close the rest.
+        strays = (
+            db.query(models.PsyAttempt)
+            .filter(
+                models.PsyAttempt.user_id == current_user.id,
+                models.PsyAttempt.simulation_id == sim.id,
+                models.PsyAttempt.status == "in_progress",
+                models.PsyAttempt.id != existing.id,
+            )
+            .all()
+        )
+        for stray in strays:
+            _finalize(db, stray)
+
+        section = next(
+            (s for s in sim.sections if s.order == existing.current_section), None
+        )
         return PsyAttemptStart(
-            attempt_id=existing.id, section_index=existing.current_section
+            attempt_id=existing.id,
+            section_index=existing.current_section,
+            resumed=True,
+            # The player must not silently submit a section whose clock ran out
+            # while nobody was watching: it used to fire submitSection() straight
+            # out of the timer effect, burning a whole section in a flash with no
+            # message, behind a button that says "התחל".
+            section_expired=section is not None and _seconds_left(existing, section) <= 0,
         )
 
+    if access.tier == TIER_FREE and sim.id not in unlocked_simulation_ids(
+        db, free_simulations_count(db)
+    ):
+        raise HTTPException(status_code=402, detail="content_locked")
+
+    # דרגת free מקבלת מבחן שנדגם אך ורק מהמכסה הפתוחה לה — אחרת הדוח בסוף
+    # מחזיר לה את התשובה הנכונה וההסבר לכל שאלה נעולה שנכנסה לטופס.
+    allowed_ids = (
+        unlocked_psy_item_ids(db, access.ratio) if access.tier == TIER_FREE else None
+    )
     form = []
     used: set = set()
     for section in sim.sections:
-        refs = _draw_section_items(db, section, exclude=used)
+        refs = _draw_section_items(db, section, exclude=used, allowed_ids=allowed_ids)
         used.update(refs)
         form.append(
             {
@@ -455,10 +525,28 @@ def autosave_section(
     not cost the student the section they were halfway through.
     """
     attempt = _get_attempt(db, attempt_id, current_user)
+    # קריאה טרייה לפני כל בדיקה. autosave שנשלח רגע לפני "סיום הפרק" ונחת אחריו
+    # עבד על תמונת מצב שנקראה לפני ההגשה, ולכן דרס את מפתחות ה-"correct" שההגשה
+    # בדיוק כתבה: הכותרת הראתה 78% בזמן שבסקירה כל שאלות הפרק סומנו שגויות.
+    # אחרי refresh, current_section כבר התקדם וההגשה המאוחרת נופלת על הבדיקה
+    # שמתחת — בלי לגעת בתשובות שנוקדו.
+    db.refresh(attempt)
     if attempt.status != "in_progress":
         return {"saved": False}
     if payload.section_index != attempt.current_section:
         return {"saved": False}
+
+    section = next(
+        (s for s in attempt.simulation.sections if s.order == attempt.current_section),
+        None,
+    )
+    # השער שחסר כאן פתח לרווחה את מה ש-submit_section נשען עליו. מסלול ה-late
+    # מנקד בכוונה לפי מה שכבר נשמר ("running the clock out cannot be used to buy
+    # extra thinking time") — אבל /save קיבל תשובות בלי לבדוק שעון בכלל, ולכן
+    # אפשר היה לענות אחרי הדדליין ולקבל את הניקוד המלא. אומת מול ה-DB: שמירה
+    # 30 דקות אחרי תום הפרק החזירה saved=True והמקטע נוקד 10/10.
+    if section is not None and _seconds_left(attempt, section) <= 0:
+        return {"saved": False, "expired": True, "seconds_left": 0}
 
     answers = dict(attempt.answers or {})
     for ref, chosen in payload.answers.items():
@@ -469,10 +557,12 @@ def autosave_section(
         answers[ref] = rec
     attempt.answers = answers
     db.commit()
-    return {"saved": True, "seconds_left": _seconds_left(
-        attempt,
-        next(s for s in attempt.simulation.sections if s.order == attempt.current_section),
-    )}
+    # מקטע שנמחק מתחת ל-attempt חי (עריכת תוכן + seed באמצע סימולציה): התשובות
+    # כבר נשמרו למעלה, ולכן מחזירים saved=True בלי שעון. next() בלי ברירת מחדל
+    # הפיל כאן 500, בזמן ש-get_section ו-submit_section מחזירים 409 מסודר.
+    if section is None:
+        return {"saved": True}
+    return {"saved": True, "seconds_left": _seconds_left(attempt, section)}
 
 
 @router.post("/attempts/{attempt_id}/section", response_model=PsySectionSubmitResult)
@@ -511,11 +601,16 @@ def submit_section(
     correct = 0
     unanswered = 0
     seconds_total = 0
+    asked = 0
 
     for ref in refs:
         item = by_ref.get(ref)
         if item is None:
+            # פריט שנגרע מהמאגר אחרי שהטופס הוקפא (seed מוחק פריטים שכבר לא
+            # בקבצים) מעולם לא הוצג לתלמיד — get_section מסנן אותו באותה צורה —
+            # ולכן הוא לא נספר גם במכנה. אחרת התלמיד נענש על שאלה שלא ראה.
             continue
+        asked += 1
         stored = dict(answers.get(ref) or {})
         # A late submission is scored on what was already autosaved, so running
         # the clock out cannot be used to buy extra thinking time.
@@ -544,7 +639,7 @@ def submit_section(
             "domain": section.domain,
             "title": section.title,
             "correct": correct,
-            "total": len(refs),
+            "total": asked,
             "unanswered": unanswered,
             "seconds": seconds_total,
             "is_pilot": bool(section.is_pilot),
@@ -597,20 +692,33 @@ def finish_attempt(
         )
         refs = list(form_row.get("item_refs") or [])
         # Count what was autosaved before the student walked away — abandoning
-        # mid-section should not erase the answers already given.
-        correct = sum(
-            1
-            for ref in refs
-            if (attempt.answers or {}).get(ref, {}).get("correct")
-        )
+        # mid-section should not erase the answers already given. Autosave only
+        # ever stores "chosen" (submit_section is what writes "correct"), so the
+        # grading has to happen here; reading "correct" scored every abandoned
+        # section as a flat zero.
+        by_ref = _items_by_ref(db, refs)
+        stored_answers = attempt.answers or {}
+        correct = 0
+        asked = 0
+        unanswered = 0
+        for ref in refs:
+            item = by_ref.get(ref)
+            if item is None:
+                continue
+            asked += 1
+            chosen = (stored_answers.get(ref) or {}).get("chosen")
+            if chosen is None:
+                unanswered += 1
+            elif int(chosen) == item.correct_index:
+                correct += 1
         results.append(
             {
                 "section_index": section.order,
                 "domain": section.domain,
                 "title": section.title,
                 "correct": correct,
-                "total": len(refs),
-                "unanswered": len(refs) - correct,
+                "total": asked,
+                "unanswered": unanswered,
                 "seconds": 0,
                 "is_pilot": bool(section.is_pilot),
             }
@@ -674,6 +782,15 @@ def get_results(
     ]
     by_ref = _items_by_ref(db, all_refs)
 
+    # הדוח הוא המקום היחיד שמחזיר correct_index/explanation/solution, והוא היה
+    # הנתיב היחיד באזור בלי בדיקת דרגה בכלל. ההגרלה כבר מוגבלת למכסה
+    # (start_simulation), אבל ניסיונות שנוצרו לפני התיקון עדיין מחזיקים פריטים
+    # נעולים בטופס — ולכן הצנזור כאן הוא השכבה שמחזיקה גם אותם.
+    access = user_content_access(db, current_user, PRODUCT_KARNI)
+    open_ids = (
+        unlocked_psy_item_ids(db, access.ratio) if access.tier == TIER_FREE else None
+    )
+
     review: List[PsyAnswerReview] = []
     stat_rows: List[dict] = []
     for row in attempt.form or []:
@@ -683,6 +800,9 @@ def get_results(
             if item is None:
                 continue
             rec = (attempt.answers or {}).get(ref) or {}
+            # פריט שמחוץ למכסה: התלמיד רואה שענה נכון או לא, אבל לא את הפתרון —
+            # אחרת סבב על ארבע סימולציות הטעימה קוצר את המאגר הנעול במלואו.
+            locked = open_ids is not None and item.id not in open_ids
             review.append(
                 PsyAnswerReview(
                     ref=ref,
@@ -695,12 +815,12 @@ def get_results(
                     figure=item.figure,
                     options=list(item.options or []),
                     chosen=rec.get("chosen"),
-                    correct_index=item.correct_index,
+                    correct_index=None if locked else item.correct_index,
                     is_correct=bool(rec.get("correct")),
                     seconds=int(rec.get("seconds") or 0),
                     target_seconds=item.target_seconds,
-                    explanation=item.explanation,
-                    solution=item.solution,
+                    explanation=None if locked else item.explanation,
+                    solution=None if locked else item.solution,
                     passage=_passage_out(item.passage),
                 )
             )

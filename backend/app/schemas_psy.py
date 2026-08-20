@@ -114,6 +114,11 @@ class PsySimulationOut(BaseModel):
 class PsyAttemptStart(BaseModel):
     attempt_id: int
     section_index: int
+    # ``resumed`` — הניסיון היה כבר פתוח ולא נוצר עכשיו. ``section_expired`` —
+    # השעון של הפרק הנוכחי אזל בזמן שהתלמיד לא היה כאן. בלי שני אלה הנגן הגיש
+    # פרק שלם בשקט מיד עם הטעינה, מאחורי כפתור שכתוב עליו "התחל".
+    resumed: bool = False
+    section_expired: bool = False
 
 
 class PsySectionState(BaseModel):
@@ -164,7 +169,10 @@ class PsyAnswerReview(BaseModel):
     figure: Optional[str] = None
     options: List[str]
     chosen: Optional[int] = None
-    correct_index: int
+    # ``None`` כשהפריט מחוץ למכסה של דרגת ``free``: התלמיד עדיין רואה אם ענה
+    # נכון, אבל לא את התשובה ולא את הפתרון — אחרת סימולציית הטעימה היא דלת
+    # אחורית לכל המאגר הנעול.
+    correct_index: Optional[int] = None
     is_correct: bool
     seconds: int
     target_seconds: int

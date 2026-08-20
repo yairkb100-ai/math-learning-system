@@ -34,11 +34,25 @@ export default function PsyDrill() {
   const [result, setResult] = useState(null)
   const [tally, setTally] = useState({ answered: 0, correct: 0 })
   const [error, setError] = useState(null)
+  // כשל בשליחת תשובה בודדת מוצג ליד השאלה ולא כשגיאה גלובלית: `error` חוסם את
+  // כל העמוד ולעולם לא מתאפס, כך שניתוק רשת רגעי מחק את הסבב, המונה והפילטרים
+  // והשאיר הודעה באנגלית בלי שום דרך לחזור חוץ מרענון ידני.
+  const [answerError, setAnswerError] = useState(null)
   const [loading, setLoading] = useState(true)
 
   // Elapsed time per question — the drill grades pace, not just accuracy.
   const shownAt = useRef(Date.now())
   const [elapsed, setElapsed] = useState(0)
+
+  // מונה סבבים. שתי לחיצות מהירות על צ׳יפים מריצות שתי קריאות /psy/drill, ובלי
+  // המונה התגובה האיטית נוחתת אחרונה וממלאת את המסך בנושא שהתלמיד כבר עזב.
+  // הוא שומר גם על התשובות: תשובה שחוזרת אחרי החלפת נושא שייכת לשאלה שכבר לא
+  // על המסך, וללא הבדיקה הפידבק וה-correct_index שלה נצבעו על השאלה החדשה
+  // וחשפו את הפתרון לשאלה שהתלמיד עוד לא ענה עליה.
+  const round = useRef(0)
+  // נעילה בזמן שהתשובה באוויר: `result` נקבע רק אחרי ה-await, ולכן לחיצה כפולה
+  // רשמה שתי שורות PsyDrillAttempt לאותה שאלה וניפחה את המונים ב-/psy/overview.
+  const sending = useRef(false)
 
   useEffect(() => {
     let alive = true
@@ -52,9 +66,11 @@ export default function PsyDrill() {
   }, [])
 
   const load = useCallback(async (d, t) => {
+    const seq = ++round.current
     setLoading(true)
     try {
       const rows = await api.psyDrill({ domain: d, topic: t || undefined, limit: 10 })
+      if (seq !== round.current) return
       setItems(rows)
       setIndex(0)
       setChosen(null)
@@ -62,9 +78,12 @@ export default function PsyDrill() {
       shownAt.current = Date.now()
       setElapsed(0)
     } catch (e) {
+      if (seq !== round.current) return
       setError(e)
     } finally {
-      setLoading(false)
+      // ‎finally‎ רץ גם אחרי ה-return המוקדם, ובלי הבדיקה סבב מיושן היה מכבה
+      // את הספינר בזמן שהסבב החדש עוד בדרך — והמסך היה מהבהב בשאלות הישנות.
+      if (seq === round.current) setLoading(false)
     }
   }, [])
 
@@ -87,18 +106,26 @@ export default function PsyDrill() {
   const current = items[index] || null
 
   async function answer(optionIndex) {
-    if (result || !current) return
+    if (result || sending.current || !current) return
+    const seq = round.current
+    sending.current = true
+    setAnswerError(null)
     setChosen(optionIndex)
     const seconds = Math.round((Date.now() - shownAt.current) / 1000)
     try {
       const res = await api.psyDrillAnswer(current.ref, optionIndex, seconds)
+      if (seq !== round.current) return
       setResult(res)
       setTally((t) => ({
         answered: t.answered + 1,
         correct: t.correct + (res.is_correct ? 1 : 0),
       }))
     } catch (e) {
-      setError(e)
+      if (seq !== round.current) return
+      setAnswerError(e)
+      setChosen(null)
+    } finally {
+      sending.current = false
     }
   }
 
@@ -256,6 +283,12 @@ export default function PsyDrill() {
                 </motion.ul>
               </div>
             </div>
+
+            {answerError && (
+              <p className="psy-inline-error" role="alert">
+                לא הצלחנו לשמור את התשובה. בדוק את החיבור ובחר שוב.
+              </p>
+            )}
 
             <AnimatePresence>
               {result && (
