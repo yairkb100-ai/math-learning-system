@@ -1708,6 +1708,129 @@
   background: var(--muted);
 }
 
+/* ---------- ניסוי: הנושא כשורה ולא ככרטיס ----------
+   הדפוס שהמשתמש הביא: עיגול-סטטוס, שם, מונים, ו-CTA בקצה, כשקו שיער הוא
+   כל ההפרדה. הרווח הוויזואלי הוא שההתקדמות נקראת בסריקה אנכית אחת של
+   העיגולים במקום לחפש תווית בתוך כל כרטיס. מוחל כרגע על תחום אחד בלבד
+   (ROW_TRIAL_DOMAIN ב-PsyHome.jsx) כדי להשוות ליד הכרטיסים. */
+.psy-trows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.psy-trow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 4px;
+  border-bottom: 1px solid var(--border);
+}
+.psy-trow:last-child {
+  border-bottom: 0;
+}
+
+/* העיגול: טבעת ריקה לנושא שטרם תורגל, ווי בגוון השליטה למי שכבר נגעו בו.
+   ה-SVG מגיע מ-icons.jsx — אין כאן תו טקסט ואין אמוג'י. */
+.psy-trow-state {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  color: transparent;
+}
+.psy-trow-state svg {
+  width: 16px;
+  height: 16px;
+}
+.psy-trow.is-strong .psy-trow-state {
+  border-color: var(--ok);
+  background: var(--ok);
+  color: #fff;
+}
+.psy-trow.is-mid .psy-trow-state {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.psy-trow.is-weak .psy-trow-state {
+  border-color: var(--no);
+  color: var(--no);
+}
+
+.psy-trow-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+.psy-trow-name {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  line-height: 1.35;
+}
+.psy-trow-meta {
+  font-size: 0.84rem;
+  color: var(--muted);
+}
+.psy-trow.is-strong .psy-trow-mastery {
+  color: var(--ok);
+  font-weight: 600;
+}
+.psy-trow.is-weak .psy-trow-mastery {
+  color: var(--no);
+  font-weight: 600;
+}
+
+/* ה-CTA הוא גלולה בטורקיז של המערכת — לא הוורוד של המקור. */
+.psy-trow-cta {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1px solid var(--cta);
+  background: var(--surface);
+  color: var(--cta);
+  font-weight: 700;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+.psy-trow-cta:hover {
+  background: var(--cta);
+  color: #fff;
+  text-decoration: none;
+}
+/* נושא שטרם תורגל הוא ההזמנה האמיתית — שם ה-CTA מלא ולא מתאר. */
+.psy-trow.is-new .psy-trow-cta {
+  background: var(--cta);
+  color: #fff;
+}
+.psy-trow.is-new .psy-trow-cta:hover {
+  background: var(--cta-dark);
+  border-color: var(--cta-dark);
+}
+
+@media (max-width: 619px) {
+  .psy-trow {
+    flex-wrap: wrap;
+    gap: 10px 12px;
+  }
+  .psy-trow-body {
+    flex-basis: calc(100% - 44px);
+  }
+  /* ה-CTA יורד לשורה משלו ומיישר לקצה העיגול, לא נדחס לצד השם */
+  .psy-trow-cta {
+    margin-inline-start: 44px;
+    min-height: 44px;
+  }
+}
+
 .psy-topic-card-foot {
   margin-top: auto;
   padding-top: 4px;

@@ -3,7 +3,14 @@ import { Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
-import { IconLock, IconTarget, IconSpark, IconClock, IconTrophy } from '../components/icons.jsx'
+import {
+  IconLock,
+  IconTarget,
+  IconSpark,
+  IconClock,
+  IconTrophy,
+  IconCheck,
+} from '../components/icons.jsx'
 import { fadeInUp, staggerContainer, hoverLift, tapScale, DURATION, EASE_OUT } from '../lib/motion.js'
 import { PRODUCT_KARNI } from '../lib/products.js'
 import '../styles/psy.css'
@@ -95,6 +102,40 @@ function mastery(t) {
   if (t.accuracy >= 0.8) return { key: 'strong', label: 'שליטה טובה' }
   if (t.accuracy >= 0.6) return { key: 'mid', label: 'בדרך לשם' }
   return { key: 'weak', label: 'לחיזוק' }
+}
+
+// ניסוי: התחום הזה מוצג כרשימת שורות במקום כרשת כרטיסים, כדי להשוות את שתי
+// השפות באותו עמוד. אם השורות ינצחו — מרחיבים לכל התחומים ומוחקים את TopicCard.
+const ROW_TRIAL_DOMAIN = 'figural'
+
+/** שורת נושא: עיגול-סטטוס, שם, מונים, ו-CTA בקצה. בלי מסגרת — קו שיער מפריד. */
+function TopicRow({ t }) {
+  const m = mastery(t)
+  // בדרגת free הכרטיס אומר גם כמה באמת פתוחות, ואותו כלל נשמר כאן.
+  const open = t.open_count != null && t.open_count < t.count ? t.open_count : t.count
+  return (
+    <motion.li className={`psy-trow is-${m.key}`} variants={fadeInUp}>
+      <span className="psy-trow-state" aria-hidden="true">
+        {m.key !== 'new' && <IconCheck />}
+      </span>
+      <span className="psy-trow-body">
+        <span className="psy-trow-name">{t.topic}</span>
+        <span className="psy-trow-meta">
+          {open === t.count ? `${t.count} שאלות במאגר` : `${open} מתוך ${t.count} שאלות`}
+          {' · '}
+          <span className="psy-trow-mastery">
+            {t.answered ? `${pct(t.accuracy || 0)} דיוק · ${t.answered} נענו` : m.label}
+          </span>
+        </span>
+      </span>
+      <Link
+        className="psy-trow-cta"
+        to={`/psy/drill?domain=${t.domain}&topic=${encodeURIComponent(t.topic)}`}
+      >
+        {t.answered ? 'להמשיך לתרגל' : 'להתחיל לתרגל'}
+      </Link>
+    </motion.li>
+  )
 }
 
 /** כותרת תחום עם פס בגוון התחום, ושורת סיכום לתחומי הליבה. */
@@ -482,19 +523,33 @@ export default function PsyHome() {
                 lead={core ? 'התחום הזה נושא את רוב הניקוד — כאן משתלם להשקיע.' : null}
                 stats={`${list.length} נושאים · ${bank} שאלות · ${touched} כבר תורגלו`}
               />
-              <motion.ul
-                className="psy-topic-cards"
-                variants={staggerContainer}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true, margin: '-20px' }}
-              >
-                {list.map((t) => (
-                  <motion.li key={t.topic} variants={fadeInUp}>
-                    <TopicCard t={t} />
-                  </motion.li>
-                ))}
-              </motion.ul>
+              {d === ROW_TRIAL_DOMAIN ? (
+                <motion.ul
+                  className="psy-trows"
+                  variants={staggerContainer}
+                  initial="hidden"
+                  whileInView="show"
+                  viewport={{ once: true, margin: '-20px' }}
+                >
+                  {list.map((t) => (
+                    <TopicRow key={t.topic} t={t} />
+                  ))}
+                </motion.ul>
+              ) : (
+                <motion.ul
+                  className="psy-topic-cards"
+                  variants={staggerContainer}
+                  initial="hidden"
+                  whileInView="show"
+                  viewport={{ once: true, margin: '-20px' }}
+                >
+                  {list.map((t) => (
+                    <motion.li key={t.topic} variants={fadeInUp}>
+                      <TopicCard t={t} />
+                    </motion.li>
+                  ))}
+                </motion.ul>
+              )}
             </div>
           )
         })}
