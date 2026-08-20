@@ -9,7 +9,8 @@ import re
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from gen_chapter_assets import macros, tex2html, _isolate_bare_math  # noqa: E402
+from gen_chapter_assets import (  # noqa: E402
+    macros, tex2html, _isolate_bare_math, _ART_SVG)
 
 failures = []
 
@@ -89,15 +90,40 @@ out = _isolate_bare_math("ולכן התוצאה היא 2 + 2 = 4.")
 check("trailing period stays outside the island", out.endswith("]]."), out)
 
 # --- an art caption is processed, not emitted raw -----------------------------
-# Only the four kinds with a Python SVG port render here; every other kind is
-# stripped whole, caption included, so linegraph is what this can assert on.
+# Only kinds with a Python SVG port render here; every other kind is stripped
+# whole, caption included, so linegraph is what this can assert on.
 out = macros("{{linegraph:1,6;2,13;3,20|הסדרה: $6 + 7 = 13$ בכל צעד}}")
 check("art caption: no literal $", "$" not in out, out[:200])
 check("art caption: rendered inside the figure div", "<svg" in out and "13" in out, out[:200])
 check("art caption: the math is isolated, not raw",
       '<span class="eq">' in out.split("</svg>")[-1], out.split("</svg>")[-1][:200])
 check("art token of an unported kind is dropped whole",
-      macros("{{grid:8x8/64|הריבוע: $(2^{3})^{2} = 64$ פיקסלים}}").strip() == "")
+      macros("{{parabola:up/2|הפרבולה: $(2^{3})^{2} = 64$}}").strip() == "")
+
+# --- every art kind the shipped sheets use has a Python SVG port --------------
+# Regenerating a sheet re-renders its figures from assets.json. A kind with no
+# port renders as NOTHING, so a missing port silently deletes figures from
+# geometry sheets where the figure IS the question. This guards that.
+USED_KINDS = {
+    'signedline': '-2;3', 'axespoints': '2,3;-1,4', 'funcline': '2,-4',
+    'linegraph': '0,0;1,60;2,120', 'triangle': '5,7,8', 'righttriangle': '8,6',
+    'angle': '55', 'angles': '50', 'rect': '7.5x4', 'grid': '4x4/16',
+    'quad': 'kite', 'linesystem': '1,2;2,0',
+}
+for kind, param in sorted(USED_KINDS.items()):
+    svg = _ART_SVG.get(kind, lambda p: '')(param)
+    check(f"art kind '{kind}' has a working port",
+          svg.startswith('<svg') and svg.endswith('</svg>'), svg[:120])
+
+# The 90° angle draws the square marker, not an arc — a learner must be able to
+# tell a right angle from a 91° one at a glance.
+check("angle:90 draws the right-angle square, not an arc",
+      'A36 36' not in _ART_SVG['angle']('90') and 'L' in _ART_SVG['angle']('90'))
+
+# An impossible triangle draws nothing rather than a broken polygon.
+check("an impossible triangle renders nothing", _ART_SVG['triangle']('1,2,9') == '')
+check("...and its caption is dropped with it",
+      macros("{{triangle:1,2,9|לא קיים}}").strip() == "")
 
 # --- idempotence: running twice must not double-wrap --------------------------
 once = _isolate_bare_math("כי 6 × 4 = 24 ונשארה 1")

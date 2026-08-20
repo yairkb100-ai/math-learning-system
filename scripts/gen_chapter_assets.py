@@ -28,6 +28,7 @@ isolated automatically — see _dollar_math / _isolate_bare_math.
 """
 
 import json
+import math
 import re
 import sys
 from pathlib import Path
@@ -150,6 +151,12 @@ def _merge_math_runs(s):
 # The frontend (FractionArt.jsx) renders these as SVG on the web. For the PDF
 # worksheets we port the ones that appear in worksheet/bank bodies so the sheets
 # are genuinely illustrated. Unknown kinds are stripped (never leaked as text).
+#
+# Every port below is a literal translation of its JSX component — same
+# geometry, same palette, same label placement — so a sheet can be regenerated
+# without losing (or silently redrawing) a figure. On the geometry chapters the
+# figure IS the question, so if you touch one of these, re-run
+# scripts/test_sheet_math.py and diff the regenerated sheets against HEAD.
 _NAVY, _FILL, _TOMATO = '#14306b', '#8ecae6', '#e8574b'
 
 
@@ -212,7 +219,6 @@ def _svg_axespoints(param):
             if len(nums) >= 2:
                 pts.append((float(nums[0]), float(nums[1])))
     span = max([5.0] + [max(abs(x), abs(y)) for x, y in pts])
-    import math
     R = math.ceil(span) + 1
     W, pad = 250, 16
     plot = W - pad * 2
@@ -321,11 +327,414 @@ def _svg_linegraph(param):
     return ''.join(out)
 
 
+def _nums(param):
+    """Every number in a token param, in order (``"8,6"`` -> ``[8.0, 6.0]``)."""
+    return [float(x) for x in re.findall(r'-?\d+(?:\.\d+)?', param)]
+
+
+def _n1(v):
+    """JS ``Number.isInteger(n) ? n : n.toFixed(1)``."""
+    return str(int(v)) if v == int(v) else f'{v:.1f}'
+
+
+def _n2(v):
+    """JS ``Number.isInteger(n) ? n : n.toFixed(2)``."""
+    return str(int(v)) if v == int(v) else f'{v:.2f}'
+
+
+def _n0(v):
+    """A number printed the way JSX interpolates it: ``6`` / ``7.5``."""
+    return str(int(v)) if v == int(v) else f'{v:g}'
+
+
+def _svg_triangle(param):
+    """Port of Triangle (FractionArt.jsx): SSS triangle {{triangle:a,b,c}} with
+    a=BC, b=CA, c=AB. The vertices come from the law of cosines, so the drawing
+    really has the given proportions; A/B/C and the three sides are labelled."""
+    m = _nums(param)
+    if len(m) < 3:
+        return ''
+    a, b, c = m[0], m[1], m[2]
+    if min(a, b, c) <= 0 or a + b <= c or a + c <= b or b + c <= a:
+        return ''  # not a valid triangle
+    # B=(0,0), C=(a,0); A from |AB|=c, |AC|=b.
+    ax = (c * c - b * b + a * a) / (2 * a)
+    ay = math.sqrt(max(0.0, c * c - ax * ax))
+    s = 150 / max(a, ax, ay, 1)
+    pad = 30
+    H = ay * s + pad * 2
+    B = (pad, H - pad)
+    C = (pad + a * s, H - pad)
+    A = (pad + ax * s, H - pad - ay * s)
+    W = max(C[0], A[0]) + pad
+    mid = lambda P, Q: ((P[0] + Q[0]) / 2, (P[1] + Q[1]) / 2)
+    bcx, bcy = mid(B, C)
+    cax, cay = mid(C, A)
+    abx, aby = mid(A, B)
+    vtx = lambda x, y, t: (
+        f'<text x="{x:.1f}" y="{y:.1f}" text-anchor="middle" font-size="13" '
+        f'fill="{_NAVY}" font-weight="700">{t}</text>')
+    side = lambda x, y, t: (
+        f'<text x="{x:.1f}" y="{y:.1f}" text-anchor="middle" font-size="12" '
+        f'fill="{_TOMATO}" font-weight="700">{t}</text>')
+    return (
+        f'<svg width="{W:.1f}" height="{H:.1f}" viewBox="0 0 {W:.1f} {H:.1f}">'
+        f'<polygon points="{A[0]:.1f},{A[1]:.1f} {B[0]:.1f},{B[1]:.1f} '
+        f'{C[0]:.1f},{C[1]:.1f}" fill="{_FILL}" stroke="{_NAVY}" '
+        f'stroke-width="2" stroke-linejoin="round"/>'
+        + vtx(A[0], A[1] - 8, 'A')
+        + vtx(B[0] - 10, B[1] + 14, 'B')
+        + vtx(C[0] + 10, C[1] + 14, 'C')
+        + side(bcx, bcy + 16, _n1(a))
+        + side(cax + 10, cay, _n1(b))
+        + side(abx - 10, aby, _n1(c))
+        + '</svg>')
+
+
+def _svg_righttriangle(param):
+    """Port of RightTriangle (FractionArt.jsx): {{righttriangle:leg1,leg2}} for
+    Pythagoras/trig — right-angle marker at B, both legs labelled and the
+    computed hypotenuse printed along the slant."""
+    m = _nums(param)
+    p = m[0] if m and m[0] > 0 else 3
+    q = m[1] if len(m) > 1 and m[1] > 0 else 4
+    hyp = math.sqrt(p * p + q * q)
+    s = 150 / max(p, q)
+    bw, bh = p * s, q * s
+    pad = 30
+    W, H = bw + pad * 2, bh + pad * 2
+    B = (pad, H - pad)           # right-angle corner (bottom-left)
+    C = (pad + bw, H - pad)      # bottom-right
+    A = (pad, pad)               # top-left
+    r = 12                       # right-angle marker size
+    return (
+        f'<svg width="{W:.1f}" height="{H:.1f}" viewBox="0 0 {W:.1f} {H:.1f}">'
+        f'<polygon points="{A[0]:.1f},{A[1]:.1f} {B[0]:.1f},{B[1]:.1f} '
+        f'{C[0]:.1f},{C[1]:.1f}" fill="{_FILL}" stroke="{_NAVY}" stroke-width="2"/>'
+        f'<path d="M{B[0]:.1f} {B[1]-r:.1f} L{B[0]+r:.1f} {B[1]-r:.1f} '
+        f'L{B[0]+r:.1f} {B[1]:.1f}" fill="none" stroke="{_NAVY}" stroke-width="1.5"/>'
+        f'<text x="{(B[0]+C[0])/2:.1f}" y="{B[1]+18:.1f}" text-anchor="middle" '
+        f'font-size="13" fill="{_NAVY}" font-weight="700">{_n2(p)}</text>'
+        f'<text x="{B[0]-10:.1f}" y="{(A[1]+B[1])/2:.1f}" text-anchor="middle" '
+        f'font-size="13" fill="{_NAVY}" font-weight="700" '
+        f'transform="rotate(-90 {B[0]-10:.1f} {(A[1]+B[1])/2:.1f})">{_n2(q)}</text>'
+        f'<text x="{(A[0]+C[0])/2+8:.1f}" y="{(A[1]+C[1])/2-6:.1f}" '
+        f'text-anchor="middle" font-size="13" fill="{_TOMATO}" '
+        f'font-weight="700">{_n2(hyp)}</text>'
+        '</svg>')
+
+
+def _svg_angle(param):
+    """Port of Angle (FractionArt.jsx): the single angle {{angle:deg}} drawn to
+    scale at its vertex, with the measure written inside the arc. Exactly 90°
+    gets the square marker instead of an arc."""
+    nums = _nums(param)
+    deg = min(359.0, max(1.0, nums[0])) if nums else 60.0
+    rad = math.radians(deg)
+    R, r = 130, 36
+    # Work in math coordinates around the vertex (0,0), y up, then fit the box.
+    V = (0.0, 0.0)
+    A = (float(R), 0.0)
+    B = (R * math.cos(rad), R * math.sin(rad))
+    mid = ((r + 22) * math.cos(rad / 2), (r + 22) * math.sin(rad / 2))
+    pts = [V, A, B, mid]
+    pad = 24
+    min_x = min(p[0] for p in pts)
+    max_x = max(p[0] for p in pts)
+    min_y = min(p[1] for p in pts)
+    max_y = max(p[1] for p in pts)
+    W = max_x - min_x + pad * 2
+    H = max_y - min_y + pad * 2
+    px = lambda p: pad + (p[0] - min_x)
+    py = lambda p: pad + (max_y - p[1])
+    ray = lambda P: (
+        f'<line x1="{px(V):.1f}" y1="{py(V):.1f}" x2="{px(P):.1f}" '
+        f'y2="{py(P):.1f}" stroke="{_NAVY}" stroke-width="2.5" '
+        f'stroke-linecap="round"/>')
+    if deg == 90:
+        sq = 20
+        marker = (
+            f'<path d="M{px(V)+sq:.1f} {py(V):.1f} L{px(V)+sq:.1f} '
+            f'{py(V)-sq:.1f} L{px(V):.1f} {py(V)-sq:.1f}" fill="none" '
+            f'stroke="{_TOMATO}" stroke-width="2"/>')
+    else:
+        arc_from = (float(r), 0.0)
+        arc_to = (r * math.cos(rad), r * math.sin(rad))
+        large = 1 if deg > 180 else 0
+        marker = (
+            f'<path d="M{px(arc_from):.1f} {py(arc_from):.1f} A{r} {r} 0 '
+            f'{large} 0 {px(arc_to):.1f} {py(arc_to):.1f}" fill="none" '
+            f'stroke="{_TOMATO}" stroke-width="2.2"/>')
+    return (
+        f'<svg width="{W:.1f}" height="{H:.1f}" viewBox="0 0 {W:.1f} {H:.1f}">'
+        + ray(A) + ray(B) + marker
+        + f'<text x="{px(mid):.1f}" y="{py(mid)+5:.1f}" text-anchor="middle" '
+          f'font-size="14" fill="{_TOMATO}" font-weight="700">{_n0(deg)}°</text>'
+        + f'<circle cx="{px(V):.1f}" cy="{py(V):.1f}" r="4" fill="{_NAVY}"/>'
+        + '</svg>')
+
+
+def _svg_angles(param):
+    """Port of Angles (FractionArt.jsx): two parallel lines cut by a transversal
+    at {{angles:deg}}. Angle ① carries the measure and ②–⑧ are numbered, so
+    corresponding / alternate / co-interior pairs can be named off the figure."""
+    nums = _nums(param)
+    deg = min(160.0, max(20.0, nums[0])) if nums else 60.0
+    a = math.radians(deg)
+    W, H = 320, 220
+    y1, y2 = 62, 158
+    gap = y2 - y1
+    P1 = (190.0, float(y1))
+    P2 = (190 - gap / math.tan(a), float(y2))
+    # Unit vectors: along the parallel lines, and up the transversal (svg y-down).
+    u = (math.cos(a), -math.sin(a))
+    ext = 78
+
+    def norm(v):
+        L = math.hypot(v[0], v[1]) or 1
+        return (v[0] / L, v[1] / L)
+
+    # Region bisectors around a crossing, in the numbering order used below.
+    dirs = [norm((1 + u[0], u[1])), norm((-1 + u[0], u[1])),
+            norm((-1 - u[0], -u[1])), norm((1 - u[0], -u[1]))]
+    chevron = lambda x, y: (
+        f'<path d="M{x-5:.1f} {y-5:.1f} L{x:.1f} {y:.1f} L{x-5:.1f} {y+5:.1f}" '
+        f'fill="none" stroke="{_FILL}" stroke-width="2.4"/>')
+    labels = []
+    for i, P in enumerate((P1, P2)):
+        for j, d in enumerate(dirs):
+            n = i * 4 + j + 1
+            lx = P[0] + d[0] * 27
+            ly = P[1] + d[1] * 27 + 5
+            txt = (_n0(deg) + '°') if n == 1 else str(n)
+            labels.append(
+                f'<text x="{lx:.1f}" y="{ly:.1f}" text-anchor="middle" '
+                f'font-size="13" fill="{_TOMATO if n == 1 else _NAVY}" '
+                f'font-weight="700">{txt}</text>')
+    par = lambda y: (
+        f'<line x1="16" y1="{y:.1f}" x2="{W-16:.1f}" y2="{y:.1f}" '
+        f'stroke="{_NAVY}" stroke-width="2.5" stroke-linecap="round"/>')
+    dot = lambda P: (f'<circle cx="{P[0]:.1f}" cy="{P[1]:.1f}" r="3.5" '
+                     f'fill="{_NAVY}"/>')
+    return (
+        f'<svg width="{W}" height="{H}" viewBox="0 0 {W} {H}">'
+        + par(y1) + par(y2)
+        # chevrons marking the two lines as parallel
+        + chevron(60, y1) + chevron(60, y2)
+        + f'<line x1="{P1[0]+u[0]*ext:.1f}" y1="{P1[1]+u[1]*ext:.1f}" '
+          f'x2="{P2[0]-u[0]*ext:.1f}" y2="{P2[1]-u[1]*ext:.1f}" '
+          f'stroke="{_TOMATO}" stroke-width="2.5" stroke-linecap="round"/>'
+        + dot(P1) + dot(P2) + ''.join(labels) + '</svg>')
+
+
+def _svg_rect(param):
+    """Port of Rect (FractionArt.jsx): labelled rectangle {{rect:WxH}} drawn to
+    scale (capped at 180x110) for area/perimeter problems."""
+    m = re.match(r'^([\d.]+)x([\d.]+)$', param.strip())
+    w = float(m.group(1)) if m else 1.0
+    h = float(m.group(2)) if m else 1.0
+    if w <= 0 or h <= 0:
+        return ''
+    scale = min(180 / w, 110 / h)
+    rw, rh = w * scale, h * scale
+    pad = 26
+    W, H = rw + pad * 2, rh + pad * 2
+    return (
+        f'<svg width="{W:.1f}" height="{H:.1f}" viewBox="0 0 {W:.1f} {H:.1f}">'
+        f'<rect x="{pad:.1f}" y="{pad:.1f}" width="{rw:.1f}" height="{rh:.1f}" '
+        f'fill="{_FILL}" stroke="{_NAVY}" stroke-width="2" rx="3"/>'
+        f'<text x="{pad+rw/2:.1f}" y="{pad-8:.1f}" text-anchor="middle" '
+        f'font-size="13" fill="{_NAVY}" font-weight="700">{_n0(w)}</text>'
+        f'<text x="{pad-8:.1f}" y="{pad+rh/2:.1f}" text-anchor="middle" '
+        f'font-size="13" fill="{_NAVY}" font-weight="700" '
+        f'transform="rotate(-90 {pad-8:.1f} {pad+rh/2:.1f})">{_n0(h)}</text>'
+        '</svg>')
+
+
+def _svg_grid(param):
+    """Port of Grid (FractionArt.jsx): {{grid:colsxrows}} or ``colsxrows/shaded``
+    — a unit-square grid with the first `shaded` cells filled (area,
+    fractions-of-a-shape, scale-factor)."""
+    m = re.match(r'^(\d+)x(\d+)(?:/(\d+))?$', param.strip())
+    cols = int(m.group(1)) if m else 4
+    rows = int(m.group(2)) if m else 4
+    shaded = int(m.group(3)) if m and m.group(3) is not None else 0
+    if cols <= 0 or rows <= 0:
+        return ''
+    s = 22
+    cells = []
+    for row in range(rows):
+        for col in range(cols):
+            i = row * cols + col
+            fill = _FILL if i < shaded else '#fff'
+            cells.append(
+                f'<rect x="{col*s+1}" y="{row*s+1}" width="{s-2}" '
+                f'height="{s-2}" fill="{fill}" stroke="{_NAVY}" '
+                f'stroke-width="1.5"/>')
+    W, H = cols * s + 2, rows * s + 2
+    return (f'<svg width="{W}" height="{H}" viewBox="0 0 {W} {H}">'
+            f'{"".join(cells)}</svg>')
+
+
+# Vertex outlines of the named quadrilaterals, with how many tick marks each
+# side carries (equal sides share a count) and which corners are right angles.
+_QUADS = {
+    'square': {'pts': [(0, 0), (140, 0), (140, 140), (0, 140)],
+               'ticks': [1, 1, 1, 1], 'right': [0, 1, 2, 3]},
+    'rectangle': {'pts': [(0, 0), (190, 0), (190, 110), (0, 110)],
+                  'ticks': [1, 2, 1, 2], 'right': [0, 1, 2, 3]},
+    'rhombus': {'pts': [(45, 0), (190, 0), (145, 120), (0, 120)],
+                'ticks': [1, 1, 1, 1], 'right': []},
+    'parallelogram': {'pts': [(50, 0), (200, 0), (150, 110), (0, 110)],
+                      'ticks': [1, 2, 1, 2], 'right': []},
+    'trapezoid': {'pts': [(55, 0), (165, 0), (210, 115), (0, 115)],
+                  'ticks': [0, 0, 0, 0], 'right': []},
+    'kite': {'pts': [(95, 0), (190, 85), (95, 200), (0, 85)],
+             'ticks': [1, 1, 2, 2], 'right': []},
+    'general': {'pts': [(40, 0), (200, 30), (160, 130), (0, 100)],
+                'ticks': [0, 0, 0, 0], 'right': []},
+}
+
+
+def _svg_quad(param):
+    """Port of Quad (FractionArt.jsx): a named quadrilateral ABCD, e.g.
+    {{quad:kite}}. Equal sides get matching tick marks and right angles get the
+    square marker, so each shape's defining properties are visible in the
+    drawing itself."""
+    spec = _QUADS.get(param.strip(), _QUADS['general'])
+    pad = 28
+    W = max(p[0] for p in spec['pts']) + pad * 2
+    H = max(p[1] for p in spec['pts']) + pad * 2
+    P = [(p[0] + pad, p[1] + pad) for p in spec['pts']]
+    cx = sum(p[0] for p in P) / 4
+    cy = sum(p[1] for p in P) / 4
+    marks = []
+    for i, p in enumerate(P):
+        q = P[(i + 1) % 4]
+        k = spec['ticks'][i]
+        if not k:
+            continue
+        mx, my = (p[0] + q[0]) / 2, (p[1] + q[1]) / 2
+        dx, dy = q[0] - p[0], q[1] - p[1]
+        L = math.hypot(dx, dy) or 1
+        # tick strokes perpendicular to the side, k of them side by side
+        nx, ny = (-dy / L) * 6, (dx / L) * 6
+        for t in range(k):
+            off = (t - (k - 1) / 2) * 6
+            ox, oy = (dx / L) * off, (dy / L) * off
+            marks.append(
+                f'<line x1="{mx+ox-nx:.1f}" y1="{my+oy-ny:.1f}" '
+                f'x2="{mx+ox+nx:.1f}" y2="{my+oy+ny:.1f}" stroke="{_TOMATO}" '
+                f'stroke-width="2"/>')
+    for i in spec['right']:
+        p = P[i]
+        prev, nxt = P[(i + 3) % 4], P[(i + 1) % 4]
+        lp = math.hypot(prev[0] - p[0], prev[1] - p[1]) or 1
+        ln = math.hypot(nxt[0] - p[0], nxt[1] - p[1]) or 1
+        d1 = ((prev[0] - p[0]) / lp, (prev[1] - p[1]) / lp)
+        d2 = ((nxt[0] - p[0]) / ln, (nxt[1] - p[1]) / ln)
+        s = 14
+        marks.append(
+            f'<path d="M{p[0]+d1[0]*s:.1f} {p[1]+d1[1]*s:.1f} '
+            f'L{p[0]+(d1[0]+d2[0])*s:.1f} {p[1]+(d1[1]+d2[1])*s:.1f} '
+            f'L{p[0]+d2[0]*s:.1f} {p[1]+d2[1]*s:.1f}" fill="none" '
+            f'stroke="{_NAVY}" stroke-width="1.5"/>')
+    names = 'ABCD'
+    verts = []
+    for i, p in enumerate(P):
+        ox, oy = p[0] - cx, p[1] - cy
+        L = math.hypot(ox, oy) or 1
+        verts.append(
+            f'<text x="{p[0]+(ox/L)*15:.1f}" y="{p[1]+(oy/L)*15+5:.1f}" '
+            f'text-anchor="middle" font-size="13" fill="{_NAVY}" '
+            f'font-weight="700">{names[i]}</text>')
+    pts = ' '.join(f'{p[0]:.1f},{p[1]:.1f}' for p in P)
+    return (
+        f'<svg width="{W:.1f}" height="{H:.1f}" viewBox="0 0 {W:.1f} {H:.1f}">'
+        f'<polygon points="{pts}" fill="{_FILL}" stroke="{_NAVY}" '
+        f'stroke-width="2.5" stroke-linejoin="round"/>'
+        f'{"".join(marks)}{"".join(verts)}</svg>')
+
+
+def _svg_linesystem(param):
+    """Port of LineSystem (FractionArt.jsx): {{linesystem:m1,b1;m2,b2}} — two
+    y = m·x + b lines on a -1..8 window, with their meeting point (the solution
+    of the system) marked and its coordinates printed."""
+    lines = []
+    for part in (param or '1,0;-1,4').split(';'):
+        nums = _nums(part)
+        if len(nums) == 2:
+            lines.append((nums[0], nums[1]))
+    if not lines:
+        return ''
+    W, H, pad = 230, 210, 22
+    X0, X1, Y0, Y1 = -1, 8, -1, 8  # data window
+    plot_w, plot_h = W - pad * 2, H - pad * 2
+    sx = lambda x: pad + (x - X0) / (X1 - X0) * plot_w
+    sy = lambda y: pad + (Y1 - y) / (Y1 - Y0) * plot_h
+    clip = 'ls-' + '-'.join(f'{_n0(m)}_{_n0(b)}' for m, b in lines)
+    grid = []
+    for g in range(X0, X1 + 1):
+        grid.append(f'<line x1="{sx(g):.1f}" y1="{sy(Y0):.1f}" x2="{sx(g):.1f}" '
+                    f'y2="{sy(Y1):.1f}" stroke="#e6ebf5" stroke-width="1"/>')
+        grid.append(f'<line x1="{sx(X0):.1f}" y1="{sy(g):.1f}" x2="{sx(X1):.1f}" '
+                    f'y2="{sy(g):.1f}" stroke="#e6ebf5" stroke-width="1"/>')
+    # De-duplicate identical lines so "the same line twice" draws once.
+    uniq = []
+    for ln in lines:
+        if ln not in uniq:
+            uniq.append(ln)
+    colors = [_NAVY, _TOMATO]
+    drawn = ''.join(
+        f'<line x1="{sx(X0):.1f}" y1="{sy(m*X0+b):.1f}" x2="{sx(X1):.1f}" '
+        f'y2="{sy(m*X1+b):.1f}" stroke="{colors[i % len(colors)]}" '
+        f'stroke-width="3" stroke-linecap="round"/>'
+        for i, (m, b) in enumerate(uniq))
+    # Intersection of the first two distinct lines (if they meet inside the box).
+    hit = None
+    if len(uniq) >= 2 and uniq[0][0] != uniq[1][0]:
+        (m1, b1), (m2, b2) = uniq[0], uniq[1]
+        xi = (b2 - b1) / (m1 - m2)
+        yi = m1 * xi + b1
+        if X0 <= xi <= X1 and Y0 <= yi <= Y1:
+            hit = (xi, yi)
+    solution = ''
+    if hit:
+        solution = (
+            f'<circle cx="{sx(hit[0]):.1f}" cy="{sy(hit[1]):.1f}" r="6" '
+            f'fill="#f7d354" stroke="{_NAVY}" stroke-width="2"/>'
+            f'<text x="{sx(hit[0])+8:.1f}" y="{sy(hit[1])-8:.1f}" font-size="11" '
+            f'font-weight="700" fill="{_NAVY}">({_n1(hit[0])},{_n1(hit[1])})</text>')
+    return (
+        f'<svg width="{W}" height="{H}" viewBox="0 0 {W} {H}">'
+        f'<defs><clipPath id="{clip}"><rect x="{sx(X0):.1f}" y="{sy(Y1):.1f}" '
+        f'width="{plot_w}" height="{plot_h}"/></clipPath></defs>'
+        f'{"".join(grid)}'
+        # axes through the origin
+        f'<line x1="{sx(X0):.1f}" y1="{sy(0):.1f}" x2="{sx(X1):.1f}" '
+        f'y2="{sy(0):.1f}" stroke="{_NAVY}" stroke-width="1.6"/>'
+        f'<line x1="{sx(0):.1f}" y1="{sy(Y0):.1f}" x2="{sx(0):.1f}" '
+        f'y2="{sy(Y1):.1f}" stroke="{_NAVY}" stroke-width="1.6"/>'
+        f'<text x="{sx(X1):.1f}" y="{sy(0)-5:.1f}" text-anchor="end" '
+        f'font-size="11" fill="#8893ad">x</text>'
+        f'<text x="{sx(0)+5:.1f}" y="{sy(Y1)+9:.1f}" font-size="11" '
+        f'fill="#8893ad">y</text>'
+        f'<g clip-path="url(#{clip})">{drawn}</g>{solution}</svg>')
+
+
 _ART_SVG = {
     'signedline': _svg_signedline,
     'axespoints': _svg_axespoints,
     'funcline': _svg_funcline,
     'linegraph': _svg_linegraph,
+    'triangle': _svg_triangle,
+    'righttriangle': _svg_righttriangle,
+    'angle': _svg_angle,
+    'angles': _svg_angles,
+    'rect': _svg_rect,
+    'grid': _svg_grid,
+    'quad': _svg_quad,
+    'linesystem': _svg_linesystem,
 }
 
 
@@ -341,6 +750,8 @@ def _art(s):
         fn = _ART_SVG.get(kind)
         if fn:
             fig = fn(param)
+            if not fig:
+                return ''  # e.g. an impossible triangle: drop the caption too
             cap = (f'<div style="font-size:12px;color:#5b6780;margin-top:2px">'
                    f'{caption.strip()}</div>') if caption.strip() else ''
             return (f'<div style="text-align:center;margin:10px 0">{fig}{cap}</div>')
