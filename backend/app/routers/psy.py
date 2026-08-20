@@ -469,10 +469,16 @@ def autosave_section(
         answers[ref] = rec
     attempt.answers = answers
     db.commit()
-    return {"saved": True, "seconds_left": _seconds_left(
-        attempt,
-        next(s for s in attempt.simulation.sections if s.order == attempt.current_section),
-    )}
+    # ה-commit נשאר לפני החיפוש בכוונה: גם אם המקטע נמחק מתחת ל-attempt חי
+    # (עריכת תוכן + seed באמצע סימולציה) התשובות כבר נשמרו. next() בלי ברירת
+    # מחדל הפיל כאן 500, בזמן ש-get_section ו-submit_section מחזירים 409 מסודר.
+    section = next(
+        (s for s in attempt.simulation.sections if s.order == attempt.current_section),
+        None,
+    )
+    if section is None:
+        return {"saved": True}
+    return {"saved": True, "seconds_left": _seconds_left(attempt, section)}
 
 
 @router.post("/attempts/{attempt_id}/section", response_model=PsySectionSubmitResult)
@@ -511,11 +517,16 @@ def submit_section(
     correct = 0
     unanswered = 0
     seconds_total = 0
+    asked = 0
 
     for ref in refs:
         item = by_ref.get(ref)
         if item is None:
+            # פריט שנגרע מהמאגר אחרי שהטופס הוקפא (seed מוחק פריטים שכבר לא
+            # בקבצים) מעולם לא הוצג לתלמיד — get_section מסנן אותו באותה צורה —
+            # ולכן הוא לא נספר גם במכנה. אחרת התלמיד נענש על שאלה שלא ראה.
             continue
+        asked += 1
         stored = dict(answers.get(ref) or {})
         # A late submission is scored on what was already autosaved, so running
         # the clock out cannot be used to buy extra thinking time.
@@ -544,7 +555,7 @@ def submit_section(
             "domain": section.domain,
             "title": section.title,
             "correct": correct,
-            "total": len(refs),
+            "total": asked,
             "unanswered": unanswered,
             "seconds": seconds_total,
             "is_pilot": bool(section.is_pilot),
@@ -597,20 +608,33 @@ def finish_attempt(
         )
         refs = list(form_row.get("item_refs") or [])
         # Count what was autosaved before the student walked away — abandoning
-        # mid-section should not erase the answers already given.
-        correct = sum(
-            1
-            for ref in refs
-            if (attempt.answers or {}).get(ref, {}).get("correct")
-        )
+        # mid-section should not erase the answers already given. Autosave only
+        # ever stores "chosen" (submit_section is what writes "correct"), so the
+        # grading has to happen here; reading "correct" scored every abandoned
+        # section as a flat zero.
+        by_ref = _items_by_ref(db, refs)
+        stored_answers = attempt.answers or {}
+        correct = 0
+        asked = 0
+        unanswered = 0
+        for ref in refs:
+            item = by_ref.get(ref)
+            if item is None:
+                continue
+            asked += 1
+            chosen = (stored_answers.get(ref) or {}).get("chosen")
+            if chosen is None:
+                unanswered += 1
+            elif int(chosen) == item.correct_index:
+                correct += 1
         results.append(
             {
                 "section_index": section.order,
                 "domain": section.domain,
                 "title": section.title,
                 "correct": correct,
-                "total": len(refs),
-                "unanswered": len(refs) - correct,
+                "total": asked,
+                "unanswered": unanswered,
                 "seconds": 0,
                 "is_pilot": bool(section.is_pilot),
             }

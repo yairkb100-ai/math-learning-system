@@ -49,8 +49,11 @@ export default function PsyResults() {
   if (error) return <ErrorBox error={error} />
   if (!data) return <Loading />
 
-  const prior = data.history.filter((h) => h.attempt_id !== data.attempt_id)
-  const previous = prior.length ? prior[prior.length - 1] : null
+  // history מגיע ממוין עולה לפי finished_at, ולכן ה"קודם" הוא האיבר שלפני
+  // הניסיון המוצג — לא האחרון ברשימה. כשנכנסים לדוח ישן מ"המבחנים האחרונים",
+  // האחרון הוא דווקא ניסיון מאוחר יותר, והדלתא יצאה בסימן הפוך.
+  const currentIndex = data.history.findIndex((h) => h.attempt_id === data.attempt_id)
+  const previous = currentIndex > 0 ? data.history[currentIndex - 1] : null
   const delta =
     previous && data.score_percent != null && previous.score_percent != null
       ? data.score_percent - previous.score_percent
