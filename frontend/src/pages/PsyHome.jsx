@@ -104,10 +104,6 @@ function mastery(t) {
   return { key: 'weak', label: 'לחיזוק' }
 }
 
-// ניסוי: התחום הזה מוצג כרשימת שורות במקום כרשת כרטיסים, כדי להשוות את שתי
-// השפות באותו עמוד. אם השורות ינצחו — מרחיבים לכל התחומים ומוחקים את TopicCard.
-const ROW_TRIAL_DOMAIN = 'figural'
-
 /** שורת נושא: עיגול-סטטוס, שם, מונים, ו-CTA בקצה. בלי מסגרת — קו שיער מפריד. */
 function TopicRow({ t }) {
   const m = mastery(t)
@@ -138,6 +134,57 @@ function TopicRow({ t }) {
   )
 }
 
+// מצב סימולציה, באותה לוגיקת שלוש-מדרגות של הנושאים אבל מהציון הטוב ביותר.
+// אין ציון = טרם נוסתה, ולא "חלשה" — הטבעת הריקה היא הזמנה, לא שיפוט.
+function simState(s) {
+  if (s.best_percent == null) return { key: 'new', label: 'טרם נוסתה' }
+  if (s.best_percent >= 80) return { key: 'strong', label: `${Math.round(s.best_percent)}%` }
+  if (s.best_percent >= 60) return { key: 'mid', label: `${Math.round(s.best_percent)}%` }
+  return { key: 'weak', label: `${Math.round(s.best_percent)}%` }
+}
+
+/** שורת מבחן — אותה אנטומיה של שורת נושא, עם נעילה במקום ה-CTA כשצריך מנוי. */
+function SimRow({ s }) {
+  const st = simState(s)
+  return (
+    <motion.li className={`psy-trow is-${st.key}${s.locked ? ' is-locked' : ''}`} variants={fadeInUp}>
+      <span className="psy-trow-state" aria-hidden="true">
+        {st.key !== 'new' && <IconCheck />}
+      </span>
+      <span className="psy-trow-body">
+        <span className="psy-trow-name">
+          {s.title}
+          {LEVEL_TAG[s.level] && (
+            <span className={`psy-sim-tag ${LEVEL_TAG[s.level].ramp}`}>
+              {LEVEL_TAG[s.level].label}
+            </span>
+          )}
+        </span>
+        <span className="psy-trow-meta">
+          {s.total_minutes} דקות · {s.total_questions} שאלות · {s.sections.length} פרקים
+          {s.best_percent != null && (
+            <>
+              {' · '}
+              <span className="psy-trow-best">
+                <IconTrophy /> הטובה ביותר שלך: {st.label}
+              </span>
+            </>
+          )}
+        </span>
+      </span>
+      {s.locked ? (
+        <span className="psy-trow-lock">
+          <IconLock /> נדרש מנוי פעיל
+        </span>
+      ) : (
+        <Link className="psy-trow-cta" to={`/psy/sim/${s.slug}`}>
+          {s.attempts_count > 0 ? 'להתחיל שוב' : 'להתחיל'}
+        </Link>
+      )}
+    </motion.li>
+  )
+}
+
 /** כותרת תחום עם פס בגוון התחום, ושורת סיכום לתחומי הליבה. */
 function DomainHead({ domain, title, lead, stats, core }) {
   return (
@@ -149,45 +196,6 @@ function DomainHead({ domain, title, lead, stats, core }) {
       {lead && <p className="psy-domain-lead">{lead}</p>}
       {stats && <p className="psy-domain-stats">{stats}</p>}
     </div>
-  )
-}
-
-function TopicCard({ t }) {
-  const m = mastery(t)
-  // "כמה מהמאגר כבר ראית" — נגזר מ-answered/count, מוגבל ל-100% כי אפשר
-  // לענות על אותה שאלה יותר מפעם אחת.
-  const coverage = t.count ? Math.min(1, t.answered / t.count) : 0
-  return (
-    <motion.div {...hoverLift}>
-      <Link
-        className={`psy-topic-card is-${m.key}`}
-        to={`/psy/drill?domain=${t.domain}&topic=${encodeURIComponent(t.topic)}`}
-      >
-        <span className="psy-topic-card-name">{t.topic}</span>
-        <span className="psy-topic-card-count">
-          {/* בדרגת free הכרטיס אומר גם כמה באמת פתוחות: נושא שכתוב עליו
-              "20 שאלות" ומחזיר 4 בתרגול נקרא כתקלה ולא כטעימה. */}
-          {t.open_count != null && t.open_count < t.count
-            ? `${t.open_count} מתוך ${t.count} שאלות במאגר`
-            : `${t.count} שאלות במאגר`}
-        </span>
-
-        <span className="psy-topic-meter" aria-hidden="true">
-          <span className="psy-topic-meter-fill" style={{ transform: `scaleX(${coverage})` }} />
-        </span>
-
-        <span className="psy-topic-card-foot">
-          <span className="psy-topic-card-state">{m.label}</span>
-          {t.answered > 0 ? (
-            <span className="psy-topic-card-acc">
-              {pct(t.accuracy || 0)} · {t.answered} נענו
-            </span>
-          ) : (
-            <span className="psy-topic-card-cta">להתחיל כאן</span>
-          )}
-        </span>
-      </Link>
-    </motion.div>
   )
 }
 
@@ -523,33 +531,17 @@ export default function PsyHome() {
                 lead={core ? 'התחום הזה נושא את רוב הניקוד — כאן משתלם להשקיע.' : null}
                 stats={`${list.length} נושאים · ${bank} שאלות · ${touched} כבר תורגלו`}
               />
-              {d === ROW_TRIAL_DOMAIN ? (
-                <motion.ul
-                  className="psy-trows"
-                  variants={staggerContainer}
-                  initial="hidden"
-                  whileInView="show"
-                  viewport={{ once: true, margin: '-20px' }}
-                >
-                  {list.map((t) => (
-                    <TopicRow key={t.topic} t={t} />
-                  ))}
-                </motion.ul>
-              ) : (
-                <motion.ul
-                  className="psy-topic-cards"
-                  variants={staggerContainer}
-                  initial="hidden"
-                  whileInView="show"
-                  viewport={{ once: true, margin: '-20px' }}
-                >
-                  {list.map((t) => (
-                    <motion.li key={t.topic} variants={fadeInUp}>
-                      <TopicCard t={t} />
-                    </motion.li>
-                  ))}
-                </motion.ul>
-              )}
+              <motion.ul
+                className="psy-trows"
+                variants={staggerContainer}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, margin: '-20px' }}
+              >
+                {list.map((t) => (
+                  <TopicRow key={t.topic} t={t} />
+                ))}
+              </motion.ul>
             </div>
           )
         })}
@@ -571,49 +563,14 @@ export default function PsyHome() {
             <div key={kind} className="psy-domain-group">
               <DomainHead title={KIND_HE[kind] || kind} lead={KIND_LEAD[kind]} />
               <motion.ul
-                className="psy-sim-list"
+                className="psy-trows"
                 variants={staggerContainer}
                 initial="hidden"
                 whileInView="show"
                 viewport={{ once: true, margin: '-20px' }}
               >
                 {shown.map((s) => (
-                  <motion.li
-                    key={s.slug}
-                    className={`psy-sim-card${s.locked ? ' is-locked' : ''}`}
-                    variants={fadeInUp}
-                    whileHover={s.locked ? {} : { y: -3 }}
-                    transition={{ duration: DURATION.short, ease: EASE_OUT }}
-                  >
-                    <div className="psy-sim-head">
-                      <h3>{s.title}</h3>
-                      {LEVEL_TAG[s.level] && (
-                        <span className={`psy-sim-tag ${LEVEL_TAG[s.level].ramp}`}>
-                          {LEVEL_TAG[s.level].label}
-                        </span>
-                      )}
-                    </div>
-                    {s.description && <p className="psy-sim-desc">{s.description}</p>}
-                    <div className="psy-sim-meta">
-                      <span>{s.total_minutes} דקות</span>
-                      <span>{s.total_questions} שאלות</span>
-                      <span>{s.sections.length} פרקים</span>
-                    </div>
-                    {s.best_percent != null && (
-                      <div className="psy-sim-best">
-                        <IconTrophy /> התוצאה הטובה ביותר שלך: {Math.round(s.best_percent)}%
-                      </div>
-                    )}
-                    {s.locked ? (
-                      <div className="psy-sim-lock">
-                        <IconLock /> נדרש מנוי פעיל
-                      </div>
-                    ) : (
-                      <Link className="psy-btn psy-btn-primary" to={`/psy/sim/${s.slug}`}>
-                        {s.attempts_count > 0 ? 'התחל שוב' : 'התחל'}
-                      </Link>
-                    )}
-                  </motion.li>
+                  <SimRow key={s.slug} s={s} />
                 ))}
               </motion.ul>
               {list.length > SIM_PREVIEW && (

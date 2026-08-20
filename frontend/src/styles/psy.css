@@ -389,53 +389,9 @@
 }
 
 /* ---------- simulation cards ---------- */
-.psy-sim-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-}
-.psy-sim-list > .psy-sim-card {
-  flex: 1 1 300px;
-}
-.psy-sim-card {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 18px;
-  background: var(--surface);
-}
-.psy-sim-card h3 {
-  font-family: var(--font-display);
-  font-weight: 400;
-  margin: 0;
-  font-size: 1.1rem;
-}
-/* סימולציה נעולה היא מוצר שרוצים למכור, לא כרטיס תקול: משטח מלא ומסגרת מלאה
-   כמו לכל השאר, והנעילה מסומנת בקו הצד בגוון ה-highlighter — אותו גוון של
-   גלולת "נדרש מנוי פעיל" למטה, כך ששני הסימנים נקראים כמסר אחד. */
-.psy-sim-card.is-locked {
-  background: var(--surface);
-  border-inline-start: 4px solid var(--marker);
-}
+
 /* כותרת + תווית רמה באותה שורה; התווית נדחקת לקצה ולא נשברת. */
-.psy-sim-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  /* הכרטיס יורד עד כ-190px בעמודה צרה, ותווית שלא נשברת הייתה
-     מרסקת שם את הכותרת לארבע שורות של מילה אחת. עם wrap + בסיס לכותרת
-     התווית פשוט יורדת לשורה משלה כשאין מקום לשתיהן. */
-  flex-wrap: wrap;
-}
-.psy-sim-head h3 {
-  flex: 1 1 140px;
-}
+
 .psy-sim-tag {
   flex: none;
   font-size: 0.72rem;
@@ -447,54 +403,9 @@
   color: var(--lv, var(--muted));
   background: var(--lv-bg, var(--surface-2));
 }
-.psy-sim-desc {
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.92rem;
-  line-height: 1.55;
-}
-.psy-sim-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  color: var(--muted);
-  font-size: 0.85rem;
-}
-.psy-sim-best {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.85rem;
-  color: var(--ok);
-  font-weight: 600;
-}
+
 /* "נדרש מנוי פעיל" יושב במקום של כפתור ה-CTA ולכן מקבל את אותו משקל ויזואלי:
    גלולה מלאה בצבע הגיר הצהוב (--marker) עם דיו כהה, ולא הערה אפורה שנבלעת. */
-.psy-sim-lock {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-top: auto;
-  padding: 10px 16px;
-  border-radius: 999px;
-  background: var(--marker);
-  border: 1px solid var(--text);
-  color: var(--text);
-  font-family: var(--font-display);
-  font-size: 0.98rem;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  text-align: center;
-}
-.psy-sim-lock svg {
-  width: 18px;
-  height: 18px;
-  flex: 0 0 auto;
-}
-.psy-sim-card .psy-btn {
-  margin-top: auto;
-}
 
 /* ---------- course cards ---------- */
 /* flex ולא grid: ברשת ‎auto-fill‎ קבוצה עם קורס אחד השאירה כרטיס בודד ליד
@@ -515,20 +426,13 @@
    הכרטיס לבדו לא מגיע לגובה השורה. שרשרת flex קצרה מעבירה את המתיחה הלאה,
    כך שכל הכרטיסים בשורה נשארים בגובה אחיד. */
 .psy-course-list > li,
-.psy-topic-cards > li {
-  display: flex;
-}
+
 .psy-course-list > li > *,
-.psy-topic-cards > li > * {
-  display: flex;
-  width: 100%;
-}
+
 /* והכרטיס עצמו חייב למלא את העוטף — בתוך flex container הרוחב שלו נגזר
    מהתוכן, וכרטיסים היו יוצאים ברוחב מילת הכותרת. */
 .psy-course-list .psy-course-card,
-.psy-topic-cards .psy-topic-card {
-  width: 100%;
-}
+
 .psy-course-card {
   display: flex;
   flex-direction: column;
@@ -1632,81 +1536,11 @@
 }
 
 /* ---------- topic browser on the hub ---------- */
-.psy-topic-cards {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-}
-.psy-topic-cards > li {
-  flex: 1 1 250px;
-}
-.psy-topic-card {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 15px 16px;
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  background: var(--surface);
-  color: var(--text);
-  height: 100%;
-  min-height: 44px;
-}
-.psy-topic-card:hover {
-  border-color: var(--accent);
-  box-shadow: var(--shadow);
-  text-decoration: none;
-}
-/* המסגרת המקווקוות והרקע השקוף גרמו לנושא שטרם תורגל להיראות כמו placeholder
-   תקול ולהיבלע ברקע העמוד — בדיוק ההפך ממה שרוצים, כי אלה הנושאים שהכי כדאי
-   ללחוץ עליהם. כאן הוא הכרטיס הבולט ביותר ברשת: משטח מלא, מסגרת בגוון ה-CTA
-   ופס-צד באותו גוון. */
-.psy-topic-card.is-new {
-  background: var(--surface);
-  border-color: var(--accent);
-  border-inline-start: 4px solid var(--accent);
-}
-.psy-topic-card-name {
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: 1.02rem;
-  line-height: 1.35;
-}
-.psy-topic-card-count {
-  font-size: 0.8rem;
-  color: var(--muted);
-}
+
+/* נושא שעוד לא נגעו בו נראה כמו משבצת ריקה שמחכה למילוי, לא ככרטיס תקול */
 
 /* מד כיסוי: כמה מהמאגר של הנושא כבר נענה. transform בלבד (ולא width), כך
    שגם אם יונפש בעתיד הוא נשאר בתקציב התנועה של המערכת. */
-.psy-topic-meter {
-  display: block;
-  height: 4px;
-  margin: 10px 0 2px;
-  border-radius: 999px;
-  background: var(--border);
-  overflow: hidden;
-}
-.psy-topic-meter-fill {
-  display: block;
-  height: 100%;
-  border-radius: 999px;
-  background: var(--ok);
-  /* RTL: המד מתמלא מהימין */
-  transform-origin: right center;
-}
-.psy-topic-card.is-mid .psy-topic-meter-fill {
-  background: var(--accent);
-}
-.psy-topic-card.is-weak .psy-topic-meter-fill {
-  background: var(--no);
-}
-.psy-topic-card.is-new .psy-topic-meter-fill {
-  background: var(--muted);
-}
 
 /* ---------- ניסוי: הנושא כשורה ולא ככרטיס ----------
    הדפוס שהמשתמש הביא: עיגול-סטטוס, שם, מונים, ו-CTA בקצה, כשקו שיער הוא
@@ -1816,10 +1650,66 @@
   border-color: var(--cta-dark);
 }
 
+/* תווית הרמה יושבת בתוך שם המבחן ולא בשורה משלה */
+.psy-trow-name {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.psy-trow-best {
+  color: var(--ok);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.psy-trow-best svg {
+  width: 14px;
+  height: 14px;
+  vertical-align: -2px;
+}
+
+/* "נדרש מנוי פעיל" תופס את מקום ה-CTA ולכן שומר על אותו משקל: גלולה מלאה
+   בצהוב-הגיר עם דיו כהה, בדיוק כמו ‎.psy-sim-lock‎ בכרטיס שקדם לה. */
+.psy-trow-lock {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 16px;
+  border-radius: 999px;
+  background: var(--marker);
+  border: 1px solid var(--text);
+  color: var(--text);
+  font-weight: 700;
+  font-size: 0.88rem;
+  white-space: nowrap;
+}
+.psy-trow-lock svg {
+  width: 16px;
+  height: 16px;
+}
+/* מבחן נעול הוא מוצר שרוצים למכור, לא שורה תקולה. הרעיון נלקח מהגרסה
+   הכרטיסית שהוחלפה כאן: הנעילה מסומנת בקו-צד בגוון ה-highlighter — אותו גוון
+   בדיוק של גלולת "נדרש מנוי פעיל" — כך ששני הסימנים נקראים כמסר אחד ולא
+   כשתי אזהרות נפרדות. השם נשאר בצבע מלא; רק המונים נסוגים. */
+.psy-trow.is-locked {
+  border-inline-start: 4px solid var(--marker);
+  padding-inline-start: 12px;
+}
+.psy-trow.is-locked .psy-trow-meta {
+  color: var(--muted);
+}
+
 @media (max-width: 619px) {
   .psy-trow {
     flex-wrap: wrap;
     gap: 10px 12px;
+  }
+  .psy-trow-lock {
+    margin-inline-start: 44px;
+    min-height: 44px;
   }
   .psy-trow-body {
     flex-basis: calc(100% - 44px);
@@ -1831,45 +1721,9 @@
   }
 }
 
-.psy-topic-card-foot {
-  margin-top: auto;
-  padding-top: 4px;
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 4px 10px;
-  font-size: 0.8rem;
-}
-.psy-topic-card-state {
-  font-weight: 700;
-}
-.psy-topic-card.is-strong .psy-topic-card-state {
-  color: var(--ok);
-}
-.psy-topic-card.is-mid .psy-topic-card-state {
-  color: var(--accent);
-}
-.psy-topic-card.is-weak .psy-topic-card-state {
-  color: var(--no);
-}
-.psy-topic-card.is-new .psy-topic-card-state {
-  color: var(--muted);
-  font-weight: 600;
-}
-.psy-topic-card-acc {
-  color: var(--muted);
-}
-.psy-topic-card-cta {
-  color: var(--accent);
-  font-weight: 700;
-}
-
 /* תחומי הליבה מקבלים כרטיסים רחבים יותר — יש בהם יותר נושאים וכל אחד נושא
    יותר משקל, אז הם לא נדחסים לאותה רשת של תחום שולי */
-.psy-domain-group.is-core .psy-topic-cards > li {
-  flex-basis: 290px;
-}
+
 .psy-hero-actions {
   display: flex;
   flex-wrap: wrap;
@@ -1886,15 +1740,7 @@
    להשאיר חצי שורה ריקה, ובשורה מלאה (4 כרטיסים) היא בכלל לא נוגעת. */
 @media (min-width: 1000px) {
   .psy-course-list > li,
-  .psy-sim-list > .psy-sim-card {
-    max-width: 620px;
-  }
-  .psy-domain-group.is-core .psy-topic-cards > li {
-    max-width: 520px;
-  }
-  .psy-topic-cards > li {
-    max-width: 430px;
-  }
+
   .psy-plan-list > li {
     max-width: 560px;
   }
@@ -1904,9 +1750,6 @@
    ב-flex-basis של הדסקטופ, ואין תקרה שמשאירה חצי שורה ריקה. */
 @media (min-width: 620px) and (max-width: 999px) {
   .psy-course-list > li,
-  .psy-topic-cards > li,
-  .psy-domain-group.is-core .psy-topic-cards > li,
-  .psy-sim-list > .psy-sim-card,
   .psy-plan-list > li {
     flex-basis: 45%;
     max-width: none;
@@ -1916,9 +1759,6 @@
 /* נייד: עמודה אחת מלאה. */
 @media (max-width: 619px) {
   .psy-course-list > li,
-  .psy-topic-cards > li,
-  .psy-domain-group.is-core .psy-topic-cards > li,
-  .psy-sim-list > .psy-sim-card,
   .psy-plan-list > li {
     flex-basis: 100%;
     max-width: none;
