@@ -34,8 +34,13 @@ from gen_chapter_assets import isolate_inline_math, _write_text  # noqa: E402
 ROOT = Path(__file__).resolve().parent.parent
 SHEETS = ("worksheet.html", "question-bank.html", "practice.html")
 
-# Element bodies whose text is not prose and must never be rewritten.
-_OPAQUE = re.compile(r'<(style|script|svg)\b.*?</\1>', re.S | re.I)
+# Element bodies whose text is not prose and must never be rewritten. <title>
+# belongs here even though it reads like prose: it can only hold character data,
+# so isolating math inside it puts a literal `<span class="eq">` in the browser
+# tab. The generator already leaves titles alone, and this keeps a repaired sheet
+# and a freshly generated one agreeing — the whole promise of sharing
+# gen_chapter_assets.isolate_inline_math.
+_OPAQUE = re.compile(r'<(style|script|svg|title)\b.*?</\1>', re.S | re.I)
 # Only real tags. `<[^>]*>` also matched things like the "<12)." in a shipped
 # sheet's "ו‑11<12)" — an unescaped comparison operator that a browser itself
 # swallows as a bogus tag, hiding the rest of the sentence. Restricting the

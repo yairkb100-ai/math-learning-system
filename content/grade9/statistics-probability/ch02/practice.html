@@ -30,7 +30,7 @@
         vertical-align: middle; margin: 0 3px; font-size: .95em; line-height: 1.15; }
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
   .fr i { font-style: normal; padding: 0 4px; }
-  .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; margin: 0 3px; }
+  .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
   .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
          align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
   .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
@@ -111,7 +111,7 @@
       <span class="tag med">בינוני</span></div>
     <div>עבור נתוני החוגים מהתרגיל הקודם (ספורט <span class="eq">12</span>, מוזיקה <span class="eq">9</span>, אמנות <span class="eq">6</span>, מדעים <span class="eq">3</span>; סך הכול <span class="eq">30</span>), חשבו לכל חוג את האחוזים ואת מספר המעלות בעוגה, ובדקו את שני הסכומים.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">מחלקים ב-<span class="eq">30</span> ומכפילים ב-<span class="eq">360</span>:<br><br>ספורט: <span class="eq"><span class="fr"><b>12</b><i>30</i></span> = 0.4 = 40\%</span>, ולכן <span class="eq">0.4 · 360 = 144^°</span>.<br><br>מוזיקה: <span class="eq"><span class="fr"><b>9</b><i>30</i></span> = 0.3 = 30\%</span>, ולכן <span class="eq">108^°</span>.<br><br>אמנות: <span class="eq"><span class="fr"><b>6</b><i>30</i></span> = 0.2 = 20\%</span>, ולכן <span class="eq">72^°</span>.<br><br>מדעים: <span class="eq"><span class="fr"><b>3</b><i>30</i></span> = 0.1 = 10\%</span>, ולכן <span class="eq">36^°</span>.<br><br>בדיקה: <span class="eq">40+30+20+10 = 100</span> אחוזים, וגם <span class="eq">144+108+72+36 = 360</span> מעלות.</div>
+    <div class="sol">מחלקים ב-<span class="eq">30</span> ומכפילים ב-<span class="eq">360</span>:<br><br>ספורט: <span class="eq"><span class="fr"><b>12</b><i>30</i></span> = 0.4 = 40%</span>, ולכן <span class="eq">0.4 · 360 = 144^°</span>.<br><br>מוזיקה: <span class="eq"><span class="fr"><b>9</b><i>30</i></span> = 0.3 = 30%</span>, ולכן <span class="eq">108^°</span>.<br><br>אמנות: <span class="eq"><span class="fr"><b>6</b><i>30</i></span> = 0.2 = 20%</span>, ולכן <span class="eq">72^°</span>.<br><br>מדעים: <span class="eq"><span class="fr"><b>3</b><i>30</i></span> = 0.1 = 10%</span>, ולכן <span class="eq">36^°</span>.<br><br>בדיקה: <span class="eq">40+30+20+10 = 100</span> אחוזים, וגם <span class="eq">144+108+72+36 = 360</span> מעלות.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 3: מהעוגה בחזרה אל הנתונים</strong>
@@ -130,9 +130,9 @@
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 5: השלמת עוגה מפרסום חלקי</strong>
       <span class="tag med">בינוני</span></div>
-    <div>בדוח שפורסם על <span class="eq">200</span> נרשמים לחוגי קיץ נכתב: ספורט — <span class="eq">30\%</span>, אמנות — <span class="eq">25\%</span>, מוזיקה — <span class="eq">20\%</span>. שאר הנרשמים בחרו במחול, אך האחוז שלהם לא צוין. מצאו את אחוז המחול, את מספר הנרשמים אליו, ואת מספר המעלות שהוא תופס בעוגה.</div>
+    <div>בדוח שפורסם על <span class="eq">200</span> נרשמים לחוגי קיץ נכתב: ספורט — <span class="eq">30%</span>, אמנות — <span class="eq">25%</span>, מוזיקה — <span class="eq">20%</span>. שאר הנרשמים בחרו במחול, אך האחוז שלהם לא צוין. מצאו את אחוז המחול, את מספר הנרשמים אליו, ואת מספר המעלות שהוא תופס בעוגה.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">אחוז המחול: <span class="eq">100 - (30+25+20) = 25\%</span>.<br><br>מספר הנרשמים למחול: <span class="eq">0.25 · 200 = 50</span>.<br><br>מעלות: <span class="eq">25 · 3.6 = 90^°</span>.<br><br><b>בדיקה:</b> <span class="eq">30+25+20+25 = 100</span>, וגם המעלות המקבילות <span class="eq">108^° + 90^° + 72^° + 90^° = 360^°</span>.</div>
+    <div class="sol">אחוז המחול: <span class="eq">100 - (30+25+20) = 25%</span>.<br><br>מספר הנרשמים למחול: <span class="eq">0.25 · 200 = 50</span>.<br><br>מעלות: <span class="eq">25 · 3.6 = 90^°</span>.<br><br><b>בדיקה:</b> <span class="eq">30+25+20+25 = 100</span>, וגם המעלות המקבילות <span class="eq">108^° + 90^° + 72^° + 90^° = 360^°</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 6: מעלות של גזרה</strong>
@@ -160,7 +160,7 @@
       <span class="tag hard">מאתגר</span></div>
     <div>בתרשים שפורסם נראית עמודת השנה הנוכחית גבוהה פי שניים מעמודת השנה הקודמת, והכותרת מכריזה "הכפלנו את מספר המשתתפים". הערכים האמיתיים הם <span class="eq">420</span> ו-<span class="eq">441</span>. הסבירו במה התרשים מטעה וחשבו את השינוי האמיתי באחוזים.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">השינוי האמיתי הוא <span class="eq">441 - 420 = 21</span> משתתפים, כלומר <span class="eq"><span class="fr"><b>21</b><i>420</i></span> = 0.05</span> — עלייה של <span class="eq">5\%</span> בלבד, ולא הכפלה.<br><br>הרושם המוטעה נוצר מכך שציר הערכים אינו מתחיל באפס. אם הוא מתחיל למשל ב-<span class="eq">399</span>, אז ביחס לבסיס הזה העמודות מייצגות <span class="eq">21</span> ו-<span class="eq">42</span> יחידות — יחס של <span class="eq">1:2</span>, וזה מה שהעין רואה. התיקון: להתחיל את ציר הערכים באפס, ואז שתי העמודות נראות כמעט זהות.</div>
+    <div class="sol">השינוי האמיתי הוא <span class="eq">441 - 420 = 21</span> משתתפים, כלומר <span class="eq"><span class="fr"><b>21</b><i>420</i></span> = 0.05</span> — עלייה של <span class="eq">5%</span> בלבד, ולא הכפלה.<br><br>הרושם המוטעה נוצר מכך שציר הערכים אינו מתחיל באפס. אם הוא מתחיל למשל ב-<span class="eq">399</span>, אז ביחס לבסיס הזה העמודות מייצגות <span class="eq">21</span> ו-<span class="eq">42</span> יחידות — יחס של <span class="eq">1:2</span>, וזה מה שהעין רואה. התיקון: להתחיל את ציר הערכים באפס, ואז שתי העמודות נראות כמעט זהות.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 10: אתגר: משילוב מעלות ומספר נשאלים אל סך הכול</strong>
@@ -181,7 +181,7 @@
 <div class="credit" style="max-width:780px; margin:0 auto">© כל הזכויות שמורות ליאיר כהנא</div>
 
 <script>
-const quiz = [{"q": "בתרשים עוגה, כמה מעלות תופסת גזרה המייצגת <span class=\"eq\">25\\%</span> מהנתונים?", "o": ["<span class=\"eq\">90^°</span>", "<span class=\"eq\">25^°</span>", "<span class=\"eq\">120^°</span>", "<span class=\"eq\">45^°</span>"], "a": 0}, {"q": "מתוך <span class=\"eq\">40</span> נשאלים, <span class=\"eq\">8</span> בחרו בתשובה מסוימת. כמה מעלות תופסת הגזרה שלה בתרשים העוגה?", "o": ["<span class=\"eq\">72^°</span>", "<span class=\"eq\">80^°</span>", "<span class=\"eq\">20^°</span>", "<span class=\"eq\">45^°</span>"], "a": 0}, {"q": "מהו סכום המעלות של כל הגזרות בתרשים עוגה תקין?", "o": ["<span class=\"eq\">360^°</span>", "<span class=\"eq\">100^°</span>", "<span class=\"eq\">180^°</span>", "<span class=\"eq\">400^°</span>"], "a": 0}, {"q": "בתרשים עוגה של <span class=\"eq\">60</span> נשאלים, גזרה אחת תופסת <span class=\"eq\">120^°</span>. כמה נשאלים היא מייצגת?", "o": ["<span class=\"eq\">20</span>", "<span class=\"eq\">30</span>", "<span class=\"eq\">40</span>", "<span class=\"eq\">12</span>"], "a": 0}, {"q": "בתרשים עמודות נראית עמודה של <span class=\"eq\">108</span> גבוהה פי כמה וכמה מעמודה של <span class=\"eq\">102</span>. מהי הסיבה הסבירה ביותר?", "o": ["ציר הערכים אינו מתחיל באפס", "העמודות צרות מדי", "יש בתרשים יותר מדי קטגוריות", "הנתונים נאספו בשני חודשים שונים"], "a": 0}];
+const quiz = [{"q": "בתרשים עוגה, כמה מעלות תופסת גזרה המייצגת <span class=\"eq\">25%</span> מהנתונים?", "o": ["<span class=\"eq\">90^°</span>", "<span class=\"eq\">25^°</span>", "<span class=\"eq\">120^°</span>", "<span class=\"eq\">45^°</span>"], "a": 0}, {"q": "מתוך <span class=\"eq\">40</span> נשאלים, <span class=\"eq\">8</span> בחרו בתשובה מסוימת. כמה מעלות תופסת הגזרה שלה בתרשים העוגה?", "o": ["<span class=\"eq\">72^°</span>", "<span class=\"eq\">80^°</span>", "<span class=\"eq\">20^°</span>", "<span class=\"eq\">45^°</span>"], "a": 0}, {"q": "מהו סכום המעלות של כל הגזרות בתרשים עוגה תקין?", "o": ["<span class=\"eq\">360^°</span>", "<span class=\"eq\">100^°</span>", "<span class=\"eq\">180^°</span>", "<span class=\"eq\">400^°</span>"], "a": 0}, {"q": "בתרשים עוגה של <span class=\"eq\">60</span> נשאלים, גזרה אחת תופסת <span class=\"eq\">120^°</span>. כמה נשאלים היא מייצגת?", "o": ["<span class=\"eq\">20</span>", "<span class=\"eq\">30</span>", "<span class=\"eq\">40</span>", "<span class=\"eq\">12</span>"], "a": 0}, {"q": "בתרשים עמודות נראית עמודה של <span class=\"eq\">108</span> גבוהה פי כמה וכמה מעמודה של <span class=\"eq\">102</span>. מהי הסיבה הסבירה ביותר?", "o": ["ציר הערכים אינו מתחיל באפס", "העמודות צרות מדי", "יש בתרשים יותר מדי קטגוריות", "הנתונים נאספו בשני חודשים שונים"], "a": 0}];
 let answered = 0, correct = 0;
 document.getElementById('quiz').innerHTML = quiz.map((q, i) => `
   <div class="q">

@@ -36,9 +36,17 @@ from pathlib import Path
 CR = '© כל הזכויות שמורות ליאיר כהנא'
 
 
+# A [[a/b]] fraction's two halves. Letters as well as digits: the sheets are
+# authored with algebraic fractions like [[k/5]] ("k of the 5 balls"), and while
+# this was digits-only such a token matched nothing — so the [[eq:]] island
+# holding it was never recognised and reached the student as literal macro text.
+_FRAC = r'[0-9A-Za-z]+'
+_FRAC_TOKEN = r'\[\[' + _FRAC + r'/' + _FRAC + r'\]\]'
+
 # One math token: an [[eq:...]] island (which may embed [[a/b]] fractions or a
 # \sqrt[n]{...} root index in square brackets) or a bare [[a/b]] fraction.
-_TOKEN = r'\[\[eq:(?:[^\[\]]|\[\[\d+/\d+\]\]|\[[^\[\]]*\])*\]\]|\[\[\d+/\d+\]\]'
+_TOKEN = (r'\[\[eq:(?:[^\[\]]|' + _FRAC_TOKEN + r'|\[[^\[\]]*\])*\]\]|'
+          + _FRAC_TOKEN)
 _RUN = re.compile(r'(?:' + _TOKEN + r')(?:[ \t]*(?:' + _TOKEN + r'))+')
 
 # Anything already spoken for and therefore off limits to _isolate_bare_math:
@@ -47,8 +55,15 @@ _RUN = re.compile(r'(?:' + _TOKEN + r')(?:[ \t]*(?:' + _TOKEN + r'))+')
 # must not), and any inline HTML the author wrote by hand. That last one is not
 # hypothetical: the bank sheets contain ``<b>לפני</b> 1``, where "b> 1" looks
 # exactly like a math run and wrapping it shredded the tag.
+# _TOKEN comes FIRST: its eq alternative knows that an [[eq:...]] island may
+# contain a nested [[a/b]], where the generic `\[\[.*?\]\]` below is non-greedy and
+# would stop at that fraction's own ']]'. Half-stashing an island that way left
+# its tail ("× 4 = 2]]") looking like bare math, so it got wrapped in a SECOND
+# [[eq:]]; _EQ_TOKEN then matched the inner one and the orphaned outer "[[eq:"
+# reached the student as literal text on 8 sheets.
 _ISLAND = re.compile(
-    r'\[\[.*?\]\]|\$\$?[^$]*\$\$?|\{\{[a-z]+:[^|}]*|</?[a-zA-Z][^>]*>|&[#a-zA-Z0-9]+;',
+    _TOKEN +
+    r'|\[\[.*?\]\]|\$\$?[^$]*\$\$?|\{\{[a-z]+:[^|}]*|</?[a-zA-Z][^>]*>|&[#a-zA-Z0-9]+;',
     re.S)
 
 # A bare left-to-right math run: starts and ends on a term, holds at least one
@@ -777,7 +792,7 @@ def _systems(s):
     # the same way _TOKEN does it rather than with a bare non-greedy `.*?`
     # (which would stop at a nested fraction's closing brackets).
     return re.sub(
-        r'\[\[sys:((?:[^\[\]]|\[\[\d+/\d+\]\])*)\]\]',
+        r'\[\[sys:((?:[^\[\]]|' + _FRAC_TOKEN + r')*)\]\]',
         lambda m: _sys_html(re.split(r'\s*;\s*', m.group(1))),
         s, flags=re.S)
 
@@ -817,7 +832,7 @@ def _sqrt_root(s):
         i = idx + len(needle)
 
 
-_EQ_TOKEN = re.compile(r'\[\[eq:((?:[^\[\]]|\[[^\[\]]*\]|\[\[\d+/\d+\]\])*)\]\]')
+_EQ_TOKEN = re.compile(r'\[\[eq:((?:[^\[\]]|\[[^\[\]]*\]|' + _FRAC_TOKEN + r')*)\]\]')
 
 
 def isolate_inline_math(s):
@@ -849,7 +864,7 @@ def macros(s):
     # of "2 ÷ ½". The eq pattern already allows a nested [[a/b]]; _row turns it
     # into a \frac that _convert_fracs renders.
     s = _EQ_TOKEN.sub(lambda m: f'<span class="eq">{_row(m.group(1))}</span>', s)
-    s = re.sub(r'\[\[(\d+)/(\d+)\]\]',
+    s = re.sub(r'\[\[(' + _FRAC + r')/(' + _FRAC + r')\]\]',
                r'<span class="fr"><b>\1</b><i>\2</i></span>', s)
     s = s.replace('[[blank]]', '<span class="blank"></span>')
     s = re.sub(r'\[\[lines:(\d)\]\]',
@@ -1023,13 +1038,17 @@ def _row(t):
     # A [[a/b]] nested inside an [[eq:...]] island arrives here raw (macros()
     # defers the standalone fraction substitution until after this runs), so
     # hand it to the same \frac path the rest of the row uses.
-    t = re.sub(r'\[\[(\d+)/(\d+)\]\]', r'\\frac{\1}{\2}', t)
+    t = re.sub(r'\[\[(' + _FRAC + r')/(' + _FRAC + r')\]\]', r'\\frac{\1}{\2}', t)
     t = t.replace('&', '&amp;').replace('>', '&gt;').replace('<', '&lt;')
     t = t.replace('\\times', '×').replace('\\div', '÷')
     t = t.replace('\\cdot', '·').replace('\\quad', ' ').replace('\\qquad', '  ')
     # Spacing commands render as nothing; without this they used to leak
     # into the sheet as a literal backslash.
     t = re.sub(r'\\[ ,;!:]', ' ', t)
+    # TeX escapes for characters that are only special IN TeX. The course JSON
+    # is authored in TeX, so it writes 84\% — and every one of those reached a
+    # student as "84\%", backslash and all, across the percent chapters.
+    t = re.sub(r'\\([%$#&_])', r'\1', t)
     t = _tex_commands(t)
     t = _tex_symbols(t)
     t = _scripts(t)
@@ -1053,7 +1072,7 @@ def tex2html(s):
     # notations render identically and nothing is left to reorder in the RTL
     # page. Art tokens are stripped below, so isolating inside them is moot.
     s = _isolate_bare_math(_dollar_math(s))
-    s = re.sub(r'\[\[eq:((?:[^\[\]]|\[[^\[\]]*\]|\[\[\d+/\d+\]\])*)\]\]', conv, s)
+    s = re.sub(r'\[\[eq:((?:[^\[\]]|\[[^\[\]]*\]|' + _FRAC_TOKEN + r')*)\]\]', conv, s)
     s = re.sub(r'\*\*([^*]+)\*\*', r'<b>\1</b>', s)
     s = re.sub(r'\{\{[^}]*\}\}', '', s)  # strip art tokens
     s = s.replace('\n', '<br>')
