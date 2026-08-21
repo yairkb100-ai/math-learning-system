@@ -60,6 +60,9 @@ export default function CourseView() {
 
   const meta = course.metadata || course
   const isRtl = meta.language === 'Hebrew'
+  // קורס קרני מחזיר את התלמיד לאזור קרני ולא לקטלוג לומדת המתמטיקה — הוא הגיע
+  // משם, ו-"חזרה לקורסים" שזרק אותו לקטלוג אחר נקרא כתקלה.
+  const isPsy = course.track === 'psy'
   const chapters = course.chapters || []
   const objectives = course.learning_objectives || []
 
@@ -79,9 +82,15 @@ export default function CourseView() {
       className={`course-view${isRtl ? ' rtl' : ''}${gradeClass(meta.grade)}`}
     >
       <p className="crumbs">
-        <Link to="/" className="crumb-link">
+        <Link to={isPsy ? '/psy' : '/'} className="crumb-link">
           <IconArrowStart className="crumb-arrow" />
-          {isRtl ? 'חזרה לקורסים' : 'Courses'}
+          {isRtl
+            ? isPsy
+              ? 'חזרה להכנה לקרני'
+              : 'חזרה לקורסים'
+            : isPsy
+              ? 'Karni prep'
+              : 'Courses'}
         </Link>
       </p>
 

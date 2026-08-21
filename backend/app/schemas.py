@@ -217,6 +217,9 @@ class CourseDetail(BaseModel):
     # שורת "פתוחים לך X מתוך Y".
     unlocked_chapters: int = 0
     free_ratio: float = 0.42
+    # "psy" לקורסי ההכנה לקרני, אחרת מסלול בית הספר. שדה אופציונלי בלבד —
+    # הפרונט צריך אותו כדי לדעת לאן להחזיר את התלמיד מהפירורים.
+    track: Optional[str] = None
 
 
 class CourseEnvelope(BaseModel):

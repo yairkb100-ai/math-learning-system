@@ -97,6 +97,7 @@ def _course_detail(
         access_tier="full" if full_access else "free",
         unlocked_chapters=quota,
         free_ratio=ratio,
+        track=course.track,
     )
 
 
@@ -151,7 +152,9 @@ def get_course(
     access: ContentAccess = Depends(require_content_access),
 ) -> CourseEnvelope:
     # פתוח לכל משתמש מחובר. ללא מנוי בתוקף הפרקים שמעבר למכסת ה-42% חוזרים
-    # מסומנים locked וללא תוכן. מבנה התגובה לא משתנה (חוזה קפוא).
+    # מסומנים locked וללא תוכן. מבנה התגובה לא משתנה (חוזה קפוא): השדה track
+    # שנוסף הוא תוספת אופציונלית בלבד — אף שדה קיים לא שונה או הוסר, כך שצרכן
+    # ותיק שמתעלם ממנו ממשיך לעבוד בדיוק כמו קודם.
     course = crud.get_course(db, course_id)
     if course is None:
         raise HTTPException(status_code=404, detail="Course not found")

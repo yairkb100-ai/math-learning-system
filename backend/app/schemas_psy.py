@@ -254,6 +254,15 @@ class PsyTopicCard(BaseModel):
     open_count: Optional[int] = None
     answered: int = 0
     accuracy: Optional[float] = None
+    # שיוך הנושא לקורס/פרק הלימוד שלו, כדי שהעמוד יציג כל נושא תרגול במקום שבו
+    # הוא באמת נלמד ולא כרשימה מנותקת. ה-DB לא מקשר בין PsyItem.topic לקורס,
+    # ולכן המיפוי מגיע מטבלה מתוחזקת בראוטר — נושא שלא ממופה (או קורס שעדיין לא
+    # נזרע) מחזיר את כל החמישה None ויורד לקבוצת "תרגול נוסף".
+    course_id: Optional[int] = None
+    course_slug: Optional[str] = None
+    course_title: Optional[str] = None
+    chapter_number: Optional[int] = None
+    chapter_title: Optional[str] = None
 
 
 class PsyOverview(BaseModel):
