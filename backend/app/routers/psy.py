@@ -1032,6 +1032,57 @@ def drill_topics(
     ]
 
 
+# שיוך נושא מאגר התרגול לקורס (ולפרק, כשיש פרק ייעודי). אין קשר כזה ב-DB —
+# PsyItem.topic הוא מחרוזת חופשית שנכתבת יחד עם השאלות — ולכן זו רשימה
+# מתוחזקת ידנית: נושא חדש שנוסף למאגר ולא נרשם כאן פשוט נופל בשקט ל-None
+# ומוצג כמו קודם, בלי לשבור את העמוד.
+TOPIC_COURSE: Dict[tuple[str, str], tuple[str, Optional[int]]] = {
+    # כמותי
+    ("quantitative", "סדרות מספרים ואותיות"): ("karni-series", None),
+    ("quantitative", "צורות וגאומטריה"): ("karni-quant-geometry", None),
+    ("quantitative", "גאומטריה אנליטית"): ("karni-quant-geometry", None),
+    ("quantitative", "הסקה מתרשים"): ("karni-quant-geometry", 5),
+    ("quantitative", "מספרים וחזקות"): ("karni-quant-numbers", 1),
+    ("quantitative", "שברים ועשרוניים"): ("karni-quant-numbers", 2),
+    ("quantitative", "אחוזים"): ("karni-quant-numbers", 3),
+    ("quantitative", "יחס ופרופורציה"): ("karni-quant-numbers", 4),
+    ("quantitative", "ממוצע"): ("karni-quant-numbers", 5),
+    ("quantitative", "אלגברה"): ("karni-quant-word-problems", 1),
+    ("quantitative", "תנועה"): ("karni-quant-word-problems", 2),
+    ("quantitative", "הספק"): ("karni-quant-word-problems", 3),
+    # מילולי
+    ("verbal", "אנלוגיות"): ("karni-verbal-analogies", None),
+    ("verbal", "אוצר מילים וניבים"): ("karni-verbal-analogies", 2),
+    ("verbal", "הבנה והסקה"): ("karni-verbal-reading", None),
+    ("verbal", "השלמת משפטים"): ("karni-verbal-completion", 1),
+    ("verbal", "יוצא דופן"): ("karni-verbal-odd-one-out", None),
+    ("verbal", "סדרות מספרים ואותיות"): ("karni-series", None),
+    # צורני
+    ("figural", "סדרות צורות"): ("karni-figural-series", None),
+    ("figural", "אנלוגיות צורניות"): ("karni-figural-analogies", None),
+    ("figural", "מטריצות"): ("karni-figural-matrices", None),
+    ("figural", "שטיחים ותבניות"): ("karni-carpets", None),
+    ("figural", "יוצא דופן צורני"): ("karni-figural-basics", 3),
+    # לוגי
+    ("logic", "פאזל תנאים"): ("karni-logic-deduction", 2),
+    ("logic", "היסק תנאי"): ("karni-logic-deduction", 4),
+    ("logic", "מסקנות הכרחיות ואפשריות"): ("karni-logic-deduction", 4),
+    ("logic", "היסק מכלל “כל”"): ("karni-logic-deduction", 5),
+    # מרחבי
+    ("spatial", "חשיבה מרחבית"): ("karni-spatial-nets", None),
+    ("spatial", "קיפולים וניקובים"): ("karni-fold-punch", None),
+    # מהירות ודיוק
+    ("speed", "ספירת סמלים"): ("karni-speed-accuracy", 2),
+    ("speed", "השוואה מהירה"): ("karni-speed-accuracy", 2),
+    ("speed", "השוואה מהירה של קודים"): ("karni-speed-accuracy", 2),
+    ("speed", "התאמת מחרוזות"): ("karni-speed-accuracy", 3),
+    # אנגלית
+    ("english", "דקדוק"): ("karni-english-grammar", None),
+    ("english", "אוצר מילים"): ("karni-english-vocabulary", None),
+    ("english", "השלמת משפטים"): ("karni-english-grammar", 5),
+}
+
+
 # ---------------------------------------------------------------------------
 # Hub
 # ---------------------------------------------------------------------------
@@ -1189,6 +1240,31 @@ def overview(
                 else None,
             )
         )
+    # שיוך כל כרטיס לקורס/פרק שלו. הקורסים כבר נטענו בראש הפונקציה, אז המיפוי
+    # נעשה מול dict בזיכרון ולא בשאילתה נוספת לכל נושא.
+    courses_by_slug = {c.slug: c for c in courses}
+    for card in topic_cards:
+        mapped = TOPIC_COURSE.get((card.domain, card.topic))
+        if not mapped:
+            continue
+        slug, chapter_number = mapped
+        course = courses_by_slug.get(slug)
+        if course is None:
+            # קורס שעדיין לא נזרע בסביבה הזו — משאירים את הכרטיס בלי שיוך.
+            continue
+        card.course_id = course.id
+        card.course_slug = course.slug
+        card.course_title = course.title
+        if chapter_number is not None:
+            chapter = next(
+                (ch for ch in course.chapters if ch.number == chapter_number), None
+            )
+            # מספר פרק שכבר לא קיים (הקורס נערך מאז) לא מפיל את העמוד — נשארים
+            # ברמת הקורס בלבד.
+            if chapter is not None:
+                card.chapter_number = chapter.number
+                card.chapter_title = chapter.title
+
     # Biggest topics first inside each domain — that ordering doubles as a hint
     # about where the exam actually puts its weight.
     domain_order = {d: i for i, d in enumerate(models.PSY_DOMAINS)}

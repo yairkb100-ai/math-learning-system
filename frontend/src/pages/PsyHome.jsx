@@ -54,6 +54,20 @@ const KIND_HE = { mini: 'מיני-תרגול', section: 'פרק בודד', full:
 const LEVEL_TAG = {
   advanced: { label: 'רמה מתקדמת', ramp: 'grade-hs' },
 }
+// KIND_HE הוא לשון יחיד (כותרת הקבוצה), ולכן הוא לא יכול לשמש גם את כפתור
+// "הצג את כל N…" — "הצג את כל 68 הפרק בודד" הוא עברית שבורה.
+const KIND_HE_PLURAL = {
+  mini: 'המיני-תרגולים',
+  section: 'הפרקים הבודדים',
+  full: 'הסימולציות המלאות',
+}
+// אותה צורה בלי ה' הידיעה, לכותרת הקבוצה: "פרק בודד" מעל 68 שורות נקרא
+// כשגיאה, ובמיוחד כשמתחתיו כתוב "הצג את כל 68 הפרקים הבודדים".
+const KIND_HE_TITLE = {
+  mini: 'מיני-תרגולים',
+  section: 'פרקים בודדים',
+  full: 'סימולציות מלאות',
+}
 const KIND_ORDER = ['mini', 'section', 'full']
 const KIND_LEAD = {
   mini: 'סבב קצר בתחום אחד — הדרך הרגילה לבדוק אם נושא נכנס.',
@@ -293,8 +307,24 @@ export default function PsyHome() {
       return { title, list, domain: d, core }
     })
 
-  const domainsPresent = DOMAIN_ORDER.filter((d) => topics.some((t) => t.domain === d))
-  const orderedDomains = [...domainsPresent].sort((a, b) => domainRank(a) - domainRank(b))
+  // כל נושא תרגול יושב מתחת לקורס שמלמד אותו, ולא בערימה נפרדת בתחתית העמוד.
+  // בתוך קורס הסדר הוא סדר הפרקים, ונושא בלי מספר פרק יורד לסוף לפי גודל המאגר.
+  const courseIds = new Set(courses.map((c) => c.id))
+  const topicsByCourse = new Map()
+  for (const t of topics) {
+    if (t.course_id == null || !courseIds.has(t.course_id)) continue
+    const arr = topicsByCourse.get(t.course_id)
+    if (arr) arr.push(t)
+    else topicsByCourse.set(t.course_id, [t])
+  }
+  for (const arr of topicsByCourse.values()) {
+    arr.sort((a, b) => (a.chapter_number ?? 1e9) - (b.chapter_number ?? 1e9) || b.count - a.count)
+  }
+  // אף נושא לא נופל בין הכיסאות: מה שלא נתפס ע"י קורס מוצג מפורשות בסוף.
+  const looseTopics = topics.filter((t) => t.course_id == null || !courseIds.has(t.course_id))
+  const looseDomains = DOMAIN_ORDER.filter((d) => looseTopics.some((t) => t.domain === d)).sort(
+    (a, b) => domainRank(a) - domainRank(b)
+  )
 
   const simGroups = KIND_ORDER.map((k) => [k, simulations.filter((s) => s.kind === k)]).filter(
     ([, list]) => list.length > 0
@@ -457,8 +487,11 @@ export default function PsyHome() {
         whileInView="show"
         viewport={{ once: true, margin: '-40px' }}
       >
-        <h2>הקורסים</h2>
-        {courses.length === 0 ? (
+        <div className="psy-panel-head">
+          <h2>הקורסים והתרגול</h2>
+          <Link to="/psy/drill" className="psy-link">לכל התרגול</Link>
+        </div>
+        {courses.length === 0 && looseTopics.length === 0 ? (
           <p className="psy-empty">
             קורסי התיאוריה נכתבים כעת. בינתיים אפשר להתחיל מהתרגול הממוקד ומהמיני-תרגולים.
           </p>
@@ -475,7 +508,7 @@ export default function PsyHome() {
                   domain={d}
                   title={title}
                   core={core}
-                  stats={`${list.length} קורסים · ${done}/${total} פרקים הושלמו`}
+                  stats={`${list.length === 1 ? 'קורס אחד' : `${list.length} קורסים`} · ${done}/${total} פרקים הושלמו`}
                 />
                 <motion.ul
                   className="psy-course-list"
@@ -484,67 +517,71 @@ export default function PsyHome() {
                   whileInView="show"
                   viewport={{ once: true, margin: '-20px' }}
                 >
-                  {list.map((c) => (
-                    <motion.li key={c.id} variants={fadeInUp}>
-                      <motion.div {...hoverLift}>
-                        <Link to={`/courses/${c.id}`} className="psy-course-card">
-                          <span className="psy-course-title">{c.title}</span>
-                          <span className="psy-course-desc">{c.description}</span>
-                          <span className="psy-course-progress">
-                            {c.completed_chapters}/{c.chapters_count} פרקים
-                          </span>
-                        </Link>
-                      </motion.div>
-                    </motion.li>
-                  ))}
+                  {list.map((c) => {
+                    const ct = topicsByCourse.get(c.id) || []
+                    return (
+                      <motion.li key={c.id} className="psy-course-block" variants={fadeInUp}>
+                        <motion.div {...hoverLift}>
+                          <Link to={`/courses/${c.id}`} className="psy-course-card">
+                            <span className="psy-course-title">{c.title}</span>
+                            <span className="psy-course-desc">{c.description}</span>
+                            <span className="psy-course-progress">
+                              {c.completed_chapters}/{c.chapters_count} פרקים
+                            </span>
+                          </Link>
+                        </motion.div>
+                        {ct.length > 0 && (
+                          <>
+                            <p className="psy-course-topics-head" id={`psy-ct-${c.id}`}>
+                              תרגול לקורס הזה
+                            </p>
+                            {/* אותה שורת נושא של המקטע הקודם — רק שהיא תלויה
+                                עכשיו על הקורס שמלמד אותה. */}
+                            <ul className="psy-trows psy-course-topics" aria-labelledby={`psy-ct-${c.id}`}>
+                              {ct.map((t) => (
+                                <TopicRow key={`${t.domain}-${t.topic}`} t={t} />
+                              ))}
+                            </ul>
+                          </>
+                        )}
+                      </motion.li>
+                    )
+                  })}
                 </motion.ul>
               </div>
             )
           })
         )}
-      </motion.section>
 
-      <motion.section
-        className="psy-panel"
-        variants={fadeInUp}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, margin: '-40px' }}
-      >
-        <div className="psy-panel-head">
-          <h2>הנושאים</h2>
-          <Link to="/psy/drill" className="psy-link">לכל התרגול</Link>
-        </div>
-        {orderedDomains.map((d) => {
-          const list = topics.filter((t) => t.domain === d)
-          const core = CORE_DOMAINS.includes(d)
-          const bank = list.reduce((n, t) => n + t.count, 0)
-          const touched = list.filter((t) => t.answered > 0).length
-          return (
-            <div
-              key={d}
-              className={`psy-domain-group ${DOMAIN_RAMP[d] || ''}${core ? ' is-core' : ''}`}
-            >
-              <DomainHead
-                domain={d}
-                core={core}
-                lead={core ? 'התחום הזה נושא את רוב הניקוד — כאן משתלם להשקיע.' : null}
-                stats={`${list.length} נושאים · ${bank} שאלות · ${touched} כבר תורגלו`}
-              />
-              <motion.ul
-                className="psy-trows"
-                variants={staggerContainer}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true, margin: '-20px' }}
-              >
-                {list.map((t) => (
-                  <TopicRow key={t.topic} t={t} />
-                ))}
-              </motion.ul>
-            </div>
-          )
-        })}
+        {/* נושאים שאין להם קורס תיאוריה לא נעלמים מהעמוד — הם יורדים לסוף
+            הסקשן, מקובצים לפי תחום כמו קודם. */}
+        {looseTopics.length > 0 && (
+          <div className="psy-topics-loose">
+            {looseDomains.map((d) => {
+              const list = looseTopics.filter((t) => t.domain === d)
+              return (
+                <div key={d} className={`psy-domain-group ${DOMAIN_RAMP[d] || ''}`}>
+                  <DomainHead
+                    domain={d}
+                    lead="נושאים שאין להם עדיין קורס תיאוריה — אפשר לתרגל אותם ישירות."
+                    stats={`${list.length} נושאים · ${list.reduce((n, t) => n + t.count, 0)} שאלות`}
+                  />
+                  <motion.ul
+                    className="psy-trows"
+                    variants={staggerContainer}
+                    initial="hidden"
+                    whileInView="show"
+                    viewport={{ once: true, margin: '-20px' }}
+                  >
+                    {list.map((t) => (
+                      <TopicRow key={`${t.domain}-${t.topic}`} t={t} />
+                    ))}
+                  </motion.ul>
+                </div>
+              )
+            })}
+          </div>
+        )}
       </motion.section>
 
       <motion.section
@@ -559,15 +596,23 @@ export default function PsyHome() {
         {simGroups.map(([kind, list]) => {
           const open = showAllSims[kind]
           const shown = open ? list : list.slice(0, SIM_PREVIEW)
+          // ברגע שהמשתמש נגע בקבוצה הרשימה עוברת ל-animate מוצהר. עם
+          // whileInView + viewport.once framer-motion יורה פעם אחת ומנתק את
+          // ה-observer, ולכן שורה שנוספת אחר כך נכנסת ל-DOM במצב
+          // initial="hidden" (opacity 0) ואף אחד לא מעביר אותה ל-"show" —
+          // הכפתור "עבד" אבל לא הופיע כלום.
+          const driven = showAllSims[kind] !== undefined
           return (
             <div key={kind} className="psy-domain-group">
-              <DomainHead title={KIND_HE[kind] || kind} lead={KIND_LEAD[kind]} />
+              <DomainHead title={KIND_HE_TITLE[kind] || KIND_HE[kind] || kind} lead={KIND_LEAD[kind]} />
               <motion.ul
+                id={`psy-sims-${kind}`}
                 className="psy-trows"
                 variants={staggerContainer}
                 initial="hidden"
-                whileInView="show"
-                viewport={{ once: true, margin: '-20px' }}
+                {...(driven
+                  ? { animate: 'show' }
+                  : { whileInView: 'show', viewport: { once: true, margin: '-20px' } })}
               >
                 {shown.map((s) => (
                   <SimRow key={s.slug} s={s} />
@@ -577,10 +622,14 @@ export default function PsyHome() {
                 <motion.button
                   type="button"
                   className="psy-btn psy-btn-more"
+                  aria-expanded={!!open}
+                  aria-controls={`psy-sims-${kind}`}
                   onClick={() => setShowAllSims((s) => ({ ...s, [kind]: !s[kind] }))}
                   {...tapScale}
                 >
-                  {open ? 'הצג פחות' : `הצג את כל ${list.length} ה${KIND_HE[kind]}`}
+                  {open
+                    ? 'הצג פחות'
+                    : `הצג את כל ${list.length} ${KIND_HE_PLURAL[kind] || KIND_HE[kind]}`}
                 </motion.button>
               )}
             </div>
@@ -602,7 +651,9 @@ export default function PsyHome() {
           <details className="psy-history">
             <summary className="psy-history-summary">
               ההיסטוריה שלך
-              <span className="psy-history-count">{attempts.length} מבחנים אחרונים</span>
+              <span className="psy-history-count">
+                {attempts.length === 1 ? 'המבחן האחרון' : `${attempts.length} המבחנים האחרונים`}
+              </span>
             </summary>
 
             {/* Desktop/tablet: dense table. Mobile: a card list instead of a
