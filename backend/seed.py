@@ -3028,6 +3028,161 @@ _PSY_SIMULATIONS = [
              "blueprint": [{"count": 8, "min_difficulty": 3}]},
         ],
     },
+    # ------------------------------------------------------------------
+    # שתי סימולציות ברמת מומחה — הדרגה שמעל "מתקדמת".
+    #
+    # הרצפה כאן היא **4** בשלושת תחומי הליבה (מילולי, כמותי, צורני), ולא 3.
+    # בשאר התחומים היא נשארת 3, ובאנגלית 2 — לא מתוך פשרה אלא מתוך המאגר:
+    # באנגלית יש 0 פריטים בקושי 4+, ב"חשיבה מרחבית" 0, בלוגיקה 7 בסך הכל
+    # וב-speed 9. פרק שלם ברצפה 4 מאחד מהם היה מחזיר את אותם פריטים בכל
+    # ניסיון חוזר, ולכן שם עדיף פרק אמיתי ברצפה 3 מאשר תווית מנופחת.
+    # התחומים הדקים מקבלים במקום זה את הנושא הקשה שלהם (פאזל תנאים,
+    # קיפולים וניקובים) במקום שליפה כללית.
+    #
+    # כל שורה נבדקה מול גודל המאגר החי ביחס של 2:1 לפחות (בקשה של 5 מתוך
+    # בריכה של 10), כדי שגם ישיבה חוזרת תקבל טופס שונה.
+    {
+        "slug": "karni-full-expert-1",
+        "title": "סימולציה מלאה 4 — מומחה",
+        "description": "הרמה הגבוהה ביותר: מילולי, כמותי וצורני נשלפים מקושי 4 ומעלה בלבד — 99 שאלות ב-83 דקות",
+        "kind": "full",
+        "level": "expert",
+        "order": 23,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "verbal", "title": "הקבלות ואוצר מילים",
+             "minutes": 6, "num_questions": 8,
+             "blueprint": [
+                 {"count": 4, "topic": "אנלוגיות", "min_difficulty": 4},
+                 {"count": 4, "topic": "אוצר מילים וניבים", "min_difficulty": 4},
+             ]},
+            {"order": 1, "domain": "quantitative", "title": "חשיבה כמותית — חלק א",
+             "minutes": 10, "num_questions": 10,
+             "blueprint": [{"count": 10, "min_difficulty": 4}]},
+            {"order": 2, "domain": "figural", "title": "תבניות מתקדמות",
+             "minutes": 9, "num_questions": 12,
+             "blueprint": [
+                 {"count": 4, "topic": "מטריצות", "min_difficulty": 4},
+                 {"count": 4, "topic": "שטיחים ותבניות", "min_difficulty": 4},
+                 {"count": 4, "topic": "סדרות צורות", "min_difficulty": 4},
+             ]},
+            {"order": 3, "domain": "verbal", "title": "הבנה והסקה",
+             "minutes": 6, "num_questions": 5,
+             "blueprint": [{"count": 5, "topic": "הבנה והסקה", "min_difficulty": 4}]},
+            {"order": 4, "domain": "logic", "title": "פאזל תנאים",
+             "minutes": 7, "num_questions": 6,
+             "blueprint": [{"count": 6, "topic": "פאזל תנאים", "min_difficulty": 3}]},
+            {"order": 5, "domain": "quantitative", "title": "אחוזים, יחס ותנועה",
+             "minutes": 9, "num_questions": 9,
+             "blueprint": [
+                 {"count": 3, "topic": "אחוזים", "min_difficulty": 4},
+                 {"count": 3, "topic": "יחס ופרופורציה", "min_difficulty": 4},
+                 {"count": 3, "topic": "תנועה", "min_difficulty": 4},
+             ]},
+            {"order": 6, "domain": "figural", "title": "אנלוגיות צורניות ויוצא דופן",
+             "minutes": 5, "num_questions": 7,
+             "blueprint": [
+                 {"count": 2, "topic": "אנלוגיות צורניות", "min_difficulty": 4},
+                 {"count": 5, "topic": "יוצא דופן צורני", "min_difficulty": 4},
+             ]},
+            {"order": 7, "domain": "spatial", "title": "קיפולים וניקובים",
+             "minutes": 5, "num_questions": 5,
+             "blueprint": [{"count": 5, "topic": "קיפולים וניקובים", "min_difficulty": 4}]},
+            {"order": 8, "domain": "quantitative", "title": "חשיבה כמותית — חלק ב",
+             "minutes": 10, "num_questions": 10,
+             "blueprint": [{"count": 10, "min_difficulty": 4}]},
+            {"order": 9, "domain": "speed", "title": "זריזות ודיוק",
+             "minutes": 4, "num_questions": 12,
+             "blueprint": [{"count": 12, "min_difficulty": 3}]},
+            {"order": 10, "domain": "verbal", "title": "השלמת משפטים וסדרות אותיות",
+             "minutes": 5, "num_questions": 5,
+             "blueprint": [
+                 {"count": 3, "topic": "השלמת משפטים", "min_difficulty": 4},
+                 {"count": 2, "topic": "סדרות מספרים ואותיות", "min_difficulty": 4},
+             ]},
+            {"order": 11, "domain": "english", "title": "אנגלית",
+             "minutes": 7, "num_questions": 10,
+             "blueprint": [
+                 {"count": 4, "topic": "דקדוק", "min_difficulty": 2},
+                 {"count": 3, "topic": "השלמת משפטים", "min_difficulty": 2},
+                 {"count": 3, "topic": "אוצר מילים", "min_difficulty": 2},
+             ]},
+        ],
+    },
+    {
+        "slug": "karni-full-expert-2",
+        "title": "סימולציה מלאה 5 — מומחה",
+        "description": "רמת מומחה בסדר פרקים אחר ובדגש אלגברי — 101 שאלות ב-86 דקות",
+        "kind": "full",
+        "level": "expert",
+        "order": 24,
+        "free_preview": False,
+        # הפרק הכמותי הממוקד כאן הוא אלגברה/הספק/ממוצע, בעוד שב-4 הוא
+        # אחוזים/יחס/תנועה — כך ששתי הסימולציות לא מתחרות על אותם פריטים
+        # קשים ותלמיד שעושה את שתיהן פוגש נושאים שונים.
+        "sections": [
+            {"order": 0, "domain": "quantitative", "title": "חשיבה כמותית — חלק א",
+             "minutes": 12, "num_questions": 12,
+             "blueprint": [{"count": 12, "min_difficulty": 4}]},
+            {"order": 1, "domain": "figural", "title": "שטיחים, מטריצות וסדרות",
+             "minutes": 9, "num_questions": 12,
+             "blueprint": [
+                 {"count": 5, "topic": "שטיחים ותבניות", "min_difficulty": 4},
+                 {"count": 4, "topic": "מטריצות", "min_difficulty": 4},
+                 {"count": 3, "topic": "סדרות צורות", "min_difficulty": 4},
+             ]},
+            {"order": 2, "domain": "verbal", "title": "הבנה, הקבלות ואוצר מילים",
+             "minutes": 9, "num_questions": 10,
+             "blueprint": [
+                 {"count": 4, "topic": "הבנה והסקה", "min_difficulty": 4},
+                 {"count": 3, "topic": "אנלוגיות", "min_difficulty": 4},
+                 {"count": 3, "topic": "אוצר מילים וניבים", "min_difficulty": 4},
+             ]},
+            {"order": 3, "domain": "spatial", "title": "קיפולים וניקובים",
+             "minutes": 5, "num_questions": 5,
+             "blueprint": [{"count": 5, "topic": "קיפולים וניקובים", "min_difficulty": 4}]},
+            {"order": 4, "domain": "quantitative", "title": "אלגברה, הספק וממוצע",
+             "minutes": 10, "num_questions": 9,
+             "blueprint": [
+                 {"count": 3, "topic": "אלגברה", "min_difficulty": 4},
+                 {"count": 3, "topic": "הספק", "min_difficulty": 4},
+                 {"count": 3, "topic": "ממוצע", "min_difficulty": 4},
+             ]},
+            {"order": 5, "domain": "logic", "title": "פאזל תנאים",
+             "minutes": 7, "num_questions": 6,
+             "blueprint": [{"count": 6, "topic": "פאזל תנאים", "min_difficulty": 3}]},
+            {"order": 6, "domain": "figural", "title": "יוצא דופן ואנלוגיות צורניות",
+             "minutes": 6, "num_questions": 7,
+             "blueprint": [
+                 {"count": 5, "topic": "יוצא דופן צורני", "min_difficulty": 4},
+                 {"count": 2, "topic": "אנלוגיות צורניות", "min_difficulty": 4},
+             ]},
+            {"order": 7, "domain": "verbal", "title": "השלמת משפטים",
+             "minutes": 3, "num_questions": 3,
+             "blueprint": [{"count": 3, "topic": "השלמת משפטים", "min_difficulty": 4}]},
+            {"order": 8, "domain": "quantitative", "title": "סדרות מספרים ואותיות",
+             "minutes": 4, "num_questions": 5,
+             "blueprint": [
+                 {"count": 3, "topic": "סדרות מספרים ואותיות", "domain": "quantitative",
+                  "min_difficulty": 4},
+                 {"count": 2, "topic": "סדרות מספרים ואותיות", "domain": "verbal",
+                  "min_difficulty": 4},
+             ]},
+            {"order": 9, "domain": "speed", "title": "זריזות ודיוק",
+             "minutes": 4, "num_questions": 12,
+             "blueprint": [{"count": 12, "min_difficulty": 3}]},
+            {"order": 10, "domain": "english", "title": "אנגלית",
+             "minutes": 7, "num_questions": 10,
+             "blueprint": [
+                 {"count": 4, "topic": "דקדוק", "min_difficulty": 2},
+                 {"count": 3, "topic": "אוצר מילים", "min_difficulty": 2},
+                 {"count": 3, "topic": "השלמת משפטים", "min_difficulty": 2},
+             ]},
+            {"order": 11, "domain": "quantitative", "title": "חשיבה כמותית — חלק ב",
+             "minutes": 10, "num_questions": 10,
+             "blueprint": [{"count": 10, "min_difficulty": 4}]},
+        ],
+    },
 ]
 
 
