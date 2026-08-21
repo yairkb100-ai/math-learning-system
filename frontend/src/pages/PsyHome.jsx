@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
@@ -220,6 +220,10 @@ export default function PsyHome() {
   // טעימה — בלי המשפט הזה הוא היה חושב שהאזור פשוט דל בתוכן.
   const [karni, setKarni] = useState(null)
   const [showAllSims, setShowAllSims] = useState({})
+  // הקטגוריה הפתוחה יושבת ב-URL ולא ב-state בלבד: ככה כפתור "אחורה" של הדפדפן
+  // סוגר את הקטגוריה, והלינק לקטגוריה ניתן לשיתוף ולרענון.
+  const [params, setParams] = useSearchParams()
+  const cat = params.get('cat')
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -344,6 +348,56 @@ export default function PsyHome() {
     const domains = [...new Set(list.map(simDomain))].sort((a, b) => domainRank(a) - domainRank(b))
     return domains.map((d) => [d, list.filter((s) => simDomain(s) === d).sort(byNumberInTitle)])
   }
+
+  // ---- הקטגוריות ----
+  // כל תחום מבחן הוא קטגוריה אחת שמאגדת את הקורסים, נושאי התרגול והמבחנים
+  // שלו; הסימולציות המלאות (טופס שחוצה תחומים) הן קטגוריה בפני עצמה, כי הן
+  // לא "של תחום". קבוצת קורסים שכותרת המקטע שלה לא נפתרת לתחום נופלת
+  // לקטגוריית "שאר הקורסים" ולא נעלמת מהעמוד.
+  const simCat = (s) => simDomain(s) || 'full'
+  const courseCat = (g) => g.domain || 'other'
+  const catCourses = (key) => courseGroups.filter((g) => courseCat(g) === key)
+  const catTopics = (key) => topics.filter((t) => t.domain === key)
+  const catSims = (key) => simulations.filter((s) => simCat(s) === key)
+  const countLabel = (n, one, many) => (n === 1 ? one : `${n} ${many}`)
+  const buildCat = (key, title, ramp, core) => {
+    const groups = catCourses(key)
+    const courseCount = groups.reduce((n, g) => n + g.list.length, 0)
+    const tps = catTopics(key)
+    const sims = catSims(key)
+    const bank = tps.reduce((n, t) => n + t.count, 0)
+    const answered = tps.reduce((n, t) => n + t.answered, 0)
+    const tried = sims.filter((x) => x.attempts_count > 0).length
+    const meta = [
+      courseCount && countLabel(courseCount, 'קורס אחד', 'קורסים'),
+      tps.length && countLabel(tps.length, 'נושא אחד', 'נושאים'),
+      sims.length && countLabel(sims.length, 'מבחן אחד', 'מבחנים'),
+    ]
+      .filter(Boolean)
+      .join(' · ')
+    // ההתקדמות היא חלק המאגר שכבר נענה; לקטגוריה בלי מאגר תרגול (הסימולציות
+    // המלאות) היא חלק הטפסים שכבר נוסו, כי זה מה שיש שם למדוד.
+    const progress = bank ? answered / bank : sims.length ? tried / sims.length : 0
+    const empty = !courseCount && !tps.length && !sims.length
+    return empty ? null : { key, title, ramp, core, meta, progress }
+  }
+  const categories = [
+    ...DOMAIN_ORDER.slice()
+      .sort((a, b) => domainRank(a) - domainRank(b))
+      .map((d) => buildCat(d, DOMAIN_HE[d] || d, DOMAIN_RAMP[d] || '', CORE_DOMAINS.includes(d))),
+    buildCat('full', 'סימולציות מלאות', ''),
+    buildCat('other', 'שאר הקורסים', ''),
+  ].filter(Boolean)
+  const openCat = categories.find((c) => c.key === cat) || null
+  // קבוצות שמוצגות כרגע: הכל כשאין קטגוריה פתוחה (לא קורה — אז מוצגת הרשת),
+  // ואחרת רק מה ששייך לקטגוריה.
+  const shownCourseGroups = openCat ? catCourses(openCat.key) : []
+  const shownLooseDomains = openCat ? looseDomains.filter((d) => d === openCat.key) : []
+  const shownSimGroups = openCat
+    ? simGroups
+        .map(([kind, list]) => [kind, list.filter((x) => simCat(x) === openCat.key)])
+        .filter(([, list]) => list.length > 0)
+    : []
 
   const scored = attempts.filter((a) => a.score_percent != null)
   const best = scored.length ? Math.max(...scored.map((a) => a.score_percent)) : null
@@ -495,23 +549,78 @@ export default function PsyHome() {
         </motion.section>
       )}
 
+      {/* רשת הקטגוריות — נקודת הכניסה לאזור. במקום שלושה מקטעים ארוכים זה
+          מתחת לזה, כל תחום הוא ריבוע אחד, ולחיצה עליו פותחת את הקורסים,
+          נושאי התרגול והמבחנים שלו בלבד. */}
+      {!openCat && (
+        <motion.section
+          className="psy-panel"
+          variants={fadeInUp}
+          initial="hidden"
+          animate="show"
+        >
+          <div className="psy-panel-head">
+            <h2>כל הקטגוריות</h2>
+            <Link to="/psy/drill" className="psy-link">לכל התרגול</Link>
+          </div>
+          <motion.ul
+            className="psy-cats"
+            variants={staggerContainer}
+            initial="hidden"
+            animate="show"
+          >
+            {categories.map((c) => (
+              <motion.li key={c.key} variants={fadeInUp}>
+                <motion.div {...hoverLift}>
+                  <Link className={`psy-cat ${c.ramp}`} to={`/psy?cat=${c.key}`}>
+                    <span className="psy-cat-head">
+                      <span className="psy-cat-name">{c.title}</span>
+                      {c.core && <span className="psy-domain-tag">עיקר המבחן</span>}
+                    </span>
+                    <span className="psy-cat-meta">{c.meta}</span>
+                    <span className="psy-cat-foot">
+                      <span
+                        className="psy-cat-bar"
+                        role="img"
+                        aria-label={`${pct(c.progress)} מהתוכן כבר תורגל`}
+                      >
+                        {/* transform ולא width — אותו תקציב תנועה של כל המערכת.
+                            RTL: המד מתמלא מהימין. */}
+                        <span
+                          className="psy-cat-bar-fill"
+                          style={{ transform: `scaleX(${c.progress})` }}
+                        />
+                      </span>
+                      <span className="psy-cat-pct">{pct(c.progress)}</span>
+                    </span>
+                  </Link>
+                </motion.div>
+              </motion.li>
+            ))}
+          </motion.ul>
+        </motion.section>
+      )}
+
+      {openCat && (
+        <>
       <motion.section
-        className="psy-panel"
+        className={`psy-panel ${openCat.ramp}`}
         variants={fadeInUp}
         initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, margin: '-40px' }}
+        animate="show"
       >
         <div className="psy-panel-head">
-          <h2>הקורסים והתרגול</h2>
-          <Link to="/psy/drill" className="psy-link">לכל התרגול</Link>
+          <h2 className="psy-cat-open-title">{openCat.title}</h2>
+          <button type="button" className="psy-link psy-cat-back" onClick={() => setParams({})}>
+            חזרה לכל הקטגוריות
+          </button>
         </div>
-        {courses.length === 0 && looseTopics.length === 0 ? (
+        {shownCourseGroups.length === 0 && shownLooseDomains.length === 0 ? (
           <p className="psy-empty">
             קורסי התיאוריה נכתבים כעת. בינתיים אפשר להתחיל מהתרגול הממוקד ומהמיני-תרגולים.
           </p>
         ) : (
-          courseGroups.map(({ title, list, domain: d, core }) => {
+          shownCourseGroups.map(({ title, list, domain: d, core }) => {
             const done = list.reduce((n, c) => n + c.completed_chapters, 0)
             const total = list.reduce((n, c) => n + c.chapters_count, 0)
             return (
@@ -570,9 +679,9 @@ export default function PsyHome() {
 
         {/* נושאים שאין להם קורס תיאוריה לא נעלמים מהעמוד — הם יורדים לסוף
             הסקשן, מקובצים לפי תחום כמו קודם. */}
-        {looseTopics.length > 0 && (
+        {shownLooseDomains.length > 0 && (
           <div className="psy-topics-loose">
-            {looseDomains.map((d) => {
+            {shownLooseDomains.map((d) => {
               const list = looseTopics.filter((t) => t.domain === d)
               return (
                 <div key={d} className={`psy-domain-group ${DOMAIN_RAMP[d] || ''}`}>
@@ -600,15 +709,14 @@ export default function PsyHome() {
       </motion.section>
 
       <motion.section
-        className="psy-panel"
+        className={`psy-panel ${openCat.ramp}`}
         variants={fadeInUp}
         initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, margin: '-40px' }}
+        animate="show"
       >
         <h2>מבחנים בתנאי אמת</h2>
         <p className="psy-plan-sub">כשסיימתם נושא — כאן בודקים אותו על השעון.</p>
-        {simGroups.map(([kind, list]) => (
+        {shownSimGroups.map(([kind, list]) => (
           <div key={kind} className="psy-sim-kind">
             <h3 className="psy-sim-kind-title">{KIND_HE_TITLE[kind] || KIND_HE[kind] || kind}</h3>
             <p className="psy-sim-kind-lead">{KIND_LEAD[kind]}</p>
@@ -627,7 +735,11 @@ export default function PsyHome() {
                   key={key}
                   className={`psy-domain-group ${(domain && DOMAIN_RAMP[domain]) || ''}`}
                 >
-                  {domain && <DomainHead domain={domain} stats={`${sublist.length} מבחנים`} />}
+                  {/* בתוך קטגוריה פתוחה כל המבחנים הם ממילא של אותו תחום, ולכן
+                      כותרת התחום מיותרת שם — היא הייתה חוזרת על שם הקטגוריה. */}
+                  {domain && domain !== openCat.key && (
+                    <DomainHead domain={domain} stats={`${sublist.length} מבחנים`} />
+                  )}
                   <motion.ul
                     id={`psy-sims-${key.replace(':', '-')}`}
                     className="psy-trows"
@@ -661,6 +773,8 @@ export default function PsyHome() {
           </div>
         ))}
       </motion.section>
+        </>
+      )}
 
       {attempts.length > 0 && (
         <motion.section
