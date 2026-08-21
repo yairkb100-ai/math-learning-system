@@ -214,6 +214,29 @@
    לאנגלית) שה-JSX שם על הקבוצה. לכל var(--lv) יש נפילה מפורשת ל---muted, כי
    קבוצות הסימולציות אינן נושאות מחלקת רמפה — ו-var לא-פתיר היה מוחק את כל
    ההצהרה המקוצרת ומשאיר את הפס בלתי נראה. */
+/* ---------- קבוצת סוג מבחן ("פרקים בודדים") ----------
+   יושבת מעל תת-הקבוצות לפי תחום. רמה אחת מעל כותרת התחום, ולכן בלי הקו התחתון
+   של ‎.psy-domain-head‎ — שני קווים זה מעל זה נקראו כטבלה. */
+.psy-sim-kind {
+  margin-top: 40px;
+}
+.psy-sim-kind-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.3rem;
+  margin: 0 0 2px;
+  color: var(--text);
+}
+.psy-sim-kind-lead {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+/* תת-קבוצת תחום בתוך סוג — צמודה יותר מקבוצה עצמאית */
+.psy-sim-kind .psy-domain-group {
+  margin-top: 24px;
+}
+
 .psy-domain-group {
   margin-top: 36px;
 }

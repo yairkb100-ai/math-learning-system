@@ -329,6 +329,21 @@ export default function PsyHome() {
   const simGroups = KIND_ORDER.map((k) => [k, simulations.filter((s) => s.kind === k)]).filter(
     ([, list]) => list.length > 0
   )
+  // "פרקים בודדים" הגיע כרשימה אחת מעורבת — עשרות טפסים משבעה תחומים בערבוביה,
+  // בלי סדר שאפשר לסרוק. טופס של פרק אחד הוא תמיד בתחום אחד, ולכן הקבוצה
+  // נשברת לתת-קבוצות לפי תחום, באותו סדר ובאותם גוונים של פאנל "הנושאים"
+  // (‎domainRank‎ + ‎DOMAIN_RAMP‎), וממוינת בתוך התחום לפי המספר שבשם כדי
+  // ש"מבחן 2" לא יישב אחרי "מבחן 10".
+  const simDomain = (s) => (s.sections.length === 1 ? s.sections[0].domain : null)
+  const byNumberInTitle = (a, b) =>
+    a.title.localeCompare(b.title, 'he', { numeric: true, sensitivity: 'base' })
+  // סימולציה מלאה איננה "של תחום", ולכן קבוצה שיש בה טופס רב-תחומי נשארת
+  // רשימה אחת — רק ממוינת.
+  const simSubGroups = (list) => {
+    if (list.some((s) => simDomain(s) == null)) return [[null, [...list].sort(byNumberInTitle)]]
+    const domains = [...new Set(list.map(simDomain))].sort((a, b) => domainRank(a) - domainRank(b))
+    return domains.map((d) => [d, list.filter((s) => simDomain(s) === d).sort(byNumberInTitle)])
+  }
 
   const scored = attempts.filter((a) => a.score_percent != null)
   const best = scored.length ? Math.max(...scored.map((a) => a.score_percent)) : null
@@ -593,48 +608,58 @@ export default function PsyHome() {
       >
         <h2>מבחנים בתנאי אמת</h2>
         <p className="psy-plan-sub">כשסיימתם נושא — כאן בודקים אותו על השעון.</p>
-        {simGroups.map(([kind, list]) => {
-          const open = showAllSims[kind]
-          const shown = open ? list : list.slice(0, SIM_PREVIEW)
-          // ברגע שהמשתמש נגע בקבוצה הרשימה עוברת ל-animate מוצהר. עם
-          // whileInView + viewport.once framer-motion יורה פעם אחת ומנתק את
-          // ה-observer, ולכן שורה שנוספת אחר כך נכנסת ל-DOM במצב
-          // initial="hidden" (opacity 0) ואף אחד לא מעביר אותה ל-"show" —
-          // הכפתור "עבד" אבל לא הופיע כלום.
-          const driven = showAllSims[kind] !== undefined
-          return (
-            <div key={kind} className="psy-domain-group">
-              <DomainHead title={KIND_HE_TITLE[kind] || KIND_HE[kind] || kind} lead={KIND_LEAD[kind]} />
-              <motion.ul
-                id={`psy-sims-${kind}`}
-                className="psy-trows"
-                variants={staggerContainer}
-                initial="hidden"
-                {...(driven
-                  ? { animate: 'show' }
-                  : { whileInView: 'show', viewport: { once: true, margin: '-20px' } })}
-              >
-                {shown.map((s) => (
-                  <SimRow key={s.slug} s={s} />
-                ))}
-              </motion.ul>
-              {list.length > SIM_PREVIEW && (
-                <motion.button
-                  type="button"
-                  className="psy-btn psy-btn-more"
-                  aria-expanded={!!open}
-                  aria-controls={`psy-sims-${kind}`}
-                  onClick={() => setShowAllSims((s) => ({ ...s, [kind]: !s[kind] }))}
-                  {...tapScale}
+        {simGroups.map(([kind, list]) => (
+          <div key={kind} className="psy-sim-kind">
+            <h3 className="psy-sim-kind-title">{KIND_HE_TITLE[kind] || KIND_HE[kind] || kind}</h3>
+            <p className="psy-sim-kind-lead">{KIND_LEAD[kind]}</p>
+            {simSubGroups(list).map(([domain, sublist]) => {
+              const key = domain ? `${kind}:${domain}` : kind
+              const open = showAllSims[key]
+              const shown = open ? sublist : sublist.slice(0, SIM_PREVIEW)
+              // ברגע שהמשתמש נגע בקבוצה הרשימה עוברת ל-animate מוצהר. עם
+              // whileInView + viewport.once framer-motion יורה פעם אחת ומנתק את
+              // ה-observer, ולכן שורה שנוספת אחר כך נכנסת ל-DOM במצב
+              // initial="hidden" (opacity 0) ואף אחד לא מעביר אותה ל-"show" —
+              // הכפתור "עבד" אבל לא הופיע כלום.
+              const driven = showAllSims[key] !== undefined
+              return (
+                <div
+                  key={key}
+                  className={`psy-domain-group ${(domain && DOMAIN_RAMP[domain]) || ''}`}
                 >
-                  {open
-                    ? 'הצג פחות'
-                    : `הצג את כל ${list.length} ${KIND_HE_PLURAL[kind] || KIND_HE[kind]}`}
-                </motion.button>
-              )}
-            </div>
-          )
-        })}
+                  {domain && <DomainHead domain={domain} stats={`${sublist.length} מבחנים`} />}
+                  <motion.ul
+                    id={`psy-sims-${key.replace(':', '-')}`}
+                    className="psy-trows"
+                    variants={staggerContainer}
+                    initial="hidden"
+                    {...(driven
+                      ? { animate: 'show' }
+                      : { whileInView: 'show', viewport: { once: true, margin: '-20px' } })}
+                  >
+                    {shown.map((s) => (
+                      <SimRow key={s.slug} s={s} />
+                    ))}
+                  </motion.ul>
+                  {sublist.length > SIM_PREVIEW && (
+                    <motion.button
+                      type="button"
+                      className="psy-btn psy-btn-more"
+                      aria-expanded={!!open}
+                      aria-controls={`psy-sims-${key.replace(':', '-')}`}
+                      onClick={() => setShowAllSims((v) => ({ ...v, [key]: !v[key] }))}
+                      {...tapScale}
+                    >
+                      {open
+                        ? 'הצג פחות'
+                        : `הצג את כל ${sublist.length} ${KIND_HE_PLURAL[kind] || KIND_HE[kind]}`}
+                    </motion.button>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        ))}
       </motion.section>
 
       {attempts.length > 0 && (
