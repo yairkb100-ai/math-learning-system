@@ -268,11 +268,11 @@ export default function PsyResults() {
                 {r.passage && (
                   <details className="psy-review-passage">
                     <summary>הצג את קטע הקריאה</summary>
-                    <MathText text={r.passage.body} />
+                    <MathText text={r.passage.body} mathRuns />
                   </details>
                 )}
                 <div className="psy-stem">
-                  <MathText text={r.stem} />
+                  <MathText text={r.stem} mathRuns />
                 </div>
                 {r.figure && (
                   <div className="psy-figure">
@@ -292,7 +292,7 @@ export default function PsyResults() {
                         .join(' ')}
                     >
                       <span className="psy-option-letter">{OPTION_LETTERS[i]}</span>
-                      <MathText text={opt} />
+                      <MathText text={opt} mathRuns />
                       {i === r.correct_index && <span className="psy-tag">התשובה הנכונה</span>}
                       {i === r.chosen && i !== r.correct_index && (
                         <span className="psy-tag psy-tag-bad">התשובה שלך</span>
@@ -303,13 +303,13 @@ export default function PsyResults() {
                 {r.chosen == null && <div className="psy-note">לא נענתה</div>}
                 {r.explanation && (
                   <div className="psy-explanation">
-                    <MathText text={r.explanation} />
+                    <MathText text={r.explanation} mathRuns />
                   </div>
                 )}
                 {r.solution && (
                   <details className="psy-solution">
                     <summary>איך חושבים על זה</summary>
-                    <MathText text={r.solution} />
+                    <MathText text={r.solution} mathRuns />
                   </details>
                 )}
               </motion.li>

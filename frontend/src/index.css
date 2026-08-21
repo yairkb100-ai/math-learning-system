@@ -1094,6 +1094,11 @@ h4.prose-h {
   direction: ltr;
   unicode-bidi: isolate;
 }
+/* מבחני קרני: רצף מתמטי (סדרת מספרים, ביטוי) לא נשבר לשתי שורות — סדרה
+   שנחתכת באמצע נקראת כשתי סדרות ומבלבלת בדיוק בשאלות שבודקות חוקיות. */
+.nowrap-run {
+  white-space: nowrap;
+}
 
 /* examples */
 .example .example-head,

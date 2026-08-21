@@ -230,14 +230,14 @@ export default function PsyDrill() {
             {current.passage && (
               <aside className="psy-passage">
                 {current.passage.title && <h3>{current.passage.title}</h3>}
-                <MathText text={current.passage.body} />
+                <MathText text={current.passage.body} mathRuns />
               </aside>
             )}
 
             <div className="psy-question-split">
               <div className="psy-question-content">
                 <div className="psy-stem">
-                  <MathText text={current.stem} />
+                  <MathText text={current.stem} mathRuns />
                 </div>
                 {current.figure && (
                   <div className="psy-figure">
@@ -274,7 +274,7 @@ export default function PsyDrill() {
                         >
                           <span className="psy-option-letter">{OPTION_LETTERS[i]}</span>
                           <span className="psy-option-text">
-                            <MathText text={opt} />
+                            <MathText text={opt} mathRuns />
                           </span>
                         </motion.button>
                       </motion.li>
@@ -307,11 +307,11 @@ export default function PsyDrill() {
                       </span>
                     )}
                   </div>
-                  {result.explanation && <MathText text={result.explanation} />}
+                  {result.explanation && <MathText text={result.explanation} mathRuns />}
                   {result.solution && (
                     <details className="psy-solution">
                       <summary>איך חושבים על זה</summary>
-                      <MathText text={result.solution} />
+                      <MathText text={result.solution} mathRuns />
                     </details>
                   )}
                   <motion.button className="psy-btn psy-btn-primary" onClick={next} {...tapScale}>

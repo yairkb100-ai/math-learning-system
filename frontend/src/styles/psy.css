@@ -677,7 +677,10 @@
    the left — matching how the real exam lays a question out. */
 .psy-question-split {
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  /* התוכן מקבל את רוב הרוחב: שאלת סדרה קצרה חייבת להיכנס לשורה אחת, והתשובות
+     בפרקים האלה הן מספר בודד. גם באפשרויות מילוליות ארוכות הן ממילא נשברות
+     לשתי שורות בשני היחסים, כך שהרוחב הנוסף לתוכן לא עולה בכלום. */
+  grid-template-columns: minmax(0, 1.7fr) minmax(200px, 1fr);
   gap: 36px;
   align-items: start;
 }
@@ -692,6 +695,11 @@
 .psy-stem {
   font-size: 1.1rem;
   line-height: 1.85;
+}
+/* נוסחה שנכתבה כ-$...$ היא יחידה אחת — גם היא לא יורדת שורה באמצע. */
+.psy-stem .math-inline,
+.psy-option-text .math-inline {
+  white-space: nowrap;
 }
 .psy-figure {
   display: flex;

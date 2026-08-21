@@ -8,7 +8,12 @@ import FractionArt from './FractionArt.jsx'
 // as plain (escaped) React text; only KaTeX output uses dangerouslySetInnerHTML.
 
 // ---- inline: math ($$…$$, $…$) + **bold** ---------------------------------
-function renderInline(text, keyPrefix) {
+// `opts.mathRuns` keeps every run of LTR math (a number sequence, an
+// expression) on one line and bidi-isolated — see unbreakableRuns below. It is
+// opt-in because course prose may hold expressions too long to fit unbroken;
+// the קרני exam surfaces switch it on, where a sequence that wraps mid-run is
+// a defect.
+function renderInline(text, keyPrefix, opts) {
   const nodes = []
   let k = 0
 
@@ -27,11 +32,11 @@ function renderInline(text, keyPrefix) {
       if (seg.startsWith('**') && seg.endsWith('**') && seg.length >= 4) {
         nodes.push(
           <strong key={`${keyPrefix}-${k++}`}>
-            {renderInlineMath(seg.slice(2, -2), `${keyPrefix}-b${k}`)}
+            {renderInlineMath(seg.slice(2, -2), `${keyPrefix}-b${k}`, opts)}
           </strong>
         )
       } else {
-        nodes.push(...renderInlineMath(seg, `${keyPrefix}-${k++}`))
+        nodes.push(...renderInlineMath(seg, `${keyPrefix}-${k++}`, opts))
       }
     })
   })
@@ -39,7 +44,7 @@ function renderInline(text, keyPrefix) {
 }
 
 // Inline math ($…$) within a plain-text segment → array of nodes.
-function renderInlineMath(text, keyPrefix) {
+function renderInlineMath(text, keyPrefix, opts) {
   const out = []
   let k = 0
   String(text)
@@ -48,7 +53,11 @@ function renderInlineMath(text, keyPrefix) {
       if (p.startsWith('$') && p.endsWith('$') && p.length >= 2) {
         out.push(renderMath(p.slice(1, -1), false, `${keyPrefix}-${k++}`, p))
       } else if (p) {
-        out.push(<span key={`${keyPrefix}-${k++}`}>{p}</span>)
+        out.push(
+          <span key={`${keyPrefix}-${k++}`}>
+            {opts?.mathRuns ? unbreakableRuns(p, `${keyPrefix}-r${k}`) : p}
+          </span>
+        )
       }
     })
   return out
@@ -71,8 +80,8 @@ function renderMath(value, display, key, raw) {
 }
 
 // Inline-only variant for short strings (list items, titles) — no block wrapping.
-export function InlineMathText({ text }) {
-  return <>{renderInline(String(text || ''), 'im')}</>
+export function InlineMathText({ text, mathRuns }) {
+  return <>{renderInline(String(text || ''), 'im', { mathRuns })}</>
 }
 
 // ---- bidi-safe plain text (display only, never rewrites the string) --------
@@ -131,8 +140,10 @@ function ltrRuns(src) {
   return runs
 }
 
-export function BidiSafeText({ text }) {
-  const src = String(text ?? '')
+// Wrap every math-shaped LTR run of `src` in a bidi-isolating span and leave
+// all other characters untouched, so the concatenated text is identical to the
+// input. Returns the bare string when there is nothing to isolate.
+export function mathRunNodes(src, keyPrefix = 'bs', className = 'bidi-math') {
   const nodes = []
   let last = 0
   let k = 0
@@ -141,15 +152,66 @@ export function BidiSafeText({ text }) {
     if (!MATH_SHAPED.test(run)) continue
     if (start > last) nodes.push(src.slice(last, start))
     nodes.push(
-      <span key={`bs-${k++}`} className="bidi-math">
+      <span key={`${keyPrefix}-${k++}`} className={className}>
         {run}
       </span>
     )
     last = end
   }
-  if (!nodes.length) return <>{src}</>
+  if (!nodes.length) return src
   if (last < src.length) nodes.push(src.slice(last))
-  return <>{nodes}</>
+  return nodes
+}
+
+export function BidiSafeText({ text }) {
+  return <>{mathRunNodes(String(text ?? ''))}</>
+}
+
+// ---- unbreakable runs (מבחני קרני) ----------------------------------------
+// A sequence question is read as one row: "100, 5, 90, 10, 80, 15, 70, ?" that
+// wraps after "80, 15" reads as two sequences and the חוקיות disappears. So on
+// the exam surfaces every comma-separated run — numbers OR Hebrew letters,
+// including the trailing "?" — is kept on one line, and any remaining LTR math
+// run is isolated and kept whole too.
+//
+// An "atom" is one member of such a run: a number, a single letter, or the
+// question mark that stands for the missing member.
+const SEQ_ATOM = String.raw`(?:-?\d+(?:\.\d+)?|[A-Za-zא-ת]|\?)`
+// Three atoms minimum, so an ordinary Hebrew sentence with one comma in it is
+// never mistaken for a sequence.
+const SEQUENCE_RE = new RegExp(
+  SEQ_ATOM + String.raw`(?:\s*,\s*` + SEQ_ATOM + `){2,}`, 'g')
+// Digits/latin inside the run mean it must also be bidi-isolated; a run of
+// Hebrew letters is RTL already and only needs the no-break.
+const HAS_LTR = /[0-9A-Za-z]/
+
+export function unbreakableRuns(src, keyPrefix = 'ub') {
+  const nodes = []
+  let last = 0
+  let k = 0
+  SEQUENCE_RE.lastIndex = 0
+  let m
+  const push = (chunk) => {
+    if (!chunk) return
+    const inner = mathRunNodes(chunk, `${keyPrefix}-m${k++}`, 'bidi-math nowrap-run')
+    if (Array.isArray(inner)) nodes.push(...inner)
+    else nodes.push(inner)
+  }
+  while ((m = SEQUENCE_RE.exec(src)) !== null) {
+    push(src.slice(last, m.index))
+    nodes.push(
+      <span
+        key={`${keyPrefix}-s${k++}`}
+        className={HAS_LTR.test(m[0]) ? 'bidi-math nowrap-run' : 'nowrap-run'}
+      >
+        {m[0]}
+      </span>
+    )
+    last = m.index + m[0].length
+  }
+  if (!nodes.length) return mathRunNodes(src, `${keyPrefix}-m${k++}`, 'bidi-math nowrap-run')
+  push(src.slice(last))
+  return nodes
 }
 
 // ---- illustrations: {{kind:param|caption}} ---------------------------------
@@ -212,8 +274,9 @@ function splitRow(line) {
   return line.trim().replace(/^\||\|$/g, '').split('|').map((c) => c.trim())
 }
 
-export default function MathText({ text, className }) {
+export default function MathText({ text, className, mathRuns }) {
   const blocks = useMemo(() => parseBlocks(String(text || '')), [text])
+  const opts = useMemo(() => ({ mathRuns }), [mathRuns])
 
   return (
     <div className={className}>
@@ -221,13 +284,13 @@ export default function MathText({ text, className }) {
         const key = `b-${i}`
         if (block.type === 'heading') {
           const H = block.level >= 3 ? 'h4' : 'h3'
-          return <H key={key} className="prose-h">{renderInline(block.text, key)}</H>
+          return <H key={key} className="prose-h">{renderInline(block.text, key, opts)}</H>
         }
         if (block.type === 'ul') {
           return (
             <ul key={key} className="prose-list">
               {block.items.map((it, j) => (
-                <li key={`${key}-${j}`}>{renderInline(it, `${key}-${j}`)}</li>
+                <li key={`${key}-${j}`}>{renderInline(it, `${key}-${j}`, opts)}</li>
               ))}
             </ul>
           )
@@ -236,7 +299,7 @@ export default function MathText({ text, className }) {
           return (
             <ol key={key} className="prose-list">
               {block.items.map((it, j) => (
-                <li key={`${key}-${j}`}>{renderInline(it, `${key}-${j}`)}</li>
+                <li key={`${key}-${j}`}>{renderInline(it, `${key}-${j}`, opts)}</li>
               ))}
             </ol>
           )
@@ -252,7 +315,7 @@ export default function MathText({ text, className }) {
                   key={j}
                   {...it}
                   caption={
-                    it.caption ? renderInline(it.caption, `${key}-${j}-cap`) : null
+                    it.caption ? renderInline(it.caption, `${key}-${j}-cap`, opts) : null
                   }
                 />
               ))}
@@ -262,7 +325,7 @@ export default function MathText({ text, className }) {
         if (block.type === 'quote') {
           return (
             <blockquote key={key} className="prose-quote">
-              {renderInline(block.text, key)}
+              {renderInline(block.text, key, opts)}
             </blockquote>
           )
         }
@@ -273,7 +336,7 @@ export default function MathText({ text, className }) {
                 <thead>
                   <tr>
                     {block.header.map((c, j) => (
-                      <th key={j}>{renderInline(c, `${key}-h-${j}`)}</th>
+                      <th key={j}>{renderInline(c, `${key}-h-${j}`, opts)}</th>
                     ))}
                   </tr>
                 </thead>
@@ -281,7 +344,7 @@ export default function MathText({ text, className }) {
                   {block.rows.map((row, r) => (
                     <tr key={r}>
                       {row.map((c, j) => (
-                        <td key={j}>{renderInline(c, `${key}-${r}-${j}`)}</td>
+                        <td key={j}>{renderInline(c, `${key}-${r}-${j}`, opts)}</td>
                       ))}
                     </tr>
                   ))}
@@ -291,7 +354,7 @@ export default function MathText({ text, className }) {
           )
         }
         // paragraph
-        return <p key={key} className="prose-p">{renderInline(block.text, key)}</p>
+        return <p key={key} className="prose-p">{renderInline(block.text, key, opts)}</p>
       })}
     </div>
   )
