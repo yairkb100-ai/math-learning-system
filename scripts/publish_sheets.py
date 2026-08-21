@@ -22,6 +22,7 @@ from pathlib import Path
 
 from playwright.sync_api import sync_playwright
 
+import fix_sheet_bidi
 import gen_chapter_assets
 import sheet_pdf
 
@@ -68,6 +69,18 @@ def target_name(slug_dir, sheet, number, short_title):
     return f"{stem}{safe_title(short_title)}.pdf"
 
 
+def _repair(chdir):
+    """Apply fix_sheet_bidi in place to a chapter's freshly generated sheets."""
+    for name in fix_sheet_bidi.SHEETS:
+        path = chdir / name
+        if not path.exists():
+            continue
+        new, changed = fix_sheet_bidi.repair_html(
+            path.read_text(encoding='utf-8'))
+        if changed:
+            gen_chapter_assets._write_text(path, new)
+
+
 def publish(chapters, browser):
     published, skipped = 0, []
     for chdir in chapters:
@@ -75,6 +88,12 @@ def publish(chapters, browser):
             skipped.append((chdir, "no assets.json"))
             continue
         gen_chapter_assets.main(str(chdir))
+        # The committed sheets are generator output *plus* the bidi repair —
+        # fix_sheet_bidi's --check gate fails a tree without it — so the repair
+        # has to run here too. Rendering straight off gen_chapter_assets would
+        # print a PDF from HTML that differs from the HTML in the repo, and the
+        # difference is exactly the math that reorders on a student's printout.
+        _repair(chdir)
         counts = sheet_pdf.render(chdir, browser)
 
         course_dir = chdir.parent
