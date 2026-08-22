@@ -10,6 +10,13 @@ import {
   IconClock,
   IconTrophy,
   IconCheck,
+  IconBook,
+  IconPencil,
+  IconLayers,
+  IconBulb,
+  IconCompass,
+  IconLines,
+  IconGraduation,
 } from '../components/icons.jsx'
 import { fadeInUp, staggerContainer, hoverLift, tapScale, DURATION, EASE_OUT } from '../lib/motion.js'
 import { PRODUCT_KARNI } from '../lib/products.js'
@@ -45,6 +52,21 @@ const DOMAIN_RAMP = {
   spatial: 'grade-9', // סגול
   speed: 'grade-hs', // קורל
   english: 'lv-amber', // אמבר-חרדל
+}
+
+// אייקון לכל קטגוריה — SVG מ-‎icons.jsx‎ בלבד, לעולם לא אמוג'י (CLAUDE.md).
+// הבחירה סמנטית: ספר לטקסט, עיפרון לחישוב, שכבות לצורות, נורה להיסק, מצפן
+// למרחב, שעון לזריזות, שורות טקסט לאנגלית, וגביע לסימולציה המלאה.
+const CAT_ICON = {
+  verbal: IconBook,
+  quantitative: IconPencil,
+  figural: IconLayers,
+  logic: IconBulb,
+  spatial: IconCompass,
+  speed: IconClock,
+  english: IconLines,
+  full: IconTrophy,
+  other: IconGraduation,
 }
 
 const KIND_HE = { mini: 'מיני-תרגול', section: 'פרק בודד', full: 'סימולציה מלאה' }
@@ -382,7 +404,7 @@ export default function PsyHome() {
     // המלאות) היא חלק הטפסים שכבר נוסו, כי זה מה שיש שם למדוד.
     const progress = bank ? answered / bank : sims.length ? tried / sims.length : 0
     const empty = !courseCount && !tps.length && !sims.length
-    return empty ? null : { key, title, ramp, core, meta, progress }
+    return empty ? null : { key, title, ramp, core, meta, progress, Icon: CAT_ICON[key] }
   }
   const categories = [
     ...DOMAIN_ORDER.slice()
@@ -580,6 +602,11 @@ export default function PsyHome() {
               <motion.li key={c.key} variants={fadeInUp}>
                 <motion.div {...hoverLift}>
                   <Link className={`psy-cat ${c.ramp}`} to={`/psy?cat=${c.key}`}>
+                    {c.Icon && (
+                      <span className="psy-cat-icon" aria-hidden="true">
+                        <c.Icon />
+                      </span>
+                    )}
                     <span className="psy-cat-head">
                       <span className="psy-cat-name">{c.title}</span>
                       {c.core && <span className="psy-domain-tag">עיקר המבחן</span>}
