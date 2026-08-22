@@ -28,3 +28,16 @@ jobs:
           PYTHONIOENCODING: utf-8
           PYTHONUTF8: "1"
         run: python scripts/check_assets.py
+      - name: Sheet math renderer tests
+        env:
+          PYTHONIOENCODING: utf-8
+          PYTHONUTF8: "1"
+        run: |
+          python scripts/test_sheet_math.py
+          python scripts/test_fix_sheet_bidi.py
+
+      - name: No RTL-reordered math left in the sheets
+        env:
+          PYTHONIOENCODING: utf-8
+          PYTHONUTF8: "1"
+        run: python scripts/fix_sheet_bidi.py --check
