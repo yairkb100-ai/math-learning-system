@@ -427,6 +427,7 @@ export default function PsyHome() {
         transition={{ duration: DURATION.long, ease: EASE_OUT }}
       >
         <div className="psy-hero-text">
+          <span className="psy-eyebrow">מכון קרני · שבעה תחומים</span>
           <h1>הכנה לקרני</h1>
           <p>
             מבחן הקבלה של מכון קרני לישיבות התיכוניות, בשבעה תחומים: מילולי, כמותי, צורני,
@@ -566,8 +567,11 @@ export default function PsyHome() {
             <h2>כל הקטגוריות</h2>
             <Link to="/psy/drill" className="psy-link">לכל התרגול</Link>
           </div>
+          {/* שתי שורות מלאות בדיוק — חצי מהריבועים בכל שורה, בין 2 ל-5 עמודות
+              כדי שריבוע לא ייצא צר מדי או רחב מדי. */}
           <motion.ul
             className="psy-cats"
+            style={{ '--cat-cols': Math.min(5, Math.max(2, Math.ceil(categories.length / 2))) }}
             variants={staggerContainer}
             initial="hidden"
             animate="show"
