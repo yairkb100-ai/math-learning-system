@@ -1742,6 +1742,73 @@
   margin: 0;
 }
 
+/* תשובה ציורית היא שורה ברשימה, לא איור בפרק תוכן. ‎.art-row‎ הכללי נותן
+   לאיור מסגרת, רקע-נייר, ריפוד 18px ושוליים 28px — ובתוך כפתור תשובה זה
+   ייצר "קופסה בתוך קופסה" שגררה כל אפשרות לגובה ~180px, כך שארבע תשובות
+   לא נכנסו למסך. כאן האיור מאבד את הקופסה ומצטמצם לגודל של תא במטריצה
+   של השאלה עצמה — אותה שפה גרפית, שבריר מהמקום. */
+.psy-option .art-row,
+.psy-review-option .art-row {
+  margin: 0;
+  padding: 0;
+  gap: 8px;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  justify-content: flex-start;
+  overflow: visible;
+}
+.psy-option .fig-cell,
+.psy-review-option .fig-cell {
+  width: 46px;
+  height: 46px;
+  margin: 0;
+}
+.psy-option .fig-row,
+.psy-review-option .fig-row,
+.psy-option .fig-matrix .fig-row,
+.psy-review-option .fig-matrix .fig-row {
+  gap: 5px;
+}
+.psy-option .fig-matrix,
+.psy-review-option .fig-matrix {
+  gap: 5px;
+}
+.psy-option .spatial-net,
+.psy-option .spatial-cube3d,
+.psy-option .spatial-stack,
+.psy-option .spatial-mirror,
+.psy-review-option .spatial-net,
+.psy-review-option .spatial-cube3d,
+.psy-review-option .spatial-stack,
+.psy-review-option .spatial-mirror {
+  max-height: 62px;
+  width: auto;
+}
+/* בלי הקופסה הפנימית גם הריפוד של הכפתור עצמו יכול להתהדק, והכפתור מתכווץ
+   לרוחב התוכן: תשובה ציורית היא צורה קטנה, וכפתור ברוחב מלא סביבה נראה כמו
+   שדה ריק. אזור המגע נשמר ע"י ‎min-height‎ במדיה-קוורי של המובייל. */
+.psy-option:has(.art-row) {
+  padding: 8px 12px;
+  width: fit-content;
+  min-width: 132px;
+}
+.psy-options:has(.art-row) {
+  gap: 8px;
+  justify-items: start;
+}
+
+/* איור השאלה גדל מעט מול התשובות שהתכווצו — בלי זה היחס מתהפך והשאלה
+   נראית משנית לתשובות. ‎max-width:100%‎ של ‎.art-fig svg‎ עדיין גובר, כך
+   שבמסך צר האיור מצטמצם מעצמו. */
+.psy-figure .fig-cell {
+  width: 86px;
+  height: 86px;
+}
+.psy-figure .art-row {
+  padding: 20px 18px;
+}
+
 /* Coarse "where you stand" line under the percentage. Deliberately a sentence,
    not a number — see app/psy_scoring.py for why no scaled score is shown. */
 .psy-readiness {
