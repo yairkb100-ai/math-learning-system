@@ -297,6 +297,20 @@
   box-shadow: var(--shadow);
   text-decoration: none;
 }
+/* תג האייקון — ריבוע מעוגל בגוון התחום, אותה רמפה של הכרטיס עצמו. האייקון
+   יורש ‎currentColor‎ ו-‎1em‎, ולכן הגודל נקבע כאן ב-‎font-size‎. */
+.psy-cat-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 13px;
+  background: var(--lv-bg, var(--surface-2));
+  color: var(--lv, var(--accent));
+  font-size: 1.4rem;
+  margin-bottom: 4px;
+}
 .psy-cat-head {
   display: flex;
   align-items: center;
