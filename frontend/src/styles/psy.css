@@ -214,6 +214,108 @@
    לאנגלית) שה-JSX שם על הקבוצה. לכל var(--lv) יש נפילה מפורשת ל---muted, כי
    קבוצות הסימולציות אינן נושאות מחלקת רמפה — ו-var לא-פתיר היה מוחק את כל
    ההצהרה המקוצרת ומשאיר את הפס בלתי נראה. */
+/* ---------- רשת הקטגוריות ----------
+   נקודת הכניסה לאזור: ריבוע לכל תחום, ולחיצה פותחת את התוכן שלו. הגוון מגיע
+   ממחלקת הרמפה הקיימת (‎--lv / --lv-bg‎ על ‎.grade-5…‎.grade-hs‎ ו-‎.lv-amber‎),
+   ולכן אין כאן אף גוון חדש — הריבוע נושא את המחלקה עצמה. לכל ‎var(--lv)‎ יש
+   נפילה מפורשת, כי קטגוריה בלי רמפה (סימולציות מלאות) הייתה מאבדת את כל
+   ההצהרה המקוצרת. */
+.psy-cats {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(224px, 1fr));
+  gap: 14px;
+}
+.psy-cats > li {
+  display: flex;
+}
+.psy-cats > li > * {
+  display: flex;
+  width: 100%;
+}
+.psy-cat {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  min-height: 132px;
+  padding: 16px 18px;
+  border: 1px solid var(--border);
+  /* פס-צד בגוון התחום — אותו סימון שנושאות שורות הנושא והמבחן */
+  border-inline-start: 4px solid var(--lv, var(--accent));
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--text);
+}
+.psy-cat:hover {
+  border-color: var(--lv, var(--accent));
+  box-shadow: var(--shadow);
+  text-decoration: none;
+}
+.psy-cat-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.psy-cat-name {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.15rem;
+  line-height: 1.3;
+  color: var(--lv, var(--text));
+}
+.psy-cat-meta {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+/* המד נדחף לתחתית הריבוע, כך שכל הריבועים ברשת מיישרים אותו לאותו גובה
+   גם כשהכותרת נשברת לשתי שורות. */
+.psy-cat-foot {
+  margin-top: auto;
+  padding-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.psy-cat-bar {
+  flex: 1;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--lv-bg, var(--border));
+  overflow: hidden;
+}
+.psy-cat-bar-fill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--lv, var(--accent));
+  /* RTL: המד מתמלא מהימין */
+  transform-origin: right center;
+}
+.psy-cat-pct {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--muted);
+  min-width: 34px;
+  text-align: start;
+}
+/* כותרת הקטגוריה הפתוחה + הדרך חזרה */
+.psy-cat-open-title {
+  color: var(--lv, var(--accent));
+}
+.psy-cat-back {
+  background: none;
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+  padding: 0;
+  min-height: 44px;
+}
+
 /* ---------- קבוצת סוג מבחן ("פרקים בודדים") ----------
    יושבת מעל תת-הקבוצות לפי תחום. רמה אחת מעל כותרת התחום, ולכן בלי הקו התחתון
    של ‎.psy-domain-head‎ — שני קווים זה מעל זה נקראו כטבלה. */
