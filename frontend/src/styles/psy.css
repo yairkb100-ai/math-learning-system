@@ -1803,10 +1803,28 @@
    שבמסך צר האיור מצטמצם מעצמו. */
 .psy-figure .fig-cell {
   width: 86px;
-  height: 86px;
+  /* גובה אוטומטי ולא 86px קבוע: כשהשורה מצטמצמת במסך צר התא חייב לשמור על
+     היחס שלו, אחרת הריבוע נמתח למלבן. */
+  height: auto;
 }
 .psy-figure .art-row {
   padding: 20px 18px;
+}
+/* במסך צר שורת סדרה נשברה לשתי שורות — ‎.art-row‎ הוא ‎flex-wrap: wrap‎,
+   וארבעה תאים עם רווח של 30px לא נכנסים ל-335px שיש בפועל ב-375px מכשיר.
+   סדרה נקראת כשורה אחת, ולכן היא לא נשברת אלא מצטמצמת יחד: 72px בסדרה של
+   ארבעה, 46px בסדרה של שישה. נמדד ב-375px: גובה האיור ירד מ-312px ל-164px.
+   ‎overflow-x: auto‎ של ‎.art-row‎ נשאר כרשת ביטחון לסדרה ארוכה במיוחד. */
+@media (max-width: 900px) {
+  .psy-figure .art-row {
+    flex-wrap: nowrap;
+    gap: 8px;
+    padding: 14px 10px;
+  }
+  .psy-figure .art-fig {
+    min-width: 0;
+    flex: 0 1 auto;
+  }
 }
 
 /* Coarse "where you stand" line under the percentage. Deliberately a sentence,
