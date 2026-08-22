@@ -78,6 +78,40 @@ def check(chdir):
     return problems
 
 
+# Fields of courses/*.json that the app prints as plain text — course cards,
+# page headers, example/exercise headings. KaTeX never runs on them, so a `$`
+# here reaches the student as a dollar sign. Everything else in a course file
+# goes through MathText and is free to use $…$.
+PLAIN_TEXT_FIELDS = (
+    ("metadata", "title"),
+    ("metadata", "description"),
+    ("chapter", "title"),
+    ("example", "title"),
+    ("exercise", "title"),
+)
+
+
+def check_course_plain_text(path):
+    """No literal `$` on a surface that is rendered without KaTeX."""
+    course = (json.loads(path.read_text(encoding="utf-8")).get("course") or {})
+    problems = []
+
+    def flag(kind, field, value, where):
+        if (kind, field) in PLAIN_TEXT_FIELDS and "$" in str(value or ""):
+            problems.append(f"{where}: literal $ in a plain-text field — {value}")
+
+    meta = course.get("metadata") or {}
+    for field in ("title", "description"):
+        flag("metadata", field, meta.get(field), f"metadata.{field}")
+    for i, ch in enumerate(course.get("chapters") or []):
+        flag("chapter", "title", ch.get("title"), f"chapters[{i}].title")
+        for j, ex in enumerate(ch.get("examples") or []):
+            flag("example", "title", ex.get("title"), f"chapters[{i}].examples[{j}].title")
+        for j, ex in enumerate(ch.get("exercises") or []):
+            flag("exercise", "title", ex.get("title"), f"chapters[{i}].exercises[{j}].title")
+    return problems
+
+
 def main():
     bad = 0
     for chdir in sorted((ROOT / "content").glob("*/*/ch*")):
@@ -85,6 +119,13 @@ def main():
         if problems:
             bad += 1
             print(f"{chdir.relative_to(ROOT).as_posix()}")
+            for p in problems:
+                print(f"    ! {p}")
+    for path in sorted((ROOT / "courses").glob("*.json")):
+        problems = check_course_plain_text(path)
+        if problems:
+            bad += 1
+            print(f"{path.relative_to(ROOT).as_posix()}")
             for p in problems:
                 print(f"    ! {p}")
     print("all chapters clean" if not bad else f"{bad} chapter(s) with problems")
