@@ -2373,6 +2373,70 @@ h4.prose-h {
   display: inline-block;
   vertical-align: middle;
 }
+
+/* ===== figural answers in a course quiz (פרקי "הכנה לקרני") =====
+   אותה בעיה שתוקנה במסכי הקרני עצמם: תשובה ציורית עוברת דרך MathText,
+   שמרנדר טוקן איור כ-‎.art-row‎ הכללי — רקע-נייר, מסגרת, ריפוד 18px ושוליים
+   28px — וכל תשובה בשאלון הפרק הפכה לקופסה בתוך קופסה בגובה 195px, כך
+   שארבע תשובות תפסו 802px. הטוקנים האלה מופיעים אך ורק ב-‎courses/karni-*‎
+   (663 figcell, 85 figpair, 72 figrow, 71 figmatrix), ולכן ה-‎:has()‎ כאן
+   מבודד את השאלונים של קרני ולא נוגע בשאלוני המתמטיקה.
+   נמדד: תשובה 195px → 71px, רשימת התשובות 802px → 306px. */
+.option .art-row:has(.fig-cell, .spatial-net, .spatial-cube3d, .spatial-stack, .spatial-mirror) {
+  margin: 0;
+  padding: 0;
+  gap: 8px;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  justify-content: flex-start;
+  overflow: visible;
+}
+.option .fig-cell {
+  width: 46px;
+  height: auto;
+  margin: 0;
+}
+.option .fig-row,
+.option .fig-matrix {
+  gap: 5px;
+}
+.option .spatial-net,
+.option .spatial-cube3d,
+.option .spatial-stack,
+.option .spatial-mirror {
+  max-height: 62px;
+  width: auto;
+}
+/* הכפתור מתכווץ לרוחב התוכן — תשובה ציורית היא צורה קטנה, ושורה ברוחב מלא
+   סביבה נראית כמו שדה ריק. */
+.option:has(.fig-cell, .spatial-net, .spatial-cube3d, .spatial-stack, .spatial-mirror) {
+  width: fit-content;
+  min-width: 150px;
+}
+
+/* במסך צר איור פריטי נשבר: ‎.fig-row‎ הוא flex-wrap, וסדרה של ארבעה תאים
+   (76px כל אחד) לא נכנסת ל-335px. סדרה, מטריצה ואנלוגיה נקראות כשורות
+   שלמות, ולכן הן לא נשברות אלא מצטמצמות יחד — ‎min-width: 0‎ מרשה לתא לרדת
+   מתחת לרוחב הטבעי שלו ו-‎height: auto‎ שומר על הריבוע. חל גם על גוף הפרק
+   וגם על השאלון; מסכי הקרני מקבלים את זה מכאן ומוסיפים רק את הריפוד שלהם. */
+@media (max-width: 900px) {
+  .fig-row,
+  .fig-pair,
+  .fig-pair-half {
+    flex-wrap: nowrap;
+  }
+  .fig-row {
+    gap: 6px;
+  }
+  .fig-pair {
+    gap: 8px;
+  }
+  .fig-cell {
+    min-width: 0;
+    height: auto;
+  }
+}
 .step-section {
   margin-top: 26px;
   padding-top: 22px;

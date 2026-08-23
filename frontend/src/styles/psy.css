@@ -1810,32 +1810,12 @@
 .psy-figure .art-row {
   padding: 20px 18px;
 }
-/* במסך צר האיור נשבר: ‎.fig-row‎ הוא ‎flex-wrap: wrap‎ (index.css), וארבעה
-   תאים של 86px לא נכנסים ל-314px שיש בפועל ב-375px — סדרה נשברה לשתי שורות
-   והתא עם ה-‎?‎ ישב לבדו למטה כמו סדרה נוספת; ב-320px מטריצת 3×3 נשברה לשש
-   שורות ואיבדה את המבנה. סדרה ומטריצה חייבות להיקרא כשורות שלמות, ולכן הן
-   לא נשברות אלא מצטמצמות יחד: ‎min-width: 0‎ מרשה לתא לרדת מתחת לרוחב
-   הטבעי שלו, וה-‎height: auto‎ שלמעלה שומר על הריבוע.
-   נמדד מול ה-DOM האמיתי: ב-375px סדרה 2 שורות → שורה אחת (74px לתא) וגובה
-   האיור 268px → 160px; ב-320px מטריצה 6 שורות → 3 (82px לתא). */
+/* ה-‎nowrap‎ עצמו יושב ב-index.css (חל גם על פרקי הקורס של קרני); כאן נשאר
+   רק הריפוד של קופסת האיור, שמתהדק כדי לא לגזול רוחב מהתאים שהצטמצמו. */
 @media (max-width: 900px) {
   .psy-figure .art-row {
     gap: 8px;
     padding: 14px 10px;
-  }
-  .psy-figure .fig-row,
-  .psy-figure .fig-pair,
-  .psy-figure .fig-pair-half {
-    flex-wrap: nowrap;
-  }
-  .psy-figure .fig-row {
-    gap: 6px;
-  }
-  .psy-figure .fig-pair {
-    gap: 8px;
-  }
-  .psy-figure .fig-cell {
-    min-width: 0;
   }
 }
 
