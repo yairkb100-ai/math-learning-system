@@ -15,6 +15,7 @@ import {
   IconArrowStart,
   IconLayers,
   IconSpark,
+  IconRefresh,
 } from '../components/icons.jsx'
 
 const MotionLink = motion(Link)
@@ -51,40 +52,40 @@ const FEATURES = [
   },
 ]
 
-// שלושת השלבים של המסלול — *מה* יש כאן. ההשוואה לערכה המודפסת (*למה* זה
-// עדיף) חיה רק בכרטיסי PSY_COMPARE שמתחת, כדי ששני הבלוקים לא יגידו אותו דבר.
+// שלושת השלבים של המסלול — *מה* יש כאן. היתרונות (*למה* זה עדיף) חיים רק
+// בכרטיסי PSY_ADVANTAGES שמתחת, כדי ששני הבלוקים לא יגידו אותו דבר.
 const PSY_POINTS = [
   'שלב א׳ — קורס תיאוריה קצר לכל אחד משבעת התחומים: מילולי, כמותי, צורני, לוגי, מרחבי, זריזות ודיוק ואנגלית',
   'שלב ב׳ — תרגול ממוקד: בוחרים תחום ונושא ומתרגלים רק אותם, כמה שצריך',
   'שלב ג׳ — סימולציית מבחן קרני מלאה, פרק אחרי פרק, מההתחלה ועד הסוף',
 ]
 
-// כל כרטיס הוא הפרש אחד מול ערכת קרני המודפסת — הכותרת היא מה שיש כאן,
-// והשורה התחתונה (lp-vs) היא מה שקורה בערכה. הצמד הזה הוא כל הפואנטה של הבלוק.
-const PSY_COMPARE = [
-  {
-    icon: <IconSpark />,
-    title: 'תשובה והסבר תוך שנייה',
-    text: 'כל שאלה נבדקת ברגע שעונים עליה, ומיד מופיע ההסבר לדרך הפתרון — בזמן שהשאלה עוד בראש.',
-    old: 'בערכה מודפסת: התשובות בסוף החוברת, ובלי הסבר למה דווקא טעית.',
-  },
-  {
-    icon: <IconClock />,
-    title: 'הזמן נמדד במקומך',
-    text: 'הסימולציה מנהלת את הזמן של כל פרק בעצמה, בדיוק כמו ביום המבחן, ועוצרת כשנגמר.',
-    old: 'בערכה מודפסת: צריך למדוד את הזמן לבד — ובפועל כמעט אף אחד לא עושה את זה.',
-  },
-  {
-    icon: <IconTarget />,
-    title: 'דוח לפי תחום, לא ציון אחד',
-    text: 'אחרי כל סימולציה רואים אחוז דיוק בכל תחום ובכל נושא, וממה כדאי להתחיל בפעם הבאה.',
-    old: 'בערכה מודפסת: סופרים תשובות נכונות ומנחשים איפה הבעיה.',
-  },
+// היתרונות של ההכנה לקרני כאן — עצמאיים, בלי מסגור מול ערכה מודפסת.
+const PSY_ADVANTAGES = [
   {
     icon: <IconLayers />,
-    title: 'יותר מ-1,000 שאלות, ובכל פעם אחרות',
-    text: 'בנק שאלות לכל שבעת התחומים, וכל סימולציה מגרילה ממנו שאלות מחדש בלי לחזור על עצמה.',
-    old: 'בערכה מודפסת: כמות סגורה של חוברות — כשנגמרו, נגמר גם התרגול.',
+    title: 'מאגר של אלפי שאלות ותרגולים',
+    text: 'אלפי שאלות תרגול בכל שבעת התחומים של מבחן קרני, לתרגול ממוקד בכל נושא ותת-נושא.',
+  },
+  {
+    icon: <IconSpark />,
+    title: 'הסבר מפורט לכל שאלה',
+    text: 'לכל שאלה יש הסבר מפורט לדרך הפתרון, לכל נושא ותת-נושא — לא רק התשובה הסופית.',
+  },
+  {
+    icon: <IconRefresh />,
+    title: 'ערכה דינאמית ומתעדכנת',
+    text: 'המאגר גדל ומתעדכן באופן שוטף, כך שהתרגול נשאר רלוונטי ומגוון מבחינה לבחינה.',
+  },
+  {
+    icon: <IconTrophy />,
+    title: 'מאגר הסימולציות הרחב ביותר שיש',
+    text: 'סימולציות מבחן קרני מלאות בתנאי זמן אמיתיים — המאגר הרחב ביותר שקיים היום להכנה למבחן.',
+  },
+  {
+    icon: <IconUsers />,
+    title: 'אפשרות לליווי אישי או קבוצתי',
+    text: 'לצד התרגול העצמי אפשר לשלב ליווי אישי או קבוצתי עם מורה, לפי מה שהכי עוזר.',
   },
 ]
 
@@ -181,7 +182,7 @@ export default function LandingPage() {
       </section>
 
       {/* Karni prep */}
-      <section className="lp-panel lp-panel-board">
+      <section className="lp-panel lp-panel-board lp-panel-karni">
         <div className="lp-panel-board-inner">
           <h2>הכנה לקרני — מסלול שלם בשלושה שלבים</h2>
           <p>
@@ -201,10 +202,10 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Karni vs printed kits */}
+      {/* Karni advantages */}
       <div className="cat-head lp-head-karni">
         <h2 className="cat-head-title">
-          <IconTrophy /> למה כאן ולא בערכת קרני מודפסת
+          <IconTrophy /> מה מקבלים בהכנה לקרני
         </h2>
       </div>
       <motion.div
@@ -214,12 +215,11 @@ export default function LandingPage() {
         whileInView="show"
         viewport={{ once: true, margin: '-40px' }}
       >
-        {PSY_COMPARE.map((c) => (
-          <motion.div key={c.title} className="lp-feature-card lp-compare-card" variants={fadeInUp}>
+        {PSY_ADVANTAGES.map((c) => (
+          <motion.div key={c.title} className="lp-feature-card" variants={fadeInUp}>
             <span className="lp-feature-icon lp-feature-icon-karni">{c.icon}</span>
             <h3>{c.title}</h3>
             <p>{c.text}</p>
-            <p className="lp-vs">{c.old}</p>
           </motion.div>
         ))}
       </motion.div>
