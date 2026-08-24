@@ -650,13 +650,11 @@
 .psy-course-list .psy-course-card,
 
 .psy-course-card {
-  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 20px 22px;
+  gap: 8px;
+  padding: 18px;
   border: 1px solid var(--border);
-  border-inline-start: 8px solid var(--lv, var(--accent));
   border-radius: 14px;
   background: var(--surface);
   color: var(--text);
@@ -664,7 +662,6 @@
 }
 .psy-course-card:hover {
   border-color: var(--accent);
-  border-inline-start-color: var(--lv, var(--accent));
   box-shadow: var(--shadow);
 }
 .psy-course-title {
@@ -681,35 +678,15 @@
   line-height: 1.6;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
   overflow: hidden;
 }
 .psy-course-progress {
-  position: relative;
-  display: block;
   margin-top: auto;
-  padding-top: 16px;
   font-size: 0.82rem;
   color: var(--accent-2);
   font-weight: 600;
-}
-.psy-course-progress::before,
-.psy-course-progress::after {
-  content: '';
-  position: absolute;
-  inset-inline: 0;
-  top: 0;
-  height: 6px;
-  border-radius: 999px;
-}
-.psy-course-progress::before {
-  background: var(--surface-2);
-}
-.psy-course-progress::after {
-  background: var(--lv, var(--accent));
-  transform: scaleX(var(--course-progress, 0));
-  transform-origin: right center;
 }
 
 /* ---------- buttons ---------- */
