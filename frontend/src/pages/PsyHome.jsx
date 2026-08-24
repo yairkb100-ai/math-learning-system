@@ -677,14 +677,21 @@ export default function PsyHome() {
                 >
                   {list.map((c) => {
                     const ct = topicsByCourse.get(c.id) || []
+                    const courseProgress = c.chapters_count
+                      ? Math.min(1, c.completed_chapters / c.chapters_count)
+                      : 0
                     return (
                       <motion.li key={c.id} className="psy-course-block" variants={fadeInUp}>
                         <motion.div {...hoverLift}>
-                          <Link to={`/courses/${c.id}`} className="psy-course-card">
+                          <Link
+                            to={`/courses/${c.id}`}
+                            className="psy-course-card"
+                            style={{ '--course-progress': courseProgress }}
+                          >
                             <span className="psy-course-title">{c.title}</span>
                             <span className="psy-course-desc">{c.description}</span>
                             <span className="psy-course-progress">
-                              {c.completed_chapters}/{c.chapters_count} פרקים
+                              <span>{c.completed_chapters}/{c.chapters_count} פרקים</span>
                             </span>
                           </Link>
                         </motion.div>
