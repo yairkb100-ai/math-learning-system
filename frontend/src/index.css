@@ -5066,6 +5066,44 @@ h4.prose-h {
   line-height: 1.55;
 }
 
+.lp-compare-card {
+  display: flex;
+  flex-direction: column;
+}
+/* השורה של "בערכה מודפסת" — מה שהיה קודם. מסומנת בקו-גיר עמום ולא בצבע
+   נוסף, כדי שהעין תישאר על הכותרת ולא על החלופה. */
+.lp-compare-card .lp-vs {
+  margin: 12px 0 0;
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border);
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.5;
+  opacity: 0.85;
+}
+
+/* Section identity colours: הכנה לקרני באינדיגו שלה (כמו .nav-link-karni),
+   מתמטיקה בירוק (--accent-2) — כדי שכל בלוק יהיה מזוהה בלי להסתמך על הסדר. */
+.lp-head-karni .cat-head-title svg { color: #5a5fb0; }
+.lp-head-math .cat-head-title svg { color: var(--accent-2); }
+
+.lp-feature-icon-karni {
+  background: rgba(90, 95, 176, 0.12);
+  color: #5a5fb0;
+}
+.lp-feature-icon-math {
+  color: var(--accent-2);
+}
+
+.lp-transition {
+  margin: 0 4px 6px;
+  color: var(--muted);
+  font-size: 0.98rem;
+  line-height: 1.7;
+  max-width: 760px;
+}
+
 .lp-panel-lessons {
   display: flex;
   align-items: flex-start;

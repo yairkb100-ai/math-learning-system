@@ -13,6 +13,8 @@ import {
   IconClock,
   IconCheck,
   IconArrowStart,
+  IconLayers,
+  IconSpark,
 } from '../components/icons.jsx'
 
 const MotionLink = motion(Link)
@@ -49,11 +51,41 @@ const FEATURES = [
   },
 ]
 
+// שלושת השלבים של המסלול — *מה* יש כאן. ההשוואה לערכה המודפסת (*למה* זה
+// עדיף) חיה רק בכרטיסי PSY_COMPARE שמתחת, כדי ששני הבלוקים לא יגידו אותו דבר.
 const PSY_POINTS = [
-  'קורסי תיאוריה לפי תחום: מילולי, כמותי, צורני, לוגי, מרחבי, זריזות ודיוק ואנגלית',
-  'תרגול קרני ממוקד לפי תחום ונושא, כמו ערכת קרני מודפסת — אבל עם משוב מיידי',
-  'סימולציית מבחן קרני מלאה, בתנאי זמן אמיתיים',
-  'דוח תוצאות מפורט לפי תחום, כדי לדעת בדיוק על מה לעבוד',
+  'שלב א׳ — קורס תיאוריה קצר לכל אחד משבעת התחומים: מילולי, כמותי, צורני, לוגי, מרחבי, זריזות ודיוק ואנגלית',
+  'שלב ב׳ — תרגול ממוקד: בוחרים תחום ונושא ומתרגלים רק אותם, כמה שצריך',
+  'שלב ג׳ — סימולציית מבחן קרני מלאה, פרק אחרי פרק, מההתחלה ועד הסוף',
+]
+
+// כל כרטיס הוא הפרש אחד מול ערכת קרני המודפסת — הכותרת היא מה שיש כאן,
+// והשורה התחתונה (lp-vs) היא מה שקורה בערכה. הצמד הזה הוא כל הפואנטה של הבלוק.
+const PSY_COMPARE = [
+  {
+    icon: <IconSpark />,
+    title: 'תשובה והסבר תוך שנייה',
+    text: 'כל שאלה נבדקת ברגע שעונים עליה, ומיד מופיע ההסבר לדרך הפתרון — בזמן שהשאלה עוד בראש.',
+    old: 'בערכה מודפסת: התשובות בסוף החוברת, ובלי הסבר למה דווקא טעית.',
+  },
+  {
+    icon: <IconClock />,
+    title: 'הזמן נמדד במקומך',
+    text: 'הסימולציה מנהלת את הזמן של כל פרק בעצמה, בדיוק כמו ביום המבחן, ועוצרת כשנגמר.',
+    old: 'בערכה מודפסת: צריך למדוד את הזמן לבד — ובפועל כמעט אף אחד לא עושה את זה.',
+  },
+  {
+    icon: <IconTarget />,
+    title: 'דוח לפי תחום, לא ציון אחד',
+    text: 'אחרי כל סימולציה רואים אחוז דיוק בכל תחום ובכל נושא, וממה כדאי להתחיל בפעם הבאה.',
+    old: 'בערכה מודפסת: סופרים תשובות נכונות ומנחשים איפה הבעיה.',
+  },
+  {
+    icon: <IconLayers />,
+    title: 'יותר מ-1,000 שאלות, ובכל פעם אחרות',
+    text: 'בנק שאלות לכל שבעת התחומים, וכל סימולציה מגרילה ממנו שאלות מחדש בלי לחזור על עצמה.',
+    old: 'בערכה מודפסת: כמות סגורה של חוברות — כשנגמרו, נגמר גם התרגול.',
+  },
 ]
 
 const FAQ = [
@@ -148,8 +180,56 @@ export default function LandingPage() {
         </p>
       </section>
 
-      {/* Grades */}
-      <div className="cat-head">
+      {/* Karni prep */}
+      <section className="lp-panel lp-panel-board">
+        <div className="lp-panel-board-inner">
+          <h2>הכנה לקרני — מסלול שלם בשלושה שלבים</h2>
+          <p>
+            מבחן קרני הוא מבחן הקבלה של מכון קרני לישיבות התיכוניות. ערכת קרני מודפסת היא בעיקר
+            ערימת שאלות; כאן ההכנה לקרני בנויה כמסלול שמתקדם לפי סדר:
+          </p>
+          <ul className="lp-check-list">
+            {PSY_POINTS.map((p) => (
+              <li key={p}>
+                <IconCheck /> {p}
+              </li>
+            ))}
+          </ul>
+          <Link to="/register" className="btn btn-cta lp-cta">
+            <IconArrowStart /> להתחיל בהכנה לקרני
+          </Link>
+        </div>
+      </section>
+
+      {/* Karni vs printed kits */}
+      <div className="cat-head lp-head-karni">
+        <h2 className="cat-head-title">
+          <IconTrophy /> למה כאן ולא בערכת קרני מודפסת
+        </h2>
+      </div>
+      <motion.div
+        className="lp-feature-grid"
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: '-40px' }}
+      >
+        {PSY_COMPARE.map((c) => (
+          <motion.div key={c.title} className="lp-feature-card lp-compare-card" variants={fadeInUp}>
+            <span className="lp-feature-icon lp-feature-icon-karni">{c.icon}</span>
+            <h3>{c.title}</h3>
+            <p>{c.text}</p>
+            <p className="lp-vs">{c.old}</p>
+          </motion.div>
+        ))}
+      </motion.div>
+
+      {/* Grades — transition from Karni prep into the everyday math track */}
+      <p className="lp-transition">
+        לצד ההכנה לקרני, הלומדה מלווה גם את הלימודים השוטפים במתמטיקה ובחשבון — קורס מסודר
+        לכל כיתה, עם וידאו, תרגול ודפי עבודה:
+      </p>
+      <div className="cat-head lp-head-math">
         <h2 className="cat-head-title">
           <IconCompass /> חשבון ומתמטיקה לפי כיתה
         </h2>
@@ -174,29 +254,8 @@ export default function LandingPage() {
         ))}
       </motion.div>
 
-      {/* Karni prep */}
-      <section className="lp-panel lp-panel-board">
-        <div className="lp-panel-board-inner">
-          <h2>הכנה לקרני — כמו ערכת קרני, רק דיגיטלית ועם משוב</h2>
-          <p>
-            מבחן קרני הוא מבחן הקבלה של מכון קרני לישיבות התיכוניות. במקום ערכת קרני מודפסת,
-            הלומדה בנתה מסלול הכנה לקרני שלם:
-          </p>
-          <ul className="lp-check-list">
-            {PSY_POINTS.map((p) => (
-              <li key={p}>
-                <IconCheck /> {p}
-              </li>
-            ))}
-          </ul>
-          <Link to="/register" className="btn btn-cta lp-cta">
-            <IconArrowStart /> להתחיל בהכנה לקרני
-          </Link>
-        </div>
-      </section>
-
       {/* Features */}
-      <div className="cat-head">
+      <div className="cat-head lp-head-math">
         <h2 className="cat-head-title">
           <IconTarget /> למה לומדת מתמטיקה
         </h2>
@@ -210,7 +269,7 @@ export default function LandingPage() {
       >
         {FEATURES.map((f) => (
           <motion.div key={f.title} className="lp-feature-card" variants={fadeInUp}>
-            <span className="lp-feature-icon">{f.icon}</span>
+            <span className="lp-feature-icon lp-feature-icon-math">{f.icon}</span>
             <h3>{f.title}</h3>
             <p>{f.text}</p>
           </motion.div>
