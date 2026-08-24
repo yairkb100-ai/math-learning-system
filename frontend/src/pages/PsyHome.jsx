@@ -690,12 +690,9 @@ export default function PsyHome() {
                         </motion.div>
                         {ct.length > 0 && (
                           <>
-                            <p className="psy-course-topics-head" id={`psy-ct-${c.id}`}>
-                              תרגול לקורס הזה
-                            </p>
                             {/* אותה שורת נושא של המקטע הקודם — רק שהיא תלויה
                                 עכשיו על הקורס שמלמד אותה. */}
-                            <ul className="psy-trows psy-course-topics" aria-labelledby={`psy-ct-${c.id}`}>
+                            <ul className="psy-trows psy-course-topics" aria-label={`תרגול: ${c.title}`}>
                               {ct.map((t) => (
                                 <TopicRow key={`${t.domain}-${t.topic}`} t={t} />
                               ))}
