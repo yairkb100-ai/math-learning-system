@@ -2023,24 +2023,9 @@
   gap: 10px;
 }
 
-/* ---------- three-step learning flow ----------
-   The hub is a study plan, not a catalogue of nested containers. The three
-   sections are deliberately open: hierarchy comes from sequence, headings,
-   and whitespace rather than extra panels, side rails, or decorative frames. */
+/* ---------- category entry and open category ---------- */
 .psy-panel-head > div {
   min-width: 0;
-}
-.psy-section-kicker {
-  display: block;
-  margin-bottom: 4px;
-  color: var(--muted);
-  font-size: 0.78rem;
-  font-weight: 700;
-}
-.psy-panel-note {
-  color: var(--muted);
-  font-size: 0.88rem;
-  text-align: left;
 }
 .psy-section-lead {
   max-width: 62ch;
@@ -2048,78 +2033,28 @@
   color: var(--muted);
   line-height: 1.65;
 }
-.psy-learning .psy-domain-group:first-of-type {
-  margin-top: 0;
-}
-.psy-track-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  border-top: 1px solid var(--border);
-}
-.psy-track-row {
-  display: grid;
-  grid-template-columns: minmax(120px, 0.9fr) minmax(150px, 1.4fr) auto auto;
-  gap: 16px;
-  align-items: center;
-  min-height: 56px;
-  padding: 12px 4px;
-  color: var(--text);
-  border-bottom: 1px solid var(--border);
-}
-.psy-track-row:hover {
-  color: var(--accent);
-  text-decoration: none;
-}
-.psy-track-name {
-  font-family: var(--font-display);
-  font-size: 1.04rem;
-}
-.psy-track-meta,
-.psy-track-progress {
-  color: var(--muted);
-  font-size: 0.86rem;
-}
-.psy-track-progress {
-  white-space: nowrap;
-}
-.psy-track-action {
-  color: var(--accent);
-  font-size: 0.9rem;
-  font-weight: 700;
-  white-space: nowrap;
-}
-.psy-assessment .psy-sim-kind {
-  margin-top: 30px;
-  padding-top: 0;
-  border-top: 0;
-}
-.psy-assessment .psy-sim-kind + .psy-sim-kind {
+.psy-open-practice {
+  margin-top: 34px;
   padding-top: 24px;
   border-top: 1px solid var(--border);
 }
+.psy-subsection-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin-bottom: 14px;
+}
+.psy-subsection-head h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  color: var(--accent);
+}
 
 @media (max-width: 619px) {
-  .psy-panel-note {
-    display: none;
-  }
-  .psy-track-row {
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 4px 12px;
-    min-height: 72px;
-    padding: 14px 4px;
-  }
-  .psy-track-meta {
-    grid-column: 1 / -1;
-  }
-  .psy-track-progress {
-    grid-column: 1;
-  }
-  .psy-track-action {
-    grid-column: 2;
-    grid-row: 3;
-    min-height: 44px;
-    display: inline-flex;
+  .psy-subsection-head {
     align-items: center;
   }
 }

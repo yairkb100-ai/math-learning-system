@@ -575,100 +575,46 @@ export default function PsyHome() {
         </motion.section>
       )}
 
-      {/* שלוש פעולות נפרדות, לפי הדרך שבה באמת מתכוננים: קודם לומדים,
-          אחר כך מתרגלים, ולבסוף נבחנים. אין יותר ערבוב של שורות תרגול
-          ומבחנים בתוך כרטיסי הקורסים. */}
+      {/* ריבועי התחומים הם מפת הכניסה לאזור. לחיצה פותחת תחום אחד ומציגה
+          בתוכו לימוד, תרגול ומבחנים זה לצד זה — בלי לשטח את כל התוכן בעמוד הבית. */}
       {!openCat && (
-        <>
-          <motion.section className="psy-panel psy-learning" variants={fadeInUp} initial="hidden" animate="show">
-            <div className="psy-panel-head">
-              <div>
-                <span className="psy-section-kicker">שלב 1</span>
-                <h2>לומדים את השיטה</h2>
-              </div>
-              <span className="psy-panel-note">הסברים, דוגמאות ובוחן בסוף כל פרק</span>
+        <motion.section className="psy-panel" variants={fadeInUp} initial="hidden" animate="show">
+          <div className="psy-panel-head">
+            <div>
+              <h2>בחרו תחום</h2>
+              <p className="psy-section-lead">בכל תחום מחכים קורסים, תרגול ממוקד ומבחנים.</p>
             </div>
-            {courseGroups.map(({ title, list, domain: d, core }) => {
-              const done = list.reduce((n, c) => n + c.completed_chapters, 0)
-              const total = list.reduce((n, c) => n + c.chapters_count, 0)
-              return (
-                <div key={title} className={`psy-domain-group ${DOMAIN_RAMP[d] || ''}${core ? ' is-core' : ''}`}>
-                  <DomainHead
-                    domain={d}
-                    title={title}
-                    core={core}
-                    stats={`${list.length === 1 ? 'קורס אחד' : `${list.length} קורסים`} · ${done}/${total} פרקים הושלמו`}
-                  />
-                  <motion.ul className="psy-course-list" variants={staggerContainer} initial="hidden" whileInView="show" viewport={{ once: true, margin: '-20px' }}>
-                    {list.map((c) => (
-                      <motion.li key={c.id} variants={fadeInUp}>
-                        <motion.div {...hoverLift}>
-                          <Link to={`/courses/${c.id}`} className="psy-course-card">
-                            <span className="psy-course-title">{c.title}</span>
-                            <span className="psy-course-desc">{c.description}</span>
-                            <span className="psy-course-progress">{c.completed_chapters}/{c.chapters_count} פרקים</span>
-                          </Link>
-                        </motion.div>
-                      </motion.li>
-                    ))}
-                  </motion.ul>
-                </div>
-              )
-            })}
-          </motion.section>
-
-          <motion.section className="psy-panel psy-practice" variants={fadeInUp} initial="hidden" whileInView="show" viewport={{ once: true, margin: '-40px' }}>
-            <div className="psy-panel-head">
-              <div>
-                <span className="psy-section-kicker">שלב 2</span>
-                <h2>מתרגלים לפי נושא</h2>
-              </div>
-              <Link to="/psy/drill" className="psy-link">לכל התרגול</Link>
-            </div>
-            <p className="psy-section-lead">בחרו תחום, התמקדו במיומנות אחת, וקבלו משוב מיידי.</p>
-            <motion.ul className="psy-track-list" variants={staggerContainer} initial="hidden" whileInView="show" viewport={{ once: true, margin: '-20px' }}>
-              {categories.filter((c) => DOMAIN_ORDER.includes(c.key)).map((c) => (
-                <motion.li key={c.key} variants={fadeInUp}>
-                  <Link className={`psy-track-row ${c.ramp}`} to={`/psy/drill?domain=${c.key}`}>
-                    <span className="psy-track-name">{c.title}</span>
-                    <span className="psy-track-meta">{c.meta}</span>
-                    <span className="psy-track-progress">{pct(c.progress)} תורגל</span>
-                    <span className="psy-track-action">לתרגול</span>
+            <Link to="/psy/drill" className="psy-link">לכל התרגול</Link>
+          </div>
+          <motion.ul
+            className="psy-cats"
+            style={{ '--cat-cols': Math.min(5, Math.max(2, Math.ceil(categories.length / 2))) }}
+            variants={staggerContainer}
+            initial="hidden"
+            animate="show"
+          >
+            {categories.map((c) => (
+              <motion.li key={c.key} variants={fadeInUp}>
+                <motion.div {...hoverLift}>
+                  <Link className={`psy-cat ${c.ramp}`} to={`/psy?cat=${c.key}`}>
+                    {c.Icon && <span className="psy-cat-icon" aria-hidden="true"><c.Icon /></span>}
+                    <span className="psy-cat-head">
+                      <span className="psy-cat-name">{c.title}</span>
+                      {c.core && <span className="psy-domain-tag">עיקר המבחן</span>}
+                    </span>
+                    <span className="psy-cat-meta">{c.meta}</span>
+                    <span className="psy-cat-foot">
+                      <span className="psy-cat-bar" role="img" aria-label={`${pct(c.progress)} מהתוכן כבר תורגל`}>
+                        <span className="psy-cat-bar-fill" style={{ transform: `scaleX(${c.progress})` }} />
+                      </span>
+                      <span className="psy-cat-pct">{pct(c.progress)}</span>
+                    </span>
                   </Link>
-                </motion.li>
-              ))}
-            </motion.ul>
-          </motion.section>
-
-          <motion.section className="psy-panel psy-assessment" variants={fadeInUp} initial="hidden" whileInView="show" viewport={{ once: true, margin: '-40px' }}>
-            <div className="psy-panel-head">
-              <div>
-                <span className="psy-section-kicker">שלב 3</span>
-                <h2>בודקים מוכנות</h2>
-              </div>
-              <span className="psy-panel-note">תמיד מתחילים מהשלב המתאים</span>
-            </div>
-            {simGroups.map(([kind, list]) => {
-              const key = `home-${kind}`
-              const open = showAllSims[key]
-              const shown = open ? list : list.slice(0, 3)
-              return (
-                <div key={kind} className="psy-sim-kind">
-                  <h3 className="psy-sim-kind-title">{KIND_HE_TITLE[kind] || KIND_HE[kind] || kind}</h3>
-                  <p className="psy-sim-kind-lead">{KIND_LEAD[kind]}</p>
-                  <motion.ul id={`psy-home-sims-${kind}`} className="psy-trows" variants={staggerContainer} initial="hidden" animate="show">
-                    {shown.map((s) => <SimRow key={s.slug} s={s} />)}
-                  </motion.ul>
-                  {list.length > 3 && (
-                    <motion.button type="button" className="psy-btn psy-btn-more" aria-expanded={!!open} aria-controls={`psy-home-sims-${kind}`} onClick={() => setShowAllSims((v) => ({ ...v, [key]: !v[key] }))} {...tapScale}>
-                      {open ? 'הצג פחות' : `הצג את כל ${list.length} ${KIND_HE_PLURAL[kind] || KIND_HE[kind]}`}
-                    </motion.button>
-                  )}
-                </div>
-              )
-            })}
-          </motion.section>
-        </>
+                </motion.div>
+              </motion.li>
+            ))}
+          </motion.ul>
+        </motion.section>
       )}
 
       {openCat && (
@@ -711,66 +657,43 @@ export default function PsyHome() {
                   whileInView="show"
                   viewport={{ once: true, margin: '-20px' }}
                 >
-                  {list.map((c) => {
-                    const ct = topicsByCourse.get(c.id) || []
-                    return (
-                      <motion.li key={c.id} className="psy-course-block" variants={fadeInUp}>
-                        <motion.div {...hoverLift}>
-                          <Link to={`/courses/${c.id}`} className="psy-course-card">
-                            <span className="psy-course-title">{c.title}</span>
-                            <span className="psy-course-desc">{c.description}</span>
-                            <span className="psy-course-progress">
-                              {c.completed_chapters}/{c.chapters_count} פרקים
-                            </span>
-                          </Link>
-                        </motion.div>
-                        {ct.length > 0 && (
-                          <>
-                            {/* אותה שורת נושא של המקטע הקודם — רק שהיא תלויה
-                                עכשיו על הקורס שמלמד אותה. */}
-                            <ul className="psy-trows psy-course-topics" aria-label={`תרגול: ${c.title}`}>
-                              {ct.map((t) => (
-                                <TopicRow key={`${t.domain}-${t.topic}`} t={t} />
-                              ))}
-                            </ul>
-                          </>
-                        )}
-                      </motion.li>
-                    )
-                  })}
+                  {list.map((c) => (
+                    <motion.li key={c.id} variants={fadeInUp}>
+                      <motion.div {...hoverLift}>
+                        <Link to={`/courses/${c.id}`} className="psy-course-card">
+                          <span className="psy-course-title">{c.title}</span>
+                          <span className="psy-course-desc">{c.description}</span>
+                          <span className="psy-course-progress">
+                            {c.completed_chapters}/{c.chapters_count} פרקים
+                          </span>
+                        </Link>
+                      </motion.div>
+                    </motion.li>
+                  ))}
                 </motion.ul>
               </div>
             )
           })
         )}
 
-        {/* נושאים שאין להם קורס תיאוריה לא נעלמים מהעמוד — הם יורדים לסוף
-            הסקשן, מקובצים לפי תחום כמו קודם. */}
-        {shownLooseDomains.length > 0 && (
-          <div className="psy-topics-loose">
-            {shownLooseDomains.map((d) => {
-              const list = looseTopics.filter((t) => t.domain === d)
-              return (
-                <div key={d} className={`psy-domain-group ${DOMAIN_RAMP[d] || ''}`}>
-                  <DomainHead
-                    domain={d}
-                    lead="נושאים שאין להם עדיין קורס תיאוריה — אפשר לתרגל אותם ישירות."
-                    stats={`${list.length} נושאים · ${list.reduce((n, t) => n + t.count, 0)} שאלות`}
-                  />
-                  <motion.ul
-                    className="psy-trows"
-                    variants={staggerContainer}
-                    initial="hidden"
-                    whileInView="show"
-                    viewport={{ once: true, margin: '-20px' }}
-                  >
-                    {list.map((t) => (
-                      <TopicRow key={`${t.domain}-${t.topic}`} t={t} />
-                    ))}
-                  </motion.ul>
-                </div>
-              )
-            })}
+        {catTopics(openCat.key).length > 0 && (
+          <div className="psy-open-practice">
+            <div className="psy-subsection-head">
+              <h3>תרגול לפי נושא</h3>
+              <Link className="psy-link" to={`/psy/drill?domain=${openCat.key}`}>לכל התרגול בתחום</Link>
+            </div>
+            <p className="psy-section-lead">בחרו נושא אחד ותרגלו אותו בקצב אישי.</p>
+            <motion.ul
+              className="psy-trows"
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: '-20px' }}
+            >
+              {catTopics(openCat.key).map((t) => (
+                <TopicRow key={`${t.domain}-${t.topic}`} t={t} />
+              ))}
+            </motion.ul>
           </div>
         )}
       </motion.section>
