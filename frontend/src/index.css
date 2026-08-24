@@ -340,6 +340,22 @@ h1 {
   --lv-bg: #e7eefb;
 }
 
+/* Standalone practice that supplements, rather than replaces, a Karni course. */
+.course-extra-practice { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 18px; margin-top: 24px; padding: 20px 22px; border: 1px solid var(--border); border-inline-start: 5px solid var(--accent); border-radius: 18px; background: var(--surface); }
+.course-extra-practice-icon { font-size: 2rem; color: var(--accent); }
+.course-extra-practice-kicker { color: var(--accent); font-weight: 700; font-size: .9rem; }
+.course-extra-practice h2 { margin: 3px 0; font-family: var(--font-display); color: var(--text); font-size: 1.2rem; }
+.course-extra-practice p { margin: 0; color: var(--muted); }
+.course-extra-practice-btn { white-space: nowrap; }
+.matrices-practice { max-width: 980px; margin: 0 auto; }
+.matrices-practice-head { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; padding: 20px 22px; border: 1px solid var(--border); border-radius: 18px; background: var(--surface); color: var(--accent); }
+.matrices-practice-head > svg { flex: 0 0 auto; font-size: 2rem; }
+.matrices-practice-head p { margin: 0; font-weight: 700; font-size: .9rem; }
+.matrices-practice-head h1 { margin: 2px 0; color: var(--text); font-family: var(--font-display); font-size: clamp(1.45rem, 4vw, 2rem); }
+.matrices-practice-head span { color: var(--muted); }
+.matrices-practice-widget { min-height: 180px; }
+@media (max-width: 640px) { .course-extra-practice { grid-template-columns: auto minmax(0, 1fr); gap: 12px; } .course-extra-practice-btn { grid-column: 1 / -1; justify-self: stretch; text-align: center; } .matrices-practice-head { align-items: flex-start; padding: 18px; } }
+
 /* Hero — a chalkboard: dark green board with faint chalk squares */
 .cat-hero {
   position: relative;
