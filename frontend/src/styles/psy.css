@@ -603,52 +603,14 @@
 }
 .psy-course-list > li {
   flex: 1 1 300px;
+  display: flex;
 }
-/* ---------- קורס + שורות התרגול שלו כיחידה אחת ----------
-   קודם ישבו הקורסים במקטע אחד והנושאים במקטע שני, והקורא היה צריך לזכור לבד
-   מי שייך למי. כאן שורות הנושא תלויות על קו אנכי שיוצא מתחת לכרטיס הקורס —
-   ההזחה והקו הם כל ההיררכיה, בלי מסגרת נוספת. RTL: הכל ב-inline-start. */
-.psy-course-list > li.psy-course-block {
-  flex-basis: 420px;
-  flex-direction: column;
-  align-items: stretch;
+/* עוטף ה-motion נשאר רק כדי למתוח את הכרטיס; הוא אינו מקבל משטח או מסגרת.
+   כך נשארת מסגרת אחת בלבד לכל קורס. */
+.psy-course-list > li > * {
+  display: flex;
+  width: 100%;
 }
-.psy-course-topics-head {
-  margin: 12px 0 0;
-  padding-bottom: 4px;
-  font-size: 0.78rem;
-  color: var(--muted);
-}
-.psy-course-topics-head,
-.psy-trows.psy-course-topics {
-  margin-inline-start: 10px;
-  padding-inline-start: 12px;
-  border-inline-start: 2px solid var(--border);
-}
-/* ‎.psy-course-list > li > *‎ נותן ‎width: 100%‎ לכל ילד ישיר; יחד עם ההזחה זה
-   דחף את השורות מעבר לקצה הכרטיס. בטור flex המתיחה אוטומטית ממילא. */
-.psy-course-block > .psy-course-topics-head,
-.psy-course-block > .psy-trows {
-  width: auto;
-}
-/* קבוצת "תרגול נוסף" — מופרדת בקו ולא בכותרת-מקטע נוספת, כדי שלא תיקרא
-   כמו עוד פאנל. */
-.psy-topics-loose {
-  margin-top: 26px;
-  padding-top: 18px;
-  border-top: 1px solid var(--border);
-}
-/* בין ה-li לכרטיס יושב עוטף ה-hover של framer-motion, ולכן ‎height: 100%‎ על
-   הכרטיס לבדו לא מגיע לגובה השורה. שרשרת flex קצרה מעבירה את המתיחה הלאה,
-   כך שכל הכרטיסים בשורה נשארים בגובה אחיד. */
-.psy-course-list > li,
-
-.psy-course-list > li > *,
-
-/* והכרטיס עצמו חייב למלא את העוטף — בתוך flex container הרוחב שלו נגזר
-   מהתוכן, וכרטיסים היו יוצאים ברוחב מילת הכותרת. */
-.psy-course-list .psy-course-card,
-
 .psy-course-card {
   display: flex;
   flex-direction: column;
@@ -656,7 +618,7 @@
   padding: 18px;
   border: 1px solid var(--border);
   border-radius: 14px;
-  background: var(--surface);
+  background: var(--surface-2);
   color: var(--text);
   height: 100%;
 }
@@ -2069,8 +2031,6 @@
    להשאיר חצי שורה ריקה, ובשורה מלאה (4 כרטיסים) היא בכלל לא נוגעת. */
 @media (min-width: 1000px) {
   .psy-course-list > li,
-  .psy-course-list > li.psy-course-block,
-
   .psy-plan-list > li {
     max-width: 560px;
   }
@@ -2080,7 +2040,6 @@
    ב-flex-basis של הדסקטופ, ואין תקרה שמשאירה חצי שורה ריקה. */
 @media (min-width: 620px) and (max-width: 999px) {
   .psy-course-list > li,
-  .psy-course-list > li.psy-course-block,
   .psy-plan-list > li {
     flex-basis: 45%;
     max-width: none;
@@ -2090,7 +2049,6 @@
 /* נייד: עמודה אחת מלאה. */
 @media (max-width: 619px) {
   .psy-course-list > li,
-  .psy-course-list > li.psy-course-block,
   .psy-plan-list > li {
     flex-basis: 100%;
     max-width: none;
