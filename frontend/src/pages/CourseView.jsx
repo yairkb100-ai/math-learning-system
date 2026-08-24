@@ -209,6 +209,20 @@ export default function CourseView() {
           )
         )}
       </motion.ol>
+
+      {id === 'karni-figural-matrices' && (
+        <motion.aside className="course-extra-practice" variants={fadeInUp} initial="hidden" animate="show">
+          <IconCompass className="course-extra-practice-icon" />
+          <div>
+            <span className="course-extra-practice-kicker">תרגול נוסף לצד הקורס</span>
+            <h2>100 תרגילי מטריצות מדורגים</h2>
+            <p>שמונה חלקים — מהתפלגויות ועד אתגר שיא — עם משוב והסבר מיד אחרי כל בחירה.</p>
+          </div>
+          <Link to="/psy/matrices-100" className="btn course-extra-practice-btn">
+            לפתיחת התרגול <IconArrowStart className="btn-arrow" />
+          </Link>
+        </motion.aside>
+      )}
     </section>
   )
 }

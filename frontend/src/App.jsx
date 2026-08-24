@@ -40,6 +40,7 @@ import PsyHome from './pages/PsyHome.jsx'
 import PsyDrill from './pages/PsyDrill.jsx'
 import PsySimPlayer from './pages/PsySimPlayer.jsx'
 import PsyResults from './pages/PsyResults.jsx'
+import MatricesPractice from './pages/MatricesPractice.jsx'
 
 export default function App() {
   return (
@@ -155,6 +156,10 @@ function AppRoutes() {
                 <PsyResults />
               </PrivateRoute>
             }
+          />
+          <Route
+            path="/psy/matrices-100"
+            element={<PrivateRoute><MatricesPractice /></PrivateRoute>}
           />
 
           <Route
