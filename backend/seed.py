@@ -55,11 +55,19 @@ from app.models import (  # noqa: E402
     Section,
     SubscriptionPlan,
     User,
+    UserCourseEnrollment,
 )
 
 # courses/ lives at the project root (parent of backend/).
 _PROJECT_ROOT = os.path.dirname(_BACKEND_DIR)
 COURSES_DIR = os.path.join(_PROJECT_ROOT, "courses")
+MAX_CHAPTERS_PER_COURSE = 5
+COURSE_PART_RE = re.compile(r"^(?P<base>.+)--part-(?P<number>\d+)$")
+
+
+def _base_course_slug(slug):
+    match = COURSE_PART_RE.match(slug or "")
+    return match.group("base") if match else slug
 
 
 def slugify(text):
@@ -255,6 +263,46 @@ def upsert_course(db, data):
 
     db.flush()
     return slug, "loaded"
+
+
+def migrate_course_parts(db, source_rows):
+    """Preserve chapter IDs and student progress when a course is split."""
+    parts_by_base = {}
+    for _, data in source_rows:
+        course_obj = data.get("course", data)
+        meta = course_obj.get("metadata", {})
+        part = meta.get("course_part") or {}
+        if not part or int(part.get("number", 1)) <= 1:
+            continue
+        parts_by_base.setdefault(part.get("base_slug"), []).append((int(part["number"]), course_obj))
+
+    for base_slug, parts in parts_by_base.items():
+        base = db.query(Course).filter(Course.slug == base_slug).first()
+        if base is None or len(base.chapters) <= MAX_CHAPTERS_PER_COURSE:
+            continue
+        legacy_chapters = sorted(base.chapters, key=lambda chapter: chapter.number)
+        for part_number, part_data in sorted(parts):
+            moving = legacy_chapters[(part_number - 1) * MAX_CHAPTERS_PER_COURSE : part_number * MAX_CHAPTERS_PER_COURSE]
+            if not moving:
+                continue
+            meta = part_data.get("metadata", {})
+            target_slug = part_data.get("slug") or meta.get("slug")
+            target = db.query(Course).filter(Course.slug == target_slug).first()
+            if target is None:
+                target = Course(slug=target_slug, title=meta.get("title", ""), description=meta.get("description", ""), level=meta.get("level", ""), language=meta.get("language", ""), seeded=True, track=meta.get("track", "school"))
+                db.add(target)
+                db.flush()
+            if target.chapters:
+                continue
+            for new_number, chapter in enumerate(moving, start=1):
+                chapter.course = target
+                chapter.number = new_number
+            enrolled_users = {enrollment.user_id for enrollment in target.enrollments}
+            for enrollment in base.enrollments:
+                if enrollment.user_id not in enrolled_users:
+                    db.add(UserCourseEnrollment(user_id=enrollment.user_id, course_id=target.id, enrolled_at=enrollment.enrolled_at))
+                    enrolled_users.add(enrollment.user_id)
+    db.flush()
 
 
 def prune_login_events(db, days=60):
@@ -768,10 +816,11 @@ def ensure_course_grades(db):
     a re-classified course without any admin action.
     """
     changed = 0
-    for slug, grade in COURSE_GRADES.items():
-        course = db.query(Course).filter(Course.slug == slug).first()
-        if course is None:
-            print(f"  ! grade map: course {slug} not found — skipped")
+    school_courses = db.query(Course).filter(Course.seeded.is_(True), Course.track == "school").all()
+    for course in school_courses:
+        grade = COURSE_GRADES.get(course.slug) or COURSE_GRADES.get(_base_course_slug(course.slug))
+        if grade is None:
+            print(f"  ! course '{course.slug}' has no grade — add it to COURSE_GRADES")
         elif course.grade != grade:
             course.grade = grade
             changed += 1
@@ -784,17 +833,6 @@ def ensure_course_grades(db):
     # `grade` is a school-catalog concept (the כיתה pills). Karni courses are
     # grouped by exam section instead, so a missing grade there is correct —
     # warning about it would cry wolf on every single deploy.
-    unlabelled = (
-        db.query(Course)
-        .filter(
-            Course.seeded.is_(True),
-            Course.grade.is_(None),
-            Course.track == "school",
-        )
-        .all()
-    )
-    for course in unlabelled:
-        print(f"  ! course '{course.slug}' has no grade — add it to COURSE_GRADES")
 
 
 def ensure_sections(db):
@@ -944,7 +982,17 @@ def ensure_sections(db):
             # between existing ones (e.g. ratio-motion before algebra).
             section.order = spec["order"]
             print(f'  ~ Updated order of section "{spec["title"]}" → {spec["order"]}')
+        course_slugs = []
         for cslug in spec["course_slugs"]:
+            course_slugs.append(cslug)
+            course_slugs.extend(
+                course.slug
+                for course in db.query(Course)
+                .filter(Course.slug.like(f"{cslug}--part-%"))
+                .order_by(Course.slug)
+                .all()
+            )
+        for cslug in course_slugs:
             course = db.query(Course).filter(Course.slug == cslug).first()
             if course is None:
                 print(f'  ! section {spec["slug"]}: course {cslug} not found — skipped')
@@ -3386,18 +3434,20 @@ def main():
         print(f"No course JSON files found in {COURSES_DIR}")
         return
 
+    source_rows = []
+    for path in files:
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                source_rows.append((path, json.load(f)))
+        except (OSError, json.JSONDecodeError) as exc:
+            print(f"  ! Skipping {os.path.basename(path)}: {exc}")
+
     db = SessionLocal()
     loaded = 0
     loaded_slugs = set()
     try:
-        for path in files:
-            try:
-                with open(path, "r", encoding="utf-8") as f:
-                    data = json.load(f)
-            except (OSError, json.JSONDecodeError) as exc:
-                print(f"  ! Skipping {os.path.basename(path)}: {exc}")
-                continue
-
+        migrate_course_parts(db, source_rows)
+        for path, data in source_rows:
             slug, action = upsert_course(db, data)
             db.commit()
             loaded += 1
