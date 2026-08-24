@@ -175,11 +175,15 @@ export default function ChapterView() {
         // Files whose name carries "פרק-N" belong to this chapter: the .mp4
         // becomes the opening video step, the rest (worksheets, question
         // banks) are offered as downloads on the finish step.
-        const mine = (files || []).filter(
-          (f) =>
-            fileChapterNumber(f.original_name) === Number(number) &&
-            f.kind !== 'homework'
-        )
+        const mine = (files || []).filter((f) => {
+          if (f.kind === 'homework') return false
+          const attachedChapter = fileChapterNumber(f.original_name)
+          // PDFs without a "פרק-N" marker are course-wide resources, such
+          // as the five-page summary worksheet. They belong on every finish
+          // screen rather than being silently filtered out.
+          const courseWidePdf = attachedChapter === null && /\.pdf$/i.test(f.original_name)
+          return attachedChapter === Number(number) || courseWidePdf
+        })
         setVideoFile(mine.find((f) => /\.mp4$/i.test(f.original_name)) || null)
         setChapterFiles(mine.filter((f) => !/\.mp4$/i.test(f.original_name)))
         setStep(0)
