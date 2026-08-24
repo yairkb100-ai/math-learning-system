@@ -690,6 +690,7 @@ export default function PsyHome() {
                           >
                             <span className="psy-course-title">{c.title}</span>
                             <span className="psy-course-desc">{c.description}</span>
+                            <span className="psy-course-open">לפתיחת הקורס ←</span>
                             <span className="psy-course-progress">
                               <span>{c.completed_chapters}/{c.chapters_count} פרקים</span>
                             </span>

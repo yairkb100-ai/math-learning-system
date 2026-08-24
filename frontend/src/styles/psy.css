@@ -597,21 +597,17 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
+  display: block;
 }
 .psy-course-list > li {
-  flex: 1 1 300px;
+  width: 100%;
 }
 /* ---------- קורס + שורות התרגול שלו כיחידה אחת ----------
    קודם ישבו הקורסים במקטע אחד והנושאים במקטע שני, והקורא היה צריך לזכור לבד
    מי שייך למי. כאן שורות הנושא תלויות על קו אנכי שיוצא מתחת לכרטיס הקורס —
    ההזחה והקו הם כל ההיררכיה, בלי מסגרת נוספת. RTL: הכל ב-inline-start. */
 .psy-course-list > li.psy-course-block {
-  flex-basis: 420px;
-  flex-direction: column;
-  align-items: stretch;
+  max-width: none;
 }
 .psy-course-topics-head {
   margin: 12px 0 0;
@@ -621,9 +617,9 @@
 }
 .psy-course-topics-head,
 .psy-trows.psy-course-topics {
-  margin-inline-start: 10px;
-  padding-inline-start: 12px;
-  border-inline-start: 2px solid var(--border);
+  margin-inline-start: 0;
+  padding-inline-start: 0;
+  border-inline-start: 0;
 }
 /* ‎.psy-course-list > li > *‎ נותן ‎width: 100%‎ לכל ילד ישיר; יחד עם ההזחה זה
    דחף את השורות מעבר לקצה הכרטיס. בטור flex המתיחה אוטומטית ממילא. */
@@ -650,24 +646,25 @@
 .psy-course-list .psy-course-card,
 
 .psy-course-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 20px 22px;
-  border: 1px solid var(--border);
-  border-inline-start: 8px solid var(--lv, var(--accent));
-  border-radius: 14px;
-  background: var(--surface);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 28px;
+  align-items: center;
+  padding: 22px 0;
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  background: transparent;
   color: var(--text);
   height: 100%;
 }
 .psy-course-card:hover {
-  border-color: var(--accent);
-  border-inline-start-color: var(--lv, var(--accent));
-  box-shadow: var(--shadow);
+  background: transparent;
+  box-shadow: none;
+  text-decoration: none;
 }
 .psy-course-title {
+  grid-column: 1;
   font-family: var(--font-display);
   font-weight: 400;
   font-size: 1.08rem;
@@ -676,6 +673,7 @@
 /* התיאורים באים באורכים שונים מאוד, וזה מה שהפך את הרשת לקיר טקסט משונן.
    שלוש שורות לכל כרטיס — הגובה מתיישר והעין רואה רשת, לא ערימה. */
 .psy-course-desc {
+  grid-column: 1;
   color: var(--muted);
   font-size: 0.88rem;
   line-height: 1.6;
@@ -685,7 +683,17 @@
   line-clamp: 2;
   overflow: hidden;
 }
+.psy-course-open {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  color: var(--accent);
+  font-size: 0.9rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
 .psy-course-progress {
+  grid-column: 1 / -1;
+  grid-row: 3;
   position: relative;
   display: block;
   margin-top: auto;
