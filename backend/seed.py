@@ -787,6 +787,8 @@ COURSE_GRADES = {
     "grade6-fractions-decimals": "6",
     "grade6-percents": "6",
     "grade6-ratio-rate": "6",
+    "grade56-geometry-measurement": "6",
+    "grade56-data-statistics-probability": "6",
     "arithmetic-laws": "7",
     "directed-numbers": "7",
     "grade7-algebra": "7",
@@ -802,7 +804,11 @@ COURSE_GRADES = {
     "factoring-quadratics": "9",
     "quadratic-function": "9",
     "statistics-probability": "9",
+    "circle-theorems": "9",
+    "three-dimensional-solids": "9",
     "quadratic-equations": "hs",
+    "sequences-arithmetic-geometric": "hs",
+    "exponential-functions-logarithms": "hs",
     # These two carry an explicit Hebrew slug in their courses/*.json metadata,
     # so they are NOT keyed by filename. Renaming them would orphan the videos
     # already published against those slugs in production.
@@ -979,6 +985,9 @@ def ensure_sections(db):
             "order": 18,
             "course_slugs": ["חשבון-דיפרנציאלי-נגזרות"],
         },
+        {"slug": "grade56-geometry-data", "title": "גאומטריה, מדידה ונתונים לכיתות ה׳–ו׳", "description": "מדידה, היקף, שטח ונפח לצד טבלאות, גרפים, ממוצע והסתברות ראשונית", "order": 19, "course_slugs": ["grade56-geometry-measurement", "grade56-data-statistics-probability"]},
+        {"slug": "circle-solids", "title": "מעגל וגופים תלת־ממדיים", "description": "משפטי מעגל, זוויות וקשתות לצד נפח ושטח פנים של גופים תלת־ממדיים", "order": 20, "course_slugs": ["circle-theorems", "three-dimensional-solids"]},
+        {"slug": "advanced-functions-sequences", "title": "סדרות ופונקציות מעריכיות", "description": "סדרות חשבוניות והנדסיות, פונקציות מעריכיות ולוגריתמים לתיכון", "order": 21, "course_slugs": ["sequences-arithmetic-geometric", "exponential-functions-logarithms"]},
     ]
     for spec in sections:
         section = db.query(Section).filter(Section.slug == spec["slug"]).first()
