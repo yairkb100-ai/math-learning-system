@@ -250,8 +250,10 @@ export default function CourseList() {
               className="cat-grid"
               variants={staggerContainer}
               initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, amount: 0.15 }}
+              // Rendering must not depend on IntersectionObserver: when it
+              // fails to report (as it can in production), `whileInView`
+              // leaves every card at the hidden opacity forever.
+              animate="show"
             >
               {section.courses.map((c) => (
                 <MotionLink
