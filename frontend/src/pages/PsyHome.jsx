@@ -69,7 +69,7 @@ const CAT_ICON = {
   other: IconGraduation,
 }
 
-const KIND_HE = { mini: 'מיני-תרגול', section: 'פרק בודד', full: 'סימולציה מלאה' }
+const KIND_HE = { mini: 'מבחן קצר', section: 'מבחן ממוקד', full: 'סימולציה מלאה' }
 // תווית רמה על כרטיס הסימולציה. רק לטופס שה-API מחזיר לו level — לשאר אין תווית
 // בכלל, כדי ש"רמה מתקדמת" יבלוט במקום להיבלע ברעש. הגוון מגיע ממחלקת
 // הרמפה הקיימת (--lv / --lv-bg), בדיוק כמו DOMAIN_RAMP למעלה.
@@ -82,22 +82,22 @@ const LEVEL_TAG = {
 // KIND_HE הוא לשון יחיד (כותרת הקבוצה), ולכן הוא לא יכול לשמש גם את כפתור
 // "הצג את כל N…" — "הצג את כל 68 הפרק בודד" הוא עברית שבורה.
 const KIND_HE_PLURAL = {
-  mini: 'המיני-תרגולים',
-  section: 'הפרקים הבודדים',
+  mini: 'המבחנים הקצרים',
+  section: 'המבחנים הממוקדים',
   full: 'הסימולציות המלאות',
 }
 // אותה צורה בלי ה' הידיעה, לכותרת הקבוצה: "פרק בודד" מעל 68 שורות נקרא
 // כשגיאה, ובמיוחד כשמתחתיו כתוב "הצג את כל 68 הפרקים הבודדים".
 const KIND_HE_TITLE = {
-  mini: 'מיני-תרגולים',
-  section: 'פרקים בודדים',
+  mini: 'מבחנים קצרים',
+  section: 'מבחנים ממוקדים',
   full: 'סימולציות מלאות',
 }
 const KIND_ORDER = ['mini', 'section', 'full']
 const KIND_LEAD = {
-  mini: 'סבב קצר בתחום אחד — הדרך הרגילה לבדוק אם נושא נכנס.',
-  section: 'פרק אחד בתנאי אמת, עם השעון של המבחן.',
-  full: 'המבחן כולו מקצה לקצה. שומרים אותו לרגע שבאמת מוכנים.',
+  mini: 'בדיקה קצרה של השליטה בנושא אחד.',
+  section: 'מבחן בנושא אחד, עם שעון כמו במבחן.',
+  full: 'סימולציה של כל חלקי המבחן; מומלצת לאחר תרגול ממוקד.',
 }
 // כמה סימולציות מוצגות בקבוצה לפני כפתור "הצג הכל" — בלי זה קבוצת הפרקים
 // מציפה את העמוד ומשטחת את ההיררכיה שכל השאר בנוי עליה.
@@ -286,7 +286,7 @@ export default function PsyHome() {
       return {
         label: `תרגול ממוקד: ${w.topic}`,
         to: `/psy/drill?domain=${w.domain}&topic=${encodeURIComponent(w.topic)}`,
-        why: `${pct(w.accuracy)} דיוק ב${DOMAIN_HE[w.domain] || w.domain} — זה הנושא החלש ביותר שלך כרגע.`,
+        why: `${pct(w.accuracy)} דיוק ב${DOMAIN_HE[w.domain] || w.domain} — זהו הנושא שכדאי לחזק עכשיו.`,
         Icon: IconTarget,
       }
     }
@@ -453,8 +453,8 @@ export default function PsyHome() {
           <h1>הכנה לקרני</h1>
           <p>
             מבחן הקבלה של מכון קרני לישיבות התיכוניות, בשבעה תחומים: מילולי, כמותי, צורני,
-            לוגי, מרחבי, זריזות ודיוק ואנגלית. זה לא אוסף מבחנים — זה מסלול לימוד: קורס לכל
-            נושא, תרגול ממוקד אחריו, וסימולציה בתנאי אמת רק כשמוכנים.
+            לוגי, מרחבי, זריזות ודיוק ואנגלית. זהו מסלול מסודר: לומדים את השיטה, מתרגלים לפי
+            נושא, ואז בודקים מוכנות במבחן.
           </p>
           <div className="psy-hero-actions">
             {data.open_attempt ? (
@@ -531,7 +531,7 @@ export default function PsyHome() {
           initial="hidden"
           animate="show"
         >
-          <h2>הצעד הבא שלך</h2>
+          <h2>מה כדאי לעשות עכשיו</h2>
           <motion.div {...hoverLift} className="psy-next-wrap">
             <Link className="psy-next" to={next.to}>
               <span className="psy-next-icon">
@@ -548,7 +548,7 @@ export default function PsyHome() {
             <>
               <p className="psy-plan-sub">
                 {weak.length
-                  ? 'לפי התשובות שלך בתרגול ובסימולציות — הנושאים החלשים ביותר קודם.'
+                  ? 'לפי התשובות בתרגול ובסימולציות — הנושאים שכדאי לחזק קודם.'
                   : 'ואחר כך: נושאי הליבה הגדולים שעוד לא נגעת בהם.'}
               </p>
               <motion.ul
@@ -575,64 +575,100 @@ export default function PsyHome() {
         </motion.section>
       )}
 
-      {/* רשת הקטגוריות — נקודת הכניסה לאזור. במקום שלושה מקטעים ארוכים זה
-          מתחת לזה, כל תחום הוא ריבוע אחד, ולחיצה עליו פותחת את הקורסים,
-          נושאי התרגול והמבחנים שלו בלבד. */}
+      {/* שלוש פעולות נפרדות, לפי הדרך שבה באמת מתכוננים: קודם לומדים,
+          אחר כך מתרגלים, ולבסוף נבחנים. אין יותר ערבוב של שורות תרגול
+          ומבחנים בתוך כרטיסי הקורסים. */}
       {!openCat && (
-        <motion.section
-          className="psy-panel"
-          variants={fadeInUp}
-          initial="hidden"
-          animate="show"
-        >
-          <div className="psy-panel-head">
-            <h2>כל הקטגוריות</h2>
-            <Link to="/psy/drill" className="psy-link">לכל התרגול</Link>
-          </div>
-          {/* שתי שורות מלאות בדיוק — חצי מהריבועים בכל שורה, בין 2 ל-5 עמודות
-              כדי שריבוע לא ייצא צר מדי או רחב מדי. */}
-          <motion.ul
-            className="psy-cats"
-            style={{ '--cat-cols': Math.min(5, Math.max(2, Math.ceil(categories.length / 2))) }}
-            variants={staggerContainer}
-            initial="hidden"
-            animate="show"
-          >
-            {categories.map((c) => (
-              <motion.li key={c.key} variants={fadeInUp}>
-                <motion.div {...hoverLift}>
-                  <Link className={`psy-cat ${c.ramp}`} to={`/psy?cat=${c.key}`}>
-                    {c.Icon && (
-                      <span className="psy-cat-icon" aria-hidden="true">
-                        <c.Icon />
-                      </span>
-                    )}
-                    <span className="psy-cat-head">
-                      <span className="psy-cat-name">{c.title}</span>
-                      {c.core && <span className="psy-domain-tag">עיקר המבחן</span>}
-                    </span>
-                    <span className="psy-cat-meta">{c.meta}</span>
-                    <span className="psy-cat-foot">
-                      <span
-                        className="psy-cat-bar"
-                        role="img"
-                        aria-label={`${pct(c.progress)} מהתוכן כבר תורגל`}
-                      >
-                        {/* transform ולא width — אותו תקציב תנועה של כל המערכת.
-                            RTL: המד מתמלא מהימין. */}
-                        <span
-                          className="psy-cat-bar-fill"
-                          style={{ transform: `scaleX(${c.progress})` }}
-                        />
-                      </span>
-                      <span className="psy-cat-pct">{pct(c.progress)}</span>
-                    </span>
+        <>
+          <motion.section className="psy-panel psy-learning" variants={fadeInUp} initial="hidden" animate="show">
+            <div className="psy-panel-head">
+              <div>
+                <span className="psy-section-kicker">שלב 1</span>
+                <h2>לומדים את השיטה</h2>
+              </div>
+              <span className="psy-panel-note">הסברים, דוגמאות ובוחן בסוף כל פרק</span>
+            </div>
+            {courseGroups.map(({ title, list, domain: d, core }) => {
+              const done = list.reduce((n, c) => n + c.completed_chapters, 0)
+              const total = list.reduce((n, c) => n + c.chapters_count, 0)
+              return (
+                <div key={title} className={`psy-domain-group ${DOMAIN_RAMP[d] || ''}${core ? ' is-core' : ''}`}>
+                  <DomainHead
+                    domain={d}
+                    title={title}
+                    core={core}
+                    stats={`${list.length === 1 ? 'קורס אחד' : `${list.length} קורסים`} · ${done}/${total} פרקים הושלמו`}
+                  />
+                  <motion.ul className="psy-course-list" variants={staggerContainer} initial="hidden" whileInView="show" viewport={{ once: true, margin: '-20px' }}>
+                    {list.map((c) => (
+                      <motion.li key={c.id} variants={fadeInUp}>
+                        <motion.div {...hoverLift}>
+                          <Link to={`/courses/${c.id}`} className="psy-course-card">
+                            <span className="psy-course-title">{c.title}</span>
+                            <span className="psy-course-desc">{c.description}</span>
+                            <span className="psy-course-progress">{c.completed_chapters}/{c.chapters_count} פרקים</span>
+                          </Link>
+                        </motion.div>
+                      </motion.li>
+                    ))}
+                  </motion.ul>
+                </div>
+              )
+            })}
+          </motion.section>
+
+          <motion.section className="psy-panel psy-practice" variants={fadeInUp} initial="hidden" whileInView="show" viewport={{ once: true, margin: '-40px' }}>
+            <div className="psy-panel-head">
+              <div>
+                <span className="psy-section-kicker">שלב 2</span>
+                <h2>מתרגלים לפי נושא</h2>
+              </div>
+              <Link to="/psy/drill" className="psy-link">לכל התרגול</Link>
+            </div>
+            <p className="psy-section-lead">בחרו תחום, התמקדו במיומנות אחת, וקבלו משוב מיידי.</p>
+            <motion.ul className="psy-track-list" variants={staggerContainer} initial="hidden" whileInView="show" viewport={{ once: true, margin: '-20px' }}>
+              {categories.filter((c) => DOMAIN_ORDER.includes(c.key)).map((c) => (
+                <motion.li key={c.key} variants={fadeInUp}>
+                  <Link className={`psy-track-row ${c.ramp}`} to={`/psy/drill?domain=${c.key}`}>
+                    <span className="psy-track-name">{c.title}</span>
+                    <span className="psy-track-meta">{c.meta}</span>
+                    <span className="psy-track-progress">{pct(c.progress)} תורגל</span>
+                    <span className="psy-track-action">לתרגול</span>
                   </Link>
-                </motion.div>
-              </motion.li>
-            ))}
-          </motion.ul>
-        </motion.section>
+                </motion.li>
+              ))}
+            </motion.ul>
+          </motion.section>
+
+          <motion.section className="psy-panel psy-assessment" variants={fadeInUp} initial="hidden" whileInView="show" viewport={{ once: true, margin: '-40px' }}>
+            <div className="psy-panel-head">
+              <div>
+                <span className="psy-section-kicker">שלב 3</span>
+                <h2>בודקים מוכנות</h2>
+              </div>
+              <span className="psy-panel-note">תמיד מתחילים מהשלב המתאים</span>
+            </div>
+            {simGroups.map(([kind, list]) => {
+              const key = `home-${kind}`
+              const open = showAllSims[key]
+              const shown = open ? list : list.slice(0, 3)
+              return (
+                <div key={kind} className="psy-sim-kind">
+                  <h3 className="psy-sim-kind-title">{KIND_HE_TITLE[kind] || KIND_HE[kind] || kind}</h3>
+                  <p className="psy-sim-kind-lead">{KIND_LEAD[kind]}</p>
+                  <motion.ul id={`psy-home-sims-${kind}`} className="psy-trows" variants={staggerContainer} initial="hidden" animate="show">
+                    {shown.map((s) => <SimRow key={s.slug} s={s} />)}
+                  </motion.ul>
+                  {list.length > 3 && (
+                    <motion.button type="button" className="psy-btn psy-btn-more" aria-expanded={!!open} aria-controls={`psy-home-sims-${kind}`} onClick={() => setShowAllSims((v) => ({ ...v, [key]: !v[key] }))} {...tapScale}>
+                      {open ? 'הצג פחות' : `הצג את כל ${list.length} ${KIND_HE_PLURAL[kind] || KIND_HE[kind]}`}
+                    </motion.button>
+                  )}
+                </div>
+              )
+            })}
+          </motion.section>
+        </>
       )}
 
       {openCat && (
