@@ -188,7 +188,7 @@ class ChapterOut(BaseModel):
     examples: List[ExampleOut] = Field(default_factory=list)
     exercises: List[ExerciseOut] = Field(default_factory=list)
     quiz: List[QuizQuestionOut] = Field(default_factory=list)
-    # פרק שמעבר למכסת ה-42% של משתמש ללא מנוי. כשהוא True שאר השדות מגיעים
+    # פרק שמעבר למכסת הטעימה של משתמש ללא מנוי. כשהוא True שאר השדות מגיעים
     # ריקים — התוכן עצמו לא עוזב את השרת, אחרת אפשר היה לקרוא את כל הקורס
     # מתוך תשובת ה-JSON ולעקוף את התשלום.
     locked: bool = False
@@ -216,7 +216,7 @@ class CourseDetail(BaseModel):
     # כמה פרקים פתוחים לו בפועל, ואיזה חלק מהקורס זה — הפרונט מציג מזה את
     # שורת "פתוחים לך X מתוך Y".
     unlocked_chapters: int = 0
-    free_ratio: float = 0.42
+    free_ratio: float = 0.30
     # "psy" לקורסי ההכנה לקרני, אחרת מסלול בית הספר. שדה אופציונלי בלבד —
     # הפרונט צריך אותו כדי לדעת לאן להחזיר את התלמיד מהפירורים.
     track: Optional[str] = None
@@ -524,7 +524,7 @@ class ProductAccessOut(BaseModel):
     seconds_left: Optional[int] = None
     is_trial: bool = False
     # שיעור התוכן שפתוח כשאין גישה מלאה למוצר הזה.
-    free_ratio: float = 0.42
+    free_ratio: float = 0.30
 
 
 class AccessStatusOut(BaseModel):
@@ -543,9 +543,9 @@ class AccessStatusOut(BaseModel):
     seconds_left: Optional[int] = None  # שניות עד תום ההתנסות/המנוי (0 אם נגמר)
     trial_days: int
     is_trial: bool = False
-    # has_access = גישה *מלאה*. False פירושו דרגת free (42%), לא נעילה מוחלטת.
+    # has_access = גישה *מלאה*. False פירושו דרגת free (טעימה חלקית), לא נעילה מוחלטת.
     has_access: bool = True
-    free_ratio: float = 0.42
+    free_ratio: float = 0.30
     welcome_seen: bool = True
     server_time: datetime
     # פירוט פר-מוצר. השדות שמעליו נשארים "המצב הטוב ביותר" מבין המוצרים, כדי

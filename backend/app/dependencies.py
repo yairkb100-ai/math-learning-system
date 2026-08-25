@@ -109,7 +109,8 @@ def user_has_lapsed_subscription(db: Session, user: models.User) -> bool:
 def _base_free_ratio(product: str) -> float:
     """שיעור הטעימה למי שאין לו מנוי בתוקף *על המוצר עצמו* — גם בתקופת
     ההתנסות, לא רק אחריה. שיעור נמוך יותר בכוונה לקרני: זה בנק שאלות סופי,
-    וטעימה בגודל 42% ממנו כמעט מייתרת רכישה (ראה ``KARNI_BASE_FREE_RATIO``).
+    וטעימה בגודל שיעור הלומדה ממנו כמעט מייתרת רכישה (ראה
+    ``KARNI_BASE_FREE_RATIO``).
     """
     return KARNI_BASE_FREE_RATIO if product == PRODUCT_KARNI else FREE_CONTENT_RATIO
 

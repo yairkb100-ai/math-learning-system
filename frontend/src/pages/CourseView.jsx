@@ -70,11 +70,11 @@ export default function CourseView() {
   // told us how many it left open. Everything below only decides how to say so.
   const isFree = course.access_tier === 'free'
   const unlocked = course.unlocked_chapters ?? chapters.length
-  // האחוז האמיתי של הקורס הזה ולא 42% הכללי: המכסה מעוגלת לקרוב, כך שקורס קצר
-  // יוצא מעט מעל 42% (4 פרקים → 2) — עדיף להראות את המספר שהתלמיד באמת מקבל.
+  // האחוז האמיתי של הקורס הזה ולא ברירת המחדל הכללית: המכסה מעוגלת לקרוב, כך
+  // שקורס קצר יוצא מעט מעל ברירת המחדל — עדיף להראות את המספר שהתלמיד באמת מקבל.
   const freePct = chapters.length
     ? Math.round((unlocked / chapters.length) * 100)
-    : Math.round((course.free_ratio ?? 0.42) * 100)
+    : Math.round((course.free_ratio ?? 0.3) * 100)
 
   return (
     <section

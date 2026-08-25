@@ -203,7 +203,7 @@ export default function Practice() {
         <p className="muted">תרגלו שאלות לפי נושא ורמת קושי, וצברו רצף והישגים.</p>
       </div>
 
-      {/* free tier: the bank is sampled from the open ~42% of every topic */}
+      {/* free tier: the bank is sampled from the open ~30% of every topic */}
       {meta?.access_tier === 'free' && (
         <motion.div
           className="free-note"

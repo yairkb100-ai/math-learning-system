@@ -3,7 +3,7 @@
 כל תלמיד חדש מקבל אוטומטית מנוי מסוג ``trial`` שתוקפו כמספר הימים שהמנהל הגדיר
 לתוכנית הזו (עורכים דרך /admin/plans — ``PATCH /api/admin/plans/{id}``). זו
 *לא* גישה מלאה: במהלך ההתנסות התלמיד רואה את אותה טעימה שרואה מי שאין לו מנוי
-בכלל (``FREE_CONTENT_RATIO`` — 42% — בלומדה, ``KARNI_BASE_FREE_RATIO`` — 10% —
+בכלל (``FREE_CONTENT_RATIO`` — 30% — בלומדה, ``KARNI_BASE_FREE_RATIO`` — 10% —
 בקרני; ראה ``app.access`` ו-``app.dependencies.user_content_access``). מה
 שההתנסות בפועל נותנת הוא רק חלון זמני שבו הטעימה הזו נגישה בלי חסימת 402.
 בתום התקופה המנוי פג והתלמיד נחסם לגמרי (ראה ``app.dependencies.user_access_

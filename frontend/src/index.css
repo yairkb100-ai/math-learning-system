@@ -2543,7 +2543,7 @@ h4.prose-h {
 }
 .chapter-row:hover .chapter-start-btn { background: var(--accent-2); }
 
-/* ===== free tier: the 42% preview ===== */
+/* ===== free tier: the 30% preview ===== */
 
 /* A locked row still reads as part of the course — same size and rhythm, just
    drained of colour — so the student sees what is waiting rather than a gap.
@@ -2571,7 +2571,7 @@ h4.prose-h {
 }
 .chapter-lock-icon { width: 15px; height: 15px; }
 
-/* Banner above the chapter list explaining what "42%" means here. */
+/* Banner above the chapter list explaining what "30%" means here. */
 .free-note {
   display: flex;
   align-items: center;

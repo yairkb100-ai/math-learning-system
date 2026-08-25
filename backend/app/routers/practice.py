@@ -54,7 +54,7 @@ def list_questions(
         q = q.filter(models.PracticeQuestion.difficulty == difficulty)
     if topic:
         q = q.filter(models.PracticeQuestion.topic == topic)
-    # בדרגת free הדגימה נעשית רק מ~42% השאלות הפתוחות בכל נושא — אותו כלל
+    # בדרגת free הדגימה נעשית רק מ~30% השאלות הפתוחות בכל נושא — אותו כלל
     # שחל על פרקי הקורסים (ראה app.access).
     access = user_content_access(db, current_user)
     if access.tier == TIER_FREE:

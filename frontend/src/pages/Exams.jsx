@@ -28,7 +28,7 @@ export default function Exams() {
   if (error) return <ErrorBox error={error} />
   if (!exams) return <Loading label="טוען מבחנים…" />
 
-  // Free tier: the server marks the exams past the ~42% preview as locked.
+  // Free tier: the server marks the exams past the ~30% preview as locked.
   const openCount = exams.filter((e) => !e.locked).length
   const anyLocked = openCount < exams.length
 

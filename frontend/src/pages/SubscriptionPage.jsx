@@ -117,7 +117,7 @@ export default function SubscriptionPage() {
               {access.expires_at && <> (עד {fmt(access.expires_at)})</>}
             </p>
             <p className="sub-note">
-              בתקופת ההתנסות פתוחים לך כ-42% מכל קורס בלומדה וכ-10% ממאגר
+              בתקופת ההתנסות פתוחים לך כ-30% מכל קורס בלומדה וכ-10% ממאגר
               השאלות בהכנה לקרני. בתום התקופה הגישה נחסמת עד לרכישה — רוצה
               להמשיך? שלח הודעה ונסדר את זה מראש.
             </p>
@@ -192,7 +192,7 @@ export default function SubscriptionPage() {
                   )}
                   {row.state === 'trial' && (
                     <p className="muted">
-                      פתוחים לך כ-{Math.round((row.free_ratio ?? 0.42) * 100)}% מהתוכן כטעימה
+                      פתוחים לך כ-{Math.round((row.free_ratio ?? 0.3) * 100)}% מהתוכן כטעימה
                       בתקופת ההתנסות. לגישה מלאה — שלח לי הודעה.
                     </p>
                   )}

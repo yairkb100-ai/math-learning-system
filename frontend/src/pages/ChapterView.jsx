@@ -28,7 +28,7 @@ import {
 
 const t = (rtl, he, en) => (rtl ? he : en)
 
-// Reached when a free-tier student opens a chapter past the 42% preview —
+// Reached when a free-tier student opens a chapter past the 30% preview —
 // by typing the URL, or from a stale tab. The server refused to send the
 // content (402 chapter_locked), so there is nothing to render but the offer.
 function LockedChapter({ courseId, number }) {
@@ -141,7 +141,7 @@ export default function ChapterView() {
   const [language, setLanguage] = useState('English')
   const [chaptersCount, setChaptersCount] = useState(0)
   // How many chapters this account may open. Equals chaptersCount on a full
-  // subscription; on the free tier it is the 42% preview quota.
+  // subscription; on the free tier it is the 30% preview quota.
   const [unlockedCount, setUnlockedCount] = useState(0)
   const [progress, setProgress] = useState(null)
   const [marking, setMarking] = useState(false)

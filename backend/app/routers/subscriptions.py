@@ -551,7 +551,7 @@ def cancel_subscription(
     db: Session = Depends(get_db),
     _: models.User = Depends(require_admin),
 ) -> SubscriptionOut:
-    """מבטל מנוי — הגישה המלאה נפסקת מיידית והתלמיד יורד ל-42% מכל קורס
+    """מבטל מנוי — הגישה המלאה נפסקת מיידית והתלמיד יורד ל-30% מכל קורס
     (דרגת ``free``). ביטול בטעות ניתן לתיקון ע"י הארכה מחדש."""
     sub = db.query(models.Subscription).filter(models.Subscription.id == sub_id).first()
     if not sub:
