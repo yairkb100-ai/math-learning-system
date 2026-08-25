@@ -1,6 +1,7 @@
 """Admin routes: user management and course management."""
 
 from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from app import models
@@ -31,7 +32,33 @@ def list_users(
     db: Session = Depends(get_db),
     _: models.User = Depends(require_admin),
 ) -> list[AdminUserOut]:
-    return db.query(models.User).order_by(models.User.created_at.desc()).all()
+    users = db.query(models.User).order_by(models.User.created_at.desc()).all()
+
+    # Multi-account signal: flag (never block) accounts that share a signup IP
+    # or device_id with other accounts — a shared school/home IP is common and
+    # not proof of abuse, so this is a count for admin judgment, not a gate.
+    ip_counts = dict(
+        db.query(models.User.signup_ip, func.count(models.User.id))
+        .filter(models.User.signup_ip.isnot(None))
+        .group_by(models.User.signup_ip)
+        .all()
+    )
+    device_counts = dict(
+        db.query(models.User.signup_device_id, func.count(models.User.id))
+        .filter(models.User.signup_device_id.isnot(None))
+        .group_by(models.User.signup_device_id)
+        .all()
+    )
+    for user in users:
+        user.shared_ip_count = (
+            ip_counts.get(user.signup_ip, 1) - 1 if user.signup_ip else 0
+        )
+        user.shared_device_count = (
+            device_counts.get(user.signup_device_id, 1) - 1
+            if user.signup_device_id
+            else 0
+        )
+    return users
 
 
 @router.post("/users", response_model=AdminUserOut, status_code=201)

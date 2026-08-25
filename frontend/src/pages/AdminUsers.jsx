@@ -2,8 +2,26 @@ import { useEffect, useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
+import { IconWarning } from '../components/icons.jsx'
 import { fadeInUp, staggerContainer, tapScale, overlayFade } from '../lib/motion.js'
 import '../styles/admin-core.css'
+
+// Flags accounts that share a signup IP or device with other accounts — a
+// signal for the admin to judge (shared school/home network is common and
+// not proof of abuse), never an automatic block.
+function MultiAccountBadge({ user }) {
+  const count = Math.max(user.shared_ip_count || 0, user.shared_device_count || 0)
+  if (count === 0) return null
+  const via = user.shared_device_count > 0 ? 'מכשיר' : 'IP'
+  return (
+    <span
+      className="multi-account-badge"
+      title={`${count} חשבונות נוספים נרשמו מאותו ${via} — כדאי לבדוק אם זה ניצול מכסת חינם`}
+    >
+      <IconWarning /> {count}
+    </span>
+  )
+}
 
 export default function AdminUsers() {
   const [users, setUsers] = useState([])
@@ -261,7 +279,10 @@ export default function AdminUsers() {
                     onChange={() => toggleSelect(u.id)}
                   />
                 </td>
-                <td>{u.full_name}</td>
+                <td>
+                  {u.full_name}
+                  <MultiAccountBadge user={u} />
+                </td>
                 <td className="mono">{u.username}</td>
                 <td className="mono">
                   {u.password_plain ? (
@@ -335,7 +356,10 @@ export default function AdminUsers() {
                     aria-label={`בחר את ${u.full_name}`}
                   />
                   <div>
-                    <div className="user-card-name">{u.full_name}</div>
+                    <div className="user-card-name">
+                      {u.full_name}
+                      <MultiAccountBadge user={u} />
+                    </div>
                     <div className="user-card-username">{u.username}</div>
                   </div>
                 </div>

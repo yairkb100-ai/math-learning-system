@@ -189,7 +189,10 @@ export const api = {
       body: JSON.stringify({ username, password, device_id: getDeviceId() }),
     }),
   register: (data) =>
-    request('/auth/register', { method: 'POST', body: JSON.stringify(data) }),
+    request('/auth/register', {
+      method: 'POST',
+      body: JSON.stringify({ ...data, device_id: getDeviceId() }),
+    }),
   me: () => request('/auth/me'),
 
   // Global content search (public, titles only)
