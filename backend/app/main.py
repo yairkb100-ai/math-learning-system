@@ -218,6 +218,18 @@ def on_startup() -> None:
                     "ON users (referral_code)"
                 )
             )
+            if "signup_ip" not in cols:
+                conn.execute(text("ALTER TABLE users ADD COLUMN signup_ip VARCHAR"))
+            if "signup_device_id" not in cols:
+                conn.execute(
+                    text("ALTER TABLE users ADD COLUMN signup_device_id VARCHAR")
+                )
+            conn.execute(
+                text(
+                    "CREATE INDEX IF NOT EXISTS ix_users_signup_device_id "
+                    "ON users (signup_device_id)"
+                )
+            )
         if "chapters" in table_names:
             cols = columns_by_table.get("chapters", set())
             if "title_overridden" not in cols:

@@ -20,6 +20,9 @@ class UserCreate(BaseModel):
     # קוד "חבר מביא חבר" מהקישור שדרכו הגיע. נקרא רק בהרשמה עצמית; קוד לא
     # תקין מתעלמים ממנו במקום להכשיל את ההרשמה.
     referral_code: Optional[str] = None
+    # אותו deviceId שנשלח גם בהתחברות (localStorage) — משמש לאיתות ריבוי
+    # חשבונות, לא לאכיפה בפועל. None מלקוחות ישנים.
+    device_id: Optional[str] = None
 
 
 class UserLogin(BaseModel):
@@ -45,6 +48,11 @@ class AdminUserOut(UserOut):
     """User as seen by admins — includes the stored plaintext password."""
 
     password_plain: Optional[str] = None
+    # מספר חשבונות אחרים שנרשמו מאותו IP / אותו device_id (localStorage) —
+    # איתות לריבוי חשבונות לניצול מכסת חינם, לא חסימה אוטומטית. מחושב ב-
+    # list_users, לא נשמר בטבלה. 0 = אין חפיפה (או שאין signup_ip/device_id).
+    shared_ip_count: int = 0
+    shared_device_count: int = 0
 
 
 class UserUpdate(BaseModel):

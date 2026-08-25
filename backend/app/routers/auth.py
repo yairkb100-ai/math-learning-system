@@ -145,6 +145,8 @@ def register(
         password_plain=payload.password,
         full_name=payload.full_name.strip(),
         role="student",
+        signup_ip=client_ip(request),
+        signup_device_id=payload.device_id,
     )
     db.add(user)
     db.commit()
