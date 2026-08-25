@@ -139,7 +139,7 @@ export default function LandingPage() {
   return (
     <div className="catalog landing-page" dir="rtl">
       {/* Hero */}
-      <div className="cat-hero">
+      <div className="cat-hero lp-hero-pastel">
         <MathDoodles className="hero-doodles" />
         <motion.div
           className="cat-hero-body lp-hero-body"
@@ -152,7 +152,7 @@ export default function LandingPage() {
               <IconGraduation /> לומדת מתמטיקה מכיתה ה׳ ועד תיכון
             </span>
             <h1 className="cat-title">
-              מתמטיקה, חשבון והכנה <span className="cat-title-accent">לקרני</span> — במקום אחד
+              מהיסודי ועד לתיכון, הדרך שלך <span className="cat-title-accent">להצלחה!</span>
             </h1>
             <p className="lp-hero-sub">
               קורסים במתמטיקה לפי כיתה, תרגול ומבחנים, הכנה לקרני עם סימולציות בתנאי אמת, ואפשרות
@@ -172,7 +172,7 @@ export default function LandingPage() {
 
       {/* Intro / keyword-rich value prop */}
       <section className="lp-panel">
-        <p className="lp-intro">
+        <p className="lp-intro lp-intro-wide">
           <strong>לומדת מתמטיקה</strong> היא מערכת לימוד מקוונת לתלמידים בבית הספר היסודי,
           בחטיבת הביניים ובתיכון. באתר תמצאו <strong>קורסים במתמטיקה</strong> מסודרים לפי כיתה
           ונושא, בנק שאלות לתרגול, מבחני תרגול בתנאי זמן אמיתיים, מסלול מלא של{' '}
@@ -209,7 +209,7 @@ export default function LandingPage() {
         </h2>
       </div>
       <motion.div
-        className="lp-feature-grid"
+        className="lp-feature-grid lp-feature-grid-karni"
         variants={staggerContainer}
         initial="hidden"
         whileInView="show"
