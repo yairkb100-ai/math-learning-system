@@ -5,7 +5,10 @@ const AuthContext = createContext(null)
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
-  const [isLoading, setIsLoading] = useState(true)
+  // On the server (scripts/seo/prerender.mjs) there's no localStorage and no
+  // effect pass to resolve this, so start already "resolved, signed out" —
+  // exactly right, since only public/signed-out pages are ever prerendered.
+  const [isLoading, setIsLoading] = useState(typeof window !== 'undefined')
 
   useEffect(() => {
     const stored = localStorage.getItem('user')
