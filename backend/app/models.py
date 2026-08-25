@@ -43,6 +43,12 @@ class User(Base):
     # invite page — backfilling every existing row would burn codes on accounts
     # that never share one. See app.referrals.code_for.
     referral_code = Column(String, unique=True, nullable=True, index=True)
+    # Captured at registration for the multi-account abuse signal — an IP or
+    # device_id shared by several accounts gets flagged for admins in the
+    # users list (AdminUserOut.shared_ip_count/shared_device_count), never
+    # auto-blocked. See app.routers.admin.list_users.
+    signup_ip = Column(String, nullable=True)
+    signup_device_id = Column(String, nullable=True, index=True)
 
     enrollments = relationship(
         "UserCourseEnrollment",

@@ -911,7 +911,7 @@ def drill_questions(
         q = q.filter(models.PsyItem.difficulty == difficulty)
 
     # הטעימה במאגר נמדדת באותו אחוז שחל על הקורסים (ברירת מחדל 20% למי שקנה
-    # רק את הלומדה, 42% למי שאין לו מנוי כלל) ולא בסף קושי קבוע — ראה
+    # רק את הלומדה, 30% למי שאין לו מנוי כלל) ולא בסף קושי קבוע — ראה
     # unlocked_psy_item_ids (ולסימולציות — unlocked_simulation_ids).
     access = user_content_access(db, current_user, PRODUCT_KARNI)
     if access.tier == TIER_FREE:

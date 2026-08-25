@@ -109,7 +109,7 @@ export default function SubscriptionPage() {
           <>
             <p className="sub-line">
               <span className="status-ok">
-                תקופת התנסות — שני האזורים פתוחים לך ללא תשלום
+                תקופת התנסות — טעימה משני האזורים בלי תשלום
               </span>
             </p>
             <p>
@@ -117,8 +117,9 @@ export default function SubscriptionPage() {
               {access.expires_at && <> (עד {fmt(access.expires_at)})</>}
             </p>
             <p className="sub-note">
-              בתום תקופת ההתנסות תוכל לבחור מה להמשיך — את הלומדה, את ההכנה
-              לקרני, או את שניהם. רוצה להמשיך? שלח הודעה ונסדר את זה מראש.
+              בתקופת ההתנסות פתוחים לך כ-30% מכל קורס בלומדה וכ-10% ממאגר
+              השאלות בהכנה לקרני. בתום התקופה הגישה נחסמת עד לרכישה — רוצה
+              להמשיך? שלח הודעה ונסדר את זה מראש.
             </p>
             <div className="sub-actions">
               <Link to="/messages" className="btn">שליחת הודעה למנהל</Link>
@@ -187,6 +188,12 @@ export default function SubscriptionPage() {
                     <p className="muted">
                       פתוחים לך כ-{crossPct}% מהתוכן כטעימה. להוספת האזור הזה —
                       שלח לי הודעה.
+                    </p>
+                  )}
+                  {row.state === 'trial' && (
+                    <p className="muted">
+                      פתוחים לך כ-{Math.round((row.free_ratio ?? 0.3) * 100)}% מהתוכן כטעימה
+                      בתקופת ההתנסות. לגישה מלאה — שלח לי הודעה.
                     </p>
                   )}
                   {meta.ok && target && (

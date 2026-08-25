@@ -21,6 +21,9 @@ class UserCreate(BaseModel):
     # קוד "חבר מביא חבר" מהקישור שדרכו הגיע. נקרא רק בהרשמה עצמית; קוד לא
     # תקין מתעלמים ממנו במקום להכשיל את ההרשמה.
     referral_code: Optional[str] = None
+    # אותו deviceId שנשלח גם בהתחברות (localStorage) — משמש לאיתות ריבוי
+    # חשבונות, לא לאכיפה בפועל. None מלקוחות ישנים.
+    device_id: Optional[str] = None
 
 
 class UserLogin(BaseModel):
@@ -46,6 +49,11 @@ class AdminUserOut(UserOut):
     """User as seen by admins — includes the stored plaintext password."""
 
     password_plain: Optional[str] = None
+    # מספר חשבונות אחרים שנרשמו מאותו IP / אותו device_id (localStorage) —
+    # איתות לריבוי חשבונות לניצול מכסת חינם, לא חסימה אוטומטית. מחושב ב-
+    # list_users, לא נשמר בטבלה. 0 = אין חפיפה (או שאין signup_ip/device_id).
+    shared_ip_count: int = 0
+    shared_device_count: int = 0
 
 
 class UserUpdate(BaseModel):
@@ -255,7 +263,7 @@ class ChapterOut(BaseModel):
     exercises: List[ExerciseOut] = Field(default_factory=list)
     quiz: List[QuizQuestionOut] = Field(default_factory=list)
     interactive: List[InteractiveActivityOut] = Field(default_factory=list)
-    # פרק שמעבר למכסת ה-42% של משתמש ללא מנוי. כשהוא True שאר השדות מגיעים
+    # פרק שמעבר למכסת הטעימה של משתמש ללא מנוי. כשהוא True שאר השדות מגיעים
     # ריקים — התוכן עצמו לא עוזב את השרת, אחרת אפשר היה לקרוא את כל הקורס
     # מתוך תשובת ה-JSON ולעקוף את התשלום.
     locked: bool = False
@@ -283,7 +291,7 @@ class CourseDetail(BaseModel):
     # כמה פרקים פתוחים לו בפועל, ואיזה חלק מהקורס זה — הפרונט מציג מזה את
     # שורת "פתוחים לך X מתוך Y".
     unlocked_chapters: int = 0
-    free_ratio: float = 0.42
+    free_ratio: float = 0.30
     # "psy" לקורסי ההכנה לקרני, אחרת מסלול בית הספר. שדה אופציונלי בלבד —
     # הפרונט צריך אותו כדי לדעת לאן להחזיר את התלמיד מהפירורים.
     track: Optional[str] = None
@@ -635,7 +643,7 @@ class ProductAccessOut(BaseModel):
     seconds_left: Optional[int] = None
     is_trial: bool = False
     # שיעור התוכן שפתוח כשאין גישה מלאה למוצר הזה.
-    free_ratio: float = 0.42
+    free_ratio: float = 0.30
 
 
 class AccessStatusOut(BaseModel):
@@ -654,9 +662,9 @@ class AccessStatusOut(BaseModel):
     seconds_left: Optional[int] = None  # שניות עד תום ההתנסות/המנוי (0 אם נגמר)
     trial_days: int
     is_trial: bool = False
-    # has_access = גישה *מלאה*. False פירושו דרגת free (42%), לא נעילה מוחלטת.
+    # has_access = גישה *מלאה*. False פירושו דרגת free (טעימה חלקית), לא נעילה מוחלטת.
     has_access: bool = True
-    free_ratio: float = 0.42
+    free_ratio: float = 0.30
     welcome_seen: bool = True
     server_time: datetime
     # פירוט פר-מוצר. השדות שמעליו נשארים "המצב הטוב ביותר" מבין המוצרים, כדי

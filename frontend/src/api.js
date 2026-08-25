@@ -48,7 +48,7 @@ async function request(path, options = {}) {
   // Two flavours of 402:
   //   chapter_locked /        — the account is on the free tier and this
   //   content_locked            chapter, exam or practice question sits past
-  //                             the ~42% preview. The page renders its own
+  //                             the ~30% preview. The page renders its own
   //                             paywall, so throw and let it.
   //   no_active_subscription  — no content at all; bounce to "My subscription".
   if (res.status === 402) {
@@ -189,7 +189,10 @@ export const api = {
       body: JSON.stringify({ username, password, device_id: getDeviceId() }),
     }),
   register: (data) =>
-    request('/auth/register', { method: 'POST', body: JSON.stringify(data) }),
+    request('/auth/register', {
+      method: 'POST',
+      body: JSON.stringify({ ...data, device_id: getDeviceId() }),
+    }),
   me: () => request('/auth/me'),
 
   // Global content search (public, titles only)

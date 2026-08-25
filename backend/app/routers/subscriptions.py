@@ -4,8 +4,11 @@
 
 מאז הפיצול לשני מוצרים (``app.products``) המנוי אינו גורף: לכל תוכנית יש
 רשימת מוצרים — הלומדה, ההכנה לקרני או שניהם (חבילה במחיר משלה) — והענקתה
-יוצרת שורת מנוי לכל מוצר. מנוי בתוקף על מוצר = 100% מהתוכן שלו; בלעדיו
-התלמיד רואה טעימה בלבד באותו אזור (``app.access``).
+יוצרת שורת מנוי לכל מוצר. מנוי *אמיתי* בתוקף על מוצר (בתשלום, או תוכנית
+``free`` שהמנהל מעניק ידנית) = 100% מהתוכן שלו. מנוי מסוג ``trial`` בתוקף
+אינו נחשב "אמיתי" לעניין הזה — הוא רק פותח חלון זמני שבו הטעימה הרגילה
+נגישה בלי חסימה; בלי מנוי אמיתי בתוקף (כולל בהתנסות) התלמיד רואה טעימה בלבד
+באותו אזור (``app.access``, ``app.dependencies.user_content_access``).
 """
 
 from datetime import datetime, timedelta
@@ -14,12 +17,13 @@ from fastapi import APIRouter, Depends, HTTPException, Response
 from sqlalchemy.orm import Session
 
 from app import models
-from app.access import FREE_CONTENT_RATIO
+from app.access import FREE_CONTENT_RATIO, KARNI_BASE_FREE_RATIO
 from app.database import get_db
 from app.settings_store import cross_product_free_ratio
 from app.dependencies import get_current_user, require_admin
 from app.products import (
     ALL_PRODUCTS,
+    PRODUCT_KARNI,
     PRODUCT_LABELS,
     parse_products,
     serialize_products,
@@ -284,6 +288,9 @@ def _product_access_rows(
         sub = active.get(product)
         if sub is not None:
             is_trial = sub.plan_code == TRIAL_PLAN_CODE
+            # התנסות אינה גישה מלאה — רק חלון זמני שבו טעימת ברירת המחדל
+            # נגישה בלי חסימה (ראה app.dependencies.user_content_access).
+            trial_ratio = KARNI_BASE_FREE_RATIO if product == PRODUCT_KARNI else FREE_CONTENT_RATIO
             rows.append(
                 ProductAccessOut(
                     product=product,
@@ -299,7 +306,7 @@ def _product_access_rows(
                         else None
                     ),
                     is_trial=is_trial,
-                    free_ratio=1.0,
+                    free_ratio=trial_ratio if is_trial else 1.0,
                 )
             )
             continue
@@ -324,7 +331,7 @@ def _product_access_rows(
                 if last is not None and last.plan_code == TRIAL_PLAN_CODE
                 else "blocked"
             )
-            ratio = FREE_CONTENT_RATIO
+            ratio = KARNI_BASE_FREE_RATIO if product == PRODUCT_KARNI else FREE_CONTENT_RATIO
         rows.append(
             ProductAccessOut(
                 product=product,
@@ -544,7 +551,7 @@ def cancel_subscription(
     db: Session = Depends(get_db),
     _: models.User = Depends(require_admin),
 ) -> SubscriptionOut:
-    """מבטל מנוי — הגישה המלאה נפסקת מיידית והתלמיד יורד ל-42% מכל קורס
+    """מבטל מנוי — הגישה המלאה נפסקת מיידית והתלמיד יורד ל-30% מכל קורס
     (דרגת ``free``). ביטול בטעות ניתן לתיקון ע"י הארכה מחדש."""
     sub = db.query(models.Subscription).filter(models.Subscription.id == sub_id).first()
     if not sub:

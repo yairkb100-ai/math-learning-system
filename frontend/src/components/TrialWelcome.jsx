@@ -197,7 +197,8 @@ export default function TrialWelcome() {
             {inTrial ? (
               <div className="welcome-trial">
                 <div className="welcome-trial-head">
-                  <IconClock /> הלומדה פתוחה לך <strong>ללא תשלום</strong> ל-{access.trial_days} הימים הקרובים
+                  <IconClock /> יש לך <strong>{access.trial_days} ימים</strong> לטעום מהלומדה (כ-30%
+                  מכל קורס) ומהכנה לקרני (כ-10% ממאגר השאלות) בלי תשלום
                 </div>
                 <div className="countdown" aria-label="הזמן שנותר לתקופת ההתנסות">
                   <div className="cd-cell">

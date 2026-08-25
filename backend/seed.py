@@ -1509,6 +1509,19 @@ def run_light_migrations():
                 "CREATE UNIQUE INDEX IF NOT EXISTS ix_users_referral_code "
                 "ON users (referral_code)"
             ))
+        if "signup_ip" not in cols:
+            with engine.begin() as conn:
+                conn.execute(text("ALTER TABLE users ADD COLUMN signup_ip VARCHAR"))
+            print("  ~ Migrated: added users.signup_ip")
+        if "signup_device_id" not in cols:
+            with engine.begin() as conn:
+                conn.execute(text("ALTER TABLE users ADD COLUMN signup_device_id VARCHAR"))
+            print("  ~ Migrated: added users.signup_device_id")
+        with engine.begin() as conn:
+            conn.execute(text(
+                "CREATE INDEX IF NOT EXISTS ix_users_signup_device_id "
+                "ON users (signup_device_id)"
+            ))
 
     if "exercises" in inspector.get_table_names():
         cols = {c["name"] for c in inspector.get_columns("exercises")}
