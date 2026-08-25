@@ -11,6 +11,7 @@
 // נקרא פעם אחת בטעינה — אחרי זה ה-DOM עשוי להשתנות, והערך הזה חייב להישאר
 // מה שהטאב הזה הריץ מלכתחילה.
 const LOADED = (() => {
+  if (typeof document === 'undefined') return null // SSR (scripts/seo/prerender.mjs)
   const s = document.querySelector('script[src*="/assets/index-"]')
   if (!s) return null // dev: Vite מגיש /src/main.jsx, אין מה להשוות
   try {

@@ -329,3 +329,20 @@ export function IconGift(props) {
     </svg>
   )
 }
+
+// Drag handle — the six-dot grip used on the interactive drag-and-drop cards.
+// Dots are filled (no stroke) so the grip stays legible at 1em.
+export function IconGrip(props) {
+  return (
+    <svg {...base} {...props}>
+      <g fill="currentColor" stroke="none">
+        <circle cx="9" cy="6" r="1.5" />
+        <circle cx="15" cy="6" r="1.5" />
+        <circle cx="9" cy="12" r="1.5" />
+        <circle cx="15" cy="12" r="1.5" />
+        <circle cx="9" cy="18" r="1.5" />
+        <circle cx="15" cy="18" r="1.5" />
+      </g>
+    </svg>
+  )
+}

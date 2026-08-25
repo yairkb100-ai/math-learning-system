@@ -41,6 +41,13 @@ import PsyDrill from './pages/PsyDrill.jsx'
 import PsySimPlayer from './pages/PsySimPlayer.jsx'
 import PsyResults from './pages/PsyResults.jsx'
 import MatricesPractice from './pages/MatricesPractice.jsx'
+import CoursesIndex from './pages/public/CoursesIndex.jsx'
+import GradePage from './pages/public/GradePage.jsx'
+import CoursePage from './pages/public/CoursePage.jsx'
+import TopicPage from './pages/public/TopicPage.jsx'
+import { SubjectsIndex, SubjectPage } from './pages/public/SubjectPages.jsx'
+import { KarniPage, KarniAreaPage } from './pages/public/KarniPages.jsx'
+import { AboutPage, FaqPage, ContactPage } from './pages/public/StaticPages.jsx'
 
 export default function App() {
   return (
@@ -90,15 +97,30 @@ function AppRoutes() {
               students/admins see their course catalog as before. */}
           <Route path="/" element={<HomeRoute />} />
 
-          {/* Student */}
-          <Route
-            path="/courses/:id"
-            element={
-              <PrivateRoute>
-                <CourseView />
-              </PrivateRoute>
-            }
-          />
+          {/* Public course/topic catalog — crawlable, no login required.
+              See CLAUDE.md-adjacent scripts/seo/build_catalog.mjs for how
+              courses/*.json becomes this catalog. */}
+          <Route path="/courses" element={<CoursesIndex />} />
+          <Route path="/subjects" element={<SubjectsIndex />} />
+          <Route path="/subjects/:slug" element={<SubjectPage />} />
+          <Route path="/karni" element={<KarniPage />} />
+          <Route path="/karni/:slug" element={<KarniAreaPage />} />
+          <Route path="/topics/:courseSlug/:number" element={<TopicPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/faq" element={<FaqPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          {/* One dynamic route for all six grade pages (/grade-5 … /high-school).
+              React Router ranks static segments above dynamic ones at the same
+              depth, so every other single-segment route above (and "*" below)
+              still wins its own path — this only catches what nothing else
+              claimed, and GradePage itself 404s on an unknown gradePath. */}
+          <Route path="/:gradePath" element={<GradePage />} />
+
+          {/* Student — "/courses/:id" is the same URL for both audiences:
+              signed-out visitors get the public course page (crawlable,
+              teaser-only), signed-in students get the full course view.
+              Same trick as HomeRoute above. */}
+          <Route path="/courses/:id" element={<CourseOrCourseViewRoute />} />
           <Route
             path="/courses/:id/chapters/:number"
             element={
@@ -159,7 +181,11 @@ function AppRoutes() {
           />
           <Route
             path="/psy/matrices-100"
-            element={<PrivateRoute><MatricesPractice /></PrivateRoute>}
+            element={
+              <PrivateRoute>
+                <MatricesPractice />
+              </PrivateRoute>
+            }
           />
 
           <Route
@@ -337,6 +363,15 @@ function HomeRoute() {
   const { user, isLoading } = useAuth()
   if (isLoading) return null
   return user ? <CourseList /> : <LandingPage />
+}
+
+// "/courses/:id" is one URL for both audiences: a crawler or a signed-out
+// visitor gets the public course page (teaser only, no data fetch that needs
+// a token), a signed-in student gets the real course view straight through.
+function CourseOrCourseViewRoute() {
+  const { user, isLoading } = useAuth()
+  if (isLoading) return null
+  return user ? <CourseView /> : <CoursePage />
 }
 
 function JoinRedirect() {
