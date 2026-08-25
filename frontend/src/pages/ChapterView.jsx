@@ -5,6 +5,7 @@ import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
 import MathText, { InlineMathText } from '../components/MathText.jsx'
 import Quiz from '../components/Quiz.jsx'
+import DragDrop from '../components/DragDrop.jsx'
 import { celebrate } from '../lib/celebrate.js'
 import { fadeInUp, tapScale, DURATION, EASE_OUT } from '../lib/motion.js'
 import '../styles/catalog-course.css'
@@ -24,6 +25,7 @@ import {
   IconWarning,
   IconLines,
   IconLock,
+  IconGrip,
 } from '../components/icons.jsx'
 
 const t = (rtl, he, en) => (rtl ? he : en)
@@ -121,6 +123,18 @@ function buildSteps(chapter, rtl, videoFile) {
       Icon: IconPencil,
       label: t(rtl, 'תרגילים', 'Exercises'),
       exercises,
+    })
+  }
+  // Drag-and-drop practice sits between the written exercises and the quiz:
+  // the student has just read the worked material, and this is the hands-on
+  // rehearsal before being graded on it.
+  const interactive = chapter.interactive || []
+  if (interactive.length > 0) {
+    steps.push({
+      kind: 'interactive',
+      Icon: IconGrip,
+      label: t(rtl, 'תרגול גרירה', 'Drag & Drop'),
+      interactive,
     })
   }
   if ((chapter.quiz || []).length > 0) {
@@ -483,6 +497,18 @@ function StepBody({
           />
         ))}
       </div>
+    )
+  }
+  if (step.kind === 'interactive') {
+    return (
+      <section className="block step-card">
+        <h2 className="section-title">{t(rtl, 'תרגול גרירה', 'Drag & Drop practice')}</h2>
+        <DragDrop
+          activities={step.interactive}
+          chapterId={chapter.id}
+          rtl={rtl}
+        />
+      </section>
     )
   }
   if (step.kind === 'quiz') {

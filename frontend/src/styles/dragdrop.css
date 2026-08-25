@@ -1,0 +1,482 @@
+/* DragDrop.jsx — the interactive drag-and-drop activity step.
+   Colours come only from the index.css variables ("לוח גיר + דף משבצות");
+   there are no raw hex values here. All motion is transform/opacity only —
+   the enter/settle animations themselves live in DragDrop.jsx via
+   framer-motion (src/lib/motion.js), this file only carries hover/focus
+   states, layout and touch-target sizing.
+   Logical-property based (inline-start/end, not left/right) so the component
+   reads correctly inside the dir="rtl" Hebrew chapter pages. The single
+   deliberate exception is the drag-ghost layer, which is anchored to real
+   viewport pixels — see the comment there. */
+
+.dragdrop {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.dd-activity {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.dd-activity.is-solved {
+  border-color: var(--ok);
+}
+
+/* ---- header ------------------------------------------------------------ */
+.dd-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.dd-num {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--surface);
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  line-height: 1;
+}
+.dd-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: var(--text);
+}
+
+.dd-prompt {
+  margin: 0;
+  color: var(--text);
+}
+.dd-prompt .prose-p {
+  margin: 0;
+}
+
+.dd-hint {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+.dd-hint-icon {
+  flex: 0 0 auto;
+  margin-top: 0.25em;
+  color: var(--accent);
+}
+
+/* ---- bank -------------------------------------------------------------- */
+.dd-bank {
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  padding: 12px 14px;
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease;
+}
+.dd-bank.is-target {
+  border-color: var(--accent);
+  border-style: solid;
+}
+.dd-bank.is-over {
+  border-color: var(--accent);
+  border-style: solid;
+  background: var(--surface);
+  transform: scale(1.01);
+}
+.dd-bank:focus-visible,
+.dd-zone:focus-visible,
+.dd-card:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+.dd-bank-title {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+}
+.dd-bank-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  min-height: 44px;
+  align-items: center;
+}
+
+/* ---- zones ------------------------------------------------------------- */
+.dd-zones {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 12px;
+}
+.dd-zones-order {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+.dd-zone-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+/* The "[[z1]] → box 1" tie-in used when a blank sits inside the formula and
+   the slot had to move out of the sentence. */
+.dd-slot-num {
+  position: absolute;
+  inset-block-start: -9px;
+  inset-inline-start: 10px;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--marker);
+  color: var(--text);
+  border: 1px solid var(--border);
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  line-height: 1;
+}
+
+.dd-zone {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 88px;
+  padding: 10px 12px;
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.dd-zone.is-target {
+  border-color: var(--accent-2);
+  cursor: pointer;
+}
+.dd-zone.is-over {
+  border-style: solid;
+  border-color: var(--accent);
+  background: var(--surface-2);
+  box-shadow: var(--shadow-hover);
+  transform: scale(1.02);
+}
+/* An ordering slot holds exactly one card and is labelled by its number. */
+.dd-zone-order {
+  min-height: 78px;
+}
+.dd-zone-head {
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--accent);
+}
+.dd-zone-ordinal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  font-family: var(--font-display);
+  color: var(--text);
+}
+.dd-zone-slot {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 8px;
+  min-height: 44px;
+}
+.dd-zone-empty {
+  align-self: center;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+/* Inline slots inside a "fill" sentence. Phrasing-level, so they must stay
+   inline-flex and keep the line height sane. */
+.dd-prompt-fill {
+  display: block;
+  line-height: 2.6;
+  font-size: 1.02rem;
+}
+.dd-fill-part {
+  white-space: normal;
+}
+.dd-zone-inline {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  min-width: 88px;
+  max-width: 100%;
+  margin-inline: 4px;
+  padding: 4px 8px;
+  vertical-align: middle;
+}
+.dd-zone-inline .dd-zone-slot {
+  display: inline-flex;
+  min-height: 34px;
+  align-items: center;
+}
+
+/* ---- cards ------------------------------------------------------------- */
+.dd-card {
+  /* touch-action:none is what makes a finger drag work at all — without it
+     the browser claims the gesture for scrolling and we never see a move. */
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  max-width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 600;
+  box-shadow: var(--shadow);
+  cursor: grab;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+.dd-card:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-hover);
+}
+.dd-card:active {
+  cursor: grabbing;
+}
+.dd-card.is-picked {
+  border-color: var(--accent);
+  background: var(--surface-2);
+  box-shadow: 0 0 0 3px var(--marker);
+}
+.dd-card.is-dragging {
+  opacity: 0.35;
+  box-shadow: none;
+}
+.dd-card.is-static {
+  cursor: default;
+}
+.dd-card.is-static:hover {
+  border-color: var(--border);
+  box-shadow: var(--shadow);
+}
+/* Confirmed correct by the server — frozen in place for the next round. */
+.dd-card.is-locked {
+  cursor: default;
+}
+.dd-card.is-ok {
+  border-color: var(--ok);
+  background: var(--ok-bg);
+}
+.dd-card.is-no {
+  border-color: var(--no);
+  background: var(--no-bg);
+}
+.dd-card-grip {
+  flex: 0 0 auto;
+  display: inline-flex;
+  color: var(--muted);
+  font-size: 1.05em;
+}
+.dd-card.is-static .dd-card-grip {
+  opacity: 0.4;
+}
+.dd-card-label {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.dd-card-mark {
+  flex: 0 0 auto;
+  display: inline-flex;
+  font-size: 1.1em;
+}
+.dd-mark-ok {
+  color: var(--ok);
+}
+.dd-mark-no {
+  color: var(--no);
+}
+
+/* ---- drag ghost (portalled to <body>) ---------------------------------- */
+.dd-ghost-layer {
+  position: fixed;
+  /* PHYSICAL top/left on purpose — do NOT "fix" these to inset-inline-start.
+     DragDrop.jsx drives this layer with translate(pointer.clientX,
+     pointer.clientY), and clientX is measured from the physical LEFT edge of
+     the viewport in every direction. The page is dir="rtl", so
+     inset-inline-start would resolve to `right: 0` and every drag would fly
+     the ghost off the right side of the screen. */
+  top: 0;
+  left: 0;
+  z-index: 60;
+  pointer-events: none;
+}
+.dd-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  /* The inline width is copied off the real card; the cap keeps a very wide
+     card from painting past the viewport edge while it follows the finger. */
+  max-width: min(90vw, 340px);
+  padding: 8px 12px;
+  border: 2px solid var(--accent);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-weight: 600;
+  box-shadow: var(--shadow-hover);
+  transform: translate(-50%, -50%) rotate(-1.5deg);
+}
+
+/* ---- actions & verdict ------------------------------------------------- */
+.dd-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+/* The shared .btn is ~38px tall, which is under the 44px touch minimum on a
+   tablet (where the 640px phone breakpoint below never fires). This activity
+   is finger-first, so its own buttons are sized up at every width. */
+.dd-actions .btn {
+  min-height: 44px;
+}
+.dd-actions-note {
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+.dd-verdict-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.dd-solution {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 14px;
+  color: var(--text);
+}
+.dd-solution-title {
+  width: 100%;
+  font-weight: 700;
+}
+.dd-solution-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+.dd-solution-arrow {
+  color: var(--muted);
+}
+
+/* Announcements for screen readers — the drag gesture itself is invisible
+   to them, so every pick-up/drop/verdict is spoken from here. */
+.dd-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---- small screens ----------------------------------------------------- */
+@media (max-width: 640px) {
+  .dd-zones,
+  .dd-zones-order {
+    grid-template-columns: 1fr;
+  }
+  .dd-card {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  /* A bank card holds a short label ("$0.5$"), so a full-width row per card
+     turns a six-card tray into six screens of scrolling. Two per row keeps
+     every card well over the 44px touch minimum while the tray stays one
+     glance tall. Cards inside a drop zone keep the full width — there the
+     card IS the answer and should fill its slot. */
+  .dd-bank-cards .dd-card {
+    width: auto;
+    flex: 1 1 calc(50% - 5px); /* 5px = half the 10px .dd-bank-cards gap */
+    min-width: 0;
+    justify-content: center;
+  }
+  /* ...but NOT a card sitting in an inline "fill" slot: an inline-flex box
+     resolves width:100% against the nearest block container — the whole
+     prompt paragraph — so the card would burst out of the sentence and push
+     the page into horizontal scroll. */
+  .dd-zone-inline .dd-card {
+    width: auto;
+  }
+  .dd-zone {
+    min-height: 96px;
+  }
+  .dd-actions .btn,
+  .dd-actions .btn-ghost {
+    flex: 1;
+    min-height: 44px;
+  }
+  .dd-prompt-fill {
+    line-height: 2.9;
+  }
+  .dd-zone-inline {
+    min-width: 72px;
+  }
+}
+
+/* ---- reduced motion ---------------------------------------------------- */
+/* framer-motion is already covered globally by <MotionConfig
+   reducedMotion="user">, but these hover/drop-target transitions are plain
+   CSS and have to opt out on their own. Colour feedback stays; the scale
+   pulses go. */
+@media (prefers-reduced-motion: reduce) {
+  .dd-bank,
+  .dd-zone,
+  .dd-card {
+    transition: none;
+  }
+  .dd-bank.is-over,
+  .dd-zone.is-over {
+    transform: none;
+  }
+  .dd-ghost {
+    transform: translate(-50%, -50%);
+  }
+}

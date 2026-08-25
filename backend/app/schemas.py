@@ -1,9 +1,10 @@
 """Pydantic schemas for the math-learning-system API."""
 
+import random
 from datetime import datetime
-from typing import List, Optional
+from typing import Any, Dict, List, Optional
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 from app.products import parse_products
 
@@ -178,6 +179,71 @@ class QuizQuestionOut(BaseModel):
     options: Optional[List[str]] = None
 
 
+class InteractiveZoneOut(BaseModel):
+    id: str
+    label: str = ""
+
+
+class InteractiveItemOut(BaseModel):
+    id: str
+    label: str = ""
+
+
+def _interactive_public_payload(act) -> dict:
+    """הצורה שהתלמיד מקבל: כרטיסים מעורבבים, בלי תשובות.
+
+    המסיחים מעורבבים לתוך ``items`` וכל ``zone``/``position``/``explanation``
+    נופל — אחרת התשובה נוסעת ללקוח בתוך אותו JSON שמציג את השאלה.
+
+    הערבוב דטרמיניסטי לפי (chapter_id, number): תלמיד שרינדר מחדש את הפרק
+    (ניווט, refresh, resize) חייב לראות את הכרטיסים באותו סדר.
+    """
+    cards = [
+        {"id": str(c.get("id", "")), "label": c.get("label") or ""}
+        for c in list(act.items or []) + list(act.distractors or [])
+    ]
+    random.Random(f"{act.chapter_id}:{act.number}").shuffle(cards)
+
+    return {
+        "number": act.number,
+        "type": act.type,
+        "title": act.title,
+        "prompt": act.prompt,
+        # ב-order אין יעדים כלל — הכרטיסים מסודרים ברצף.
+        "zones": (
+            None
+            if (act.type or "") == "order"
+            else [
+                {"id": str(z.get("id", "")), "label": z.get("label") or ""}
+                for z in (act.zones or [])
+            ]
+        ),
+        "items": cards,
+    }
+
+
+class InteractiveActivityOut(BaseModel):
+    """פעילות גרירה כפי שהיא מוגשת לתלמיד. אין כאן zone/position/explanation."""
+
+    model_config = ConfigDict(from_attributes=True)
+
+    number: int
+    type: str
+    title: Optional[str] = None
+    prompt: str
+    zones: Optional[List[InteractiveZoneOut]] = None
+    items: List[InteractiveItemOut] = Field(default_factory=list)
+
+    @model_validator(mode="before")
+    @classmethod
+    def _strip_answers(cls, data):
+        # ``ChapterOut.model_validate(chapter)`` מגיע לכאן עם שורת ה-ORM. אסור
+        # לתת ל-from_attributes לקרוא את items כמו שהם — הם מכילים את התשובה.
+        if isinstance(data, dict) or data is None:
+            return data
+        return _interactive_public_payload(data)
+
+
 class ChapterOut(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
@@ -188,6 +254,7 @@ class ChapterOut(BaseModel):
     examples: List[ExampleOut] = Field(default_factory=list)
     exercises: List[ExerciseOut] = Field(default_factory=list)
     quiz: List[QuizQuestionOut] = Field(default_factory=list)
+    interactive: List[InteractiveActivityOut] = Field(default_factory=list)
     # פרק שמעבר למכסת ה-42% של משתמש ללא מנוי. כשהוא True שאר השדות מגיעים
     # ריקים — התוכן עצמו לא עוזב את השרת, אחרת אפשר היה לקרוא את כל הקורס
     # מתוך תשובת ה-JSON ולעקוף את התשלום.
@@ -259,6 +326,21 @@ class QuizQuestionIn(BaseModel):
     explanation: Optional[str] = None
 
 
+class InteractiveActivityIn(BaseModel):
+    """הצורה המלאה מה-JSON של הפרק — כולל התשובות. לא נשלחת לתלמיד לעולם."""
+
+    number: int
+    type: str  # match | categorize | order | fill
+    title: Optional[str] = None
+    prompt: str
+    # [{id, label}] — נשמט ב-order.
+    zones: Optional[List[Dict[str, Any]]] = None
+    # [{id, label, zone}] או [{id, label, position}] ב-order.
+    items: List[Dict[str, Any]] = Field(default_factory=list)
+    distractors: Optional[List[Dict[str, Any]]] = None
+    explanation: Optional[str] = None
+
+
 class ChapterIn(BaseModel):
     number: int
     title: str
@@ -266,6 +348,7 @@ class ChapterIn(BaseModel):
     examples: List[ExampleIn] = Field(default_factory=list)
     exercises: List[ExerciseIn] = Field(default_factory=list)
     quiz: List[QuizQuestionIn] = Field(default_factory=list)
+    interactive: List[InteractiveActivityIn] = Field(default_factory=list)
 
 
 class CourseMetadataIn(BaseModel):
@@ -308,6 +391,34 @@ class QuizCheckResult(BaseModel):
     correct: bool
     correct_answer: str
     # Revealed only here, after the student committed to an answer.
+    explanation: Optional[str] = None
+
+
+class InteractiveCheckRequest(BaseModel):
+    chapter_id: int
+    activity_number: int
+    # item_id -> zone_id, וב-order item_id -> position. מספרים מומרים למחרוזת
+    # כדי שגם `{"a1": 2}` יתקבל ולא ייפול על ולידציה.
+    placements: Dict[str, str] = Field(default_factory=dict)
+
+    @field_validator("placements", mode="before")
+    @classmethod
+    def _coerce(cls, v):
+        if not isinstance(v, dict):
+            return v
+        return {str(k): ("" if val is None else str(val)) for k, val in v.items()}
+
+
+class InteractiveCheckResult(BaseModel):
+    correct: bool
+    # item_id -> האם הכרטיס הזה במקום הנכון. רק כרטיסים שהתלמיד באמת הניח
+    # מקבלים סימון — אחרת הנחה אחת מיותרת הייתה מסמנת את כל המסיחים שנשארו
+    # במאגר ומסגירה אותם.
+    per_item: Dict[str, bool] = Field(default_factory=dict)
+    # item_id -> היעד/המיקום הנכון. מסיחים לא מופיעים כאן (מקומם הוא "בחוץ").
+    # None כל עוד התלמיד לא הניח את כל הכרטיסים — מפתח הפתרון לא יוצא מהשרת
+    # לפני שהוגשה פריסה מלאה.
+    correct_placements: Optional[Dict[str, str]] = None
     explanation: Optional[str] = None
 
 

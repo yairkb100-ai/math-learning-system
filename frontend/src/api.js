@@ -218,6 +218,17 @@ export const api = {
         answer,
       }),
     }),
+  // Interactive drag-and-drop activity. `placements` maps item_id -> zone_id
+  // (for type "order" the zone id IS the position number, as a string).
+  checkInteractive: ({ chapterId, activityNumber, placements }) =>
+    request('/interactive/check', {
+      method: 'POST',
+      body: JSON.stringify({
+        chapter_id: chapterId,
+        activity_number: activityNumber,
+        placements,
+      }),
+    }),
   importCourse: (data) =>
     request('/courses/import', { method: 'POST', body: JSON.stringify(data) }),
 

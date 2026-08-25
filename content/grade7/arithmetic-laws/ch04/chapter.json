@@ -60,36 +60,166 @@
       "number": 1,
       "question": "כמה זה $3 \\times (10 + 4)$?",
       "type": "multiple-choice",
-      "options": ["$42$", "$34$", "$17$", "$120$"],
+      "options": [
+        "$42$",
+        "$34$",
+        "$17$",
+        "$120$"
+      ],
       "correct_answer": "$42$"
     },
     {
       "number": 2,
       "question": "איזה ביטוי שווה ל-$6 \\times (20 - 2)$ לפי חוק הפילוג?",
       "type": "multiple-choice",
-      "options": ["$6 \\times 20 - 6 \\times 2$", "$6 \\times 20 - 2$", "$6 \\times 20 + 6 \\times 2$", "$6 \\times 18 - 6 \\times 2$"],
+      "options": [
+        "$6 \\times 20 - 6 \\times 2$",
+        "$6 \\times 20 - 2$",
+        "$6 \\times 20 + 6 \\times 2$",
+        "$6 \\times 18 - 6 \\times 2$"
+      ],
       "correct_answer": "$6 \\times 20 - 6 \\times 2$"
     },
     {
       "number": 3,
       "question": "חשבו בעל פה בעזרת חוק הפילוג: $9 \\times 99$.",
       "type": "multiple-choice",
-      "options": ["$891$", "$909$", "$881$", "$899$"],
+      "options": [
+        "$891$",
+        "$909$",
+        "$881$",
+        "$899$"
+      ],
       "correct_answer": "$891$"
     },
     {
       "number": 4,
       "question": "נכון או לא נכון: לפי חוק הפילוג, $5 \\times (8 + 3) = 5 \\times 8 + 3$.",
       "type": "true-false",
-      "options": ["נכון", "לא נכון"],
+      "options": [
+        "נכון",
+        "לא נכון"
+      ],
       "correct_answer": "לא נכון"
     },
     {
       "number": 5,
       "question": "כמה זה $14 \\times 6 + 86 \\times 6$?",
       "type": "multiple-choice",
-      "options": ["$600$", "$500$", "$516$", "$6000$"],
+      "options": [
+        "$600$",
+        "$500$",
+        "$516$",
+        "$6000$"
+      ],
       "correct_answer": "$600$"
+    }
+  ],
+  "interactive": [
+    {
+      "number": 1,
+      "type": "match",
+      "title": "מפרקים כדי לחשב בעל פה",
+      "prompt": "גררו כל מכפלה אל הפירוק שמאפשר לחשב אותה בעל פה.",
+      "zones": [
+        {
+          "id": "z1",
+          "label": "$7\\times100-7\\times2$"
+        },
+        {
+          "id": "z2",
+          "label": "$6\\times100+6\\times5$"
+        },
+        {
+          "id": "z3",
+          "label": "$4\\times50+4\\times3$"
+        },
+        {
+          "id": "z4",
+          "label": "$9\\times30-9\\times1$"
+        }
+      ],
+      "items": [
+        {
+          "id": "a1",
+          "label": "$7\\times98$",
+          "zone": "z1"
+        },
+        {
+          "id": "a2",
+          "label": "$6\\times105$",
+          "zone": "z2"
+        },
+        {
+          "id": "a3",
+          "label": "$4\\times53$",
+          "zone": "z3"
+        },
+        {
+          "id": "a4",
+          "label": "$9\\times29$",
+          "zone": "z4"
+        }
+      ],
+      "distractors": [
+        {
+          "id": "d1",
+          "label": "$7\\times102$"
+        },
+        {
+          "id": "d2",
+          "label": "$6\\times95$"
+        }
+      ],
+      "explanation": "חוק הפילוג מרשה לפרק את הגורם הימני לסכום או להפרש נוח ולהכפיל כל חלק בנפרד: $98$ הוא $100-2$, ולכן $7\\times98=7\\times100-7\\times2$. שימו לב לסימן — $102$ הוא $100+2$ ולכן היה מקבל חיבור, ומי שמעתיק את הפירוק בלי לבדוק אם המספר גדול או קטן מהעגול מקבל תוצאה רחוקה."
+    },
+    {
+      "number": 2,
+      "type": "fill",
+      "title": "מוציאים גורם משותף",
+      "prompt": "השלימו לפי חוק הפילוג: $37\\times8+63\\times8=([[z1]]+63)\\times8=[[z2]]\\times8=[[z3]]$.",
+      "zones": [
+        {
+          "id": "z1",
+          "label": ""
+        },
+        {
+          "id": "z2",
+          "label": ""
+        },
+        {
+          "id": "z3",
+          "label": ""
+        }
+      ],
+      "items": [
+        {
+          "id": "a1",
+          "label": "$37$",
+          "zone": "z1"
+        },
+        {
+          "id": "a2",
+          "label": "$100$",
+          "zone": "z2"
+        },
+        {
+          "id": "a3",
+          "label": "$800$",
+          "zone": "z3"
+        }
+      ],
+      "distractors": [
+        {
+          "id": "d1",
+          "label": "$16$"
+        },
+        {
+          "id": "d2",
+          "label": "$1600$"
+        }
+      ],
+      "explanation": "כששתי מכפלות חולקות אותו גורם אפשר לקרוא את חוק הפילוג מימין לשמאל ולהוציא אותו החוצה — ה-$8$ יוצא פעם אחת בלבד, ולכן לא כופלים ב-$8$ פעמיים. מה שנשאר בסוגריים הוא $37+63=100$, וכל התרגיל מתקצר ל-$100\\times8=800$."
     }
   ]
 }
