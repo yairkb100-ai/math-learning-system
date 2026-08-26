@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import api from '../api.js'
-import MathText from '../components/MathText.jsx'
+import MathText, { isLatinText } from '../components/MathText.jsx'
 import { Loading, ErrorBox } from '../components/Status.jsx'
 import { fadeInUp, staggerContainer, tapScale, overlayFade, DURATION, EASE_OUT } from '../lib/motion.js'
 import '../styles/psy.css'
@@ -326,7 +326,9 @@ export default function PsySimPlayer() {
             {current?.passage && (
               <aside className="psy-passage">
                 {current.passage.title && <h3>{current.passage.title}</h3>}
-                <MathText text={current.passage.body} />
+                <div className={isLatinText(current.passage.body) ? 'psy-passage-ltr' : undefined}>
+                  <MathText text={current.passage.body} />
+                </div>
                 {current.passage.figure && <MathText text={current.passage.figure} />}
               </aside>
             )}

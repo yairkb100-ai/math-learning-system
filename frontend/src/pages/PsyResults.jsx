@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import api from '../api.js'
-import MathText from '../components/MathText.jsx'
+import MathText, { isLatinText } from '../components/MathText.jsx'
 import { Loading, ErrorBox } from '../components/Status.jsx'
 import { fadeInUp, fadeIn, staggerContainer, tapScale, DURATION, EASE_OUT } from '../lib/motion.js'
 import '../styles/psy.css'
@@ -268,7 +268,9 @@ export default function PsyResults() {
                 {r.passage && (
                   <details className="psy-review-passage">
                     <summary>הצג את קטע הקריאה</summary>
-                    <MathText text={r.passage.body} />
+                    <div className={isLatinText(r.passage.body) ? 'psy-passage-ltr' : undefined}>
+                      <MathText text={r.passage.body} />
+                    </div>
                   </details>
                 )}
                 <div className="psy-stem">

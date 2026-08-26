@@ -1080,6 +1080,7 @@ TOPIC_COURSE: Dict[tuple[str, str], tuple[str, Optional[int]]] = {
     ("english", "דקדוק"): ("karni-english-grammar", None),
     ("english", "אוצר מילים"): ("karni-english-vocabulary", None),
     ("english", "השלמת משפטים"): ("karni-english-grammar", 5),
+    ("english", "הבנת הנקרא"): ("karni-english-vocabulary", None),
 }
 
 

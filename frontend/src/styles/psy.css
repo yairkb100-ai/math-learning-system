@@ -759,6 +759,15 @@
   font-family: var(--font-display);
   color: var(--accent);
 }
+/* An English reading passage inherits the page's RTL direction otherwise,
+   which still reads correctly word-by-word (bidi keeps Latin runs
+   left-to-right) but right-aligns the whole paragraph — backwards for a
+   native English layout. isLatinText() (MathText.jsx) opts the body text
+   only into this; the Hebrew title above it stays in the normal RTL flow. */
+.psy-passage-ltr {
+  direction: ltr;
+  text-align: left;
+}
 /* דף המבחן הוא משטח מלא ולא שקוף: כשהשאלה הייתה שקופה, שרבוטי דף המשבצות של
    הרקע עברו מבעד לשאלה ולתשובות והמבחן נקרא כלא-גמור. הפריסה נשארת פתוחה —
    הפיצול לשתי עמודות (תוכן מימין, תשובות משמאל) עדיין עושה את העבודה

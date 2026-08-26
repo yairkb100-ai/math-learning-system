@@ -84,6 +84,22 @@ export function InlineMathText({ text, mathRuns }) {
   return <>{renderInline(String(text || ''), 'im', { mathRuns })}</>
 }
 
+// True when a block of prose is essentially all-Latin (an English reading
+// passage, e.g.) rather than Hebrew with the occasional English word. The
+// page as a whole stays RTL, but a full English paragraph inheriting that
+// container direction renders right-aligned — readable (the bidi algorithm
+// still orders the Latin words left-to-right within a line), just visually
+// backwards for a native English layout. Callers use this to opt a specific
+// block into `direction: ltr; text-align: left` without flipping the
+// surrounding Hebrew UI.
+const HEBREW_LETTER = /[֐-׿]/
+export function isLatinText(text) {
+  const letters = String(text || '').match(/[A-Za-zא-ת]/g)
+  if (!letters || !letters.length) return false
+  const hebrewCount = letters.filter((ch) => HEBREW_LETTER.test(ch)).length
+  return hebrewCount / letters.length < 0.05
+}
+
 // ---- bidi-safe plain text (display only, never rewrites the string) --------
 // For strings that are COMPARED, not authored: quiz/exam/practice option
 // labels and the stored correct answer. Those are graded — the chosen string is
