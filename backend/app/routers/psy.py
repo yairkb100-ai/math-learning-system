@@ -19,7 +19,7 @@ from datetime import datetime
 from typing import Dict, List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query
-from sqlalchemy import func
+from sqlalchemy import and_, func, or_
 from sqlalchemy.orm import Session
 
 from app import models, psy_scoring
@@ -48,6 +48,29 @@ from app.schemas_psy import (
     PsyTopicCard,
     PsyTopicStat,
 )
+
+
+# Karni's shape-based domains are authored from the approved "מבחני צורות"
+# source folder. Older generated shape items stay in the database so past
+# attempt reviews remain intact, but they must never be drawn into a new drill
+# or simulation.
+APPROVED_SHAPE_SOURCE = "מבחני צורות — %"
+
+
+def _approved_shape_only(query):
+    return query.filter(
+        and_(
+            or_(
+                ~models.PsyItem.domain.in_(("figural", "spatial")),
+                models.PsyItem.source.like(APPROVED_SHAPE_SOURCE),
+            ),
+            or_(
+                models.PsyItem.domain != "speed",
+                models.PsyItem.topic != "השוואה מהירה",
+                models.PsyItem.source.like(APPROVED_SHAPE_SOURCE),
+            ),
+        )
+    )
 
 router = APIRouter(prefix="/api/psy", tags=["psy"])
 
@@ -123,7 +146,9 @@ def _draw_section_items(
     three unrelated questions that each reference a text the student never sees
     would be worse than useless.
     """
-    if section.item_refs:
+    # Figural fixed forms were authored against the retired generated bank.
+    # New figural attempts always draw from the approved source bank below.
+    if section.item_refs and section.domain not in ("figural", "spatial"):
         refs = list(section.item_refs)
         if allowed_ids is None:
             return refs
@@ -146,7 +171,7 @@ def _draw_section_items(
         count = int(row.get("count") or 0)
         if count <= 0:
             continue
-        q = db.query(models.PsyItem).filter(
+        q = _approved_shape_only(db.query(models.PsyItem)).filter(
             models.PsyItem.is_active.is_(True),
             models.PsyItem.domain == (row.get("domain") or section.domain),
         )
@@ -190,7 +215,7 @@ def _draw_section_items(
             # passage_id alone let a ``difficulty: 2`` row hand back items of
             # difficulty 3 and 4 — the filters applied to the candidate query
             # but not to the members dragged in behind it.
-            cluster_q = db.query(models.PsyItem).filter(
+            cluster_q = _approved_shape_only(db.query(models.PsyItem)).filter(
                 models.PsyItem.passage_id == item.passage_id,
                 models.PsyItem.is_active.is_(True),
             )
@@ -900,7 +925,9 @@ def drill_questions(
     db: Session = Depends(get_db),
     current_user: models.User = Depends(get_current_user),
 ) -> List[PsyItemOut]:
-    q = db.query(models.PsyItem).filter(models.PsyItem.is_active.is_(True))
+    q = _approved_shape_only(db.query(models.PsyItem)).filter(
+        models.PsyItem.is_active.is_(True)
+    )
     if domain:
         q = q.filter(models.PsyItem.domain == domain)
     if topic:
@@ -995,22 +1022,21 @@ def drill_topics(
     open_ids = (
         unlocked_psy_item_ids(db, access.ratio) if access.tier == TIER_FREE else None
     )
-    q = (
+    q = _approved_shape_only(
         db.query(
             models.PsyItem.domain,
             models.PsyItem.topic,
             func.count(models.PsyItem.id),
         )
-        .filter(models.PsyItem.is_active.is_(True), models.PsyItem.topic.isnot(None))
-    )
+    ).filter(models.PsyItem.is_active.is_(True), models.PsyItem.topic.isnot(None))
     if domain:
         q = q.filter(models.PsyItem.domain == domain)
     rows = q.group_by(models.PsyItem.domain, models.PsyItem.topic).all()
     open_per_topic: Dict[tuple, int] = {}
     if open_ids is not None:
-        oq = db.query(
+        oq = _approved_shape_only(db.query(
             models.PsyItem.domain, models.PsyItem.topic, func.count(models.PsyItem.id)
-        ).filter(
+        )).filter(
             models.PsyItem.is_active.is_(True),
             models.PsyItem.topic.isnot(None),
             models.PsyItem.id.in_(open_ids),
@@ -1202,7 +1228,9 @@ def overview(
         b["correct"] += 1 if row.get("is_correct") else 0
 
     bank_rows = (
-        db.query(models.PsyItem.domain, models.PsyItem.topic, func.count(models.PsyItem.id))
+        _approved_shape_only(
+            db.query(models.PsyItem.domain, models.PsyItem.topic, func.count(models.PsyItem.id))
+        )
         .filter(models.PsyItem.is_active.is_(True), models.PsyItem.topic.isnot(None))
         .group_by(models.PsyItem.domain, models.PsyItem.topic)
         .all()
@@ -1214,9 +1242,9 @@ def overview(
     if free_tier:
         open_per_topic = {
             (domain, topic): n
-            for domain, topic, n in db.query(
+            for domain, topic, n in _approved_shape_only(db.query(
                 models.PsyItem.domain, models.PsyItem.topic, func.count(models.PsyItem.id)
-            )
+            ))
             .filter(
                 models.PsyItem.is_active.is_(True),
                 models.PsyItem.topic.isnot(None),
