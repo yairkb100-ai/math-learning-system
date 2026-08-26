@@ -245,7 +245,7 @@ python3 scripts/check_fold_items.py
 **speed** — `symbol-match`, `symbol-count`, `quick-compare`. חריגה מכוונת ל-`target_seconds`:
 פריטי `speed` הם בדיוק הפרק שנמדד על מהירות סריקה, לא על חשיבה — **10–25** שניות,
 לא 25–60. אל תמתחו אותם לטווח הרגיל רק כדי להתאים לטבלה למעלה.
-**english** — `vocabulary`, `grammar`, `sentence-completion`
+**english** — `vocabulary`, `grammar`, `sentence-completion`, `reading-comprehension` (עם `passages`, כמו ב-`verbal`)
 
 ## סדרות מספרים ואותיות
 

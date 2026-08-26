@@ -1,0 +1,705 @@
+{
+  "_comment": "מאגר קרני — אנגלית, הבנת הנקרא והשלמת משפטים ברמה בינונית-גבוהה (עולים לכיתה י', מסלולי מצטיינים/הקבצה). ארבעה קטעי קריאה (212-225 מילים כל אחד) עם 15 שאלות הבנה, ו-17 שאלות השלמת משפטים באוצר מילים גבוה יותר מ-psy_bank_03/16. אין חפיפה עם קבצים אלה.",
+  "passages": [
+    {
+      "slug": "k-erc-p1",
+      "title": "האינטליגנציה המפתיעה של התמנון",
+      "kind": "reading",
+      "word_count": 220,
+      "body": "Octopuses are among the most intelligent creatures in the ocean, yet they are barely related to other clever animals such as dolphins or crows. Unlike most invertebrates, an octopus has a large, complex brain, and roughly two-thirds of its neurons are located not in its head but spread throughout its eight arms. This unusual arrangement allows each arm to move and even solve simple problems somewhat independently of the central brain.\n\nIn laboratory experiments, octopuses have opened jars to reach food, escaped from tanks through gaps barely wider than their bodies, and learned to distinguish between different shapes and colors. Some have even been observed using coconut shells as portable shelters, carrying the shells across the seafloor and assembling them later — a behavior that resembles simple tool use, something scientists once believed was unique to a handful of mammals and birds.\n\nDespite this intelligence, octopuses live remarkably short lives, usually only one or two years. Most species die shortly after reproducing. Researchers find this combination puzzling: an animal capable of such sophisticated behavior gets almost no time to use what it learns, and passes nothing on to the next generation, since octopus parents do not raise their young. The mismatch between a short lifespan and a highly capable brain remains one of the more curious questions in animal biology."
+    },
+    {
+      "slug": "k-erc-p2",
+      "title": "המצאת הדפוס והפצת הידע",
+      "kind": "reading",
+      "word_count": 225,
+      "body": "Before the fifteenth century, books in Europe were copied out by hand, a process so slow and costly that only the wealthy or religious institutions could afford them. A single monk might spend months copying a single book, and even then, mistakes crept in with every copy. Knowledge spread slowly, and most people never owned a book in their lifetime.\n\nThis changed around 1450, when Johannes Gutenberg, a goldsmith from the German city of Mainz, developed a printing press that used movable metal type. Rather than carving an entire page by hand, Gutenberg arranged individual letters that could be rearranged and reused for different pages. Combined with an oil-based ink and a modified wine press, his invention allowed a single worker to produce hundreds of identical pages in the time it once took to copy a handful by hand.\n\nWithin fifty years, printing presses had spread to cities across Europe, and the number of books in circulation rose from thousands to millions. Ideas that had once traveled only as far as a traveler could carry a manuscript now reached distant towns within weeks. Historians often credit Gutenberg's invention with accelerating the spread of scientific discoveries, religious debates, and eventually the Reformation itself — not because the press created these movements, but because it gave them a speed of circulation that no handwritten copy ever could."
+    },
+    {
+      "slug": "k-erc-p3",
+      "title": "טלפונים ניידים בכיתה: בעד ונגד",
+      "kind": "reading",
+      "word_count": 217,
+      "body": "Should mobile phones be banned in classrooms? Supporters of a ban argue that phones are a constant source of distraction: a notification buzzing in a student's pocket pulls attention away from the lesson far more effectively than any classmate whispering nearby. Studies in several countries have found that student performance improves once phones are removed from the classroom entirely, particularly among students who were already struggling academically.\n\nOpponents of a ban see the issue differently. They point out that phones are also useful tools: a calculator, a dictionary, and a research library all fit inside one device, and banning phones removes those tools along with the distraction. Some teachers have found ways to use phones productively, turning them into instruments for quizzes, translation, or looking up a difficult word during a reading lesson, rather than treating them purely as a threat to attention.\n\nA middle position has become increasingly common in schools: phones are allowed in bags but not in hand, switched off during lessons but available during breaks, and unlocked only with a teacher's permission for a specific classroom task. Whether such compromises work as well as an outright ban is still debated, but few schools today argue that the previous approach — phones simply left in students' pockets throughout the day — should continue unchanged."
+    },
+    {
+      "slug": "k-erc-p4",
+      "title": "אבודה בשביל",
+      "kind": "reading",
+      "word_count": 212,
+      "body": "Maya had checked the trail map three times before she set out, and each time it told her the same thing: the loop was six kilometers, mostly flat, and should take under two hours. It was well past that now, and the trail beneath her boots had narrowed into something that barely deserved the name.\n\nShe stopped at a fork she did not remember passing. To her left, the path dropped toward a stream she could hear but not see. To her right, it climbed through a stand of pines toward what might have been the ridge she'd started from — or might not have been. Her phone had lost its signal an hour earlier, somewhere after the second stream crossing, and the battery was down to eleven percent.\n\nMaya took a breath and thought back to what her father used to say about hiking alone: when in doubt, go downhill toward water, because water eventually leads somewhere people have been. She turned left, following the sound of the stream, walking more slowly now and paying attention to broken branches and old footprints — signs, she hoped, of a trail rather than just a slope. Twenty minutes later, the trees opened onto a wooden footbridge, and beyond it, unmistakably, a parking lot."
+    }
+  ],
+  "items": [
+    {
+      "ref": "k-erc-01",
+      "domain": "english",
+      "qtype": "reading-comprehension",
+      "topic": "הבנת הנקרא",
+      "subtopic": "רעיון מרכזי",
+      "passage": "k-erc-p1",
+      "passage_order": 1,
+      "stem": "What is the main idea of the passage?",
+      "options": [
+        "All octopuses use tools to build shelters.",
+        "Octopuses are closely related to dolphins and crows.",
+        "Octopuses show surprising intelligence despite their short lives and distant relation to other smart animals.",
+        "Octopus brains are located only in their arms."
+      ],
+      "correct_index": 2,
+      "difficulty": 2,
+      "level": "standard",
+      "target_seconds": 50,
+      "explanation": "הקטע כולו בנוי סביב הפער בין החוכמה המפתיעה של התמנון לבין חייו הקצרים והיעדר הקרבה המשפחתית לבעלי חיים חכמים אחרים.",
+      "solution": "ברעיון מרכזי מחפשים משפט שכל שלוש הפסקאות משרתות אותו. הקרבה לדולפינים נשללת כבר במשפט הראשון, כלי-עבודה הוא פרט מפסקה אחת בלבד, ומיקום המוח הוא פרט תומך ולא הנושא עצמו."
+    },
+    {
+      "ref": "k-erc-02",
+      "domain": "english",
+      "qtype": "reading-comprehension",
+      "topic": "הבנת הנקרא",
+      "subtopic": "פרט מפורש",
+      "passage": "k-erc-p1",
+      "passage_order": 2,
+      "stem": "According to the passage, where are most of an octopus's neurons located?",
+      "options": [
+        "In its skin",
+        "Spread across its eight arms",
+        "In its eyes",
+        "In its central brain only"
+      ],
+      "correct_index": 1,
+      "difficulty": 2,
+      "level": "standard",
+      "target_seconds": 40,
+      "explanation": "הקטע קובע במפורש ש'roughly two-thirds of its neurons are located... spread throughout its eight arms'.",
+      "solution": "בפרט מפורש מחפשים את המשפט הבודד שמכיל את התשובה מילה במילה, בלי לפרש. 'central brain only' סותר ישירות את המילה 'not' שבמשפט המקורי."
+    },
+    {
+      "ref": "k-erc-03",
+      "domain": "english",
+      "qtype": "reading-comprehension",
+      "topic": "הבנת הנקרא",
+      "subtopic": "הסקה",
+      "passage": "k-erc-p1",
+      "passage_order": 3,
+      "stem": "What can be inferred about why scientists find the octopus's short lifespan puzzling?",
+      "options": [
+        "An animal with such advanced abilities has little time to benefit from them or pass them on.",
+        "Octopuses usually die from predators before they can reproduce.",
+        "Scientists cannot study octopuses because they die too quickly in labs.",
+        "Octopuses do not need intelligence to survive in the ocean."
+      ],
+      "correct_index": 0,
+      "difficulty": 3,
+      "level": "advanced",
+      "target_seconds": 55,
+      "explanation": "הפסקה האחרונה מנסחת בדיוק את הפער: יכולת קוגניטיבית גבוהה מול זמן כמעט אפסי לנצל אותה או להעביר אותה הלאה.",
+      "solution": "הסקה נכונה מתבססת רק על מה שהקטע אכן אומר, לא על מה שנשמע סביר באופן כללי. הקטע אינו מזכיר טורפים כלל, וטוען את ההפך מ'אין צורך באינטליגנציה' — הוא מתאר אותה כמפתיעה בדיוק כי היא כן קיימת."
+    },
+    {
+      "ref": "k-erc-04",
+      "domain": "english",
+      "qtype": "reading-comprehension",
+      "topic": "הבנת הנקרא",
+      "subtopic": "משמעות מילה בהקשר",
+      "passage": "k-erc-p1",
+      "passage_order": 4,
+      "stem": "In the passage, the word \"sophisticated\" is closest in meaning to",
+      "options": [
+        "accidental",
+        "advanced",
+        "dangerous",
+        "simple"
+      ],
+      "correct_index": 1,
+      "difficulty": 2,
+      "level": "standard",
+      "target_seconds": 35,
+      "explanation": "'sophisticated behavior' מתאר את ההתנהגות המורכבת שתוארה קודם בקטע — פתיחת צנצנות, בריחה ממכלים, שימוש בכלים.",
+      "solution": "חפשו במשפט הקודם דוגמאות קונקרטיות להתנהגות המתוארת. simple הוא ההפך הגמור, וזה בדיוק המסיח שנועד לתפוס תלמיד שלא זוכר את ההקשר."
+    },
+    {
+      "ref": "k-erc-05",
+      "domain": "english",
+      "qtype": "reading-comprehension",
+      "topic": "הבנת הנקרא",
+      "subtopic": "רעיון מרכזי",
+      "passage": "k-erc-p2",
+      "passage_order": 1,
+      "stem": "What is the passage mainly about?",
+      "options": [
+        "The cost of buying books in the fifteenth century.",
+        "The history of European monasteries.",
+        "The religious debates of the Reformation.",
+        "How Gutenberg's printing press changed the speed at which knowledge could spread."
+      ],
+      "correct_index": 3,
+      "difficulty": 2,
+      "level": "standard",
+      "target_seconds": 50,
+      "explanation": "שלוש הפסקאות עוקבות אחרי אותו קו: העתקה איטית, המצאת הדפוס, ואז ההשפעה על מהירות תפוצת הרעיונות.",
+      "solution": "מנזרים, עלות הספרים והרפורמציה מוזכרים כולם, אך כל אחד מהם רק כדי לתמוך בנקודה המרכזית על מהירות ההפצה — הם פרטים תומכים, לא הנושא עצמו."
+    },
+    {
+      "ref": "k-erc-06",
+      "domain": "english",
+      "qtype": "reading-comprehension",
+      "topic": "הבנת הנקרא",
+      "subtopic": "פרט מפורש",
+      "passage": "k-erc-p2",
+      "passage_order": 2,
+      "stem": "According to the passage, what did Gutenberg combine to build his printing press?",
+      "options": [
+        "Movable metal type, oil-based ink, and a modified wine press",
+        "A goldsmith's tools and a religious manuscript",
+        "Paper imported from Asia and a wooden printing block",
+        "Handwritten pages and a new type of glue"
+      ],
+      "correct_index": 0,
+      "difficulty": 2,
+      "level": "standard",
+      "target_seconds": 40,
+      "explanation": "הקטע מציין במפורש שלושה מרכיבים: movable metal type, oil-based ink, ו-a modified wine press.",
+      "solution": "כשהשאלה מבקשת רשימת פריטים, ודאו שכל שלושת החלקים באפשרות הנבחרת מופיעים באותו משפט במקור — כאן רק אפשרות אחת שלמה נכונה, בעוד השאר מערבבים פרט אמיתי אחד עם שניים שהומצאו."
+    },
+    {
+      "ref": "k-erc-07",
+      "domain": "english",
+      "qtype": "reading-comprehension",
+      "topic": "הבנת הנקרא",
+      "subtopic": "הסקה",
+      "passage": "k-erc-p2",
+      "passage_order": 3,
+      "stem": "The passage suggests that before the printing press, ideas spread slowly mainly because",
+      "options": [
+        "governments prevented the spread of books",
+        "books could only be copied by hand, one at a time",
+        "there was no demand for religious texts",
+        "most people were not interested in reading"
+      ],
+      "correct_index": 1,
+      "difficulty": 3,
+      "level": "standard",
+      "target_seconds": 50,
+      "explanation": "הפסקה הראשונה מסבירה שההעתקה הידנית הייתה איטית ויקרה, וזו הסיבה שמוצגת לתפוצה האיטית של הידע.",
+      "solution": "הקטע אינו טוען דבר על חוסר עניין, צנזורה ממשלתית או חוסר ביקוש — שלוש האפשרויות האלה מומצאות כליל ואינן נתמכות באף משפט בקטע."
+    },
+    {
+      "ref": "k-erc-08",
+      "domain": "english",
+      "qtype": "reading-comprehension",
+      "topic": "הבנת הנקרא",
+      "subtopic": "כוונת הכותב וטון",
+      "passage": "k-erc-p2",
+      "passage_order": 4,
+      "stem": "The author's purpose in the last paragraph is mainly to",
+      "options": [
+        "describe the religious content of early printed books",
+        "criticize historians for exaggerating Gutenberg's importance",
+        "argue that Gutenberg alone caused the Reformation",
+        "explain why the printing press increased the speed at which ideas circulated"
+      ],
+      "correct_index": 3,
+      "difficulty": 3,
+      "level": "advanced",
+      "target_seconds": 55,
+      "explanation": "המשפט האחרון מבהיר במפורש: הדפוס לא יצר את התנועות הללו, אלא נתן להן קצב תפוצה מהיר יותר — זו בדיוק המטרה של הפסקה.",
+      "solution": "שימו לב למילים 'not because... but because' בסוף הקטע — הן שוללות במפורש את הטענה הראשונה ('alone caused') ומצביעות במדויק על מה שהפסקה כן טוענת."
+    },
+    {
+      "ref": "k-erc-09",
+      "domain": "english",
+      "qtype": "reading-comprehension",
+      "topic": "הבנת הנקרא",
+      "subtopic": "רעיון מרכזי",
+      "passage": "k-erc-p3",
+      "passage_order": 1,
+      "stem": "What is the main idea of the passage?",
+      "options": [
+        "Teachers are unable to use phones effectively in lessons.",
+        "Students perform better without any technology in schools.",
+        "There are different views on banning phones in class, and many schools have adopted a middle position.",
+        "Phones should always be allowed in classrooms."
+      ],
+      "correct_index": 2,
+      "difficulty": 2,
+      "level": "standard",
+      "target_seconds": 50,
+      "explanation": "הקטע מציג עמדת תמיכה, עמדת התנגדות, ולבסוף פשרה נפוצה — מבנה שמתאים בדיוק לאפשרות הראשונה.",
+      "solution": "אפשרויות ב' ו-ג' מציגות רק צד אחד של הוויכוח, ולכן פוסלות את עצמן ברגע שזוכרים שהקטע מציג שני צדדים. אפשרות ד' סותרת פסקה שלמה שמראה מורים המשתמשים בטלפונים בהצלחה."
+    },
+    {
+      "ref": "k-erc-10",
+      "domain": "english",
+      "qtype": "reading-comprehension",
+      "topic": "הבנת הנקרא",
+      "subtopic": "פרט מפורש",
+      "passage": "k-erc-p3",
+      "passage_order": 2,
+      "stem": "According to supporters of a ban, what is the main problem with phones in the classroom?",
+      "options": [
+        "They constantly distract students from the lesson.",
+        "They allow students to cheat on tests.",
+        "They are too expensive for some students.",
+        "They are difficult for teachers to use."
+      ],
+      "correct_index": 0,
+      "difficulty": 2,
+      "level": "standard",
+      "target_seconds": 40,
+      "explanation": "המשפט הראשון בפסקה הראשונה קובע במפורש ש'phones are a constant source of distraction'.",
+      "solution": "עלות, רמאות ונוחות למורים אינן מוזכרות כלל בטיעון התומכים בקטע — הן פרטים סבירים באופן כללי, אבל לא כאלה שהקטע עצמו טוען."
+    },
+    {
+      "ref": "k-erc-11",
+      "domain": "english",
+      "qtype": "reading-comprehension",
+      "topic": "הבנת הנקרא",
+      "subtopic": "פרט מפורש",
+      "passage": "k-erc-p3",
+      "passage_order": 3,
+      "stem": "What point do opponents of a full ban make?",
+      "options": [
+        "Phones should be banned only for younger students.",
+        "Teachers do not want phones in their classrooms at all.",
+        "Phones can be used as tools such as a calculator or dictionary.",
+        "Phones have no useful classroom function."
+      ],
+      "correct_index": 2,
+      "difficulty": 2,
+      "level": "standard",
+      "target_seconds": 40,
+      "explanation": "הפסקה השנייה מציינת שטלפון הוא גם 'a calculator, a dictionary, and a research library'.",
+      "solution": "אפשרות א' היא ההפך הגמור מטענת המתנגדים, ולכן היא המסיח הכי מובהק. אפשרות ד' סותרת את הפסקה שמראה מורים שכן משתמשים בטלפונים בכיתה."
+    },
+    {
+      "ref": "k-erc-12",
+      "domain": "english",
+      "qtype": "reading-comprehension",
+      "topic": "הבנת הנקרא",
+      "subtopic": "כוונת הכותב וטון",
+      "passage": "k-erc-p3",
+      "passage_order": 4,
+      "stem": "The author's tone throughout the passage can best be described as",
+      "options": [
+        "angry at students who use phones in class",
+        "dismissive of teachers' opinions",
+        "strongly in favor of banning phones",
+        "balanced, presenting both sides of the debate"
+      ],
+      "correct_index": 3,
+      "difficulty": 3,
+      "level": "advanced",
+      "target_seconds": 45,
+      "explanation": "הכותב מציג את שני הצדדים בכובד ראש שווה ומסיים בפשרה נהוגה, בלי לנקוט עמדה נחרצת לאף כיוון.",
+      "solution": "כדי לזהות טון מאוזן, בדקו אם הכותב מקדיש מקום דומה לשני הצדדים ואינו משתמש במילים טעונות רגשית — כאן שתי הפסקאות הראשונות סימטריות באורכן ובניסוח."
+    },
+    {
+      "ref": "k-erc-13",
+      "domain": "english",
+      "qtype": "reading-comprehension",
+      "topic": "הבנת הנקרא",
+      "subtopic": "רעיון מרכזי",
+      "passage": "k-erc-p4",
+      "passage_order": 1,
+      "stem": "What is the passage mainly about?",
+      "options": [
+        "A hiker who becomes lost and uses a strategy to find her way back.",
+        "A woman planning a hiking trip with her father.",
+        "An argument between two hikers about which path to take.",
+        "A scientific study of hiking trails."
+      ],
+      "correct_index": 0,
+      "difficulty": 2,
+      "level": "standard",
+      "target_seconds": 45,
+      "explanation": "הסיפור כולו עוקב אחרי מאיה שהולכת לאיבוד ומיישמת עצה כדי למצוא את דרכה חזרה.",
+      "solution": "אין בקטע תכנון משותף עם האב (הוא רק מוזכר בזיכרון), אין מחקר מדעי, ואין ויכוח בין שני מטיילים — מאיה נמצאת לבדה לאורך כל הקטע."
+    },
+    {
+      "ref": "k-erc-14",
+      "domain": "english",
+      "qtype": "reading-comprehension",
+      "topic": "הבנת הנקרא",
+      "subtopic": "הסקה",
+      "passage": "k-erc-p4",
+      "passage_order": 2,
+      "stem": "Why does Maya decide to go left at the fork instead of right?",
+      "options": [
+        "The left path looked more familiar to her.",
+        "Her phone told her to go left.",
+        "She could see the parking lot from the fork.",
+        "She remembers advice that following water downhill can lead to civilization."
+      ],
+      "correct_index": 3,
+      "difficulty": 3,
+      "level": "standard",
+      "target_seconds": 50,
+      "explanation": "הקטע מתאר במפורש את העצה שהיא נזכרת בה: ללכת במורד לכיוון מים, כי מים מובילים בסופו של דבר למקום שאנשים היו בו.",
+      "solution": "הקטע קובע שהטלפון כבר איבד קליטה לפני הצומת, וששום שביל לא נראה מוכר לה — שתי אפשרויות נפסלות ישירות על סמך פרטים שכבר נמסרו קודם בקטע."
+    },
+    {
+      "ref": "k-erc-15",
+      "domain": "english",
+      "qtype": "reading-comprehension",
+      "topic": "הבנת הנקרא",
+      "subtopic": "משמעות מילה בהקשר",
+      "passage": "k-erc-p4",
+      "passage_order": 3,
+      "stem": "In the passage, the word \"unmistakably\" is closest in meaning to",
+      "options": [
+        "partially",
+        "clearly, without any doubt",
+        "accidentally",
+        "rarely"
+      ],
+      "correct_index": 1,
+      "difficulty": 2,
+      "level": "standard",
+      "target_seconds": 35,
+      "explanation": "'unmistakably a parking lot' מתאר משהו שאי אפשר לטעות בזיהויו — כלומר ברור וחד-משמעי.",
+      "solution": "השורש 'mistake' עם התחילית 'un-' והסיומת 'ably' מרמז על 'בלי אפשרות לטעות', ולא על תדירות, מקריות או חלקיות."
+    },
+    {
+      "ref": "k-esc-01",
+      "domain": "english",
+      "qtype": "sentence-completion",
+      "topic": "השלמת משפטים",
+      "subtopic": "ניגוד",
+      "stem": "Although the coach's instructions were perfectly clear, several players ___ them almost immediately.",
+      "options": [
+        "repeated",
+        "admired",
+        "ignored",
+        "obeyed"
+      ],
+      "correct_index": 2,
+      "difficulty": 2,
+      "level": "standard",
+      "target_seconds": 35,
+      "explanation": "Although מרמז על ניגוד: ההוראות היו ברורות, ולכן היינו מצפים שיצייתו — ignored הוא היחיד שהופך את הציפייה הזו.",
+      "solution": "נסחו לעצמכם קודם מה 'אמור' לקרות לפי החלק הראשון, ואז חפשו את המילה שסותרת בדיוק את זה. obeyed ו-admired הולכים עם הציפייה במקום נגדה, ו-repeated אינו קשור לציות כלל."
+    },
+    {
+      "ref": "k-esc-02",
+      "domain": "english",
+      "qtype": "sentence-completion",
+      "topic": "השלמת משפטים",
+      "subtopic": "ניגוד",
+      "stem": "The restaurant's reviews were overwhelmingly negative, ___ it remained fully booked every weekend.",
+      "options": [
+        "so",
+        "because",
+        "since",
+        "yet"
+      ],
+      "correct_index": 3,
+      "difficulty": 2,
+      "level": "standard",
+      "target_seconds": 35,
+      "explanation": "yet מציג ניגוד: למרות ביקורות שליליות, המסעדה בכל זאת מלאה.",
+      "solution": "פסלו so ו-because מהר — שניהם מציגים תוצאה או סיבה, בעוד שכאן החלק השני סותר את הראשון ואינו נובע ממנו. since יכולה לשמש לזמן או לסיבה, אבל לא לניגוד."
+    },
+    {
+      "ref": "k-esc-03",
+      "domain": "english",
+      "qtype": "sentence-completion",
+      "topic": "השלמת משפטים",
+      "subtopic": "סיבתיות",
+      "stem": "The flight was cancelled ___ a mechanical problem was discovered just before takeoff.",
+      "options": [
+        "because",
+        "unless",
+        "although",
+        "despite"
+      ],
+      "correct_index": 0,
+      "difficulty": 2,
+      "level": "beginner",
+      "target_seconds": 30,
+      "explanation": "because מסביר את סיבת הביטול — התקלה הטכנית היא הסיבה הישירה.",
+      "solution": "בדקו אם החלק השני עונה על 'למה?' — אם כן, מדובר ב-because. although ו-despite דורשות ניגוד, ו-unless דורשת תנאי שלילי שאינו קיים כאן."
+    },
+    {
+      "ref": "k-esc-04",
+      "domain": "english",
+      "qtype": "sentence-completion",
+      "topic": "השלמת משפטים",
+      "subtopic": "סיבתיות",
+      "stem": "Traffic on the highway was unusually heavy this morning; ___, most commuters arrived at work late.",
+      "options": [
+        "unless",
+        "although",
+        "consequently",
+        "however"
+      ],
+      "correct_index": 2,
+      "difficulty": 3,
+      "level": "standard",
+      "target_seconds": 40,
+      "explanation": "consequently (כתוצאה מכך) מתאים לקשר סיבה-תוצאה בין העומס בכביש לאיחור.",
+      "solution": "חפשו מילת קישור שממשיכה את המשפט בתוצאה, לא בניגוד. however ו-although היו הופכות את הכיוון, ו-unless דורשת תנאי שאינו קיים במשפט הזה כלל."
+    },
+    {
+      "ref": "k-esc-05",
+      "domain": "english",
+      "qtype": "sentence-completion",
+      "topic": "השלמת משפטים",
+      "subtopic": "תנאי",
+      "stem": "You will not be allowed into the exam room ___ you bring a valid form of identification.",
+      "options": [
+        "although",
+        "so",
+        "moreover",
+        "unless"
+      ],
+      "correct_index": 3,
+      "difficulty": 2,
+      "level": "standard",
+      "target_seconds": 35,
+      "explanation": "unless (אלא אם) מציג תנאי שלילי הכרחי לכניסה.",
+      "solution": "כשמדובר בשלילת כניסה שתלויה בתנאי, unless היא המילה שמציגה את הדרישה. although אינה מציגה תנאי אלא ניגוד, ו-so ו-moreover אינן מתאימות תחבירית לפני משפט תנאי."
+    },
+    {
+      "ref": "k-esc-06",
+      "domain": "english",
+      "qtype": "sentence-completion",
+      "topic": "השלמת משפטים",
+      "subtopic": "הוספה",
+      "stem": "The new policy reduced costs significantly; ___, it improved customer satisfaction scores.",
+      "options": [
+        "however",
+        "unless",
+        "moreover",
+        "because"
+      ],
+      "correct_index": 2,
+      "difficulty": 2,
+      "level": "standard",
+      "target_seconds": 35,
+      "explanation": "moreover (יתרה מזאת) מוסיף יתרון נוסף באותו כיוון של המשפט הראשון.",
+      "solution": "כשהרעיון השני מוסיף על הראשון באותו כיוון (שני יתרונות), נדרשת מילת הוספה. however הופכת את המשפט לניגוד, מה שלא מתאים כשני היגדים חיוביים."
+    },
+    {
+      "ref": "k-esc-07",
+      "domain": "english",
+      "qtype": "sentence-completion",
+      "topic": "השלמת משפטים",
+      "subtopic": "אוצר מילים בהקשר",
+      "stem": "The committee's decision to reopen the investigation was completely ___; nobody had expected such an abrupt reversal.",
+      "options": [
+        "gradual",
+        "unexpected",
+        "official",
+        "predictable"
+      ],
+      "correct_index": 1,
+      "difficulty": 3,
+      "level": "standard",
+      "target_seconds": 35,
+      "explanation": "'nobody had expected' מכריע ישירות לטובת unexpected — לא צפוי.",
+      "solution": "שימו לב לרמז 'nobody had expected'. predictable הוא ההפך המדויק ולכן המסיח המובהק ביותר; gradual ו-official כלל אינם קשורים לציר של צפי מול הפתעה."
+    },
+    {
+      "ref": "k-esc-08",
+      "domain": "english",
+      "qtype": "sentence-completion",
+      "topic": "השלמת משפטים",
+      "subtopic": "אוצר מילים בהקשר",
+      "stem": "Despite years of training, the young gymnast remained ___ about performing in front of a large crowd.",
+      "options": [
+        "indifferent",
+        "confident",
+        "apprehensive",
+        "skilled"
+      ],
+      "correct_index": 2,
+      "difficulty": 3,
+      "level": "advanced",
+      "target_seconds": 40,
+      "explanation": "apprehensive (חוששת/חרדה) יוצר את הניגוד הנדרש מול 'years of training'.",
+      "solution": "Despite יוצר ציפייה שאימון רב יוביל לביטחון (confident) — ולכן זו בדיוק המילה שנפסלת. apprehensive היא המילה היחידה שמקיימת את הניגוד הנדרש על ידי Despite."
+    },
+    {
+      "ref": "k-esc-09",
+      "domain": "english",
+      "qtype": "sentence-completion",
+      "topic": "השלמת משפטים",
+      "subtopic": "אוצר מילים בהקשר",
+      "stem": "The lawyer presented such a ___ argument that even the opposing side struggled to find a counterpoint.",
+      "options": [
+        "brief",
+        "irrelevant",
+        "vague",
+        "compelling"
+      ],
+      "correct_index": 3,
+      "difficulty": 3,
+      "level": "standard",
+      "target_seconds": 35,
+      "explanation": "compelling (משכנע) מתאים לכך שהצד השני התקשה למצוא תגובה נגדית.",
+      "solution": "'struggled to find a counterpoint' מרמז שהטיעון היה חזק. vague ו-irrelevant היו דווקא מקלים על הצד השני, ולא מקשים — ההפך ממה שהמשפט מתאר."
+    },
+    {
+      "ref": "k-esc-10",
+      "domain": "english",
+      "qtype": "sentence-completion",
+      "topic": "השלמת משפטים",
+      "subtopic": "הוספה",
+      "stem": "Not only did the new bridge reduce travel time, ___ it also lowered fuel costs for daily commuters.",
+      "options": [
+        "because",
+        "but",
+        "unless",
+        "so"
+      ],
+      "correct_index": 1,
+      "difficulty": 2,
+      "level": "standard",
+      "target_seconds": 30,
+      "explanation": "'Not only... but also' הוא מבנה זוגי קבוע באנגלית.",
+      "solution": "זהו מבנה קבוע ולא שאלת היגיון: ברגע שרואים Not only בתחילת המשפט, מחפשים but שממשיך אותו — אין צורך לנתח את משמעות המשפט."
+    },
+    {
+      "ref": "k-esc-11",
+      "domain": "english",
+      "qtype": "sentence-completion",
+      "topic": "השלמת משפטים",
+      "subtopic": "ניגוד",
+      "stem": "The medicine relieved her headache almost instantly, ___ the side effects lasted for several hours.",
+      "options": [
+        "because",
+        "moreover",
+        "so",
+        "although"
+      ],
+      "correct_index": 3,
+      "difficulty": 2,
+      "level": "standard",
+      "target_seconds": 35,
+      "explanation": "although מציג ניגוד בין הקלה מהירה לתופעות לוואי ממושכות.",
+      "solution": "נסחו: 'ההקלה הייתה מהירה, אבל תופעות הלוואי נמשכו' — זהו ניגוד ברור. so ו-because היו יוצרים מסקנה או סיבה שגויה מבחינה הגיונית בין שני חלקי המשפט."
+    },
+    {
+      "ref": "k-esc-12",
+      "domain": "english",
+      "qtype": "sentence-completion",
+      "topic": "השלמת משפטים",
+      "subtopic": "אוצר מילים בהקשר",
+      "stem": "Because the museum's rarest paintings had been ___ damaged by flooding, restoration experts were called in immediately.",
+      "options": [
+        "slightly",
+        "severely",
+        "rarely",
+        "previously"
+      ],
+      "correct_index": 1,
+      "difficulty": 3,
+      "level": "standard",
+      "target_seconds": 40,
+      "explanation": "severely (קשות) מתאים לצורך בקריאה מיידית למומחי שימור.",
+      "solution": "'called in immediately' מרמז על דחיפות, ולכן הנזק חייב להיות משמעותי. slightly היה מוביל להיפך — לא היה דחוף לפעול באופן מיידי אם הנזק קל."
+    },
+    {
+      "ref": "k-esc-13",
+      "domain": "english",
+      "qtype": "sentence-completion",
+      "topic": "השלמת משפטים",
+      "subtopic": "אוצר מילים בהקשר",
+      "stem": "The scientist's claims were later proven false, but at the time they seemed entirely ___.",
+      "options": [
+        "plausible",
+        "irrelevant",
+        "absurd",
+        "familiar"
+      ],
+      "correct_index": 0,
+      "difficulty": 3,
+      "level": "advanced",
+      "target_seconds": 35,
+      "explanation": "plausible (סביר, נשמע אמין) מתאר איך הטענות נראו לפני שהתבררו כשקריות.",
+      "solution": "'seemed entirely' דורש תואר שמתאר איך הדבר נראה באותו רגע, לפני שהתגלה האמת. absurd הוא ההפך המדויק, ו-irrelevant ו-familiar אינם קשורים למידת אמינות."
+    },
+    {
+      "ref": "k-esc-14",
+      "domain": "english",
+      "qtype": "sentence-completion",
+      "topic": "השלמת משפטים",
+      "subtopic": "דקדוק",
+      "stem": "If the shipment does not arrive by Friday, the entire production line ___ down for at least a week.",
+      "options": [
+        "shut",
+        "would shut",
+        "will shut",
+        "shuts"
+      ],
+      "correct_index": 2,
+      "difficulty": 3,
+      "level": "standard",
+      "target_seconds": 40,
+      "explanation": "משפט תנאי מסוג ראשון: If + הווה פשוט, ובחצי השני will + פועל בסיס.",
+      "solution": "זהו מבחן דקדוקי ולא הגיוני: תנאי מסוג ראשון דורש will בחצי השני. would shut שייך לתנאי שני (מצב היפותטי לא סביר), ו-shuts/shut חסרות את מבנה העתיד הנדרש כאן."
+    },
+    {
+      "ref": "k-esc-15",
+      "domain": "english",
+      "qtype": "sentence-completion",
+      "topic": "השלמת משפטים",
+      "subtopic": "אוצר מילים בהקשר",
+      "stem": "Even the most ___ critics admitted that the film's visual effects were groundbreaking.",
+      "options": [
+        "skeptical",
+        "indifferent",
+        "supportive",
+        "enthusiastic"
+      ],
+      "correct_index": 0,
+      "difficulty": 3,
+      "level": "advanced",
+      "target_seconds": 40,
+      "explanation": "skeptical (ספקן) מתאים ל-Even: אפילו המבקרים הכי חשדנים הודו בהצלחה.",
+      "solution": "המילה Even מסמנת קיצון: אם 'אפילו X הודו', X חייבת להיות הקבוצה הכי פחות סבירה להודות — כלומר המבקרים הספקנים ביותר, ולא הנלהבים או התומכים ביותר."
+    },
+    {
+      "ref": "k-esc-16",
+      "domain": "english",
+      "qtype": "sentence-completion",
+      "topic": "השלמת משפטים",
+      "subtopic": "ניגוד",
+      "stem": "The report was thorough and well-researched; ___, several of its conclusions were later disproven.",
+      "options": [
+        "therefore",
+        "nevertheless",
+        "furthermore",
+        "similarly"
+      ],
+      "correct_index": 1,
+      "difficulty": 3,
+      "level": "advanced",
+      "target_seconds": 40,
+      "explanation": "nevertheless (למרות זאת) מציג ניגוד בין איכות הדוח לבין המסקנות השגויות שהתגלו בו.",
+      "solution": "furthermore ו-similarly ממשיכות באותו כיוון (יתרון או דמיון נוסף), ו-therefore יוצרת מסקנה הגיונית שגויה — דוח יסודי אינו 'לכן' מופרך. רק nevertheless מציגה את הניגוד הנדרש."
+    },
+    {
+      "ref": "k-esc-17",
+      "domain": "english",
+      "qtype": "sentence-completion",
+      "topic": "השלמת משפטים",
+      "subtopic": "אוצר מילים בהקשר",
+      "stem": "The negotiations remained ___ for months, with neither side willing to compromise on the key terms.",
+      "options": [
+        "deadlocked",
+        "brief",
+        "productive",
+        "informal"
+      ],
+      "correct_index": 0,
+      "difficulty": 3,
+      "level": "standard",
+      "target_seconds": 35,
+      "explanation": "deadlocked (במבוי סתום) תואם ל-'neither side willing to compromise'.",
+      "solution": "'neither side willing to compromise' הוא הרמז שמכריע בין המסיחים: productive סותר זאת ישירות, ו-brief/informal אינם עונים על 'for months' של קיפאון ממושך."
+    }
+  ]
+}
