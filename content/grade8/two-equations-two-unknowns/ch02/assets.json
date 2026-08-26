@@ -232,6 +232,12 @@
       "difficulty": "hard",
       "description": "פתרו: $\\begin{cases}y=2x-2 \\\\ 3x+2y=31\\end{cases}$.",
       "solution": "מציבים $y=2x-2$: $3x+2(2x-2)=31 \\Rightarrow 3x+4x-4=31 \\Rightarrow 7x=35 \\Rightarrow x=5$. אז $y=2\\cdot 5-2=8$. הפתרון: $(5,8)$. בדיקה: $3\\cdot 5+2\\cdot 8=31$ ✓."
+    },
+    {
+      "title": "חיזוק נוסף: בודקים ומנמקים",
+      "difficulty": "easy",
+      "description": "בדקו אם הזוג $(2,3)$ פותר את המערכת $x+y=5$ ו־$x-y=-1$.",
+      "solution": "בהצבה: $2+3=5$ וגם $2-3=-1$. הזוג מקיים את שתי המשוואות ולכן הוא הפתרון."
     }
   ]
 }

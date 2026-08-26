@@ -262,6 +262,12 @@
       "difficulty": "hard",
       "description": "פתרו: $\\begin{cases}y=3x-8 \\\\ y=-2x+7\\end{cases}$.",
       "solution": "משווים: $3x-8=-2x+7 \\Rightarrow 5x=15 \\Rightarrow x=3$. אז $y=3\\cdot 3-8=1$. הפתרון: $(3,1)$. בדיקה: $y=-2\\cdot 3+7=1$ ✓."
+    },
+    {
+      "title": "חיזוק נוסף: בודקים ומנמקים",
+      "difficulty": "easy",
+      "description": "בדקו אם הזוג $(2,3)$ פותר את המערכת $x+y=5$ ו־$x-y=-1$.",
+      "solution": "בהצבה: $2+3=5$ וגם $2-3=-1$. הזוג מקיים את שתי המשוואות ולכן הוא הפתרון."
     }
   ]
 }
