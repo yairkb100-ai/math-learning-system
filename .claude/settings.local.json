@@ -165,7 +165,8 @@
       "PowerShell(git log *)",
       "Bash(curl -s -w \"\\\\nHTTP:%{http_code}\\\\n\" -X POST http://localhost:8000/api/auth/login -H \"Content-Type: application/json\" -d '{\"username\":\"student1\",\"password\":\"wrong-password-xyz\"}')",
       "Bash(git commit -m 'Add grade6-fractions ch7/9/10 videos; 3-account video pipeline *)",
-      "mcp__Claude_Code_Remote__subscribe_pr_activity"
+      "mcp__Claude_Code_Remote__subscribe_pr_activity",
+      "mcp__Claude_Code_Remote__send_later"
     ]
   }
 }
