@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useMemo, useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
@@ -33,6 +33,32 @@ export default function AdminUsers() {
   const [revealed, setRevealed] = useState({})
   const [selected, setSelected] = useState(new Set())
   const [bulkBusy, setBulkBusy] = useState(false)
+  const [search, setSearch] = useState('')
+  const [loginSort, setLoginSort] = useState(null) // null | 'asc' | 'desc'
+
+  const visibleUsers = useMemo(() => {
+    const q = search.trim().toLowerCase()
+    let list = q
+      ? users.filter(
+          (u) => u.full_name.toLowerCase().includes(q) || u.username.toLowerCase().includes(q)
+        )
+      : users
+    if (loginSort) {
+      list = [...list].sort((a, b) => {
+        // מי שמעולם לא התחבר תמיד בסוף, בלי קשר לכיוון המיון
+        if (!a.last_login_at && !b.last_login_at) return 0
+        if (!a.last_login_at) return 1
+        if (!b.last_login_at) return -1
+        const diff = new Date(a.last_login_at) - new Date(b.last_login_at)
+        return loginSort === 'asc' ? diff : -diff
+      })
+    }
+    return list
+  }, [users, search, loginSort])
+
+  function toggleLoginSort() {
+    setLoginSort((s) => (s === 'desc' ? 'asc' : s === 'asc' ? null : 'desc'))
+  }
 
   function toggleReveal(id) {
     setRevealed((r) => ({ ...r, [id]: !r[id] }))
@@ -48,7 +74,9 @@ export default function AdminUsers() {
   }
 
   function toggleSelectAll() {
-    setSelected((s) => (s.size === users.length ? new Set() : new Set(users.map((u) => u.id))))
+    setSelected((s) =>
+      s.size === visibleUsers.length ? new Set() : new Set(visibleUsers.map((u) => u.id))
+    )
   }
 
   async function runBulk(ids, fn, failLabel) {
@@ -161,6 +189,25 @@ export default function AdminUsers() {
         </motion.button>
       </div>
 
+      <div className="user-filters">
+        <input
+          type="search"
+          className="user-search-input"
+          placeholder="חיפוש לפי שם או שם משתמש..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          aria-label="חיפוש תלמידים לפי שם"
+        />
+        <button type="button" className="btn-sm" onClick={toggleLoginSort}>
+          מיין לפי כניסה אחרונה{loginSort === 'desc' ? ' ▼' : loginSort === 'asc' ? ' ▲' : ''}
+        </button>
+        {search && (
+          <span className="muted user-filter-count">
+            {visibleUsers.length} מתוך {users.length}
+          </span>
+        )}
+      </div>
+
       <AnimatePresence initial={false}>
         {showForm && (
           <motion.div
@@ -256,7 +303,7 @@ export default function AdminUsers() {
               <th className="select-col">
                 <input
                   type="checkbox"
-                  checked={users.length > 0 && selected.size === users.length}
+                  checked={visibleUsers.length > 0 && selected.size === visibleUsers.length}
                   onChange={toggleSelectAll}
                 />
               </th>
@@ -266,11 +313,18 @@ export default function AdminUsers() {
               <th>תפקיד</th>
               <th>סטטוס</th>
               <th>תאריך הצטרפות</th>
+              <th
+                className="sortable-col"
+                onClick={toggleLoginSort}
+                title="מיין לפי כניסה אחרונה"
+              >
+                כניסה אחרונה{loginSort === 'desc' ? ' ▼' : loginSort === 'asc' ? ' ▲' : ''}
+              </th>
               <th>פעולות</th>
             </tr>
           </thead>
           <tbody>
-            {users.map((u) => (
+            {visibleUsers.map((u) => (
               <tr key={u.id}>
                 <td className="select-col">
                   <input
@@ -310,6 +364,11 @@ export default function AdminUsers() {
                   </span>
                 </td>
                 <td className="muted">{new Date(u.created_at).toLocaleDateString('he-IL')}</td>
+                <td className="muted">
+                  {u.last_login_at
+                    ? new Date(u.last_login_at).toLocaleString('he-IL')
+                    : 'מעולם לא'}
+                </td>
                 <td className="row-actions">
                   <button
                     className="btn-sm"
@@ -336,16 +395,18 @@ export default function AdminUsers() {
             ))}
           </tbody>
         </table>
-        {users.length === 0 && (
-          <p className="muted empty-msg">אין משתמשים במערכת</p>
+        {visibleUsers.length === 0 && (
+          <p className="muted empty-msg">
+            {users.length === 0 ? 'אין משתמשים במערכת' : 'לא נמצאו תלמידים התואמים לחיפוש'}
+          </p>
         )}
       </div>
 
       {/* Mobile card-list — replaces the table below 640px instead of letting
           8 columns scroll sideways. */}
-      {users.length > 0 && (
+      {visibleUsers.length > 0 && (
         <motion.div className="user-cards" variants={staggerContainer} initial="hidden" animate="show">
-          {users.map((u) => (
+          {visibleUsers.map((u) => (
             <motion.div className="user-card" key={u.id} variants={fadeInUp}>
               <div className="user-card-top">
                 <div className="user-card-id">
@@ -385,6 +446,9 @@ export default function AdminUsers() {
                 )}
                 <span className="user-card-joined">
                   {new Date(u.created_at).toLocaleDateString('he-IL')}
+                </span>
+                <span className="user-card-joined">
+                  כניסה אחרונה: {u.last_login_at ? new Date(u.last_login_at).toLocaleString('he-IL') : 'מעולם לא'}
                 </span>
               </div>
 

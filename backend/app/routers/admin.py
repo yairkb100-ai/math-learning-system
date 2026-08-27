@@ -49,7 +49,14 @@ def list_users(
         .group_by(models.User.signup_device_id)
         .all()
     )
+    last_logins = dict(
+        db.query(models.LoginEvent.user_id, func.max(models.LoginEvent.created_at))
+        .filter(models.LoginEvent.status == "ok", models.LoginEvent.user_id.isnot(None))
+        .group_by(models.LoginEvent.user_id)
+        .all()
+    )
     for user in users:
+        user.last_login_at = last_logins.get(user.id)
         user.shared_ip_count = (
             ip_counts.get(user.signup_ip, 1) - 1 if user.signup_ip else 0
         )

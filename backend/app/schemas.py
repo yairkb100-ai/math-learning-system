@@ -54,6 +54,9 @@ class AdminUserOut(UserOut):
     # list_users, לא נשמר בטבלה. 0 = אין חפיפה (או שאין signup_ip/device_id).
     shared_ip_count: int = 0
     shared_device_count: int = 0
+    # זמן הכניסה המוצלחת האחרונה (LoginEvent.status == "ok"), None אם מעולם
+    # לא התחבר. מחושב ב-list_users, לא נשמר בטבלת users.
+    last_login_at: Optional[datetime] = None
 
 
 class UserUpdate(BaseModel):
