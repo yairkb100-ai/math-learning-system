@@ -164,7 +164,8 @@
       "PowerShell([Console]::OutputEncoding = [Text.Encoding]::UTF8; $b = \\(Invoke-WebRequest -Uri \"https://rf-learning.vercel.app/assets/index-BGJK1vsM.js\" -UseBasicParsing\\).Content; \"bundle len=$\\($b.Length\\)\"; \"has /register route: \" + \\($b -match '\"/register\"'\\); \"has math slug grade7-algebra: \" + \\($b.Contains\\('grade7-algebra'\\)\\); \"has api/auth: \" + \\($b.Contains\\('/api/auth'\\)\\))",
       "PowerShell(git log *)",
       "Bash(curl -s -w \"\\\\nHTTP:%{http_code}\\\\n\" -X POST http://localhost:8000/api/auth/login -H \"Content-Type: application/json\" -d '{\"username\":\"student1\",\"password\":\"wrong-password-xyz\"}')",
-      "Bash(git commit -m 'Add grade6-fractions ch7/9/10 videos; 3-account video pipeline *)"
+      "Bash(git commit -m 'Add grade6-fractions ch7/9/10 videos; 3-account video pipeline *)",
+      "mcp__Claude_Code_Remote__subscribe_pr_activity"
     ]
   }
 }
