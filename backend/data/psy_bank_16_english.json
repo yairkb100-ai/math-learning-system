@@ -16,6 +16,7 @@
       ],
       "correct_index": 1,
       "difficulty": 2,
+      "level": "beginner",
       "target_seconds": 30,
       "explanation": "‏enormous פירושו ענק, וזוהי בדיוק משמעותה של המילה huge.",
       "solution": "בשאלת נרדפות תרגמו קודם את מילת השאלה לעצמכם, ורק אחר כך הביטו במסיחים. כאן tiny הוא ההפך הגמור — מסיח שנועד לתפוס תלמיד שזיהה שמדובר בגודל אך לא שם לב לכיוון."
@@ -35,6 +36,7 @@
       ],
       "correct_index": 0,
       "difficulty": 3,
+      "level": "beginner",
       "target_seconds": 35,
       "explanation": "‏arrive פירושו להגיע, וההפך הוא depart — לצאת, לעזוב.",
       "solution": "כשמבקשים הפך, שלושת המסיחים הם לרוב מילים נרדפות. reach, enter ו-land כולן מתארות הגעה למקום, ולכן אף אחת מהן איננה הפך — מה שמצמצם את הבחירה למילה היחידה שמתארת יציאה."
@@ -54,6 +56,7 @@
       ],
       "correct_index": 3,
       "difficulty": 2,
+      "level": "beginner",
       "target_seconds": 30,
       "explanation": "רופא שמטפל בבעלי חיים נקרא vet (קיצור של veterinarian).",
       "solution": "בשאלת הגדרה סמנו לעצמכם את שתי מילות המפתח בהגדרה — כאן doctor ו-animals. farmer אמנם עובד עם בעלי חיים, אך אינו רופא, ולכן אינו מקיים את שני התנאים."
@@ -73,9 +76,10 @@
       ],
       "correct_index": 2,
       "difficulty": 3,
+      "level": "beginner",
       "target_seconds": 35,
       "explanation": "‏brave פירושו אמיץ, ו-courageous היא מילה נרדפת לה במדויק.",
-      "solution": "אל תיבחרו לפי צליל: כל ארבע האפשרויות כאן פותחות בצליל דומה ומתארות תכונת אופי חיובית. clever הוא חכם ו-calm הוא רגוע — תכונות חיוביות, אך אינן קשורות לאומץ מול סכנה."
+      "solution": "אל תבחרו לפי צליל: כל ארבע האפשרויות כאן פותחות בצליל דומה ומתארות תכונת אופי חיובית. clever הוא חכם ו-calm הוא רגוע — תכונות חיוביות, אך אינן קשורות לאומץ מול סכנה."
     },
     {
       "ref": "k-e2-05",
@@ -92,6 +96,7 @@
       ],
       "correct_index": 0,
       "difficulty": 2,
+      "level": "beginner",
       "target_seconds": 30,
       "explanation": "‏increase פירושו להגדיל או לגדול, וההפך הוא reduce — להקטין.",
       "solution": "בדקו את כיוון התנועה של כל מסיח. grow ו-rise מתארות תנועה כלפי מעלה בדיוק כמו increase, ו-repeat אינה מתארת שינוי בכמות כלל — נשארת רק מילה אחת שמצביעה כלפי מטה."
@@ -111,6 +116,7 @@
       ],
       "correct_index": 2,
       "difficulty": 2,
+      "level": "beginner",
       "target_seconds": 30,
       "explanation": "המילה Yesterday מציבה את המשפט בעבר, ולכן נדרשת צורת העבר watched.",
       "solution": "חפשו תמיד את מילת הזמן במשפט וקבעו לפיה את הזמן הדקדוקי: yesterday, last week ו-two years ago מחייבות עבר פשוט. are watching הוא מסיח קלאסי של תלמיד שמתרגם את המשפט בלי לשים לב למילת הזמן."
@@ -130,6 +136,7 @@
       ],
       "correct_index": 0,
       "difficulty": 3,
+      "level": "beginner",
       "target_seconds": 35,
       "explanation": "לפני שם של חודש משתמשים תמיד ב-in, ולכן: born in May.",
       "solution": "שלוש מילות היחס של הזמן מסודרות לפי גודל: in לחודשים, לעונות ולשנים; on לימים ולתאריכים מדויקים; at לשעות. on May אינו תקין, כי on שמור לתאריך שלם כמו on May 5."
@@ -149,6 +156,7 @@
       ],
       "correct_index": 2,
       "difficulty": 2,
+      "level": "beginner",
       "target_seconds": 30,
       "explanation": "המילה Three מחייבת רבים, וצורת הרבים של child היא children.",
       "solution": "יש באנגלית קבוצה קטנה של רבים חריגים שאינם מקבלים s: child–children, man–men, foot–feet, tooth–teeth. childs ו-childrens הם בדיוק שתי הטעויות שנוצרות מהוספת s אוטומטית."
@@ -168,6 +176,7 @@
       ],
       "correct_index": 3,
       "difficulty": 3,
+      "level": "beginner",
       "target_seconds": 35,
       "explanation": "הצירוף the ... I have ever read מציין השוואה מול כל השאר, ולכן נדרשת דרגת ההפלגה most interesting.",
       "solution": "המילה the לפני החסר יחד עם ever הן הסימן לדרגת הפלגה. more interesting היא דרגת השוואה בין שניים ודורשת than, ולכן אינה מתאימה כאן."
@@ -187,6 +196,7 @@
       ],
       "correct_index": 1,
       "difficulty": 3,
+      "level": "beginner",
       "target_seconds": 35,
       "explanation": "במשפט תנאי מסוג ראשון, אחרי פסוקית if בהווה מגיעה תוצאה בעתיד: will stay.",
       "solution": "המבנה הקבוע הוא: If + הווה פשוט, then + will + פועל. אף אחת משלוש האפשרויות האחרות אינה מתארת עתיד: stayed היא עבר פשוט, were staying היא עבר מתמשך, ו-have stayed היא Present Perfect — הווה מושלם המתאר פעולה שכבר קרתה. לכן אף אחת מהן אינה יכולה לתאר את מה שיקרה מחר."
@@ -206,6 +216,7 @@
       ],
       "correct_index": 0,
       "difficulty": 3,
+      "level": "beginner",
       "target_seconds": 35,
       "explanation": "המשפט It is the law מציין חובה גמורה, והפועל המודלי שמביע חובה הוא must.",
       "solution": "מיינו את הפעלים המודליים לפי עוצמה: must הוא חובה, should הוא המלצה, ו-may, might ו-could מביעים אפשרות או רשות בלבד. המשפט השני בשאלה הוא הרמז שקובע את העוצמה הנדרשת."
@@ -225,6 +236,7 @@
       ],
       "correct_index": 3,
       "difficulty": 3,
+      "level": "standard",
       "target_seconds": 40,
       "explanation": "המילה but מחייבת ניגוד לאיחור, ולכן החסר הוא punctual — דייקן.",
       "solution": "כשמופיעה but, נסחו לעצמכם את ההפך של החלק השני לפני שאתם קוראים את התשובות. busy דווקא מסביר את האיחור במקום לסתור אותו, ולכן הוא מסיח ולא תשובה."
@@ -244,6 +256,7 @@
       ],
       "correct_index": 1,
       "difficulty": 3,
+      "level": "standard",
       "target_seconds": 40,
       "explanation": "החלק הראשון הוא הסיבה והחלק השני הוא התוצאה, ומילת הקישור שמסמנת תוצאה היא so.",
       "solution": "בדקו את סדר הסיבה והתוצאה: so מציבה את התוצאה אחריה, ואילו because מציבה אחריה את הסיבה — כאן היא הייתה הופכת את הסדר ומשבשת את ההיגיון של המשפט."
@@ -263,6 +276,7 @@
       ],
       "correct_index": 2,
       "difficulty": 2,
+      "level": "beginner",
       "target_seconds": 35,
       "explanation": "החלק השני מסביר מדוע לא הצליח לקנות את החולצה, ומילת הקישור שמציגה סיבה היא because.",
       "solution": "שאלו את עצמכם מה תפקידו של החלק השני: אם הוא מסביר מדוע — because; אם הוא מציג מה קרה בעקבות — so; אם הוא סותר — but או although. כאן חוסר הכסף הוא הסיבה, ולכן so הופך את הכיוון."

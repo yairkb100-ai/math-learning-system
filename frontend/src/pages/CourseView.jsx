@@ -60,8 +60,8 @@ export default function CourseView() {
 
   const meta = course.metadata || course
   const isRtl = meta.language === 'Hebrew'
-  // קורס קרני מחזיר את התלמיד לאזור קרני ולא לקטלוג לומדת המתמטיקה — הוא הגיע
-  // משם, ו-"חזרה לקורסים" שזרק אותו לקטלוג אחר נקרא כתקלה.
+  // קורס קרני הגיע דרך /psy, ולכן הפירורים חייבים להחזיר לשם ולא לקטלוג
+  // המתמטיקה — אחרת התלמיד נזרק החוצה מהלומדה שבה הוא נמצא.
   const isPsy = course.track === 'psy'
   const chapters = course.chapters || []
   const objectives = course.learning_objectives || []
@@ -70,11 +70,11 @@ export default function CourseView() {
   // told us how many it left open. Everything below only decides how to say so.
   const isFree = course.access_tier === 'free'
   const unlocked = course.unlocked_chapters ?? chapters.length
-  // האחוז האמיתי של הקורס הזה ולא ברירת המחדל הכללית: המכסה מעוגלת לקרוב, כך
-  // שקורס קצר יוצא מעט מעל ברירת המחדל — עדיף להראות את המספר שהתלמיד באמת מקבל.
+  // האחוז האמיתי של הקורס הזה ולא 42% הכללי: המכסה מעוגלת לקרוב, כך שקורס קצר
+  // יוצא מעט מעל 42% (4 פרקים → 2) — עדיף להראות את המספר שהתלמיד באמת מקבל.
   const freePct = chapters.length
     ? Math.round((unlocked / chapters.length) * 100)
-    : Math.round((course.free_ratio ?? 0.3) * 100)
+    : Math.round((course.free_ratio ?? 0.42) * 100)
 
   return (
     <section
@@ -84,6 +84,8 @@ export default function CourseView() {
       <p className="crumbs">
         <Link to={isPsy ? '/psy' : '/'} className="crumb-link">
           <IconArrowStart className="crumb-arrow" />
+          {/* השפה קובעת את הניסוח, המסלול קובע את היעד — קורס קרני שאינו עברית
+              היה מקבל תווית עברית בתוך פריסת LTR. */}
           {isRtl
             ? isPsy
               ? 'חזרה להכנה לקרני'
@@ -211,7 +213,12 @@ export default function CourseView() {
       </motion.ol>
 
       {id === 'karni-figural-matrices' && (
-        <motion.aside className="course-extra-practice" variants={fadeInUp} initial="hidden" animate="show">
+        <motion.aside
+          className="course-extra-practice"
+          variants={fadeInUp}
+          initial="hidden"
+          animate="show"
+        >
           <IconCompass className="course-extra-practice-icon" />
           <div>
             <span className="course-extra-practice-kicker">תרגול נוסף לצד הקורס</span>

@@ -1,0 +1,1676 @@
+[
+ {
+  "file": "content/grade5/decimals/ch01/chapter.json",
+  "kind": "bar",
+  "param": "1/10",
+  "n": 1.0,
+  "d": 10.0,
+  "caption": "חפיסה שחולקה לעשרה חלקים שווים — חלק אחד הוא עשירית",
+  "raw": "{{bar:1/10|חפיסה שחולקה לעשרה חלקים שווים — חלק אחד הוא עשירית}}"
+ },
+ {
+  "file": "content/grade5/decimals/ch01/chapter.json",
+  "kind": "bar",
+  "param": "3/10",
+  "n": 3.0,
+  "d": 10.0,
+  "caption": "שלוש עשיריות מהחפיסה — $0.3$",
+  "raw": "{{bar:3/10|שלוש עשיריות מהחפיסה — $0.3$}}"
+ },
+ {
+  "file": "content/grade5/decimals/ch01/chapter.json",
+  "kind": "grid",
+  "param": "10x10/1",
+  "n": null,
+  "d": null,
+  "caption": "משבצת אחת מתוך $100$ — מאית אחת, כלומר $0.01$",
+  "raw": "{{grid:10x10/1|משבצת אחת מתוך $100$ — מאית אחת, כלומר $0.01$}}"
+ },
+ {
+  "file": "content/grade5/decimals/ch01/chapter.json",
+  "kind": "grid",
+  "param": "10x10/25",
+  "n": null,
+  "d": null,
+  "caption": "$25$ משבצות מתוך $100$ — עשרים וחמש מאיות, כלומר $0.25$",
+  "raw": "{{grid:10x10/25|$25$ משבצות מתוך $100$ — עשרים וחמש מאיות, כלומר $0.25$}}"
+ },
+ {
+  "file": "content/grade5/decimals/ch01/chapter.json",
+  "kind": "grid",
+  "param": "10x10/10",
+  "n": null,
+  "d": null,
+  "caption": "שורה שלמה מתוך עשר — עשירית אחת, $0.1$, שהיא בדיוק עשר מאיות",
+  "raw": "{{grid:10x10/10|שורה שלמה מתוך עשר — עשירית אחת, $0.1$, שהיא בדיוק עשר מאיות}}"
+ },
+ {
+  "file": "content/grade5/decimals/ch01/chapter.json",
+  "kind": "grid",
+  "param": "10x10/30",
+  "n": null,
+  "d": null,
+  "caption": "שלוש שורות שלמות — שלוש עשיריות, $0.3$, שהן שלושים מאיות",
+  "raw": "{{grid:10x10/30|שלוש שורות שלמות — שלוש עשיריות, $0.3$, שהן שלושים מאיות}}"
+ },
+ {
+  "file": "content/grade5/decimals/ch01/chapter.json",
+  "kind": "numberline",
+  "param": "7/10",
+  "n": 7.0,
+  "d": 10.0,
+  "caption": "$\\frac{7}{10} = 0.7$ — שבע עשיריות הדרך מ-$0$ ל-$1$ — זה החלק שמסתתר אחרי הנקודה במספר $2.7$",
+  "raw": "{{numberline:7/10|$\\frac{7}{10} = 0.7$ — שבע עשיריות הדרך מ-$0$ ל-$1$ — זה החלק שמסתתר אחרי הנקודה במספר $2.7$}}"
+ },
+ {
+  "file": "content/grade5/decimals/ch02/chapter.json",
+  "kind": "grid",
+  "param": "10x10/1",
+  "n": null,
+  "d": null,
+  "caption": "מאית אחת — משבצת בודדת מתוך מאה; אלפית קטנה ממנה עוד פי עשר",
+  "raw": "{{grid:10x10/1|מאית אחת — משבצת בודדת מתוך מאה; אלפית קטנה ממנה עוד פי עשר}}"
+ },
+ {
+  "file": "content/grade5/decimals/ch02/chapter.json",
+  "kind": "bar",
+  "param": "4/10",
+  "n": 4.0,
+  "d": 10.0,
+  "caption": "ארבע עשיריות מהשלם — ב-$1.45$ מטר אלה ארבעים הסנטימטרים שאחרי המטר",
+  "raw": "{{bar:4/10|ארבע עשיריות מהשלם — ב-$1.45$ מטר אלה ארבעים הסנטימטרים שאחרי המטר}}"
+ },
+ {
+  "file": "content/grade5/decimals/ch02/chapter.json",
+  "kind": "bar",
+  "param": "5/10",
+  "n": 5.0,
+  "d": 10.0,
+  "caption": "חמש עשיריות — $0.5$; זה חצי מהשלם",
+  "raw": "{{bar:5/10|חמש עשיריות — $0.5$; זה חצי מהשלם}}"
+ },
+ {
+  "file": "content/grade5/decimals/ch02/chapter.json",
+  "kind": "grid",
+  "param": "10x10/5",
+  "n": null,
+  "d": null,
+  "caption": "חמש מאיות — $0.05$; אותה ספרה $5$, אבל היא יושבת במקום אחר וערכה קטן בהרבה",
+  "raw": "{{grid:10x10/5|חמש מאיות — $0.05$; אותה ספרה $5$, אבל היא יושבת במקום אחר וערכה קטן בהרבה}}"
+ },
+ {
+  "file": "content/grade5/decimals/ch02/chapter.json",
+  "kind": "numberline",
+  "param": "4/10",
+  "n": 4.0,
+  "d": 10.0,
+  "caption": "$\\frac{4}{10} = 0.4$ — ארבע עשיריות הדרך מ-$0$ ל-$1$; אין כאן אף שלם, ולכן משמאל לנקודה יושב אפס",
+  "raw": "{{numberline:4/10|$\\frac{4}{10} = 0.4$ — ארבע עשיריות הדרך מ-$0$ ל-$1$; אין כאן אף שלם, ולכן משמאל לנקודה יושב אפס}}"
+ },
+ {
+  "file": "content/grade5/decimals/ch03/chapter.json",
+  "kind": "bar",
+  "param": "1/2",
+  "n": 1.0,
+  "d": 2.0,
+  "caption": "חצי מהפס",
+  "raw": "{{bar:1/2|חצי מהפס}}"
+ },
+ {
+  "file": "content/grade5/decimals/ch03/chapter.json",
+  "kind": "bar",
+  "param": "5/10",
+  "n": 5.0,
+  "d": 10.0,
+  "caption": "אותו חצי בדיוק, אחרי שכל חלק חולק לחמישה — חמש עשיריות, כלומר $0.5$",
+  "raw": "{{bar:5/10|אותו חצי בדיוק, אחרי שכל חלק חולק לחמישה — חמש עשיריות, כלומר $0.5$}}"
+ },
+ {
+  "file": "content/grade5/decimals/ch03/chapter.json",
+  "kind": "grid",
+  "param": "10x10/25",
+  "n": null,
+  "d": null,
+  "caption": "רבע הוא בדיוק $25$ משבצות מתוך $100$ — כלומר $0.25$",
+  "raw": "{{grid:10x10/25|רבע הוא בדיוק $25$ משבצות מתוך $100$ — כלומר $0.25$}}"
+ },
+ {
+  "file": "content/grade5/decimals/ch03/chapter.json",
+  "kind": "bar",
+  "param": "3/5",
+  "n": 3.0,
+  "d": 5.0,
+  "caption": "שלוש חמישיות מהפס",
+  "raw": "{{bar:3/5|שלוש חמישיות מהפס}}"
+ },
+ {
+  "file": "content/grade5/decimals/ch03/chapter.json",
+  "kind": "bar",
+  "param": "6/10",
+  "n": 6.0,
+  "d": 10.0,
+  "caption": "אותה כמות בדיוק, מחולקת לעשיריות — $0.6$",
+  "raw": "{{bar:6/10|אותה כמות בדיוק, מחולקת לעשיריות — $0.6$}}"
+ },
+ {
+  "file": "content/grade5/decimals/ch03/chapter.json",
+  "kind": "numberline",
+  "param": "1/2",
+  "n": 1.0,
+  "d": 2.0,
+  "caption": "החצי יושב בדיוק באמצע הדרך מ-$0$ ל-$1$",
+  "raw": "{{numberline:1/2|החצי יושב בדיוק באמצע הדרך מ-$0$ ל-$1$}}"
+ },
+ {
+  "file": "content/grade5/decimals/ch03/chapter.json",
+  "kind": "numberline",
+  "param": "5/10",
+  "n": 5.0,
+  "d": 10.0,
+  "caption": "אותה נקודה בדיוק, אחרי שהקטע חולק לעשרה חלקים — $0.5$",
+  "raw": "{{numberline:5/10|אותה נקודה בדיוק, אחרי שהקטע חולק לעשרה חלקים — $0.5$}}"
+ },
+ {
+  "file": "content/grade5/decimals/ch04/chapter.json",
+  "kind": "grid",
+  "param": "10x10/40",
+  "n": null,
+  "d": null,
+  "caption": "$0.40$ — ארבעים משבצות מתוך מאה",
+  "raw": "{{grid:10x10/40|$0.40$ — ארבעים משבצות מתוך מאה}}"
+ },
+ {
+  "file": "content/grade5/decimals/ch04/chapter.json",
+  "kind": "grid",
+  "param": "10x10/39",
+  "n": null,
+  "d": null,
+  "caption": "$0.39$ — שלושים ותשע משבצות; חסרה בדיוק משבצת אחת",
+  "raw": "{{grid:10x10/39|$0.39$ — שלושים ותשע משבצות; חסרה בדיוק משבצת אחת}}"
+ },
+ {
+  "file": "content/grade5/decimals/ch04/chapter.json",
+  "kind": "grid",
+  "param": "10x10/70",
+  "n": null,
+  "d": null,
+  "caption": "$0.70$ — שבעים מאיות מתוך מאה משבצות",
+  "raw": "{{grid:10x10/70|$0.70$ — שבעים מאיות מתוך מאה משבצות}}"
+ },
+ {
+  "file": "content/grade5/decimals/ch04/chapter.json",
+  "kind": "grid",
+  "param": "10x10/65",
+  "n": null,
+  "d": null,
+  "caption": "$0.65$ — שישים וחמש מאיות מתוך מאה משבצות",
+  "raw": "{{grid:10x10/65|$0.65$ — שישים וחמש מאיות מתוך מאה משבצות}}"
+ },
+ {
+  "file": "content/grade5/decimals/ch04/chapter.json",
+  "kind": "numberline",
+  "param": "4/10",
+  "n": 4.0,
+  "d": 10.0,
+  "caption": "$\\frac{4}{10} = 0.4$ — ארבע עשיריות",
+  "raw": "{{numberline:4/10|$\\frac{4}{10} = 0.4$ — ארבע עשיריות}}"
+ },
+ {
+  "file": "content/grade5/decimals/ch04/chapter.json",
+  "kind": "numberline",
+  "param": "7/10",
+  "n": 7.0,
+  "d": 10.0,
+  "caption": "$\\frac{7}{10} = 0.7$ — שבע עשיריות, יושב ימינה יותר ולכן גדול יותר",
+  "raw": "{{numberline:7/10|$\\frac{7}{10} = 0.7$ — שבע עשיריות, יושב ימינה יותר ולכן גדול יותר}}"
+ },
+ {
+  "file": "content/grade5/decimals/ch04/chapter.json",
+  "kind": "numberline",
+  "param": "1/4",
+  "n": 1.0,
+  "d": 4.0,
+  "caption": "$\\frac{1}{4} = 0.25$ — רבע הדרך",
+  "raw": "{{numberline:1/4|$\\frac{1}{4} = 0.25$ — רבע הדרך}}"
+ },
+ {
+  "file": "content/grade5/decimals/ch04/chapter.json",
+  "kind": "numberline",
+  "param": "1/2",
+  "n": 1.0,
+  "d": 2.0,
+  "caption": "$\\frac{1}{2} = 0.5$ — בדיוק באמצע",
+  "raw": "{{numberline:1/2|$\\frac{1}{2} = 0.5$ — בדיוק באמצע}}"
+ },
+ {
+  "file": "content/grade5/decimals/ch04/chapter.json",
+  "kind": "numberline",
+  "param": "3/4",
+  "n": 3.0,
+  "d": 4.0,
+  "caption": "$\\frac{3}{4} = 0.75$ — שלושה רבעים מהדרך",
+  "raw": "{{numberline:3/4|$\\frac{3}{4} = 0.75$ — שלושה רבעים מהדרך}}"
+ },
+ {
+  "file": "content/grade5/decimals/ch05/chapter.json",
+  "kind": "numberline",
+  "param": "7/10",
+  "n": 7.0,
+  "d": 10.0,
+  "caption": "$\\frac{7}{10} = 0.7$ — קרוב הרבה יותר ל-$1$ מאשר ל-$0$",
+  "raw": "{{numberline:7/10|$\\frac{7}{10} = 0.7$ — קרוב הרבה יותר ל-$1$ מאשר ל-$0$}}"
+ },
+ {
+  "file": "content/grade5/decimals/ch05/chapter.json",
+  "kind": "numberline",
+  "param": "3/10",
+  "n": 3.0,
+  "d": 10.0,
+  "caption": "$\\frac{3}{10} = 0.3$ — קרוב הרבה יותר ל-$0$ מאשר ל-$1$",
+  "raw": "{{numberline:3/10|$\\frac{3}{10} = 0.3$ — קרוב הרבה יותר ל-$0$ מאשר ל-$1$}}"
+ },
+ {
+  "file": "content/grade5/decimals/ch05/chapter.json",
+  "kind": "numberline",
+  "param": "5/10",
+  "n": 5.0,
+  "d": 10.0,
+  "caption": "$\\frac{5}{10} = 0.5$ — בדיוק באמצע; לפי הכלל מעגלים כלפי מעלה",
+  "raw": "{{numberline:5/10|$\\frac{5}{10} = 0.5$ — בדיוק באמצע; לפי הכלל מעגלים כלפי מעלה}}"
+ },
+ {
+  "file": "content/grade5/decimals/ch05/chapter.json",
+  "kind": "grid",
+  "param": "10x10/47",
+  "n": null,
+  "d": null,
+  "caption": "$0.47$ — ארבעים ושבע משבצות; חסרות רק שלוש כדי להשלים חמש שורות",
+  "raw": "{{grid:10x10/47|$0.47$ — ארבעים ושבע משבצות; חסרות רק שלוש כדי להשלים חמש שורות}}"
+ },
+ {
+  "file": "content/grade5/decimals/ch05/chapter.json",
+  "kind": "grid",
+  "param": "10x10/50",
+  "n": null,
+  "d": null,
+  "caption": "$0.50$ — חמש שורות שלמות, כלומר חמש עשיריות",
+  "raw": "{{grid:10x10/50|$0.50$ — חמש שורות שלמות, כלומר חמש עשיריות}}"
+ },
+ {
+  "file": "content/grade5/decimals/ch05/chapter.json",
+  "kind": "numberline",
+  "param": "8/10",
+  "n": 8.0,
+  "d": 10.0,
+  "caption": "$\\frac{8}{10} = 0.8$ — יושב קרוב לקצה הימני, ולכן מתעגל לשלם ל-$1$",
+  "raw": "{{numberline:8/10|$\\frac{8}{10} = 0.8$ — יושב קרוב לקצה הימני, ולכן מתעגל לשלם ל-$1$}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch01/chapter.json",
+  "kind": "pizza",
+  "param": "1/4",
+  "n": 1.0,
+  "d": 4.0,
+  "caption": "רבע פיצה — פרוסה אחת מתוך ארבע",
+  "raw": "{{pizza:1/4|רבע פיצה — פרוסה אחת מתוך ארבע}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch01/chapter.json",
+  "kind": "numberline",
+  "param": "3/4",
+  "n": 3.0,
+  "d": 4.0,
+  "caption": "שלושה רבעים על ישר המספרים — קרוב לשלם, אבל לא שלם",
+  "raw": "{{numberline:3/4|שלושה רבעים על ישר המספרים — קרוב לשלם, אבל לא שלם}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch01/chapter.json",
+  "kind": "bar",
+  "param": "3/4",
+  "n": 3.0,
+  "d": 4.0,
+  "caption": "רצועה שחולקה לארבעה — שלושה חלקים צבועים",
+  "raw": "{{bar:3/4|רצועה שחולקה לארבעה — שלושה חלקים צבועים}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch01/chapter.json",
+  "kind": "chocolate",
+  "param": "3/4",
+  "n": 3.0,
+  "d": 4.0,
+  "caption": "חפיסה בת ארבעה ריבועים — שלושה נאכלו",
+  "raw": "{{chocolate:3/4|חפיסה בת ארבעה ריבועים — שלושה נאכלו}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch01/chapter.json",
+  "kind": "grid",
+  "param": "5x2/3",
+  "n": null,
+  "d": null,
+  "caption": "שלוש משבצות מתוך עשר — $\\frac{3}{10}$",
+  "raw": "{{grid:5x2/3|שלוש משבצות מתוך עשר — $\\frac{3}{10}$}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch01/chapter.json",
+  "kind": "bar-unequal",
+  "param": "4",
+  "n": null,
+  "d": 4.0,
+  "caption": "ארבעה חלקים — אבל לא שווים. אלה לא רבעים!",
+  "raw": "{{bar-unequal:4|ארבעה חלקים — אבל לא שווים. אלה לא רבעים!}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch01/chapter.json",
+  "kind": "pizza",
+  "param": "1/2",
+  "n": 1.0,
+  "d": 2.0,
+  "caption": "חצי — חתיכה ענקית",
+  "raw": "{{pizza:1/2|חצי — חתיכה ענקית}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch01/chapter.json",
+  "kind": "pizza",
+  "param": "1/8",
+  "n": 1.0,
+  "d": 8.0,
+  "caption": "שמינית — חתיכה קטנה",
+  "raw": "{{pizza:1/8|שמינית — חתיכה קטנה}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch01/chapter.json",
+  "kind": "circle",
+  "param": "4/4",
+  "n": 4.0,
+  "d": 4.0,
+  "caption": "כל ארבעת הרבעים צבועים — שלם אחד!",
+  "raw": "{{circle:4/4|כל ארבעת הרבעים צבועים — שלם אחד!}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch02/chapter.json",
+  "kind": "numberline",
+  "param": "3/4",
+  "n": 3.0,
+  "d": 4.0,
+  "caption": "שלושה צעדים מתוך ארבעה — הגענו ל-$\\frac{3}{4}$",
+  "raw": "{{numberline:3/4|שלושה צעדים מתוך ארבעה — הגענו ל-$\\frac{3}{4}$}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch02/chapter.json",
+  "kind": "numberline",
+  "param": "1/8",
+  "n": 1.0,
+  "d": 8.0,
+  "caption": "קרוב ל-0",
+  "raw": "{{numberline:1/8|קרוב ל-0}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch02/chapter.json",
+  "kind": "numberline",
+  "param": "7/8",
+  "n": 7.0,
+  "d": 8.0,
+  "caption": "קרוב ל-1",
+  "raw": "{{numberline:7/8|קרוב ל-1}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch02/chapter.json",
+  "kind": "bar",
+  "param": "2/3",
+  "n": 2.0,
+  "d": 3.0,
+  "caption": "שתי שלישים",
+  "raw": "{{bar:2/3|שתי שלישים}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch02/chapter.json",
+  "kind": "bar",
+  "param": "3/6",
+  "n": 3.0,
+  "d": 6.0,
+  "caption": "שלוש שישיות",
+  "raw": "{{bar:3/6|שלוש שישיות}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch02/chapter.json",
+  "kind": "bar",
+  "param": "5/9",
+  "n": 5.0,
+  "d": 9.0,
+  "caption": "חמש תשיעיות",
+  "raw": "{{bar:5/9|חמש תשיעיות}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch02/chapter.json",
+  "kind": "bar",
+  "param": "2/9",
+  "n": 2.0,
+  "d": 9.0,
+  "caption": "שתי תשיעיות",
+  "raw": "{{bar:2/9|שתי תשיעיות}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch02/chapter.json",
+  "kind": "chocolate",
+  "param": "4/9",
+  "n": 4.0,
+  "d": 9.0,
+  "caption": "ארבע תשיעיות — הרבה חתיכות, כל אחת קטנה",
+  "raw": "{{chocolate:4/9|ארבע תשיעיות — הרבה חתיכות, כל אחת קטנה}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch03/chapter.json",
+  "kind": "pizza",
+  "param": "4/4",
+  "n": 4.0,
+  "d": 4.0,
+  "caption": "פיצה שלמה = 4 רבעים",
+  "raw": "{{pizza:4/4|פיצה שלמה = 4 רבעים}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch03/chapter.json",
+  "kind": "pizza",
+  "param": "1/4",
+  "n": 1.0,
+  "d": 4.0,
+  "caption": "ועוד רבע",
+  "raw": "{{pizza:1/4|ועוד רבע}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch03/chapter.json",
+  "kind": "bar",
+  "param": "3/3",
+  "n": 3.0,
+  "d": 3.0,
+  "caption": "שלם ראשון — שלושה שלישים",
+  "raw": "{{bar:3/3|שלם ראשון — שלושה שלישים}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch03/chapter.json",
+  "kind": "bar",
+  "param": "1/3",
+  "n": 1.0,
+  "d": 3.0,
+  "caption": "ועוד שליש, ויחד $\\frac{4}{3}$",
+  "raw": "{{bar:1/3|ועוד שליש, ויחד $\\frac{4}{3}$}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch03/chapter.json",
+  "kind": "pizza",
+  "param": "4/4",
+  "n": 4.0,
+  "d": 4.0,
+  "caption": "שלם ראשון",
+  "raw": "{{pizza:4/4|שלם ראשון}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch03/chapter.json",
+  "kind": "pizza",
+  "param": "4/4",
+  "n": 4.0,
+  "d": 4.0,
+  "caption": "שלם שני",
+  "raw": "{{pizza:4/4|שלם שני}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch03/chapter.json",
+  "kind": "pizza",
+  "param": "3/4",
+  "n": 3.0,
+  "d": 4.0,
+  "caption": "ועוד שלושה רבעים",
+  "raw": "{{pizza:3/4|ועוד שלושה רבעים}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch03/chapter.json",
+  "kind": "pizza",
+  "param": "4/4",
+  "n": 4.0,
+  "d": 4.0,
+  "caption": "כל שלם = 4 רבעים",
+  "raw": "{{pizza:4/4|כל שלם = 4 רבעים}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch04/chapter.json",
+  "kind": "circle",
+  "param": "1/2",
+  "n": 1.0,
+  "d": 2.0,
+  "caption": "החצי של דנה",
+  "raw": "{{circle:1/2|החצי של דנה}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch04/chapter.json",
+  "kind": "circle",
+  "param": "2/4",
+  "n": 2.0,
+  "d": 4.0,
+  "caption": "שני הרבעים של יובל",
+  "raw": "{{circle:2/4|שני הרבעים של יובל}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch04/chapter.json",
+  "kind": "bar",
+  "param": "1/2",
+  "n": 1.0,
+  "d": 2.0,
+  "caption": "חצי",
+  "raw": "{{bar:1/2|חצי}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch04/chapter.json",
+  "kind": "bar",
+  "param": "2/4",
+  "n": 2.0,
+  "d": 4.0,
+  "caption": "שני רבעים",
+  "raw": "{{bar:2/4|שני רבעים}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch04/chapter.json",
+  "kind": "bar",
+  "param": "4/8",
+  "n": 4.0,
+  "d": 8.0,
+  "caption": "ארבע שמיניות",
+  "raw": "{{bar:4/8|ארבע שמיניות}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch04/chapter.json",
+  "kind": "numberline",
+  "param": "1/2",
+  "n": 1.0,
+  "d": 2.0,
+  "caption": "הציר חולק לשניים",
+  "raw": "{{numberline:1/2|הציר חולק לשניים}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch04/chapter.json",
+  "kind": "numberline",
+  "param": "2/4",
+  "n": 2.0,
+  "d": 4.0,
+  "caption": "הציר חולק לארבעה",
+  "raw": "{{numberline:2/4|הציר חולק לארבעה}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch04/chapter.json",
+  "kind": "numberline",
+  "param": "4/8",
+  "n": 4.0,
+  "d": 8.0,
+  "caption": "הציר חולק לשמונה",
+  "raw": "{{numberline:4/8|הציר חולק לשמונה}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch04/chapter.json",
+  "kind": "chocolate",
+  "param": "6/8",
+  "n": 6.0,
+  "d": 8.0,
+  "caption": "שש חתיכות מתוך שמונה — בדיוק שלושה רבעים מהחפיסה",
+  "raw": "{{chocolate:6/8|שש חתיכות מתוך שמונה — בדיוק שלושה רבעים מהחפיסה}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch05/chapter.json",
+  "kind": "pizza",
+  "param": "2/8",
+  "n": 2.0,
+  "d": 8.0,
+  "caption": "שתי שמיניות",
+  "raw": "{{pizza:2/8|שתי שמיניות}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch05/chapter.json",
+  "kind": "pizza",
+  "param": "3/8",
+  "n": 3.0,
+  "d": 8.0,
+  "caption": "ועוד שלוש שמיניות",
+  "raw": "{{pizza:3/8|ועוד שלוש שמיניות}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch05/chapter.json",
+  "kind": "pizza",
+  "param": "5/8",
+  "n": 5.0,
+  "d": 8.0,
+  "caption": "יחד: חמש שמיניות",
+  "raw": "{{pizza:5/8|יחד: חמש שמיניות}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch05/chapter.json",
+  "kind": "numberline",
+  "param": "3/8",
+  "n": 3.0,
+  "d": 8.0,
+  "caption": "מתחילים כאן",
+  "raw": "{{numberline:3/8|מתחילים כאן}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch05/chapter.json",
+  "kind": "numberline",
+  "param": "5/8",
+  "n": 5.0,
+  "d": 8.0,
+  "caption": "ואחרי שתי קפיצות של שמינית",
+  "raw": "{{numberline:5/8|ואחרי שתי קפיצות של שמינית}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch05/chapter.json",
+  "kind": "pizza",
+  "param": "1/2",
+  "n": 1.0,
+  "d": 2.0,
+  "caption": "חצי",
+  "raw": "{{pizza:1/2|חצי}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch05/chapter.json",
+  "kind": "pizza",
+  "param": "2/2",
+  "n": 2.0,
+  "d": 2.0,
+  "caption": "ועוד חצי — פיצה שלמה, לא עוד חצי",
+  "raw": "{{pizza:2/2|ועוד חצי — פיצה שלמה, לא עוד חצי}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch05/chapter.json",
+  "kind": "bar",
+  "param": "2/4",
+  "n": 2.0,
+  "d": 4.0,
+  "caption": "חצי = שני רבעים",
+  "raw": "{{bar:2/4|חצי = שני רבעים}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch05/chapter.json",
+  "kind": "bar",
+  "param": "1/4",
+  "n": 1.0,
+  "d": 4.0,
+  "caption": "ועוד רבע",
+  "raw": "{{bar:1/4|ועוד רבע}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch05/chapter.json",
+  "kind": "bar",
+  "param": "3/4",
+  "n": 3.0,
+  "d": 4.0,
+  "caption": "= שלושה רבעים",
+  "raw": "{{bar:3/4|= שלושה רבעים}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch06/chapter.json",
+  "kind": "bar",
+  "param": "1/5",
+  "n": 1.0,
+  "d": 5.0,
+  "caption": "חמישית אחת",
+  "raw": "{{bar:1/5|חמישית אחת}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch06/chapter.json",
+  "kind": "bar",
+  "param": "3/5",
+  "n": 3.0,
+  "d": 5.0,
+  "caption": "ועוד שלוש חמישיות",
+  "raw": "{{bar:3/5|ועוד שלוש חמישיות}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch06/chapter.json",
+  "kind": "bar",
+  "param": "4/5",
+  "n": 4.0,
+  "d": 5.0,
+  "caption": "יחד: ארבע חמישיות",
+  "raw": "{{bar:4/5|יחד: ארבע חמישיות}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch06/chapter.json",
+  "kind": "circle",
+  "param": "6/6",
+  "n": 6.0,
+  "d": 6.0,
+  "caption": "שש שישיות מרכיבות שלם חדש",
+  "raw": "{{circle:6/6|שש שישיות מרכיבות שלם חדש}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch06/chapter.json",
+  "kind": "circle",
+  "param": "1/6",
+  "n": 1.0,
+  "d": 6.0,
+  "caption": "ונשארת שישית אחת",
+  "raw": "{{circle:1/6|ונשארת שישית אחת}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch06/chapter.json",
+  "kind": "pizza",
+  "param": "5/5",
+  "n": 5.0,
+  "d": 5.0,
+  "caption": "שלם אחד נפרט לחמש חמישיות",
+  "raw": "{{pizza:5/5|שלם אחד נפרט לחמש חמישיות}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch06/chapter.json",
+  "kind": "pizza",
+  "param": "1/5",
+  "n": 1.0,
+  "d": 5.0,
+  "caption": "ועוד החמישית שכבר הייתה לנו",
+  "raw": "{{pizza:1/5|ועוד החמישית שכבר הייתה לנו}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch06/chapter.json",
+  "kind": "circle",
+  "param": "4/4",
+  "n": 4.0,
+  "d": 4.0,
+  "caption": "שלם אחד נפרט לארבעה רבעים",
+  "raw": "{{circle:4/4|שלם אחד נפרט לארבעה רבעים}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch07/chapter.json",
+  "kind": "bar",
+  "param": "3/4",
+  "n": 3.0,
+  "d": 4.0,
+  "caption": "שלושה רבעים עגבניות",
+  "raw": "{{bar:3/4|שלושה רבעים עגבניות}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch07/chapter.json",
+  "kind": "bar",
+  "param": "2/4",
+  "n": 2.0,
+  "d": 4.0,
+  "caption": "ועוד שני רבעים מלפפונים",
+  "raw": "{{bar:2/4|ועוד שני רבעים מלפפונים}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch07/chapter.json",
+  "kind": "grid",
+  "param": "5x4/5",
+  "n": null,
+  "d": null,
+  "caption": "20 שקלים בארבע שורות שוות — שורה אחת היא רבע: 5 שקלים",
+  "raw": "{{grid:5x4/5|20 שקלים בארבע שורות שוות — שורה אחת היא רבע: 5 שקלים}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch07/chapter.json",
+  "kind": "grid",
+  "param": "5x4/15",
+  "n": null,
+  "d": null,
+  "caption": "ושלוש שורות הן שלושה רבעים: 15 שקלים",
+  "raw": "{{grid:5x4/15|ושלוש שורות הן שלושה רבעים: 15 שקלים}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch07/chapter.json",
+  "kind": "bar",
+  "param": "7/12",
+  "n": 7.0,
+  "d": 12.0,
+  "caption": "מה שדנה כבר קראה",
+  "raw": "{{bar:7/12|מה שדנה כבר קראה}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch07/chapter.json",
+  "kind": "bar",
+  "param": "5/12",
+  "n": 5.0,
+  "d": 12.0,
+  "caption": "ומה שנשאר לה — 25 עמודים",
+  "raw": "{{bar:5/12|ומה שנשאר לה — 25 עמודים}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch07/chapter.json",
+  "kind": "pizza",
+  "param": "1/2",
+  "n": 1.0,
+  "d": 2.0,
+  "caption": "החצי שאכלתי",
+  "raw": "{{pizza:1/2|החצי שאכלתי}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch07/chapter.json",
+  "kind": "pizza",
+  "param": "1/4",
+  "n": 1.0,
+  "d": 4.0,
+  "caption": "החצי מהשארית — רבע מהעוגה",
+  "raw": "{{pizza:1/4|החצי מהשארית — רבע מהעוגה}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch08/chapter.json",
+  "kind": "circle",
+  "param": "1/2",
+  "n": 1.0,
+  "d": 2.0,
+  "caption": "החלק של יובל",
+  "raw": "{{circle:1/2|החלק של יובל}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch08/chapter.json",
+  "kind": "circle",
+  "param": "1/3",
+  "n": 1.0,
+  "d": 3.0,
+  "caption": "החלק של דנה",
+  "raw": "{{circle:1/3|החלק של דנה}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch08/chapter.json",
+  "kind": "circle",
+  "param": "1/4",
+  "n": 1.0,
+  "d": 4.0,
+  "caption": "החלק של תומר",
+  "raw": "{{circle:1/4|החלק של תומר}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch08/chapter.json",
+  "kind": "bar",
+  "param": "1/2",
+  "n": 1.0,
+  "d": 2.0,
+  "caption": "חצי",
+  "raw": "{{bar:1/2|חצי}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch08/chapter.json",
+  "kind": "bar",
+  "param": "1/3",
+  "n": 1.0,
+  "d": 3.0,
+  "caption": "שליש",
+  "raw": "{{bar:1/3|שליש}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch08/chapter.json",
+  "kind": "bar",
+  "param": "1/4",
+  "n": 1.0,
+  "d": 4.0,
+  "caption": "רבע",
+  "raw": "{{bar:1/4|רבע}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch08/chapter.json",
+  "kind": "bar",
+  "param": "1/6",
+  "n": 1.0,
+  "d": 6.0,
+  "caption": "שישית",
+  "raw": "{{bar:1/6|שישית}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch08/chapter.json",
+  "kind": "bar",
+  "param": "3/4",
+  "n": 3.0,
+  "d": 4.0,
+  "caption": "שלושה רבעים — חסר רבע לשלם",
+  "raw": "{{bar:3/4|שלושה רבעים — חסר רבע לשלם}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch08/chapter.json",
+  "kind": "bar",
+  "param": "7/8",
+  "n": 7.0,
+  "d": 8.0,
+  "caption": "שבע שמיניות — חסרה שמינית לשלם",
+  "raw": "{{bar:7/8|שבע שמיניות — חסרה שמינית לשלם}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch08/chapter.json",
+  "kind": "numberline",
+  "param": "3/4",
+  "n": 3.0,
+  "d": 4.0,
+  "caption": "אחרי הצעד הראשון",
+  "raw": "{{numberline:3/4|אחרי הצעד הראשון}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch08/chapter.json",
+  "kind": "numberline",
+  "param": "7/8",
+  "n": 7.0,
+  "d": 8.0,
+  "caption": "אחרי השני",
+  "raw": "{{numberline:7/8|אחרי השני}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch08/chapter.json",
+  "kind": "numberline",
+  "param": "15/16",
+  "n": 15.0,
+  "d": 16.0,
+  "caption": "אחרי השלישי",
+  "raw": "{{numberline:15/16|אחרי השלישי}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch08/chapter.json",
+  "kind": "bar",
+  "param": "3/4",
+  "n": 3.0,
+  "d": 4.0,
+  "caption": "שלושה רבעים — למרות המכנה הגדול",
+  "raw": "{{bar:3/4|שלושה רבעים — למרות המכנה הגדול}}"
+ },
+ {
+  "file": "content/grade5/simple-fractions/ch08/chapter.json",
+  "kind": "bar",
+  "param": "1/2",
+  "n": 1.0,
+  "d": 2.0,
+  "caption": "חצי — קטן ממנו",
+  "raw": "{{bar:1/2|חצי — קטן ממנו}}"
+ },
+ {
+  "file": "content/grade5/whole-numbers/ch01/chapter.json",
+  "kind": "grid",
+  "param": "10x1/7",
+  "n": null,
+  "d": null,
+  "caption": "הספרה $7$ בבית היחידות — שבעה ריבועים בלבד",
+  "raw": "{{grid:10x1/7|הספרה $7$ בבית היחידות — שבעה ריבועים בלבד}}"
+ },
+ {
+  "file": "content/grade5/whole-numbers/ch01/chapter.json",
+  "kind": "grid",
+  "param": "10x10/70",
+  "n": null,
+  "d": null,
+  "caption": "אותה ספרה $7$ בבית העשרות — שבע שורות שלמות, כלומר $70$",
+  "raw": "{{grid:10x10/70|אותה ספרה $7$ בבית העשרות — שבע שורות שלמות, כלומר $70$}}"
+ },
+ {
+  "file": "content/grade5/whole-numbers/ch01/chapter.json",
+  "kind": "grid",
+  "param": "1x1/1",
+  "n": null,
+  "d": null,
+  "caption": "יחידה בודדת",
+  "raw": "{{grid:1x1/1|יחידה בודדת}}"
+ },
+ {
+  "file": "content/grade5/whole-numbers/ch01/chapter.json",
+  "kind": "grid",
+  "param": "10x1/10",
+  "n": null,
+  "d": null,
+  "caption": "עשרת אחת — $10$ יחידות",
+  "raw": "{{grid:10x1/10|עשרת אחת — $10$ יחידות}}"
+ },
+ {
+  "file": "content/grade5/whole-numbers/ch01/chapter.json",
+  "kind": "grid",
+  "param": "10x10/100",
+  "n": null,
+  "d": null,
+  "caption": "מאה אחת — $10$ עשרות",
+  "raw": "{{grid:10x10/100|מאה אחת — $10$ עשרות}}"
+ },
+ {
+  "file": "content/grade5/whole-numbers/ch02/chapter.json",
+  "kind": "grid",
+  "param": "10x1/9",
+  "n": null,
+  "d": null,
+  "caption": "תשע יחידות — נכנסות בשורה אחת, מספר בן ספרה אחת",
+  "raw": "{{grid:10x1/9|תשע יחידות — נכנסות בשורה אחת, מספר בן ספרה אחת}}"
+ },
+ {
+  "file": "content/grade5/whole-numbers/ch02/chapter.json",
+  "kind": "grid",
+  "param": "10x2/12",
+  "n": null,
+  "d": null,
+  "caption": "שתים עשרה יחידות — השורה כבר נגמרה, וצריך שורה שנייה",
+  "raw": "{{grid:10x2/12|שתים עשרה יחידות — השורה כבר נגמרה, וצריך שורה שנייה}}"
+ },
+ {
+  "file": "content/grade5/whole-numbers/ch02/chapter.json",
+  "kind": "grid",
+  "param": "10x10/47",
+  "n": null,
+  "d": null,
+  "caption": "המספר $47$ — ארבע שורות מלאות ועוד $7$",
+  "raw": "{{grid:10x10/47|המספר $47$ — ארבע שורות מלאות ועוד $7$}}"
+ },
+ {
+  "file": "content/grade5/whole-numbers/ch02/chapter.json",
+  "kind": "grid",
+  "param": "10x10/74",
+  "n": null,
+  "d": null,
+  "caption": "המספר $74$ — שבע שורות מלאות ועוד $4$",
+  "raw": "{{grid:10x10/74|המספר $74$ — שבע שורות מלאות ועוד $4$}}"
+ },
+ {
+  "file": "content/grade5/whole-numbers/ch02/chapter.json",
+  "kind": "barchart",
+  "param": "עיר א=208;עיר ב=280;עיר ג=201",
+  "n": null,
+  "d": null,
+  "caption": "מספרי התושבים בשלוש ערים, באלפים — עיר ב' הגדולה בבירור, ועיר א' ועיר ג' קרובות זו לזו",
+  "raw": "{{barchart:עיר א=208;עיר ב=280;עיר ג=201|מספרי התושבים בשלוש ערים, באלפים — עיר ב' הגדולה בבירור, ועיר א' ועיר ג' קרובות זו לזו}}"
+ },
+ {
+  "file": "content/grade5/whole-numbers/ch03/chapter.json",
+  "kind": "bar",
+  "param": "7/10",
+  "n": 7.0,
+  "d": 10.0,
+  "caption": "מ-$40$ אל $47$ עברנו $7$ צעדים מתוך $10$ — יותר מחצי הדרך, ולכן $47$ מתעגל ל-$50$",
+  "raw": "{{bar:7/10|מ-$40$ אל $47$ עברנו $7$ צעדים מתוך $10$ — יותר מחצי הדרך, ולכן $47$ מתעגל ל-$50$}}"
+ },
+ {
+  "file": "content/grade5/whole-numbers/ch03/chapter.json",
+  "kind": "bar",
+  "param": "3/10",
+  "n": 3.0,
+  "d": 10.0,
+  "caption": "מ-$40$ אל $43$ עברנו $3$ צעדים בלבד — פחות מחצי הדרך, ולכן $43$ מתעגל ל-$40$",
+  "raw": "{{bar:3/10|מ-$40$ אל $43$ עברנו $3$ צעדים בלבד — פחות מחצי הדרך, ולכן $43$ מתעגל ל-$40$}}"
+ },
+ {
+  "file": "content/grade5/whole-numbers/ch03/chapter.json",
+  "kind": "inequality",
+  "param": ">=5",
+  "n": null,
+  "d": null,
+  "caption": "אם הספרה שמימין היא $5$ או יותר — מעגלים כלפי מעלה, כלומר מגדילים את ספרת בית העיגול ב-$1$",
+  "raw": "{{inequality:>=5|אם הספרה שמימין היא $5$ או יותר — מעגלים כלפי מעלה, כלומר מגדילים את ספרת בית העיגול ב-$1$}}"
+ },
+ {
+  "file": "content/grade5/whole-numbers/ch03/chapter.json",
+  "kind": "inequality",
+  "param": "<5",
+  "n": null,
+  "d": null,
+  "caption": "אם הספרה שמימין קטנה מ-$5$ — מעגלים כלפי מטה, כלומר משאירים את ספרת בית העיגול כמו שהיא",
+  "raw": "{{inequality:<5|אם הספרה שמימין קטנה מ-$5$ — מעגלים כלפי מטה, כלומר משאירים את ספרת בית העיגול כמו שהיא}}"
+ },
+ {
+  "file": "content/grade5/whole-numbers/ch03/chapter.json",
+  "kind": "grid",
+  "param": "10x1/5",
+  "n": null,
+  "d": null,
+  "caption": "חמישה צעדים מתוך עשרה — בדיוק חצי הדרך בין שני ציוני הדרך",
+  "raw": "{{grid:10x1/5|חמישה צעדים מתוך עשרה — בדיוק חצי הדרך בין שני ציוני הדרך}}"
+ },
+ {
+  "file": "content/grade5/whole-numbers/ch03/chapter.json",
+  "kind": "barchart",
+  "param": "אומדן=800;מדויק=798",
+  "n": null,
+  "d": null,
+  "caption": "באומדן של $38 \\times 21$ מתקבל $800$, והתוצאה המדויקת היא $798$ — שתי העמודות כמעט זהות",
+  "raw": "{{barchart:אומדן=800;מדויק=798|באומדן של $38 \\times 21$ מתקבל $800$, והתוצאה המדויקת היא $798$ — שתי העמודות כמעט זהות}}"
+ },
+ {
+  "file": "content/grade5/whole-numbers/ch04/chapter.json",
+  "kind": "bar",
+  "param": "10/10",
+  "n": 10.0,
+  "d": 10.0,
+  "caption": "עשרת אחת היא בדיוק $10$ יחידות — ולכן עשר יחידות שהתאספו יכולות להתאחד לעשרת אחת ולעבור טור אחד שמאלה",
+  "raw": "{{bar:10/10|עשרת אחת היא בדיוק $10$ יחידות — ולכן עשר יחידות שהתאספו יכולות להתאחד לעשרת אחת ולעבור טור אחד שמאלה}}"
+ },
+ {
+  "file": "content/grade5/whole-numbers/ch04/chapter.json",
+  "kind": "grid",
+  "param": "10x2/12",
+  "n": null,
+  "d": null,
+  "caption": "$12$ יחידות: שורה שלמה של עשר — היא נפרטת לעשרת אחת שעוברת הלאה — ועוד $2$ יחידות שנשארות בטור",
+  "raw": "{{grid:10x2/12|$12$ יחידות: שורה שלמה של עשר — היא נפרטת לעשרת אחת שעוברת הלאה — ועוד $2$ יחידות שנשארות בטור}}"
+ },
+ {
+  "file": "content/grade5/whole-numbers/ch04/chapter.json",
+  "kind": "grid",
+  "param": "10x2/15",
+  "n": null,
+  "d": null,
+  "caption": "אחרי ההשאלה יש בטור היחידות $15$: העשרת שהתפרקה נותנת שורה שלמה של עשר, ואליה מצטרפות $5$ היחידות המקוריות",
+  "raw": "{{grid:10x2/15|אחרי ההשאלה יש בטור היחידות $15$: העשרת שהתפרקה נותנת שורה שלמה של עשר, ואליה מצטרפות $5$ היחידות המקוריות}}"
+ },
+ {
+  "file": "content/grade5/whole-numbers/ch04/chapter.json",
+  "kind": "grid",
+  "param": "10x10/100",
+  "n": null,
+  "d": null,
+  "caption": "מאה אחת היא $10$ עשרות — ולכן כששואלים מאה, טור העשרות מקבל בבת אחת $10$ עשרות",
+  "raw": "{{grid:10x10/100|מאה אחת היא $10$ עשרות — ולכן כששואלים מאה, טור העשרות מקבל בבת אחת $10$ עשרות}}"
+ },
+ {
+  "file": "content/grade5/whole-numbers/ch04/chapter.json",
+  "kind": "barchart",
+  "param": "אומדן=4800;מדויק=4730",
+  "n": null,
+  "d": null,
+  "caption": "האומדן והחישוב המדויק כמעט זהים בגובהם — סימן שהתוצאה סבירה. תוצאה שהייתה קופצת לגובה כפול הייתה מסגירה טעות מיד",
+  "raw": "{{barchart:אומדן=4800;מדויק=4730|האומדן והחישוב המדויק כמעט זהים בגובהם — סימן שהתוצאה סבירה. תוצאה שהייתה קופצת לגובה כפול הייתה מסגירה טעות מיד}}"
+ },
+ {
+  "file": "content/grade5/whole-numbers/ch05/chapter.json",
+  "kind": "grid",
+  "param": "6x4/24",
+  "n": null,
+  "d": null,
+  "caption": "$4$ שורות של $6$ כיסאות — $24$ כיסאות בסך הכול",
+  "raw": "{{grid:6x4/24|$4$ שורות של $6$ כיסאות — $24$ כיסאות בסך הכול}}"
+ },
+ {
+  "file": "content/grade5/whole-numbers/ch05/chapter.json",
+  "kind": "rect",
+  "param": "34x20",
+  "n": null,
+  "d": null,
+  "caption": "החלק הראשון: $34$ על $20$, שטחו $680$ — זו השורה החלקית של העשרות",
+  "raw": "{{rect:34x20|החלק הראשון: $34$ על $20$, שטחו $680$ — זו השורה החלקית של העשרות}}"
+ },
+ {
+  "file": "content/grade5/whole-numbers/ch05/chapter.json",
+  "kind": "rect",
+  "param": "34x6",
+  "n": null,
+  "d": null,
+  "caption": "החלק השני: $34$ על $6$, שטחו $204$ — זו השורה החלקית של היחידות",
+  "raw": "{{rect:34x6|החלק השני: $34$ על $6$, שטחו $204$ — זו השורה החלקית של היחידות}}"
+ },
+ {
+  "file": "content/grade5/whole-numbers/ch05/chapter.json",
+  "kind": "barchart",
+  "param": "יחידות=204;עשרות=680;סך הכול=884",
+  "n": null,
+  "d": null,
+  "caption": "שתי השורות החלקיות והסכום שלהן. שורת העשרות גדולה בהרבה, כי היא כפל ב-$20$ ולא ב-$2$",
+  "raw": "{{barchart:יחידות=204;עשרות=680;סך הכול=884|שתי השורות החלקיות והסכום שלהן. שורת העשרות גדולה בהרבה, כי היא כפל ב-$20$ ולא ב-$2$}}"
+ },
+ {
+  "file": "content/grade5/whole-numbers/ch05/chapter.json",
+  "kind": "barchart",
+  "param": "עם הזזה=680;בלי הזזה=68",
+  "n": null,
+  "d": null,
+  "caption": "שורת העשרות כשהיא מוזזת נכון וכשהיא נשכחת: פער של פי $10$, שקשה לפספס בעין",
+  "raw": "{{barchart:עם הזזה=680;בלי הזזה=68|שורת העשרות כשהיא מוזזת נכון וכשהיא נשכחת: פער של פי $10$, שקשה לפספס בעין}}"
+ },
+ {
+  "file": "content/grade5/whole-numbers/ch06/chapter.json",
+  "kind": "bar",
+  "param": "1/4",
+  "n": 1.0,
+  "d": 4.0,
+  "caption": "חלוקה ל-$4$ קבוצות שוות: כל קופסה מקבלת רבע מהעוגיות. זה כל מה שסימן החילוק מבקש",
+  "raw": "{{bar:1/4|חלוקה ל-$4$ קבוצות שוות: כל קופסה מקבלת רבע מהעוגיות. זה כל מה שסימן החילוק מבקש}}"
+ },
+ {
+  "file": "content/grade5/whole-numbers/ch06/chapter.json",
+  "kind": "grid",
+  "param": "6x3/16",
+  "n": null,
+  "d": null,
+  "caption": "$16$ עוגיות בשורות של $6$: שתי שורות מלאות ועוד $4$ — מנה $2$ ושארית $4$",
+  "raw": "{{grid:6x3/16|$16$ עוגיות בשורות של $6$: שתי שורות מלאות ועוד $4$ — מנה $2$ ושארית $4$}}"
+ },
+ {
+  "file": "content/grade5/whole-numbers/ch06/chapter.json",
+  "kind": "bar",
+  "param": "4/7",
+  "n": 4.0,
+  "d": 7.0,
+  "caption": "שארית $4$ בחילוק ב-$7$: אין די יחידות למלא עוד קבוצה שלמה, ולכן החילוק באמת נגמר כאן",
+  "raw": "{{bar:4/7|שארית $4$ בחילוק ב-$7$: אין די יחידות למלא עוד קבוצה שלמה, ולכן החילוק באמת נגמר כאן}}"
+ },
+ {
+  "file": "content/grade5/whole-numbers/ch06/chapter.json",
+  "kind": "grid",
+  "param": "5x4/20",
+  "n": null,
+  "d": null,
+  "caption": "$20$ בקבוצות של $5$: ארבע שורות מלאות בדיוק, השארית היא $0$",
+  "raw": "{{grid:5x4/20|$20$ בקבוצות של $5$: ארבע שורות מלאות בדיוק, השארית היא $0$}}"
+ },
+ {
+  "file": "content/grade5/whole-numbers/ch06/chapter.json",
+  "kind": "barchart",
+  "param": "תלמידים=100;3 אוטובוסים=90;4 אוטובוסים=120",
+  "n": null,
+  "d": null,
+  "caption": "שלושה אוטובוסים מכסים $90$ מקומות בלבד — נמוך ממספר התלמידים. רק העמודה של $4$ אוטובוסים מגיעה מעליו",
+  "raw": "{{barchart:תלמידים=100;3 אוטובוסים=90;4 אוטובוסים=120|שלושה אוטובוסים מכסים $90$ מקומות בלבד — נמוך ממספר התלמידים. רק העמודה של $4$ אוטובוסים מגיעה מעליו}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch01/chapter.json",
+  "kind": "rect",
+  "param": "23x14",
+  "n": null,
+  "d": null,
+  "caption": "מלבן שצלעותיו $23$ ו-$14$ — שטחו $322$, בדיוק תוצאת הכפל",
+  "raw": "{{rect:23x14|מלבן שצלעותיו $23$ ו-$14$ — שטחו $322$, בדיוק תוצאת הכפל}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch01/chapter.json",
+  "kind": "rect",
+  "param": "17x23",
+  "n": null,
+  "d": null,
+  "caption": "מלבן שצלעותיו $17$ ו-$23$ — שטחו $391$, ולכן החילוק $391 \\div 17$ נסגר בדיוק",
+  "raw": "{{rect:17x23|מלבן שצלעותיו $17$ ו-$23$ — שטחו $391$, ולכן החילוק $391 \\div 17$ נסגר בדיוק}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch01/chapter.json",
+  "kind": "grid",
+  "param": "6x4/24",
+  "n": null,
+  "d": null,
+  "caption": "$24$ נקודות בשורות של $6$: ארבע שורות מלאות בדיוק — $6$ מחלק את $24$",
+  "raw": "{{grid:6x4/24|$24$ נקודות בשורות של $6$: ארבע שורות מלאות בדיוק — $6$ מחלק את $24$}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch01/chapter.json",
+  "kind": "grid",
+  "param": "6x5/27",
+  "n": null,
+  "d": null,
+  "caption": "$27$ נקודות באותן שורות: ארבע מלאות ועוד $3$ בודדות — $6$ אינו מחלק של $27$",
+  "raw": "{{grid:6x5/27|$27$ נקודות באותן שורות: ארבע מלאות ועוד $3$ בודדות — $6$ אינו מחלק של $27$}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch01/chapter.json",
+  "kind": "grid",
+  "param": "9x3/27",
+  "n": null,
+  "d": null,
+  "caption": "אותן $27$ נקודות בשורות של $9$: שלוש שורות מלאות בדיוק — $9$ כן מחלק את $27$",
+  "raw": "{{grid:9x3/27|אותן $27$ נקודות בשורות של $9$: שלוש שורות מלאות בדיוק — $9$ כן מחלק את $27$}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch02/chapter.json",
+  "kind": "grid",
+  "param": "2x5/10",
+  "n": null,
+  "d": null,
+  "caption": "$10$ נקודות מסתדרות בחמישה זוגות מלאים — $10$ זוגי",
+  "raw": "{{grid:2x5/10|$10$ נקודות מסתדרות בחמישה זוגות מלאים — $10$ זוגי}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch02/chapter.json",
+  "kind": "grid",
+  "param": "2x4/7",
+  "n": null,
+  "d": null,
+  "caption": "$7$ נקודות: שלושה זוגות ואחת בודדת — $7$ אי-זוגי",
+  "raw": "{{grid:2x4/7|$7$ נקודות: שלושה זוגות ואחת בודדת — $7$ אי-זוגי}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch02/chapter.json",
+  "kind": "grid",
+  "param": "10x3/30",
+  "n": null,
+  "d": null,
+  "caption": "$30$ נקודות בשורות של $10$: שלוש שורות מלאות בדיוק — $30$ מתחלק ב-$10$",
+  "raw": "{{grid:10x3/30|$30$ נקודות בשורות של $10$: שלוש שורות מלאות בדיוק — $30$ מתחלק ב-$10$}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch02/chapter.json",
+  "kind": "grid",
+  "param": "10x3/25",
+  "n": null,
+  "d": null,
+  "caption": "$25$ נקודות באותן שורות: שתיים מלאות ועוד $5$ — $25$ מתחלק ב-$5$ אבל לא ב-$10$",
+  "raw": "{{grid:10x3/25|$25$ נקודות באותן שורות: שתיים מלאות ועוד $5$ — $25$ מתחלק ב-$5$ אבל לא ב-$10$}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch02/chapter.json",
+  "kind": "grid",
+  "param": "5x4/20",
+  "n": null,
+  "d": null,
+  "caption": "$20$ נקודות בשורות של $5$: ארבע חמישיות מלאות — $20$ מתחלק ב-$5$, וגם ב-$2$ וגם ב-$10$",
+  "raw": "{{grid:5x4/20|$20$ נקודות בשורות של $5$: ארבע חמישיות מלאות — $20$ מתחלק ב-$5$, וגם ב-$2$ וגם ב-$10$}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch03/chapter.json",
+  "kind": "grid",
+  "param": "10x10/99",
+  "n": null,
+  "d": null,
+  "caption": "מאה משבצות: תשעים ותשע צבועות ואחת לבנה — כל מאה היא $99 + 1$",
+  "raw": "{{grid:10x10/99|מאה משבצות: תשעים ותשע צבועות ואחת לבנה — כל מאה היא $99 + 1$}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch03/chapter.json",
+  "kind": "grid",
+  "param": "3x4/12",
+  "n": null,
+  "d": null,
+  "caption": "$12$ משבצות בשלוש עמודות וארבע שורות — מלבן מלא, ולכן $12$ מתחלק ב-$3$",
+  "raw": "{{grid:3x4/12|$12$ משבצות בשלוש עמודות וארבע שורות — מלבן מלא, ולכן $12$ מתחלק ב-$3$}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch03/chapter.json",
+  "kind": "grid",
+  "param": "9x2/18",
+  "n": null,
+  "d": null,
+  "caption": "$18$ משבצות בתשע עמודות ושתי שורות — $18$ מתחלק ב-$9$",
+  "raw": "{{grid:9x2/18|$18$ משבצות בתשע עמודות ושתי שורות — $18$ מתחלק ב-$9$}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch03/chapter.json",
+  "kind": "grid",
+  "param": "3x5/15",
+  "n": null,
+  "d": null,
+  "caption": "$15$ משבצות בעמודות של שלוש: חמש שורות מלאות — $15$ מתחלק ב-$3$",
+  "raw": "{{grid:3x5/15|$15$ משבצות בעמודות של שלוש: חמש שורות מלאות — $15$ מתחלק ב-$3$}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch03/chapter.json",
+  "kind": "grid",
+  "param": "3x5/14",
+  "n": null,
+  "d": null,
+  "caption": "$14$ משבצות באותן עמודות: ארבע מלאות ועוד $2$ — $14$ אינו מתחלק ב-$3$",
+  "raw": "{{grid:3x5/14|$14$ משבצות באותן עמודות: ארבע מלאות ועוד $2$ — $14$ אינו מתחלק ב-$3$}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch03/chapter.json",
+  "kind": "grid",
+  "param": "6x3/18",
+  "n": null,
+  "d": null,
+  "caption": "$18$ משבצות בשש עמודות ושלוש שורות — $18$ זוגי וסכום ספרותיו $9$, ולכן הוא מתחלק ב-$6$",
+  "raw": "{{grid:6x3/18|$18$ משבצות בשש עמודות ושלוש שורות — $18$ זוגי וסכום ספרותיו $9$, ולכן הוא מתחלק ב-$6$}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch04/chapter.json",
+  "kind": "grid",
+  "param": "4x3/12",
+  "n": null,
+  "d": null,
+  "caption": "$12$ קוביות מסתדרות במלבן מלא: שלוש שורות של ארבע",
+  "raw": "{{grid:4x3/12|$12$ קוביות מסתדרות במלבן מלא: שלוש שורות של ארבע}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch04/chapter.json",
+  "kind": "grid",
+  "param": "7x2/13",
+  "n": null,
+  "d": null,
+  "caption": "מנסים לסדר $13$ בשתי שורות של שבע — משבצת אחת נשארת ריקה",
+  "raw": "{{grid:7x2/13|מנסים לסדר $13$ בשתי שורות של שבע — משבצת אחת נשארת ריקה}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch04/chapter.json",
+  "kind": "rect",
+  "param": "6x4",
+  "n": null,
+  "d": null,
+  "caption": "כל זוג מחלקים הוא מלבן: $6 \\times 4 = 24$",
+  "raw": "{{rect:6x4|כל זוג מחלקים הוא מלבן: $6 \\times 4 = 24$}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch04/chapter.json",
+  "kind": "grid",
+  "param": "5x3/13",
+  "n": null,
+  "d": null,
+  "caption": "גם בשלוש שורות של חמש $13$ לא מסתדר — שתי משבצות נשארות ריקות",
+  "raw": "{{grid:5x3/13|גם בשלוש שורות של חמש $13$ לא מסתדר — שתי משבצות נשארות ריקות}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch04/chapter.json",
+  "kind": "grid",
+  "param": "13x1/13",
+  "n": null,
+  "d": null,
+  "caption": "המלבן היחיד של $13$ הוא שורה אחת באורך $13$",
+  "raw": "{{grid:13x1/13|המלבן היחיד של $13$ הוא שורה אחת באורך $13$}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch04/chapter.json",
+  "kind": "grid",
+  "param": "10x5/50",
+  "n": null,
+  "d": null,
+  "caption": "לוח המסננת: כל המספרים בטווח עד $50$, עשרה בכל שורה",
+  "raw": "{{grid:10x5/50|לוח המסננת: כל המספרים בטווח עד $50$, עשרה בכל שורה}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch05/chapter.json",
+  "kind": "grid",
+  "param": "10x6/60",
+  "n": null,
+  "d": null,
+  "caption": "$60$ קלפים במערך של $10$ עמודות ו-$6$ שורות: $60 = 10 \\times 6$",
+  "raw": "{{grid:10x6/60|$60$ קלפים במערך של $10$ עמודות ו-$6$ שורות: $60 = 10 \\times 6$}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch05/chapter.json",
+  "kind": "grid",
+  "param": "4x15/60",
+  "n": null,
+  "d": null,
+  "caption": "אותם $60$ קלפים בסידור אחר לגמרי: $4 \\times 15$",
+  "raw": "{{grid:4x15/60|אותם $60$ קלפים בסידור אחר לגמרי: $4 \\times 15$}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch05/chapter.json",
+  "kind": "rect",
+  "param": "12x7",
+  "n": null,
+  "d": null,
+  "caption": "מלבן של $12 \\times 7$: השטח $84$, ובפירוק מלא $84 = 2^2 \\cdot 3 \\cdot 7$",
+  "raw": "{{rect:12x7|מלבן של $12 \\times 7$: השטח $84$, ובפירוק מלא $84 = 2^2 \\cdot 3 \\cdot 7$}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch05/chapter.json",
+  "kind": "grid",
+  "param": "6x6/36",
+  "n": null,
+  "d": null,
+  "caption": "$36$ בריבוע של $6 \\times 6$, ובפירוק $36 = 2^2 \\cdot 3^2$",
+  "raw": "{{grid:6x6/36|$36$ בריבוע של $6 \\times 6$, ובפירוק $36 = 2^2 \\cdot 3^2$}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch05/chapter.json",
+  "kind": "grid",
+  "param": "10x10/100",
+  "n": null,
+  "d": null,
+  "caption": "$100$ בריבוע של $10 \\times 10$, ובפירוק $100 = 2^2 \\cdot 5^2$",
+  "raw": "{{grid:10x10/100|$100$ בריבוע של $10 \\times 10$, ובפירוק $100 = 2^2 \\cdot 5^2$}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch06/chapter.json",
+  "kind": "grid",
+  "param": "6x2/12",
+  "n": null,
+  "d": null,
+  "caption": "$12$ משבצות בשורות של $6$: שתי שורות מלאות בדיוק — $6$ מחלק את $12$",
+  "raw": "{{grid:6x2/12|$12$ משבצות בשורות של $6$: שתי שורות מלאות בדיוק — $6$ מחלק את $12$}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch06/chapter.json",
+  "kind": "grid",
+  "param": "6x3/18",
+  "n": null,
+  "d": null,
+  "caption": "$18$ משבצות בשורות של $6$: שלוש שורות מלאות בדיוק — $6$ מחלק גם את $18$",
+  "raw": "{{grid:6x3/18|$18$ משבצות בשורות של $6$: שלוש שורות מלאות בדיוק — $6$ מחלק גם את $18$}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch06/chapter.json",
+  "kind": "grid",
+  "param": "8x3/24",
+  "n": null,
+  "d": null,
+  "caption": "$24$ משבצות: $8$ עמודות ו-$3$ שורות — אחרי $24$ דקות קו ה-$8$ השלים בדיוק $3$ סבבים",
+  "raw": "{{grid:8x3/24|$24$ משבצות: $8$ עמודות ו-$3$ שורות — אחרי $24$ דקות קו ה-$8$ השלים בדיוק $3$ סבבים}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch06/chapter.json",
+  "kind": "grid",
+  "param": "6x4/24",
+  "n": null,
+  "d": null,
+  "caption": "אותן $24$ משבצות בשורות של $6$ — קו ה-$6$ השלים בדיוק $4$ סבבים",
+  "raw": "{{grid:6x4/24|אותן $24$ משבצות בשורות של $6$ — קו ה-$6$ השלים בדיוק $4$ סבבים}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch06/chapter.json",
+  "kind": "grid",
+  "param": "18x3/54",
+  "n": null,
+  "d": null,
+  "caption": "$54$ העפרונות מסתדרים ב-$18$ עמודות של $3$ — כל עמודה היא שקית אחת",
+  "raw": "{{grid:18x3/54|$54$ העפרונות מסתדרים ב-$18$ עמודות של $3$ — כל עמודה היא שקית אחת}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch06/chapter.json",
+  "kind": "grid",
+  "param": "18x2/36",
+  "n": null,
+  "d": null,
+  "caption": "$36$ העטים מסתדרים באותן $18$ עמודות, $2$ בכל אחת — אף עט לא נשאר בחוץ",
+  "raw": "{{grid:18x2/36|$36$ העטים מסתדרים באותן $18$ עמודות, $2$ בכל אחת — אף עט לא נשאר בחוץ}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch07/chapter.json",
+  "kind": "grid",
+  "param": "6x4/24",
+  "n": null,
+  "d": null,
+  "caption": "$24$ עוגיות מסתדרות בארבע שורות של $6$ — שורות מלאות, בלי עודף",
+  "raw": "{{grid:6x4/24|$24$ עוגיות מסתדרות בארבע שורות של $6$ — שורות מלאות, בלי עודף}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch07/chapter.json",
+  "kind": "grid",
+  "param": "3x3/9",
+  "n": null,
+  "d": null,
+  "caption": "$9$ מסתדר בשלוש שורות של $3$ — מתחלק ב-$3$ — אבל בקבוצות של $6$ נשארות שלוש בודדות",
+  "raw": "{{grid:3x3/9|$9$ מסתדר בשלוש שורות של $3$ — מתחלק ב-$3$ — אבל בקבוצות של $6$ נשארות שלוש בודדות}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch07/chapter.json",
+  "kind": "grid",
+  "param": "2x4/8",
+  "n": null,
+  "d": null,
+  "caption": "$8$ מסתדר בארבעה זוגות — מתחלק ב-$2$ — אבל בקבוצות של $6$ נשארות שתיים בודדות",
+  "raw": "{{grid:2x4/8|$8$ מסתדר בארבעה זוגות — מתחלק ב-$2$ — אבל בקבוצות של $6$ נשארות שתיים בודדות}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch07/chapter.json",
+  "kind": "grid",
+  "param": "10x10/100",
+  "n": null,
+  "d": null,
+  "caption": "מאה משבצות מתפרקות בדיוק ל-$25$ קבוצות של $4$ — ולכן כל מאה שלמה מתחלקת ב-$4$",
+  "raw": "{{grid:10x10/100|מאה משבצות מתפרקות בדיוק ל-$25$ קבוצות של $4$ — ולכן כל מאה שלמה מתחלקת ב-$4$}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch07/chapter.json",
+  "kind": "grid",
+  "param": "8x2/16",
+  "n": null,
+  "d": null,
+  "caption": "$16$ מסתדר בשתי שורות של $8$ — קבוצות שלמות",
+  "raw": "{{grid:8x2/16|$16$ מסתדר בשתי שורות של $8$ — קבוצות שלמות}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch07/chapter.json",
+  "kind": "grid",
+  "param": "7x3/20",
+  "n": null,
+  "d": null,
+  "caption": "$20$ פריטים בשורות של $7$: שתי שורות מלאות ועוד שישה — $20$ אינו מתחלק ב-$7$, ואת זה גילינו רק אחרי החלוקה",
+  "raw": "{{grid:7x3/20|$20$ פריטים בשורות של $7$: שתי שורות מלאות ועוד שישה — $20$ אינו מתחלק ב-$7$, ואת זה גילינו רק אחרי החלוקה}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch07/chapter.json",
+  "kind": "grid",
+  "param": "4x3/12",
+  "n": null,
+  "d": null,
+  "caption": "$12$ מסתדר בשלוש שורות של $4$ — מתחלק ב-$4$ וגם ב-$2$ — אבל בקבוצות של $8$ נשארות ארבע בודדות",
+  "raw": "{{grid:4x3/12|$12$ מסתדר בשלוש שורות של $4$ — מתחלק ב-$4$ וגם ב-$2$ — אבל בקבוצות של $8$ נשארות ארבע בודדות}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch08/chapter.json",
+  "kind": "grid",
+  "param": "4x3/12",
+  "n": null,
+  "d": null,
+  "caption": "$12$ בשלוש שורות של $4$",
+  "raw": "{{grid:4x3/12|$12$ בשלוש שורות של $4$}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch08/chapter.json",
+  "kind": "grid",
+  "param": "6x2/12",
+  "n": null,
+  "d": null,
+  "caption": "$12$ בשתי שורות של $6$",
+  "raw": "{{grid:6x2/12|$12$ בשתי שורות של $6$}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch08/chapter.json",
+  "kind": "barchart",
+  "param": "12=6;16=5;24=8;36=9",
+  "n": null,
+  "d": null,
+  "caption": "מספר המחלקים של כל מספר — שימו לב ש-$16$ גדול מ-$12$ ובכל זאת יש לו פחות מחלקים",
+  "raw": "{{barchart:12=6;16=5;24=8;36=9|מספר המחלקים של כל מספר — שימו לב ש-$16$ גדול מ-$12$ ובכל זאת יש לו פחות מחלקים}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch08/chapter.json",
+  "kind": "grid",
+  "param": "6x6/36",
+  "n": null,
+  "d": null,
+  "caption": "$36$ הוא ריבוע מושלם: $6$ שורות של $6$ — הזוג שבו שני הצדדים שווים",
+  "raw": "{{grid:6x6/36|$36$ הוא ריבוע מושלם: $6$ שורות של $6$ — הזוג שבו שני הצדדים שווים}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch08/chapter.json",
+  "kind": "grid",
+  "param": "5x5/25",
+  "n": null,
+  "d": null,
+  "caption": "$25$ הוא ריבוע מושלם: $5$ שורות של $5$",
+  "raw": "{{grid:5x5/25|$25$ הוא ריבוע מושלם: $5$ שורות של $5$}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch08/chapter.json",
+  "kind": "grid",
+  "param": "7x2/14",
+  "n": null,
+  "d": null,
+  "caption": "$14$ הערכות הזהות — כל אחת עם אותו תוכן בדיוק",
+  "raw": "{{grid:7x2/14|$14$ הערכות הזהות — כל אחת עם אותו תוכן בדיוק}}"
+ },
+ {
+  "file": "content/grade6/divisibility/ch08/chapter.json",
+  "kind": "grid",
+  "param": "12x1/12",
+  "n": null,
+  "d": null,
+  "caption": "שנים עשר הימים עד המפגש הבא של השחייה והגיטרה",
+  "raw": "{{grid:12x1/12|שנים עשר הימים עד המפגש הבא של השחייה והגיטרה}}"
+ }
+]

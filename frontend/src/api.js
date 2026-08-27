@@ -48,7 +48,7 @@ async function request(path, options = {}) {
   // Two flavours of 402:
   //   chapter_locked /        — the account is on the free tier and this
   //   content_locked            chapter, exam or practice question sits past
-  //                             the ~30% preview. The page renders its own
+  //                             the ~42% preview. The page renders its own
   //                             paywall, so throw and let it.
   //   no_active_subscription  — no content at all; bounce to "My subscription".
   if (res.status === 402) {
@@ -219,6 +219,17 @@ export const api = {
         chapter_id: chapterId,
         question_number: questionNumber,
         answer,
+      }),
+    }),
+  // Interactive drag-and-drop activity. `placements` maps item_id -> zone_id
+  // (for type "order" the zone id IS the position number, as a string).
+  checkInteractive: ({ chapterId, activityNumber, placements }) =>
+    request('/interactive/check', {
+      method: 'POST',
+      body: JSON.stringify({
+        chapter_id: chapterId,
+        activity_number: activityNumber,
+        placements,
       }),
     }),
   importCourse: (data) =>
@@ -552,24 +563,6 @@ export const api = {
       method: 'POST',
       body: JSON.stringify(payload),
     }),
-  // שמירה שיוצאת גם כשהעמוד נסגר או מתפרק. ‎fetch‎ רגיל מבוטל כשהטאב נסגר,
-  // ולכן תשובות שניתנו מאז השמירה התקופתית האחרונה (עד 15 שניות) פשוט אבדו.
-  // ‎keepalive‎ מבטיח שהבקשה תישלח עד הסוף; ‎sendBeacon‎ לא מתאים כאן כי אי
-  // אפשר לצרף לו כותרת Authorization.
-  psySaveSectionBeacon: (attemptId, payload) => {
-    const token = getToken()
-    if (!token) return
-    try {
-      fetch(`${BASE}/psy/attempts/${attemptId}/save`, {
-        method: 'POST',
-        keepalive: true,
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify(payload),
-      }).catch(() => {})
-    } catch {
-      /* יציאה מהעמוד — אין למי לדווח */
-    }
-  },
   psySubmitSection: (attemptId, payload) =>
     request(`/psy/attempts/${attemptId}/section`, {
       method: 'POST',
@@ -582,11 +575,12 @@ export const api = {
 
   psyTopics: (domain = null) =>
     request(`/psy/topics${domain ? `?domain=${encodeURIComponent(domain)}` : ''}`),
-  psyDrill: ({ domain, topic, difficulty, limit = 10 } = {}) => {
+  psyDrill: ({ domain, topic, difficulty, level, limit = 10 } = {}) => {
     const p = new URLSearchParams()
     if (domain) p.set('domain', domain)
     if (topic) p.set('topic', topic)
     if (difficulty) p.set('difficulty', difficulty)
+    if (level) p.set('level', level)
     p.set('limit', limit)
     return request(`/psy/drill?${p.toString()}`)
   },

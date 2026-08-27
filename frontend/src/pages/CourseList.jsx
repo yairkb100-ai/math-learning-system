@@ -13,6 +13,7 @@ import { fadeInUp, staggerContainer, tapScale, hoverLift } from '../lib/motion.j
 import {
   IconLayers,
   IconClock,
+  IconBook,
   IconArrowStart,
   IconGraduation,
   IconCompass,
@@ -237,23 +238,44 @@ export default function CourseList() {
       ) : (
         groups.map((section) => (
           <div key={section.id} className="cat-section">
-            <div className="cat-section-head">
-              <h3 className="cat-section-title">{section.title}</h3>
-              <span className="cat-section-count">
-                {courseCount(section.courses.length)}
-              </span>
+            <div className="cat-section-overview">
+              <div className="cat-section-copy">
+                <div className="cat-section-head">
+                  <h3 className="cat-section-title">{section.title}</h3>
+                  <span className="cat-section-count">
+                    {courseCount(section.courses.length)}
+                  </span>
+                </div>
+                {section.description && (
+                  <p className="cat-section-desc">{section.description}</p>
+                )}
+              </div>
+              <div className="cat-section-scope" aria-label={`היקף החומר ב${section.title}`}>
+                <span className="cat-section-scope-item">
+                  <IconLayers />
+                  <strong>{section.courses.length}</strong>
+                  מסלולי לימוד
+                </span>
+                <span className="cat-section-scope-item">
+                  <IconBook />
+                  <strong>{section.courses.reduce((total, course) => total + (course.chapters_count || 0), 0)}</strong>
+                  פרקים
+                </span>
+                {section.courses.some((course) => course.estimated_hours != null) && (
+                  <span className="cat-section-scope-item">
+                    <IconClock />
+                    <strong>{Math.round(section.courses.reduce((total, course) => total + (course.estimated_hours || 0), 0))}</strong>
+                    שעות תוכן
+                  </span>
+                )}
+              </div>
             </div>
-            {section.description && (
-              <p className="cat-section-desc">{section.description}</p>
-            )}
             <motion.div
               className="cat-grid"
               variants={staggerContainer}
               initial="hidden"
-              // Rendering must not depend on IntersectionObserver: when it
-              // fails to report (as it can in production), `whileInView`
-              // leaves every card at the hidden opacity forever.
-              animate="show"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.15 }}
             >
               {section.courses.map((c) => (
                 <MotionLink

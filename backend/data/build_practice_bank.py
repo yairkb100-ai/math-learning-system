@@ -18,6 +18,7 @@ derivatives, powers/roots).
 import json
 import math
 import os
+import zlib
 from fractions import Fraction
 
 BANK = []
@@ -65,8 +66,10 @@ def mc(correct, distractors):
         if o not in seen:
             seen.add(o)
             uniq.append(o)
-    # deterministic rotation so the correct answer isn't always first
-    pos = (abs(hash(uniq[0])) % len(uniq))
+    # Deterministic rotation so the correct answer isn't always first.
+    # crc32, not hash(): str hashing is salted per process, so hash() made the
+    # generated file differ on every run and the bank could never be reproduced.
+    pos = zlib.crc32(uniq[0].encode("utf-8")) % len(uniq)
     uniq = uniq[pos:] + uniq[:pos]
     return uniq
 
@@ -443,6 +446,213 @@ add(T, "מהי נקודת הקיצון (ערך x) של f(x)=x² − 6x + 5?", nu
 add(T, "פונקציה עם f'(x)>0 בקטע היא בקטע זה...", "עולה",
     options=["עולה", "יורדת", "קבועה", "לא רציפה"], difficulty="medium",
     explanation="נגזרת חיובית פירושה שהפונקציה עולה.")
+
+# ---------------------------------------------------------------------------
+# מספרים גדולים וערך מקום  (grade 5)
+# ---------------------------------------------------------------------------
+T = "מספרים גדולים וערך מקום"
+
+_PLACE = ["יחידות", "עשרות", "מאות", "אלפים", "עשרות אלפים",
+          "מאות אלפים", "מיליונים"]
+
+
+def _digit_value(number, position):
+    """Value of the digit sitting in `position` (0 = units) of `number`."""
+    return int(str(number)[::-1][position]) * 10 ** position
+
+
+for _n, _pos, _diff in [(4_827, 2, "easy"), (36_195, 3, "easy"),
+                        (572_046, 4, "medium"), (2_408_713, 5, "medium"),
+                        (9_063_500, 6, "hard")]:
+    _v = _digit_value(_n, _pos)
+    _digit = int(str(_n)[::-1][_pos])
+    add(T, f"במספר {_n:,} — מהו ערכה של הספרה שיושבת בבית ה{_PLACE[_pos]}?", num(_v),
+        difficulty=_diff,
+        options=mc(_v, [_digit, _v * 10, _v // 10 if _v >= 10 else _digit + 1]),
+        explanation=f"הספרה בבית ה{_PLACE[_pos]} היא {_digit}, ושווי הבית הוא "
+                    f"{10 ** _pos:,}, ולכן ערכה {_digit} × {10 ** _pos:,} = {_v:,}.")
+
+for _parts, _diff in [([300, 40, 7], "easy"), ([5_000, 200, 60, 8], "easy"),
+                      ([70_000, 3_000, 500, 9], "medium"),
+                      ([600_000, 40_000, 20, 5], "hard")]:
+    _tot = sum(_parts)
+    add(T, "איזה מספר נכתב בכתיבה מפורקת " + " + ".join(f"{p:,}" for p in _parts) + "?",
+        num(_tot), difficulty=_diff,
+        explanation="מחברים את כל הרכיבים: " + " + ".join(f"{p:,}" for p in _parts)
+                    + f" = {_tot:,}. ספרה 0 מופיעה בכל בית שאינו מיוצג בפירוק.")
+
+for _a, _b, _diff in [(48_310, 48_130, "easy"), (207_500, 270_500, "easy"),
+                      (1_009_000, 999_800, "medium")]:
+    _big = max(_a, _b)
+    add(T, f"איזה מספר גדול יותר: {_a:,} או {_b:,}?", f"{_big:,}",
+        options=[f"{_a:,}", f"{_b:,}", "הם שווים", "אי אפשר לדעת"],
+        difficulty=_diff,
+        explanation="משווים לפי מספר הספרות, ואם הוא זהה — בית אחרי בית משמאל "
+                    f"לימין עד הבית הראשון שנבדל. המספר הגדול הוא {_big:,}.")
+
+
+def _round_to(number, unit):
+    """Round half up, the convention the chapters teach."""
+    rest = number % unit
+    return number - rest if rest * 2 < unit else number + (unit - rest)
+
+
+for _n, _unit, _name, _diff in [(4_738, 100, "מאה", "easy"),
+                                (26_450, 1_000, "אלף", "medium"),
+                                (183_600, 10_000, "עשרת אלפים", "medium"),
+                                (2_749_000, 1_000_000, "מיליון", "hard")]:
+    _r = _round_to(_n, _unit)
+    add(T, f"עגלו את המספר {_n:,} ל{_name} הקרובה ביותר.", num(_r), difficulty=_diff,
+        options=mc(_r, [_r + _unit, _r - _unit, _n]),
+        explanation=f"בודקים את הבית שמימין ל{_name}: אם הוא 5 או יותר מעגלים למעלה, "
+                    f"אחרת למטה. {_n:,} ← {_r:,}.")
+
+for _n, _unit, _name, _diff in [(47_300, 1_000, "אלפים שלמים", "easy"),
+                                (2_650_000, 1_000_000, "מיליונים שלמים", "medium")]:
+    add(T, f"כמה {_name} יש במספר {_n:,}? (התשובה היא מספר שלם, בלי השארית)",
+        num(_n // _unit), difficulty=_diff,
+        explanation=f"מחלקים ומתעלמים מהשארית: {_n:,} ÷ {_unit:,} = {_n // _unit} "
+                    f"ושארית {_n % _unit:,}.")
+
+add(T, "מהו המספר הגדול ביותר שאפשר להרכיב מהספרות 5, 0, 8, 3 (כל ספרה פעם אחת)?",
+    num(8530), difficulty="medium", options=mc(8530, [8503, 5830, 3058]),
+    explanation="מסדרים את הספרות בסדר יורד ומניחים את הגדולה בבית הגדול ביותר: 8530.")
+add(T, "מהו המספר הקטן ביותר בן ארבע ספרות שאפשר להרכיב מהספרות 5, 0, 8, 3?",
+    num(3058), difficulty="hard", options=mc(3058, [538, 3085, 8530]),
+    explanation="הקטנה ביותר היא 0, אבל מספר אינו מתחיל ב-0 — לכן בבית האלפים "
+                "מניחים את 3, ואחריו 0, 5, 8: 3058.")
+
+# ---------------------------------------------------------------------------
+# פעולות חשבון במאונך  (grade 5)
+# ---------------------------------------------------------------------------
+T = "פעולות חשבון במאונך"
+
+for _a, _b, _diff in [(3_847, 2_965, "easy"), (18_479, 6_538, "easy"),
+                      (206_385, 97_649, "medium")]:
+    add(T, f"כמה זה {_a:,} + {_b:,}?", num(_a + _b), difficulty=_diff,
+        explanation=f"מחברים במאונך בית אחרי בית מימין לשמאל ופורטים כל פעם "
+                    f"שהסכום בבית עובר 9: {_a:,} + {_b:,} = {_a + _b:,}.")
+
+for _a, _b, _diff in [(5_002, 1_847, "medium"), (40_000, 12_638, "hard"),
+                      (302_150, 87_469, "hard")]:
+    add(T, f"כמה זה {_a:,} − {_b:,}?", num(_a - _b), difficulty=_diff,
+        explanation=f"מחסרים במאונך ומשאילים מהבית השמאלי כשהספרה למעלה קטנה מזו "
+                    f"שלמטה. שרשרת אפסים מחייבת השאלה רצופה: {_a:,} − {_b:,} = {_a - _b:,}.")
+
+for _a, _b, _diff in [(324, 7, "easy"), (486, 23, "medium"), (1_275, 46, "hard")]:
+    add(T, f"כמה זה {_a:,} × {_b}?", num(_a * _b), difficulty=_diff,
+        explanation=f"כופלים במאונך: כל ספרה של {_b} כופלת את {_a:,}, השורה השנייה "
+                    f"מוזזת בית אחד שמאלה, ומחברים. {_a:,} × {_b} = {_a * _b:,}.")
+
+for _a, _b, _diff in [(945, 7, "easy"), (1_638, 12, "medium")]:
+    add(T, f"כמה זה {_a:,} ÷ {_b}? (החילוק יוצא בדיוק)", num(_a // _b), difficulty=_diff,
+        explanation=f"חילוק ארוך משמאל לימין: {_a:,} ÷ {_b} = {_a // _b} בלי שארית. "
+                    f"בדיקה: {_a // _b} × {_b} = {_a:,}.")
+
+for _a, _b, _diff in [(437, 6, "medium"), (2_519, 14, "hard")]:
+    _q, _r = divmod(_a, _b)
+    add(T, f"בחילוק {_a:,} ÷ {_b} — מהי השארית?", num(_r), difficulty=_diff,
+        options=mc(_r, [_r + 1, _b - _r, 0]),
+        explanation=f"{_a:,} ÷ {_b} = {_q} ושארית {_r}. בדיקה: {_q} × {_b} + {_r} = {_a:,}. "
+                    f"השארית תמיד קטנה מהמחלק.")
+
+add(T, "בבית ספר 8 כיתות, ובכל כיתה 27 תלמידים. 43 מהתלמידים נסעו לטיול. "
+       "כמה תלמידים נשארו?", num(8 * 27 - 43), difficulty="medium",
+    explanation=f"קודם כפל: 8 × 27 = {8 * 27}. אחר כך חיסור: {8 * 27} − 43 = {8 * 27 - 43}.")
+add(T, "מפעל ארז 4,830 בקבוקים בארגזים של 24 בקבוקים. כמה ארגזים מלאים יצאו?",
+    num(4830 // 24), difficulty="hard",
+    explanation=f"4,830 ÷ 24 = {4830 // 24} ושארית {4830 % 24}. ארגז מלא דורש 24 "
+                f"בקבוקים, ולכן יצאו {4830 // 24} ארגזים מלאים ונשארו {4830 % 24} בקבוקים.")
+
+# ---------------------------------------------------------------------------
+# התחלקות וראשוניים  (grade 5)
+# ---------------------------------------------------------------------------
+T = "התחלקות וראשוניים"
+
+
+def _divisors(n):
+    return [k for k in range(1, n + 1) if n % k == 0]
+
+
+def _factorize(n):
+    f, d = [], 2
+    while d * d <= n:
+        while n % d == 0:
+            f.append(d)
+            n //= d
+        d += 1
+    if n > 1:
+        f.append(n)
+    return f
+
+
+for _n, _d, _diff in [(4_386, 2, "easy"), (7_215, 5, "easy"), (8_430, 10, "easy"),
+                      (5_241, 3, "medium"), (4_752, 9, "medium"),
+                      (3_128, 4, "hard"), (5_814, 6, "hard")]:
+    _yes = _n % _d == 0
+    _sign = {2: "ספרת היחידות זוגית", 5: "ספרת היחידות היא 0 או 5",
+             10: "ספרת היחידות היא 0",
+             3: f"סכום הספרות ({sum(int(c) for c in str(_n))}) מתחלק ב-3",
+             9: f"סכום הספרות ({sum(int(c) for c in str(_n))}) מתחלק ב-9",
+             4: f"המספר שמרכיבות שתי הספרות האחרונות ({int(str(_n)[-2:])}) מתחלק ב-4",
+             6: "המספר מתחלק גם ב-2 וגם ב-3"}[_d]
+    add(T, f"האם {_n:,} מתחלק ב-{_d} ללא שארית?", "כן" if _yes else "לא",
+        options=["כן", "לא"], difficulty=_diff, qtype="multiple-choice",
+        explanation=f"סימן ההתחלקות ב-{_d}: {_sign}. "
+                    f"כאן התנאי {'מתקיים' if _yes else 'אינו מתקיים'}, "
+                    f"ואכן {_n:,} ÷ {_d} "
+                    + (f"= {_n // _d}." if _yes else f"משאיר שארית {_n % _d}."))
+
+for _n, _diff in [(37, "easy"), (51, "medium"), (91, "hard"), (97, "medium")]:
+    _divs = [k for k in _divisors(_n) if k not in (1, _n)]
+    _prime = not _divs
+    add(T, f"האם {_n} הוא מספר ראשוני?", "כן" if _prime else "לא",
+        options=["כן", "לא"], difficulty=_diff, qtype="multiple-choice",
+        explanation=(f"מספיק לבדוק מחלקים עד השורש של {_n}. "
+                     + ("לא נמצא אף מחלק חוץ מ-1 ומהמספר עצמו, ולכן הוא ראשוני."
+                        if _prime else
+                        f"{_n} = {_divs[0]} × {_n // _divs[0]}, ולכן הוא מספר מורכב.")))
+
+add(T, "כמה מחלקים יש למספר 36?", num(len(_divisors(36))), difficulty="medium",
+    options=mc(len(_divisors(36)), [8, 6, 12]),
+    explanation="המחלקים הם " + ", ".join(str(k) for k in _divisors(36))
+                + f" — סך הכול {len(_divisors(36))}. למספר ריבועי כמו 36 יש תמיד "
+                  "מספר אי-זוגי של מחלקים, כי אחד הזוגות (6 × 6) חוזר על עצמו.")
+add(T, "מהו הפירוק לגורמים ראשוניים של 60? (כתבו את הגורמים בסדר עולה מופרדים בסימן כפל)",
+    " × ".join(str(k) for k in _factorize(60)), difficulty="medium",
+    explanation="עץ גורמים: 60 = 6 × 10 = (2 × 3) × (2 × 5), כלומר "
+                + " × ".join(str(k) for k in _factorize(60)) + ".")
+add(T, "מהו המספר הראשוני הקטן ביותר?", num(2), options=mc(2, [1, 3, 0]),
+    difficulty="easy",
+    explanation="2 הוא הראשוני הקטן ביותר וגם הראשוני הזוגי היחיד. המספר 1 אינו "
+                "ראשוני — יש לו מחלק אחד בלבד.")
+add(T, "האם המספר 1 הוא ראשוני, מורכב, או לא זה ולא זה?", "לא זה ולא זה",
+    options=["לא זה ולא זה", "ראשוני", "מורכב", "תלוי בהקשר"], difficulty="medium",
+    explanation="ראשוני הוא מספר עם בדיוק שני מחלקים שונים, ומורכב הוא מספר עם "
+                "יותר משניים. ל-1 יש מחלק אחד בלבד, ולכן הוא אינו נופל באף קבוצה.")
+
+for _a, _b, _diff in [(24, 36, "medium"), (18, 30, "easy"), (45, 60, "hard")]:
+    _g = math.gcd(_a, _b)
+    add(T, f"מהו המחלק המשותף המקסימלי של {_a} ושל {_b}?", num(_g), difficulty=_diff,
+        options=mc(_g, [_g * 2, _g // 2 if _g > 2 else _g + 1, _a * _b // _g]),
+        explanation=f"מפרקים לגורמים ראשוניים ולוקחים את הגורמים המשותפים בחזקה "
+                    f"הנמוכה ביותר, ומקבלים {_g}. אפשר גם לרשום את שתי רשימות "
+                    f"המחלקים ולבחור את הגדול המשותף.")
+
+for _a, _b, _diff in [(4, 6, "easy"), (8, 12, "medium"), (9, 15, "hard")]:
+    _l = _a * _b // math.gcd(_a, _b)
+    add(T, f"מהי הכפולה המשותפת המינימלית של {_a} ושל {_b}?", num(_l), difficulty=_diff,
+        options=mc(_l, [_a * _b, _l * 2, math.gcd(_a, _b)]),
+        explanation=f"רושמים כפולות של כל מספר ומחפשים את הראשונה המשותפת, "
+                    f"ומקבלים {_l}. שימו לב ש-{_a} × {_b} = {_a * _b} הוא אמנם "
+                    f"כפולה משותפת, אבל לא הקטנה ביותר כשיש למספרים גורם משותף.")
+
+add(T, "אוטובוס קו 1 יוצא כל 12 דקות ואוטובוס קו 2 כל 18 דקות. שניהם יצאו יחד "
+       "בשעה 8:00. בעוד כמה דקות ייצאו שוב יחד?",
+    num(12 * 18 // math.gcd(12, 18)), difficulty="hard",
+    explanation=f"מחפשים את הכפולה המשותפת המינימלית של 12 ושל 18, שהיא "
+                f"{12 * 18 // math.gcd(12, 18)} דקות — כלומר בשעה 8:36.")
+
 
 
 def main():

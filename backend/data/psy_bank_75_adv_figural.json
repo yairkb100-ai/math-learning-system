@@ -1,0 +1,1079 @@
+{
+  "_comment": "קרני — הפרק הצורני, שכבת advanced: 40 פריטים ברמה הגבוהה של המאגר. מטריצות שנפתרות אך ורק בהפרדת אלמנטים (שתי חוקיות בלתי תלויות, לכל אחת סידור משלה על פני השורות והעמודות), סדרות שבהן אלמנט מתכסה על ידי אלמנט אחר ואינו נעלם או ששני אלמנטים נעים בקצבים ובכיוונים שונים, אנלוגיות של הכלה, חלק ושלם, מרחב שלילי ופריסה, ויוצא דופן שבו הכלל הוא יחס בין שני אלמנטים ולא תכונה בודדת. כל תבניות הלוחות חושבו בסקריפט (סיבוב, שיקוף, הזזה מחזורית, היפוך צבעים), וכל פריט נבדק בקוד: מתוך חמש האפשרויות בדיוק אחת מקיימת את החוק.",
+  "items": [
+    {
+      "ref": "adv-fg-01",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "הצורה החיצונית והפנימית נעות כל אחת בכיוון אחר",
+      "stem": "איזה תא משלים את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:shape=triangle,in=circle,infill=solid;shape=square,in=star,infill=solid;shape=hexagon,in=diamond,infill=solid/shape=hexagon,in=star,infill=solid;shape=triangle,in=diamond,infill=solid;shape=square,in=circle,infill=solid/shape=square,in=diamond,infill=solid;shape=hexagon,in=circle,infill=solid;?}}",
+      "options": [
+        "{{figcell:shape=triangle,in=star,infill=solid}}",
+        "{{figcell:shape=square,in=star,infill=solid}}",
+        "{{figcell:shape=triangle,in=circle,infill=solid}}",
+        "{{figcell:shape=square,in=circle,infill=solid}}",
+        "{{figcell:shape=star,in=triangle,infill=solid}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 5,
+      "level": "advanced",
+      "target_seconds": 70,
+      "explanation": "שלוש הצורות החיצוניות מופיעות פעם אחת בכל שורה ופעם אחת בכל עמודה, וכך גם שלוש הפנימיות — אלא שהחיצוניות נודדות לכיוון אחד והפנימיות לכיוון ההפוך. בתא החסר החיצונית היא משולש והפנימית כוכב.",
+      "solution": "הטכניקה היא הפרדת אלמנטים: הסתירו את הצורה הפנימית ביד, קראו את המטריצה כמטריצת צורות חיצוניות בלבד, ורק אז חזרו והסתירו את החיצונית. אף אחד משני האלמנטים אינו קבוע בשורה, ולכן חיפוש של ״מה משותף לשורה״ לא יוביל לשום מקום. שני המסיחים המסוכנים הם אלה שמקיימים בדיוק אחד משני החוקים — הם נראים נכונים עד שבודקים את האלמנט השני.",
+      "tags": [
+        "מטריצה",
+        "הפרדת אלמנטים",
+        "הכלה"
+      ]
+    },
+    {
+      "ref": "adv-fg-02",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "צבע המשושה וצבע העיגול הפנימי הם שני אלמנטים נפרדים",
+      "stem": "איזה תא משלים את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:shape=hexagon,fill=solid,color=ink,in=circle,infill=solid,incolor=ink;shape=hexagon,fill=solid,color=accent,in=circle,infill=solid,incolor=warm;shape=hexagon,fill=solid,color=warm,in=circle,infill=solid,incolor=accent/shape=hexagon,fill=solid,color=warm,in=circle,infill=solid,incolor=accent;shape=hexagon,fill=solid,color=ink,in=circle,infill=solid,incolor=ink;?/shape=hexagon,fill=solid,color=accent,in=circle,infill=solid,incolor=warm;shape=hexagon,fill=solid,color=warm,in=circle,infill=solid,incolor=accent;shape=hexagon,fill=solid,color=ink,in=circle,infill=solid,incolor=ink}}",
+      "options": [
+        "{{figcell:shape=hexagon,fill=solid,color=ink,in=circle,infill=solid,incolor=ink}}",
+        "{{figcell:shape=hexagon,fill=solid,color=accent,in=circle,infill=solid,incolor=warm}}",
+        "{{figcell:shape=hexagon,fill=solid,color=warm,in=circle,infill=solid,incolor=accent}}",
+        "{{figcell:shape=hexagon,fill=solid,color=accent,in=circle,infill=solid,incolor=ink}}",
+        "{{figcell:shape=hexagon,fill=solid,color=ink,in=circle,infill=solid,incolor=warm}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 5,
+      "level": "advanced",
+      "target_seconds": 65,
+      "explanation": "צבע המשושה מופיע פעם אחת בכל שורה ופעם אחת בכל עמודה, וכך גם צבע העיגול הפנימי, אך שני הסידורים אינם זהים. בתא החסר המשושה טורקיז והעיגול כתום.",
+      "solution": "הפרדת אלמנטים על צבע: עברו על המטריצה פעם אחת וקראו רק את הצבע החיצוני, ורשמו לעצמכם איזה צבע חסר בשורה ואיזה חסר בעמודה — הצבע שחסר בשניהם הוא התשובה. חזרו על אותה סריקה בדיוק לצבע הפנימי. המלכודת היא המסיח שבו שני הצבעים הנכונים מופיעים אך מוחלפים בתפקידים, והוא נופל רק כשמצמידים כל צבע לאלמנט שלו.",
+      "tags": [
+        "מטריצה",
+        "הפרדת אלמנטים",
+        "צבע"
+      ]
+    },
+    {
+      "ref": "adv-fg-03",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "הכמות וסוג המילוי נעים בכיוונים מנוגדים",
+      "stem": "איזה תא משלים את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:shape=square,n=1,fill=none;shape=square,n=2,fill=solid;shape=square,n=3,fill=dots/shape=square,n=3,fill=solid;shape=square,n=1,fill=dots;shape=square,n=2,fill=none/shape=square,n=2,fill=dots;?;shape=square,n=1,fill=solid}}",
+      "options": [
+        "{{figcell:shape=square,n=1,fill=dots}}",
+        "{{figcell:shape=square,n=3,fill=dots}}",
+        "{{figcell:shape=square,n=3,fill=none}}",
+        "{{figcell:shape=square,n=3,fill=solid}}",
+        "{{figcell:shape=square,n=2,fill=none}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 4,
+      "level": "advanced",
+      "target_seconds": 60,
+      "explanation": "הכמויות אחת, שתיים ושלוש מופיעות כל אחת פעם אחת בכל שורה ובכל עמודה, ובנפרד לגמרי גם שלושת סוגי המילוי. בתא החסר הכמות היא שלוש והריבועים ריקים.",
+      "solution": "הפרדת אלמנטים בין כמות למילוי: ספרו קודם רק כמויות ורשמו איזו כמות חסרה בשורה ובעמודה, ואחר כך שכחו מהכמות לגמרי ובדקו איזה מילוי חסר. המסיח עם שלושה ריבועים צבועים עובר את מבחן הכמות ונופל במילוי, והמסיח עם שני ריבועים ריקים עושה בדיוק ההפך — לכן חייבים לבצע את שתי הסריקות ולא להסתפק באחת.",
+      "tags": [
+        "מטריצה",
+        "הפרדת אלמנטים",
+        "כמות"
+      ]
+    },
+    {
+      "ref": "adv-fg-04",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "הצורה ודרגת המחיקה של הקו הן שני אלמנטים נפרדים",
+      "stem": "איזה תא משלים את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:shape=triangle,edge=solid;shape=square,edge=dashed;?/shape=square,edge=corners;shape=pentagon,edge=solid;shape=triangle,edge=dashed/shape=pentagon,edge=dashed;shape=triangle,edge=corners;shape=square,edge=solid}}",
+      "options": [
+        "{{figcell:shape=pentagon,edge=solid}}",
+        "{{figcell:shape=hexagon,edge=corners}}",
+        "{{figcell:shape=square,edge=corners}}",
+        "{{figcell:shape=pentagon,edge=corners}}",
+        "{{figcell:shape=pentagon,edge=dashed}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 5,
+      "level": "advanced",
+      "target_seconds": 70,
+      "explanation": "שלוש הצורות מופיעות כל אחת פעם אחת בכל שורה ובכל עמודה, ובמקביל גם שלוש דרגות הציור — קו מלא, קו מקווקו וסימני פינות בלבד. בתא החסר הצורה היא מחומש והוא מצויר בסימני פינות, כלומר חמישה סימנים.",
+      "solution": "הפרדת אלמנטים בין זהות הצורה לבין אופן ציורה: קִראו קודם רק ״איזו צורה״, ואז רק ״כמה מהקו מצויר״. כשהתשובה היא סימני פינות, הבדיקה האחרונה היא ספירה — למחומש חמישה סימנים ולמשושה שישה, ולכן המסיח עם שישה סימנים נפסל בספירה ולא בהתרשמות. המסיח המקווקו מקיים את חוק הצורה בלבד.",
+      "tags": [
+        "מטריצה",
+        "הפרדת אלמנטים",
+        "מרחב שלילי"
+      ]
+    },
+    {
+      "ref": "adv-fg-05",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "גודל העיגול ומיקום הנקודה נעים בקצב הפוך",
+      "stem": "איזה תא משלים את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:shape=circle,size=s,dot=tl;shape=circle,size=m,dot=tr;shape=circle,size=l,dot=br/?;shape=circle,size=l,dot=tl;shape=circle,size=s,dot=tr/shape=circle,size=l,dot=tr;shape=circle,size=s,dot=br;shape=circle,size=m,dot=tl}}",
+      "options": [
+        "{{figcell:shape=circle,size=l,dot=br}}",
+        "{{figcell:shape=circle,size=m,dot=tr}}",
+        "{{figcell:shape=circle,size=s,dot=tl}}",
+        "{{figcell:shape=circle,size=m,dot=tl}}",
+        "{{figcell:shape=circle,size=m,dot=br}}"
+      ],
+      "correct_index": 4,
+      "difficulty": 4,
+      "level": "advanced",
+      "target_seconds": 60,
+      "explanation": "שלושת הגדלים מופיעים כל אחד פעם אחת בכל שורה ובכל עמודה, ובאופן בלתי תלוי גם שלושת מיקומי הנקודה. בתא החסר העיגול בינוני והנקודה בפינה הימנית התחתונה.",
+      "solution": "הפרדת אלמנטים: הנקודה הכתומה קטנה ומושכת את העין, ולכן כדאי לקרוא קודם דווקא את הגדלים, לסמן איזה גודל חסר בשורה ובעמודה, ורק אז לעבור לנקודה. המסיח הגדול עם הנקודה הנכונה והמסיח הבינוני עם הנקודה השגויה הם אותה שגיאה משני צדדים — כל אחד מהם מקיים חוק אחד בלבד.",
+      "tags": [
+        "מטריצה",
+        "הפרדת אלמנטים",
+        "גודל"
+      ]
+    },
+    {
+      "ref": "adv-fg-06",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "זהות הצורה בפריסה ומיקום התא הצבוע",
+      "stem": "איזה תא משלים את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:panel=c*-c-c;panel=t-t*-t;panel=h-h-h*/panel=t-t-t*;panel=h*-h-h;panel=c-c*-c/?;panel=c-c-c*;panel=t*-t-t}}",
+      "options": [
+        "{{figcell:panel=h-h*-h}}",
+        "{{figcell:panel=h*-h-h}}",
+        "{{figcell:panel=h-h-h*}}",
+        "{{figcell:panel=c-c*-c}}",
+        "{{figcell:panel=t-t*-t}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 4,
+      "level": "advanced",
+      "target_seconds": 60,
+      "explanation": "בכל תא שלוש צורות זהות בשלושה תת-תאים, ותת-תא אחד צבוע. זהות הצורה מופיעה פעם אחת בכל שורה ובכל עמודה, ומיקום התא הצבוע — משמאל, באמצע או מימין — מסודר באותו אופן אך בכיוון ההפוך. בתא החסר הצורות משושים והתא הצבוע הוא האמצעי.",
+      "solution": "הפרדת אלמנטים בפריסה: הצורה ומיקום הצביעה אינם קשורים זה לזה, ולכן פתרו את המטריצה פעמיים — פעם כמטריצת צורות ופעם כמטריצת מיקומים. שימו לב שתת-התאים נקראים משמאל לימין. שני מסיחים מציגים את המשושים הנכונים עם צביעה בתא הלא נכון, ולכן בדיקת הצורה לבדה אינה מספיקה.",
+      "tags": [
+        "מטריצה",
+        "הפרדת אלמנטים",
+        "פריסה"
+      ]
+    },
+    {
+      "ref": "adv-fg-07",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "מספר הבליטות בגוף המאוחד וצבעו",
+      "stem": "איזה תא משלים את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:shape=circle,n=2,merge=on,fill=solid,color=ink;shape=circle,n=3,merge=on,fill=solid,color=warm;shape=circle,n=4,merge=on,fill=solid,color=accent/?;shape=circle,n=4,merge=on,fill=solid,color=ink;shape=circle,n=2,merge=on,fill=solid,color=warm/shape=circle,n=4,merge=on,fill=solid,color=warm;shape=circle,n=2,merge=on,fill=solid,color=accent;shape=circle,n=3,merge=on,fill=solid,color=ink}}",
+      "options": [
+        "{{figcell:shape=circle,n=3,merge=on,fill=solid,color=warm}}",
+        "{{figcell:shape=circle,n=3,merge=on,fill=solid,color=accent}}",
+        "{{figcell:shape=circle,n=3,merge=on,fill=solid,color=ink}}",
+        "{{figcell:shape=circle,n=4,merge=on,fill=solid,color=accent}}",
+        "{{figcell:shape=circle,n=2,merge=on,fill=solid,color=warm}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 4,
+      "level": "advanced",
+      "target_seconds": 60,
+      "explanation": "כל תא הוא גוף אחד שקו המתאר שלו עשוי בליטות. מספר הבליטות — שתיים, שלוש או ארבע — מופיע פעם אחת בכל שורה ובכל עמודה, ובנפרד לגמרי גם שלושת הצבעים; שימו לב שאין צבע קבוע שנצמד לכמות מסוימת. בתא החסר שלוש בליטות והצבע טורקיז.",
+      "solution": "הפרדת אלמנטים בין כמות לצבע: הגוף המאוחד נראה כתמונה אחת, אך יש בו שני נתונים בלתי תלויים — כמה חלקים בנו אותו ובאיזה צבע הוא צבוע. ספרו קודם רק בליטות, ואחר כך קראו רק צבעים. המסיח בעל ארבע הבליטות בטורקיז והמסיח בעל שלוש הבליטות בכהה מייצגים תלמיד שעצר אחרי סריקה אחת.",
+      "tags": [
+        "מטריצה",
+        "הפרדת אלמנטים",
+        "חלק ושלם"
+      ]
+    },
+    {
+      "ref": "adv-fg-08",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "שורה שחורה ועמודה שחורה שמונחות זו על זו",
+      "stem": "איזה תא משלים את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:board=111-100-100;board=001-111-001;board=010-010-111/board=010-111-010;?;board=111-001-001/board=001-001-111;board=111-010-010;board=100-111-100}}",
+      "options": [
+        "{{figcell:board=111-100-100}}",
+        "{{figcell:board=001-001-111}}",
+        "{{figcell:board=100-100-111}}",
+        "{{figcell:board=010-010-111}}",
+        "{{figcell:board=100-111-100}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 5,
+      "level": "advanced",
+      "target_seconds": 70,
+      "explanation": "כל לוח בנוי משני אלמנטים שהונחו זה על זה: שורה שחורה שלמה ועמודה שחורה שלמה. שלוש השורות האפשריות מופיעות כל אחת פעם אחת בכל שורה ובכל עמודה של המטריצה, ובסידור נפרד לגמרי גם שלוש העמודות האפשריות. בלוח החסר השורה השחורה היא התחתונה והעמודה השחורה היא השמאלית.",
+      "solution": "זו בדיוק שאלת הפרדת האלמנטים של המבחן: הלוח נראה כמו כתם אחד, אך הוא שני קווים בלתי תלויים. עקבו קודם רק אחרי השורה השחורה בכל תשעת הלוחות, ורק אז רק אחרי העמודה השחורה. כל אחד משני המסיחים המסוכנים קולע לאחד הקווים ומחטיא את השני, ולכן אין דרך לפסול אותם בלי לבצע את שתי הסריקות בנפרד.",
+      "tags": [
+        "מטריצה",
+        "הפרדת אלמנטים",
+        "לוח"
+      ]
+    },
+    {
+      "ref": "adv-fg-09",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "ריבוע שחור בשורה העליונה וסימן ✕ בתחתונה",
+      "stem": "איזה תא משלים את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:board=100-000-x00;board=010-000-0x0;board=001-000-00x/board=001-000-0x0;board=100-000-00x;board=010-000-x00/board=010-000-00x;?;board=100-000-0x0}}",
+      "options": [
+        "{{figcell:board=010-000-x00}}",
+        "{{figcell:board=100-000-x00}}",
+        "{{figcell:board=00x-000-100}}",
+        "{{figcell:board=001-000-x00}}",
+        "{{figcell:board=001-000-0x0}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 5,
+      "level": "advanced",
+      "target_seconds": 70,
+      "explanation": "בכל לוח יש שני סימנים בלבד: ריבוע שחור בשורה העליונה וסימן ✕ בשורה התחתונה. עמודת הריבוע השחור נעה שמאלה כשיורדים בשורות המטריצה, ועמודת ה-✕ נעה ימינה. בלוח החסר הריבוע השחור בעמודה הימנית וה-✕ בעמודה השמאלית.",
+      "solution": "הפרדת אלמנטים על לוח: הריבוע השחור וה-✕ הם שתי חוקיות שאין ביניהן קשר, ולכן מפתה לקרוא את הלוח כתמונה אחת ולחפש ״סימטריה״. עקבו אחרי סימן אחד בכל פעם. המסיח שבו שני הסימנים החליפו שורה מקיים את שתי העמודות הנכונות ונופל רק על זהות הסימן — זהו המסיח ששורד עד הבדיקה האחרונה.",
+      "tags": [
+        "מטריצה",
+        "הפרדת אלמנטים",
+        "לוח"
+      ]
+    },
+    {
+      "ref": "adv-fg-10",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "כיוון החץ ומילויו",
+      "stem": "איזה תא משלים את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:shape=arrow,rot=0,fill=none;shape=arrow,rot=90,fill=solid;shape=arrow,rot=180,fill=half/shape=arrow,rot=90,fill=half;shape=arrow,rot=180,fill=none;?/shape=arrow,rot=180,fill=solid;shape=arrow,rot=0,fill=half;shape=arrow,rot=90,fill=none}}",
+      "options": [
+        "{{figcell:shape=arrow,rot=90,fill=solid}}",
+        "{{figcell:shape=arrow,rot=0,fill=none}}",
+        "{{figcell:shape=arrow,rot=180,fill=solid}}",
+        "{{figcell:shape=arrow,rot=0,fill=half}}",
+        "{{figcell:shape=arrow,rot=0,fill=solid}}"
+      ],
+      "correct_index": 4,
+      "difficulty": 4,
+      "level": "advanced",
+      "target_seconds": 60,
+      "explanation": "שלושת הכיוונים של החץ מופיעים כל אחד פעם אחת בכל שורה ובכל עמודה, ובנפרד גם שלושת סוגי המילוי — ריק, מלא וחצי. בחץ החסר הראש מצביע כלפי מעלה והוא מלא.",
+      "solution": "הפרדת אלמנטים בין כיוון למילוי: הכיוון בולט לעין והמילוי נבלע, ולכן עשו את הסריקה של המילוי ראשונה כדי לא לוותר עליה. ארבעת המסיחים מציגים את המילוי הנכון בכיוון שגוי או את הכיוון הנכון במילוי שגוי, וכל אחד מהם נראה סביר עד שבודקים את התכונה השנייה.",
+      "tags": [
+        "מטריצה",
+        "הפרדת אלמנטים",
+        "סיבוב"
+      ]
+    },
+    {
+      "ref": "adv-fg-11",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "גודל המשושה וזהות הצורה שבתוכו",
+      "stem": "איזה תא משלים את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:shape=hexagon,size=s,in=circle,infill=solid;shape=hexagon,size=m,in=star,infill=solid;shape=hexagon,size=l,in=square,infill=solid/?;shape=hexagon,size=l,in=circle,infill=solid;shape=hexagon,size=s,in=star,infill=solid/shape=hexagon,size=l,in=star,infill=solid;shape=hexagon,size=s,in=square,infill=solid;shape=hexagon,size=m,in=circle,infill=solid}}",
+      "options": [
+        "{{figcell:shape=hexagon,size=m,in=square,infill=solid}}",
+        "{{figcell:shape=hexagon,size=l,in=square,infill=solid}}",
+        "{{figcell:shape=hexagon,size=m,in=circle,infill=solid}}",
+        "{{figcell:shape=hexagon,size=s,in=star,infill=solid}}",
+        "{{figcell:shape=hexagon,size=m,in=star,infill=solid}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 4,
+      "level": "advanced",
+      "target_seconds": 60,
+      "explanation": "כל המשושים זהים בצורתם, ולכן החוק אינו יכול להיות בהם. הגודל מופיע פעם אחת בכל שורה ובכל עמודה, וכך גם הצורה הפנימית — בסידור אחר לגמרי, שאינו נגזר ממנו: משושה בינוני מופיע פעם עם כוכב, פעם עם עיגול ופעם עם ריבוע. בתא החסר המשושה בינוני והצורה שבתוכו ריבוע.",
+      "solution": "הפרדת אלמנטים בין הצורה המכילה למוכלת: הצורה הפנימית קטנה, ולכן קל לפספס אותה ולנסות לפתור לפי הגודל בלבד — אך שני מסיחים חולקים את הגודל הנכון ונבדלים רק בפנימית. סרקו את המטריצה פעמיים, ובכל סריקה התעלמו לחלוטין מהאלמנט השני.",
+      "tags": [
+        "מטריצה",
+        "הפרדת אלמנטים",
+        "הכלה"
+      ]
+    },
+    {
+      "ref": "adv-fg-12",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "מיקום הכוכב ומיקום התא הצבוע בפריסת 2 על 2",
+      "stem": "איזה תא משלים את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:panel=r-c*-c-c;panel=c-r-c*-c;panel=c-c-r-c*/panel=c-c-r*-c;panel=r-c-c-c*;panel=c-r*-c-c/panel=c-r-c-c*;panel=c-c*-r-c;?}}",
+      "options": [
+        "{{figcell:panel=r*-c-c-c}}",
+        "{{figcell:panel=r-c-c*-c}}",
+        "{{figcell:panel=r-c*-c-c}}",
+        "{{figcell:panel=r-c-c-c*}}",
+        "{{figcell:panel=c-c-c*-r}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 5,
+      "level": "advanced",
+      "target_seconds": 75,
+      "explanation": "כל תא מחולק לארבעה תת-תאים בשתי שורות, ובכולם עיגולים חוץ מאחד שבו כוכב. מיקום הכוכב מופיע פעם אחת בכל שורה ובכל עמודה של המטריצה, ומיקום התת-תא הצבוע מסודר באותה דרך אך בסידור אחר. בתא החסר הכוכב בתת-התא השמאלי-העליון והצביעה בשמאלי-התחתון.",
+      "solution": "הפרדת אלמנטים בפריסה: הכוכב והצביעה הם שתי חוקיות נפרדות שנפגשות מדי פעם באותו תת-תא — ואז נראה כאילו אחת מהן נעלמה, בעוד שלמעשה מצויר כוכב צבוע. אלמנט שאינכם רואים בנפרד לא בהכרח נעדר. עקבו אחרי הכוכב לבדו בכל תשעת התאים, ואחר כך אחרי הצביעה לבדה. ארבעת התת-תאים נקראים משמאל לימין בשתי שורות: שמאלי-עליון, ימני-עליון, שמאלי-תחתון, ימני-תחתון.",
+      "tags": [
+        "מטריצה",
+        "הפרדת אלמנטים",
+        "אלמנט מכוסה"
+      ]
+    },
+    {
+      "ref": "adv-fg-13",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "ריבוע שחור וסימן ✕ שנעים בכיוונים מנוגדים ונפגשים",
+      "stem": "איזה תא ממשיך את הסדרה?",
+      "figure": "{{figrow:board=10-0x;board=01-00;board=x0-01;?}}",
+      "options": [
+        "{{figcell:board=x0-10}}",
+        "{{figcell:board=00-01}}",
+        "{{figcell:board=00-10}}",
+        "{{figcell:board=0x-10}}",
+        "{{figcell:board=00-1x}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 5,
+      "level": "advanced",
+      "target_seconds": 70,
+      "explanation": "הריבוע השחור מקיף את הלוח עם כיוון השעון והסימן ✕ מקיף אותו נגד כיוון השעון, ולכן הם נפגשים כל שני צעדים. בצעד הבא שניהם מגיעים למשבצת השמאלית התחתונה, והריבוע השחור מכסה את ה-✕ — לכן בלוח הבא נראה ריבוע שחור אחד ותו לא.",
+      "solution": "החוק שנבדק כאן הוא ״אלמנט שאיננו רואים לא בהכרח נעלם״: כבר בלוח השני מופיע סימן אחד בלבד, וזו העדות לכך שהשניים יכולים לדרוך זה על זה. הטכניקה היא הפרדת אלמנטים — עקבו אחרי הריבוע השחור לבדו וסמנו את מסלולו, ואחר כך אחרי ה-✕ לבדו. המסיחים שמציגים את ה-✕ במשבצת אחרת מייצגים תלמיד שהניח שאם הסימן חזר, הוא חייב להיות במקום חדש.",
+      "tags": [
+        "סדרה",
+        "אלמנט מכוסה",
+        "לוח"
+      ]
+    },
+    {
+      "ref": "adv-fg-14",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "שני סימנים המקיפים את הלוח בקצב שונה",
+      "stem": "איזה תא ממשיך את הסדרה?",
+      "figure": "{{figrow:board=100-000-0+0;board=010-+00-000;board=0+1-000-000;?}}",
+      "options": [
+        "{{figcell:board=000-001-+00}}",
+        "{{figcell:board=0+0-001-000}}",
+        "{{figcell:board=000-00+-000}}",
+        "{{figcell:board=000-001-000}}",
+        "{{figcell:board=000-001-0+0}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 5,
+      "level": "advanced",
+      "target_seconds": 75,
+      "explanation": "הריבוע השחור מתקדם משבצת אחת בכל צעד לאורך שמונה משבצות המסגרת, והסימן ✚ מתקדם באותו כיוון שתי משבצות בכל צעד. הפער ביניהם מצטמצם בכל צעד באחת, ובצעד הרביעי הם נפגשים באותה משבצת — הריבוע השחור מכסה את ה-✚, ולכן בלוח הבא נראה סימן אחד בלבד.",
+      "solution": "זו שאלת הפרדת אלמנטים עם קצבים שונים: אין טעם לחפש כלל אחד שמסביר את שני הסימנים יחד. עקבו אחרי כל סימן בנפרד וספרו כמה משבצות הוא עובר בכל צעד — אחת מול שתיים. המלכודת היא להניח שאם שני סימנים הופיעו עד כה, גם בתשובה יופיעו שניים; שלושה מסיחים בנויים בדיוק על ההנחה הזאת.",
+      "tags": [
+        "סדרה",
+        "אלמנט מכוסה",
+        "קצבים שונים"
+      ]
+    },
+    {
+      "ref": "adv-fg-15",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "כוכב ועיגול צבוע שנעים זה מול זה בין תת-התאים",
+      "stem": "איזה תא ממשיך את הסדרה?",
+      "figure": "{{figrow:panel=r-x-c*;panel=x-r*-x;panel=c*-x-r;?}}",
+      "options": [
+        "{{figcell:panel=c*-x-r}}",
+        "{{figcell:panel=x-r*-x}}",
+        "{{figcell:panel=r-x-c}}",
+        "{{figcell:panel=r*-x-c}}",
+        "{{figcell:panel=r-x-c*}}"
+      ],
+      "correct_index": 4,
+      "difficulty": 5,
+      "level": "advanced",
+      "target_seconds": 70,
+      "explanation": "הכוכב נע תת-תא אחד ימינה בכל שלב והעיגול הצבוע נע תת-תא אחד שמאלה. באיבר השני שניהם מגיעים לתת-התא האמצעי, ומה שנראה שם ככוכב צבוע הוא למעשה שניהם יחד. אחרי שלושה שלבים כל אחד מהם חוזר למקומו, ולכן האיבר הרביעי זהה לראשון.",
+      "solution": "שתי טכניקות משורשרות: ראשית הפרדת אלמנטים — עקבו אחרי הכוכב לבדו ואחרי העיגול לבדו, וכך יתברר שהכוכב הצבוע באמצע אינו צורה חדשה אלא מפגש. שנית, כשמזהים שהמחזור הוא בן שלושה שלבים, כדאי לבדוק אם האיבר המבוקש חוזר על אחד הקודמים — כאן הוא זהה לאיבר הראשון. תת-התאים נקראים משמאל לימין.",
+      "tags": [
+        "סדרה",
+        "אלמנט מכוסה",
+        "פריסה"
+      ]
+    },
+    {
+      "ref": "adv-fg-16",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "כמות במחזור של שלושה ונקודה במחזור של ארבעה",
+      "stem": "איזה תא ממשיך את הסדרה?",
+      "figure": "{{figrow:shape=diamond,n=1,dot=tl;shape=diamond,n=2,dot=tr;shape=diamond,n=3,dot=br;shape=diamond,n=1,dot=bl;?}}",
+      "options": [
+        "{{figcell:shape=diamond,n=2,dot=tl}}",
+        "{{figcell:shape=diamond,n=1,dot=tl}}",
+        "{{figcell:shape=diamond,n=2,dot=tr}}",
+        "{{figcell:shape=diamond,n=3,dot=tl}}",
+        "{{figcell:shape=diamond,n=2,dot=bl}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 5,
+      "level": "advanced",
+      "target_seconds": 70,
+      "explanation": "הכמות חוזרת על עצמה כל שלושה שלבים — אחת, שתיים, שלוש, אחת — והנקודה מקיפה את ארבע הפינות עם כיוון השעון, כלומר חוזרת כל ארבעה שלבים. בשלב החמישי הכמות היא שתיים והנקודה חוזרת לפינה השמאלית העליונה.",
+      "solution": "הפרדת אלמנטים עם קצבים שונים: כשמחזור אחד בן שלושה ומחזור שני בן ארבעה, שום איבר בסדרה לא יחזור על עצמו בטווח הקצר, ולכן חיפוש ״איבר זהה קודם״ מבזבז זמן. רשמו בצד שתי שורות — כמויות ומיקומי נקודה — והמשיכו כל שורה בנפרד. כל אחד מארבעת המסיחים מקיים בדיוק אחד משני המחזורים.",
+      "tags": [
+        "סדרה",
+        "קצבים שונים",
+        "הפרדת אלמנטים"
+      ]
+    },
+    {
+      "ref": "adv-fg-17",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "סיבוב במחזור של ארבעה ומילוי במחזור של שלושה",
+      "stem": "איזה תא ממשיך את הסדרה?",
+      "figure": "{{figrow:shape=arrow,rot=0,fill=none;shape=arrow,rot=90,fill=solid;shape=arrow,rot=180,fill=half;shape=arrow,rot=270,fill=none;?}}",
+      "options": [
+        "{{figcell:shape=arrow,rot=180,fill=solid}}",
+        "{{figcell:shape=arrow,rot=0,fill=solid}}",
+        "{{figcell:shape=arrow,rot=0,fill=none}}",
+        "{{figcell:shape=arrow,rot=90,fill=solid}}",
+        "{{figcell:shape=arrow,rot=0,fill=half}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 5,
+      "level": "advanced",
+      "target_seconds": 70,
+      "explanation": "החץ מסתובב רבע סיבוב עם כיוון השעון בכל שלב וחוזר לכיוונו ההתחלתי אחרי ארבעה שלבים, ואילו המילוי מתחלף במחזור בן שלושה: ריק, מלא, חצי. בשלב החמישי החץ מצביע שוב כלפי מעלה והמילוי מלא.",
+      "solution": "הפרדת אלמנטים: הסיבוב בולט והמילוי נבלע, ולכן התחילו דווקא מהמילוי כדי לא לוותר עליו. שימו לב שהאיבר הרביעי מציג חץ ריק בדיוק כמו הראשון — זה מפתה למסקנה ״הסדרה חזרה להתחלה״, אך היא נכונה למילוי בלבד ולא לסיבוב, ובדיוק על הבלבול הזה בנוי המסיח שחוזר על האיבר הראשון.",
+      "tags": [
+        "סדרה",
+        "קצבים שונים",
+        "סיבוב"
+      ]
+    },
+    {
+      "ref": "adv-fg-18",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "הגודל מתחלף בכל שלב והצבע רק בכל שלב שני",
+      "stem": "איזה תא ממשיך את הסדרה?",
+      "figure": "{{figrow:shape=star,fill=solid,size=s,color=ink;shape=star,fill=solid,size=m,color=ink;shape=star,fill=solid,size=l,color=accent;shape=star,fill=solid,size=s,color=accent;?}}",
+      "options": [
+        "{{figcell:shape=star,fill=solid,size=s,color=warm}}",
+        "{{figcell:shape=star,fill=solid,size=m,color=ink}}",
+        "{{figcell:shape=star,fill=solid,size=m,color=warm}}",
+        "{{figcell:shape=star,fill=solid,size=m,color=accent}}",
+        "{{figcell:shape=star,fill=solid,size=l,color=warm}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 5,
+      "level": "advanced",
+      "target_seconds": 70,
+      "explanation": "הגודל מתקדם בכל שלב במחזור קטן-בינוני-גדול, ואילו הצבע מתחלף רק אחת לשני שלבים: שני כוכבים כהים, שני טורקיז, ואז שני כתומים. בשלב החמישי הגודל בינוני והצבע כתום.",
+      "solution": "הפרדת אלמנטים עם קצבים שונים: אלמנט שמשתנה בכל שלב ואלמנט שמשתנה בכל שלב שני יוצרים יחד תמונה שנראית חסרת חוקיות. סמנו את הצבעים בלבד ברצף וספרו כמה שלבים כל צבע מחזיק — שניים — ורק אז חזרו לגודל. המסיח הטורקיז בגודל הנכון הוא זה ששורד עד הבדיקה האחרונה, כי הוא נופל רק על ספירת שני השלבים.",
+      "tags": [
+        "סדרה",
+        "קצבים שונים",
+        "צבע"
+      ]
+    },
+    {
+      "ref": "adv-fg-19",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "גוף מאוחד שצומח בבליטה, וצבע שמתחלף לסירוגין",
+      "stem": "איזה תא ממשיך את הסדרה?",
+      "figure": "{{figrow:shape=circle,n=2,merge=on,fill=solid,color=ink;shape=circle,n=3,merge=on,fill=solid,color=accent;shape=circle,n=4,merge=on,fill=solid,color=ink;?}}",
+      "options": [
+        "{{figcell:shape=circle,n=4,merge=on,fill=solid,color=accent}}",
+        "{{figcell:shape=circle,n=6,merge=on,fill=solid,color=accent}}",
+        "{{figcell:shape=circle,n=5,fill=solid,color=accent}}",
+        "{{figcell:shape=circle,n=5,merge=on,fill=solid,color=accent}}",
+        "{{figcell:shape=circle,n=5,merge=on,fill=solid,color=ink}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 4,
+      "level": "advanced",
+      "target_seconds": 60,
+      "explanation": "לגוף המאוחד מתווספת בליטה אחת בכל שלב — שתיים, שלוש, ארבע — ולכן בשלב הבא חמש, והצבע מתחלף כהה-טורקיז לסירוגין ולכן חוזר לטורקיז.",
+      "solution": "הגוף המאוחד נקרא כמו מספר: ספרו בליטות, ואל תנסו לזהות אותו כצורה. אחרי ספירת הבליטות בצעו סריקה שנייה על הצבע בלבד. המסיח בעל חמש הבליטות שאינו מאוחד מקיים את שני החוקים אך שובר את ההתאחדות עצמה, שהיא חלק מן הסדרה — זהו המסיח שנופל אחרון.",
+      "tags": [
+        "סדרה",
+        "חלק ושלם",
+        "צבע"
+      ]
+    },
+    {
+      "ref": "adv-fg-20",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "הכמות עולה בכל שלב והצורה הפנימית מתחלפת במחזור",
+      "stem": "איזה תא ממשיך את הסדרה?",
+      "figure": "{{figrow:shape=pentagon,n=1,in=circle,infill=solid;shape=pentagon,n=2,in=square,infill=solid;shape=pentagon,n=3,in=star,infill=solid;?}}",
+      "options": [
+        "{{figcell:shape=pentagon,n=4,in=square,infill=solid}}",
+        "{{figcell:shape=pentagon,n=3,in=circle,infill=solid}}",
+        "{{figcell:shape=pentagon,n=4,in=star,infill=solid}}",
+        "{{figcell:shape=pentagon,n=5,in=circle,infill=solid}}",
+        "{{figcell:shape=pentagon,n=4,in=circle,infill=solid}}"
+      ],
+      "correct_index": 4,
+      "difficulty": 4,
+      "level": "advanced",
+      "target_seconds": 60,
+      "explanation": "מספר המחומשים עולה באחד בכל שלב — אחד, שניים, שלושה — ולכן בשלב הבא ארבעה, והצורה הפנימית מתחלפת במחזור בן שלושה ולכן חוזרת לעיגול.",
+      "solution": "הפרדת אלמנטים: הכמות והצורה הפנימית נעות בקצבים שונים, ולכן מי שסופר בלבד נשאר עם שלוש אפשרויות שבכולן ארבעה מחומשים, ומי שקורא רק את הצורה הפנימית נשאר עם שלוש אפשרויות שבכולן עיגול פנימי — ורק אפשרות אחת נמצאת בשתי הרשימות. ספרו קודם, אחר כך זהו את המחזור הפנימי, והצליבו. שימו לב שהצורה הפנימית קטנה — כדאי להסתכל עליה לפני שסופרים, לפני שהעין מתעייפת.",
+      "tags": [
+        "סדרה",
+        "קצבים שונים",
+        "הכלה"
+      ]
+    },
+    {
+      "ref": "adv-fg-21",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "החיצונית מתחלפת לסירוגין והפנימית מוסיפה צלע",
+      "stem": "איזה תא ממשיך את הסדרה?",
+      "figure": "{{figrow:shape=square,in=triangle,infill=solid;shape=circle,in=square,infill=solid;shape=square,in=pentagon,infill=solid;?}}",
+      "options": [
+        "{{figcell:shape=circle,in=hexagon,infill=solid}}",
+        "{{figcell:shape=square,in=hexagon,infill=solid}}",
+        "{{figcell:shape=circle,in=pentagon,infill=solid}}",
+        "{{figcell:shape=circle,in=star,infill=solid}}",
+        "{{figcell:shape=square,in=pentagon,infill=solid}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 4,
+      "level": "advanced",
+      "target_seconds": 60,
+      "explanation": "הצורה החיצונית מתחלפת לסירוגין בין ריבוע לעיגול, ולכן בשלב הרביעי היא עיגול. הצורה הפנימית מוסיפה צלע אחת בכל שלב — משולש, ריבוע, מחומש — ולכן בשלב הרביעי היא משושה.",
+      "solution": "הפרדת אלמנטים: החיצונית נעה במחזור בן שניים והפנימית במחזור פתוח שגדל, ולכן אין ביניהן שום קשר וכל ניסיון לקרוא את התא כתמונה אחת מבלבל. סִפרו את צלעות הפנימית בכל שלב וכתבו את המספרים בשורה. המסיח שבו הפנימית היא כוכב מייצג תלמיד שהמשיך ״עוד צורה מסובכת יותר״ במקום לספור צלעות.",
+      "tags": [
+        "סדרה",
+        "הכלה",
+        "ספירת צלעות"
+      ]
+    },
+    {
+      "ref": "adv-fg-22",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "מספר הצלעות עולה ודרגת המחיקה חוזרת למחזור",
+      "stem": "איזה תא ממשיך את הסדרה?",
+      "figure": "{{figrow:shape=triangle,edge=solid;shape=square,edge=dashed;shape=pentagon,edge=corners;?}}",
+      "options": [
+        "{{figcell:shape=square,edge=solid}}",
+        "{{figcell:shape=hexagon,edge=solid}}",
+        "{{figcell:shape=hexagon,edge=corners}}",
+        "{{figcell:shape=hexagon,edge=dashed}}",
+        "{{figcell:shape=pentagon,edge=solid}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 5,
+      "level": "advanced",
+      "target_seconds": 70,
+      "explanation": "מספר הצלעות עולה באחת בכל שלב — שלוש, ארבע, חמש — ולכן בשלב הבא משושה. במקביל דרגת הציור מתקדמת במחזור בן שלושה: קו מלא, קו מקווקו, סימני פינות בלבד — ולכן היא חוזרת לקו מלא.",
+      "solution": "שתי טכניקות משורשרות: קודם ספירת צלעות שקובעת את הצורה, ואז זיהוי מחזור שקובע את אופן הציור. המלכודת היא האיבר השלישי, שבו הצורה כלל אינה מצוירת אלא משתמעת מחמישה סימני פינות — קל לספור שם ״חמישה עיגולים״ במקום ״מחומש״. המסיח בעל שישה סימני פינות מקיים את ספירת הצלעות ונופל רק על המחזור.",
+      "tags": [
+        "סדרה",
+        "מרחב שלילי",
+        "ספירת צלעות"
+      ]
+    },
+    {
+      "ref": "adv-fg-23",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "קווים מפרידים שמופיעים לסירוגין וצורות שנודדות תת-תא",
+      "stem": "איזה תא ממשיך את הסדרה?",
+      "figure": "{{figrow:group=c-t-r;panel=r-c-t;group=t-r-c;?}}",
+      "options": [
+        "{{figcell:panel=t-r-c}}",
+        "{{figcell:group=r-c-t}}",
+        "{{figcell:panel=c-t-r}}",
+        "{{figcell:group=c-t-r}}",
+        "{{figcell:panel=r-c-t}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 5,
+      "level": "advanced",
+      "target_seconds": 70,
+      "explanation": "שלוש הצורות נודדות תת-תא אחד ימינה בכל שלב, ולכן אחרי שלושה שלבים הן חוזרות לסדר המקורי. הקווים המפרידים מופיעים לסירוגין — בלי, עם, בלי — ולכן באיבר הרביעי הם מופיעים. התוצאה היא סדר הצורות של האיבר הראשון, אבל עם קווים מפרידים.",
+      "solution": "הפרדת אלמנטים בין הצורות לבין הקווים: סדר הצורות חוזר על עצמו כל שלושה שלבים והקווים כל שני שלבים, ולכן האיבר הרביעי דומה לראשון בדיוק בחצי מהתכונות. זו המלכודת — המסיח שהוא העתק מדויק של האיבר הראשון. בדקו תמיד את שתי התכונות לפני שמכריזים ״הסדרה חזרה להתחלה״.",
+      "tags": [
+        "סדרה",
+        "פריסה",
+        "קצבים שונים"
+      ]
+    },
+    {
+      "ref": "adv-fg-24",
+      "domain": "figural",
+      "qtype": "series",
+      "topic": "סדרות צורות",
+      "subtopic": "סימן קבוע שמתגלה שוב אחרי שכוסה",
+      "stem": "איזה תא ממשיך את הסדרה?",
+      "figure": "{{figrow:board=10-0+;board=01-0+;board=00-01;?}}",
+      "options": [
+        "{{figcell:board=0+-10}}",
+        "{{figcell:board=00-+1}}",
+        "{{figcell:board=+0-10}}",
+        "{{figcell:board=00-1+}}",
+        "{{figcell:board=00-10}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 5,
+      "level": "advanced",
+      "target_seconds": 70,
+      "explanation": "הריבוע השחור מקיף את ארבע המשבצות עם כיוון השעון, והסימן ✚ עומד במקומו במשבצת הימנית התחתונה לאורך כל הסדרה. באיבר השלישי הריבוע השחור הגיע בדיוק לאותה משבצת וכיסה את ה-✚, ולכן בשלב הבא הריבוע ממשיך למשבצת השמאלית התחתונה וה-✚ מתגלה שוב.",
+      "solution": "זהו הכלל ״אלמנט שלא רואים לא בהכרח נעלם״: הסימן ✚ לא נמחק באיבר השלישי אלא הוסתר. הטכניקה היא הפרדת אלמנטים — עקבו קודם אחרי הריבוע השחור, ואז שאלו על כל אלמנט שנעלם אם יש אלמנט אחר שיכול לכסות אותו בדיוק במשבצת שלו. המסיח שבו ה-✚ אינו מופיע כלל הוא הבחירה של מי שהניח שהסימן נמחק.",
+      "tags": [
+        "סדרה",
+        "אלמנט מכוסה",
+        "לוח"
+      ]
+    },
+    {
+      "ref": "adv-fg-25",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "החלפת תפקידים בין צורה לעצמה",
+      "stem": "בזוג הראשון הצורה החיצונית והפנימית החליפו תפקידים. השלימו את הזוג השני.",
+      "figure": "{{figpair:shape=star,fill=solid,color=accent,in=circle,infill=solid,incolor=ink;shape=circle,fill=solid,color=accent,in=star,infill=solid,incolor=ink/shape=hexagon,fill=solid,color=accent,in=hexagon,infill=solid,incolor=ink;?}}",
+      "options": [
+        "{{figcell:shape=hexagon,fill=solid,color=ink,in=hexagon,infill=solid,incolor=accent}}",
+        "{{figcell:shape=circle,fill=solid,color=accent,in=hexagon,infill=solid,incolor=ink}}",
+        "{{figcell:shape=hexagon,fill=solid,color=accent,in=circle,infill=solid,incolor=ink}}",
+        "{{figcell:shape=hexagon,fill=solid,color=accent}}",
+        "{{figcell:shape=hexagon,fill=solid,color=accent,in=hexagon,infill=solid,incolor=ink}}"
+      ],
+      "correct_index": 4,
+      "difficulty": 5,
+      "level": "advanced",
+      "target_seconds": 65,
+      "explanation": "בזוג הראשון הכוכב שהחזיק עיגול הפך לעיגול שמחזיק כוכב, בעוד הצבעים נשארו קשורים לתפקיד: החיצונית טורקיז והפנימית כהה. באיבר השלישי המשושה מחזיק משושה, ולכן החלפת התפקידים אינה משנה דבר והתשובה זהה לו לחלוטין.",
+      "solution": "הטכניקה היא ניסוח מדויק של הפעולה לפני שמסתכלים בתשובות: ״החיצונית נכנסת פנימה והפנימית יוצאת החוצה, והצבעים נשארים במקומם״. כשמפעילים אותה על צורה שמחזיקה עותק של עצמה מתקבל אותו איבר בדיוק. המלכודת היא הציפייה שתשובה חייבת ״לעשות משהו״ — ארבעת המסיחים מבצעים פעולה כלשהי, ודווקא הם השגויים.",
+      "tags": [
+        "אנלוגיה",
+        "הכלה",
+        "החלפת תפקידים"
+      ]
+    },
+    {
+      "ref": "adv-fg-26",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "מספר החלקים הופך למספר הפינות המשתמעות",
+      "stem": "בזוג הראשון הגוף המאוחד הוחלף בצורה שאינה מצוירת אלא משתמעת מסימני הפינות. השלימו את הזוג השני.",
+      "figure": "{{figpair:shape=circle,n=4,merge=on;shape=square,edge=corners/shape=triangle,n=3,merge=on;?}}",
+      "options": [
+        "{{figcell:shape=triangle,edge=corners}}",
+        "{{figcell:shape=square,edge=corners}}",
+        "{{figcell:shape=pentagon,edge=corners}}",
+        "{{figcell:shape=triangle,edge=solid}}",
+        "{{figcell:shape=triangle,n=3}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 5,
+      "level": "advanced",
+      "target_seconds": 65,
+      "explanation": "לגוף הראשון ארבע בליטות, והוא הוחלף בצורה בעלת ארבע פינות משתמעות — ריבוע. לגוף השני שלוש בליטות, ולכן הצורה המשתמעת היא בעלת שלוש פינות, כלומר משולש.",
+      "solution": "שתי טכניקות משורשרות: ספירת חלקים בגוף המאוחד, ואז תרגום המספר למספר סימני הפינות. שימו לב שהצורה של החלקים אינה עוברת לתשובה — בזוג הראשון החלקים היו עיגולים והתוצאה ריבוע — ולכן מי שמחפש ״משולשים בתשובה״ יטעה. המסיח בעל ארבעה סימני פינות מייצג תלמיד שהעתיק את הכמות מהזוג הראשון במקום לספור בזוג שלו.",
+      "tags": [
+        "אנלוגיה",
+        "מרחב שלילי",
+        "חלק ושלם"
+      ]
+    },
+    {
+      "ref": "adv-fg-27",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "דרגה נוספת בסולם מחיקת הקו",
+      "stem": "בזוג הראשון הקו של הצורה נמחק בדרגה אחת. השלימו את הזוג השני באותה דרגה נוספת.",
+      "figure": "{{figpair:shape=pentagon;shape=pentagon,edge=dashed/shape=hexagon,edge=dashed;?}}",
+      "options": [
+        "{{figcell:shape=hexagon,n=2,edge=dashed}}",
+        "{{figcell:shape=hexagon,edge=corners}}",
+        "{{figcell:shape=hexagon,edge=solid}}",
+        "{{figcell:shape=pentagon,edge=corners}}",
+        "{{figcell:shape=square,edge=corners}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 5,
+      "level": "advanced",
+      "target_seconds": 65,
+      "explanation": "סולם המחיקה הוא קו מלא, קו מקווקו, ולבסוף סימני פינות בלבד. בזוג הראשון המחומש עבר ממלא למקווקו, ולכן המשושה המקווקו עובר לדרגה הבאה: שישה סימני פינות ובלי קו כלל.",
+      "solution": "הטכניקה היא ניסוח משפט הקשר ככיוון ולא כמצב: ״עוד דרגה אחת של מחיקה״, לא ״הקו הופך למקווקו״. תלמיד שינסח מצב יבחר במשושה המקווקו או יחזיר את הקו המלא. הבדיקה האחרונה היא ספירה — בתשובה חייבים להופיע שישה סימנים ולא חמישה, ולכן המסיח שהוא מחומש בסימני פינות נפסל רק בספירה.",
+      "tags": [
+        "אנלוגיה",
+        "מרחב שלילי",
+        "סולם"
+      ]
+    },
+    {
+      "ref": "adv-fg-28",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "הפרדה לתאים יחד עם היפוך הסדר",
+      "stem": "בזוג הראשון בוצעו שתי פעולות על הצורות. השלימו את הזוג השני.",
+      "figure": "{{figpair:group=c-t-r;panel=r-t-c/group=d-h-p;?}}",
+      "options": [
+        "{{figcell:panel=h-p-d}}",
+        "{{figcell:panel=p-d-h}}",
+        "{{figcell:panel=p-h-d}}",
+        "{{figcell:panel=d-h-p}}",
+        "{{figcell:group=p-h-d}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 5,
+      "level": "advanced",
+      "target_seconds": 65,
+      "explanation": "שתי הפעולות הן הוספת קווים מפרידים והיפוך סדר הצורות משמאל לימין. לכן מעוין, משושה, מחומש הופכים למחומש, משושה, מעוין בתוך שלושה תאים מופרדים.",
+      "solution": "טכניקת הפרדת האלמנטים חלה גם על אנלוגיה: רשמו את שתי הפעולות בנפרד — ״נוספו קווים״ ו״הסדר התהפך״ — ובדקו כל מסיח מול שתיהן. המסיח ששומר על הסדר המקורי עם קווים והמסיח ההפוך בלי קווים מקיימים בדיוק פעולה אחת כל אחד. שימו לב שתת-התאים נקראים משמאל לימין, ולכן ״התהפך״ מתייחס לכיוון הזה.",
+      "tags": [
+        "אנלוגיה",
+        "פריסה",
+        "שתי פעולות"
+      ]
+    },
+    {
+      "ref": "adv-fg-29",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "הצביעה עוברת שני תאים",
+      "stem": "בזוג הראשון הצביעה עברה תא. השלימו את הזוג השני באותו מרחק.",
+      "figure": "{{figpair:panel=c*-s-t-d;panel=c-s-t*-d/panel=h-d*-r-p;?}}",
+      "options": [
+        "{{figcell:panel=h*-d-r-p}}",
+        "{{figcell:panel=h-d*-r-p}}",
+        "{{figcell:panel=h-d-r-p}}",
+        "{{figcell:panel=h-d-r-p*}}",
+        "{{figcell:panel=h-d-r*-p}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 4,
+      "level": "advanced",
+      "target_seconds": 60,
+      "explanation": "בזוג הראשון הצביעה עברה מהתת-תא השמאלי-העליון לשמאלי-התחתון — קפיצה של שני תת-תאים בסדר הקריאה, כלומר ירידה של שורה. בזוג השני הצביעה נמצאת בתת-התא הימני-העליון, ולכן היא עוברת לימני-התחתון.",
+      "solution": "הטכניקה היא מדידת מרחק ולא זיהוי מקום: תלמיד שיסכם ״הצביעה עברה לתת-התא השמאלי-התחתון״ מעתיק מיקום מוחלט, ותלמיד שיסכם ״הצביעה זזה תת-תא אחד״ סופר מרחק שגוי — ושניהם מגיעים לאותו מסיח, השמאלי-התחתון. סִפרו כמה תת-תאים הצביעה קפצה בזוג הראשון — שניים — והחילו את אותו מספר. ארבעה תת-תאים מסודרים כשתי שורות ונקראים משמאל לימין, ולכן קפיצה של שניים היא ירידה של שורה אחת.",
+      "tags": [
+        "אנלוגיה",
+        "פריסה",
+        "מרחק"
+      ]
+    },
+    {
+      "ref": "adv-fg-30",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "רבע סיבוב שאינו שיקוף",
+      "stem": "בזוג הראשון הלוח עבר פעולה אחת. השלימו את הזוג השני.",
+      "figure": "{{figpair:board=100-100-110;board=111-100-000/board=110-011-000;?}}",
+      "options": [
+        "{{figcell:board=000-110-011}}",
+        "{{figcell:board=010-110-100}}",
+        "{{figcell:board=100-110-010}}",
+        "{{figcell:board=110-011-000}}",
+        "{{figcell:board=001-011-010}}"
+      ],
+      "correct_index": 4,
+      "difficulty": 5,
+      "level": "advanced",
+      "target_seconds": 70,
+      "explanation": "הלוח בזוג הראשון סובב רבע סיבוב עם כיוון השעון, והתבנית שמרה על צורתה. אותה פעולה בדיוק על התבנית השנייה נותנת את הלוח שבתשובה.",
+      "solution": "ההבחנה בין סיבוב לשיקוף היא הבדיקה האחרונה בכל שאלת לוח: התבנית כאן אינה סימטרית, כלומר תמונת המראה שלה אינה אף אחד מארבעת סיבוביה, ולכן המסיח המשוקף באמת שגוי ואינו זהה לתשובה. הטכניקה המעשית היא לבחור משבצת פינתית אחת ולעקוב רק אחריה — פינה עוברת לפינה השכנה בסיבוב, ולפינה שממול בשיקוף.",
+      "tags": [
+        "אנלוגיה",
+        "לוח",
+        "סיבוב מול שיקוף"
+      ]
+    },
+    {
+      "ref": "adv-fg-31",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "הזזה מחזורית יחד עם היפוך צבעים",
+      "stem": "בזוג הראשון בוצעו שתי פעולות על הלוח. השלימו את הזוג השני.",
+      "figure": "{{figpair:board=110-001-010;board=101-001-110/board=011-100-001;?}}",
+      "options": [
+        "{{figcell:board=110-100-011}}",
+        "{{figcell:board=001-011-100}}",
+        "{{figcell:board=100-011-110}}",
+        "{{figcell:board=011-110-100}}",
+        "{{figcell:board=011-100-001}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 5,
+      "level": "advanced",
+      "target_seconds": 70,
+      "explanation": "שתי הפעולות הן הזזת כל השורות שורה אחת כלפי מטה, כשהשורה התחתונה חוזרת למעלה, ולאחריה היפוך של שחור ולבן. הפעלת שתיהן על הלוח השלישי נותנת את הלוח שבתשובה.",
+      "solution": "שתי טכניקות משורשרות, ולכן הפרדת פעולות היא חובה: ספרו קודם משבצות שחורות — אם המספר השתנה, בהכרח היה היפוך צבעים; ורק אז בדקו אם התבנית זזה. שני מסיחים מבצעים פעולה אחת בלבד, והמסיח המסוכן מבצע את שתי הפעולות אך מזיז לכיוון ההפוך, ולכן הוא נפסל רק בבדיקת הכיוון.",
+      "tags": [
+        "אנלוגיה",
+        "לוח",
+        "שתי פעולות"
+      ]
+    },
+    {
+      "ref": "adv-fg-32",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "רק הצורה הפנימית מוסיפה צלע",
+      "stem": "בזוג הראשון השתנתה תכונה אחת בלבד. השלימו את הזוג השני.",
+      "figure": "{{figpair:shape=circle,in=triangle,infill=solid;shape=circle,in=square,infill=solid/shape=star,in=pentagon,infill=solid;?}}",
+      "options": [
+        "{{figcell:shape=star,in=pentagon,infill=solid}}",
+        "{{figcell:shape=star,in=hexagon,infill=solid}}",
+        "{{figcell:shape=star,in=square,infill=solid}}",
+        "{{figcell:shape=hexagon,in=pentagon,infill=solid}}",
+        "{{figcell:shape=circle,in=hexagon,infill=solid}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 4,
+      "level": "advanced",
+      "target_seconds": 60,
+      "explanation": "החיצונית לא השתנתה כלל, ורק הפנימית הוסיפה צלע אחת: משולש הפך לריבוע. לכן המחומש הפנימי הופך למשושה, והכוכב החיצוני נשאר כוכב.",
+      "solution": "הטכניקה היא הפרדת אלמנטים בתוך אנלוגיה: בדקו קודם מה קרה לחיצונית — כלום — ורק אז מה קרה לפנימית. מי שידלג על הבדיקה הראשונה ייפול במסיח שבו הפנימית היא אמנם משושה נכון, אך החיצונית הפכה לעיגול — כלומר הועתקה מהזוג הראשון במקום להישמר. הבדיקה האחרונה היא ספירת צלעות: חמש הופכות לשש ולא לארבע.",
+      "tags": [
+        "אנלוגיה",
+        "הכלה",
+        "ספירת צלעות"
+      ]
+    },
+    {
+      "ref": "adv-fg-33",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "הגוף המאוחד מתפרק לתאים מופרדים",
+      "stem": "בזוג הראשון הגוף המאוחד פורק לתאים מופרדים. השלימו את הזוג השני.",
+      "figure": "{{figpair:shape=circle,n=3,merge=on;panel=c-c-c/shape=triangle,n=4,merge=on;?}}",
+      "options": [
+        "{{figcell:panel=c-c-c-c}}",
+        "{{figcell:shape=triangle,n=4}}",
+        "{{figcell:panel=t-t-t-t}}",
+        "{{figcell:panel=t-t-t}}",
+        "{{figcell:group=t-t-t-t}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 4,
+      "level": "advanced",
+      "target_seconds": 60,
+      "explanation": "הגוף הראשון בנוי משלוש בליטות והוא פורק לשלושה תאים ובכל אחד עיגול. לגוף השני ארבע בליטות של משולשים, ולכן הוא פורק לארבעה תאים ובכל אחד משולש.",
+      "solution": "שתי טכניקות משורשרות: ספירת הבליטות בקו המתאר, ואז התאמה של מספר התאים למספר החלקים. שימו לב שצורת החלק נשמרת — בזוג הראשון היו עיגולים ובתשובה משולשים — ולכן המסיח עם ארבעה עיגולים בודק אם העתקתם את הצורה מהזוג הראשון. המסיח בלי הקווים המפרידים מקיים את הפירוק אך לא את ההפרדה לתאים.",
+      "tags": [
+        "אנלוגיה",
+        "חלק ושלם",
+        "פריסה"
+      ]
+    },
+    {
+      "ref": "adv-fg-34",
+      "domain": "figural",
+      "qtype": "figural-analogy",
+      "topic": "אנלוגיות צורניות",
+      "subtopic": "סימני הפינות הופכים לצורות נפרדות",
+      "stem": "בזוג הראשון סימני הפינות הפכו לצורות נפרדות. השלימו את הזוג השני.",
+      "figure": "{{figpair:shape=square,edge=corners;group=c-c-c-c/shape=triangle,edge=corners;?}}",
+      "options": [
+        "{{figcell:panel=c-c-c}}",
+        "{{figcell:group=t-t-t}}",
+        "{{figcell:shape=circle,n=3,merge=on}}",
+        "{{figcell:group=c-c-c}}",
+        "{{figcell:group=c-c-c-c}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 4,
+      "level": "advanced",
+      "target_seconds": 60,
+      "explanation": "לריבוע המשתמע ארבע פינות, והוא הפך לארבעה עיגולים נפרדים בלי קווים מפרידים. למשולש המשתמע שלוש פינות, ולכן מתקבלים שלושה עיגולים נפרדים.",
+      "solution": "זהו הכיוון ההפוך של שאלת המרחב השלילי, ולכן המספר אינו נתון אלא נספר מתוך הסימנים עצמם. הטכניקה היא ספירה ואחריה בדיקת אופן ההצגה, ושלושה מסיחים נופלים בדיוק בבדיקה השנייה: זה שיש בו קווים מפרידים, זה שבו שלושת העיגולים מאוחדים לגוף אחד במקום להיות נפרדים, וזה שבו העיגולים הם ארבעה כמו בזוג הראשון. המסיח עם המשולשים מייצג תלמיד ששמר על זהות הצורה המקורית במקום על מספר הפינות.",
+      "tags": [
+        "אנלוגיה",
+        "מרחב שלילי",
+        "פריסה"
+      ]
+    },
+    {
+      "ref": "adv-fg-35",
+      "domain": "figural",
+      "qtype": "odd-one-out",
+      "topic": "יוצא דופן צורני",
+      "subtopic": "הריבוע השחור והסימן ✕ ניצבים זה מול זה דרך המרכז",
+      "stem": "איזה מהתאים שונה מכל האחרים?",
+      "options": [
+        "{{figcell:board=100-000-00x}}",
+        "{{figcell:board=001-000-x00}}",
+        "{{figcell:board=000-10x-000}}",
+        "{{figcell:board=010-000-0x0}}",
+        "{{figcell:board=0x0-000-001}}"
+      ],
+      "correct_index": 4,
+      "difficulty": 5,
+      "level": "advanced",
+      "target_seconds": 65,
+      "explanation": "בארבעה מהלוחות הריבוע השחור והסימן ✕ נמצאים בדיוק זה מול זה דרך המשבצת המרכזית — קו ישר שעובר במרכז. בלוח היוצא דופן הריבוע השחור בפינה והסימן ✕ אינו בפינה שממול לה.",
+      "solution": "הפרדת אלמנטים אינה מספיקה כאן, כי אף אחד משני הסימנים אינו קבוע — מה שקבוע הוא היחס ביניהם. הטכניקה היא להניח אצבע על המשבצת המרכזית ולבדוק בכל לוח אם הסימנים נמצאים על אותו קו דרכה. שימו לב שמיקום הריבוע השחור לבדו אינו מבדיל: הוא מופיע בשורות שונות בכמה לוחות, ולכן ״הריבוע במקום מוזר״ אינו כלל שמפריד ארבעה מול אחד.",
+      "tags": [
+        "יוצא דופן",
+        "לוח",
+        "יחס בין אלמנטים"
+      ]
+    },
+    {
+      "ref": "adv-fg-36",
+      "domain": "figural",
+      "qtype": "odd-one-out",
+      "topic": "יוצא דופן צורני",
+      "subtopic": "לפנימית צלע אחת פחות מלחיצונית",
+      "stem": "איזה מהתאים שונה מכל האחרים?",
+      "options": [
+        "{{figcell:shape=hexagon,in=triangle,infill=solid}}",
+        "{{figcell:shape=square,in=triangle,infill=solid}}",
+        "{{figcell:shape=pentagon,in=square,infill=solid}}",
+        "{{figcell:shape=hexagon,in=pentagon,infill=solid}}",
+        "{{figcell:shape=diamond,in=triangle,infill=solid}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 5,
+      "level": "advanced",
+      "target_seconds": 65,
+      "explanation": "בארבעה תאים לצורה הפנימית צלע אחת פחות מלחיצונית: ריבוע ומשולש, מחומש וריבוע, משושה ומחומש, מעוין ומשולש. בתא היוצא דופן החיצונית משושה בעלת שש צלעות והפנימית משולש בעל שלוש.",
+      "solution": "הטכניקה היא הפרדת אלמנטים ואז ספירה: אף אחת משתי הצורות אינה קבועה, ולכן חיפוש ״איזו צורה חוזרת״ נכשל, ומה שקבוע הוא ההפרש. ספרו את צלעות החיצונית ואת צלעות הפנימית בכל תא ורשמו את ההפרש. שימו לב שגם המשושה וגם המשולש מופיעים ביותר מתא אחד, ולכן זהות הצורה אינה יכולה להיות הכלל.",
+      "tags": [
+        "יוצא דופן",
+        "הכלה",
+        "ספירת צלעות"
+      ]
+    },
+    {
+      "ref": "adv-fg-37",
+      "domain": "figural",
+      "qtype": "odd-one-out",
+      "topic": "יוצא דופן צורני",
+      "subtopic": "אותה תבנית מסובבת, מול תמונת המראה שלה",
+      "stem": "איזה מהתאים שונה מכל האחרים?",
+      "options": [
+        "{{figcell:board=000-001-111}}",
+        "{{figcell:board=001-001-011}}",
+        "{{figcell:board=100-100-110}}",
+        "{{figcell:board=111-100-000}}",
+        "{{figcell:board=011-001-001}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 5,
+      "level": "advanced",
+      "target_seconds": 70,
+      "explanation": "ארבעה מהלוחות הם אותה תבנית בת ארבע משבצות בארבעת הסיבובים שלה. הלוח היוצא דופן הוא תמונת המראה שלה, ושום סיבוב אינו יכול להביא אותה למצב הזה.",
+      "solution": "הטכניקה היא סיבוב מול שיקוף, והיא תקפה רק משום שהתבנית אינה סימטרית — לתבנית סימטרית תמונת המראה שווה לאחד הסיבובים, ואז אין יוצא דופן כלל. מעשית: ספרו קודם משבצות שחורות בכל לוח כדי לוודא שהמספר זהה, ואז בחרו את המשבצת שבקצה ״הרגל הארוכה״ ובדקו לאיזה צד היא פונה ביחס לרגל.",
+      "tags": [
+        "יוצא דופן",
+        "לוח",
+        "סיבוב מול שיקוף"
+      ]
+    },
+    {
+      "ref": "adv-fg-38",
+      "domain": "figural",
+      "qtype": "odd-one-out",
+      "topic": "יוצא דופן צורני",
+      "subtopic": "הצורה הצבועה היא זו שאין לה בן זוג",
+      "stem": "איזה מהתאים שונה מכל האחרים?",
+      "options": [
+        "{{figcell:panel=p-r*-p}}",
+        "{{figcell:panel=d-d-c*}}",
+        "{{figcell:panel=t-t*-c}}",
+        "{{figcell:panel=c-c-t*}}",
+        "{{figcell:panel=s*-h-h}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 5,
+      "level": "advanced",
+      "target_seconds": 65,
+      "explanation": "בכל תא שלוש צורות: שתיים זהות ואחת יחידה. בארבעה תאים הצבועה היא דווקא הצורה היחידה, ובתא היוצא דופן צבועה אחת מבנות הזוג ואילו הצורה היחידה נשארה ריקה.",
+      "solution": "הפרדת אלמנטים בין ״מי הצורה היחידה״ לבין ״מי צבועה״, ואז בדיקת ההתאמה ביניהן. אל תחפשו כלל לפי מיקום: התא הצבוע מופיע בכל המקומות האפשריים ביותר מתא אחד, ולכן המיקום אינו מפריד ארבעה מול אחד. גם מספר הצורות הצבועות זהה בכולם, ולכן ספירה לבדה אינה עוזרת — היחס הוא הכלל.",
+      "tags": [
+        "יוצא דופן",
+        "פריסה",
+        "יחס בין אלמנטים"
+      ]
+    },
+    {
+      "ref": "adv-fg-39",
+      "domain": "figural",
+      "qtype": "odd-one-out",
+      "topic": "יוצא דופן צורני",
+      "subtopic": "מספר המשבצות השחורות שווה למספר סימני ה-✕",
+      "stem": "איזה מהתאים שונה מכל האחרים?",
+      "options": [
+        "{{figcell:board=110-x0x-01x}}",
+        "{{figcell:board=000-01x-000}}",
+        "{{figcell:board=11x-x1x-1x0}}",
+        "{{figcell:board=1x1-010-00x}}",
+        "{{figcell:board=1x0-0x1-000}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 5,
+      "level": "advanced",
+      "target_seconds": 65,
+      "explanation": "בארבעה לוחות מספר המשבצות השחורות שווה בדיוק למספר סימני ה-✕ — שתיים מול שתיים, שלוש מול שלוש, אחת מול אחת, ארבע מול ארבע. בלוח היוצא דופן שלוש משבצות שחורות מול שני סימני ✕ בלבד.",
+      "solution": "זו שאלת הפרדת אלמנטים טהורה: על אותו לוח יושבים שני סוגי סימנים, והכלל אינו על אף אחד מהם בנפרד אלא על היחס ביניהם. סִפרו כל סוג לחוד ורשמו זוג מספרים לכל לוח. מי שינסה לפתור לפי כמות כוללת או לפי מיקום יגלה שהמספרים משתנים מלוח ללוח, וזו בדיוק העדות לכך שהכלל הוא יחס ולא ערך.",
+      "tags": [
+        "יוצא דופן",
+        "לוח",
+        "יחס בין אלמנטים"
+      ]
+    },
+    {
+      "ref": "adv-fg-40",
+      "domain": "figural",
+      "qtype": "odd-one-out",
+      "topic": "יוצא דופן צורני",
+      "subtopic": "מכפלת הכמות במספר הצלעות",
+      "stem": "איזה מהתאים שונה מכל האחרים?",
+      "options": [
+        "{{figcell:shape=triangle,n=4}}",
+        "{{figcell:shape=square,n=3}}",
+        "{{figcell:shape=hexagon,n=2}}",
+        "{{figcell:shape=diamond,n=3}}",
+        "{{figcell:shape=hexagon,n=3}}"
+      ],
+      "correct_index": 4,
+      "difficulty": 5,
+      "level": "advanced",
+      "target_seconds": 70,
+      "explanation": "בארבעה תאים מספר הצלעות כפול מספר הצורות שווה שתים-עשרה: ארבעה משולשים, שלושה ריבועים, שני משושים ושלושה מעוינים. בתא היוצא דופן שלושה משושים, כלומר שמונה-עשרה צלעות.",
+      "solution": "שתי טכניקות משורשרות: ספירת צלעות וספירת כמות, ואז הכפלה. שום תכונה בודדת אינה מפרידה כאן ארבעה מול אחד — המשושה מופיע בשני תאים והכמות שלוש מופיעה בשלושה, ולכן מי שיחפש ״צורה חריגה״ או ״כמות חריגה״ ייתקע. כשארבע התכונות הרגילות נכשלות, בדקו מכפלה או סכום של שתי תכונות.",
+      "tags": [
+        "יוצא דופן",
+        "ספירת צלעות",
+        "שתי תכונות"
+      ]
+    }
+  ]
+}

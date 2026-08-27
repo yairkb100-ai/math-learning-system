@@ -270,6 +270,15 @@ class Chapter(Base):
         cascade="all, delete-orphan",
         order_by="QuizQuestion.number",
     )
+    # פעילויות הגרירה. הקסקייד חובה: טבלה חדשה עם FK ל-chapters בלי
+    # delete-orphan מפילה את ה-seed בפריסה ברגע שפרק מוחלף (בדיוק באג
+    # chapter_views למטה).
+    interactive = relationship(
+        "InteractiveActivity",
+        back_populates="chapter",
+        cascade="all, delete-orphan",
+        order_by="InteractiveActivity.number",
+    )
     progress = relationship(
         "ChapterProgress",
         back_populates="chapter",
@@ -337,6 +346,38 @@ class QuizQuestion(Base):
     explanation = Column(Text, nullable=True)
 
     chapter = relationship("Chapter", back_populates="quiz")
+
+
+class InteractiveActivity(Base):
+    """פעילות גרירה אינטראקטיבית של פרק (השלב שבין התרגילים לבוחן).
+
+    ``type`` הוא match | categorize | order | fill (ראו
+    ``content/INTERACTIVE_AUTHORING.md``). המבנה נשמר כ-JSON ולא כטבלאות
+    בנות: פריט/יעד הם תוכן טהור שאף שורה אחרת לא מפנה אליו, ובדיוק כמו
+    ``QuizQuestion.options`` הם נכתבים מחדש בכל seed.
+
+    ``items``       — [{id, label, zone}] או [{id, label, position}] ב-order.
+    ``zones``       — [{id, label}]; NULL ב-order (אין יעדים).
+    ``distractors`` — [{id, label}]; כרטיסים שאסור להניח בשום יעד.
+
+    התשובות (``zone``/``position``) וה-``explanation`` לעולם לא יוצאים
+    ב-``InteractiveActivityOut`` — הן היו דולפות לתלמיד בתוך ה-JSON.
+    """
+
+    __tablename__ = "interactive_activities"
+
+    id = Column(Integer, primary_key=True, index=True)
+    chapter_id = Column(Integer, ForeignKey("chapters.id"), nullable=False, index=True)
+    number = Column(Integer, nullable=False)
+    type = Column(String, nullable=False)  # match | categorize | order | fill
+    title = Column(String, nullable=True)
+    prompt = Column(Text, nullable=False)
+    zones = Column(JSON, nullable=True)
+    items = Column(JSON, nullable=False)
+    distractors = Column(JSON, nullable=True)
+    explanation = Column(Text, nullable=True)
+
+    chapter = relationship("Chapter", back_populates="interactive")
 
 
 # ---------------------------------------------------------------------------
@@ -763,6 +804,12 @@ class PsyItem(Base):
     solution = Column(Text, nullable=True)
 
     difficulty = Column(Integer, nullable=False, default=3, index=True)  # 1..5
+    # דרגת השאלה מול רף המבחן האמיתי של מכון קרני, ולא רק קושי יחסי בתוך
+    # המאגר. ``difficulty`` מסדר שאלות זו מול זו; ``level`` אומר אם השאלה בכלל
+    # מגיעה לרמת המבחן. השניים לא נגזרים זה מזה: שאלת בית-ספר קלאסית יכולה
+    # להיות קשה (difficulty 4) ועדיין להיות beginner, כי היא לא דורשת אף
+    # טכניקה פסיכוטכנית — ובמבחן האמיתי הטכניקה היא הנבחן.
+    level = Column(String, nullable=False, default="standard", index=True)
     target_seconds = Column(Integer, nullable=False, default=60)
     # Strategy labels ("plug-in-numbers", "eliminate", "back-from-answers") used
     # by the study plan to recommend the right theory chapter.
@@ -799,9 +846,8 @@ class PsySimulation(Base):
     level = Column(String, nullable=True)  # None | advanced
     order = Column(Integer, nullable=False, default=0)
     is_published = Column(Boolean, nullable=False, default=True, index=True)
-    # סדר העדיפות בתוך מכסת הטעימה, לא "תמיד פתוח": המסומנות נכנסות ראשונות
-    # לאחוז שהמנהל קבע (המיני-מבחנים, שנועדו להראות את המנוע), אבל האחוז הוא
-    # התקרה גם עבורן. ראה access.unlocked_simulation_ids.
+    # Full mocks are the premium draw; minis stay open so a trial user can taste
+    # the engine. Enforced in the router, stored here so admins can flip it.
     free_preview = Column(Boolean, nullable=False, default=False)
 
     sections = relationship(

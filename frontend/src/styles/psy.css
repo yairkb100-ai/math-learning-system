@@ -487,6 +487,46 @@
   margin-top: 8px;
 }
 
+/* ---------- אקורדיון קבוצת תחום (הקורסים והתרגול) ----------
+   ‎.psy-domain-group‎ הוא עכשיו ‎<details>‎: תחום אחד פתוח כברירת מחדל (זה
+   שה"הצעד הבא" מצביע עליו), השאר מקופלים לשורת כותרת בלבד. קו התחתון עובר
+   מ---psy-domain-head‎ ל---psy-domain-summary‎ כדי שהוא ישתרע גם מתחת לחץ. */
+.psy-domain-summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  list-style: none;
+  padding-bottom: 8px;
+  margin-bottom: 18px;
+  border-bottom: 2px solid var(--lv-bg, var(--border));
+  min-height: 44px;
+}
+.psy-domain-summary::-webkit-details-marker,
+.psy-domain-summary::marker {
+  display: none;
+  content: '';
+}
+.psy-domain-summary .psy-domain-head {
+  flex: 1;
+  min-width: 0;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  border-bottom: 0;
+}
+.psy-domain-chevron {
+  flex: none;
+  color: var(--muted);
+  font-size: 1.1rem;
+  transition: transform 0.2s ease;
+}
+details[open] > .psy-domain-summary .psy-domain-chevron {
+  transform: rotate(180deg);
+}
+.psy-domain-summary:hover .psy-domain-head h3 {
+  color: var(--accent);
+}
+
 /* כפתור "הצג הכל" מתחת לקבוצת סימולציות ארוכה */
 .psy-btn-more {
   margin-top: 12px;
@@ -522,54 +562,6 @@
   color: var(--muted);
   margin: -6px 0 14px;
 }
-.psy-plan-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-.psy-plan-list > li {
-  flex: 1 1 330px;
-}
-.psy-plan-item {
-  display: grid;
-  grid-template-columns: 1fr auto auto;
-  gap: 12px;
-  align-items: center;
-  padding: 12px 14px;
-  border: 1px solid var(--border);
-  /* גוון התחום נכנס דרך מחלקת הרמפה שה-JSX שם על הפריט; בלי מיפוי הוא נופל
-     ל---border ונראה בדיוק כמו קודם. */
-  border-inline-start: 4px solid var(--lv, var(--border));
-  border-radius: 12px;
-  background: var(--surface-2);
-  color: var(--text);
-  min-height: 44px;
-}
-.psy-plan-item:hover {
-  border-color: var(--accent);
-  border-inline-start-color: var(--lv, var(--accent));
-  text-decoration: none;
-}
-.psy-plan-topic {
-  font-weight: 700;
-}
-.psy-plan-domain {
-  font-size: 0.8rem;
-  color: var(--lv, var(--muted));
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 2px 10px;
-  background: var(--surface);
-  white-space: nowrap;
-}
-.psy-plan-acc {
-  color: var(--muted);
-  font-size: 0.88rem;
-}
-
 /* ---------- simulation cards ---------- */
 
 /* כותרת + תווית רמה באותה שורה; התווית נדחקת לקצה ולא נשברת. */
@@ -603,27 +595,68 @@
 }
 .psy-course-list > li {
   flex: 1 1 300px;
-  display: flex;
 }
-/* עוטף ה-motion נשאר רק כדי למתוח את הכרטיס; הוא אינו מקבל משטח או מסגרת.
-   כך נשארת מסגרת אחת בלבד לכל קורס. */
-.psy-course-list > li > * {
-  display: flex;
-  width: 100%;
+/* ---------- קורס + שורות התרגול שלו כיחידה אחת ----------
+   קודם ישבו הקורסים במקטע אחד והנושאים במקטע שני, והקורא היה צריך לזכור לבד
+   מי שייך למי. כאן שורות הנושא תלויות על קו אנכי שיוצא מתחת לכרטיס הקורס —
+   ההזחה והקו הם כל ההיררכיה, בלי מסגרת נוספת. RTL: הכל ב-inline-start. */
+.psy-course-list > li.psy-course-block {
+  flex-basis: 420px;
+  flex-direction: column;
+  align-items: stretch;
 }
+.psy-course-topics-head {
+  margin: 12px 0 0;
+  padding-bottom: 4px;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+.psy-course-topics-head,
+.psy-trows.psy-course-topics {
+  margin-inline-start: 10px;
+  padding-inline-start: 12px;
+  border-inline-start: 2px solid var(--border);
+}
+/* ‎.psy-course-list > li > *‎ נותן ‎width: 100%‎ לכל ילד ישיר; יחד עם ההזחה זה
+   דחף את השורות מעבר לקצה הכרטיס. בטור flex המתיחה אוטומטית ממילא. */
+.psy-course-block > .psy-course-topics-head,
+.psy-course-block > .psy-trows {
+  width: auto;
+}
+/* קבוצת "תרגול נוסף" — מופרדת בקו ולא בכותרת-מקטע נוספת, כדי שלא תיקרא
+   כמו עוד פאנל. */
+.psy-topics-loose {
+  margin-top: 26px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+}
+/* בין ה-li לכרטיס יושב עוטף ה-hover של framer-motion, ולכן ‎height: 100%‎ על
+   הכרטיס לבדו לא מגיע לגובה השורה. שרשרת flex קצרה מעבירה את המתיחה הלאה,
+   כך שכל הכרטיסים בשורה נשארים בגובה אחיד. */
+.psy-course-list > li,
+
+.psy-course-list > li > *,
+
+/* והכרטיס עצמו חייב למלא את העוטף — בתוך flex container הרוחב שלו נגזר
+   מהתוכן, וכרטיסים היו יוצאים ברוחב מילת הכותרת. */
+.psy-course-list .psy-course-card,
+
 .psy-course-card {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 18px;
+  gap: 10px;
+  padding: 20px 22px;
   border: 1px solid var(--border);
+  border-inline-start: 8px solid var(--lv, var(--accent));
   border-radius: 14px;
-  background: var(--surface-2);
+  background: var(--surface);
   color: var(--text);
   height: 100%;
 }
 .psy-course-card:hover {
   border-color: var(--accent);
+  border-inline-start-color: var(--lv, var(--accent));
   box-shadow: var(--shadow);
 }
 .psy-course-title {
@@ -640,15 +673,35 @@
   line-height: 1.6;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
   overflow: hidden;
 }
 .psy-course-progress {
+  position: relative;
+  display: block;
   margin-top: auto;
+  padding-top: 16px;
   font-size: 0.82rem;
   color: var(--accent-2);
   font-weight: 600;
+}
+.psy-course-progress::before,
+.psy-course-progress::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 6px;
+  border-radius: 999px;
+}
+.psy-course-progress::before {
+  background: var(--surface-2);
+}
+.psy-course-progress::after {
+  background: var(--lv, var(--accent));
+  transform: scaleX(var(--course-progress, 0));
+  transform-origin: right center;
 }
 
 /* ---------- buttons ---------- */
@@ -758,15 +811,6 @@
   margin: 0 0 8px;
   font-family: var(--font-display);
   color: var(--accent);
-}
-/* An English reading passage inherits the page's RTL direction otherwise,
-   which still reads correctly word-by-word (bidi keeps Latin runs
-   left-to-right) but right-aligns the whole paragraph — backwards for a
-   native English layout. isLatinText() (MathText.jsx) opts the body text
-   only into this; the Hebrew title above it stays in the normal RTL flow. */
-.psy-passage-ltr {
-  direction: ltr;
-  text-align: left;
 }
 /* דף המבחן הוא משטח מלא ולא שקוף: כשהשאלה הייתה שקופה, שרבוטי דף המשבצות של
    הרקע עברו מבעד לשאלה ולתשובות והמבחן נקרא כלא-גמור. הפריסה נשארת פתוחה —
@@ -1689,14 +1733,6 @@
   .psy-next-label {
     font-size: 1.1rem;
   }
-  /* שלוש עמודות בשורה אחת נחתכות מתחת ל-400px — הפריט נפתח לשתי שורות */
-  .psy-plan-item {
-    grid-template-columns: 1fr auto;
-    row-gap: 6px;
-  }
-  .psy-plan-acc {
-    grid-column: 1 / -1;
-  }
   .psy-panel-lead > h2 {
     font-size: 1.35rem;
   }
@@ -1994,42 +2030,6 @@
   gap: 10px;
 }
 
-/* ---------- category entry and open category ---------- */
-.psy-panel-head > div {
-  min-width: 0;
-}
-.psy-section-lead {
-  max-width: 62ch;
-  margin: -8px 0 16px;
-  color: var(--muted);
-  line-height: 1.65;
-}
-.psy-open-practice {
-  margin-top: 34px;
-  padding-top: 24px;
-  border-top: 1px solid var(--border);
-}
-.psy-subsection-head {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 8px 16px;
-  margin-bottom: 14px;
-}
-.psy-subsection-head h3 {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: 1.2rem;
-  color: var(--accent);
-}
-
-@media (max-width: 619px) {
-  .psy-subsection-head {
-    align-items: center;
-  }
-}
-
 /* ---------- רוחב הכרטיסים לפי מידת המסך ----------
    הבלוק הזה חייב לשבת בסוף הקובץ. כללי הבסיס של הרשימות מפוזרים למעלה, ומדיה-
    קוורי שיושב באמצע הקובץ מפסיד להם בסדר המקור — בדיוק מה שקרה קודם והשאיר חצי
@@ -2040,7 +2040,7 @@
    להשאיר חצי שורה ריקה, ובשורה מלאה (4 כרטיסים) היא בכלל לא נוגעת. */
 @media (min-width: 1000px) {
   .psy-course-list > li,
-  .psy-plan-list > li {
+  .psy-course-list > li.psy-course-block {
     max-width: 560px;
   }
 }
@@ -2049,7 +2049,7 @@
    ב-flex-basis של הדסקטופ, ואין תקרה שמשאירה חצי שורה ריקה. */
 @media (min-width: 620px) and (max-width: 999px) {
   .psy-course-list > li,
-  .psy-plan-list > li {
+  .psy-course-list > li.psy-course-block {
     flex-basis: 45%;
     max-width: none;
   }
@@ -2058,7 +2058,7 @@
 /* נייד: עמודה אחת מלאה. */
 @media (max-width: 619px) {
   .psy-course-list > li,
-  .psy-plan-list > li {
+  .psy-course-list > li.psy-course-block {
     flex-basis: 100%;
     max-width: none;
   }

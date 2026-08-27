@@ -5,6 +5,7 @@ import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
 import MathText, { InlineMathText } from '../components/MathText.jsx'
 import Quiz from '../components/Quiz.jsx'
+import DragDrop from '../components/DragDrop.jsx'
 import { celebrate } from '../lib/celebrate.js'
 import { fadeInUp, tapScale, DURATION, EASE_OUT } from '../lib/motion.js'
 import '../styles/catalog-course.css'
@@ -22,13 +23,13 @@ import {
   IconPaperclip,
   IconFile,
   IconWarning,
-  IconLines,
   IconLock,
+  IconGrip,
 } from '../components/icons.jsx'
 
 const t = (rtl, he, en) => (rtl ? he : en)
 
-// Reached when a free-tier student opens a chapter past the 30% preview —
+// Reached when a free-tier student opens a chapter past the 42% preview —
 // by typing the URL, or from a stale tab. The server refused to send the
 // content (402 chapter_locked), so there is nothing to render but the offer.
 function LockedChapter({ courseId, number }) {
@@ -78,6 +79,12 @@ function splitContent(content) {
     .filter((s) => s.body || s.title)
 }
 
+function chunk(arr, size) {
+  const out = []
+  for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size))
+  return out
+}
+
 function buildSteps(chapter, rtl, videoFile) {
   const steps = []
   // Explainer video (uploaded as a course file named "…פרק-N….mp4") opens
@@ -90,21 +97,17 @@ function buildSteps(chapter, rtl, videoFile) {
       file: videoFile,
     })
   }
-  // One step per KIND, never split by length. A chapter used to be chopped
-  // into two sections per screen, which turned a 700-word median chapter into
-  // ten clicks with a quarter page on each — scrolling one lesson is what a
-  // student actually wants, and it keeps the step count fixed and predictable
-  // (at most: video, lesson, examples, exercises, quiz, finish) instead of
-  // growing with the chapter.
-  const sections = splitContent(chapter.content)
-  if (sections.length > 0) {
+  // Content: two sections per step keeps screens rich but not endless.
+  chunk(splitContent(chapter.content), 2).forEach((group, i) => {
     steps.push({
       kind: 'content',
       Icon: IconBook,
-      label: t(rtl, 'תוכן הפרק', 'Lesson'),
-      sections,
+      label:
+        group[0].title || (i === 0 ? t(rtl, 'פתיחה', 'Introduction') : ''),
+      sections: group,
+      first: i === 0,
     })
-  }
+  })
   const examples = chapter.examples || []
   if (examples.length > 0) {
     steps.push({
@@ -115,12 +118,27 @@ function buildSteps(chapter, rtl, videoFile) {
     })
   }
   const exercises = chapter.exercises || []
-  if (exercises.length > 0) {
+  chunk(exercises, 3).forEach((group, i, all) => {
     steps.push({
       kind: 'exercises',
       Icon: IconPencil,
-      label: t(rtl, 'תרגילים', 'Exercises'),
-      exercises,
+      label:
+        all.length > 1
+          ? `${t(rtl, 'תרגילים', 'Exercises')} (${i + 1}/${all.length})`
+          : t(rtl, 'תרגילים', 'Exercises'),
+      exercises: group,
+    })
+  })
+  // Drag-and-drop practice sits between the written exercises and the quiz:
+  // the student has just read the worked material, and this is the hands-on
+  // rehearsal before being graded on it.
+  const interactive = chapter.interactive || []
+  if (interactive.length > 0) {
+    steps.push({
+      kind: 'interactive',
+      Icon: IconGrip,
+      label: t(rtl, 'תרגול גרירה', 'Drag & Drop'),
+      interactive,
     })
   }
   if ((chapter.quiz || []).length > 0) {
@@ -141,7 +159,7 @@ export default function ChapterView() {
   const [language, setLanguage] = useState('English')
   const [chaptersCount, setChaptersCount] = useState(0)
   // How many chapters this account may open. Equals chaptersCount on a full
-  // subscription; on the free tier it is the 30% preview quota.
+  // subscription; on the free tier it is the 42% preview quota.
   const [unlockedCount, setUnlockedCount] = useState(0)
   const [progress, setProgress] = useState(null)
   const [marking, setMarking] = useState(false)
@@ -178,9 +196,9 @@ export default function ChapterView() {
         const mine = (files || []).filter((f) => {
           if (f.kind === 'homework') return false
           const attachedChapter = fileChapterNumber(f.original_name)
-          // PDFs without a "פרק-N" marker are course-wide resources, such
-          // as the five-page summary worksheet. They belong on every finish
-          // screen rather than being silently filtered out.
+          // A PDF without a "פרק-N" marker is a course-wide resource (such
+          // as the five-page summary worksheet). Offer it from every chapter's
+          // finish screen instead of silently hiding it.
           const courseWidePdf = attachedChapter === null && /\.pdf$/i.test(f.original_name)
           return attachedChapter === Number(number) || courseWidePdf
         })
@@ -387,14 +405,6 @@ export default function ChapterView() {
   )
 }
 
-function jumpToSection(e, i) {
-  const el = document.getElementById(`chapter-sec-${i}`)
-  if (!el) return
-  e.preventDefault()
-  const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
-  el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' })
-}
-
 function StepBody({
   step,
   chapter,
@@ -420,36 +430,10 @@ function StepBody({
     )
   }
   if (step.kind === 'content') {
-    // The whole lesson lives on one step, so it needs a map. Below three
-    // headings the list is longer than the trip it saves, and it is skipped.
-    const toc = step.sections
-      .map((sec, i) => ({ title: sec.title, i }))
-      .filter((s) => s.title)
     return (
       <article className="chapter-content card step-card">
-        {toc.length >= 3 && (
-          <nav className="chapter-toc" aria-label={t(rtl, 'תוכן העניינים', 'Contents')}>
-            <h2 className="chapter-toc-title">
-              <IconLines className="step-title-icon" />
-              {t(rtl, 'בפרק הזה', 'In this lesson')}
-            </h2>
-            <ol className="chapter-toc-list">
-              {toc.map(({ title, i }) => (
-                <li key={i}>
-                  <a href={`#chapter-sec-${i}`} onClick={(e) => jumpToSection(e, i)}>
-                    <InlineMathText text={title} />
-                  </a>
-                </li>
-              ))}
-            </ol>
-          </nav>
-        )}
         {step.sections.map((sec, i) => (
-          <div
-            key={i}
-            id={`chapter-sec-${i}`}
-            className={i > 0 ? 'step-section' : ''}
-          >
+          <div key={i} className={i > 0 ? 'step-section' : ''}>
             {sec.title && (
               <h2 className="step-title">
                 <InlineMathText text={sec.title} />
@@ -483,6 +467,18 @@ function StepBody({
           />
         ))}
       </div>
+    )
+  }
+  if (step.kind === 'interactive') {
+    return (
+      <section className="block step-card">
+        <h2 className="section-title">{t(rtl, 'תרגול גרירה', 'Drag & Drop practice')}</h2>
+        <DragDrop
+          activities={step.interactive}
+          chapterId={chapter.id}
+          rtl={rtl}
+        />
+      </section>
     )
   }
   if (step.kind === 'quiz') {

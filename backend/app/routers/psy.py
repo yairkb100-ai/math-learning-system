@@ -24,10 +24,9 @@ from sqlalchemy.orm import Session
 
 from app import models, psy_scoring
 from app.database import get_db
-from app.dependencies import get_current_user, user_content_access
+from app.dependencies import get_current_user, user_access_tier
 from app.products import PRODUCT_KARNI
-from app.settings_store import free_simulations_count
-from app.access import TIER_FREE, unlocked_psy_item_ids, unlocked_simulation_ids
+from app.access import TIER_FREE
 from app.schemas_psy import (
     PsyAnswerReview,
     PsyAttemptStart,
@@ -60,6 +59,67 @@ SUBMIT_GRACE_SECONDS = 5
 # too slow" — on a speeded exam that is a finding, not a pass.
 OVER_TIME_FACTOR = 1.5
 
+# דרגת free מתרגלת את החצי הקל של המאגר. הקבוע חייב להיות משותף לתרגול
+# עצמו ולספירת המאגר שהכרטיס מציג — שני מספרי קושי נפרדים הם בדיוק איך
+# שהכרטיס התחיל להבטיח שאלות שהתרגול לא מספק.
+FREE_MAX_DIFFICULTY = 2
+
+# שלוש הרמות מול רף מבחן קרני האמיתי. הסדר משמעותי — ה-UI מציג לפיו.
+PSY_LEVELS = ("beginner", "standard", "advanced")
+
+# שיוך נושא מאגר התרגול לקורס (ולפרק, כשיש פרק ייעודי). אין קשר כזה ב-DB —
+# PsyItem.topic הוא מחרוזת חופשית שנכתבת יחד עם השאלות — ולכן זו רשימה
+# מתוחזקת ידנית: נושא חדש שנוסף למאגר ולא נרשם כאן פשוט נופל בשקט ל-None
+# ומוצג כמו קודם, בלי לשבור את העמוד.
+TOPIC_COURSE: Dict[tuple[str, str], tuple[str, Optional[int]]] = {
+    # כמותי
+    ("quantitative", "סדרות מספרים ואותיות"): ("karni-series", None),
+    ("quantitative", "צורות וגאומטריה"): ("karni-quant-geometry", None),
+    ("quantitative", "גאומטריה אנליטית"): ("karni-quant-geometry", None),
+    ("quantitative", "הסקה מתרשים"): ("karni-quant-geometry", 5),
+    ("quantitative", "מספרים וחזקות"): ("karni-quant-numbers", 1),
+    # הצבת נעלמים היא שאלת טכניקה טהורה (פסילה לפי ספרת אחדות, תשובות
+    # חשודות), ולכן היא שייכת ללומדת האסטרטגיות ולפרק "הצבת תשובות".
+    ("quantitative", "הצבת נעלמים"): ("karni-quant-strategies", 1),
+    ("quantitative", "שברים ועשרוניים"): ("karni-quant-numbers", 2),
+    ("quantitative", "אחוזים"): ("karni-quant-numbers", 3),
+    ("quantitative", "יחס ופרופורציה"): ("karni-quant-numbers", 4),
+    ("quantitative", "ממוצע"): ("karni-quant-numbers", 5),
+    ("quantitative", "אלגברה"): ("karni-quant-word-problems", 1),
+    ("quantitative", "תנועה"): ("karni-quant-word-problems", 2),
+    ("quantitative", "הספק"): ("karni-quant-word-problems", 3),
+    # מילולי
+    ("verbal", "אנלוגיות"): ("karni-verbal-analogies", None),
+    ("verbal", "אוצר מילים וניבים"): ("karni-verbal-analogies", 2),
+    ("verbal", "הבנה והסקה"): ("karni-verbal-reading", None),
+    ("verbal", "השלמת משפטים"): ("karni-verbal-completion", 1),
+    ("verbal", "יוצא דופן"): ("karni-verbal-odd-one-out", None),
+    ("verbal", "סדרות מספרים ואותיות"): ("karni-series", None),
+    # צורני
+    ("figural", "סדרות צורות"): ("karni-figural-series", None),
+    ("figural", "אנלוגיות צורניות"): ("karni-figural-analogies", None),
+    ("figural", "מטריצות"): ("karni-figural-matrices", None),
+    ("figural", "יוצא דופן צורני"): ("karni-figural-basics", 3),
+    # לוגי
+    ("logic", "פאזל תנאים"): ("karni-logic-deduction", 2),
+    ("logic", "היסק תנאי"): ("karni-logic-deduction", 4),
+    ("logic", "מסקנות הכרחיות ואפשריות"): ("karni-logic-deduction", 4),
+    ("logic", "היסק מכלל “כל”"): ("karni-logic-deduction", 5),
+    # מרחבי
+    ("spatial", "חשיבה מרחבית"): ("karni-spatial-nets", None),
+    ("spatial", "קיפולים וניקובים"): ("karni-spatial-nets", 2),
+    # מהירות ודיוק
+    ("speed", "ספירת סמלים"): ("karni-speed-accuracy", 2),
+    ("speed", "השוואה מהירה"): ("karni-speed-accuracy", 2),
+    ("speed", "השוואה מהירה של קודים"): ("karni-speed-accuracy", 2),
+    ("speed", "התאמת מחרוזות"): ("karni-speed-accuracy", 3),
+    # אנגלית
+    ("english", "דקדוק"): ("karni-english-grammar", None),
+    ("english", "אוצר מילים"): ("karni-english-vocabulary", None),
+    ("english", "השלמת משפטים"): ("karni-english-grammar", 5),
+    ("english", "הבנת הנקרא"): ("karni-english-vocabulary", None),
+}
+
 
 # ---------------------------------------------------------------------------
 # helpers
@@ -82,6 +142,7 @@ def _item_out(item: models.PsyItem) -> PsyItemOut:
         figure=item.figure,
         options=list(item.options or []),
         difficulty=item.difficulty,
+        level=item.level or "standard",
         target_seconds=item.target_seconds,
         passage=_passage_out(item.passage),
     )
@@ -98,22 +159,15 @@ def _draw_section_items(
     db: Session,
     section: models.PsySimSection,
     exclude: Optional[set] = None,
-    allowed_ids: Optional[set] = None,
 ) -> List[str]:
     """Pick the refs for one section: a fixed form if authored, else a draw.
 
     A blueprint row is ``{count, topic?, qtype?, domain?, difficulty?,
-    min_difficulty?}``. ``difficulty`` pins an exact level; ``min_difficulty``
+    min_difficulty?, level?}``. ``difficulty`` pins an exact level; ``min_difficulty``
     sets a floor, which is what the advanced forms use — pinning an exact level
     would starve topics whose hard items sit at 3 and 4 alike. Rows
     are filled in order and already-picked refs are excluded, so a narrow row
     later in the list cannot silently duplicate an earlier pick.
-
-    ``allowed_ids`` limits the draw to the item ids the student's access tier
-    actually opens. A free-tier student sitting a preview mock used to be drawn
-    the whole bank, and the results screen then handed him the correct answer
-    and the worked solution for every locked question in it — the 20% slice was
-    cosmetic the moment one free simulation existed.
 
     ``exclude`` carries the refs already used by *earlier sections of the same
     attempt*. Without it, a two-quantitative-section mock drawn from a thin bank
@@ -124,19 +178,7 @@ def _draw_section_items(
     would be worse than useless.
     """
     if section.item_refs:
-        refs = list(section.item_refs)
-        if allowed_ids is None:
-            return refs
-        # טופס כתוב-מראש עובר את אותו סינון. בלעדיו סימולציית הטעימה המשיכה
-        # להגיש לתלמיד בדרגת free שאלות שלא נפתחו לו — הדוח אמנם מצנזר את
-        # הפתרון, אבל עדיף מבחן קצר ועקבי על מבחן שרובו חסום.
-        open_refs = {
-            r
-            for (r,) in db.query(models.PsyItem.ref).filter(
-                models.PsyItem.ref.in_(refs), models.PsyItem.id.in_(allowed_ids)
-            )
-        }
-        return [r for r in refs if r in open_refs]
+        return list(section.item_refs)
 
     picked: List[str] = []
     seen: set[str] = set(exclude or ())
@@ -150,8 +192,6 @@ def _draw_section_items(
             models.PsyItem.is_active.is_(True),
             models.PsyItem.domain == (row.get("domain") or section.domain),
         )
-        if allowed_ids is not None:
-            q = q.filter(models.PsyItem.id.in_(allowed_ids))
         if row.get("topic"):
             q = q.filter(models.PsyItem.topic == row["topic"])
         if row.get("qtype"):
@@ -160,6 +200,8 @@ def _draw_section_items(
             q = q.filter(models.PsyItem.difficulty == int(row["difficulty"]))
         if row.get("min_difficulty"):
             q = q.filter(models.PsyItem.difficulty >= int(row["min_difficulty"]))
+        if row.get("level"):
+            q = q.filter(models.PsyItem.level == row["level"])
         if seen:
             q = q.filter(~models.PsyItem.ref.in_(seen))
 
@@ -194,11 +236,6 @@ def _draw_section_items(
                 models.PsyItem.passage_id == item.passage_id,
                 models.PsyItem.is_active.is_(True),
             )
-            # אותה מלכודת שההערה מתחת כבר מתארת לגבי הקושי, רק עם דרגת הגישה:
-            # הסינון חל על שאילתת המועמדים אבל לא על החברים שנגררים אחרי הקטע,
-            # ולכן כל הדליפות של דרגת free הגיעו מכאן — מקבץ של קטע קריאה.
-            if allowed_ids is not None:
-                cluster_q = cluster_q.filter(models.PsyItem.id.in_(allowed_ids))
             if row.get("topic"):
                 cluster_q = cluster_q.filter(models.PsyItem.topic == row["topic"])
             if row.get("qtype"):
@@ -211,14 +248,11 @@ def _draw_section_items(
                 cluster_q = cluster_q.filter(
                     models.PsyItem.difficulty >= int(row["min_difficulty"])
                 )
+            if row.get("level"):
+                cluster_q = cluster_q.filter(models.PsyItem.level == row["level"])
             cluster = cluster_q.order_by(
                 models.PsyItem.passage_order, models.PsyItem.id
             ).all()
-            # מקבץ שנשארו בו פחות משתי שאלות פתוחות לא שווה 200 מילות קריאה —
-            # אותו שיקול כמו ב-``remaining < 2`` למעלה.
-            if len(cluster) < 2:
-                deferred.append(item)
-                continue
             # A passage another section already used is not worth reopening:
             # the student would meet the same 200 words twice, a few questions
             # at a time. Leave it and fill from somewhere else.
@@ -341,15 +375,9 @@ def list_simulations(
         .order_by(models.PsySimulation.order, models.PsySimulation.id)
         .all()
     )
-    access = user_content_access(db, current_user, PRODUCT_KARNI)
-    open_ids = (
-        unlocked_simulation_ids(db, free_simulations_count(db))
-        if access.tier == TIER_FREE
-        else set()
-    )
+    free_tier = user_access_tier(db, current_user, PRODUCT_KARNI) == TIER_FREE
     return [
-        _sim_out(db, sim, current_user,
-                 locked=access.tier == TIER_FREE and sim.id not in open_ids)
+        _sim_out(db, sim, current_user, locked=free_tier and not sim.free_preview)
         for sim in sims
     ]
 
@@ -370,18 +398,13 @@ def start_simulation(
     )
     if sim is None:
         raise HTTPException(status_code=404, detail="הסימולציה לא נמצאה")
-    access = user_content_access(db, current_user, PRODUCT_KARNI)
+    if user_access_tier(db, current_user, PRODUCT_KARNI) == TIER_FREE and not sim.free_preview:
+        raise HTTPException(status_code=402, detail="content_locked")
     if not sim.sections:
         raise HTTPException(status_code=409, detail="לסימולציה אין פרקים")
 
     # One live attempt per student. Resuming beats silently starting a second
     # paper and losing the first — and it stops a refresh from resetting the clock.
-    #
-    # This runs *before* the lock gate on purpose. A student whose Karni
-    # subscription lapsed mid-simulation was thrown a 402 by that gate, which
-    # left him unable to reach — or close — a paper he had legitimately opened,
-    # while the hub kept offering "המשך את «…»" as its main call to action.
-    # A paper already open stays reachable; only opening a *new* one is gated.
     existing = (
         db.query(models.PsyAttempt)
         .filter(
@@ -393,51 +416,14 @@ def start_simulation(
         .first()
     )
     if existing is not None:
-        # Two rapid clicks (or two tabs) both used to miss the SELECT above and
-        # each create a paper, splitting the answers between two attempts and
-        # stranding one in_progress forever. There is no unique constraint to
-        # lean on, so converge here instead: keep the newest, close the rest.
-        strays = (
-            db.query(models.PsyAttempt)
-            .filter(
-                models.PsyAttempt.user_id == current_user.id,
-                models.PsyAttempt.simulation_id == sim.id,
-                models.PsyAttempt.status == "in_progress",
-                models.PsyAttempt.id != existing.id,
-            )
-            .all()
-        )
-        for stray in strays:
-            _finalize(db, stray)
-
-        section = next(
-            (s for s in sim.sections if s.order == existing.current_section), None
-        )
         return PsyAttemptStart(
-            attempt_id=existing.id,
-            section_index=existing.current_section,
-            resumed=True,
-            # The player must not silently submit a section whose clock ran out
-            # while nobody was watching: it used to fire submitSection() straight
-            # out of the timer effect, burning a whole section in a flash with no
-            # message, behind a button that says "התחל".
-            section_expired=section is not None and _seconds_left(existing, section) <= 0,
+            attempt_id=existing.id, section_index=existing.current_section
         )
 
-    if access.tier == TIER_FREE and sim.id not in unlocked_simulation_ids(
-        db, free_simulations_count(db)
-    ):
-        raise HTTPException(status_code=402, detail="content_locked")
-
-    # דרגת free מקבלת מבחן שנדגם אך ורק מהמכסה הפתוחה לה — אחרת הדוח בסוף
-    # מחזיר לה את התשובה הנכונה וההסבר לכל שאלה נעולה שנכנסה לטופס.
-    allowed_ids = (
-        unlocked_psy_item_ids(db, access.ratio) if access.tier == TIER_FREE else None
-    )
     form = []
     used: set = set()
     for section in sim.sections:
-        refs = _draw_section_items(db, section, exclude=used, allowed_ids=allowed_ids)
+        refs = _draw_section_items(db, section, exclude=used)
         used.update(refs)
         form.append(
             {
@@ -525,28 +511,10 @@ def autosave_section(
     not cost the student the section they were halfway through.
     """
     attempt = _get_attempt(db, attempt_id, current_user)
-    # קריאה טרייה לפני כל בדיקה. autosave שנשלח רגע לפני "סיום הפרק" ונחת אחריו
-    # עבד על תמונת מצב שנקראה לפני ההגשה, ולכן דרס את מפתחות ה-"correct" שההגשה
-    # בדיוק כתבה: הכותרת הראתה 78% בזמן שבסקירה כל שאלות הפרק סומנו שגויות.
-    # אחרי refresh, current_section כבר התקדם וההגשה המאוחרת נופלת על הבדיקה
-    # שמתחת — בלי לגעת בתשובות שנוקדו.
-    db.refresh(attempt)
     if attempt.status != "in_progress":
         return {"saved": False}
     if payload.section_index != attempt.current_section:
         return {"saved": False}
-
-    section = next(
-        (s for s in attempt.simulation.sections if s.order == attempt.current_section),
-        None,
-    )
-    # השער שחסר כאן פתח לרווחה את מה ש-submit_section נשען עליו. מסלול ה-late
-    # מנקד בכוונה לפי מה שכבר נשמר ("running the clock out cannot be used to buy
-    # extra thinking time") — אבל /save קיבל תשובות בלי לבדוק שעון בכלל, ולכן
-    # אפשר היה לענות אחרי הדדליין ולקבל את הניקוד המלא. אומת מול ה-DB: שמירה
-    # 30 דקות אחרי תום הפרק החזירה saved=True והמקטע נוקד 10/10.
-    if section is not None and _seconds_left(attempt, section) <= 0:
-        return {"saved": False, "expired": True, "seconds_left": 0}
 
     answers = dict(attempt.answers or {})
     for ref, chosen in payload.answers.items():
@@ -557,12 +525,10 @@ def autosave_section(
         answers[ref] = rec
     attempt.answers = answers
     db.commit()
-    # מקטע שנמחק מתחת ל-attempt חי (עריכת תוכן + seed באמצע סימולציה): התשובות
-    # כבר נשמרו למעלה, ולכן מחזירים saved=True בלי שעון. next() בלי ברירת מחדל
-    # הפיל כאן 500, בזמן ש-get_section ו-submit_section מחזירים 409 מסודר.
-    if section is None:
-        return {"saved": True}
-    return {"saved": True, "seconds_left": _seconds_left(attempt, section)}
+    return {"saved": True, "seconds_left": _seconds_left(
+        attempt,
+        next(s for s in attempt.simulation.sections if s.order == attempt.current_section),
+    )}
 
 
 @router.post("/attempts/{attempt_id}/section", response_model=PsySectionSubmitResult)
@@ -601,16 +567,11 @@ def submit_section(
     correct = 0
     unanswered = 0
     seconds_total = 0
-    asked = 0
 
     for ref in refs:
         item = by_ref.get(ref)
         if item is None:
-            # פריט שנגרע מהמאגר אחרי שהטופס הוקפא (seed מוחק פריטים שכבר לא
-            # בקבצים) מעולם לא הוצג לתלמיד — get_section מסנן אותו באותה צורה —
-            # ולכן הוא לא נספר גם במכנה. אחרת התלמיד נענש על שאלה שלא ראה.
             continue
-        asked += 1
         stored = dict(answers.get(ref) or {})
         # A late submission is scored on what was already autosaved, so running
         # the clock out cannot be used to buy extra thinking time.
@@ -639,7 +600,7 @@ def submit_section(
             "domain": section.domain,
             "title": section.title,
             "correct": correct,
-            "total": asked,
+            "total": len(refs),
             "unanswered": unanswered,
             "seconds": seconds_total,
             "is_pilot": bool(section.is_pilot),
@@ -692,33 +653,20 @@ def finish_attempt(
         )
         refs = list(form_row.get("item_refs") or [])
         # Count what was autosaved before the student walked away — abandoning
-        # mid-section should not erase the answers already given. Autosave only
-        # ever stores "chosen" (submit_section is what writes "correct"), so the
-        # grading has to happen here; reading "correct" scored every abandoned
-        # section as a flat zero.
-        by_ref = _items_by_ref(db, refs)
-        stored_answers = attempt.answers or {}
-        correct = 0
-        asked = 0
-        unanswered = 0
-        for ref in refs:
-            item = by_ref.get(ref)
-            if item is None:
-                continue
-            asked += 1
-            chosen = (stored_answers.get(ref) or {}).get("chosen")
-            if chosen is None:
-                unanswered += 1
-            elif int(chosen) == item.correct_index:
-                correct += 1
+        # mid-section should not erase the answers already given.
+        correct = sum(
+            1
+            for ref in refs
+            if (attempt.answers or {}).get(ref, {}).get("correct")
+        )
         results.append(
             {
                 "section_index": section.order,
                 "domain": section.domain,
                 "title": section.title,
                 "correct": correct,
-                "total": asked,
-                "unanswered": unanswered,
+                "total": len(refs),
+                "unanswered": len(refs) - correct,
                 "seconds": 0,
                 "is_pilot": bool(section.is_pilot),
             }
@@ -782,15 +730,6 @@ def get_results(
     ]
     by_ref = _items_by_ref(db, all_refs)
 
-    # הדוח הוא המקום היחיד שמחזיר correct_index/explanation/solution, והוא היה
-    # הנתיב היחיד באזור בלי בדיקת דרגה בכלל. ההגרלה כבר מוגבלת למכסה
-    # (start_simulation), אבל ניסיונות שנוצרו לפני התיקון עדיין מחזיקים פריטים
-    # נעולים בטופס — ולכן הצנזור כאן הוא השכבה שמחזיקה גם אותם.
-    access = user_content_access(db, current_user, PRODUCT_KARNI)
-    open_ids = (
-        unlocked_psy_item_ids(db, access.ratio) if access.tier == TIER_FREE else None
-    )
-
     review: List[PsyAnswerReview] = []
     stat_rows: List[dict] = []
     for row in attempt.form or []:
@@ -800,9 +739,6 @@ def get_results(
             if item is None:
                 continue
             rec = (attempt.answers or {}).get(ref) or {}
-            # פריט שמחוץ למכסה: התלמיד רואה שענה נכון או לא, אבל לא את הפתרון —
-            # אחרת סבב על ארבע סימולציות הטעימה קוצר את המאגר הנעול במלואו.
-            locked = open_ids is not None and item.id not in open_ids
             review.append(
                 PsyAnswerReview(
                     ref=ref,
@@ -815,12 +751,12 @@ def get_results(
                     figure=item.figure,
                     options=list(item.options or []),
                     chosen=rec.get("chosen"),
-                    correct_index=None if locked else item.correct_index,
+                    correct_index=item.correct_index,
                     is_correct=bool(rec.get("correct")),
                     seconds=int(rec.get("seconds") or 0),
                     target_seconds=item.target_seconds,
-                    explanation=None if locked else item.explanation,
-                    solution=None if locked else item.solution,
+                    explanation=item.explanation,
+                    solution=item.solution,
                     passage=_passage_out(item.passage),
                 )
             )
@@ -896,6 +832,7 @@ def drill_questions(
     topic: Optional[str] = Query(None),
     qtype: Optional[str] = Query(None),
     difficulty: Optional[int] = Query(None, ge=1, le=5),
+    level: Optional[str] = Query(None),
     limit: int = Query(10, ge=1, le=50),
     db: Session = Depends(get_db),
     current_user: models.User = Depends(get_current_user),
@@ -909,19 +846,21 @@ def drill_questions(
         q = q.filter(models.PsyItem.qtype == qtype)
     if difficulty:
         q = q.filter(models.PsyItem.difficulty == difficulty)
+    if level:
+        if level not in PSY_LEVELS:
+            raise HTTPException(status_code=400, detail="רמה לא מוכרת")
+        q = q.filter(models.PsyItem.level == level)
 
-    # הטעימה במאגר נמדדת באותו אחוז שחל על הקורסים (ברירת מחדל 20% למי שקנה
-    # רק את הלומדה, 30% למי שאין לו מנוי כלל) ולא בסף קושי קבוע — ראה
-    # unlocked_psy_item_ids (ולסימולציות — unlocked_simulation_ids).
-    access = user_content_access(db, current_user, PRODUCT_KARNI)
-    if access.tier == TIER_FREE:
-        q = q.filter(models.PsyItem.id.in_(unlocked_psy_item_ids(db, access.ratio)))
+    # Free tier drills the easier half of the bank; the graded material and the
+    # full mocks are the paid product.
+    if user_access_tier(db, current_user, PRODUCT_KARNI) == TIER_FREE:
+        q = q.filter(models.PsyItem.difficulty <= FREE_MAX_DIFFICULTY)
 
     items = q.order_by(func.random()).limit(limit).all()
     # Keep a passage's questions together. Random order served p5, p2, p4, p6,
     # p4… — the student re-read the same 200-word text from scratch four times
-    # in one drill. Standalone items keep their random position; the first time
-    # a passage appears fixes where its whole group sits.
+    # in one drill. Standalone items keep their random order; the first time a
+    # passage appears fixes where its whole group sits.
     first_seen: Dict[int, int] = {}
     for i, item in enumerate(items):
         if item.passage_id is not None:
@@ -947,10 +886,9 @@ def drill_answer(
     item = db.query(models.PsyItem).filter(models.PsyItem.ref == payload.ref).first()
     if item is None:
         raise HTTPException(status_code=404, detail="השאלה לא נמצאה")
-    # Same side door the practice router closes: without this, guessing refs
-    # would hand out the locked part of the bank complete with solutions.
-    access = user_content_access(db, current_user, PRODUCT_KARNI)
-    if access.tier == TIER_FREE and item.id not in unlocked_psy_item_ids(db, access.ratio):
+    if user_access_tier(db, current_user, PRODUCT_KARNI) == TIER_FREE and item.difficulty > 2:
+        # Same side door the practice router closes: without this, guessing refs
+        # would hand out the locked half of the bank complete with solutions.
         raise HTTPException(status_code=402, detail="content_locked")
 
     is_correct = payload.chosen == item.correct_index
@@ -985,16 +923,7 @@ def drill_topics(
     db: Session = Depends(get_db),
     current_user: models.User = Depends(get_current_user),
 ) -> List[dict]:
-    """נושאי המאגר, וכמה שאלות פעילות יש בכל אחד.
-
-    ``open_count`` הוא כמה מהן פתוחות לתלמיד הזה בפועל (``None`` = גישה מלאה).
-    בלעדיו הצ'יפ בעמוד התרגול הכריז על המספר המלא בזמן ש-``/drill`` מחזיר רק
-    את הפרוסה — התוכן היה חסום כמו שצריך, אבל המספר שיקר.
-    """
-    access = user_content_access(db, current_user, PRODUCT_KARNI)
-    open_ids = (
-        unlocked_psy_item_ids(db, access.ratio) if access.tier == TIER_FREE else None
-    )
+    """Topics available in the bank, with how many active items each holds."""
     q = (
         db.query(
             models.PsyItem.domain,
@@ -1006,82 +935,10 @@ def drill_topics(
     if domain:
         q = q.filter(models.PsyItem.domain == domain)
     rows = q.group_by(models.PsyItem.domain, models.PsyItem.topic).all()
-    open_per_topic: Dict[tuple, int] = {}
-    if open_ids is not None:
-        oq = db.query(
-            models.PsyItem.domain, models.PsyItem.topic, func.count(models.PsyItem.id)
-        ).filter(
-            models.PsyItem.is_active.is_(True),
-            models.PsyItem.topic.isnot(None),
-            models.PsyItem.id.in_(open_ids),
-        )
-        if domain:
-            oq = oq.filter(models.PsyItem.domain == domain)
-        open_per_topic = {
-            (d, t): n
-            for d, t, n in oq.group_by(models.PsyItem.domain, models.PsyItem.topic).all()
-        }
     return [
-        {
-            "domain": d,
-            "topic": t,
-            "count": c,
-            "open_count": open_per_topic.get((d, t), 0) if open_ids is not None else None,
-        }
+        {"domain": d, "topic": t, "count": c}
         for d, t, c in sorted(rows, key=lambda r: (r[0], r[1]))
     ]
-
-
-# שיוך נושא מאגר התרגול לקורס (ולפרק, כשיש פרק ייעודי). אין קשר כזה ב-DB —
-# PsyItem.topic הוא מחרוזת חופשית שנכתבת יחד עם השאלות — ולכן זו רשימה
-# מתוחזקת ידנית: נושא חדש שנוסף למאגר ולא נרשם כאן פשוט נופל בשקט ל-None
-# ומוצג כמו קודם, בלי לשבור את העמוד.
-TOPIC_COURSE: Dict[tuple[str, str], tuple[str, Optional[int]]] = {
-    # כמותי
-    ("quantitative", "סדרות מספרים ואותיות"): ("karni-series", None),
-    ("quantitative", "צורות וגאומטריה"): ("karni-quant-geometry", None),
-    ("quantitative", "גאומטריה אנליטית"): ("karni-quant-geometry", None),
-    ("quantitative", "הסקה מתרשים"): ("karni-quant-geometry", 5),
-    ("quantitative", "מספרים וחזקות"): ("karni-quant-numbers", 1),
-    ("quantitative", "שברים ועשרוניים"): ("karni-quant-numbers", 2),
-    ("quantitative", "אחוזים"): ("karni-quant-numbers", 3),
-    ("quantitative", "יחס ופרופורציה"): ("karni-quant-numbers", 4),
-    ("quantitative", "ממוצע"): ("karni-quant-numbers", 5),
-    ("quantitative", "אלגברה"): ("karni-quant-word-problems", 1),
-    ("quantitative", "תנועה"): ("karni-quant-word-problems", 2),
-    ("quantitative", "הספק"): ("karni-quant-word-problems", 3),
-    # מילולי
-    ("verbal", "אנלוגיות"): ("karni-verbal-analogies", None),
-    ("verbal", "אוצר מילים וניבים"): ("karni-verbal-analogies", 2),
-    ("verbal", "הבנה והסקה"): ("karni-verbal-reading", None),
-    ("verbal", "השלמת משפטים"): ("karni-verbal-completion", 1),
-    ("verbal", "יוצא דופן"): ("karni-verbal-odd-one-out", None),
-    ("verbal", "סדרות מספרים ואותיות"): ("karni-series", None),
-    # צורני
-    ("figural", "סדרות צורות"): ("karni-figural-series", None),
-    ("figural", "אנלוגיות צורניות"): ("karni-figural-analogies", None),
-    ("figural", "מטריצות"): ("karni-figural-matrices", None),
-    ("figural", "שטיחים ותבניות"): ("karni-carpets", None),
-    ("figural", "יוצא דופן צורני"): ("karni-figural-basics", 3),
-    # לוגי
-    ("logic", "פאזל תנאים"): ("karni-logic-deduction", 2),
-    ("logic", "היסק תנאי"): ("karni-logic-deduction", 4),
-    ("logic", "מסקנות הכרחיות ואפשריות"): ("karni-logic-deduction", 4),
-    ("logic", "היסק מכלל “כל”"): ("karni-logic-deduction", 5),
-    # מרחבי
-    ("spatial", "חשיבה מרחבית"): ("karni-spatial-nets", None),
-    ("spatial", "קיפולים וניקובים"): ("karni-fold-punch", None),
-    # מהירות ודיוק
-    ("speed", "ספירת סמלים"): ("karni-speed-accuracy", 2),
-    ("speed", "השוואה מהירה"): ("karni-speed-accuracy", 2),
-    ("speed", "השוואה מהירה של קודים"): ("karni-speed-accuracy", 2),
-    ("speed", "התאמת מחרוזות"): ("karni-speed-accuracy", 3),
-    # אנגלית
-    ("english", "דקדוק"): ("karni-english-grammar", None),
-    ("english", "אוצר מילים"): ("karni-english-vocabulary", None),
-    ("english", "השלמת משפטים"): ("karni-english-grammar", 5),
-    ("english", "הבנת הנקרא"): ("karni-english-vocabulary", None),
-}
 
 
 # ---------------------------------------------------------------------------
@@ -1127,11 +984,7 @@ def overview(
         for c in courses
     ]
 
-    karni_access = user_content_access(db, current_user, PRODUCT_KARNI)
-    free_tier = karni_access.tier == TIER_FREE
-    open_sim_ids = (
-        unlocked_simulation_ids(db, free_simulations_count(db)) if free_tier else set()
-    )
+    free_tier = user_access_tier(db, current_user, PRODUCT_KARNI) == TIER_FREE
     sims = (
         db.query(models.PsySimulation)
         .filter(models.PsySimulation.is_published.is_(True))
@@ -1201,40 +1054,67 @@ def overview(
         b["answered"] += 1
         b["correct"] += 1 if row.get("is_correct") else 0
 
+    # The count has to respect the same tier floor the drill enforces, or the
+    # card advertises questions the student cannot open: a topic authored
+    # entirely at difficulty 3+ showed "10 שאלות" to a free-tier student and
+    # then opened empty.
+    # ‎count‎ הוא תמיד גודל המאגר האמיתי, ו-‎open_count‎ הוא מה שדרגת הגישה של
+    # התלמיד באמת פותחת לו. קודם ‎count‎ עצמו הוצטמצם לדרגת free, והכרטיס אמר
+    # "8 שאלות במאגר" על נושא שיש בו 24 — מספר שגוי, ובלי שום רמז שיש עוד.
+    bank_base = db.query(models.PsyItem).filter(
+        models.PsyItem.is_active.is_(True), models.PsyItem.topic.isnot(None)
+    )
     bank_rows = (
-        db.query(models.PsyItem.domain, models.PsyItem.topic, func.count(models.PsyItem.id))
-        .filter(models.PsyItem.is_active.is_(True), models.PsyItem.topic.isnot(None))
+        bank_base.with_entities(
+            models.PsyItem.domain, models.PsyItem.topic, func.count(models.PsyItem.id)
+        )
         .group_by(models.PsyItem.domain, models.PsyItem.topic)
         .all()
     )
-    # בדרגת free הכרטיס חייב להגיד גם כמה שאלות באמת פתוחות: אחרת נושא שכתוב
-    # עליו "20 שאלות" מחזיר 4 בתרגול בפועל, וזה נקרא כתקלה ולא כטעימה. הספירה
-    # המלאה נשארת מוצגת — היא בדיוק מה שממחיש מה נפתח עם מנוי.
-    open_per_topic: Dict[tuple, int] = {}
     if free_tier:
-        open_per_topic = {
+        # שאילתה שנייה ולא ‎case()‎ בתוך הראשונה — קריא יותר, ועדיין שתי שאילתות
+        # לכל העמוד ולא אחת לכל נושא.
+        open_by_key = {
             (domain, topic): n
-            for domain, topic, n in db.query(
+            for domain, topic, n in bank_base.with_entities(
                 models.PsyItem.domain, models.PsyItem.topic, func.count(models.PsyItem.id)
             )
-            .filter(
-                models.PsyItem.is_active.is_(True),
-                models.PsyItem.topic.isnot(None),
-                models.PsyItem.id.in_(unlocked_psy_item_ids(db, karni_access.ratio)),
-            )
+            .filter(models.PsyItem.difficulty <= FREE_MAX_DIFFICULTY)
             .group_by(models.PsyItem.domain, models.PsyItem.topic)
             .all()
         }
+    else:
+        open_by_key = None
+
+    # פיצול לרמות — שאילתה אחת לכל העמוד, ולא אחת לכל נושא.
+    levels_by_key: Dict[tuple, Dict[str, int]] = {}
+    for domain, topic, lvl, n in (
+        bank_base.with_entities(
+            models.PsyItem.domain,
+            models.PsyItem.topic,
+            models.PsyItem.level,
+            func.count(models.PsyItem.id),
+        )
+        .group_by(models.PsyItem.domain, models.PsyItem.topic, models.PsyItem.level)
+        .all()
+    ):
+        levels_by_key.setdefault((domain, topic), {})[lvl or "standard"] = n
 
     topic_cards = []
     for domain, topic, count in bank_rows:
+        open_count = count if open_by_key is None else open_by_key.get((domain, topic), 0)
+        # נושא שכולו מעל מגבלת הקושי נפתח ריק בתרגול — הוא לא מוצג בכלל, בדיוק
+        # כמו קודם. ההבדל הוא שעכשיו זה מכוון ולא תופעת לוואי של הספירה.
+        if open_count == 0:
+            continue
         seen = per_topic.get((domain, topic), {"answered": 0, "correct": 0})
         topic_cards.append(
             PsyTopicCard(
                 domain=domain,
                 topic=topic,
                 count=count,
-                open_count=open_per_topic.get((domain, topic), 0) if free_tier else None,
+                open_count=open_count,
+                level_counts=levels_by_key.get((domain, topic), {}),
                 answered=seen["answered"],
                 accuracy=round(seen["correct"] / seen["answered"], 3)
                 if seen["answered"]
@@ -1275,8 +1155,7 @@ def overview(
         courses=course_cards,
         topics=topic_cards,
         simulations=[
-            _sim_out(db, sim, current_user,
-                     locked=free_tier and sim.id not in open_sim_ids)
+            _sim_out(db, sim, current_user, locked=free_tier and not sim.free_preview)
             for sim in sims
         ],
         recent_attempts=[_attempt_summary(a) for a in attempts],

@@ -77,7 +77,7 @@ def _compute_next_difficulty(exam: models.Exam, history, db: Session) -> str:
 def _ensure_exam_unlocked(
     exam: models.Exam, db: Session, current_user: models.User
 ) -> None:
-    """402 אם המבחן נעול לדרגת הגישה של המשתמש — ~30% מהמבחנים הראשונים בכל
+    """402 אם המבחן נעול לדרגת הגישה של המשתמש — ~42% מהמבחנים הראשונים בכל
     מקצוע פתוחים ללא מנוי (ראה app.access). נבדק בכל נקודת כניסה למבחן:
     הפרטים, השאלה הבאה וההגשה — אחרת אפשר היה לפתור מבחן נעול ישירות מה-API.
     """

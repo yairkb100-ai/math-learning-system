@@ -173,8 +173,6 @@ export default function AdminPricing() {
         lesson_price_nis: num(pricing.lesson_price_nis, 'מחיר שיעור פרטי'),
         cross_product_free_pct: num(
           pricing.cross_product_free_pct, 'טעימה מהמוצר השני'),
-        free_simulations_count: num(
-          pricing.free_simulations_count, 'סימולציות פתוחות בטעימה'),
         referral_sub_discount_pct: num(pricing.referral_sub_discount_pct, 'הנחה על החודש הבא'),
         referral_lesson_discount_pct: num(
           pricing.referral_lesson_discount_pct, 'הנחה על שיעור פרטי'),
@@ -412,29 +410,13 @@ export default function AdminPricing() {
             />
             <span className="field-hint">ברירת מחדל: 20%</span>
           </div>
-          <div className="form-group">
-            <label>סימולציות פתוחות בטעימה</label>
-            <input
-              type="number"
-              min="0"
-              value={pricing?.free_simulations_count ?? 4}
-              onChange={(e) =>
-                setPricing({ ...pricing, free_simulations_count: e.target.value })
-              }
-            />
-            <span className="field-hint">
-              מספר מבחנים, לא אחוז — הקטלוג גדל והאחוז היה פותח עוד ועוד. אילו
-              מהם נפתחים נקבע לפי סימון "טעימה חינם" על הסימולציה. ברירת מחדל: 4
-            </span>
-          </div>
           <button className="btn" disabled={busy}>
             שמור
           </button>
         </form>
         <p className="muted">
-          מי שאין לו מנוי אמיתי על המוצר — כולל תלמיד בתקופת ההתנסות — ממשיך
-          לראות את טעימת ברירת המחדל (30% בלומדה, 10% בקרני) — האחוז כאן נוגע
-          רק למי שכבר קנה את המוצר השני.
+          מי שאין לו מנוי כלל (לפני תחילת ההתנסות) ממשיך לראות את טעימת ברירת
+          המחדל של 42% — האחוז כאן נוגע רק למי שכבר קנה מוצר אחד.
         </p>
       </div>
 

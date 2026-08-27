@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useAuth } from '../context/AuthContext.jsx'
 import api from '../api.js'
 import { usePageMeta } from '../lib/seo.js'
+import { humanError } from '../lib/errors.js'
 import { fadeInUp, staggerContainer, tapScale, DURATION, EASE_OUT, EASE_IN } from '../lib/motion.js'
 
 // שקופית קטנה מתחת לשדה — לא רק "מופיע", גם "נעלם" יפה כשהשגיאה מתנקה.
@@ -46,14 +47,14 @@ export default function LoginPage() {
       navigate(res.user.role === 'admin' ? '/admin' : '/')
     } catch (err) {
       console.error('Login error:', err)
-      setError(err.message || 'שגיאה בהתחברות — בדוק שהשרת רץ')
+      setError(humanError(err, 'לא הצלחנו להתחבר כרגע. נסו שוב עוד רגע.'))
     } finally {
       setLoading(false)
     }
   }
 
   return (
-    <div className="auth-page" dir="rtl">
+    <div className="auth-page auth-page-board" dir="rtl">
       <motion.div
         className="auth-card"
         initial="hidden"
@@ -65,9 +66,9 @@ export default function LoginPage() {
         </motion.div>
         <motion.h1 variants={fadeInUp}>לומדת מתמטיקה</motion.h1>
         <motion.p className="auth-tagline" variants={fadeInUp}>
-          מהיסודי ועד לתיכון
+          מכיתה ה׳ ועד תיכון
         </motion.p>
-        <motion.h2 variants={fadeInUp}>התחברות למערכת</motion.h2>
+        <motion.h2 variants={fadeInUp}>שמחים שחזרת</motion.h2>
 
         <motion.form onSubmit={handleSubmit} variants={fadeInUp}>
           <div className="form-group">
@@ -78,7 +79,7 @@ export default function LoginPage() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              placeholder="הכנס שם משתמש"
+              placeholder="השם שאיתו נרשמת"
               autoComplete="username"
               whileFocus={{ scale: 1.01 }}
               transition={{ duration: DURATION.short, ease: EASE_OUT }}
@@ -121,12 +122,12 @@ export default function LoginPage() {
             disabled={loading}
             {...tapScale}
           >
-            {loading ? 'מתחבר...' : 'כניסה'}
+            {loading ? 'רגע…' : 'כניסה'}
           </motion.button>
         </motion.form>
 
         <motion.p className="auth-switch" variants={fadeInUp}>
-          אין לך חשבון? <Link to="/register">הרשמה</Link>
+          עדיין אין לך חשבון? <Link to="/register">פותחים חשבון</Link>
         </motion.p>
       </motion.div>
     </div>

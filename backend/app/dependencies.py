@@ -8,12 +8,12 @@ from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 
 from app import models
-from app.access import FREE_CONTENT_RATIO, KARNI_BASE_FREE_RATIO, TIER_FREE, TIER_FULL
+from app.access import FREE_CONTENT_RATIO, TIER_FREE, TIER_FULL
 from app.auth import decode_token
 from app.database import get_db
-from app.products import DEFAULT_PRODUCT, PRODUCT_KARNI, product_for_track
+from app.products import DEFAULT_PRODUCT, product_for_track
 from app.settings_store import cross_product_free_ratio
-from app.trials import TRIAL_PLAN_CODE, start_trial_if_needed
+from app.trials import start_trial_if_needed
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login")
 
@@ -106,54 +106,25 @@ def user_has_lapsed_subscription(db: Session, user: models.User) -> bool:
     return has_history
 
 
-def _base_free_ratio(product: str) -> float:
-    """שיעור הטעימה למי שאין לו מנוי בתוקף *על המוצר עצמו* — גם בתקופת
-    ההתנסות, לא רק אחריה. שיעור נמוך יותר בכוונה לקרני: זה בנק שאלות סופי,
-    וטעימה בגודל שיעור הלומדה ממנו כמעט מייתרת רכישה (ראה
-    ``KARNI_BASE_FREE_RATIO``).
-    """
-    return KARNI_BASE_FREE_RATIO if product == PRODUCT_KARNI else FREE_CONTENT_RATIO
-
-
-def _access_for_subscription(
-    user: models.User, sub: models.Subscription, product: str
-) -> "ContentAccess":
-    """דרגת הגישה שנובעת משורת מנוי בתוקף על המוצר עצמו.
-
-    התנסות אינה מקבלת ``full``: היא רק פותחת חלון זמני שבו הטעימה הרגילה
-    (``_base_free_ratio``) נגישה בלי חסימת 402 — לא מעלה את הדרגה. ``full``
-    שמור למנוי אמיתי (בתשלום, או תוכנית ``free`` שהמנהל מעניק ידנית).
-    """
-    if sub.plan_code == TRIAL_PLAN_CODE:
-        return ContentAccess(
-            user=user, tier=TIER_FREE, product=product, ratio=_base_free_ratio(product)
-        )
-    return ContentAccess(user=user, tier=TIER_FULL, product=product, ratio=1.0)
-
-
 def user_content_access(
     db: Session, user: models.User, product: str = DEFAULT_PRODUCT
 ) -> "ContentAccess":
     """דרגת הגישה של המשתמש למוצר מסוים, כולל שיעור הטעימה שחל עליו.
 
-    ארבעה מצבים אפשריים אחרי הפיצול לשני מוצרים:
+    שלושה מצבים אפשריים אחרי הפיצול לשני מוצרים:
 
-    1. יש מנוי אמיתי בתוקף על המוצר הזה (או שזה מנהל) → ``full``.
-    2. יש *התנסות* בתוקף על המוצר הזה → ``free`` בשיעור הטעימה הרגיל
-       (``_base_free_ratio``) — לא ``full``. ההתנסות פותחת רק את החלון
-       הזמני שבו הטעימה נגישה בלי 402; היא לא הופכת לגישה מלאה.
-    3. יש מנוי בתוקף על המוצר *השני* בלבד → ``free`` בשיעור הצולב (ברירת
+    1. יש מנוי בתוקף על המוצר הזה (או שזה מנהל) → ``full``.
+    2. יש מנוי בתוקף על המוצר *השני* בלבד → ``free`` בשיעור הצולב (ברירת
        מחדל 20%, נערך במסך המחירים). כך תלמיד שקנה רק לומדה עדיין רואה טעימה
        מאזור קרני ויודע מה הוא מפספס, במקום להיתקל בקיר.
-    4. אין שום מנוי בתוקף אבל יש היסטוריה → חסימה מלאה (402), בדיוק כמו לפני
-       הפיצול. אין היסטוריה בכלל → מופעלת התנסות (שפותחת את שני המוצרים
-       בדרגת free, ראה #2).
+    3. אין שום מנוי בתוקף אבל יש היסטוריה → חסימה מלאה (402), בדיוק כמו לפני
+       הפיצול. אין היסטוריה בכלל → מופעלת התנסות (שפותחת את שני המוצרים).
     """
     if user.role == "admin":
         return ContentAccess(user=user, tier=TIER_FULL, product=product, ratio=1.0)
     active = active_subscriptions(db, user)
     if product in active:
-        return _access_for_subscription(user, active[product], product)
+        return ContentAccess(user=user, tier=TIER_FULL, product=product, ratio=1.0)
     if active:
         # מנוי על המוצר השני — טעימה מוקטנת, לא חסימה.
         return ContentAccess(
@@ -165,11 +136,10 @@ def user_content_access(
     if user_has_lapsed_subscription(db, user):
         raise HTTPException(status_code=402, detail="no_active_subscription")
     start_trial_if_needed(db, user)
-    active = active_subscriptions(db, user)
-    if product in active:
-        return _access_for_subscription(user, active[product], product)
+    if product in active_subscriptions(db, user):
+        return ContentAccess(user=user, tier=TIER_FULL, product=product, ratio=1.0)
     return ContentAccess(
-        user=user, tier=TIER_FREE, product=product, ratio=_base_free_ratio(product)
+        user=user, tier=TIER_FREE, product=product, ratio=FREE_CONTENT_RATIO
     )
 
 
@@ -178,19 +148,17 @@ def user_access_tier(
 ) -> str:
     """דרגת הגישה לתוכן: ``full`` (100%) או ``free`` (טעימה בלבד).
 
-    מנהל ומי שיש לו מנוי *אמיתי* בתוקף על המוצר (בתשלום, או תוכנית ``free``
-    שהמנהל מעניק ידנית) — מלא. כל השאר — הטעימה, כולל מי שנמצא בתקופת
-    ההתנסות עצמה (ראה ``_access_for_subscription``). הנימוק לכלל הזה (ולמה
-    לא ``price_nis > 0``) מפורט ב-``app.access``.
+    מנהל ומי שיש לו מנוי בתוקף על המוצר — מלא. כל השאר — הטעימה. הנימוק לכלל
+    הזה (ולמה לא ``price_nis > 0``) מפורט ב-``app.access``.
 
     מי שיש לו היסטוריית מנוי כלשהי בלי מנוי בתוקף כרגע (מנוי/התנסות שפגו,
     או מנוי שהמנהל ביטל) נחסם כאן לגמרי (402 ``no_active_subscription``,
     אותו קוד ש-api.js בפרונט כבר יודע להפנות ממנו ל-/subscription) ולא מקבל
     אפילו את דרגת ה-free — זו הפונקציה שכל נתיבי התוכן (קורסים, פרקים,
     קבצים, תרגול, בחנים, פסיכומטרי) קוראים לה כדי לקבוע גישה, אז זה המקום
-    היחיד הדרוש לחסימה גורפת. דרגת ה-free נשארת רלוונטית גם למי שנמצא
-    בהתנסות פעילה, וגם למי שאין לו שום היסטוריית מנויים עדיין (רשת ביטחון
-    עד ש-``start_trial_if_needed`` מפעיל התנסות).
+    היחיד הדרוש לחסימה גורפת. דרגת ה-free נשארת רלוונטית רק למי שאין לו שום
+    היסטוריית מנויים עדיין (רשת ביטחון עד ש-``start_trial_if_needed`` מפעיל
+    התנסות).
     """
     return user_content_access(db, user, product).tier
 

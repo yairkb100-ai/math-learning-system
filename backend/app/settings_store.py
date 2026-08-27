@@ -25,11 +25,6 @@ DEFAULTS: dict[str, tuple[object, type]] = {
     # כמה אחוז מהתוכן של מוצר שהתלמיד *לא* רכש נשארים פתוחים כטעימה — מנוי
     # לומדה שנכנס לאזור קרני, ולהפך. 0 = נעילה מלאה של המוצר השני.
     "cross_product_free_pct": (20.0, float),
-    # כמה סימולציות פתוחות בטעימה. מספר מוחלט ולא אחוז, בכוונה: קטלוג
-    # הסימולציות גדל עם הזמן, ואחוז היה פותח עוד ועוד מבחנים בשקט. מספר קבוע
-    # אומר "ארבעה מבחנים לטעום מהם" ונשאר נכון גם אחרי שיוכפל הקטלוג.
-    # *אילו* ארבעה — נקבע לפי סדר ה-free_preview; ראה access.unlocked_simulation_ids.
-    "free_simulations_count": (4, int),
     # הטלפון שאליו מעבירים תשלום עבור מנוי. אין סליקה במערכת, ולכן זה המספר
     # שהתלמיד רואה בעמוד המנוי. ריק = לא מוצג כלל, במקום להציג מספר שגוי.
     "payment_phone": ("", str),
@@ -77,15 +72,6 @@ def cross_product_free_ratio(db: Session) -> float:
     except (TypeError, ValueError):
         pct = 20.0
     return min(max(pct, 0.0), 100.0) / 100.0
-
-
-def free_simulations_count(db: Session) -> int:
-    """כמה סימולציות פתוחות בדרגת ``free``. שלילי נחתך לאפס."""
-    try:
-        n = int(get_setting(db, "free_simulations_count"))
-    except (TypeError, ValueError):
-        n = 4
-    return max(n, 0)
 
 
 def effective_lesson_price(db: Session) -> float:

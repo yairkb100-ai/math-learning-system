@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
@@ -9,17 +9,11 @@ import {
   IconSpark,
   IconClock,
   IconTrophy,
-  IconCheck,
-  IconBook,
-  IconPencil,
-  IconLayers,
-  IconBulb,
-  IconCompass,
-  IconLines,
-  IconGraduation,
+  IconChevronDown,
 } from '../components/icons.jsx'
 import { fadeInUp, staggerContainer, hoverLift, tapScale, DURATION, EASE_OUT } from '../lib/motion.js'
 import { PRODUCT_KARNI } from '../lib/products.js'
+import { levelBreakdown } from '../lib/psyLevels.js'
 import '../styles/psy.css'
 
 const DOMAIN_HE = {
@@ -54,50 +48,32 @@ const DOMAIN_RAMP = {
   english: 'lv-amber', // אמבר-חרדל
 }
 
-// אייקון לכל קטגוריה — SVG מ-‎icons.jsx‎ בלבד, לעולם לא אמוג'י (CLAUDE.md).
-// הבחירה סמנטית: ספר לטקסט, עיפרון לחישוב, שכבות לצורות, נורה להיסק, מצפן
-// למרחב, שעון לזריזות, שורות טקסט לאנגלית, וגביע לסימולציה המלאה.
-const CAT_ICON = {
-  verbal: IconBook,
-  quantitative: IconPencil,
-  figural: IconLayers,
-  logic: IconBulb,
-  spatial: IconCompass,
-  speed: IconClock,
-  english: IconLines,
-  full: IconTrophy,
-  other: IconGraduation,
+const KIND_HE = { mini: 'מיני-תרגול', section: 'פרק בודד', full: 'סימולציה מלאה' }
+// KIND_HE הוא לשון יחיד (כותרת הקבוצה), ולכן הוא לא יכול לשמש גם את כפתור
+// "הצג את כל N…" — "הצג את כל 68 הפרק בודד" הוא עברית שבורה.
+const KIND_HE_PLURAL = {
+  mini: 'המיני-תרגולים',
+  section: 'הפרקים הבודדים',
+  full: 'הסימולציות המלאות',
 }
-
-const KIND_HE = { mini: 'מבחן קצר', section: 'מבחן ממוקד', full: 'סימולציה מלאה' }
+// אותה צורה בלי ה' הידיעה, לכותרת הקבוצה: "פרק בודד" מעל 68 כרטיסים נקרא
+// כשגיאה, ובמיוחד כשמתחתיו כתוב "הצג את כל 68 הפרקים הבודדים".
+const KIND_HE_TITLE = {
+  mini: 'מיני-תרגולים',
+  section: 'פרקים בודדים',
+  full: 'סימולציות מלאות',
+}
 // תווית רמה על כרטיס הסימולציה. רק לטופס שה-API מחזיר לו level — לשאר אין תווית
 // בכלל, כדי ש"רמה מתקדמת" יבלוט במקום להיבלע ברעש. הגוון מגיע ממחלקת
 // הרמפה הקיימת (--lv / --lv-bg), בדיוק כמו DOMAIN_RAMP למעלה.
 const LEVEL_TAG = {
   advanced: { label: 'רמה מתקדמת', ramp: 'grade-hs' },
-  // סגול הוא הגוון הגבוה ברמפה הקיימת שעוד לא תפוס כאן, ולכן הוא מסמן את
-  // הדרגה שמעל "מתקדמת" בלי להמציא צבע חדש.
-  expert: { label: 'רמת מומחה', ramp: 'grade-9' },
-}
-// KIND_HE הוא לשון יחיד (כותרת הקבוצה), ולכן הוא לא יכול לשמש גם את כפתור
-// "הצג את כל N…" — "הצג את כל 68 הפרק בודד" הוא עברית שבורה.
-const KIND_HE_PLURAL = {
-  mini: 'המבחנים הקצרים',
-  section: 'המבחנים הממוקדים',
-  full: 'הסימולציות המלאות',
-}
-// אותה צורה בלי ה' הידיעה, לכותרת הקבוצה: "פרק בודד" מעל 68 שורות נקרא
-// כשגיאה, ובמיוחד כשמתחתיו כתוב "הצג את כל 68 הפרקים הבודדים".
-const KIND_HE_TITLE = {
-  mini: 'מבחנים קצרים',
-  section: 'מבחנים ממוקדים',
-  full: 'סימולציות מלאות',
 }
 const KIND_ORDER = ['mini', 'section', 'full']
 const KIND_LEAD = {
-  mini: 'בדיקה קצרה של השליטה בנושא אחד.',
-  section: 'מבחן בנושא אחד, עם שעון כמו במבחן.',
-  full: 'סימולציה של כל חלקי המבחן; מומלצת לאחר תרגול ממוקד.',
+  mini: 'סבב קצר בתחום אחד — הדרך הרגילה לבדוק אם נושא נכנס.',
+  section: 'פרק אחד בתנאי אמת, עם השעון של המבחן.',
+  full: 'המבחן כולו מקצה לקצה. שומרים אותו לרגע שבאמת מוכנים.',
 }
 // כמה סימולציות מוצגות בקבוצה לפני כפתור "הצג הכל" — בלי זה קבוצת הפרקים
 // מציפה את העמוד ומשטחת את ההיררכיה שכל השאר בנוי עליה.
@@ -143,87 +119,6 @@ function mastery(t) {
   return { key: 'weak', label: 'לחיזוק' }
 }
 
-/** שורת נושא: עיגול-סטטוס, שם, מונים, ו-CTA בקצה. בלי מסגרת — קו שיער מפריד. */
-function TopicRow({ t }) {
-  const m = mastery(t)
-  // בדרגת free הכרטיס אומר גם כמה באמת פתוחות, ואותו כלל נשמר כאן.
-  const open = t.open_count != null && t.open_count < t.count ? t.open_count : t.count
-  return (
-    <motion.li className={`psy-trow is-${m.key}`} variants={fadeInUp}>
-      <span className="psy-trow-state" aria-hidden="true">
-        {m.key !== 'new' && <IconCheck />}
-      </span>
-      <span className="psy-trow-body">
-        <span className="psy-trow-name">{t.topic}</span>
-        <span className="psy-trow-meta">
-          {open === t.count ? `${t.count} שאלות במאגר` : `${open} מתוך ${t.count} שאלות`}
-          {' · '}
-          <span className="psy-trow-mastery">
-            {t.answered ? `${pct(t.accuracy || 0)} דיוק · ${t.answered} נענו` : m.label}
-          </span>
-        </span>
-      </span>
-      <Link
-        className="psy-trow-cta"
-        to={`/psy/drill?domain=${t.domain}&topic=${encodeURIComponent(t.topic)}`}
-      >
-        {t.answered ? 'להמשיך לתרגל' : 'להתחיל לתרגל'}
-      </Link>
-    </motion.li>
-  )
-}
-
-// מצב סימולציה, באותה לוגיקת שלוש-מדרגות של הנושאים אבל מהציון הטוב ביותר.
-// אין ציון = טרם נוסתה, ולא "חלשה" — הטבעת הריקה היא הזמנה, לא שיפוט.
-function simState(s) {
-  if (s.best_percent == null) return { key: 'new', label: 'טרם נוסתה' }
-  if (s.best_percent >= 80) return { key: 'strong', label: `${Math.round(s.best_percent)}%` }
-  if (s.best_percent >= 60) return { key: 'mid', label: `${Math.round(s.best_percent)}%` }
-  return { key: 'weak', label: `${Math.round(s.best_percent)}%` }
-}
-
-/** שורת מבחן — אותה אנטומיה של שורת נושא, עם נעילה במקום ה-CTA כשצריך מנוי. */
-function SimRow({ s }) {
-  const st = simState(s)
-  return (
-    <motion.li className={`psy-trow is-${st.key}${s.locked ? ' is-locked' : ''}`} variants={fadeInUp}>
-      <span className="psy-trow-state" aria-hidden="true">
-        {st.key !== 'new' && <IconCheck />}
-      </span>
-      <span className="psy-trow-body">
-        <span className="psy-trow-name">
-          {s.title}
-          {LEVEL_TAG[s.level] && (
-            <span className={`psy-sim-tag ${LEVEL_TAG[s.level].ramp}`}>
-              {LEVEL_TAG[s.level].label}
-            </span>
-          )}
-        </span>
-        <span className="psy-trow-meta">
-          {s.total_minutes} דקות · {s.total_questions} שאלות · {s.sections.length} פרקים
-          {s.best_percent != null && (
-            <>
-              {' · '}
-              <span className="psy-trow-best">
-                <IconTrophy /> הטובה ביותר שלך: {st.label}
-              </span>
-            </>
-          )}
-        </span>
-      </span>
-      {s.locked ? (
-        <span className="psy-trow-lock">
-          <IconLock /> נדרש מנוי פעיל
-        </span>
-      ) : (
-        <Link className="psy-trow-cta" to={`/psy/sim/${s.slug}`}>
-          {s.attempts_count > 0 ? 'להתחיל שוב' : 'להתחיל'}
-        </Link>
-      )}
-    </motion.li>
-  )
-}
-
 /** כותרת תחום עם פס בגוון התחום, ושורת סיכום לתחומי הליבה. */
 function DomainHead({ domain, title, lead, stats, core }) {
   return (
@@ -238,6 +133,68 @@ function DomainHead({ domain, title, lead, stats, core }) {
   )
 }
 
+// כמה שאלות באמת פתוחות לתלמיד בנושא. השרת מחזיר open_count תמיד, אבל
+// הנפילה ל-count שומרת על העמוד גם מול תגובה ישנה שנשמרה במטמון.
+function openCount(t) {
+  return t.open_count ?? t.count
+}
+
+// "N שאלות" — ובדרגת free גם כמה מתוך כמה, כי נושא שכתוב עליו "20 שאלות"
+// ומחזיר 4 בתרגול נקרא כתקלה ולא כטעימה.
+function bankLabel(t, suffix = 'שאלות') {
+  const open = openCount(t)
+  return open < t.count ? `${open} מתוך ${t.count} ${suffix}` : `${open} ${suffix}`
+}
+
+function TopicCard({ t }) {
+  const m = mastery(t)
+  // "כמה מהמאגר כבר ראית" — נגזר מהשאלות הפתוחות ולא מהמאגר המלא: תלמיד free
+  // שענה על כל מה שפתוח לו אמור לראות מד מלא, לא 20%.
+  const open = openCount(t)
+  const coverage = open ? Math.min(1, t.answered / open) : 0
+  const levels = levelBreakdown(t.level_counts)
+  return (
+    <motion.div {...hoverLift}>
+      <Link
+        className={`psy-topic-card is-${m.key}`}
+        to={`/psy/drill?domain=${t.domain}&topic=${encodeURIComponent(t.topic)}`}
+      >
+        <span className="psy-topic-card-name">{t.topic}</span>
+        <span className="psy-topic-card-count">
+          {bankLabel(t, 'שאלות במאגר')}
+        </span>
+
+        {/* פיצול לרמות — מול רף מבחן קרני האמיתי, לא מול שאר המאגר. רמה
+            שאין לה שאלות בנושא לא מוצגת בכלל — "0 מתקדמות" הוא רעש, לא מידע. */}
+        {levels.length > 1 && (
+          <span className="psy-level-strip">
+            {levels.map((l) => (
+              <span key={l.key} className={`psy-level-pill ${l.ramp}`}>
+                {l.short} <b>{l.n}</b>
+              </span>
+            ))}
+          </span>
+        )}
+
+        <span className="psy-topic-meter" aria-hidden="true">
+          <span className="psy-topic-meter-fill" style={{ transform: `scaleX(${coverage})` }} />
+        </span>
+
+        <span className="psy-topic-card-foot">
+          <span className="psy-topic-card-state">{m.label}</span>
+          {t.answered > 0 ? (
+            <span className="psy-topic-card-acc">
+              {pct(t.accuracy || 0)} · {t.answered} נענו
+            </span>
+          ) : (
+            <span className="psy-topic-card-cta">להתחיל כאן</span>
+          )}
+        </span>
+      </Link>
+    </motion.div>
+  )
+}
+
 export default function PsyHome() {
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
@@ -245,10 +202,6 @@ export default function PsyHome() {
   // טעימה — בלי המשפט הזה הוא היה חושב שהאזור פשוט דל בתוכן.
   const [karni, setKarni] = useState(null)
   const [showAllSims, setShowAllSims] = useState({})
-  // הקטגוריה הפתוחה יושבת ב-URL ולא ב-state בלבד: ככה כפתור "אחורה" של הדפדפן
-  // סוגר את הקטגוריה, והלינק לקטגוריה ניתן לשיתוף ולרענון.
-  const [params, setParams] = useSearchParams()
-  const cat = params.get('cat')
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -279,6 +232,7 @@ export default function PsyHome() {
         to: `/psy/sim/${data.open_attempt.simulation_slug}`,
         why: 'יש לך סימולציה פתוחה באמצע — השעון שלה עוד רץ.',
         Icon: IconClock,
+        domain: null,
       }
     }
     const w = (data.weakest_topics || [])[0]
@@ -286,8 +240,9 @@ export default function PsyHome() {
       return {
         label: `תרגול ממוקד: ${w.topic}`,
         to: `/psy/drill?domain=${w.domain}&topic=${encodeURIComponent(w.topic)}`,
-        why: `${pct(w.accuracy)} דיוק ב${DOMAIN_HE[w.domain] || w.domain} — זהו הנושא שכדאי לחזק עכשיו.`,
+        why: `${pct(w.accuracy)} דיוק ב${DOMAIN_HE[w.domain] || w.domain} — זה הנושא החלש ביותר שלך כרגע.`,
         Icon: IconTarget,
+        domain: w.domain,
       }
     }
     // topics מגיע ממוין: תחום לפי סדר הבחינה, ובתוכו המאגר הגדול קודם.
@@ -296,8 +251,9 @@ export default function PsyHome() {
       return {
         label: `התחל תרגול: ${fresh.topic}`,
         to: `/psy/drill?domain=${fresh.domain}&topic=${encodeURIComponent(fresh.topic)}`,
-        why: `${fresh.count} שאלות מחכות, ועוד לא תרגלת אותן. זה אחד הנושאים הגדולים במבחן.`,
+        why: `${openCount(fresh)} שאלות מחכות, ועוד לא תרגלת אותן. זה אחד הנושאים הגדולים במבחן.`,
         Icon: IconSpark,
+        domain: fresh.domain,
       }
     }
     const course = (data.courses || [])[0]
@@ -307,6 +263,7 @@ export default function PsyHome() {
         to: `/courses/${course.id}`,
         why: 'הדרך הרגילה להתחיל — קודם התיאוריה, אחר כך התרגול.',
         Icon: IconSpark,
+        domain: null,
       }
     }
     return null
@@ -315,7 +272,10 @@ export default function PsyHome() {
   if (error) return <ErrorBox error={error} />
   if (!data) return <Loading />
 
-  const { courses, topics, simulations, recent_attempts: attempts, weakest_topics: weak } = data
+  const { courses, topics, simulations, recent_attempts: attempts } = data
+  // התחום שנפתח כברירת מחדל באקורדיון למטה — אותו תחום שה"הצעד הבא" כבר
+  // מצביע עליו, כדי שלא יהיה פער בין ההמלצה לתוכן שפתוח מתחתיה.
+  const openDomain = next?.domain || CORE_DOMAINS[0]
 
   // קבוצות הקורסים לפי מקטע, מסודרות כך שתחומי הליבה פותחים.
   const bySection = courses.reduce((acc, c) => {
@@ -336,8 +296,9 @@ export default function PsyHome() {
       return { title, list, domain: d, core }
     })
 
-  // כל נושא תרגול יושב מתחת לקורס שמלמד אותו, ולא בערימה נפרדת בתחתית העמוד.
-  // בתוך קורס הסדר הוא סדר הפרקים, ונושא בלי מספר פרק יורד לסוף לפי גודל המאגר.
+  // שיוך נושא התרגול לקורס שלו מגיע מה-API (course_id על הנושא), כדי שהתרגול
+  // ישב מתחת לקורס שמלמד אותו ולא בערימה נפרדת בתחתית העמוד. בתוך קורס
+  // הסדר הוא סדר הפרקים, ונושא בלי מספר פרק יורד לסוף לפי גודל המאגר.
   const courseIds = new Set(courses.map((c) => c.id))
   const topicsByCourse = new Map()
   for (const t of topics) {
@@ -346,99 +307,26 @@ export default function PsyHome() {
     if (arr) arr.push(t)
     else topicsByCourse.set(t.course_id, [t])
   }
-  for (const arr of topicsByCourse.values()) {
-    arr.sort((a, b) => (a.chapter_number ?? 1e9) - (b.chapter_number ?? 1e9) || b.count - a.count)
+  const dupByCourse = new Map()
+  for (const [id, arr] of topicsByCourse) {
+    arr.sort(
+      (a, b) =>
+        (a.chapter_number ?? 1e9) - (b.chapter_number ?? 1e9) || openCount(b) - openCount(a)
+    )
+    const seen = new Set()
+    const dup = new Set()
+    for (const t of arr) (seen.has(t.topic) ? dup : seen).add(t.topic)
+    dupByCourse.set(id, dup)
   }
-  // אף נושא לא נופל בין הכיסאות: מה שלא נתפס ע"י קורס מוצג מפורשות בסוף.
+  // אף נושא לא נופל בין הכיסאות: מה שלא נתפס על ידי קורס מוצג מפורשות בסוף.
   const looseTopics = topics.filter((t) => t.course_id == null || !courseIds.has(t.course_id))
-  const looseDomains = DOMAIN_ORDER.filter((d) => looseTopics.some((t) => t.domain === d)).sort(
-    (a, b) => domainRank(a) - domainRank(b)
-  )
 
   const simGroups = KIND_ORDER.map((k) => [k, simulations.filter((s) => s.kind === k)]).filter(
     ([, list]) => list.length > 0
   )
-  // "פרקים בודדים" הגיע כרשימה אחת מעורבת — עשרות טפסים משבעה תחומים בערבוביה,
-  // בלי סדר שאפשר לסרוק. טופס של פרק אחד הוא תמיד בתחום אחד, ולכן הקבוצה
-  // נשברת לתת-קבוצות לפי תחום, באותו סדר ובאותם גוונים של פאנל "הנושאים"
-  // (‎domainRank‎ + ‎DOMAIN_RAMP‎), וממוינת בתוך התחום לפי המספר שבשם כדי
-  // ש"מבחן 2" לא יישב אחרי "מבחן 10".
-  const simDomain = (s) => (s.sections.length === 1 ? s.sections[0].domain : null)
-  const byNumberInTitle = (a, b) =>
-    a.title.localeCompare(b.title, 'he', { numeric: true, sensitivity: 'base' })
-  // סימולציה מלאה איננה "של תחום", ולכן קבוצה שיש בה טופס רב-תחומי נשארת
-  // רשימה אחת — רק ממוינת.
-  const simSubGroups = (list) => {
-    if (list.some((s) => simDomain(s) == null)) return [[null, [...list].sort(byNumberInTitle)]]
-    const domains = [...new Set(list.map(simDomain))].sort((a, b) => domainRank(a) - domainRank(b))
-    return domains.map((d) => [d, list.filter((s) => simDomain(s) === d).sort(byNumberInTitle)])
-  }
-
-  // ---- הקטגוריות ----
-  // כל תחום מבחן הוא קטגוריה אחת שמאגדת את הקורסים, נושאי התרגול והמבחנים
-  // שלו; הסימולציות המלאות (טופס שחוצה תחומים) הן קטגוריה בפני עצמה, כי הן
-  // לא "של תחום". קבוצת קורסים שכותרת המקטע שלה לא נפתרת לתחום נופלת
-  // לקטגוריית "שאר הקורסים" ולא נעלמת מהעמוד.
-  const simCat = (s) => simDomain(s) || 'full'
-  const courseCat = (g) => g.domain || 'other'
-  const catCourses = (key) => courseGroups.filter((g) => courseCat(g) === key)
-  const catTopics = (key) => topics.filter((t) => t.domain === key)
-  const catSims = (key) => simulations.filter((s) => simCat(s) === key)
-  const countLabel = (n, one, many) => (n === 1 ? one : `${n} ${many}`)
-  const buildCat = (key, title, ramp, core) => {
-    const groups = catCourses(key)
-    const courseCount = groups.reduce((n, g) => n + g.list.length, 0)
-    const tps = catTopics(key)
-    const sims = catSims(key)
-    const bank = tps.reduce((n, t) => n + t.count, 0)
-    const answered = tps.reduce((n, t) => n + t.answered, 0)
-    const tried = sims.filter((x) => x.attempts_count > 0).length
-    const meta = [
-      courseCount && countLabel(courseCount, 'קורס אחד', 'קורסים'),
-      tps.length && countLabel(tps.length, 'נושא אחד', 'נושאים'),
-      sims.length && countLabel(sims.length, 'מבחן אחד', 'מבחנים'),
-    ]
-      .filter(Boolean)
-      .join(' · ')
-    // ההתקדמות היא חלק המאגר שכבר נענה; לקטגוריה בלי מאגר תרגול (הסימולציות
-    // המלאות) היא חלק הטפסים שכבר נוסו, כי זה מה שיש שם למדוד.
-    const progress = bank ? answered / bank : sims.length ? tried / sims.length : 0
-    const empty = !courseCount && !tps.length && !sims.length
-    return empty ? null : { key, title, ramp, core, meta, progress, Icon: CAT_ICON[key] }
-  }
-  const categories = [
-    ...DOMAIN_ORDER.slice()
-      .sort((a, b) => domainRank(a) - domainRank(b))
-      .map((d) => buildCat(d, DOMAIN_HE[d] || d, DOMAIN_RAMP[d] || '', CORE_DOMAINS.includes(d))),
-    buildCat('full', 'סימולציות מלאות', ''),
-    buildCat('other', 'שאר הקורסים', ''),
-  ].filter(Boolean)
-  const openCat = categories.find((c) => c.key === cat) || null
-  // קבוצות שמוצגות כרגע: הכל כשאין קטגוריה פתוחה (לא קורה — אז מוצגת הרשת),
-  // ואחרת רק מה ששייך לקטגוריה.
-  const shownCourseGroups = openCat ? catCourses(openCat.key) : []
-  const shownLooseDomains = openCat ? looseDomains.filter((d) => d === openCat.key) : []
-  const shownSimGroups = openCat
-    ? simGroups
-        .map(([kind, list]) => [kind, list.filter((x) => simCat(x) === openCat.key)])
-        .filter(([, list]) => list.length > 0)
-    : []
 
   const scored = attempts.filter((a) => a.score_percent != null)
   const best = scored.length ? Math.max(...scored.map((a) => a.score_percent)) : null
-
-  // מוקדי העבודה בכרטיס "הצעד הבא": קודם הנושאים החלשים, ואם עוד אין מספיק
-  // היסטוריה — נושאי ליבה גדולים שעוד לא נגעו בהם.
-  const focus = weak.length
-    ? weak.slice(0, 4).map((t) => ({
-        domain: t.domain,
-        topic: t.topic,
-        note: `${pct(t.accuracy)} · ${Math.round(t.avg_seconds)} שנ׳ לשאלה`,
-      }))
-    : topics
-        .filter((t) => CORE_DOMAINS.includes(t.domain) && !t.answered)
-        .slice(0, 4)
-        .map((t) => ({ domain: t.domain, topic: t.topic, note: `${t.count} שאלות · טרם תורגל` }))
 
   return (
     <div className="psy-home" dir="rtl">
@@ -449,12 +337,11 @@ export default function PsyHome() {
         transition={{ duration: DURATION.long, ease: EASE_OUT }}
       >
         <div className="psy-hero-text">
-          <span className="psy-eyebrow">מכון קרני · שבעה תחומים</span>
           <h1>הכנה לקרני</h1>
           <p>
             מבחן הקבלה של מכון קרני לישיבות התיכוניות, בשבעה תחומים: מילולי, כמותי, צורני,
-            לוגי, מרחבי, זריזות ודיוק ואנגלית. זהו מסלול מסודר: לומדים את השיטה, מתרגלים לפי
-            נושא, ואז בודקים מוכנות במבחן.
+            לוגי, מרחבי, זריזות ודיוק ואנגלית. זה לא אוסף מבחנים — זה מסלול לימוד: קורס לכל
+            נושא, תרגול ממוקד אחריו, וסימולציה בתנאי אמת רק כשמוכנים.
           </p>
           <div className="psy-hero-actions">
             {data.open_attempt ? (
@@ -531,7 +418,7 @@ export default function PsyHome() {
           initial="hidden"
           animate="show"
         >
-          <h2>מה כדאי לעשות עכשיו</h2>
+          <h2>הצעד הבא שלך</h2>
           <motion.div {...hoverLift} className="psy-next-wrap">
             <Link className="psy-next" to={next.to}>
               <span className="psy-next-icon">
@@ -543,155 +430,143 @@ export default function PsyHome() {
               </span>
             </Link>
           </motion.div>
-
-          {focus.length > 0 && (
-            <>
-              <p className="psy-plan-sub">
-                {weak.length
-                  ? 'לפי התשובות בתרגול ובסימולציות — הנושאים שכדאי לחזק קודם.'
-                  : 'ואחר כך: נושאי הליבה הגדולים שעוד לא נגעת בהם.'}
-              </p>
-              <motion.ul
-                className="psy-plan-list"
-                variants={staggerContainer}
-                initial="hidden"
-                animate="show"
-              >
-                {focus.map((t) => (
-                  <motion.li key={`${t.domain}-${t.topic}`} variants={fadeInUp}>
-                    <Link
-                      className={`psy-plan-item ${DOMAIN_RAMP[t.domain] || ''}`}
-                      to={`/psy/drill?domain=${t.domain}&topic=${encodeURIComponent(t.topic)}`}
-                    >
-                      <span className="psy-plan-topic">{t.topic}</span>
-                      <span className="psy-plan-domain">{DOMAIN_HE[t.domain] || t.domain}</span>
-                      <span className="psy-plan-acc">{t.note}</span>
-                    </Link>
-                  </motion.li>
-                ))}
-              </motion.ul>
-            </>
-          )}
         </motion.section>
       )}
 
-      {/* ריבועי התחומים הם מפת הכניסה לאזור. לחיצה פותחת תחום אחד ומציגה
-          בתוכו לימוד, תרגול ומבחנים זה לצד זה — בלי לשטח את כל התוכן בעמוד הבית. */}
-      {!openCat && (
-        <motion.section className="psy-panel" variants={fadeInUp} initial="hidden" animate="show">
-          <div className="psy-panel-head">
-            <div>
-              <h2>בחרו תחום</h2>
-              <p className="psy-section-lead">בכל תחום מחכים קורסים, תרגול ממוקד ומבחנים.</p>
-            </div>
-            <Link to="/psy/drill" className="psy-link">לכל התרגול</Link>
-          </div>
-          <motion.ul
-            className="psy-cats"
-            style={{ '--cat-cols': Math.min(5, Math.max(2, Math.ceil(categories.length / 2))) }}
-            variants={staggerContainer}
-            initial="hidden"
-            animate="show"
-          >
-            {categories.map((c) => (
-              <motion.li key={c.key} variants={fadeInUp}>
-                <motion.div {...hoverLift}>
-                  <Link className={`psy-cat ${c.ramp}`} to={`/psy?cat=${c.key}`}>
-                    {c.Icon && <span className="psy-cat-icon" aria-hidden="true"><c.Icon /></span>}
-                    <span className="psy-cat-head">
-                      <span className="psy-cat-name">{c.title}</span>
-                      {c.core && <span className="psy-domain-tag">עיקר המבחן</span>}
-                    </span>
-                    <span className="psy-cat-meta">{c.meta}</span>
-                    <span className="psy-cat-foot">
-                      <span className="psy-cat-bar" role="img" aria-label={`${pct(c.progress)} מהתוכן כבר תורגל`}>
-                        <span className="psy-cat-bar-fill" style={{ transform: `scaleX(${c.progress})` }} />
-                      </span>
-                      <span className="psy-cat-pct">{pct(c.progress)}</span>
-                    </span>
-                  </Link>
-                </motion.div>
-              </motion.li>
-            ))}
-          </motion.ul>
-        </motion.section>
-      )}
-
-      {openCat && (
-        <>
       <motion.section
-        className={`psy-panel ${openCat.ramp}`}
+        className="psy-panel"
         variants={fadeInUp}
         initial="hidden"
-        animate="show"
+        whileInView="show"
+        viewport={{ once: true, margin: '-40px' }}
       >
         <div className="psy-panel-head">
-          <h2 className="psy-cat-open-title">{openCat.title}</h2>
-          <button type="button" className="psy-link psy-cat-back" onClick={() => setParams({})}>
-            חזרה לכל הקטגוריות
-          </button>
+          <h2>הקורסים והתרגול</h2>
+          <Link to="/psy/drill" className="psy-link">לכל התרגול</Link>
         </div>
-        {shownCourseGroups.length === 0 && shownLooseDomains.length === 0 ? (
+        {courses.length === 0 && looseTopics.length === 0 ? (
           <p className="psy-empty">
             קורסי התיאוריה נכתבים כעת. בינתיים אפשר להתחיל מהתרגול הממוקד ומהמיני-תרגולים.
           </p>
         ) : (
-          shownCourseGroups.map(({ title, list, domain: d, core }) => {
+          courseGroups.map(({ title, list, domain: d, core }) => {
             const done = list.reduce((n, c) => n + c.completed_chapters, 0)
             const total = list.reduce((n, c) => n + c.chapters_count, 0)
+            // הנושא החלש ביותר בתחום הזה — אותו מספר שהיה מוצג ב"הצעד הבא"
+            // עובר לכאן, לשורת הסיכום של הכותרת המתקפלת, במקום להיות מוצג
+            // פעמיים בעמוד.
+            const groupTopics = list.flatMap((c) => topicsByCourse.get(c.id) || [])
+            const weakest = groupTopics
+              .filter((t) => t.answered > 0)
+              .sort((a, b) => a.accuracy - b.accuracy)[0]
+            const stats = `${list.length === 1 ? 'קורס אחד' : `${list.length} קורסים`} · ${done}/${total} פרקים הושלמו${
+              weakest ? ` · ${pct(weakest.accuracy)} בנושא החלש` : ''
+            }`
             return (
-              <div
+              <details
                 key={title}
                 className={`psy-domain-group ${DOMAIN_RAMP[d] || ''}${core ? ' is-core' : ''}`}
+                open={d === openDomain}
               >
-                <DomainHead
-                  domain={d}
-                  title={title}
-                  core={core}
-                  stats={`${list.length === 1 ? 'קורס אחד' : `${list.length} קורסים`} · ${done}/${total} פרקים הושלמו`}
-                />
+                <summary className="psy-domain-summary">
+                  <DomainHead domain={d} title={title} core={core} stats={stats} />
+                  <IconChevronDown className="psy-domain-chevron" />
+                </summary>
                 <motion.ul
                   className="psy-course-list"
                   variants={staggerContainer}
                   initial="hidden"
-                  whileInView="show"
-                  viewport={{ once: true, margin: '-20px' }}
+                  animate="show"
                 >
-                  {list.map((c) => (
-                    <motion.li key={c.id} variants={fadeInUp}>
-                      <motion.div {...hoverLift}>
-                        <Link to={`/courses/${c.id}`} className="psy-course-card">
-                          <span className="psy-course-title">{c.title}</span>
-                          <span className="psy-course-desc">{c.description}</span>
-                          <span className="psy-course-progress">
-                            {c.completed_chapters}/{c.chapters_count} פרקים
-                          </span>
-                        </Link>
-                      </motion.div>
-                    </motion.li>
-                  ))}
+                  {list.map((c) => {
+                    const ct = topicsByCourse.get(c.id) || []
+                    const dup = dupByCourse.get(c.id)
+                    const courseProgress = c.chapters_count
+                      ? Math.min(1, c.completed_chapters / c.chapters_count)
+                      : 0
+                    return (
+                      <motion.li key={c.id} className="psy-course-block" variants={fadeInUp}>
+                        <motion.div {...hoverLift}>
+                          <Link
+                            to={`/courses/${c.id}`}
+                            className="psy-course-card"
+                            style={{ '--course-progress': courseProgress }}
+                          >
+                            <span className="psy-course-title">{c.title}</span>
+                            <span className="psy-course-desc">{c.description}</span>
+                            <span className="psy-course-progress">
+                              <span>{c.completed_chapters}/{c.chapters_count} פרקים</span>
+                            </span>
+                          </Link>
+                        </motion.div>
+                        {ct.length > 0 && (
+                          <>
+                            <p className="psy-course-topics-head" id={`psy-ct-${c.id}`}>
+                              תרגול לקורס הזה
+                            </p>
+                            <ul className="psy-course-topics" aria-labelledby={`psy-ct-${c.id}`}>
+                              {ct.map((t) => {
+                                const m = mastery(t)
+                                return (
+                                  <li key={`${t.domain}-${t.topic}`}>
+                                    <Link
+                                      className={`psy-topic-chip is-${m.key}`}
+                                      to={`/psy/drill?domain=${t.domain}&topic=${encodeURIComponent(t.topic)}`}
+                                    >
+                                      <span className="psy-topic-chip-name">{t.topic}</span>
+                                      {dup?.has(t.topic) && (
+                                        <span className="psy-topic-chip-meta">
+                                          {DOMAIN_HE[t.domain] || t.domain}
+                                        </span>
+                                      )}
+                                      {t.chapter_number != null && (
+                                        <span className="psy-topic-chip-meta">
+                                          פרק {t.chapter_number}
+                                        </span>
+                                      )}
+                                      <span className="psy-topic-chip-meta">
+                                        {bankLabel(t)}
+                                      </span>
+                                      <span className="psy-topic-chip-state">
+                                        {t.answered > 0
+                                          ? `${m.label} · ${pct(t.accuracy || 0)}`
+                                          : m.label}
+                                      </span>
+                                    </Link>
+                                  </li>
+                                )
+                              })}
+                            </ul>
+                          </>
+                        )}
+                      </motion.li>
+                    )
+                  })}
                 </motion.ul>
-              </div>
+              </details>
             )
           })
         )}
 
-        {catTopics(openCat.key).length > 0 && (
-          <div className="psy-open-practice">
-            <div className="psy-subsection-head">
-              <h3>תרגול לפי נושא</h3>
-              <Link className="psy-link" to={`/psy/drill?domain=${openCat.key}`}>לכל התרגול בתחום</Link>
-            </div>
-            <p className="psy-section-lead">בחרו נושא אחד ותרגלו אותו בקצב אישי.</p>
+        {/* נושאים שלא ממופים לשום קורס לא נעלמים מהעמוד — הם יורדים לסוף
+            הסקשן ככרטיסים מלאים, כי בלי קורס אין להם היכן להיתלות. */}
+        {looseTopics.length > 0 && (
+          <div className="psy-topics-loose">
+            <DomainHead
+              title="תרגול נוסף"
+              lead="נושאים שאין להם עדיין קורס תיאוריה — אפשר לתרגל אותם ישירות."
+            />
             <motion.ul
-              className="psy-trows"
+              className="psy-topic-cards"
               variants={staggerContainer}
               initial="hidden"
               whileInView="show"
               viewport={{ once: true, margin: '-20px' }}
             >
-              {catTopics(openCat.key).map((t) => (
-                <TopicRow key={`${t.domain}-${t.topic}`} t={t} />
+              {looseTopics.map((t) => (
+                <motion.li key={`${t.domain}-${t.topic}`} variants={fadeInUp}>
+                  <TopicCard t={t} />
+                </motion.li>
               ))}
             </motion.ul>
           </div>
@@ -699,72 +574,91 @@ export default function PsyHome() {
       </motion.section>
 
       <motion.section
-        className={`psy-panel ${openCat.ramp}`}
+        className="psy-panel"
         variants={fadeInUp}
         initial="hidden"
-        animate="show"
+        whileInView="show"
+        viewport={{ once: true, margin: '-40px' }}
       >
         <h2>מבחנים בתנאי אמת</h2>
         <p className="psy-plan-sub">כשסיימתם נושא — כאן בודקים אותו על השעון.</p>
-        {shownSimGroups.map(([kind, list]) => (
-          <div key={kind} className="psy-sim-kind">
-            <h3 className="psy-sim-kind-title">{KIND_HE_TITLE[kind] || KIND_HE[kind] || kind}</h3>
-            <p className="psy-sim-kind-lead">{KIND_LEAD[kind]}</p>
-            {simSubGroups(list).map(([domain, sublist]) => {
-              const key = domain ? `${kind}:${domain}` : kind
-              const open = showAllSims[key]
-              const shown = open ? sublist : sublist.slice(0, SIM_PREVIEW)
-              // ברגע שהמשתמש נגע בקבוצה הרשימה עוברת ל-animate מוצהר. עם
-              // whileInView + viewport.once framer-motion יורה פעם אחת ומנתק את
-              // ה-observer, ולכן שורה שנוספת אחר כך נכנסת ל-DOM במצב
-              // initial="hidden" (opacity 0) ואף אחד לא מעביר אותה ל-"show" —
-              // הכפתור "עבד" אבל לא הופיע כלום.
-              const driven = showAllSims[key] !== undefined
-              return (
-                <div
-                  key={key}
-                  className={`psy-domain-group ${(domain && DOMAIN_RAMP[domain]) || ''}`}
-                >
-                  {/* בתוך קטגוריה פתוחה כל המבחנים הם ממילא של אותו תחום, ולכן
-                      כותרת התחום מיותרת שם — היא הייתה חוזרת על שם הקטגוריה. */}
-                  {domain && domain !== openCat.key && (
-                    <DomainHead domain={domain} stats={`${sublist.length} מבחנים`} />
-                  )}
-                  <motion.ul
-                    id={`psy-sims-${key.replace(':', '-')}`}
-                    className="psy-trows"
-                    variants={staggerContainer}
-                    initial="hidden"
-                    {...(driven
-                      ? { animate: 'show' }
-                      : { whileInView: 'show', viewport: { once: true, margin: '-20px' } })}
+        {simGroups.map(([kind, list]) => {
+          const open = showAllSims[kind]
+          const shown = open ? list : list.slice(0, SIM_PREVIEW)
+          // ברגע שהמשתמש נגע בקבוצה, הרשימה חייבת להיות מונעת ב-animate מפורש:
+          // whileInView עם once:true יורה פעם אחת ואז framer-motion מנתק את
+          // ה-observer, ולכן פריטים שנוספים בלחיצה על "הצג הכל" היו נשארים
+          // במצב ההורה "hidden" — קיימים ב-DOM אבל שקופים לגמרי.
+          const driven = showAllSims[kind] !== undefined
+          return (
+            <div key={kind} className="psy-domain-group">
+              <DomainHead title={KIND_HE_TITLE[kind] || KIND_HE[kind] || kind} lead={KIND_LEAD[kind]} />
+              <motion.ul
+                id={`psy-sims-${kind}`}
+                className="psy-sim-list"
+                variants={staggerContainer}
+                initial="hidden"
+                {...(driven
+                  ? { animate: 'show' }
+                  : { whileInView: 'show', viewport: { once: true, margin: '-20px' } })}
+              >
+                {shown.map((s) => (
+                  <motion.li
+                    key={s.slug}
+                    className={`psy-sim-card${s.locked ? ' is-locked' : ''}`}
+                    variants={fadeInUp}
+                    whileHover={s.locked ? {} : { y: -3 }}
+                    transition={{ duration: DURATION.short, ease: EASE_OUT }}
                   >
-                    {shown.map((s) => (
-                      <SimRow key={s.slug} s={s} />
-                    ))}
-                  </motion.ul>
-                  {sublist.length > SIM_PREVIEW && (
-                    <motion.button
-                      type="button"
-                      className="psy-btn psy-btn-more"
-                      aria-expanded={!!open}
-                      aria-controls={`psy-sims-${key.replace(':', '-')}`}
-                      onClick={() => setShowAllSims((v) => ({ ...v, [key]: !v[key] }))}
-                      {...tapScale}
-                    >
-                      {open
-                        ? 'הצג פחות'
-                        : `הצג את כל ${sublist.length} ${KIND_HE_PLURAL[kind] || KIND_HE[kind]}`}
-                    </motion.button>
-                  )}
-                </div>
-              )
-            })}
-          </div>
-        ))}
+                    <div className="psy-sim-head">
+                      <h3>{s.title}</h3>
+                      {LEVEL_TAG[s.level] && (
+                        <span className={`psy-sim-tag ${LEVEL_TAG[s.level].ramp}`}>
+                          {LEVEL_TAG[s.level].label}
+                        </span>
+                      )}
+                    </div>
+                    {s.description && <p className="psy-sim-desc">{s.description}</p>}
+                    <div className="psy-sim-meta">
+                      <span>{s.total_minutes} דקות</span>
+                      <span>{s.total_questions} שאלות</span>
+                      <span>{s.sections.length} פרקים</span>
+                    </div>
+                    {s.best_percent != null && (
+                      <div className="psy-sim-best">
+                        <IconTrophy /> התוצאה הטובה ביותר שלך: {Math.round(s.best_percent)}%
+                      </div>
+                    )}
+                    {s.locked ? (
+                      <div className="psy-sim-lock">
+                        <IconLock /> נדרש מנוי פעיל
+                      </div>
+                    ) : (
+                      <Link className="psy-btn psy-btn-primary" to={`/psy/sim/${s.slug}`}>
+                        {s.attempts_count > 0 ? 'התחל שוב' : 'התחל'}
+                      </Link>
+                    )}
+                  </motion.li>
+                ))}
+              </motion.ul>
+              {list.length > SIM_PREVIEW && (
+                <motion.button
+                  type="button"
+                  className="psy-btn psy-btn-more"
+                  aria-expanded={!!open}
+                  aria-controls={`psy-sims-${kind}`}
+                  onClick={() => setShowAllSims((s) => ({ ...s, [kind]: !s[kind] }))}
+                  {...tapScale}
+                >
+                  {open
+                    ? 'הצג פחות'
+                    : `הצג את כל ${list.length} ${KIND_HE_PLURAL[kind] || KIND_HE[kind]}`}
+                </motion.button>
+              )}
+            </div>
+          )
+        })}
       </motion.section>
-        </>
-      )}
 
       {attempts.length > 0 && (
         <motion.section

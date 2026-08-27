@@ -22,9 +22,24 @@ from app.schemas import (
 router = APIRouter(prefix="/api/practice", tags=["practice"])
 
 
+# Characters a student can reasonably type differently from the answer key and
+# still mean the same thing: the thousands separator, any spacing, and the
+# several Unicode dashes/multiplication signs that look identical on screen.
+_ANSWER_NOISE = str.maketrans(
+    {"−": "-", "–": "-", "—": "-", "×": "*", "·": "*", "÷": "/",
+     ",": None, " ": None, " ": None, "‏": None, "‎": None}
+)
+
+
 def _normalize(value: str) -> str:
-    """Normalize an answer for lenient comparison (trim + case-fold)."""
-    return (value or "").strip().casefold()
+    """Normalize an answer for lenient comparison.
+
+    Trim + case-fold, then drop typing noise. Without this, the answer key's
+    ``27362`` rejects a student who typed the number the same way the question
+    printed it — ``27,362`` — which is the natural thing to do once the bank
+    started asking about numbers in the thousands.
+    """
+    return (value or "").strip().casefold().translate(_ANSWER_NOISE)
 
 
 def _current_streak(attempts_desc: List[models.PracticeAttempt]) -> int:
@@ -54,7 +69,7 @@ def list_questions(
         q = q.filter(models.PracticeQuestion.difficulty == difficulty)
     if topic:
         q = q.filter(models.PracticeQuestion.topic == topic)
-    # בדרגת free הדגימה נעשית רק מ~30% השאלות הפתוחות בכל נושא — אותו כלל
+    # בדרגת free הדגימה נעשית רק מ~42% השאלות הפתוחות בכל נושא — אותו כלל
     # שחל על פרקי הקורסים (ראה app.access).
     access = user_content_access(db, current_user)
     if access.tier == TIER_FREE:

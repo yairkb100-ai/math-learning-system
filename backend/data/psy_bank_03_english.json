@@ -11,6 +11,7 @@
       "options": ["historic", "modern", "old", "past"],
       "correct_index": 1,
       "difficulty": 2,
+      "level": "beginner",
       "target_seconds": 30,
       "explanation": "‏ancient פירושו עתיק, וההפך שלו הוא modern — מודרני, בן זמננו.",
       "solution": "בשאלת הפכים, שימו לב שרוב המסיחים דווקא דומים למילה ולא מנוגדים לה. כאן historic, old ו-past כולם קרובים ל-ancient — וזה בדיוק מה שמסגיר את התשובה הנכונה."
@@ -25,9 +26,10 @@
       "options": ["slow", "heavy", "quick", "quiet"],
       "correct_index": 2,
       "difficulty": 1,
+      "level": "beginner",
       "target_seconds": 25,
       "explanation": "‏rapid פירושו מהיר, וזהה במשמעותו ל-quick.",
-      "solution": "מילים באנגלית שנשמעות דומות לעברית או לשפה אחרת שאתם מכירים לרוב באמת קרובות במשמעות — ״ראפיד״ מזכיר קצב מהיר."
+      "solution": "בשאלת נרדפות תרגמו קודם את מילת השאלה לעצמכם, ורק אז הביטו במסיחים. slow הוא ההפך הגמור, והוא נועד לתפוס תלמיד שזיהה שמדובר במהירות אך לא שם לב לכיוון; heavy ו-quiet כלל אינם עוסקים במהירות."
     },
     {
       "ref": "k-eng-voc-03",
@@ -39,9 +41,10 @@
       "options": ["reader", "printer", "librarian", "writer"],
       "correct_index": 3,
       "difficulty": 1,
+      "level": "beginner",
       "target_seconds": 25,
       "explanation": "מי שכותב ספרים הוא writer — סופר או כותב.",
-      "solution": "בשאלות הגדרה חפשו את השורש של המילה: write ← writer. הסיומת er- מציינת את מי שמבצע את הפעולה."
+      "solution": "בשאלות הגדרה חפשו את השורש של המילה: write הופך ל-writer. הסיומת er מציינת את מי שמבצע את הפעולה, בדיוק כמו ב-teacher וב-player."
     },
     {
       "ref": "k-eng-voc-04",
@@ -53,6 +56,7 @@
       "options": ["easy", "hard", "heavy", "strong"],
       "correct_index": 0,
       "difficulty": 1,
+      "level": "beginner",
       "target_seconds": 25,
       "explanation": "‏difficult פירושו קשה, וההפך הוא easy — קל.",
       "solution": "‏hard הוא מסיח מכוון: הוא מילה נרדפת ל-difficult, לא הפך שלו. קראו תמיד אם השאלה מבקשת נרדפת או הפך."
@@ -67,6 +71,7 @@
       "options": ["go", "goes", "going", "gone"],
       "correct_index": 1,
       "difficulty": 2,
+      "level": "beginner",
       "target_seconds": 30,
       "explanation": "‏every morning מציין הרגל, ולכן נדרש הווה פשוט. אחרי she מוסיפים s לפועל: goes.",
       "solution": "המילים every day, always, usually ו-never הן דגל של הווה פשוט. אחרי he, she ו-it הפועל מקבל s."
@@ -76,11 +81,12 @@
       "domain": "english",
       "qtype": "grammar",
       "topic": "דקדוק",
-      "subtopic": "יש/יש (there is / there are)",
+      "subtopic": "there is / there are",
       "stem": "There ___ many books on the table.",
       "options": ["is", "be", "are", "was"],
       "correct_index": 2,
       "difficulty": 2,
+      "level": "beginner",
       "target_seconds": 30,
       "explanation": "‏books הוא רבים, ולכן נדרש are.",
       "solution": "‏there is לרבים הוא אחת הטעויות השכיחות ביותר. הסתכלו על שם העצם שאחרי — אם הוא ברבים, התשובה היא are."
@@ -95,6 +101,7 @@
       "options": ["play", "plays", "played", "are playing"],
       "correct_index": 3,
       "difficulty": 2,
+      "level": "beginner",
       "target_seconds": 30,
       "explanation": "‏right now מציין פעולה שמתרחשת ברגע זה, ולכן נדרש הווה מתמשך: are playing.",
       "solution": "‏now, right now ו-at the moment דורשים הווה מתמשך (am/is/are + ing). זה ההבדל מהווה פשוט, שמתאר הרגל."
@@ -106,12 +113,13 @@
       "topic": "דקדוק",
       "subtopic": "מילות יחס",
       "stem": "We have lived in this city ___ 2019.",
-      "options": ["for", "since", "during", "from"],
+      "options": ["for", "since", "during", "in"],
       "correct_index": 1,
       "difficulty": 3,
+      "level": "beginner",
       "target_seconds": 35,
-      "explanation": "לפני נקודת זמן מסוימת (שנה, תאריך, יום) משתמשים ב-since. לפני משך זמן משתמשים ב-for.",
-      "solution": "הכלל פשוט: since + מתי זה התחיל (since 2019, since Monday); for + כמה זמן זה נמשך (for five years). שאלו את עצמכם איזה מהשניים מופיע במשפט."
+      "explanation": "הפועל have lived מציין פעולה שהתחילה בעבר ונמשכת עד היום, ולפני נקודת הזמן שבה היא התחילה משתמשים ב-since.",
+      "solution": "הכלל פשוט: since מציין מתי זה התחיל (since 2019, since Monday), ו-for מציין כמה זמן זה נמשך (for five years) — ולכן for דורש משך ולא שנה. during ו-in מציבים את הפעולה כולה בתוך פרק זמן סגור, ולכן אינם מתיישבים עם מצב שנמשך גם עכשיו."
     },
     {
       "ref": "k-eng-gra-05",
@@ -123,9 +131,10 @@
       "options": ["tall", "the tallest", "taller", "more tall"],
       "correct_index": 2,
       "difficulty": 2,
+      "level": "beginner",
       "target_seconds": 30,
       "explanation": "המילה than מסמנת השוואה בין שניים, ולכן נדרשת צורת ההשוואה taller.",
-      "solution": "בתארים קצרים מוסיפים er- ולא more. הופעת than במשפט היא הסימן שצריך צורת השוואה, ואילו the tallest שמורה להשוואה מול כולם."
+      "solution": "בתארים קצרים מוסיפים את הסיומת er ולא את המילה more, ולכן more tall אינו תקין. הופעת than במשפט היא הסימן שצריך צורת השוואה, ואילו the tallest שמורה להשוואה מול כולם."
     },
     {
       "ref": "k-eng-com-01",
@@ -137,6 +146,7 @@
       "options": ["enjoy", "cancel", "start", "continue"],
       "correct_index": 1,
       "difficulty": 2,
+      "level": "beginner",
       "target_seconds": 35,
       "explanation": "גשם כבד הוא סיבה לבטל טיול, ו-so מסמנת תוצאה. לכן cancel.",
       "solution": "בהשלמת משפט באנגלית מזהים קודם את מילת הקישור: so ו-therefore דורשות תוצאה שמתיישבת עם הסיבה, ואילו but ו-although דורשות ניגוד."
@@ -151,6 +161,7 @@
       "options": ["passed", "failed", "enjoyed", "finished"],
       "correct_index": 1,
       "difficulty": 3,
+      "level": "beginner",
       "target_seconds": 35,
       "explanation": "המילה Although מחייבת ניגוד: למרות שלמד קשה — הוא נכשל.",
       "solution": "‏Although, though, even though ו-but כולן מסמנות ניגוד. אם ההמשך מתיישב יפה עם ההתחלה, כנראה בחרתם לא נכון."
@@ -165,6 +176,7 @@
       "options": ["noisy", "large", "quiet", "modern"],
       "correct_index": 2,
       "difficulty": 2,
+      "level": "beginner",
       "target_seconds": 30,
       "explanation": "הבקשה לא לדבר בקול רם מלמדת שהספרייה שקטה — quiet.",
       "solution": "החצי השני של המשפט הוא הרמז. קראו אותו קודם, נסחו לעצמכם איזו מילה חייבת להופיע, ורק אז הסתכלו בתשובות."

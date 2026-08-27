@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useAuth } from '../context/AuthContext.jsx'
 import api from '../api.js'
 import { usePageMeta } from '../lib/seo.js'
+import { humanError } from '../lib/errors.js'
 import { fadeInUp, staggerContainer, tapScale, DURATION, EASE_OUT, EASE_IN } from '../lib/motion.js'
 
 const errorVariants = {
@@ -54,11 +55,11 @@ export default function RegisterPage() {
     e.preventDefault()
     setError('')
     if (password !== confirm) {
-      setError('הסיסמאות אינן תואמות')
+      setError('שתי הסיסמאות לא יצאו זהות')
       return
     }
     if (password.length < 6) {
-      setError('הסיסמה חייבת להכיל לפחות 6 תווים')
+      setError('הסיסמה קצרה מדי — צריך לפחות 6 תווים')
       return
     }
     setLoading(true)
@@ -73,7 +74,7 @@ export default function RegisterPage() {
       navigate('/')
     } catch (err) {
       console.error('Register error:', err)
-      setError(err.message || 'שגיאה בהרשמה — בדוק שהשרת רץ')
+      setError(humanError(err, 'משהו השתבש בהרשמה. נסו שוב עוד רגע.'))
     } finally {
       setLoading(false)
     }
@@ -85,7 +86,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="auth-page" dir="rtl">
+    <div className="auth-page auth-page-board" dir="rtl">
       <motion.div
         className="auth-card"
         initial="hidden"
@@ -97,9 +98,9 @@ export default function RegisterPage() {
         </motion.div>
         <motion.h1 variants={fadeInUp}>לומדת מתמטיקה</motion.h1>
         <motion.p className="auth-tagline" variants={fadeInUp}>
-          מהיסודי ועד לתיכון
+          מכיתה ה׳ ועד תיכון
         </motion.p>
-        <motion.h2 variants={fadeInUp}>הרשמה למערכת</motion.h2>
+        <motion.h2 variants={fadeInUp}>פותחים חשבון</motion.h2>
 
         <AnimatePresence initial={false}>
           {referrer && (
@@ -110,7 +111,7 @@ export default function RegisterPage() {
               exit={{ opacity: 0, y: -6 }}
               transition={{ duration: DURATION.short, ease: EASE_OUT }}
             >
-              הוזמנת על ידי <strong>{referrer}</strong> — ברוך הבא!
+              <strong>{referrer}</strong> הזמין אתכם לכאן — טוב שהגעתם.
             </motion.p>
           )}
         </AnimatePresence>
@@ -124,7 +125,7 @@ export default function RegisterPage() {
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
               required
-              placeholder="השם שיוצג במערכת"
+              placeholder="למשל: יוסי כהן"
               autoComplete="name"
               {...fieldMotion}
             />
@@ -138,7 +139,7 @@ export default function RegisterPage() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              placeholder="בחר שם משתמש להתחברות"
+              placeholder="השם שאיתו נכנסים בפעם הבאה"
               autoComplete="username"
               {...fieldMotion}
             />
@@ -168,7 +169,7 @@ export default function RegisterPage() {
               onChange={(e) => setConfirm(e.target.value)}
               required
               minLength={6}
-              placeholder="הקלד שוב את הסיסמה"
+              placeholder="שוב, כדי לוודא שלא נפלה טעות"
               autoComplete="new-password"
               {...fieldMotion}
             />
@@ -195,8 +196,11 @@ export default function RegisterPage() {
             disabled={loading}
             {...tapScale}
           >
-            {loading ? 'נרשם...' : 'הרשמה וכניסה'}
+            {loading ? 'רגע…' : 'פתיחת חשבון'}
           </motion.button>
+          <p className="auth-note">
+            ההרשמה חינם, וכל תלמיד חדש מקבל תקופת התנסות עם גישה לכל הלומדה.
+          </p>
         </motion.form>
 
         <motion.p className="auth-switch" variants={fadeInUp}>

@@ -4,16 +4,19 @@ import { IconArrowStart, IconCompass } from '../components/icons.jsx'
 
 const SCRIPT_ID = 'matrices-100-embed'
 
-// The supplied 100-question bank is intentionally mounted separately, so its
-// self-contained generated markup cannot affect the rest of the Karni UI.
+// The 100-question matrix bank is supplied as a self-contained widget.  Keeping
+// it in its own mount point prevents its generated markup and scoped styles from
+// leaking into the rest of the Karni interface.
 export default function MatricesPractice() {
   const mountRef = useRef(null)
   const [error, setError] = useState(false)
 
   useEffect(() => {
     const mount = () => {
-      if (mountRef.current && window.MatricesQuiz) window.MatricesQuiz.mount(mountRef.current)
+      if (!mountRef.current || !window.MatricesQuiz) return
+      window.MatricesQuiz.mount(mountRef.current)
     }
+
     const existing = document.getElementById(SCRIPT_ID)
     if (window.MatricesQuiz) {
       mount()
@@ -24,6 +27,7 @@ export default function MatricesPractice() {
       existing.addEventListener('error', () => setError(true), { once: true })
       return () => existing.removeEventListener('load', mount)
     }
+
     const script = document.createElement('script')
     script.id = SCRIPT_ID
     script.src = '/matrices-100/matrices-embed.js'
@@ -49,7 +53,11 @@ export default function MatricesPractice() {
           <span>שמונה חלקים מדורגים, משוב מיידי והסבר לכל תשובה.</span>
         </div>
       </header>
-      {error ? <p className="inline-error">לא הצלחנו לטעון את התרגול. נסו לרענן את העמוד.</p> : <div ref={mountRef} className="matrices-practice-widget" />}
+      {error ? (
+        <p className="inline-error">לא הצלחנו לטעון את התרגול. נסו לרענן את העמוד.</p>
+      ) : (
+        <div ref={mountRef} className="matrices-practice-widget" />
+      )}
     </section>
   )
 }

@@ -8,7 +8,7 @@ touch at once.
 from datetime import datetime
 from typing import Dict, List, Optional
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 
 # ---------------------------------------------------------------------------
@@ -37,6 +37,9 @@ class PsyItemOut(BaseModel):
     figure: Optional[str] = None
     options: List[str]
     difficulty: int
+    # beginner | standard | advanced — היכן השאלה עומדת מול רף מבחן קרני האמיתי.
+    # נשלח לנגן כדי שהתלמיד ידע אם הוא מתאמן על חימום או על רמת המבחן.
+    level: str = "standard"
     target_seconds: int
     passage: Optional[PsyPassageOut] = None
 
@@ -114,11 +117,6 @@ class PsySimulationOut(BaseModel):
 class PsyAttemptStart(BaseModel):
     attempt_id: int
     section_index: int
-    # ``resumed`` — הניסיון היה כבר פתוח ולא נוצר עכשיו. ``section_expired`` —
-    # השעון של הפרק הנוכחי אזל בזמן שהתלמיד לא היה כאן. בלי שני אלה הנגן הגיש
-    # פרק שלם בשקט מיד עם הטעינה, מאחורי כפתור שכתוב עליו "התחל".
-    resumed: bool = False
-    section_expired: bool = False
 
 
 class PsySectionState(BaseModel):
@@ -169,10 +167,7 @@ class PsyAnswerReview(BaseModel):
     figure: Optional[str] = None
     options: List[str]
     chosen: Optional[int] = None
-    # ``None`` כשהפריט מחוץ למכסה של דרגת ``free``: התלמיד עדיין רואה אם ענה
-    # נכון, אבל לא את התשובה ולא את הפתרון — אחרת סימולציית הטעימה היא דלת
-    # אחורית לכל המאגר הנעול.
-    correct_index: Optional[int] = None
+    correct_index: int
     is_correct: bool
     seconds: int
     target_seconds: int
@@ -248,16 +243,21 @@ class PsyTopicCard(BaseModel):
 
     domain: str
     topic: str
-    count: int          # active items in the bank
-    # כמה מהן פתוחות בפועל בדרגת ``free`` (הטעימה). ``None`` = גישה מלאה, ואז
-    # ``count`` הוא גם המספר הפתוח ואין מה להציג בנפרד.
-    open_count: Optional[int] = None
+    count: int          # active items in the bank, regardless of access tier
+    # כמה מתוך המאגר דרגת הגישה של התלמיד באמת פותחת לו. בדרגה מלאה זה שווה
+    # ל-count; בדרגת free הוא קטן ממנו, והכרטיס אומר "X מתוך Y" במקום לדווח
+    # מאגר מוקטן כאילו זה כל מה שקיים.
+    open_count: int = 0
+    # פיצול המאגר לרמות, כדי שהכרטיס יוכל לומר "מתוך 24: 8 מתחילים,
+    # 10 רמת מבחן, 6 מתקדמות" במקום מספר אחד שמערבב את שלושתן.
+    # מפתח חסר = אין שאלות ברמה הזו בנושא.
+    level_counts: Dict[str, int] = Field(default_factory=dict)
     answered: int = 0
     accuracy: Optional[float] = None
-    # שיוך הנושא לקורס/פרק הלימוד שלו, כדי שהעמוד יציג כל נושא תרגול במקום שבו
-    # הוא באמת נלמד ולא כרשימה מנותקת. ה-DB לא מקשר בין PsyItem.topic לקורס,
-    # ולכן המיפוי מגיע מטבלה מתוחזקת בראוטר — נושא שלא ממופה (או קורס שעדיין לא
-    # נזרע) מחזיר את כל החמישה None ויורד לקבוצת "תרגול נוסף".
+    # שיוך הנושא לקורס/פרק הלימוד שלו, כדי שהעמוד יוכל להציג כל נושא תרגול
+    # במקום שבו הוא באמת נלמד ולא כרשימה מנותקת. ה-DB לא מקשר בין PsyItem.topic
+    # לקורס, ולכן המיפוי מגיע מטבלה מתוחזקת בראוטר — נושא שלא ממופה (או קורס
+    # שעדיין לא נזרע) מחזיר את כל החמישה None, וה-UI נופל לתצוגה הישנה.
     course_id: Optional[int] = None
     course_slug: Optional[str] = None
     course_title: Optional[str] = None

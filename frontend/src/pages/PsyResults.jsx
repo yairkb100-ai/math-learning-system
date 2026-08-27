@@ -2,12 +2,14 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import api from '../api.js'
-import MathText, { isLatinText } from '../components/MathText.jsx'
+import MathText from '../components/MathText.jsx'
 import { Loading, ErrorBox } from '../components/Status.jsx'
 import { fadeInUp, fadeIn, staggerContainer, tapScale, DURATION, EASE_OUT } from '../lib/motion.js'
 import '../styles/psy.css'
 
-const OPTION_LETTERS = ['א', 'ב', 'ג', 'ד', 'ה']
+// שש אותיות: מבחן קרני האמיתי מגיש חמישה מסיחים, ושאלות יוצא-דופן מילוליות מגישות שש.
+// ה-|| i + 1 הוא רשת ביטחון: פריט עם עוד מסיחים יקבל מספר ולא תא ריק.
+const OPTION_LETTERS = ['א', 'ב', 'ג', 'ד', 'ה', 'ו']
 const DOMAIN_HE = {
   verbal: 'מילולי',
   quantitative: 'כמותי',
@@ -49,11 +51,8 @@ export default function PsyResults() {
   if (error) return <ErrorBox error={error} />
   if (!data) return <Loading />
 
-  // history מגיע ממוין עולה לפי finished_at, ולכן ה"קודם" הוא האיבר שלפני
-  // הניסיון המוצג — לא האחרון ברשימה. כשנכנסים לדוח ישן מ"המבחנים האחרונים",
-  // האחרון הוא דווקא ניסיון מאוחר יותר, והדלתא יצאה בסימן הפוך.
-  const currentIndex = data.history.findIndex((h) => h.attempt_id === data.attempt_id)
-  const previous = currentIndex > 0 ? data.history[currentIndex - 1] : null
+  const prior = data.history.filter((h) => h.attempt_id !== data.attempt_id)
+  const previous = prior.length ? prior[prior.length - 1] : null
   const delta =
     previous && data.score_percent != null && previous.score_percent != null
       ? data.score_percent - previous.score_percent
@@ -159,22 +158,6 @@ export default function PsyResults() {
             </tbody>
           </table>
         </div>
-
-        {/* מובייל: רשימת כרטיסים אמיתית במקום טבלה מכווצת, בדיוק כמו
-            .psy-history-cards בעמוד הבית. בלי זה כל הפירוט לפי פרק פשוט נעלם
-            בטלפון — ‎.psy-table-wrap‎ מוסתר שם, ולא היה לו תחליף. */}
-        <ul className="psy-section-cards">
-          {data.sections.map((s) => (
-            <li key={s.section_index} className="psy-section-card">
-              <span className="psy-section-card-title">{s.title}</span>
-              <span className="psy-section-card-stats">
-                <span>{s.total ? `${s.correct}/${s.total} נכונות` : 'ללא ניקוד'}</span>
-                <span>{s.unanswered} לא נענו</span>
-                <span>{Math.round(s.seconds / 60)} דק׳</span>
-              </span>
-            </li>
-          ))}
-        </ul>
       </motion.section>
 
       {data.topics.length > 0 && (
@@ -268,13 +251,11 @@ export default function PsyResults() {
                 {r.passage && (
                   <details className="psy-review-passage">
                     <summary>הצג את קטע הקריאה</summary>
-                    <div className={isLatinText(r.passage.body) ? 'psy-passage-ltr' : undefined}>
-                      <MathText text={r.passage.body} />
-                    </div>
+                    <MathText text={r.passage.body} mathRuns />
                   </details>
                 )}
                 <div className="psy-stem">
-                  <MathText text={r.stem} />
+                  <MathText text={r.stem} mathRuns />
                 </div>
                 {r.figure && (
                   <div className="psy-figure">
@@ -293,8 +274,8 @@ export default function PsyResults() {
                         .filter(Boolean)
                         .join(' ')}
                     >
-                      <span className="psy-option-letter">{OPTION_LETTERS[i]}</span>
-                      <MathText text={opt} />
+                      <span className="psy-option-letter">{OPTION_LETTERS[i] || i + 1}</span>
+                      <MathText text={opt} mathRuns />
                       {i === r.correct_index && <span className="psy-tag">התשובה הנכונה</span>}
                       {i === r.chosen && i !== r.correct_index && (
                         <span className="psy-tag psy-tag-bad">התשובה שלך</span>
@@ -305,13 +286,13 @@ export default function PsyResults() {
                 {r.chosen == null && <div className="psy-note">לא נענתה</div>}
                 {r.explanation && (
                   <div className="psy-explanation">
-                    <MathText text={r.explanation} />
+                    <MathText text={r.explanation} mathRuns />
                   </div>
                 )}
                 {r.solution && (
                   <details className="psy-solution">
                     <summary>איך חושבים על זה</summary>
-                    <MathText text={r.solution} />
+                    <MathText text={r.solution} mathRuns />
                   </details>
                 )}
               </motion.li>

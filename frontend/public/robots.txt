@@ -1,8 +1,21 @@
 User-agent: *
 Allow: /
+
 Disallow: /admin
 Disallow: /messages
 Disallow: /files
 Disallow: /subscription
+Disallow: /progress
+Disallow: /practice
+Disallow: /analytics
+Disallow: /exams
+Disallow: /exam-results
+Disallow: /achievements
+Disallow: /psy/drill
+Disallow: /psy/sim
+Disallow: /psy/results
+Disallow: /lessons
+Disallow: /invite
+Disallow: /join
 
 Sitemap: https://math-learning-system-lyart.vercel.app/sitemap.xml
