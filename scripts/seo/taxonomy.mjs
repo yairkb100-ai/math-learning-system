@@ -18,6 +18,8 @@ export const COURSE_GRADES = {
   'grade6-fractions-decimals': '6',
   'grade6-percents': '6',
   'grade6-ratio-rate': '6',
+  'grade56-geometry-measurement': '6',
+  'grade56-data-statistics-probability': '6',
   'arithmetic-laws': '7',
   'directed-numbers': '7',
   'grade7-algebra': '7',
