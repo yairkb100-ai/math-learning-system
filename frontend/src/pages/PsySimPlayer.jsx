@@ -341,7 +341,7 @@ export default function PsySimPlayer() {
             {current && (
               <motion.article
                 key={current.ref}
-                className="psy-question"
+                className={`psy-question${current.domain === 'figural' ? ' is-figural-question' : ''}`}
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: DURATION.short, ease: EASE_OUT }}

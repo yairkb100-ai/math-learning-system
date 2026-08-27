@@ -215,7 +215,7 @@ export default function PsyDrill() {
       ) : (
         <motion.article
           key={current.ref ?? index}
-          className="psy-question psy-question-solo"
+          className={`psy-question psy-question-solo${current.domain === 'figural' ? ' is-figural-question' : ''}`}
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: DURATION.short, ease: EASE_OUT }}
