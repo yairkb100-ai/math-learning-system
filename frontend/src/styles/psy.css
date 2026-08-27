@@ -1769,6 +1769,33 @@
   justify-items: start;
 }
 
+/* בפרק הצורני השאלה היא לוח חזותי, ולכן ארבע תשובות זו מתחת לזו דוחפות את
+   השאלה מחוץ למסך. רק בפריטים של התחום הזה התשובות הופכות ללוח 2×2, והאיור
+   מקבל את רוב הרוחב — לא שינוי גלובלי לשאר פרקי קרני. */
+@media (min-width: 901px) {
+  .psy-question.is-figural-question .psy-question-split {
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.9fr);
+    gap: 28px;
+  }
+  .psy-question.is-figural-question .psy-question-content {
+    padding-inline-end: 28px;
+  }
+  .psy-question.is-figural-question .psy-options {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    justify-items: stretch;
+  }
+  .psy-question.is-figural-question .psy-option:has(.art-row) {
+    width: 100%;
+    min-width: 0;
+    min-height: 92px;
+    justify-content: center;
+  }
+  .psy-question.is-figural-question .psy-figure .art-row {
+    padding: 14px;
+  }
+}
+
 /* איור השאלה גדל מעט מול התשובות שהתכווצו — בלי זה היחס מתהפך והשאלה
    נראית משנית לתשובות. ‎max-width:100%‎ של ‎.art-fig svg‎ עדיין גובר, כך
    שבמסך צר האיור מצטמצם מעצמו. */
