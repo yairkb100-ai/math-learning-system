@@ -1085,6 +1085,15 @@ function Carpet({ rows, px }) {
 export function renderFigureToken(name, param, px) {
   const body = String(param ?? '')
   switch (name) {
+    case 'sourcefig':
+      return (
+        <img
+          className="source-figure-svg"
+          src={`data:image/svg+xml;base64,${body}`}
+          alt=""
+          aria-hidden="true"
+        />
+      )
     case 'figcell':
       return <FigCell spec={body} px={px || 76} />
     case 'figrow':
@@ -1120,6 +1129,7 @@ export function renderFigureToken(name, param, px) {
 // Registered into FractionArt's KINDS map, so MathText needs no changes and an
 // item can mix a figural token into ordinary prose like any other illustration.
 export const FIGURE_KINDS = {
+  sourcefig: ({ param }) => renderFigureToken('sourcefig', param),
   figcell: ({ param }) => renderFigureToken('figcell', param),
   figrow: ({ param }) => renderFigureToken('figrow', param),
   figodd: ({ param }) => renderFigureToken('figodd', param),

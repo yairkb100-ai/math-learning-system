@@ -2354,6 +2354,16 @@ h4.prose-h {
 .art-fig { margin: 0; text-align: center; }
 /* Shrink to fit first; the viewBox keeps the drawing proportional. */
 .art-fig svg { max-width: 100%; height: auto; }
+.source-figure-svg {
+  display: block;
+  width: min(100%, 34rem);
+  max-height: 24rem;
+  object-fit: contain;
+}
+.psy-option .source-figure-svg {
+  width: min(100%, 8rem);
+  max-height: 8rem;
+}
 .art-caption {
   font-size: 13.5px;
   color: var(--muted, #6b7a90);

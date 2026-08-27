@@ -3272,6 +3272,69 @@ _PSY_SIMULATIONS = [
 ]
 
 
+def _use_shape_source_in_simulations():
+    """Point every published figural simulation at the imported source bank.
+
+    The source folder has matrices, series and odd-one-out questions, but no
+    separate figural-analogy family. Dedicated analogy forms are therefore
+    hidden instead of silently serving the older generated questions. Only one
+    six-question odd-one-out form is published because the source contains six
+    such questions; the topic remains fully available in untimed practice.
+    """
+    for spec in _PSY_SIMULATIONS:
+        slug = spec["slug"]
+        if slug.startswith("karni-test-fig-analogy-"):
+            spec["is_published"] = False
+        if slug.startswith("karni-test-fig-odd-"):
+            if slug.endswith("-1"):
+                spec["title"] = "יוצא דופן צורני — מבחן מקור"
+                spec["description"] = "שש שאלות מתוך מאגר מבחני הצורות, בתנאי זמן."
+                section = spec["sections"][0]
+                section["minutes"] = 5
+                section["num_questions"] = 6
+                section["blueprint"] = [{"count": 6, "topic": "יוצא דופן צורני"}]
+                section.pop("item_refs", None)
+            else:
+                spec["is_published"] = False
+
+        for section in spec["sections"]:
+            if section["domain"] == "spatial":
+                section.pop("item_refs", None)
+                section["blueprint"] = [
+                    {
+                        "count": int(section["num_questions"]),
+                        "topic": "חשיבה מרחבית",
+                        **({"min_difficulty": 3} if spec.get("level") == "advanced" else {}),
+                    }
+                ]
+                continue
+            if section["domain"] != "figural":
+                continue
+            section.pop("item_refs", None)
+            count = int(section["num_questions"])
+            title = section["title"]
+            floor = {"min_difficulty": 3} if spec.get("level") == "advanced" else {}
+            if "מטריצ" in title and "סדר" not in title and "צורני" not in title:
+                section["blueprint"] = [{"count": count, "topic": "מטריצות", **floor}]
+            elif "סדר" in title and "מטריצ" not in title:
+                section["blueprint"] = [{"count": count, "topic": "סדרות צורות", **floor}]
+            elif "יוצא דופן" in title and count <= 6:
+                section["blueprint"] = [{"count": count, "topic": "יוצא דופן צורני", **floor}]
+            else:
+                odd = min(2, count)
+                matrices = (count - odd + 1) // 2
+                series = count - odd - matrices
+                section["title"] = "מטריצות, סדרות צורות ויוצא דופן"
+                section["blueprint"] = [
+                    {"count": matrices, "topic": "מטריצות", **floor},
+                    {"count": series, "topic": "סדרות צורות", **floor},
+                    {"count": odd, "topic": "יוצא דופן צורני", **floor},
+                ]
+
+
+_use_shape_source_in_simulations()
+
+
 def ensure_psy_simulations(db):
     """Upsert simulations and their sections, keyed by slug.
 
@@ -3384,9 +3447,13 @@ def assign_topic_test_forms(db):
             # from one topic's refs would silently drop the other four, so leave
             # it on the blueprint draw, which honours every row.
             continue
+        ref_query = db.query(PsyItem.ref).filter(
+            PsyItem.topic == topic, PsyItem.is_active.is_(True)
+        )
+        if sections[0].domain in ("figural", "spatial"):
+            ref_query = ref_query.filter(PsyItem.source.like("מבחני צורות — %"))
         refs = [
-            r for (r,) in db.query(PsyItem.ref)
-            .filter(PsyItem.topic == topic, PsyItem.is_active.is_(True))
+            r for (r,) in ref_query
             .order_by(PsyItem.ref)
             .all()
         ]
