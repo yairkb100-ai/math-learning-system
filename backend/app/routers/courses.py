@@ -7,6 +7,7 @@ Endpoints are FROZEN by CONTRACT.md's "REST API" section:
 - GET  /api/courses/{id}/chapters/{number}
 - POST /api/courses/import
 - POST /api/quiz/check
+- POST /api/interactive/check
 - GET  /api/courses/{id}/chapters/{number}/exercises/{n}/solution
 """
 
@@ -32,6 +33,8 @@ from app.schemas import (
     CourseSummary,
     HealthResult,
     ImportResult,
+    InteractiveCheckRequest,
+    InteractiveCheckResult,
     QuizCheckRequest,
     QuizCheckResult,
     ExerciseCheckRequest,
@@ -65,6 +68,7 @@ def _locked_chapter_out(chapter: Chapter) -> ChapterOut:
         examples=[],
         exercises=[],
         quiz=[],
+        interactive=[],
         locked=True,
     )
 
@@ -229,6 +233,32 @@ def quiz_check(
     if result is None:
         raise HTTPException(status_code=404, detail="Quiz question not found")
     return QuizCheckResult(**result)
+
+
+@router.post("/interactive/check", response_model=InteractiveCheckResult)
+def interactive_check(
+    payload: InteractiveCheckRequest,
+    db: Session = Depends(get_db),
+    access: ContentAccess = Depends(require_content_access),
+) -> InteractiveCheckResult:
+    # אותה נעילה בדיוק שחלה על הפרק ועל הבוחן — פעילות של פרק נעול לא נבדקת.
+    activity_chapter = crud.get_chapter_by_id(db, payload.chapter_id)
+    if activity_chapter is not None:
+        activity_access = access_for_course(db, access.user, activity_chapter.course)
+        if not chapter_is_unlocked(
+            db,
+            activity_chapter.course_id,
+            activity_chapter.number,
+            activity_access.tier,
+            activity_access.ratio,
+        ):
+            raise HTTPException(status_code=402, detail="chapter_locked")
+    result = crud.check_interactive(
+        db, payload.chapter_id, payload.activity_number, payload.placements
+    )
+    if result is None:
+        raise HTTPException(status_code=404, detail="Interactive activity not found")
+    return InteractiveCheckResult(**result)
 
 
 @router.get(

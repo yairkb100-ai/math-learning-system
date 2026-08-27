@@ -42,6 +42,7 @@ from app.models import (  # noqa: E402
     Example,
     Exercise,
     FileAsset,
+    InteractiveActivity,
     LearningObjective,
     LessonType,
     LoginEvent,
@@ -136,14 +137,27 @@ def _course_unchanged(existing, course_obj, metadata):
         ]
         if db_quiz != json_quiz:
             return False
+        db_interactive = [
+            (a.number, a.type, a.title, a.prompt, a.zones, a.items, a.distractors, a.explanation)
+            for a in db_ch.interactive
+        ]
+        json_interactive = [
+            (a.get("number"), a.get("type", ""), a.get("title"), a.get("prompt", ""), a.get("zones"), a.get("items") or [], a.get("distractors"), a.get("explanation"))
+            for a in ch.get("interactive", []) or []
+        ]
+        # ההשוואה כאן היא שדה-מול-שדה ולא hash של הקובץ, ולכן הוספת "interactive"
+        # לפרק קיים לא הייתה נחשבת שינוי בלעדי השורות האלה — הפעילות פשוט לא
+        # הייתה נכנסת ל-DB בפריסה הבאה.
+        if db_interactive != json_interactive:
+            return False
     return True
 
 
 def _fill_chapter_children(chapter, ch):
-    """(Re)build a chapter's examples/exercises/quiz from the JSON.
+    """(Re)build a chapter's examples/exercises/quiz/interactive from the JSON.
 
-    These three are pure content: nothing in the schema references an Example,
-    Exercise or QuizQuestion row by id, so replacing them wholesale is safe.
+    These four are pure content: nothing in the schema references an Example,
+    Exercise, QuizQuestion or InteractiveActivity row by id, so replacing them wholesale is safe.
     Student data hangs off ``chapters.id`` (progress, views), never off these.
     """
     chapter.examples = [
@@ -176,6 +190,19 @@ def _fill_chapter_children(chapter, ch):
             explanation=q.get("explanation"),
         )
         for q in ch.get("quiz", []) or []
+    ]
+    chapter.interactive = [
+        InteractiveActivity(
+            number=a.get("number"),
+            type=a.get("type", ""),
+            title=a.get("title"),
+            prompt=a.get("prompt", ""),
+            zones=a.get("zones"),
+            items=a.get("items") or [],
+            distractors=a.get("distractors"),
+            explanation=a.get("explanation"),
+        )
+        for a in ch.get("interactive", []) or []
     ]
 
 

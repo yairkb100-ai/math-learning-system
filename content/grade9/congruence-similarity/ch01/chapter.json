@@ -148,5 +148,105 @@
       ],
       "correct_answer": "$\\triangle ABC \\cong \\triangle EFD$"
     }
+  ],
+  "interactive": [
+    {
+      "number": 1,
+      "type": "categorize",
+      "title": "מה מבטיח חפיפה",
+      "prompt": "גררו כל תיאור אל הקבוצה המתאימה: האם המידע מבטיח שהצורות חופפות?",
+      "zones": [
+        {
+          "id": "z1",
+          "label": "חופפות בוודאות"
+        },
+        {
+          "id": "z2",
+          "label": "לא בהכרח חופפות"
+        }
+      ],
+      "items": [
+        {
+          "id": "a1",
+          "label": "הועברה בהזזה בלבד",
+          "zone": "z1"
+        },
+        {
+          "id": "a2",
+          "label": "הועברה בסיבוב בלבד",
+          "zone": "z1"
+        },
+        {
+          "id": "a3",
+          "label": "הועברה בשיקוף בלבד",
+          "zone": "z1"
+        },
+        {
+          "id": "a4",
+          "label": "שני משולשים ששטחם שווה",
+          "zone": "z2"
+        },
+        {
+          "id": "a5",
+          "label": "שני משולשים שהיקפם שווה",
+          "zone": "z2"
+        },
+        {
+          "id": "a6",
+          "label": "שני מרובעים בהיקף שווה",
+          "zone": "z2"
+        }
+      ],
+      "distractors": [],
+      "explanation": "הזזה, סיבוב ושיקוף הן תנועות קשיחות שאינן משנות אורך או זווית, ולכן צורה שהתקבלה מהן חופפת בוודאות לצורה המקורית. לעומת זאת שני משולשים יכולים לחלוק שטח או היקף שווה ובכל זאת להיות בעלי צורה שונה — שוויון מידה אחת אינו מבטיח חפיפה."
+    },
+    {
+      "number": 2,
+      "type": "fill",
+      "title": "כתיבת ההתאמה הנכונה",
+      "prompt": "נתון $\\triangle GHI \\cong \\triangle JQR$. השלימו לפי סדר הקודקודים: $GH = [[z1]]$, $\\angle H = [[z2]]$, $IG = [[z3]]$.",
+      "zones": [
+        {
+          "id": "z1",
+          "label": ""
+        },
+        {
+          "id": "z2",
+          "label": ""
+        },
+        {
+          "id": "z3",
+          "label": ""
+        }
+      ],
+      "items": [
+        {
+          "id": "a1",
+          "label": "$JQ$",
+          "zone": "z1"
+        },
+        {
+          "id": "a2",
+          "label": "$\\angle Q$",
+          "zone": "z2"
+        },
+        {
+          "id": "a3",
+          "label": "$RJ$",
+          "zone": "z3"
+        }
+      ],
+      "distractors": [
+        {
+          "id": "d1",
+          "label": "$QR$"
+        },
+        {
+          "id": "d2",
+          "label": "$\\angle J$"
+        }
+      ],
+      "explanation": "סדר האותיות בסימון $\\triangle GHI \\cong \\triangle JQR$ קובע את ההתאמה: $G\\leftrightarrow J$, $H\\leftrightarrow Q$, $I\\leftrightarrow R$. לכן $GH$ מתאימה ל-$JQ$, $\\angle H$ מתאים ל-$\\angle Q$, ו-$IG$ מתאימה ל-$RJ$ — לא ל-$QR$ ולא ל-$\\angle J$, שהן טעויות של התאמה לפי מיקום שגוי."
+    }
   ]
 }

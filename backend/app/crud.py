@@ -8,7 +8,7 @@ SQLAlchemy ``Session`` (from ``app.database.get_db``) and the ORM models
 import hashlib
 import re
 import unicodedata
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 from sqlalchemy.orm import Session
 
@@ -17,6 +17,7 @@ from app.models import (
     Course,
     Example,
     Exercise,
+    InteractiveActivity,
     LearningObjective,
     QuizQuestion,
 )
@@ -117,6 +118,87 @@ def check_quiz(
         # Sent on right AND wrong answers: a student who guessed right still
         # needs to know why.
         "explanation": question.explanation,
+    }
+
+
+def check_interactive(
+    db: Session,
+    chapter_id: int,
+    activity_number: int,
+    placements: Optional[Dict[str, str]],
+) -> Optional[dict]:
+    """Grade one drag-and-drop activity.
+
+    ``placements`` maps ``item_id -> zone_id`` (or ``item_id -> position`` for
+    type ``order``). An item is correct when it sits in its authored zone; a
+    distractor is correct only when it was left unplaced — dragging it anywhere
+    is the mistake it exists to catch.
+
+    Returns ``{"correct", "per_item", "correct_placements", "explanation"}`` or
+    ``None`` when the activity does not exist.
+    """
+    activity = (
+        db.query(InteractiveActivity)
+        .filter(
+            InteractiveActivity.chapter_id == chapter_id,
+            InteractiveActivity.number == activity_number,
+        )
+        .first()
+    )
+    if activity is None:
+        return None
+
+    given = {
+        str(k): str(v).strip() for k, v in (placements or {}).items() if v is not None
+    }
+    is_order = (activity.type or "") == "order"
+
+    # per_item marks ONLY the cards the student actually placed. Marking the
+    # untouched ones too would hand over the puzzle: an unplaced distractor
+    # would come back "correct" and an unplaced real item "wrong", so a single
+    # throwaway drop would light up every trap card still sitting in the tray.
+    per_item: Dict[str, bool] = {}
+    correct_placements: Dict[str, str] = {}
+    all_placed = True
+    for item in activity.items or []:
+        item_id = str(item.get("id", ""))
+        expected = str(
+            item.get("position", "") if is_order else item.get("zone", "")
+        ).strip()
+        correct_placements[item_id] = expected
+        if item_id in given:
+            per_item[item_id] = given[item_id] == expected
+        else:
+            all_placed = False
+
+    # A distractor has no home: leaving it in the tray IS the right answer, so
+    # it is only ever marked (wrong) once the student drags it somewhere.
+    placed_distractor = False
+    for distractor in activity.distractors or []:
+        distractor_id = str(distractor.get("id", ""))
+        if distractor_id in given:
+            per_item[distractor_id] = False
+            placed_distractor = True
+
+    correct = (
+        bool(activity.items)
+        and all_placed
+        and not placed_distractor
+        and all(per_item.values())
+    )
+
+    return {
+        "correct": correct,
+        "per_item": per_item,
+        # The answer key is released only once the student has committed a full
+        # arrangement. Otherwise one deliberate junk placement would fetch the
+        # whole solution out of the network tab without solving anything.
+        "correct_placements": correct_placements if all_placed else None,
+        # Shown on a right answer too — same rule as the quiz explanation — but
+        # only once the arrangement is complete. The explanation spells the
+        # answers out in prose, so releasing it on a half-finished board would
+        # hand over exactly what withholding ``correct_placements`` protects.
+        "explanation": activity.explanation if all_placed else None,
     }
 
 
@@ -233,6 +315,19 @@ def import_course(db: Session, payload: CourseImport) -> Course:
                     options=q.options,
                     correct_answer=q.correct_answer,
                     explanation=q.explanation,
+                )
+            )
+        for act in ch.interactive:
+            chapter.interactive.append(
+                InteractiveActivity(
+                    number=act.number,
+                    type=act.type,
+                    title=act.title,
+                    prompt=act.prompt,
+                    zones=act.zones,
+                    items=act.items,
+                    distractors=act.distractors,
+                    explanation=act.explanation,
                 )
             )
         course.chapters.append(chapter)

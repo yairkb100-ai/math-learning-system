@@ -270,6 +270,15 @@ class Chapter(Base):
         cascade="all, delete-orphan",
         order_by="QuizQuestion.number",
     )
+    # פעילויות הגרירה. הקסקייד חובה: טבלה חדשה עם FK ל-chapters בלי
+    # delete-orphan מפילה את ה-seed בפריסה ברגע שפרק מוחלף (בדיוק באג
+    # chapter_views למטה).
+    interactive = relationship(
+        "InteractiveActivity",
+        back_populates="chapter",
+        cascade="all, delete-orphan",
+        order_by="InteractiveActivity.number",
+    )
     progress = relationship(
         "ChapterProgress",
         back_populates="chapter",
@@ -337,6 +346,38 @@ class QuizQuestion(Base):
     explanation = Column(Text, nullable=True)
 
     chapter = relationship("Chapter", back_populates="quiz")
+
+
+class InteractiveActivity(Base):
+    """פעילות גרירה אינטראקטיבית של פרק (השלב שבין התרגילים לבוחן).
+
+    ``type`` הוא match | categorize | order | fill (ראו
+    ``content/INTERACTIVE_AUTHORING.md``). המבנה נשמר כ-JSON ולא כטבלאות
+    בנות: פריט/יעד הם תוכן טהור שאף שורה אחרת לא מפנה אליו, ובדיוק כמו
+    ``QuizQuestion.options`` הם נכתבים מחדש בכל seed.
+
+    ``items``       — [{id, label, zone}] או [{id, label, position}] ב-order.
+    ``zones``       — [{id, label}]; NULL ב-order (אין יעדים).
+    ``distractors`` — [{id, label}]; כרטיסים שאסור להניח בשום יעד.
+
+    התשובות (``zone``/``position``) וה-``explanation`` לעולם לא יוצאים
+    ב-``InteractiveActivityOut`` — הן היו דולפות לתלמיד בתוך ה-JSON.
+    """
+
+    __tablename__ = "interactive_activities"
+
+    id = Column(Integer, primary_key=True, index=True)
+    chapter_id = Column(Integer, ForeignKey("chapters.id"), nullable=False, index=True)
+    number = Column(Integer, nullable=False)
+    type = Column(String, nullable=False)  # match | categorize | order | fill
+    title = Column(String, nullable=True)
+    prompt = Column(Text, nullable=False)
+    zones = Column(JSON, nullable=True)
+    items = Column(JSON, nullable=False)
+    distractors = Column(JSON, nullable=True)
+    explanation = Column(Text, nullable=True)
+
+    chapter = relationship("Chapter", back_populates="interactive")
 
 
 # ---------------------------------------------------------------------------
