@@ -137,8 +137,9 @@ export default function Navbar() {
           <NavItem to="/files" indicator={indicator}>קבצים</NavItem>
           {/* The admin and student branches are mutually exclusive, so
               anything that lives only in the student list is unreachable
-              for an admin. הכנה לקרני is content an admin has to be able
-              to open and check, so it appears in both. */}
+              for an admin. שתי הערכות — לומדת מתמטיקה והכנה לקרני — הן תוכן
+              שמנהל חייב להיות מסוגל לפתוח ולבדוק, ולכן הן מופיעות בשתיהן. */}
+          <NavItem to="/lomda" className="nav-link-lomda" indicator={indicator}>לומדת מתמטיקה</NavItem>
           <NavItem to="/psy" className="nav-link-karni" indicator={indicator}>הכנה לקרני</NavItem>
           {messagesLink}
         </>
@@ -146,7 +147,12 @@ export default function Navbar() {
     }
     return (
       <>
-        <NavItem to="/" exact indicator={indicator}>קורסים</NavItem>
+        {/* שתי הערכות של "הלומדה" פותחות את הבר, צמודות זו לזו — הן שתי
+            נקודות הכניסה לתוכן, וכל השאר (מנוי, תרגול, מבחנים) הוא מה
+            שנעשה *בתוך* ערכה. קטלוג המתמטיקה עבר מ-"/" ל-"/lomda" כשדף
+            הנחיתה תפס את הבית. */}
+        <NavItem to="/lomda" className="nav-link-lomda" indicator={indicator}>לומדת מתמטיקה</NavItem>
+        <NavItem to="/psy" className="nav-link-karni" indicator={indicator}>הכנה לקרני</NavItem>
         <NavItem to="/subscription" indicator={indicator}>המנוי שלי</NavItem>
         {/* מיד אחרי "המנוי שלי": ההטבה היא הנחה על המנוי, וזה המקום
             שבו התלמיד חושב על מה שהוא משלם. */}
@@ -155,7 +161,6 @@ export default function Navbar() {
           {myRewards > 0 && <span className="nav-badge nav-badge-reward">{myRewards}</span>}
         </NavItem>
         <NavItem to="/practice" indicator={indicator}>תרגול</NavItem>
-        <NavItem to="/psy" className="nav-link-karni" indicator={indicator}>הכנה לקרני</NavItem>
         <NavItem to="/exams" indicator={indicator}>מבחנים</NavItem>
         <NavItem to="/analytics" indicator={indicator}>אנליטיקה</NavItem>
         <NavItem to="/progress" indicator={indicator}>ההתקדמות שלי</NavItem>
@@ -173,8 +178,8 @@ export default function Navbar() {
         <Link to="/" className="brand">
           <span className="brand-mark"><IconBrand /></span>
           <span className="brand-titles">
-            <span className="brand-text">לומדת מתמטיקה</span>
-            <span className="brand-tagline">מהיסודי ועד לתיכון</span>
+            <span className="brand-text">הלומדה</span>
+            <span className="brand-tagline">מתמטיקה והכנה לקרני</span>
           </span>
         </Link>
 
@@ -252,7 +257,7 @@ export default function Navbar() {
                 <div className="topbar-drawer-head">
                   <span className="brand">
                     <span className="brand-mark"><IconBrand size={26} /></span>
-                    <span className="brand-text">לומדת מתמטיקה</span>
+                    <span className="brand-text">הלומדה</span>
                   </span>
                   <button
                     className="nav-toggle"

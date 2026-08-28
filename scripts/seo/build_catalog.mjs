@@ -23,6 +23,10 @@ const COURSES_DIR = path.join(ROOT, 'courses')
 const DATA_OUT_DIR = path.join(ROOT, 'frontend', 'public', 'data')
 const CATALOG_OUT = path.join(DATA_OUT_DIR, 'catalog.json')
 const TOPICS_OUT_DIR = path.join(DATA_OUT_DIR, 'topics')
+// מודול קטן שנכנס ל-bundle עצמו (ולא ל-/data), כי דף הנחיתה מציג את המספרים
+// האלה בהירו — ואסור שהם יעלו fetch של קטלוג בן ~150KB או שייעלמו בניווט
+// פנימי אל "/" שבו הקטלוג לא הוזרק לעמוד.
+const STATS_OUT = path.join(ROOT, 'frontend', 'src', 'lib', 'catalogStats.js')
 
 // How much of a chapter goes public. The lesson itself stays behind login —
 // what ships here is the opening explanation, enough to be a genuinely useful
@@ -221,6 +225,26 @@ for (const [slug, data] of topicsBySlug) {
 }
 
 const topicCount = [...topicsBySlug.values()].reduce((n, d) => n + d.chapters.length, 0)
+
+// ---------------------------------------------------------------- stats
+// מספרי הכותרת של דף הנחיתה, נגזרים מהקטלוג עצמו כדי שלא ייווצר פער בין מה
+// שהאתר מבטיח לבין מה שבאמת יש בו.
+const stats = {
+  courses: courses.length,
+  schoolCourses: courses.filter((c) => c.track !== 'psy').length,
+  karniCourses: courses.filter((c) => c.track === 'psy').length,
+  chapters: topicCount,
+  hours: Math.round(courses.reduce((n, c) => n + (c.estimatedHours || 0), 0)),
+  grades: catalog.grades.length,
+}
+fs.writeFileSync(
+  STATS_OUT,
+  `// נוצר אוטומטית ע"י scripts/seo/build_catalog.mjs — אין לערוך ידנית.
+// מוחלף בכל בנייה (prebuild), ולכן המספרים בדף הנחיתה תמיד תואמים לתוכן.
+export const CATALOG_STATS = ${JSON.stringify(stats, null, 2)}
+`,
+  'utf8',
+)
 console.log(
   `  + public catalog: ${courses.length} courses, ${topicCount} topics, ` +
     `${catalog.subjects.length} subjects, ${catalog.karniAreas.length} Karni areas`,

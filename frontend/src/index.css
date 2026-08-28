@@ -4314,6 +4314,22 @@ h4.prose-h {
   color: #5a5fb0;
   background: rgba(90, 95, 176, 0.18);
 }
+/* קישור לומדת מתמטיקה — ירוק דשא (#4aa85a), גוון משלו: ירוק ה-‎--accent-2‎
+   (#2f9e6a) כבר שייך ל-‎.nav-link-accent‎ ("חבר מביא חבר"), ושני קישורים
+   מודגשים באותו גוון היו נקראים כאותה קטגוריה. */
+.nav-link-lomda {
+  /* הטקסט הוא אותו גוון מוכהה (ולא ההקסה עצמה): #4aa85a בהיר מדי לטקסט על
+     רקע בהיר, וכאן הוא צריך גם להיבדל בבירור מהירוק של "חבר מביא חבר". */
+  color: color-mix(in srgb, #4aa85a 78%, #102a16);
+  font-weight: 700;
+  background: rgba(74, 168, 90, 0.13);
+  border: 1px solid rgba(74, 168, 90, 0.34);
+  box-sizing: border-box;
+}
+.nav-link-lomda:hover {
+  color: color-mix(in srgb, #4aa85a 78%, #102a16);
+  background: rgba(74, 168, 90, 0.20);
+}
 .nav-badge-reward {
   /* צהוב ולא אדום: זו הטבה שמחכה, לא התראה דחופה. */
   background: var(--marker, #f2b134);
@@ -4975,6 +4991,37 @@ h4.prose-h {
   background: var(--surface-2);
 }
 
+/* רצועת המספרים בהירו: ‎.cat-stat-*‎ צוירו ללוח הכהה של הקטלוג ומשתמשים
+   ב-‎--chalk‎, שהוא בלתי נראה על ההירו הפסטלי של דף הנחיתה. */
+.lp-hero-pastel .cat-stat-num {
+  color: var(--accent);
+}
+.lp-hero-pastel .cat-stat-label {
+  color: var(--ink-soft, var(--muted));
+}
+.lp-hero-pastel .cat-stat-div {
+  background: color-mix(in srgb, var(--accent) 28%, var(--border));
+}
+.lp-hero-stats {
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+/* בנייד ארבעת המספרים נשברו ל-3+1 ונראו כמו תקלה; רשת 2×2 בלי הקווים
+   המפרידים נותנת בלוק מאוזן. */
+@media (max-width: 480px) {
+  .lp-hero-stats {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    justify-content: center;
+    gap: 14px 30px;
+  }
+  .lp-hero-stats .cat-stat-div {
+    display: none;
+  }
+}
+
 .lp-hero-body {
   justify-content: center;
   text-align: center;
@@ -5011,6 +5058,74 @@ h4.prose-h {
 .lp-cta-ghost:hover {
   background: rgba(244, 242, 233, 0.08);
   text-decoration: none;
+}
+
+/* "הערכות שלי" — הבורר שנפתח בדף הנחיתה לתלמיד מחובר שיש לו יותר מערכה אחת.
+   כל כרטיס נושא את הגוון של הערכה שלו דרך --lv, אותה מוסכמה שהקטלוג משתמש
+   בה לכרטיסי הקורסים. */
+.lp-kit-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 18px auto 0;
+  max-width: 640px;
+  text-align: start;
+}
+.lp-kit-card {
+  display: block;
+  height: 100%;
+  padding: 16px 18px 18px;
+  border-radius: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--lv, var(--accent));
+  box-shadow: var(--shadow);
+  color: var(--text);
+}
+.lp-kit-card:hover {
+  text-decoration: none;
+  border-color: color-mix(in srgb, var(--lv) 45%, var(--border));
+  border-top-color: var(--lv);
+}
+.lp-kit-card h3 {
+  margin: 10px 0 6px;
+  font-family: var(--font-display);
+  font-size: 1.08rem;
+  color: var(--lv, var(--accent));
+}
+.lp-kit-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+.lp-kit-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--lv) 14%, #ffffff);
+  color: var(--lv);
+}
+.lp-kit-state {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+.lp-kit-lomda {
+  --lv: #4aa85a;
+}
+.lp-kit-karni {
+  --lv: #5a5fb0;
+}
+@media (max-width: 560px) {
+  .lp-kit-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .lp-panel {
@@ -5138,6 +5253,68 @@ h4.prose-h {
 }
 .lp-panel-karni .lp-check-list svg {
   color: #5a5fb0;
+}
+
+/* "איך פרק בלומדה בנוי" — ארבעה שלבים ממוספרים. רשת משלה ולא
+   ‎.lp-feature-grid‎: הכרטיסים כאן נושאים פסקה ארוכה, ורוחב מינימלי גדול יותר
+   מונע ארבעה טורים צרים ובלתי קריאים. */
+.lp-step-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin: 0 4px 34px;
+}
+.lp-step-card {
+  position: relative;
+  padding: 20px 18px 18px;
+  border-radius: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+.lp-step-num {
+  position: absolute;
+  inset-block-start: 14px;
+  inset-inline-end: 16px;
+  font-family: var(--font-display);
+  font-size: 1.9rem;
+  line-height: 1;
+  color: color-mix(in srgb, var(--accent-2) 22%, transparent);
+}
+.lp-step-card h3 {
+  margin: 12px 0 8px;
+  font-family: var(--font-display);
+  font-size: 1.06rem;
+  color: var(--text);
+}
+.lp-step-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.94rem;
+  line-height: 1.75;
+}
+
+/* "למי הלומדה מתאימה" — שלוש פסקאות בתוך פאנל אחד, מופרדות בקו ולא
+   בכרטיסים: זה מלל רציף שנקרא ברצף, לא רשימת פיצ'רים. */
+.lp-audience {
+  display: grid;
+  gap: 22px;
+}
+.lp-audience-item h3 {
+  margin: 0 0 6px;
+  font-family: var(--font-display);
+  font-size: 1.06rem;
+  color: var(--accent);
+}
+.lp-audience-item p {
+  margin: 0;
+  color: var(--ink-soft, var(--muted));
+  font-size: 1rem;
+  line-height: 1.8;
+}
+.lp-audience-item + .lp-audience-item {
+  border-block-start: 1px solid var(--border);
+  padding-block-start: 22px;
 }
 
 .lp-feature-grid {
