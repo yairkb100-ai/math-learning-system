@@ -95,9 +95,9 @@ export default function RegisterPage() {
         <motion.div className="auth-logo" variants={fadeInUp}>
           <span className="brand-mark large">∑</span>
         </motion.div>
-        <motion.h1 variants={fadeInUp}>לומדת מתמטיקה</motion.h1>
+        <motion.h1 variants={fadeInUp}>הלומדה</motion.h1>
         <motion.p className="auth-tagline" variants={fadeInUp}>
-          מהיסודי ועד לתיכון
+          מתמטיקה והכנה לקרני
         </motion.p>
         <motion.h2 variants={fadeInUp}>הרשמה למערכת</motion.h2>
 

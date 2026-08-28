@@ -91,11 +91,24 @@ function AppRoutes() {
               לא יחתכו אותו. מכאן הוא נכנס לטופס ההרשמה כפרמטר. */}
           <Route path="/join/:code" element={<JoinRedirect />} />
 
-          {/* "/" is public: signed-out visitors see the SEO landing page
-              (this is the only URL Google ever gets real content from,
-              since every other route sits behind PrivateRoute), signed-in
-              students/admins see their course catalog as before. */}
-          <Route path="/" element={<HomeRoute />} />
+          {/* "/" is the landing page for EVERYONE — signed-out visitors (the
+              only URL Google ever gets real content from, since every other
+              route sits behind PrivateRoute) and signed-in students alike.
+              Under the "הלומדה" brand the math catalog is no longer the home
+              page but one of two kits, so a signed-in student lands here too
+              and enters through "הערכות שלי" (see components/MyKits.jsx). */}
+          <Route path="/" element={<LandingPage />} />
+
+          {/* לומדת מתמטיקה — the school math catalog, now its own tab next to
+              הכנה לקרני instead of sitting on "/". */}
+          <Route
+            path="/lomda"
+            element={
+              <PrivateRoute>
+                <CourseList />
+              </PrivateRoute>
+            }
+          />
 
           {/* Public course/topic catalog — crawlable, no login required.
               See CLAUDE.md-adjacent scripts/seo/build_catalog.mjs for how
@@ -119,7 +132,7 @@ function AppRoutes() {
           {/* Student — "/courses/:id" is the same URL for both audiences:
               signed-out visitors get the public course page (crawlable,
               teaser-only), signed-in students get the full course view.
-              Same trick as HomeRoute above. */}
+              Same auth-aware split the app uses elsewhere. */}
           <Route path="/courses/:id" element={<CourseOrCourseViewRoute />} />
           <Route
             path="/courses/:id/chapters/:number"
@@ -357,14 +370,6 @@ function AppRoutes() {
   )
 }
 
-// /join/<קוד> → טופס ההרשמה עם הקוד. הקוד מנורמל לאותיות גדולות כי הוא מוקלד
-// ומועתק ידנית, ו-replace כדי שכפתור "אחורה" לא יחזיר אותנו להפניה.
-function HomeRoute() {
-  const { user, isLoading } = useAuth()
-  if (isLoading) return null
-  return user ? <CourseList /> : <LandingPage />
-}
-
 // "/courses/:id" is one URL for both audiences: a crawler or a signed-out
 // visitor gets the public course page (teaser only, no data fetch that needs
 // a token), a signed-in student gets the real course view straight through.
@@ -374,6 +379,8 @@ function CourseOrCourseViewRoute() {
   return user ? <CourseView /> : <CoursePage />
 }
 
+// /join/<קוד> → טופס ההרשמה עם הקוד. הקוד מנורמל לאותיות גדולות כי הוא מוקלד
+// ומועתק ידנית, ו-replace כדי שכפתור "אחורה" לא יחזיר אותנו להפניה.
 function JoinRedirect() {
   const { code } = useParams()
   return <Navigate to={`/register?ref=${encodeURIComponent((code || '').toUpperCase())}`} replace />

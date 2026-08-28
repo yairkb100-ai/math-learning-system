@@ -82,7 +82,7 @@ export default function CourseView() {
       className={`course-view${isRtl ? ' rtl' : ''}${gradeClass(meta.grade)}`}
     >
       <p className="crumbs">
-        <Link to={isPsy ? '/psy' : '/'} className="crumb-link">
+        <Link to={isPsy ? '/psy' : '/lomda'} className="crumb-link">
           <IconArrowStart className="crumb-arrow" />
           {isRtl
             ? isPsy

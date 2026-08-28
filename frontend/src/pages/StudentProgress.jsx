@@ -52,7 +52,7 @@ export default function StudentProgress() {
           animate="show"
         >
           <p>אין קורסים זמינים כרגע.</p>
-          <Link to="/">← חזרה לקורסים</Link>
+          <Link to="/lomda">← חזרה לקורסים</Link>
         </motion.div>
       ) : (
         <motion.div
