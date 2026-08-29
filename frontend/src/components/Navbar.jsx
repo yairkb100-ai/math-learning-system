@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useAuth } from '../context/AuthContext.jsx'
 import { IconBrand, IconMenu, IconX } from './icons.jsx'
+import { KitsButton } from './MyKits.jsx'
 import api from '../api.js'
 import { DURATION, EASE_OUT, EASE_IN, overlayFade } from '../lib/motion.js'
 
@@ -206,6 +207,10 @@ export default function Navbar() {
             <nav className="topbar-nav">{buildNavLinks(true)}</nav>
 
             <div className="topbar-user">
+              {/* "הערכות שלי" גם כאן ולא רק בהירו: אחרי שהתלמיד עזב את דף
+                  הנחיתה הכפתור נעלם, והדרך חזרה אל מה שרכש הייתה דרך הלוגו.
+                  יושב בקצה השמאלי-עליון, לפני פרטי המשתמש. */}
+              <KitsButton variant="nav" />
               <span className="user-name">{user.full_name}</span>
               <span className={`role-badge role-${user.role}`}>
                 {user.role === 'admin' ? 'מנהל' : 'תלמיד'}
@@ -267,6 +272,11 @@ export default function Navbar() {
                     <IconX />
                   </button>
                 </div>
+
+                {/* בנייד הכפתור לא נכנס לשורת המשתמש הצפופה בתחתית הפאנל,
+                    ולכן הוא יושב בראש המגירה ברוחב מלא — הפעולה הראשונה
+                    שרואים כשפותחים אותה. */}
+                <KitsButton variant="drawer" />
 
                 <nav className="topbar-nav topbar-drawer-nav">{buildNavLinks(false)}</nav>
 

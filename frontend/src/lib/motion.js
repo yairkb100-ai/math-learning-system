@@ -102,6 +102,19 @@ export const tapScale = {
   transition: { duration: DURATION.short, ease: EASE_OUT },
 }
 
+// לולאת "חי" לפעולה יחידה שרוצים שהעין תיפול עליה (כרגע "הערכות שלי" —
+// הפעולה היחידה שתלמיד מחובר צריך לעשות בדף הנחיתה). scale בלבד, כי כל
+// אנימציה כאן מוגבלת ל-transform/opacity, ומשרעת קטנה (1→1.035) כדי שזה
+// ייקרא כנשימה ולא כהבהוב פרסומי. איטית בכוונה — 2.4 שניות — כי לולאה
+// מהירה על אלמנט קבוע במסך נהיית מציקה תוך שניות.
+//
+// שים לב: פרוס אותה רק אחרי בדיקת useReducedMotion() ב-JS. ה-MotionConfig
+// הגלובלי מפשיט transform אבל לא עוצר לולאה אינסופית.
+export const attentionPulse = {
+  animate: { scale: [1, 1.035, 1] },
+  transition: { duration: 2.4, ease: 'easeInOut', repeat: Infinity, repeatDelay: 0.6 },
+}
+
 export const hoverLift = {
   whileHover: { y: -3 },
   whileTap: { scale: 0.98 },
