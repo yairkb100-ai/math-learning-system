@@ -5060,6 +5060,52 @@ h4.prose-h {
   text-decoration: none;
 }
 
+/* כפתור "הערכות שלי" — הפעולה היחידה שתלמיד מחובר צריך לעשות בדף הנחיתה,
+   ולכן הוא מובלט מעל כל CTA אחר: הטורקיז של --accent עם טבעת גיר צהובה
+   סביבו. הצהוב נשאר accent בלבד (טבעת דקה) ולא רקע גדול, כפי שהוא מוגדר
+   בזהות. הפעימה עצמה היא framer-motion — ראה attentionPulse ב-lib/motion.js. */
+.btn-kits {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 12px;
+  box-shadow:
+    0 0 0 4px color-mix(in srgb, var(--marker) 55%, transparent),
+    0 8px 20px -6px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+.btn-kits:hover {
+  box-shadow:
+    0 0 0 4px var(--marker),
+    0 10px 22px -6px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+/* הטבעת יושבת *מחוץ* לגבול הכפתור, ולכן צריך לה מקום משלה — בלי זה היא
+   נחתכת מול השכן בשורה או מול קצה הבר. */
+.btn-kits-hero {
+  font-size: 1.18rem;
+  padding: 15px 34px;
+  margin: 4px;
+}
+.btn-kits-nav {
+  font-size: 0.92rem;
+  padding: 8px 16px;
+  margin: 4px 4px 4px 6px;
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--marker) 55%, transparent),
+    0 6px 14px -6px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+.btn-kits-nav:hover {
+  box-shadow:
+    0 0 0 3px var(--marker),
+    0 8px 16px -6px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+.btn-kits-drawer {
+  width: calc(100% - 8px);
+  justify-content: center;
+  font-size: 1rem;
+  min-height: 48px;
+  margin: 4px 4px 14px;
+}
+
 /* "הערכות שלי" — הבורר שנפתח בדף הנחיתה לתלמיד מחובר שיש לו יותר מערכה אחת.
    כל כרטיס נושא את הגוון של הערכה שלו דרך --lv, אותה מוסכמה שהקטלוג משתמש
    בה לכרטיסי הקורסים. */

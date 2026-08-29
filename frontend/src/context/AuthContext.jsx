@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import { clearSession } from '../api.js'
+import { resetKitsCache } from '../components/MyKits.jsx'
 
 const AuthContext = createContext(null)
 
@@ -27,6 +28,7 @@ export function AuthProvider({ children }) {
 
   function logout() {
     clearSession() // keeps deviceId so we don't burn a device slot on re-login
+    resetKitsCache() // otherwise the next user in this tab inherits the last one's access
     setUser(null)
   }
 
