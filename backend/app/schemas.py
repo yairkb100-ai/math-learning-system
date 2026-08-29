@@ -559,8 +559,11 @@ class BroadcastCreate(BaseModel):
     body: str = ""
     file_id: Optional[int] = None
     # Explicit recipient list. When omitted/empty the broadcast goes to every
-    # active student.
+    # student (active only, unless ``include_inactive``).
     recipient_ids: Optional[list[int]] = None
+    # Only relevant when ``recipient_ids`` is empty: include deactivated
+    # accounts in the "everyone" fan-out.
+    include_inactive: bool = False
 
 
 class BroadcastResult(BaseModel):

@@ -57,7 +57,7 @@ function Attachment({ file }) {
 }
 
 function BroadcastModal({ students, onClose, onSent }) {
-  const [mode, setMode] = useState('all') // 'all' | 'pick'
+  const [mode, setMode] = useState('active') // 'active' | 'all' | 'pick'
   const [sel, setSel] = useState(() => new Set())
   const [query, setQuery] = useState('')
   const [body, setBody] = useState('')
@@ -79,7 +79,7 @@ function BroadcastModal({ students, onClose, onSent }) {
     })
   }
 
-  const canSend = mode === 'all' ? students.length > 0 : sel.size > 0
+  const canSend = mode === 'pick' ? sel.size > 0 : students.length > 0
 
   async function submit(e) {
     e.preventDefault()
@@ -96,8 +96,13 @@ function BroadcastModal({ students, onClose, onSent }) {
         const uploaded = await api.uploadFile(file, null, 'message')
         fileId = uploaded.id
       }
-      const recipientIds = mode === 'all' ? null : Array.from(sel)
-      const res = await api.broadcastMessage(body.trim(), fileId, recipientIds)
+      const recipientIds = mode === 'pick' ? Array.from(sel) : null
+      const res = await api.broadcastMessage(
+        body.trim(),
+        fileId,
+        recipientIds,
+        mode === 'all',
+      )
       onSent(res.sent)
     } catch (e2) {
       setErr(e2.message)
@@ -120,10 +125,19 @@ function BroadcastModal({ students, onClose, onSent }) {
               <input
                 type="radio"
                 name="bc-mode"
+                checked={mode === 'active'}
+                onChange={() => setMode('active')}
+              />
+              כל התלמידים הפעילים
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="bc-mode"
                 checked={mode === 'all'}
                 onChange={() => setMode('all')}
               />
-              כל התלמידים הפעילים
+              כל הרשומים (כולל לא-פעילים)
             </label>
             <label>
               <input
@@ -229,9 +243,11 @@ function BroadcastModal({ students, onClose, onSent }) {
           >
             {sending
               ? 'שולח…'
-              : mode === 'all'
-                ? 'שלח לכל התלמידים'
-                : `שלח ל-${sel.size} תלמידים`}
+              : mode === 'active'
+                ? 'שלח לכל התלמידים הפעילים'
+                : mode === 'all'
+                  ? 'שלח לכל הרשומים'
+                  : `שלח ל-${sel.size} תלמידים`}
           </motion.button>
         </form>
       </div>

@@ -161,11 +161,12 @@ def broadcast(
         if not asset or asset.uploader_id != current_user.id:
             raise HTTPException(status_code=404, detail="הקובץ לא נמצא")
 
-    q = db.query(models.User).filter(
-        models.User.role == "student", models.User.is_active.is_(True)
-    )
+    q = db.query(models.User).filter(models.User.role == "student")
     if payload.recipient_ids:
+        # Hand-picked list — honour it as-is, active or not.
         q = q.filter(models.User.id.in_(payload.recipient_ids))
+    elif not payload.include_inactive:
+        q = q.filter(models.User.is_active.is_(True))
     recipients = q.all()
     if not recipients:
         raise HTTPException(status_code=400, detail="לא נבחרו נמענים")

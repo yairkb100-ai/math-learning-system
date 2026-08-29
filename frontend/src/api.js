@@ -314,10 +314,15 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ recipient_id: recipientId, body, file_id: fileId }),
     }),
-  broadcastMessage: (body, fileId = null, recipientIds = null) =>
+  broadcastMessage: (body, fileId = null, recipientIds = null, includeInactive = false) =>
     request('/messages/broadcast', {
       method: 'POST',
-      body: JSON.stringify({ body, file_id: fileId, recipient_ids: recipientIds }),
+      body: JSON.stringify({
+        body,
+        file_id: fileId,
+        recipient_ids: recipientIds,
+        include_inactive: includeInactive,
+      }),
     }),
   unreadCount: () => request('/messages/unread_count'),
   listStaff: () => request('/messages/staff'),
