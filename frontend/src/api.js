@@ -314,6 +314,11 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ recipient_id: recipientId, body, file_id: fileId }),
     }),
+  broadcastMessage: (body, fileId = null, recipientIds = null) =>
+    request('/messages/broadcast', {
+      method: 'POST',
+      body: JSON.stringify({ body, file_id: fileId, recipient_ids: recipientIds }),
+    }),
   unreadCount: () => request('/messages/unread_count'),
   listStaff: () => request('/messages/staff'),
 

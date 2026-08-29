@@ -555,6 +555,18 @@ class MessageCreate(BaseModel):
     file_id: Optional[int] = None
 
 
+class BroadcastCreate(BaseModel):
+    body: str = ""
+    file_id: Optional[int] = None
+    # Explicit recipient list. When omitted/empty the broadcast goes to every
+    # active student.
+    recipient_ids: Optional[list[int]] = None
+
+
+class BroadcastResult(BaseModel):
+    sent: int
+
+
 class MessageOut(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
