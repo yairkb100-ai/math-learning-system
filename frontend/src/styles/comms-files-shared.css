@@ -142,3 +142,101 @@
   height: 20px;
   display: block;
 }
+
+/* ── Admin broadcast (הודעת תפוצה) ─────────────────────────────── */
+.messages-page .page-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.broadcast-open-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.broadcast-flash {
+  margin: 0 0 14px;
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  background: var(--ok-bg, var(--surface-2));
+  color: var(--accent-2, var(--text));
+  border: 1px solid var(--border);
+}
+.broadcast-modal h2 {
+  margin: 0 0 4px;
+}
+.broadcast-modal form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 16px;
+}
+.broadcast-mode {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.broadcast-mode label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+.broadcast-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+}
+.broadcast-picker-list {
+  max-height: 220px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.broadcast-picker-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 4px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+.broadcast-picker-row:hover {
+  background: var(--surface);
+}
+.broadcast-picker-actions {
+  display: flex;
+  gap: 8px;
+}
+.broadcast-body {
+  width: 100%;
+  resize: vertical;
+  font: inherit;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+}
+.broadcast-attach {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.broadcast-send {
+  align-self: flex-start;
+}
+.broadcast-modal .form-error {
+  color: var(--no);
+  font-size: 0.9rem;
+  margin: 0;
+}

@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useAuth } from '../context/AuthContext.jsx'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
-import { IconPaperclip, IconArrowStart, IconX } from '../components/icons.jsx'
+import { IconPaperclip, IconArrowStart, IconX, IconUsers } from '../components/icons.jsx'
 import { fadeInUp, staggerContainer, tapScale, DURATION, EASE_OUT } from '../lib/motion.js'
 import '../styles/comms-files-shared.css'
 
@@ -56,6 +56,189 @@ function Attachment({ file }) {
   )
 }
 
+function BroadcastModal({ students, onClose, onSent }) {
+  const [mode, setMode] = useState('all') // 'all' | 'pick'
+  const [sel, setSel] = useState(() => new Set())
+  const [query, setQuery] = useState('')
+  const [body, setBody] = useState('')
+  const [file, setFile] = useState(null)
+  const [sending, setSending] = useState(false)
+  const [err, setErr] = useState(null)
+  const fileRef = useRef(null)
+
+  const filtered = students.filter((s) =>
+    s.full_name.toLowerCase().includes(query.trim().toLowerCase())
+  )
+
+  function toggle(id) {
+    setSel((prev) => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }
+
+  const canSend = mode === 'all' ? students.length > 0 : sel.size > 0
+
+  async function submit(e) {
+    e.preventDefault()
+    if (!body.trim() && !file) return
+    if (mode === 'pick' && sel.size === 0) {
+      setErr('בחרו לפחות תלמיד אחד.')
+      return
+    }
+    setSending(true)
+    setErr(null)
+    try {
+      let fileId = null
+      if (file) {
+        const uploaded = await api.uploadFile(file, null, 'message')
+        fileId = uploaded.id
+      }
+      const recipientIds = mode === 'all' ? null : Array.from(sel)
+      const res = await api.broadcastMessage(body.trim(), fileId, recipientIds)
+      onSent(res.sent)
+    } catch (e2) {
+      setErr(e2.message)
+      setSending(false)
+    }
+  }
+
+  return (
+    <div className="modal-backdrop" dir="rtl" onClick={onClose}>
+      <div className="modal-card broadcast-modal" onClick={(e) => e.stopPropagation()}>
+        <button type="button" className="modal-close" onClick={onClose} aria-label="סגירה">
+          <IconX />
+        </button>
+        <h2>הודעת תפוצה</h2>
+        <p className="muted">ההודעה תגיע לתיבת ההודעות של כל נמען כשיחה רגילה.</p>
+
+        <form onSubmit={submit}>
+          <div className="broadcast-mode">
+            <label>
+              <input
+                type="radio"
+                name="bc-mode"
+                checked={mode === 'all'}
+                onChange={() => setMode('all')}
+              />
+              כל התלמידים הפעילים
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="bc-mode"
+                checked={mode === 'pick'}
+                onChange={() => setMode('pick')}
+              />
+              בחירה ידנית
+            </label>
+          </div>
+
+          {mode === 'pick' && (
+            <div className="broadcast-picker">
+              <input
+                type="text"
+                placeholder="חיפוש תלמיד…"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+              />
+              <div className="broadcast-picker-list">
+                {filtered.map((s) => (
+                  <label key={s.user_id} className="broadcast-picker-row">
+                    <input
+                      type="checkbox"
+                      checked={sel.has(s.user_id)}
+                      onChange={() => toggle(s.user_id)}
+                    />
+                    {s.full_name}
+                  </label>
+                ))}
+                {filtered.length === 0 && (
+                  <p className="muted empty-msg">אין תוצאות.</p>
+                )}
+              </div>
+              <div className="broadcast-picker-actions">
+                <button
+                  type="button"
+                  className="btn-sm"
+                  onClick={() => setSel(new Set(filtered.map((s) => s.user_id)))}
+                >
+                  בחר הכל
+                </button>
+                <button
+                  type="button"
+                  className="btn-sm"
+                  onClick={() => setSel(new Set())}
+                >
+                  נקה
+                </button>
+              </div>
+            </div>
+          )}
+
+          <textarea
+            className="broadcast-body"
+            rows={4}
+            value={body}
+            onChange={(e) => setBody(e.target.value)}
+            placeholder="כתבו את ההודעה…"
+          />
+
+          <input
+            ref={fileRef}
+            type="file"
+            style={{ display: 'none' }}
+            onChange={(e) => {
+              const f = e.target.files?.[0]
+              if (f) setFile(f)
+              e.target.value = ''
+            }}
+          />
+          {file ? (
+            <div className="chat-pending-file">
+              <span className="chat-attachment-icon"><IconPaperclip /></span>
+              <span className="chat-attachment-name">{file.name}</span>
+              <button
+                type="button"
+                className="chat-pending-file-remove"
+                onClick={() => setFile(null)}
+                aria-label="הסר קובץ"
+              >
+                <IconX />
+              </button>
+            </div>
+          ) : (
+            <button
+              type="button"
+              className="btn-sm broadcast-attach"
+              onClick={() => fileRef.current?.click()}
+            >
+              <IconPaperclip width={16} height={16} />
+              צרף קובץ
+            </button>
+          )}
+
+          {err && <p className="form-error">{err}</p>}
+
+          <motion.button
+            className="btn broadcast-send"
+            disabled={sending || (!body.trim() && !file) || !canSend}
+            {...tapScale}
+          >
+            {sending
+              ? 'שולח…'
+              : mode === 'all'
+                ? 'שלח לכל התלמידים'
+                : `שלח ל-${sel.size} תלמידים`}
+          </motion.button>
+        </form>
+      </div>
+    </div>
+  )
+}
+
 export default function Messages() {
   const { user } = useAuth()
   const isAdmin = user?.role === 'admin'
@@ -69,6 +252,8 @@ export default function Messages() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [sending, setSending] = useState(false)
+  const [bcOpen, setBcOpen] = useState(false)
+  const [bcFlash, setBcFlash] = useState(null)
   const threadEnd = useRef(null)
   const fileInputRef = useRef(null)
 
@@ -147,13 +332,42 @@ export default function Messages() {
   const startable = contacts.filter((c) => !convoIds.has(c.user_id))
 
   return (
-    <section dir="rtl">
+    <section dir="rtl" className="messages-page">
       <div className="page-head">
-        <h1>הודעות</h1>
-        <p className="muted">
-          {isAdmin ? 'התכתבות עם התלמידים' : 'התכתבות עם צוות ההוראה'}
-        </p>
+        <div>
+          <h1>הודעות</h1>
+          <p className="muted">
+            {isAdmin ? 'התכתבות עם התלמידים' : 'התכתבות עם צוות ההוראה'}
+          </p>
+        </div>
+        {isAdmin && (
+          <motion.button
+            type="button"
+            className="btn-ghost broadcast-open-btn"
+            onClick={() => { setBcFlash(null); setBcOpen(true) }}
+            {...tapScale}
+          >
+            <IconUsers width={18} height={18} />
+            הודעת תפוצה
+          </motion.button>
+        )}
       </div>
+
+      {bcFlash && (
+        <p className="broadcast-flash" role="status">{bcFlash}</p>
+      )}
+
+      {bcOpen && (
+        <BroadcastModal
+          students={contacts}
+          onClose={() => setBcOpen(false)}
+          onSent={(n) => {
+            setBcOpen(false)
+            setBcFlash(`ההודעה נשלחה ל-${n} תלמידים.`)
+            loadConversations()
+          }}
+        />
+      )}
 
       <div className={'chat-layout card' + (active ? ' has-active' : '')}>
         {/* Sidebar — a plain (non-motion) element: the mobile slide-over

@@ -8,8 +8,14 @@ from sqlalchemy.orm import Session
 
 from app import models
 from app.database import get_db
-from app.dependencies import get_current_user
-from app.schemas import ConversationSummary, MessageCreate, MessageOut
+from app.dependencies import get_current_user, require_admin
+from app.schemas import (
+    BroadcastCreate,
+    BroadcastResult,
+    ConversationSummary,
+    MessageCreate,
+    MessageOut,
+)
 
 router = APIRouter(prefix="/api/messages", tags=["messages"])
 
@@ -130,6 +136,51 @@ def send_message(
     db.commit()
     db.refresh(message)
     return message
+
+
+@router.post("/broadcast", response_model=BroadcastResult, status_code=201)
+def broadcast(
+    payload: BroadcastCreate,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(require_admin),
+) -> BroadcastResult:
+    """Send the same message to many students at once.
+
+    Creates one real ``Message`` row per recipient (sender = the admin), so the
+    broadcast lands in each student's normal inbox thread and counts as unread.
+    """
+    if not payload.body.strip() and not payload.file_id:
+        raise HTTPException(status_code=400, detail="הודעה ריקה")
+
+    if payload.file_id is not None:
+        asset = (
+            db.query(models.FileAsset)
+            .filter(models.FileAsset.id == payload.file_id)
+            .first()
+        )
+        if not asset or asset.uploader_id != current_user.id:
+            raise HTTPException(status_code=404, detail="הקובץ לא נמצא")
+
+    q = db.query(models.User).filter(
+        models.User.role == "student", models.User.is_active.is_(True)
+    )
+    if payload.recipient_ids:
+        q = q.filter(models.User.id.in_(payload.recipient_ids))
+    recipients = q.all()
+    if not recipients:
+        raise HTTPException(status_code=400, detail="לא נבחרו נמענים")
+
+    for student in recipients:
+        db.add(
+            models.Message(
+                sender_id=current_user.id,
+                recipient_id=student.id,
+                body=payload.body,
+                file_id=payload.file_id,
+            )
+        )
+    db.commit()
+    return BroadcastResult(sent=len(recipients))
 
 
 @router.get("/staff", response_model=list[dict])
