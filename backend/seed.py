@@ -2025,7 +2025,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-fig-matrix-1",
         "title": "מטריצות — מבחן 1",
-        "description": "17 שאלות ב-12 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "רמת מתחילים · 17 שאלות ב-12 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
         "kind": "section",
         "order": 51,
         "level": "beginner",
@@ -2039,7 +2039,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-fig-matrix-2",
         "title": "מטריצות — מבחן 2",
-        "description": "17 שאלות ב-12 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "רמת מתחילים · 17 שאלות ב-12 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
         "kind": "section",
         "order": 52,
         "level": "beginner",
@@ -2053,7 +2053,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-fig-matrix-3",
         "title": "מטריצות — מבחן 3",
-        "description": "16 שאלות ב-11 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "רמת מתחילים · 16 שאלות ב-11 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
         "kind": "section",
         "order": 53,
         "level": "beginner",
