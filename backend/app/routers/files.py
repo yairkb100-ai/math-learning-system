@@ -6,7 +6,7 @@ from urllib.parse import quote
 
 import requests
 from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
-from fastapi.responses import FileResponse, StreamingResponse
+from fastapi.responses import FileResponse, RedirectResponse, StreamingResponse
 from sqlalchemy.orm import Session
 from starlette.background import BackgroundTask
 
@@ -208,6 +208,21 @@ def download_file(
         )
     path = os.path.join(UPLOAD_DIR, asset.stored_name)
     if not os.path.exists(path):
+        # Vercel functions have no persistent local disk. Seeded worksheets are
+        # also shipped as static build assets, so a legacy DB row without an
+        # external_url can still be downloaded instead of returning a 404.
+        is_pdf = (
+            asset.content_type == "application/pdf"
+            or asset.original_name.lower().endswith(".pdf")
+        )
+        course = db.get(models.Course, asset.course_id) if asset.course_id else None
+        if is_pdf and asset.kind == "resource" and course is not None:
+            base_slug = course.slug.split("--part-", 1)[0]
+            static_url = (
+                f"/course-assets/{quote(base_slug, safe='')}/"
+                f"{quote(asset.original_name, safe='')}"
+            )
+            return RedirectResponse(url=static_url, status_code=307)
         raise HTTPException(status_code=404, detail="הקובץ לא נמצא")
     return FileResponse(
         path,

@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "prebuild": "node ../scripts/content/split_school_courses.mjs && node ../scripts/seo/build_catalog.mjs && node ../scripts/seo/build_sitemap.mjs",
-    "build": "vite build && vite build --ssr src/entry-server.jsx --outDir dist-server && node ../scripts/seo/prerender.mjs",
+    "build": "vite build && vite build --ssr src/entry-server.jsx --outDir dist-server && node ../scripts/seo/prerender.mjs && node ../scripts/content/copy_pdf_assets.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
