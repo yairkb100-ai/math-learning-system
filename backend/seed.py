@@ -2025,66 +2025,43 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-fig-matrix-1",
         "title": "מטריצות — מבחן 1",
-        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "17 שאלות ב-12 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
         "kind": "section",
         "order": 51,
+        "level": "beginner",
         "free_preview": True,
         "sections": [
             {"order": 0, "domain": "figural", "title": "מטריצות",
-             "minutes": 7, "num_questions": 10,
-             "blueprint": [{"count": 10, "topic": "מטריצות"}]},
+             "minutes": 12, "num_questions": 17,
+             "blueprint": [{"count": 17, "topic": "מטריצות"}]},
         ],
     },
     {
         "slug": "karni-test-fig-matrix-2",
         "title": "מטריצות — מבחן 2",
-        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "17 שאלות ב-12 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
         "kind": "section",
         "order": 52,
+        "level": "beginner",
         "free_preview": False,
         "sections": [
             {"order": 0, "domain": "figural", "title": "מטריצות",
-             "minutes": 7, "num_questions": 10,
-             "blueprint": [{"count": 10, "topic": "מטריצות"}]},
+             "minutes": 12, "num_questions": 17,
+             "blueprint": [{"count": 17, "topic": "מטריצות"}]},
         ],
     },
     {
         "slug": "karni-test-fig-matrix-3",
         "title": "מטריצות — מבחן 3",
-        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "16 שאלות ב-11 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
         "kind": "section",
         "order": 53,
+        "level": "beginner",
         "free_preview": False,
         "sections": [
             {"order": 0, "domain": "figural", "title": "מטריצות",
-             "minutes": 7, "num_questions": 10,
-             "blueprint": [{"count": 10, "topic": "מטריצות"}]},
-        ],
-    },
-    {
-        "slug": "karni-test-fig-matrix-4",
-        "title": "מטריצות — מבחן 4",
-        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
-        "kind": "section",
-        "order": 54,
-        "free_preview": False,
-        "sections": [
-            {"order": 0, "domain": "figural", "title": "מטריצות",
-             "minutes": 7, "num_questions": 10,
-             "blueprint": [{"count": 10, "topic": "מטריצות"}]},
-        ],
-    },
-    {
-        "slug": "karni-test-fig-matrix-5",
-        "title": "מטריצות — מבחן 5",
-        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
-        "kind": "section",
-        "order": 55,
-        "free_preview": False,
-        "sections": [
-            {"order": 0, "domain": "figural", "title": "מטריצות",
-             "minutes": 7, "num_questions": 10,
-             "blueprint": [{"count": 10, "topic": "מטריצות"}]},
+             "minutes": 11, "num_questions": 16,
+             "blueprint": [{"count": 16, "topic": "מטריצות"}]},
         ],
     },
     {
@@ -3433,11 +3410,11 @@ def ensure_psy_simulations(db):
 
 
 def assign_topic_test_forms(db):
-    """Give the five per-topic tests disjoint fixed papers.
+    """Give each per-topic test a disjoint fixed paper.
 
     A blueprint draw is random per attempt, so sitting "מבחן 1" and "מבחן 2" on
     the same topic can hand back overlapping questions — which defeats the point
-    of having five of them. Once a topic holds enough items, the five papers are
+    of having multiple papers. Once a topic holds enough items, the papers are
     instead cut from one deterministic ordering, so they share nothing.
 
     Ordering is by ref, not random: re-running the seed must not reshuffle the
