@@ -1,0 +1,413 @@
+{
+  "_comment": "מאגר קרני — מטריצות הרכבה: התא השלישי בכל שורה נוצר מהנחת שני התאים שלפניו זה על זה. משפחת החוקים שחסרה במאגרי המטריצות הקיימים (22, 23): חיתוך והיפוך של לוחות, איחוד שמסתובב, צורות זהות שמתבטלות ושונות שהופכות לצורה שלישית, מילויים וגדלים שמתחברים במחזור, וזוויות שמתחברות. topic הוא 'מטריצות' כדי שהפריטים ייכנסו לאותם פרקים צורניים שמושכים ממנו. שימו לב: השורות מצוירות מימין לשמאל, ולכן התא הראשון בכל שורה של הטוקן הוא הימני והתא החסר הוא התחתון-שמאלי. בכל פריט פועלים לפחות שניים מחמשת המשתנים — צבע, צורה, גודל, כיוון והרכבה — וכל מסיח נכשל בדיוק באחד מהם.",
+  "items": [
+    {
+      "ref": "k-ovl-01",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "הלוח השמאלי הוא החיתוך של שני הלוחות שמימינו",
+      "stem": "איזה לוח משלים את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:board=11-01;board=10-11;board=10-01/board=01-11;board=11-01;board=01-01/board=11-10;board=10-11;?}}",
+      "options": [
+        "{{figcell:board=11-11}}",
+        "{{figcell:board=10-10}}",
+        "{{figcell:board=01-01}}",
+        "{{figcell:board=10-01}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 3,
+      "level": "standard",
+      "target_seconds": 45,
+      "explanation": "בתא השמאלי נשארת צבועה רק משבצת שצבועה בשני הלוחות שמימינו. בשורה התחתונה שתי המשבצות המשותפות הן העליונה-שמאלית והתחתונה-שמאלית.",
+      "solution": "כשמופיעים שלושה לוחות בשורה, בדקו קודם אם השלישי גדול או קטן מהשניים שלפניו: לוח שגדל מרמז על איחוד, לוח שמצטמצם מרמז על חיתוך. כאן השלישי תמיד קטן משניהם, ולכן מחפשים את המשותף. המלכודת היא לוח האיחוד, שנראה ״שלם״ יותר ולכן מפתה.",
+      "tags": [
+        "הרכבה",
+        "לוחות"
+      ]
+    },
+    {
+      "ref": "k-ovl-02",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "הלוח השמאלי צבוע בדיוק במה שריק בשני הלוחות שמימינו",
+      "stem": "איזה לוח משלים את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:board=10-00;board=01-00;board=00-11/board=10-10;board=00-01;board=01-00/board=11-00;board=00-10;?}}",
+      "options": [
+        "{{figcell:board=00-01}}",
+        "{{figcell:board=11-10}}",
+        "{{figcell:board=00-11}}",
+        "{{figcell:board=11-01}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 4,
+      "level": "advanced",
+      "target_seconds": 55,
+      "explanation": "מאחדים את שני הלוחות הימניים ואז הופכים: נצבע רק מה שנשאר ריק בשניהם. בשורה התחתונה צבועות שלוש משבצות מבין הארבע, ולכן נשארת רק התחתונה-ימנית.",
+      "solution": "כשהלוח השלישי נראה ״משלים״ את שני הראשונים ולא ממשיך אותם, בדקו את ההיפוך: איחוד ואז החלפת צבוע בריק. הדרך הבטוחה היא לסמן קודם את האיחוד ורק אחר כך להפוך אותו. המלכודת היא לעצור באמצע ולסמן את האיחוד עצמו.",
+      "tags": [
+        "הרכבה",
+        "היפוך"
+      ]
+    },
+    {
+      "ref": "k-ovl-03",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "איחוד שני הלוחות ואז רבע סיבוב עם כיוון השעון",
+      "stem": "איזה לוח משלים את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:board=10-00;board=00-01;board=01-10/board=01-00;board=00-10;board=10-01/board=11-00;board=00-01;?}}",
+      "options": [
+        "{{figcell:board=11-01}}",
+        "{{figcell:board=10-11}}",
+        "{{figcell:board=01-11}}",
+        "{{figcell:board=01-10}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 4,
+      "level": "advanced",
+      "target_seconds": 55,
+      "explanation": "מאחדים את שני הלוחות הימניים ואז מסובבים את התוצאה ברבע סיבוב עם כיוון השעון, כך שכל משבצת צבועה עוברת למקום הבא. בשורה התחתונה האיחוד הוא שתי המשבצות העליונות ועוד התחתונה-ימנית, ואחרי הסיבוב נשארת ריקה רק העליונה-שמאלית.",
+      "solution": "אם מספר המשבצות הצבועות בתא השלישי מתאים לאיחוד אבל המיקומים לא, החשד הראשון הוא סיבוב. ספרו קודם — אם הכמות נכונה, החוק הוא סיבוב ולא פעולה אחרת. המלכודת המובנית כאן היא בדיוק לוח האיחוד לפני הסיבוב.",
+      "tags": [
+        "הרכבה",
+        "כיוון"
+      ]
+    },
+    {
+      "ref": "k-ovl-04",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "התא השמאלי מאגד את כל הצורות משני התאים שמימינו",
+      "stem": "איזו אפשרות משלימה את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:group=c-x-x,color=ink;group=x-t-x,color=ink;group=c-t-x,color=ink/group=x-s-x,color=accent;group=c-x-r,color=accent;group=c-s-r,color=accent/group=c-x-r,color=warm;group=x-t-x,color=warm;?}}",
+      "options": [
+        "{{figcell:group=c-t-x,color=warm}}",
+        "{{figcell:group=c-t-r,color=warm}}",
+        "{{figcell:group=c-t-r,color=accent}}",
+        "{{figcell:group=c-x-r,color=warm}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 3,
+      "level": "standard",
+      "target_seconds": 45,
+      "explanation": "כל צורה שמופיעה באחד משני התאים הימניים מופיעה גם בתא השמאלי. בשורה התחתונה מצטרפים העיגול והכוכב מהתא הימני והמשולש מהאמצעי, והצבע נשאר צבע השורה.",
+      "solution": "בשאלת הרכבה בדקו תמיד שני דברים בנפרד: אילו איברים שורדים, ומה קורה לתכונה נוספת כמו צבע או גודל. כאן הצבע נקבע לפי השורה ואינו חלק מההרכבה, ולכן מסיח בצבע השורה הקודמת נפסל גם אם אוסף הצורות שבו נכון.",
+      "tags": [
+        "הרכבה",
+        "צבע"
+      ]
+    },
+    {
+      "ref": "k-ovl-05",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "צורה שמופיעה בשני התאים מתבטלת",
+      "stem": "איזו אפשרות משלימה את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:group=c-t-x,color=ink;group=x-t-r,color=ink;group=c-x-r,color=ink/group=c-x-x,color=accent;group=c-s-x,color=accent;group=x-s-x,color=accent/group=c-t-r,color=warm;group=c-x-r,color=warm;?}}",
+      "options": [
+        "{{figcell:group=x-t-x,color=warm}}",
+        "{{figcell:group=c-t-r,color=warm}}",
+        "{{figcell:group=x-t-x,color=ink}}",
+        "{{figcell:group=c-x-r,color=warm}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 4,
+      "level": "advanced",
+      "target_seconds": 55,
+      "explanation": "צורה שמופיעה בשני התאים הימניים מתבטלת, ונשארות רק הצורות שמופיעות באחד מהם בלבד. בשורה התחתונה העיגול והכוכב מופיעים בשניהם ומתבטלים, ונשאר רק המשולש.",
+      "solution": "ההבדל בין איחוד לביטול נראה מיד בשורה הראשונה: אם התא השלישי קטן משני הראשונים יחד, יש ביטול. סמנו לעצמכם מה משותף לשני התאים — זה בדיוק מה שנעלם. המסיח המסוכן הוא איחוד כל הצורות יחד.",
+      "tags": [
+        "הרכבה",
+        "צבע"
+      ]
+    },
+    {
+      "ref": "k-ovl-06",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "הלוח השמאלי הוא הלוח הימני פחות האמצעי",
+      "stem": "איזה לוח משלים את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:board=11-10,color=ink;board=01-00,color=ink;board=10-10,color=ink/board=11-11,color=accent;board=10-01,color=accent;board=01-10,color=accent/board=11-01,color=warm;board=01-01,color=warm;?}}",
+      "options": [
+        "{{figcell:board=10-00,color=warm}}",
+        "{{figcell:board=11-01,color=warm}}",
+        "{{figcell:board=01-01,color=warm}}",
+        "{{figcell:board=10-00,color=accent}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 3,
+      "level": "standard",
+      "target_seconds": 45,
+      "explanation": "מהלוח הימני מוחקים כל משבצת שצבועה גם באמצעי. בשורה התחתונה נמחקות המשבצת העליונה-ימנית והתחתונה-ימנית, ונשארת רק העליונה-שמאלית.",
+      "solution": "חיסור נראה כמו חיתוך בכך שהתא השלישי קטן, אבל הוא אינו סימטרי: בדקו אם מה שנשאר מגיע רק מהלוח הימני. אם משבצת שקיימת רק באמצעי מופיעה בתשובה — זה כבר לא חיסור. שימו לב גם לצבע, שנקבע לפי השורה ולא לפי הפעולה.",
+      "tags": [
+        "הרכבה",
+        "צבע"
+      ]
+    },
+    {
+      "ref": "k-ovl-07",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "צורות זהות מתבטלות, צורות שונות הופכות לצורה השלישית",
+      "stem": "איזו צורה משלימה את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:shape=triangle,color=ink;shape=square,color=ink;shape=circle,color=ink/shape=circle,color=accent;shape=circle,color=accent;group=x-x/shape=square,color=warm;shape=circle,color=warm;?}}",
+      "options": [
+        "{{figcell:shape=circle,color=warm}}",
+        "{{figcell:shape=triangle,color=ink}}",
+        "{{figcell:shape=triangle,color=warm}}",
+        "{{figcell:shape=square,color=warm}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 4,
+      "level": "advanced",
+      "target_seconds": 55,
+      "explanation": "אוצר הצורות הוא משולש, ריבוע ועיגול. שתי צורות זהות מבטלות זו את זו והתא נשאר ריק, ושתי צורות שונות הופכות לצורה השלישית — זו שאינה אף אחת מהן. בשורה התחתונה יש ריבוע ועיגול, ולכן מתקבל משולש בצבע השורה.",
+      "solution": "השורה שבה התא השלישי ריק היא המפתח: היא מלמדת שהחוק הוא ביטול ולא המשך. משם בדקו את השורה שבה שתי הצורות שונות — התוצאה אינה אחת מהן אלא השלישית באוצר. המלכודת היא לבחור את אחת משתי הצורות שכבר מופיעות בשורה.",
+      "tags": [
+        "הרכבה",
+        "צורה",
+        "צבע"
+      ]
+    },
+    {
+      "ref": "k-ovl-08",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "המילויים מתחברים במחזור: ריק, נקודות, מלא",
+      "stem": "איזו צורה משלימה את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:shape=circle,fill=dots;shape=circle,fill=none;shape=circle,fill=dots/shape=square,fill=dots;shape=square,fill=dots;shape=square,fill=solid/shape=triangle,fill=solid;shape=triangle,fill=dots;?}}",
+      "options": [
+        "{{figcell:shape=triangle,fill=solid}}",
+        "{{figcell:shape=triangle,fill=dots}}",
+        "{{figcell:shape=circle,fill=none}}",
+        "{{figcell:shape=triangle,fill=none}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 4,
+      "level": "advanced",
+      "target_seconds": 55,
+      "explanation": "המילוי מתנהג כמו מספר: ריק הוא אפס, נקודות הוא אחד ומלא הוא שניים, והתא השמאלי הוא הסכום. בשורה התחתונה מלא הוא שניים ונקודות הוא אחד, וסכומם שלוש — וכשמגיעים לשלוש חוזרים לריק.",
+      "solution": "כשהמילוי משתנה בלי סדר ברור, נסו לתרגם אותו למספרים ולחבר. הסימן שהחוק מחזורי הוא שורה שבה הסכום ״קופץ״ אחורה במקום להמשיך להתמלא. הצורה עצמה נקבעת לפי השורה ואינה חלק מהחשבון, ולכן מסיח בצורה של שורה אחרת נפסל מיד.",
+      "tags": [
+        "הרכבה",
+        "צבע",
+        "צורה"
+      ]
+    },
+    {
+      "ref": "k-ovl-09",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "הגדלים מתחברים במחזור: קטן, בינוני, גדול",
+      "stem": "איזו צורה משלימה את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:shape=square,size=s,color=ink;shape=square,size=m,color=ink;shape=square,size=m,color=ink/shape=square,size=m,color=accent;shape=square,size=m,color=accent;shape=square,size=l,color=accent/shape=square,size=l,color=warm;shape=square,size=m,color=warm;?}}",
+      "options": [
+        "{{figcell:shape=square,size=l,color=warm}}",
+        "{{figcell:shape=square,size=s,color=warm}}",
+        "{{figcell:shape=square,size=m,color=warm}}",
+        "{{figcell:shape=square,size=s,color=accent}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 4,
+      "level": "advanced",
+      "target_seconds": 55,
+      "explanation": "הגודל מתנהג כמו מספר: קטן הוא אפס, בינוני הוא אחד וגדול הוא שניים, והתא השמאלי הוא הסכום. בשורה התחתונה גדול הוא שניים ובינוני הוא אחד, וסכומם שלוש — וכשמגיעים לשלוש חוזרים לקטן.",
+      "solution": "אם הגודל בתא השלישי לפעמים גדל ולפעמים קופץ אחורה, זה סימן לחוק מחזורי ולא להגדלה רציפה. תרגמו את שלושת הגדלים לאפס, אחד ושניים וחברו. שימו לב שהצבע נקבע לפי השורה בלבד — מסיח בצבע נכון וגודל שגוי הוא הטעות השכיחה.",
+      "tags": [
+        "הרכבה",
+        "גודל",
+        "צבע"
+      ]
+    },
+    {
+      "ref": "k-ovl-10",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "הצורה הגדולה שורדת אך מקבלת את הגודל של הקטנה",
+      "stem": "איזו צורה משלימה את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:shape=circle,size=l;shape=triangle,size=m;shape=circle,size=m/shape=square,size=s;shape=hexagon,size=m;shape=hexagon,size=s/shape=triangle,size=l;shape=square,size=s;?}}",
+      "options": [
+        "{{figcell:shape=triangle,size=m}}",
+        "{{figcell:shape=square,size=s}}",
+        "{{figcell:shape=triangle,size=s}}",
+        "{{figcell:shape=triangle,size=l}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 3,
+      "level": "standard",
+      "target_seconds": 45,
+      "explanation": "מבין שתי הצורות שמימין, הגדולה היא זו ששורדת ומגיעה לתא השמאלי — אבל היא מצוירת בגודל של הקטנה. בשורה התחתונה המשולש גדול מהריבוע, ולכן מתקבל משולש בגודל הקטן של הריבוע.",
+      "solution": "כששני מאפיינים מגיעים משני תאים שונים, כתבו לעצמכם בנפרד ״מי נותן את הצורה״ ו״מי נותן את הגודל״. כאן הם הפוכים בכוונה: הגדולה נותנת זהות והקטנה נותנת מידה. המלכודת היא לשמור על הצורה הנכונה בגודל שבו היא הופיעה במקור.",
+      "tags": [
+        "הרכבה",
+        "גודל",
+        "צורה"
+      ]
+    },
+    {
+      "ref": "k-ovl-11",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "הזוויות מתחברות, וכשעוברים סיבוב שלם מתחילים מחדש",
+      "stem": "איזו צורה משלימה את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:shape=arrow,rot=0,fill=none;shape=arrow,rot=90,fill=none;shape=arrow,rot=90,fill=none/shape=arrow,rot=90,fill=dots;shape=arrow,rot=180,fill=dots;shape=arrow,rot=270,fill=dots/shape=arrow,rot=270,fill=solid;shape=arrow,rot=180,fill=solid;?}}",
+      "options": [
+        "{{figcell:shape=arrow,rot=180,fill=solid}}",
+        "{{figcell:shape=arrow,rot=90,fill=dots}}",
+        "{{figcell:shape=arrow,rot=270,fill=solid}}",
+        "{{figcell:shape=arrow,rot=90,fill=solid}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 4,
+      "level": "advanced",
+      "target_seconds": 55,
+      "explanation": "זווית החץ בתא השמאלי היא סכום שתי הזוויות שמימינו. בשורה התחתונה 270 ועוד 180 הם 450, וסיבוב שלם הוא 360 — ולכן נשארת זווית של 90 מעלות.",
+      "solution": "כשחץ מסתובב בלי סדר קבוע בין השורות, נסו לחבר את שתי הזוויות במקום לחפש קפיצה קבועה. אם הסכום עובר 360 החסירו סיבוב שלם. המילוי כאן נקבע לפי השורה ואינו חלק מהחיבור, ולכן מסיח בכיוון נכון ובמילוי של שורה אחרת נפסל.",
+      "tags": [
+        "הרכבה",
+        "כיוון",
+        "צבע"
+      ]
+    },
+    {
+      "ref": "k-ovl-12",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "ריבוע לטיני משולש — צורה, מילוי וגודל יחד",
+      "stem": "איזו צורה משלימה את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:shape=circle,fill=none,size=s;shape=square,fill=solid,size=m;shape=triangle,fill=dots,size=l/shape=square,fill=dots,size=l;shape=triangle,fill=none,size=s;shape=circle,fill=solid,size=m/shape=triangle,fill=solid,size=m;shape=circle,fill=dots,size=l;?}}",
+      "options": [
+        "{{figcell:shape=square,fill=none,size=s}}",
+        "{{figcell:shape=square,fill=solid,size=s}}",
+        "{{figcell:shape=circle,fill=none,size=s}}",
+        "{{figcell:shape=square,fill=none,size=l}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 4,
+      "level": "advanced",
+      "target_seconds": 55,
+      "explanation": "שלושה מאפיינים מסודרים בו-זמנית כך שכל ערך מופיע פעם אחת בכל שורה ובכל טור: הצורה, המילוי והגודל. בשורה התחתונה חסר ריבוע, ובטור השמאלי חסרים המילוי הריק והגודל הקטן.",
+      "solution": "בריבוע לטיני לא מחפשים כיוון התקדמות אלא מה חסר: עברו על השורה ושאלו איזה ערך עוד לא הופיע בה, ואז חזרו על אותה בדיקה בטור. עשו זאת בנפרד לכל מאפיין. המלכודת היא לבדוק רק את השורה ולפספס שהטור כבר מכיל את אותו ערך.",
+      "tags": [
+        "ריבוע לטיני",
+        "צורה",
+        "גודל"
+      ]
+    },
+    {
+      "ref": "k-ovl-13",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "הצורה האמצעית נכנסת אל תוך הימנית, והמילוי הפנימי לפי השורה",
+      "stem": "איזו צורה משלימה את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:shape=circle;shape=triangle;shape=circle,in=triangle,infill=none/shape=square;shape=star;shape=square,in=star,infill=dots/shape=hexagon;shape=diamond;?}}",
+      "options": [
+        "{{figcell:shape=hexagon,in=diamond,infill=dots}}",
+        "{{figcell:shape=hexagon,in=star,infill=solid}}",
+        "{{figcell:shape=hexagon,in=diamond,infill=solid}}",
+        "{{figcell:shape=square,in=diamond,infill=solid}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 2,
+      "level": "standard",
+      "target_seconds": 40,
+      "explanation": "בכל שורה הצורה שבתא האמצעי נכנסת אל תוך הצורה שבתא הימני, והמילוי של הפנימית מתקדם לפי השורה: ריק, מנוקד, מלא. בשורה התחתונה מעוין מלא בתוך משושה.",
+      "solution": "בשאלת הלבשה זהו קודם מי החיצונית ומי הפנימית — הן תמיד מגיעות מאותם מקומות בשורה. רק אחר כך חפשו את המאפיין הנוסף, שכאן הוא המילוי ומתקדם לפי השורה. המלכודת היא להעתיק את המילוי מהשורה הקודמת במקום להמשיך את ההתקדמות.",
+      "tags": [
+        "הרכבה",
+        "צבע"
+      ]
+    },
+    {
+      "ref": "k-ovl-14",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "ריבוע לטיני בצורה ובכיוון הסיבוב",
+      "stem": "איזו צורה משלימה את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:shape=arrow,rot=0;shape=triangle,rot=240;shape=halfcircle,rot=120/shape=triangle,rot=120;shape=halfcircle,rot=0;shape=arrow,rot=240/shape=halfcircle,rot=240;shape=arrow,rot=120;?}}",
+      "options": [
+        "{{figcell:shape=triangle,rot=120}}",
+        "{{figcell:shape=triangle,rot=0}}",
+        "{{figcell:shape=arrow,rot=0}}",
+        "{{figcell:shape=triangle,rot=240}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 3,
+      "level": "standard",
+      "target_seconds": 45,
+      "explanation": "שני ריבועים לטיניים פועלים יחד: כל אחת משלוש הצורות מופיעה פעם אחת בכל שורה ובכל טור, וכך גם כל אחת משלוש הזוויות. בשורה התחתונה חסר משולש, ובטור השמאלי חסרה הזווית של אפס מעלות.",
+      "solution": "כשגם הצורה וגם הכיוון משתנים בלי סדר, אל תחפשו סיבוב מצטבר — בדקו אם כל ערך מופיע בדיוק פעם אחת בשורה ובטור. פתרו כל מאפיין בנפרד ורק אז חברו את שתי התשובות. המלכודת היא מסיח שנכון בצורה ושגוי בזווית, כי בסריקה מהירה הצורה בולטת יותר.",
+      "tags": [
+        "ריבוע לטיני",
+        "כיוון",
+        "צורה"
+      ]
+    },
+    {
+      "ref": "k-ovl-15",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "איחוד שפועל גם על השורות וגם על הטורים",
+      "stem": "איזה לוח משלים את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:board=10-00,color=ink;board=01-00,color=ink;board=11-00,color=ink/board=00-10,color=accent;board=00-01,color=accent;board=00-11,color=accent/board=10-10,color=warm;board=01-01,color=warm;?}}",
+      "options": [
+        "{{figcell:board=11-00,color=warm}}",
+        "{{figcell:board=11-11,color=accent}}",
+        "{{figcell:board=10-10,color=warm}}",
+        "{{figcell:board=11-11,color=warm}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 3,
+      "level": "standard",
+      "target_seconds": 45,
+      "explanation": "הלוח השמאלי בכל שורה הוא איחוד שני הלוחות שמימינו, ואותו חוק פועל גם מלמעלה למטה: הלוח התחתון בכל טור הוא איחוד שני הלוחות שמעליו. בפינה מצטרפות כל ארבע המשבצות.",
+      "solution": "כשחוק אחד מתקיים גם בשורות וגם בטורים אפשר לפתור את התא החסר פעמיים ולוודא שקיבלתם אותו דבר — זו הבדיקה העצמית הזולה ביותר בפרק הצורני. חשבו דרך השורה, ואז דרך הטור. הצבע נקבע לפי השורה בלבד ואינו משתתף באיחוד.",
+      "tags": [
+        "הרכבה",
+        "צבע"
+      ]
+    },
+    {
+      "ref": "k-ovl-16",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "הצורה השלישית והגדלים מתחברים בו-זמנית",
+      "stem": "איזו צורה משלימה את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:shape=triangle,size=s;shape=square,size=m;shape=circle,size=m/shape=circle,size=m;shape=circle,size=m;group=x-x/shape=square,size=l;shape=circle,size=m;?}}",
+      "options": [
+        "{{figcell:shape=triangle,size=l}}",
+        "{{figcell:shape=circle,size=s}}",
+        "{{figcell:shape=triangle,size=m}}",
+        "{{figcell:shape=triangle,size=s}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 5,
+      "level": "advanced",
+      "target_seconds": 60,
+      "explanation": "שני חוקי הרכבה פועלים יחד: הצורה נקבעת לפי הכלל שצורות זהות מתבטלות ושונות הופכות לצורה השלישית, והגודל הוא סכום מחזורי שבו קטן אפס, בינוני אחד וגדול שניים. בשורה התחתונה ריבוע ועיגול נותנים משולש, והגדלים גדול ובינוני מסתכמים בשלוש, ולכן חוזרים לקטן.",
+      "solution": "בשאלה שבה שני חוקי הרכבה פועלים יחד פתרו כל אחד עד הסוף בנפרד ורק אז חברו — מי שמנסה לראות את שניהם בבת אחת מפספס בדרך כלל את המחזוריות בגודל. השורה שבה התא ריק מגלה את חוק הצורה, ושתי השורות האחרות מגלות את חוק הגודל. המלכודת היא הצורה הנכונה בגודל הגדול, שנראה כמו המשך טבעי.",
+      "tags": [
+        "הרכבה",
+        "צורה",
+        "גודל"
+      ]
+    }
+  ]
+}
