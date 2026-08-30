@@ -408,6 +408,58 @@
         "צורה",
         "גודל"
       ]
+    },
+    {
+      "ref": "k-ovl-17",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "כיוון החץ ומילויו מתחברים יחד, וכל אחד חוזר במחזור משלו",
+      "stem": "איזה חץ משלים את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:shape=arrow,rot=0,fill=none;shape=arrow,rot=90,fill=dots;shape=arrow,rot=90,fill=dots/shape=arrow,rot=90,fill=dots;shape=arrow,rot=180,fill=dots;shape=arrow,rot=270,fill=solid/shape=arrow,rot=270,fill=solid;shape=arrow,rot=180,fill=solid;?}}",
+      "options": [
+        "{{figcell:shape=arrow,rot=90,fill=dots}}",
+        "{{figcell:shape=arrow,rot=270,fill=dots}}",
+        "{{figcell:shape=arrow,rot=90,fill=solid}}",
+        "{{figcell:shape=arrow,rot=180,fill=dots}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 5,
+      "level": "advanced",
+      "target_seconds": 60,
+      "explanation": "שני מאפיינים מתחברים בו-זמנית. הזווית בתא השמאלי היא סכום שתי הזוויות שמימינו, וכשעוברים סיבוב שלם מתחילים מחדש — בשורה התחתונה 270 ועוד 180 הם 450, וכשמחסירים סיבוב שלם נשארים 90. המילוי מתנהג כמו מספר: ריק אפס, מנוקד אחד, מלא שניים, וגם כאן חוזרים לאפס אחרי שלוש — שניים ועוד שניים הם ארבע, ונשאר אחד, כלומר מנוקד.",
+      "solution": "כששני מאפיינים מתחברים באותה שורה, פתרו אותם בנפרד ורק בסוף חברו את שתי התשובות. לזווית תרגמו כל מצב למספר מעלות וחברו, ולמילוי תרגמו לאפס, אחת ושתיים וחברו באותה שיטה. המלכודת השכיחה היא לעצור אחרי חישוב אחד מהם ולשכוח את השני, או לשכוח שגם הזווית וגם המילוי חוזרים למחזור החדש כשעוברים את הסכום המקסימלי.",
+      "tags": [
+        "הרכבה",
+        "כיוון",
+        "צבע"
+      ]
+    },
+    {
+      "ref": "k-ovl-18",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "איחוד לוחות ואז רבע סיבוב, בצבע שנקבע לפי השורה",
+      "stem": "איזה לוח משלים את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:board=10-00,color=ink;board=00-01,color=ink;board=01-10,color=ink/board=11-00,color=accent;board=00-10,color=accent;board=11-01,color=accent/board=01-01,color=warm;board=10-00,color=warm;?}}",
+      "options": [
+        "{{figcell:board=01-11,color=warm}}",
+        "{{figcell:board=11-01,color=warm}}",
+        "{{figcell:board=01-01,color=warm}}",
+        "{{figcell:board=01-11,color=accent}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 5,
+      "level": "advanced",
+      "target_seconds": 60,
+      "explanation": "בכל שורה מאחדים את שני הלוחות שמימין, ואז מסובבים את התוצאה ברבע סיבוב עם כיוון השעון — כל משבצת צבועה עוברת למקום הבא. הצבע נקבע בנפרד לפי השורה: כחול-ירוק, כחול-אפור, חום. בשורה התחתונה האיחוד הוא שלוש משבצות מתוך ארבע, ואחרי הסיבוב נשארת ריקה רק המשבצת השמאלית-העליונה — בצבע השורה, חום.",
+      "solution": "בשאלה עם שני שלבים כתבו אותם בנפרד: קודם סמנו את האיחוד של שני הלוחות, ורק אחר כך סובבו את התוצאה רבע סיבוב. המלכודת הנפוצה היא לעצור אחרי שלב האיחוד ולבחור אותו כמו שהוא, בלי לבצע את הסיבוב. הצבע הוא מאפיין נפרד לגמרי שנקבע רק לפי השורה, ולא מושפע מהאיחוד או מהסיבוב.",
+      "tags": [
+        "הרכבה",
+        "כיוון",
+        "צבע"
+      ]
     }
   ]
 }
