@@ -17,6 +17,7 @@ import {
   IconCompass,
   IconLines,
   IconGraduation,
+  IconGears,
 } from '../components/icons.jsx'
 import { fadeInUp, staggerContainer, hoverLift, tapScale, DURATION, EASE_OUT } from '../lib/motion.js'
 import { PRODUCT_KARNI } from '../lib/products.js'
@@ -30,8 +31,9 @@ const DOMAIN_HE = {
   spatial: 'מרחבי',
   speed: 'זריזות ודיוק',
   english: 'אנגלית',
+  mechanical: 'כושר מכני',
 }
-const DOMAIN_ORDER = ['verbal', 'quantitative', 'figural', 'logic', 'spatial', 'speed', 'english']
+const DOMAIN_ORDER = ['verbal', 'quantitative', 'figural', 'logic', 'spatial', 'speed', 'mechanical', 'english']
 
 // כמותי ומילולי הם ליבת המבחן — הם מקבלים כותרת מלאה, שורת סיכום וכרטיסים
 // גדולים יותר, והם מוצגים ראשונים. שאר התחומים נשארים במשקל רגיל.
@@ -42,8 +44,8 @@ const CORE_DOMAINS = ['quantitative', 'verbal']
 // המנגנון ש-CLAUDE.md מפנה אליו, ולכן התחום מקבל את מחלקת הרמפה עצמה —
 // המשתנים האלה מוגדרים על המחלקות האלה, לא על :root, אז הם חייבים לשבת על
 // האלמנט שצריך את הצבע.
-// לרמפה שישה גוונים ולמבחן שבעה תחומים, ולכן נוסף גוון שביעי (‎.lv-amber‎)
-// עבור אנגלית — ראה index.css ליד ‎.grade-hs‎.
+// לרמפה שישה גוונים ולמבחן תחומים נוספים, ולכן נוספו גוון שביעי (‎.lv-amber‎)
+// לאנגלית ושמיני (‎.lv-steel‎) לכושר מכני — ראה index.css ליד ‎.grade-hs‎.
 const DOMAIN_RAMP = {
   quantitative: 'grade-6', // טורקיז
   verbal: 'grade-5', // ירוק
@@ -52,6 +54,7 @@ const DOMAIN_RAMP = {
   spatial: 'grade-9', // סגול
   speed: 'grade-hs', // קורל
   english: 'lv-amber', // אמבר-חרדל
+  mechanical: 'lv-steel', // פלדה כחלחלה
 }
 
 // אייקון לכל קטגוריה — SVG מ-‎icons.jsx‎ בלבד, לעולם לא אמוג'י (CLAUDE.md).
@@ -64,6 +67,7 @@ const CAT_ICON = {
   logic: IconBulb,
   spatial: IconCompass,
   speed: IconClock,
+  mechanical: IconGears,
   english: IconLines,
   full: IconTrophy,
   other: IconGraduation,
@@ -112,6 +116,7 @@ const SECTION_DOMAIN = [
   ['לוגי', 'logic'],
   ['מרחבי', 'spatial'],
   ['זריזות', 'speed'],
+  ['מכני', 'mechanical'],
   ['אנגלי', 'english'],
   ['סדרות', 'verbal'],
 ]

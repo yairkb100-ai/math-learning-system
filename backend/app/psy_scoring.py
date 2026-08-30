@@ -24,6 +24,7 @@ SCORED_DOMAINS = (
     "spatial",
     "speed",
     "english",
+    "mechanical",
 )
 
 DOMAIN_HE = {
@@ -34,6 +35,7 @@ DOMAIN_HE = {
     "spatial": "מרחבי",
     "speed": "זריזות ודיוק",
     "english": "אנגלית",
+    "mechanical": "כושר מכני",
 }
 
 # Percent-correct → readiness label. Bands are (min_percent, key, label).

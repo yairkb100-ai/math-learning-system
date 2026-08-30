@@ -3,6 +3,7 @@
 
 import { FIGURE_KINDS } from './FigureArt.jsx'
 import { SPATIAL_KINDS } from './SpatialArt.jsx'
+import { MECHANICAL_KINDS } from './MechanicalArt.jsx'
 
 const NAVY = '#14306b'
 const FILL = '#8ecae6'
@@ -1227,6 +1228,9 @@ const KINDS = {
   // Spatial-reasoning tokens for the קרני area (cube nets, isometric block
   // stacks, mirror images). See SpatialArt.jsx for the spec grammar.
   ...SPATIAL_KINDS,
+  // Mechanical-reasoning tokens for the קרני area (lever/balance beam, gear
+  // chain, two-carrier pole). See MechanicalArt.jsx for the spec grammar.
+  ...MECHANICAL_KINDS,
 }
 
 export default function FractionArt({ kind, n = 1, d = 4, param, caption }) {

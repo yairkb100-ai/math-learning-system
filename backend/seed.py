@@ -1902,6 +1902,30 @@ _PSY_SIMULATIONS = [
         ],
     },
     {
+        "slug": "karni-mini-mechanical",
+        "title": "מיני-תרגול כושר מכני",
+        "description": "עשר שאלות כושר מכני — מנופים, גלגלי שיניים ונשיאת משא",
+        "kind": "mini",
+        "order": 7,
+        "free_preview": True,
+        "sections": [
+            {"order": 0, "domain": "mechanical", "title": "כושר מכני",
+             "minutes": 8, "num_questions": 10, "blueprint": [{"count": 10}]},
+        ],
+    },
+    {
+        "slug": "karni-test-mechanical",
+        "title": "כושר מכני — מבחן ממוקד",
+        "description": "12 שאלות ב-9 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 161,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "mechanical", "title": "כושר מכני",
+             "minutes": 9, "num_questions": 12, "blueprint": [{"count": 12}]},
+        ],
+    },
+    {
         "slug": "karni-mini-logic",
         "title": "מיני-תרגול לוגיקה, מרחב וזריזות",
         "description": "פרק לוגי, פרק מרחבי ופרק זריזות ברצף אחד — טעימה מהתחומים החדשים בקצב מבחן",

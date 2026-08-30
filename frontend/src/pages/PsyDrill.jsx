@@ -19,6 +19,7 @@ const DOMAIN_HE = {
   spatial: 'מרחבי',
   speed: 'זריזות ודיוק',
   english: 'אנגלית',
+  mechanical: 'כושר מכני',
 }
 
 export default function PsyDrill() {
