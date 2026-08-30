@@ -884,6 +884,48 @@ function Angle({ param }) {
   )
 }
 
+// A side-by-side visual comparison for the four angle families. It belongs in
+// the opening geometry lesson: students should see the categories together,
+// not infer them from a paragraph of thresholds.
+function AngleTypes() {
+  const items = [
+    { deg: 45, label: 'חדה', value: '45°' },
+    { deg: 90, label: 'ישרה', value: '90°' },
+    { deg: 125, label: 'קהה', value: '125°' },
+    { deg: 180, label: 'שטוחה', value: '180°' },
+  ]
+  const ray = 46
+  const arc = 18
+  return (
+    <svg className="geometry-angle-types" width="100%" height="166" viewBox="0 0 480 166" role="img" aria-label="ארבעה סוגים של זוויות: חדה, ישרה, קהה ושטוחה">
+      {items.map((item, index) => {
+        const x = 60 + index * 120
+        const y = 82
+        const r = (item.deg * Math.PI) / 180
+        const endX = x + ray * Math.cos(r)
+        const endY = y - ray * Math.sin(r)
+        const arcX = x + arc * Math.cos(r)
+        const arcY = y - arc * Math.sin(r)
+        const large = item.deg > 180 ? 1 : 0
+        return (
+          <g key={item.label} style={{ color: 'var(--accent)' }}>
+            <line x1={x} y1={y} x2={x + ray} y2={y} stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" />
+            <line x1={x} y1={y} x2={endX} y2={endY} stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" />
+            {item.deg === 90 ? (
+              <path d={`M ${x + 16} ${y} L ${x + 16} ${y - 16} L ${x} ${y - 16}`} fill="none" stroke="var(--marker)" strokeWidth="2.6" />
+            ) : (
+              <path d={`M ${x + arc} ${y} A ${arc} ${arc} 0 ${large} 0 ${arcX} ${arcY}`} fill="none" stroke="var(--marker)" strokeWidth="2.6" />
+            )}
+            <circle cx={x} cy={y} r="3.5" fill="currentColor" />
+            <text x={x + 24} y={y - 18} textAnchor="middle" fontSize="14" fontWeight="700" fill="var(--text)">{item.value}</text>
+            <text x={x} y="145" textAnchor="middle" fontSize="16" fontWeight="700" fill="var(--text)">{item.label}</text>
+          </g>
+        )
+      })}
+    </svg>
+  )
+}
+
 // Two parallel lines cut by a transversal, e.g. {{angles:50|זוויות מתאימות}}.
 // param = the measure of angle ① (the one above-right of the upper crossing);
 // the transversal is drawn at exactly that slant and the other seven angles are
@@ -1215,6 +1257,7 @@ const KINDS = {
   inequality: Inequality,
   tangent: Tangent,
   angle: Angle,
+  'angle-types': AngleTypes,
   angles: Angles,
   quad: Quad,
   box: Box,

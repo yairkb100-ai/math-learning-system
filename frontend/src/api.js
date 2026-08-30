@@ -116,20 +116,12 @@ async function uploadRequest(path, formData) {
   return text ? JSON.parse(text) : null
 }
 
-// Authed download — fetch with Bearer header, turn the response into a blob,
-// then trigger a browser download via a temporary object URL.
-//
-// Files hosted on Bunny CDN (externalUrl set) skip the fetch entirely and
-// open the CDN URL directly. Browsers refuse to auto-follow a redirect to a
-// different origin when the request carries an Authorization header (a
-// deliberate Fetch spec security rule) — trying to fetch() our backend's
-// redirect for these throws "Failed to fetch" instead of reaching Bunny.
-async function downloadRequest(path, filename, externalUrl) {
-  if (externalUrl) {
-    window.open(externalUrl, '_blank', 'noopener')
-    return
-  }
-
+// Authed download — fetch through our own API with the Bearer header, turn the
+// response into a blob, then trigger a browser download via a temporary URL.
+// The backend proxies externally stored files through the same origin, so the
+// client must not bypass it and open the storage URL directly: that URL may be
+// private, lack CORS headers or open in a tab instead of downloading.
+async function downloadRequest(path, filename) {
   const token = getToken()
   const headers = {}
   if (token) headers['Authorization'] = `Bearer ${token}`
