@@ -760,6 +760,12 @@ h1 {
   --lv: #c0882e;         /* amber-mustard */
   --lv-bg: #f7eeda;
 }
+/* גוון שמיני לרמפה — "כושר מכני" בקרני. פלדה כחלחלה-אפורה, נבדל משבעת
+   הקודמים, ומתאים סמנטית לתחום של גלגלי שיניים ומנופים. */
+.lv-steel {
+  --lv: #4a6b7a;         /* slate steel */
+  --lv-bg: #e6eef1;
+}
 
 /* Tablet: cards get a smaller floor so two still fit side by side in portrait
    rather than dropping to a single very wide column. */
