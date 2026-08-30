@@ -346,3 +346,15 @@ export function IconGrip(props) {
     </svg>
   )
 }
+
+// גלגל שיניים — לפרק "כושר מכני" בקרני.
+export function IconGears(props) {
+  return (
+    <svg {...base} {...props}>
+      <circle cx="10" cy="10" r="3.2" />
+      <path d="M10 3.5v2M10 14.5v2M3.5 10h2M14.5 10h2M5.4 5.4l1.4 1.4M13.2 13.2l1.4 1.4M14.6 5.4l-1.4 1.4M6.8 13.2l-1.4 1.4" />
+      <circle cx="17" cy="17" r="2.3" />
+      <path d="M17 13.5v1.3M17 19.2v1.3M13.5 17h1.3M19.2 17h1.3" />
+    </svg>
+  )
+}

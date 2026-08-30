@@ -741,6 +741,9 @@ PSY_DOMAINS = (
     "spatial",
     "speed",
     "english",
+    # "mechanical" (כושר מכני) is a distinct Karni section — levers, gears,
+    # pulleys, load-sharing. Its own domain so the score report shows it apart.
+    "mechanical",
 )
 
 
