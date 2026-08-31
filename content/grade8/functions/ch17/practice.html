@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>תרגול אינטראקטיבי — אחוזים במערכת צירים</title>
+<style>
+  @page { size: A4; margin: 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: #1a2233;
+         line-height: 1.7; margin: 0; padding: 20px; background: #f4f6fa; }
+  .sheet { background: #fff; max-width: 820px; margin: 0 auto 24px;
+           padding: 30px 36px; border-radius: 10px;
+           box-shadow: 0 2px 14px rgba(0,0,0,.09); }
+  header { border-bottom: 3px solid #2f6fed; padding-bottom: 12px; margin-bottom: 20px; }
+  h1 { margin: 0 0 4px; font-size: 24px; color: #14306b; }
+  .sub { color: #5b6780; font-size: 14px; }
+  .namebar { display: flex; gap: 26px; margin-top: 12px; font-size: 14px; }
+  .namebar span { flex: 1; border-bottom: 1px dotted #8894ab; padding-bottom: 3px; }
+  h2.q, h2.sec { font-size: 17px; margin: 24px 0 10px; color: #14306b;
+    background: #eef3fe; padding: 7px 12px; border-radius: 6px;
+    border-inline-start: 5px solid #2f6fed; }
+  .tag { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px;
+         margin-inline-start: 8px; vertical-align: middle; }
+  .easy { background: #dff5e3; color: #1c6b32; }
+  .med  { background: #fdf0d5; color: #8a5b06; }
+  .hard { background: #fadbdb; color: #8f2222; }
+  ol.items { margin: 6px 0; padding-inline-start: 22px; }
+  ol.items > li { margin-bottom: 13px; }
+  .fr { display: inline-flex; flex-direction: column; align-items: center;
+        vertical-align: middle; margin: 0 3px; font-size: .95em; line-height: 1.15; }
+  .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
+  .fr i { font-style: normal; padding: 0 4px; }
+  .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
+  .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
+  .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
+  .fig { text-align: center; font-size: 13px; color: #5b6780; }
+  .lines div { border-bottom: 1px dotted #aab3c4; height: 24px; }
+  .numline { margin: 10px 0; }
+  .pagebreak { page-break-before: always; }
+  .key { background: #fffdf3; }
+  .key h1 { color: #8a5b06; }
+  .key header { border-bottom-color: #e0a800; }
+  .key .ans { background:#fff; border:1px solid #eadfb8; border-radius:6px;
+              padding:10px 14px; margin-bottom:10px; font-size:14.5px; }
+  .key .ans strong { color:#8a5b06; }
+  .credit { text-align:center; font-size: 12px; color: #8894ab; margin-top: 18px;
+            border-top: 1px solid #eef1f6; padding-top: 8px; }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .sheet { box-shadow: none; margin: 0; border-radius: 0; padding: 0; max-width: none; }
+    .noprint { display: none; }
+  }
+  .noprint { text-align:center; margin: 10px 0 20px; }
+  .noprint button { background: #2f6fed; color:#fff; border:0; padding:10px 26px;
+                    border-radius:6px; font-size:15px; cursor:pointer; font-family:inherit; }
+
+  .card { background: #fff; border-radius: 12px; padding: 22px 24px; margin: 0 auto 20px;
+          max-width: 780px; box-shadow: 0 2px 12px rgba(20,48,107,.08); }
+  .card h2 { font-size: 19px; color: #14306b; margin: 0 0 4px; }
+  .hint { color: #77839b; font-size: 14px; margin: 0 0 16px; }
+  .ex { border: 1px solid #e6eaf2; border-radius: 9px; padding: 14px 16px; margin-bottom: 12px; }
+  .ex-h { display: flex; align-items: center; gap: 9px; margin-bottom: 6px; }
+  .ex-h strong { color: #14306b; }
+  .reveal { margin-top: 9px; background: #fff; border: 1.5px solid #2f6fed; color: #2f6fed;
+            border-radius: 6px; padding: 6px 16px; cursor: pointer; font: inherit; font-size: 14px; }
+  .reveal:hover { background: #2f6fed; color: #fff; }
+  .sol { display: none; margin-top: 10px; background:#f3f8f4; border-inline-start:4px solid #34a853;
+         padding: 11px 14px; border-radius: 6px; font-size: 15px; }
+  .sol.show { display: block; }
+  .q { margin-bottom: 22px; padding-bottom: 18px; border-bottom: 1px solid #eef1f6; }
+  .qtext { font-weight: 600; margin-bottom: 10px; }
+  .opts { display: grid; gap: 8px; }
+  .opt { text-align: start; background: #f6f8fc; border: 2px solid #e2e8f2; border-radius: 8px;
+         padding: 10px 14px; cursor: pointer; font: inherit; color: inherit; }
+  .opt:hover:not(:disabled) { border-color: #2f6fed; background: #eef3fe; }
+  .opt.correct { background: #e4f6e9; border-color: #34a853; }
+  .opt.wrong { background: #fdecea; border-color: #d93025; }
+  .opt:disabled { cursor: default; }
+  .score { text-align:center; font-size:17px; font-weight:700; color:#14306b; margin-top:8px; }
+  h1.pt { max-width: 780px; margin: 0 auto 4px; color:#14306b; }
+  p.lead { max-width: 780px; margin: 0 auto 26px; color:#5b6780; }
+</style>
+</head>
+<body>
+
+<h1 class="pt">תרגול: אחוזים במערכת צירים</h1>
+<p class="lead">פרק 17 · הנחה והתייקרות כפונקציה קווית דרך ראשית הצירים</p>
+
+<div class="card">
+  <h2>✏️ תרגילים</h2>
+  <p class="hint">נסו לפתור לבד, ורק אחר כך גלו את הפתרון.</p>
+  
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 1: כותבים את הפונקציה</strong>
+      <span class="tag easy">קל</span></div>
+    <div>כתבו את המחיר הסופי כפונקציה של המחיר המקורי:<br><br>א. הנחה של <span class="eq">40\%</span><br>ב. התייקרות של <span class="eq">10\%</span><br>ג. הנחה של <span class="eq">5\%</span></div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. <span class="eq">y = 0.6x</span>.<br>ב. <span class="eq">y = 1.1x</span>.<br>ג. <span class="eq">y = 0.95x</span>.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 2: מציבים מחיר מקורי</strong>
+      <span class="tag easy">קל</span></div>
+    <div>אחרי <span class="eq">25\%</span> הנחה, כמה עולה מוצר שמחירו המקורי <span class="eq">80</span> ש"ח? כתבו קודם את הפונקציה.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">הפונקציה: <span class="eq">y = 0.75x</span>. מציבים <span class="eq">x = 80</span>: <span class="eq">y = 0.75 · 80 = 60</span> ש"ח.<br><br>בדיקה: <span class="eq">25\%</span> מ-<span class="eq">80</span> הם <span class="eq">20</span>, ו-<span class="eq">80 - 20 = 60</span> ✓</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 3: מהסופי אל המקורי</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>אחרי <span class="eq">20\%</span> הנחה שילמה דנה <span class="eq">128</span> ש"ח. מה היה המחיר המקורי?</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">הפונקציה: <span class="eq">y = 0.8x</span>. נתון <span class="eq">y = 128</span>:<br><br><span class="eq">0.8x = 128   ⇒   x = <span class="fr"><b>128</b><i>0.8</i></span> = 160</span><br><br>המחיר המקורי היה <span class="eq">160</span> ש"ח. בדיקה: <span class="eq">20\%</span> מ-<span class="eq">160</span> הם <span class="eq">32</span>, ו-<span class="eq">160 - 32 = 128</span> ✓</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 4: מזהים מהמקדם</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>לכל פונקציה קבעו אם היא מתארת הנחה או התייקרות, ובאיזה אחוז:<br><br>א. <span class="eq">y = 0.65x</span><br>ב. <span class="eq">y = 1.4x</span><br>ג. <span class="eq">y = 0.9x</span></div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. מקדם קטן מ-<span class="eq">1</span> — הנחה. משלמים <span class="eq">65\%</span>, ולכן ההנחה היא <span class="eq">35\%</span>.<br>ב. מקדם גדול מ-<span class="eq">1</span> — התייקרות של <span class="eq">40\%</span>.<br>ג. הנחה: משלמים <span class="eq">90\%</span>, ולכן ההנחה היא <span class="eq">10\%</span>.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 5: אתגר: הנחה על הנחה</strong>
+      <span class="tag hard">מאתגר</span></div>
+    <div>מוצר במחיר <span class="eq">x</span> ש"ח מקבל <span class="eq">50\%</span> הנחה, ואז בקופה עוד <span class="eq">50\%</span> הנחה על המחיר המוזל. האם המוצר חינם? כתבו את הפונקציה של המחיר הסופי ואת אחוז ההנחה הכולל.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">אחרי ההנחה הראשונה: <span class="eq">0.5x</span>. אחרי השנייה: <span class="eq">0.5 · 0.5x = 0.25x</span>.<br><br>המחיר הסופי הוא <span class="eq">0.25x</span> — כלומר משלמים <span class="eq">25\%</span> מהמחיר, וההנחה הכוללת היא <span class="eq">75\%</span>, לא <span class="eq">100\%</span>. שני שינויים ברצף מוכפלים ולא מתחברים: <span class="eq">0.5 · 0.5 = 0.25</span>.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 6: כותבים את הפונקציה</strong>
+      <span class="tag easy">קל</span></div>
+    <div>כתבו את המחיר הסופי כפונקציה של המחיר המקורי: (א) הנחה של <span class="eq">35\%</span>; (ב) התייקרות של <span class="eq">12\%</span>.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">(א) אחרי <span class="eq">35\%</span> הנחה משלמים <span class="eq">65\%</span>: <span class="eq">y = 0.65x</span>.<br><br>(ב) אחרי <span class="eq">12\%</span> התייקרות משלמים <span class="eq">112\%</span>: <span class="eq">y = 1.12x</span>.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 7: מציבים מחיר מקורי</strong>
+      <span class="tag easy">קל</span></div>
+    <div>אחרי <span class="eq">30\%</span> הנחה, כמה עולה מוצר שמחירו המקורי <span class="eq">180</span> ש"ח?</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">הפונקציה: <span class="eq">y = 0.7x</span>. מציבים <span class="eq">x = 180</span>: <span class="eq">y = 0.7 · 180 = 126</span> ש"ח.<br><br>בדיקה: <span class="eq">30\%</span> מ-<span class="eq">180</span> הם <span class="eq">54</span>, ו-<span class="eq">180 - 54 = 126</span> ✓</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 8: מהמחיר הסופי אל המקורי</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>אחרי <span class="eq">20\%</span> הנחה שילם עומר <span class="eq">144</span> ש"ח. מה היה המחיר המקורי?</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">הפונקציה: <span class="eq">y = 0.8x</span>. נתון <span class="eq">y = 144</span>:<br><br><span class="eq">0.8x = 144   ⇒   x = <span class="fr"><b>144</b><i>0.8</i></span> = 180</span><br><br>המחיר המקורי היה <span class="eq">180</span> ש"ח. בדיקה: <span class="eq">20\%</span> מ-<span class="eq">180</span> הם <span class="eq">36</span>, ו-<span class="eq">180 - 36 = 144</span> ✓</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 9: מזהים מהמקדם</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>לכל פונקציה קבעו אם היא מתארת הנחה או התייקרות ובאיזה אחוז: (א) <span class="eq">y = 0.55x</span>; (ב) <span class="eq">y = 1.25x</span>; (ג) <span class="eq">y = 0.98x</span>.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">(א) מקדם קטן מ-<span class="eq">1</span> — הנחה. משלמים <span class="eq">55\%</span>, ולכן ההנחה <span class="eq">45\%</span>.<br><br>(ב) מקדם גדול מ-<span class="eq">1</span> — התייקרות של <span class="eq">25\%</span>.<br><br>(ג) הנחה: משלמים <span class="eq">98\%</span>, ולכן ההנחה <span class="eq">2\%</span>.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 10: משווים שתי הצעות</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>חנות א': <span class="eq">15\%</span> הנחה. חנות ב': <span class="eq">45</span> ש"ח הנחה קבועה. מאיזה מחיר מקורי כדאי לקנות בחנות א'?</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">חנות א': <span class="eq">y = 0.85x</span>. חנות ב': <span class="eq">y = x - 45</span>.<br><br>משווים: <span class="eq">0.85x = x - 45</span>, כלומר <span class="eq">45 = 0.15x</span> ומכאן <span class="eq">x = 300</span>. בשני המקרים משלמים אז <span class="eq">255</span> ש"ח.<br><br>עבור מחיר מקורי <b>מעל <span class="eq">300</span> ש"ח</b> כדאי חנות א', כי <span class="eq">15\%</span> ממחיר גבוה שווים יותר מ-<span class="eq">45</span> ש"ח קבועים.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 11: אתגר: שני שינויים ברצף</strong>
+      <span class="tag hard">מאתגר</span></div>
+    <div>מחיר של <span class="eq">x</span> ש"ח התייקר ב-<span class="eq">50\%</span> ואז ירד ב-<span class="eq">40\%</span>. כתבו את המחיר הסופי כמכפלת מקדמים, וקבעו אם הוא גבוה או נמוך מהמחיר המקורי.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol"><span class="eq">x   →<sub> +50\% </sub>   1.5x   →<sub> -40\% </sub>   0.6 · 1.5x = 0.9x</span><br><br>המחיר הסופי הוא <span class="eq">0.9x</span> — <b>נמוך ב-<span class="eq">10\%</span></b> מהמחיר המקורי. שני שינויים ברצף מוכפלים: <span class="eq">1.5 · 0.6 = 0.9</span>.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 12: חיזוק נוסף: בודקים בשתי דרכים</strong>
+      <span class="tag easy">קל</span></div>
+    <div>אחרי <span class="eq">10\%</span> הנחה, מהו המחיר הסופי של מוצר ב-<span class="eq">70</span> ש"ח? חשבו גם דרך הפונקציה וגם בחישוב אחוזים ישיר.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol"><b>דרך הפונקציה:</b> <span class="eq">y = 0.9x = 0.9 · 70 = 63</span> ש"ח.<br><br><b>חישוב ישיר:</b> <span class="eq">10\%</span> מ-<span class="eq">70</span> הם <span class="eq">7</span>, ו-<span class="eq">70 - 7 = 63</span> ש"ח. שתי הדרכים מסכימות ✓</div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>🎯 מבחנון</h2>
+  <p class="hint">בחרו תשובה — ותקבלו משוב מיד.</p>
+  <div id="quiz"></div>
+  <div class="score" id="score"></div>
+</div>
+
+<div class="credit" style="max-width:780px; margin:0 auto">© כל הזכויות שמורות ליאיר כהנא</div>
+
+<script>
+const quiz = [{"q": "אחרי הנחה של <span class=\"eq\">35\\%</span>, המחיר הסופי כפונקציה של המחיר המקורי הוא:", "o": ["<span class=\"eq\">y = 0.65x</span>", "<span class=\"eq\">y = 0.35x</span>", "<span class=\"eq\">y = 1.35x</span>", "<span class=\"eq\">y = x - 35</span>"], "a": 0}, {"q": "הגרף של הנחה או התייקרות באחוז קבוע הוא ישר ש:", "o": ["עובר דרך ראשית הצירים", "חותך את ציר ה-y מעל הראשית", "אופקי", "אנכי"], "a": 0}, {"q": "בפונקציה <span class=\"eq\">y = 1.2x</span> מדובר ב:", "o": ["התייקרות של <span class=\"eq\">20\\%</span>", "הנחה של <span class=\"eq\">20\\%</span>", "התייקרות של <span class=\"eq\">120\\%</span>", "הנחה של <span class=\"eq\">80\\%</span>"], "a": 0}, {"q": "נכון או לא נכון: אם מחיר עלה ב-<span class=\"eq\">10\\%</span> ואז ירד ב-<span class=\"eq\">10\\%</span>, הוא חזר בדיוק למחיר המקורי.", "o": ["נכון", "לא נכון"], "a": 1}, {"q": "חנות א': <span class=\"eq\">20\\%</span> הנחה (<span class=\"eq\">y = 0.8x</span>). חנות ב': <span class=\"eq\">50</span> ש\"ח הנחה (<span class=\"eq\">y = x - 50</span>). הן עולות אותו דבר כאשר המחיר המקורי הוא:", "o": ["<span class=\"eq\">250</span> ש\"ח", "<span class=\"eq\">50</span> ש\"ח", "<span class=\"eq\">100</span> ש\"ח", "<span class=\"eq\">400</span> ש\"ח"], "a": 0}];
+let answered = 0, correct = 0;
+document.getElementById('quiz').innerHTML = quiz.map((q, i) => `
+  <div class="q">
+    <div class="qtext">${i + 1}. ${q.q}</div>
+    <div class="opts">${q.o.map((o, j) =>
+      `<button class="opt" data-q="${i}" data-o="${j}">${o}</button>`).join('')}</div>
+  </div>`).join('');
+document.querySelectorAll('.opt').forEach(btn => {
+  btn.onclick = () => {
+    const qi = +btn.dataset.q, oi = +btn.dataset.o, q = quiz[qi];
+    const group = btn.parentElement.querySelectorAll('.opt');
+    group.forEach(b => b.disabled = true);
+    group[q.a].classList.add('correct');
+    if (oi !== q.a) btn.classList.add('wrong'); else correct++;
+    if (++answered === quiz.length) {
+      document.getElementById('score').textContent =
+        `סיימתם! ${correct} מתוך ${quiz.length} נכונות ` +
+        (correct === quiz.length ? '🏆 מושלם!' : correct >= quiz.length - 2 ? '👍 יפה מאוד!' : '💪 שווה לחזור על הפרק');
+    }
+  };
+});
+</script>
+</body>
+</html>

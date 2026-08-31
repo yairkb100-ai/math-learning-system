@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>דף עבודה — עוד משפטי דמיון — צ.צ.צ וצ.ז.צ</title>
+<style>
+  @page { size: A4; margin: 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: #1a2233;
+         line-height: 1.7; margin: 0; padding: 20px; background: #f4f6fa; }
+  .sheet { background: #fff; max-width: 820px; margin: 0 auto 24px;
+           padding: 30px 36px; border-radius: 10px;
+           box-shadow: 0 2px 14px rgba(0,0,0,.09); }
+  header { border-bottom: 3px solid #2f6fed; padding-bottom: 12px; margin-bottom: 20px; }
+  h1 { margin: 0 0 4px; font-size: 24px; color: #14306b; }
+  .sub { color: #5b6780; font-size: 14px; }
+  .namebar { display: flex; gap: 26px; margin-top: 12px; font-size: 14px; }
+  .namebar span { flex: 1; border-bottom: 1px dotted #8894ab; padding-bottom: 3px; }
+  h2.q, h2.sec { font-size: 17px; margin: 24px 0 10px; color: #14306b;
+    background: #eef3fe; padding: 7px 12px; border-radius: 6px;
+    border-inline-start: 5px solid #2f6fed; }
+  .tag { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px;
+         margin-inline-start: 8px; vertical-align: middle; }
+  .easy { background: #dff5e3; color: #1c6b32; }
+  .med  { background: #fdf0d5; color: #8a5b06; }
+  .hard { background: #fadbdb; color: #8f2222; }
+  ol.items { margin: 6px 0; padding-inline-start: 22px; }
+  ol.items > li { margin-bottom: 13px; }
+  .fr { display: inline-flex; flex-direction: column; align-items: center;
+        vertical-align: middle; margin: 0 3px; font-size: .95em; line-height: 1.15; }
+  .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
+  .fr i { font-style: normal; padding: 0 4px; }
+  .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
+  .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
+  .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
+  .fig { text-align: center; font-size: 13px; color: #5b6780; }
+  .lines div { border-bottom: 1px dotted #aab3c4; height: 24px; }
+  .numline { margin: 10px 0; }
+  .pagebreak { page-break-before: always; }
+  .key { background: #fffdf3; }
+  .key h1 { color: #8a5b06; }
+  .key header { border-bottom-color: #e0a800; }
+  .key .ans { background:#fff; border:1px solid #eadfb8; border-radius:6px;
+              padding:10px 14px; margin-bottom:10px; font-size:14.5px; }
+  .key .ans strong { color:#8a5b06; }
+  .credit { text-align:center; font-size: 12px; color: #8894ab; margin-top: 18px;
+            border-top: 1px solid #eef1f6; padding-top: 8px; }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .sheet { box-shadow: none; margin: 0; border-radius: 0; padding: 0; max-width: none; }
+    .noprint { display: none; }
+  }
+  .noprint { text-align:center; margin: 10px 0 20px; }
+  .noprint button { background: #2f6fed; color:#fff; border:0; padding:10px 26px;
+                    border-radius:6px; font-size:15px; cursor:pointer; font-family:inherit; }
+</style>
+</head>
+<body>
+
+<div class="noprint"><button onclick="window.print()">🖨️ הדפסה / שמירה כ‑PDF</button></div>
+
+<div class="sheet">
+  <header>
+    <h1>דף עבודה — פרק 10: עוד משפטי דמיון — צ.צ.צ וצ.ז.צ</h1>
+    <div class="sub">כשנתונות צלעות ולא זוויות</div>
+    <div class="namebar"><span>שם: </span><span>כיתה: </span><span>תאריך: </span></div>
+  </header>
+  <div class="note-box" style="background:#eef3fe; border-inline-start:4px solid #2f6fed; padding:10px 14px; border-radius:6px; font-size:14px; margin:18px 0">שלושה משפטי דמיון נותנים כיסוי מלא. זווית-זווית: די בשתי זוויות שוות. צ.צ.צ-דמיון: אם שלוש הצלעות פרופורציוניות באותו יחס <span class="eq">k</span> — המשולשים דומים; בודקים ששלושת היחסים שווים, לא רק שניים, אחרי שמסדרים כל משולש מהצלע הקטנה לגדולה. צ.ז.צ-דמיון: אם שתי צלעות פרופורציוניות והזווית הכלואה ביניהן שווה — המשולשים דומים; הזווית חייבת להיות בין שתי הצלעות שהיחס ביניהן נבדק. בוחרים משפט לפי הנתונים: זוויות ⟵ ז.ז; אורכים בלבד ⟵ צ.צ.צ או צ.ז.צ. אחרי שהוכח דמיון — כל הזוויות המתאימות שוות וכל הצלעות פרופורציוניות ב-<span class="eq">k</span>.</div>
+  
+  <h2 class="q">שאלה 1 — בדיקת צ.צ.צ — סדרה א <span class="tag easy">קל</span></h2>
+  <p>לכל זוג משולשים בדקו את שלושת יחסי הצלעות וקבעו אם הם דומים:</p><ol type="a"><li><span class="eq">3, 4, 5</span> ו-<span class="eq">9, 12, 15</span> ⟵ <span class="blank"></span></li><li><span class="eq">2, 4, 5</span> ו-<span class="eq">4, 8, 9</span> ⟵ <span class="blank"></span></li></ol>
+  
+  <h2 class="q">שאלה 2 — בדיקת צ.צ.צ — סדרה ב <span class="tag easy">קל</span></h2>
+  <p>המשולש שצלעותיו <span class="eq">6, 8, 12</span> והמשולש שצלעותיו <span class="eq">9, 12, 18</span>. דומים? לפי איזה משפט ומהו <span class="eq">k</span>?</p>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 3 — בדיקת צ.ז.צ — סדרה א <span class="tag easy">קל</span></h2>
+  <p>במשולש אחד שתי צלעות <span class="eq">4</span> ו-<span class="eq">6</span> והזווית ביניהן <span class="eq">50°</span>. במשולש שני <span class="eq">8</span> ו-<span class="eq">12</span> והזווית ביניהן <span class="eq">50°</span>. דומים?</p>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 4 — בדיקת צ.ז.צ — סדרה ב <span class="tag med">בינוני</span></h2>
+  <p>במשולש אחד <span class="eq">5</span> ו-<span class="eq">8</span> עם זווית <span class="eq">70°</span> ביניהן. במשולש שני <span class="eq">10</span> ו-<span class="eq">16</span> — אבל הזווית <span class="eq">70°</span> נמצאת מול הצלע <span class="eq">10</span>, לא ביניהן. האם אפשר להסיק דמיון? הסבירו.</p>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 5 — בוחרים משפט <span class="tag med">בינוני</span></h2>
+  <p>לכל זוג נתונים כתבו לפי איזה משפט אפשר להוכיח דמיון:</p><ol type="a"><li><span class="eq">∠A = ∠D</span> ו-<span class="eq">∠B = ∠E</span></li><li>צלעות <span class="eq">2, 3, 4</span> ו-<span class="eq">8, 12, 16</span></li><li>צלעות <span class="eq">5</span> ו-<span class="eq">6</span> עם זווית <span class="eq">40°</span> ביניהן, מול <span class="eq">10</span> ו-<span class="eq">12</span> עם <span class="eq">40°</span></li></ol>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 6 — מסדרים לפני שמשווים <span class="tag med">בינוני</span></h2>
+  <p>משולש שצלעותיו <span class="eq">8, 5, 10</span> ומשולש שצלעותיו <span class="eq">6, 15, 12</span>. סדרו כל שלשה מהקטנה לגדולה, ובדקו אם הם דומים לפי צ.צ.צ.</p>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 7 — מנצלים דמיון שהוכח — סדרה א <span class="tag med">בינוני</span></h2>
+  <p>הוכח שמשולש <span class="eq">ABC</span> דומה למשולש <span class="eq">DEF</span> עם <span class="eq">k = 2</span> (<span class="eq">DEF</span> גדול פי <span class="eq">2</span>). <span class="eq">∠A = 50°</span> ו-<span class="eq">EF = 14</span>. מצאו את <span class="eq">∠D</span> ואת <span class="eq">BC</span>.</p>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 8 — מנצלים דמיון שהוכח — סדרה ב <span class="tag med">בינוני</span></h2>
+  <p>משולש <span class="eq">PQR</span> דומה למשולש <span class="eq">STU</span> לפי צ.ז.צ, <span class="eq">k = 1.5</span>. <span class="eq">PQ = 8</span> ⟵ <span class="eq">ST = ?</span>; <span class="eq">∠Q = 62°</span> ⟵ <span class="eq">∠T = ?</span></p>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 9 — משולשים עם זווית משותפת <span class="tag hard">מאתגר</span></h2>
+  <p>במשולש <span class="eq">ABC</span>: <span class="eq">AB = 8</span>, <span class="eq">AC = 10</span>. על <span class="eq">AB</span> נקודה <span class="eq">D</span> עם <span class="eq">AD = 4</span>, על <span class="eq">AC</span> נקודה <span class="eq">E</span> עם <span class="eq">AE = 5</span>. הזווית <span class="eq">∠A</span> משותפת. הוכיחו שמשולש <span class="eq">ABC</span> דומה למשולש <span class="eq">ADE</span> ומצאו את <span class="eq">k</span>.</p>
+  <div class="lines"><div></div><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 10 — מצאו את הטעות <span class="tag hard">מאתגר</span></h2>
+  <p>תלמיד בדק צ.צ.צ למשולשים <span class="eq">4, 6, 9</span> ו-<span class="eq">8, 12, 15</span>: "<span class="eq">8/4 = 2</span>, <span class="eq">12/6 = 2</span> — דומים". הסבירו מה שגוי.</p>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 11 — אתגר: מוצאים צלע דרך דמיון <span class="tag hard">מאתגר</span></h2>
+  <p>משולש <span class="eq">ABC</span> דומה למשולש <span class="eq">KLM</span> לפי צ.צ.צ. <span class="eq">AB = 6</span>, <span class="eq">BC = 8</span>, <span class="eq">CA = 10</span>; <span class="eq">KL = 9</span>. מצאו את <span class="eq">LM</span> ואת <span class="eq">MK</span>.</p>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 12 — אתגר: כמה נתונים חסרים <span class="tag hard">מאתגר</span></h2>
+  <p>ידוע ששתי צלעות של משולש אחד פרופורציוניות לשתי צלעות של משולש אחר, אבל שום זווית אינה נתונה. האם אפשר להסיק דמיון? מה הנתון הנוסף המינימלי שיספיק?</p>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
+</div>
+
+<div class="sheet key pagebreak">
+  <header>
+    <h1>🔑 דף פתרונות למורה — פרק 10: עוד משפטי דמיון — צ.צ.צ וצ.ז.צ</h1>
+    <div class="sub">לא לחלוקה לתלמידים</div>
+  </header>
+  <div class="ans"><strong>שאלה 1.</strong> א. <span class="eq">9/3 = 3</span>, <span class="eq">12/4 = 3</span>, <span class="eq">15/5 = 3</span> — דומים, <span class="eq">k = 3</span> &nbsp; ב. <span class="eq">4/2 = 2</span>, <span class="eq">8/4 = 2</span>, <span class="eq">9/5 = 1.8</span> — לא דומים</div>
+<div class="ans"><strong>שאלה 2.</strong> היחסים <span class="eq">9/6 = 1.5</span>, <span class="eq">12/8 = 1.5</span>, <span class="eq">18/12 = 1.5</span> — דומים לפי צ.צ.צ, <span class="eq">k = 1.5</span></div>
+<div class="ans"><strong>שאלה 3.</strong> <span class="eq">8/4 = 2</span> ו-<span class="eq">12/6 = 2</span>, הזווית הכלואה שווה — דומים לפי צ.ז.צ, <span class="eq">k = 2</span></div>
+<div class="ans"><strong>שאלה 4.</strong> לא — הזווית אינה כלואה בין שתי הצלעות שהיחס ביניהן נבדק. זה מקביל ל-צ.צ.ז שאינו משפט חפיפה</div>
+<div class="ans"><strong>שאלה 5.</strong> א. זווית-זווית &nbsp; ב. צ.צ.צ (כל היחסים <span class="eq">4</span>) &nbsp; ג. צ.ז.צ (יחסים <span class="eq">2</span> ו-<span class="eq">2</span>, זווית כלואה שווה)</div>
+<div class="ans"><strong>שאלה 6.</strong> מסודר: <span class="eq">5, 8, 10</span> ו-<span class="eq">6, 12, 15</span>. יחסים <span class="eq">6/5 = 1.2</span>, <span class="eq">12/8 = 1.5</span> — כבר לא שווים, לא דומים</div>
+<div class="ans"><strong>שאלה 7.</strong> <span class="eq">∠D = ∠A = 50°</span>; <span class="eq">BC = EF : 2 = 14 : 2 = 7</span></div>
+<div class="ans"><strong>שאלה 8.</strong> <span class="eq">ST = 8 × 1.5 = 12</span>; <span class="eq">∠T = ∠Q = 62°</span></div>
+<div class="ans"><strong>שאלה 9.</strong> <span class="eq">AB/AD = 8/4 = 2</span> ו-<span class="eq">AC/AE = 10/5 = 2</span>; <span class="eq">∠A</span> משותפת ולכן שווה. לפי צ.ז.צ המשולשים דומים, <span class="eq">k = 2</span></div>
+<div class="ans"><strong>שאלה 10.</strong> בדק רק שני יחסים. היחס השלישי <span class="eq">15/9 ≈ 1.67</span> שונה מ-<span class="eq">2</span>, ולכן המשולשים אינם דומים</div>
+<div class="ans"><strong>שאלה 11.</strong> <span class="eq">k = KL/AB = 9/6 = 1.5</span>; <span class="eq">LM = 8 × 1.5 = 12</span>; <span class="eq">MK = 10 × 1.5 = 15</span></div>
+<div class="ans"><strong>שאלה 12.</strong> לא מספיק — צריך גם את הזווית הכלואה בין שתי הצלעות (צ.ז.צ), או את הצלע השלישית פרופורציונית (צ.צ.צ)</div>
+  <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
+</div>
+</body>
+</html>
