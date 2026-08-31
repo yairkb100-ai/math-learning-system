@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>דף עבודה — הוכחה בדרך השלילה</title>
+<style>
+  @page { size: A4; margin: 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: #1a2233;
+         line-height: 1.7; margin: 0; padding: 20px; background: #f4f6fa; }
+  .sheet { background: #fff; max-width: 820px; margin: 0 auto 24px;
+           padding: 30px 36px; border-radius: 10px;
+           box-shadow: 0 2px 14px rgba(0,0,0,.09); }
+  header { border-bottom: 3px solid #2f6fed; padding-bottom: 12px; margin-bottom: 20px; }
+  h1 { margin: 0 0 4px; font-size: 24px; color: #14306b; }
+  .sub { color: #5b6780; font-size: 14px; }
+  .namebar { display: flex; gap: 26px; margin-top: 12px; font-size: 14px; }
+  .namebar span { flex: 1; border-bottom: 1px dotted #8894ab; padding-bottom: 3px; }
+  h2.q, h2.sec { font-size: 17px; margin: 24px 0 10px; color: #14306b;
+    background: #eef3fe; padding: 7px 12px; border-radius: 6px;
+    border-inline-start: 5px solid #2f6fed; }
+  .tag { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px;
+         margin-inline-start: 8px; vertical-align: middle; }
+  .easy { background: #dff5e3; color: #1c6b32; }
+  .med  { background: #fdf0d5; color: #8a5b06; }
+  .hard { background: #fadbdb; color: #8f2222; }
+  ol.items { margin: 6px 0; padding-inline-start: 22px; }
+  ol.items > li { margin-bottom: 13px; }
+  .fr { display: inline-flex; flex-direction: column; align-items: center;
+        vertical-align: middle; margin: 0 3px; font-size: .95em; line-height: 1.15; }
+  .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
+  .fr i { font-style: normal; padding: 0 4px; }
+  .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
+  .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
+  .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
+  .fig { text-align: center; font-size: 13px; color: #5b6780; }
+  .lines div { border-bottom: 1px dotted #aab3c4; height: 24px; }
+  .numline { margin: 10px 0; }
+  .pagebreak { page-break-before: always; }
+  .key { background: #fffdf3; }
+  .key h1 { color: #8a5b06; }
+  .key header { border-bottom-color: #e0a800; }
+  .key .ans { background:#fff; border:1px solid #eadfb8; border-radius:6px;
+              padding:10px 14px; margin-bottom:10px; font-size:14.5px; }
+  .key .ans strong { color:#8a5b06; }
+  .credit { text-align:center; font-size: 12px; color: #8894ab; margin-top: 18px;
+            border-top: 1px solid #eef1f6; padding-top: 8px; }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .sheet { box-shadow: none; margin: 0; border-radius: 0; padding: 0; max-width: none; }
+    .noprint { display: none; }
+  }
+  .noprint { text-align:center; margin: 10px 0 20px; }
+  .noprint button { background: #2f6fed; color:#fff; border:0; padding:10px 26px;
+                    border-radius:6px; font-size:15px; cursor:pointer; font-family:inherit; }
+</style>
+</head>
+<body>
+
+<div class="noprint"><button onclick="window.print()">🖨️ הדפסה / שמירה כ‑PDF</button></div>
+
+<div class="sheet">
+  <header>
+    <h1>דף עבודה — פרק 12: הוכחה בדרך השלילה</h1>
+    <div class="sub">מניחים שהטענה שגויה — ומגיעים לאבסורד</div>
+    <div class="namebar"><span>שם: </span><span>כיתה: </span><span>תאריך: </span></div>
+  </header>
+  <div class="note-box" style="background:#eef3fe; border-inline-start:4px solid #2f6fed; padding:10px 14px; border-radius:6px; font-size:14px; margin:18px 0">בהוכחה בדרך השלילה מניחים שהטענה שרוצים להוכיח אינה נכונה, מפתחים את ההנחה עד שמגיעים לסתירה עם עובדה ידועה (נתון, אקסיומה, משפט או ההיגיון), ומסיקים שההנחה שגויה — ולכן הטענה נכונה. ארבעה חלקים: הנחה שלילית מדויקת, פיתוח, זיהוי הסתירה, מסקנה. השיטה מתאימה במיוחד לטענות "אין", "בלתי אפשרי", "לכל היותר אחד" ו"יחיד". השלילה חייבת להיות מדויקת: שלילת "<span class="eq">a &gt; b</span>" היא "<span class="eq">a ≤ b</span>" (כולל <span class="eq">a = b</span>); שלילת "כולם שווים" היא "לא כולם שווים". תכונות יחס סדר — מעבירות, הוספה לשני האגפים, כפל במספר חיובי (שומר) או שלילי (הופך) — הן כלי נפוץ להגעה לסתירה מספרית. אחרי הסתירה חייבים לכתוב עם מה בדיוק היא סותרת.</div>
+  
+  <h2 class="q">שאלה 1 — ההנחה השלילית — סדרה א <span class="tag easy">קל</span></h2>
+  <p>לכל טענה כתבו את ההנחה שבה מתחילים הוכחה בדרך השלילה:</p><ol type="a"><li>"הישרים מקבילים" ⟵ <span class="blank"></span></li><li>"קיימת נקודת חיתוך" ⟵ <span class="blank"></span></li></ol>
+  
+  <h2 class="q">שאלה 2 — ההנחה השלילית — סדרה ב <span class="tag easy">קל</span></h2>
+  <p>כתבו את ההנחה השלילית המדויקת:</p><ol type="a"><li>"כל הצלעות שוות"</li><li>"<span class="eq">x ≥ 5</span>"</li><li>"למשוואה יש פתרון יחיד"</li></ol>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 3 — מבנה ההוכחה <span class="tag easy">קל</span></h2>
+  <p>מהם ארבעת החלקים של כל הוכחה בדרך השלילה, לפי הסדר?</p>
+  <div class="lines"><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 4 — משולש בלי שתי זוויות ישרות <span class="tag easy">קל</span></h2>
+  <p>הוכיחו בדרך השלילה: במשולש אין שתי זוויות ישרות. כתבו את ארבעת החלקים.</p>
+  <div class="lines"><div></div><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 5 — משולש בלי שתי זוויות קהות <span class="tag med">בינוני</span></h2>
+  <p>הוכיחו בדרך השלילה שבמשולש אין שתי זוויות קהות. (רמז: אם <span class="eq">∠A &gt; 90°</span> ו-<span class="eq">∠B &gt; 90°</span>, מה אפשר לומר על <span class="eq">∠A + ∠B</span>?)</p>
+  <div class="lines"><div></div><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 6 — זיהוי הסתירה <span class="tag med">בינוני</span></h2>
+  <p>בהוכחה בדרך השלילה הגיע תלמיד לטענה "סכום זוויות המשולש הוא <span class="eq">190°</span>". עם איזו עובדה ידועה זה סותר, ומהי המסקנה?</p>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 7 — יחידות של אנך <span class="tag med">בינוני</span></h2>
+  <p>הוכיחו בדרך השלילה: מנקודה <span class="eq">P</span> שמחוץ לישר <span class="eq">m</span> אפשר להעביר אנך אחד לכל היותר. (רמז: שני אנכים יוצרים משולש עם שתי זוויות ישרות.)</p>
+  <div class="lines"><div></div><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 8 — שלילה מדויקת של אי-שוויון <span class="tag med">בינוני</span></h2>
+  <p>רוצים להוכיח בדרך השלילה את "<span class="eq">x ≥ 5</span>". תלמיד כתב "נניח <span class="eq">x &lt; 5</span>", ותלמידה כתבה "נניח <span class="eq">x ≤ 5</span>". מי צודק ומדוע?</p>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 9 — שני ישרים ומקבילות <span class="tag hard">מאתגר</span></h2>
+  <p>הוכיחו בדרך השלילה: אם ישר <span class="eq">c</span> חותך את הישר <span class="eq">a</span>, ו-<span class="eq">a</span> מקביל ל-<span class="eq">b</span>, אז <span class="eq">c</span> חותך גם את <span class="eq">b</span>.</p>
+  <div class="lines"><div></div><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 10 — יחס סדר בתוך הוכחה <span class="tag hard">מאתגר</span></h2>
+  <p>נתון: במשולש <span class="eq">ABC</span> מתקיים <span class="eq">∠A = ∠B</span>. הוכיחו בדרך השלילה שהצלעות <span class="eq">BC</span> ו-<span class="eq">AC</span> שוות. (השתמשו במשפט "מול צלע גדולה יותר זווית גדולה יותר".)</p>
+  <div class="lines"><div></div><div></div><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 11 — מצאו את הטעות <span class="tag hard">מאתגר</span></h2>
+  <p>תלמיד רצה להוכיח בדרך השלילה ש"כל זוויות המשולש שוות", והתחיל: "נניח שכל הזוויות שונות". הסבירו מדוע ההנחה השלילית שגויה ומהי הנכונה.</p>
+  <div class="lines"><div></div><div></div><div></div></div>
+  <h2 class="q">שאלה 12 — אתגר: לכל היותר נקודת חיתוך אחת <span class="tag hard">מאתגר</span></h2>
+  <p>הוכיחו בדרך השלילה: שני ישרים שונים נחתכים בנקודה אחת לכל היותר. (רמז: הניחו שהם נחתכים בשתי נקודות והשתמשו באקסיומה על ישר דרך שתי נקודות.)</p>
+  <div class="lines"><div></div><div></div><div></div><div></div><div></div></div>
+  <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
+</div>
+
+<div class="sheet key pagebreak">
+  <header>
+    <h1>🔑 דף פתרונות למורה — פרק 12: הוכחה בדרך השלילה</h1>
+    <div class="sub">לא לחלוקה לתלמידים</div>
+  </header>
+  <div class="ans"><strong>שאלה 1.</strong> א. נניח בשלילה שהישרים נחתכים &nbsp; ב. נניח בשלילה שאין אף נקודת חיתוך</div>
+<div class="ans"><strong>שאלה 2.</strong> א. נניח שלא כל הצלעות שוות — יש לפחות שתי צלעות שאורכן שונה &nbsp; ב. נניח <span class="eq">x &lt; 5</span> &nbsp; ג. נניח שאין למשוואה פתרון, או שיש לה יותר מפתרון אחד</div>
+<div class="ans"><strong>שאלה 3.</strong> 1. מנסחים הנחה שלילית מדויקת. 2. מפתחים אותה במשפטים ובנתונים. 3. מזהים את הסתירה עם עובדה ידועה. 4. מסקנה: ההנחה שגויה, ולכן הטענה נכונה</div>
+<div class="ans"><strong>שאלה 4.</strong> הנחה: נניח שקיים משולש עם <span class="eq">∠A = 90°</span> ו-<span class="eq">∠B = 90°</span>. פיתוח: <span class="eq">∠C = 180° − 90° − 90° = 0°</span>. סתירה: זווית משולש חייבת להיות גדולה מ-<span class="eq">0°</span>. מסקנה: אין במשולש שתי זוויות ישרות</div>
+<div class="ans"><strong>שאלה 5.</strong> הנחה: <span class="eq">∠A &gt; 90°</span> ו-<span class="eq">∠B &gt; 90°</span>, ולכן <span class="eq">∠A + ∠B &gt; 180°</span>. סתירה: נוספת עוד זווית חיובית <span class="eq">∠C</span>, וסכום שלוש הזוויות גדול מ-<span class="eq">180°</span> — בסתירה למשפט. מסקנה: אין במשולש שתי זוויות קהות</div>
+<div class="ans"><strong>שאלה 6.</strong> סותר את המשפט שסכום זוויות המשולש הוא <span class="eq">180°</span>. מסקנה: ההנחה השלילית שגויה, והטענה המקורית נכונה</div>
+<div class="ans"><strong>שאלה 7.</strong> הנחה: אפשר להעביר שני אנכים שונים, הפוגשים את <span class="eq">m</span> ב-<span class="eq">A</span> וב-<span class="eq">B</span>. פיתוח: במשולש <span class="eq">PAB</span> גם <span class="eq">∠PAB = 90°</span> וגם <span class="eq">∠PBA = 90°</span>. סתירה: אין במשולש שתי זוויות ישרות. מסקנה: יש אנך אחד לכל היותר</div>
+<div class="ans"><strong>שאלה 8.</strong> התלמיד צודק. השלילה המדויקת של <span class="eq">x ≥ 5</span> היא <span class="eq">x &lt; 5</span>. ההנחה <span class="eq">x ≤ 5</span> כוללת גם את <span class="eq">x = 5</span>, שדווקא מקיים את הטענה — ולכן היא אינה שוללת אותה באמת</div>
+<div class="ans"><strong>שאלה 9.</strong> הנחה: נניח ש-<span class="eq">c</span> אינו חותך את <span class="eq">b</span>, כלומר <span class="eq">c</span> מקביל ל-<span class="eq">b</span>. פיתוח: <span class="eq">a</span> ו-<span class="eq">c</span> שניהם מקבילים ל-<span class="eq">b</span>, ולכן <span class="eq">a</span> מקביל ל-<span class="eq">c</span>. סתירה: נתון ש-<span class="eq">c</span> חותך את <span class="eq">a</span>. מסקנה: <span class="eq">c</span> חותך את <span class="eq">b</span></div>
+<div class="ans"><strong>שאלה 10.</strong> הנחה: <span class="eq">BC</span> ו-<span class="eq">AC</span> אינן שוות, נניח <span class="eq">BC &gt; AC</span>. פיתוח: מול הצלע הגדולה יותר זווית גדולה יותר, ולכן <span class="eq">∠A &gt; ∠B</span>. סתירה: נתון <span class="eq">∠A = ∠B</span>. (המקרה <span class="eq">AC &gt; BC</span> נותן <span class="eq">∠B &gt; ∠A</span> — שוב סתירה.) מסקנה: <span class="eq">BC = AC</span></div>
+<div class="ans"><strong>שאלה 11.</strong> "כל הזוויות שונות" חזק מדי — הוא שולל יותר מדי. השלילה הנכונה של "כל הזוויות שוות" היא "לא כל הזוויות שוות", כלומר יש לפחות שתי זוויות שגודלן שונה</div>
+<div class="ans"><strong>שאלה 12.</strong> הנחה: שני ישרים שונים <span class="eq">m</span> ו-<span class="eq">n</span> נחתכים בשתי נקודות <span class="eq">A</span> ו-<span class="eq">B</span>. פיתוח: שניהם עוברים דרך <span class="eq">A</span> ודרך <span class="eq">B</span>. סתירה: דרך שתי נקודות עובר ישר יחיד, ולכן <span class="eq">m</span> ו-<span class="eq">n</span> אותו ישר. מסקנה: יש לכל היותר נקודת חיתוך אחת</div>
+  <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
+</div>
+</body>
+</html>

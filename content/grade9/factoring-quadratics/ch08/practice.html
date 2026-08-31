@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>תרגול אינטראקטיבי — אי-שוויונות ריבועיים</title>
+<style>
+  @page { size: A4; margin: 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: #1a2233;
+         line-height: 1.7; margin: 0; padding: 20px; background: #f4f6fa; }
+  .sheet { background: #fff; max-width: 820px; margin: 0 auto 24px;
+           padding: 30px 36px; border-radius: 10px;
+           box-shadow: 0 2px 14px rgba(0,0,0,.09); }
+  header { border-bottom: 3px solid #2f6fed; padding-bottom: 12px; margin-bottom: 20px; }
+  h1 { margin: 0 0 4px; font-size: 24px; color: #14306b; }
+  .sub { color: #5b6780; font-size: 14px; }
+  .namebar { display: flex; gap: 26px; margin-top: 12px; font-size: 14px; }
+  .namebar span { flex: 1; border-bottom: 1px dotted #8894ab; padding-bottom: 3px; }
+  h2.q, h2.sec { font-size: 17px; margin: 24px 0 10px; color: #14306b;
+    background: #eef3fe; padding: 7px 12px; border-radius: 6px;
+    border-inline-start: 5px solid #2f6fed; }
+  .tag { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px;
+         margin-inline-start: 8px; vertical-align: middle; }
+  .easy { background: #dff5e3; color: #1c6b32; }
+  .med  { background: #fdf0d5; color: #8a5b06; }
+  .hard { background: #fadbdb; color: #8f2222; }
+  ol.items { margin: 6px 0; padding-inline-start: 22px; }
+  ol.items > li { margin-bottom: 13px; }
+  .fr { display: inline-flex; flex-direction: column; align-items: center;
+        vertical-align: middle; margin: 0 3px; font-size: .95em; line-height: 1.15; }
+  .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
+  .fr i { font-style: normal; padding: 0 4px; }
+  .eq { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .sys { direction: ltr; unicode-bidi: isolate; display: inline-flex;
+         align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+  .sysbrace { font-size: 2.5em; font-weight: 300; line-height: .9;
+              color: #14306b; transform: scaleX(.75); }
+  .syseq { display: inline-flex; flex-direction: column; align-items: flex-start;
+           gap: 2px; line-height: 1.45; }
+  .ovl { text-decoration: overline; }
+  .rad { border-top: 1.4px solid currentColor; padding: 0 3px 0 1px;
+         margin-inline-start: -1px; }
+  .blank { display: inline-block; min-width: 56px; border-bottom: 1.5px solid #14306b; height: 1em; }
+  .shapes { display: flex; gap: 22px; flex-wrap: wrap; margin: 8px 0 4px; align-items: flex-end; }
+  .fig { text-align: center; font-size: 13px; color: #5b6780; }
+  .lines div { border-bottom: 1px dotted #aab3c4; height: 24px; }
+  .numline { margin: 10px 0; }
+  .pagebreak { page-break-before: always; }
+  .key { background: #fffdf3; }
+  .key h1 { color: #8a5b06; }
+  .key header { border-bottom-color: #e0a800; }
+  .key .ans { background:#fff; border:1px solid #eadfb8; border-radius:6px;
+              padding:10px 14px; margin-bottom:10px; font-size:14.5px; }
+  .key .ans strong { color:#8a5b06; }
+  .credit { text-align:center; font-size: 12px; color: #8894ab; margin-top: 18px;
+            border-top: 1px solid #eef1f6; padding-top: 8px; }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .sheet { box-shadow: none; margin: 0; border-radius: 0; padding: 0; max-width: none; }
+    .noprint { display: none; }
+  }
+  .noprint { text-align:center; margin: 10px 0 20px; }
+  .noprint button { background: #2f6fed; color:#fff; border:0; padding:10px 26px;
+                    border-radius:6px; font-size:15px; cursor:pointer; font-family:inherit; }
+
+  .card { background: #fff; border-radius: 12px; padding: 22px 24px; margin: 0 auto 20px;
+          max-width: 780px; box-shadow: 0 2px 12px rgba(20,48,107,.08); }
+  .card h2 { font-size: 19px; color: #14306b; margin: 0 0 4px; }
+  .hint { color: #77839b; font-size: 14px; margin: 0 0 16px; }
+  .ex { border: 1px solid #e6eaf2; border-radius: 9px; padding: 14px 16px; margin-bottom: 12px; }
+  .ex-h { display: flex; align-items: center; gap: 9px; margin-bottom: 6px; }
+  .ex-h strong { color: #14306b; }
+  .reveal { margin-top: 9px; background: #fff; border: 1.5px solid #2f6fed; color: #2f6fed;
+            border-radius: 6px; padding: 6px 16px; cursor: pointer; font: inherit; font-size: 14px; }
+  .reveal:hover { background: #2f6fed; color: #fff; }
+  .sol { display: none; margin-top: 10px; background:#f3f8f4; border-inline-start:4px solid #34a853;
+         padding: 11px 14px; border-radius: 6px; font-size: 15px; }
+  .sol.show { display: block; }
+  .q { margin-bottom: 22px; padding-bottom: 18px; border-bottom: 1px solid #eef1f6; }
+  .qtext { font-weight: 600; margin-bottom: 10px; }
+  .opts { display: grid; gap: 8px; }
+  .opt { text-align: start; background: #f6f8fc; border: 2px solid #e2e8f2; border-radius: 8px;
+         padding: 10px 14px; cursor: pointer; font: inherit; color: inherit; }
+  .opt:hover:not(:disabled) { border-color: #2f6fed; background: #eef3fe; }
+  .opt.correct { background: #e4f6e9; border-color: #34a853; }
+  .opt.wrong { background: #fdecea; border-color: #d93025; }
+  .opt:disabled { cursor: default; }
+  .score { text-align:center; font-size:17px; font-weight:700; color:#14306b; margin-top:8px; }
+  h1.pt { max-width: 780px; margin: 0 auto 4px; color:#14306b; }
+  p.lead { max-width: 780px; margin: 0 auto 26px; color:#5b6780; }
+</style>
+</head>
+<body>
+
+<h1 class="pt">תרגול: אי-שוויונות ריבועיים</h1>
+<p class="lead">פרק 8 · מתי הביטוי חיובי — קוראים מהפרבולה</p>
+
+<div class="card">
+  <h2>✏️ תרגילים</h2>
+  <p class="hint">נסו לפתור לבד, ורק אחר כך גלו את הפתרון.</p>
+  
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 1: גדול או קטן מאפס</strong>
+      <span class="tag easy">קל</span></div>
+    <div>פתרו:<br><br>א. <span class="eq">x<sup>2</sup> - 7x + 10 &gt; 0</span><br>ב. <span class="eq">x<sup>2</sup> - 7x + 10 &lt; 0</span></div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">נקודות אפס: <span class="eq">(x - 2)(x - 5) = 0</span>, כלומר <span class="eq">x = 2</span> ו-<span class="eq">x = 5</span>. פרבולה מחייכת.<br><br>א. <span class="eq">y &gt; 0</span> — בחוץ: <span class="eq">x &lt; 2</span> או <span class="eq">x &gt; 5</span>.<br>ב. <span class="eq">y &lt; 0</span> — בפנים: <span class="eq">2 &lt; x &lt; 5</span>.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 2: עם שוויון</strong>
+      <span class="tag easy">קל</span></div>
+    <div>פתרו את <span class="eq">x<sup>2</sup> - 16 ≥ 0</span>.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">נקודות אפס: <span class="eq">(x - 4)(x + 4) = 0</span>, כלומר <span class="eq">x = 4</span> ו-<span class="eq">x = -4</span>. פרבולה מחייכת.<br><br><span class="eq">y ≥ 0</span> — בחוץ כולל הקצוות: <span class="eq">x ≤ -4</span> או <span class="eq">x ≥ 4</span>.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 3: מקדם מוביל שלילי</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>פתרו את <span class="eq">-x<sup>2</sup> + 6x - 5 &gt; 0</span>.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">כופלים ב-<span class="eq">(-1)</span> והופכים: <span class="eq">x<sup>2</sup> - 6x + 5 &lt; 0</span>.<br><br>נקודות אפס: <span class="eq">(x - 1)(x - 5) = 0</span>, כלומר <span class="eq">x = 1</span> ו-<span class="eq">x = 5</span>.<br><br><span class="eq">&lt; 0</span> — בפנים: <span class="eq">1 &lt; x &lt; 5</span>.<br><br>בדיקה במקור: <span class="eq">x = 3</span> נותן <span class="eq">-9 + 18 - 5 = 4 &gt; 0</span> ✓</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 4: מקרים מיוחדים</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>פתרו:<br><br>א. <span class="eq">(x - 4)<sup>2</sup> &gt; 0</span><br>ב. <span class="eq">x<sup>2</sup> + 9 &lt; 0</span><br>ג. <span class="eq">x<sup>2</sup> + 1 ≥ 0</span></div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">א. נקודת אפס יחידה <span class="eq">x = 4</span>; פרבולה מחייכת שנוגעת בציר. <span class="eq">&gt; 0</span> לכל <span class="eq">x</span> פרט ל-<span class="eq">4</span>.<br>ב. דיסקרימיננט שלילי, פרבולה כולה מעל הציר. אין פתרון.<br>ג. <span class="eq">x<sup>2</sup> + 1</span> תמיד חיובי, ולכן <span class="eq">≥ 0</span> נכון לכל <span class="eq">x</span>.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 5: אתגר: מאיזו כמות רווחי</strong>
+      <span class="tag hard">מאתגר</span></div>
+    <div>הרווח של דוכן (בשקלים) לפי מספר הכוסות <span class="eq">x</span> הוא <span class="eq">y = -x<sup>2</sup> + 14x - 40</span>. עבור אילו כמויות הדוכן ברווח (כלומר <span class="eq">y &gt; 0</span>)? ומהי הכמות שנותנת את הרווח המרבי?</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol"><b>רווחי:</b> כופלים ב-<span class="eq">(-1)</span> והופכים: <span class="eq">x<sup>2</sup> - 14x + 40 &lt; 0</span>. נקודות אפס: <span class="eq">(x - 4)(x - 10) = 0</span>, כלומר <span class="eq">x = 4</span> ו-<span class="eq">x = 10</span>. הפתרון: <span class="eq">4 &lt; x &lt; 10</span> — בין <span class="eq">5</span> ל-<span class="eq">9</span> כוסות (כמות שלמה) הדוכן ברווח.<br><br><b>רווח מרבי:</b> קודקוד הפרבולה <span class="eq">y = -x<sup>2</sup> + 14x - 40</span> נמצא ב-<span class="eq">x = <span class="fr"><b>-14</b><i>2 · (-1)</i></span> = 7</span>. ב-<span class="eq">7</span> כוסות הרווח הוא <span class="eq">-49 + 98 - 40 = 9</span> שקלים — המרבי.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 6: מהפירוק לפתרון</strong>
+      <span class="tag easy">קל</span></div>
+    <div>פתרו את <span class="eq">(x - 3)(x + 2) &gt; 0</span> (הפרבולה מחייכת).</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">נקודות אפס: <span class="eq">x = 3</span> ו-<span class="eq">x = -2</span>.<br><br>פרבולה מחייכת, רוצים <span class="eq">y &gt; 0</span> — החלק החיצוני:<br><br><span class="eq">x &lt; -2   או   x &gt; 3</span></div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 7: מפרקים ואז פותרים</strong>
+      <span class="tag easy">קל</span></div>
+    <div>פתרו את <span class="eq">x<sup>2</sup> - 4x - 5 ≤ 0</span>.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol"><span class="eq">x<sup>2</sup> - 4x - 5 = (x - 5)(x + 1) = 0</span>, ולכן נקודות האפס <span class="eq">x = 5</span> ו-<span class="eq">x = -1</span>.<br><br>פרבולה מחייכת, <span class="eq">≤ 0</span> — החלק הפנימי כולל הקצוות: <span class="eq">-1 ≤ x ≤ 5</span>.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 8: מקדם מוביל שלילי</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>פתרו את <span class="eq">-x<sup>2</sup> + 8x - 12 ≥ 0</span>.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol">כופלים ב-<span class="eq">(-1)</span> והופכים: <span class="eq">x<sup>2</sup> - 8x + 12 ≤ 0</span>.<br><br><span class="eq">(x - 2)(x - 6) = 0</span>, ולכן נקודות האפס <span class="eq">x = 2</span> ו-<span class="eq">x = 6</span>.<br><br><span class="eq">≤ 0</span> — פנימי כולל קצוות: <span class="eq">2 ≤ x ≤ 6</span>.<br><br>בדיקה במקור: <span class="eq">x = 4</span> נותן <span class="eq">-16 + 32 - 12 = 4 ≥ 0</span> ✓</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 9: מקרה מיוחד</strong>
+      <span class="tag med">בינוני</span></div>
+    <div>פתרו את <span class="eq">x<sup>2</sup> + 6x + 9 &gt; 0</span>.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol"><span class="eq">x<sup>2</sup> + 6x + 9 = (x + 3)<sup>2</sup></span>, ולכן נקודת האפס היחידה היא <span class="eq">x = -3</span>.<br><br>פרבולה מחייכת שנוגעת בציר בנקודה אחת, ומעליו בכל שאר הערכים.<br><br><span class="eq">(x + 3)<sup>2</sup> &gt; 0</span> נכון <b>לכל <span class="eq">x</span> פרט ל-<span class="eq">-3</span></b>.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 10: אתגר: מתי הגובה חיובי</strong>
+      <span class="tag hard">מאתגר</span></div>
+    <div>גובה של רקטת צעצוע (במטרים) לפי הזמן <span class="eq">t</span> (בשניות) הוא <span class="eq">h = -t<sup>2</sup> + 10t</span>. עבור אילו זמנים הרקטה מעל הקרקע (<span class="eq">h &gt; 0</span>)? ומתי היא בגובהה המרבי?</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol"><b>מעל הקרקע:</b> <span class="eq">-t<sup>2</sup> + 10t &gt; 0</span>. כופלים ב-<span class="eq">(-1)</span> והופכים: <span class="eq">t<sup>2</sup> - 10t &lt; 0</span>, כלומר <span class="eq">t(t - 10) &lt; 0</span>. נקודות אפס <span class="eq">0</span> ו-<span class="eq">10</span>, פרבולה מחייכת, <span class="eq">&lt; 0</span> בפנים: <span class="eq">0 &lt; t &lt; 10</span> שניות.<br><br><b>גובה מרבי:</b> קודקוד הפרבולה <span class="eq">h = -t<sup>2</sup> + 10t</span> ב-<span class="eq">t = <span class="fr"><b>-10</b><i>2 · (-1)</i></span> = 5</span>. הגובה שם: <span class="eq">-25 + 50 = 25</span> מטר.</div>
+  </div>
+  <div class="ex">
+    <div class="ex-h"><strong>תרגיל 11: חיזוק נוסף: בודקים כל אזור</strong>
+      <span class="tag easy">קל</span></div>
+    <div>פתרו את <span class="eq">x<sup>2</sup> - x - 6 &gt; 0</span> ובדקו בהצבת ערך מכל אזור.</div>
+    <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
+    <div class="sol"><span class="eq">(x - 3)(x + 2) = 0</span>, נקודות אפס <span class="eq">x = 3</span> ו-<span class="eq">x = -2</span>. פרבולה מחייכת, <span class="eq">&gt; 0</span> בחוץ: <span class="eq">x &lt; -2</span> או <span class="eq">x &gt; 3</span>.<br><br>בדיקה: <span class="eq">x = -3</span>: <span class="eq">9 + 3 - 6 = 6 &gt; 0</span> ✓; <span class="eq">x = 0</span>: <span class="eq">-6</span>, לא ✓ (אזור אמצעי נכשל כצפוי); <span class="eq">x = 4</span>: <span class="eq">16 - 4 - 6 = 6 &gt; 0</span> ✓</div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>🎯 מבחנון</h2>
+  <p class="hint">בחרו תשובה — ותקבלו משוב מיד.</p>
+  <div id="quiz"></div>
+  <div class="score" id="score"></div>
+</div>
+
+<div class="credit" style="max-width:780px; margin:0 auto">© כל הזכויות שמורות ליאיר כהנא</div>
+
+<script>
+const quiz = [{"q": "נקודות האפס של <span class=\"eq\">x<sup>2</sup> - 3x - 4</span> הן <span class=\"eq\">x = -1</span> ו-<span class=\"eq\">x = 4</span>, והמקדם המוביל חיובי. מהו פתרון האי-שוויון <span class=\"eq\">x<sup>2</sup> - 3x - 4 &lt; 0</span>?", "o": ["<span class=\"eq\">-1 &lt; x &lt; 4</span>", "<span class=\"eq\">x &lt; -1</span> או <span class=\"eq\">x &gt; 4</span>", "<span class=\"eq\">x &lt; 4</span>", "אין פתרון"], "a": 0}, {"q": "בפרבולה מחייכת (<span class=\"eq\">a &gt; 0</span>) עם שתי נקודות אפס, האי-שוויון <span class=\"eq\">ax<sup>2</sup>+bx+c&gt;0</span> מתקיים:", "o": ["בשני התחומים שמחוץ לנקודות האפס", "בתחום שבין שתי נקודות האפס", "רק בנקודות האפס", "לכל <span class=\"eq\">x</span>"], "a": 0}, {"q": "מהו פתרון האי-שוויון <span class=\"eq\">(x - 5)<sup>2</sup> &lt; 0</span>?", "o": ["אין פתרון", "<span class=\"eq\">x = 5</span>", "<span class=\"eq\">x ≠ 5</span>", "לכל <span class=\"eq\">x</span>"], "a": 0}, {"q": "נכון או לא נכון: כשכופלים אי-שוויון ריבועי ב-<span class=\"eq\">(-1)</span>, סימן האי-שוויון נשאר כפי שהוא.", "o": ["נכון", "לא נכון"], "a": 1}, {"q": "לביטוי <span class=\"eq\">x<sup>2</sup> + 6</span> אין נקודות אפס והפרבולה שלו מחייכת. מהו פתרון <span class=\"eq\">x<sup>2</sup> + 6 &gt; 0</span>?", "o": ["לכל <span class=\"eq\">x</span>", "אין פתרון", "<span class=\"eq\">x &gt; 0</span>", "<span class=\"eq\">x ≠ 0</span>"], "a": 0}];
+let answered = 0, correct = 0;
+document.getElementById('quiz').innerHTML = quiz.map((q, i) => `
+  <div class="q">
+    <div class="qtext">${i + 1}. ${q.q}</div>
+    <div class="opts">${q.o.map((o, j) =>
+      `<button class="opt" data-q="${i}" data-o="${j}">${o}</button>`).join('')}</div>
+  </div>`).join('');
+document.querySelectorAll('.opt').forEach(btn => {
+  btn.onclick = () => {
+    const qi = +btn.dataset.q, oi = +btn.dataset.o, q = quiz[qi];
+    const group = btn.parentElement.querySelectorAll('.opt');
+    group.forEach(b => b.disabled = true);
+    group[q.a].classList.add('correct');
+    if (oi !== q.a) btn.classList.add('wrong'); else correct++;
+    if (++answered === quiz.length) {
+      document.getElementById('score').textContent =
+        `סיימתם! ${correct} מתוך ${quiz.length} נכונות ` +
+        (correct === quiz.length ? '🏆 מושלם!' : correct >= quiz.length - 2 ? '👍 יפה מאוד!' : '💪 שווה לחזור על הפרק');
+    }
+  };
+});
+</script>
+</body>
+</html>
