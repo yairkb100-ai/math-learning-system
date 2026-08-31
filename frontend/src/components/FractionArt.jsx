@@ -4,6 +4,7 @@
 import { FIGURE_KINDS } from './FigureArt.jsx'
 import { SPATIAL_KINDS } from './SpatialArt.jsx'
 import { MECHANICAL_KINDS } from './MechanicalArt.jsx'
+import { GEOMETRY_PROOF_KINDS } from './GeometryProofArt.jsx'
 
 const NAVY = '#14306b'
 const FILL = '#8ecae6'
@@ -1264,6 +1265,9 @@ const KINDS = {
   cylinder: Cylinder,
   barchart: BarChart,
   piechart: PieChart,
+  // Purpose-built geometry diagrams: construction marks and congruence data.
+  // These keep proofs readable instead of relying on an unmarked generic triangle.
+  ...GEOMETRY_PROOF_KINDS,
   // Figural-reasoning tokens for the קרני area (matrices, shape series,
   // figural analogies, odd-one-out). Registered here so MathText routes them
   // like any other illustration — see FigureArt.jsx for the spec grammar.
