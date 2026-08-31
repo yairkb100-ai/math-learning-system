@@ -25,6 +25,7 @@ export const COURSE_GRADES = {
   'grade7-algebra': '7',
   'powers-and-exponents': '7',
   'proportion-variation': '7',
+  'geometry-angles-proofs': '7',
   functions: '8',
   'shortcut-formulas': '8',
   'two-equations-two-unknowns': '8',
@@ -179,6 +180,13 @@ export const SUBJECTS = [
     description:
       'עולם הפונקציות: ממערכת הצירים הקרטזית וקריאת גרפים מהחיים, דרך מושג הפונקציה וייצוגיה, ועד עלייה וירידה, קצב השתנות, תחומי חיוביות ושליליות והפונקציה הקווית.',
     courseSlugs: ['functions'],
+  },
+  {
+    slug: 'geometry-foundations',
+    title: 'גאומטריה: זוויות, משולשים והוכחות',
+    description:
+      'עולם הגאומטריה לכיתה ז׳: מקריאת סימונים וסוגי זוויות, דרך ישרים מקבילים, משולשים ומרובעים, ועד תיכון, גובה, חוצה זווית, משפטי חפיפה והוכחות במשולש שווה־שוקיים.',
+    courseSlugs: ['geometry-angles-proofs'],
   },
   {
     slug: 'congruence-similarity',
