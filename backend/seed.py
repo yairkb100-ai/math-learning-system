@@ -1926,6 +1926,19 @@ _PSY_SIMULATIONS = [
         ],
     },
     {
+        "slug": "karni-test-logic",
+        "title": "חשיבה לוגית — מבחן ממוקד",
+        "description": "12 שאלות ב-11 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "kind": "section",
+        "order": 171,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "logic", "title": "חשיבה לוגית",
+             "minutes": 11, "num_questions": 12,
+             "blueprint": [{"count": 12, "min_difficulty": 3}]},
+        ],
+    },
+    {
         "slug": "karni-mini-logic",
         "title": "מיני-תרגול לוגיקה, מרחב וזריזות",
         "description": "פרק לוגי, פרק מרחבי ופרק זריזות ברצף אחד — טעימה מהתחומים החדשים בקצב מבחן",
