@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Three-page RTL practice pack for the grade-7 geometry course."""
+"""Five-page RTL practice pack for the grade-7 geometry course."""
 from pathlib import Path
 import re
 from shutil import copyfile
@@ -17,8 +17,8 @@ def rtl(text):
     values = []
     def keep(m):
         marker = f"@@{len(values)}@@"; values.append(m.group(0)); return marker
-    text = re.sub(r"[0-9°.,()]+", keep, text)[::-1]
-    for i, value in enumerate(values): text = text.replace(f"@@{i}@@", value)
+    text = re.sub(r"[A-Za-z0-9°△∠⊥≅=+×÷.,()'/: -]+", keep, str(text))[::-1]
+    for i, value in enumerate(values): text = text.replace(f"@@{i}@@"[::-1], value)
     return text
 
 def header(c, title, subtitle, page):
@@ -87,7 +87,7 @@ def third(c):
     c.setFillColor(HexColor("#1F7A8C")); c.setFont("Arial",15); c.drawRightString(555,690,rtl("ד. הוכחה קצרה"))
     y = question(c,658,8,"נתון: שתי זוויות קודקודיות, ואחת מהן 83°. כתבו טענה ונימוק מלאים.",2)
     y = question(c,y,9,"נתון: שני ישרים מקבילים. כתבו כלל אחד שמאפשר להסיק שוויון זוויות.",2)
-    question(c,y,10,"השלימו: x = 106° כי x + 74° = 180°. מהו הנימוק הגאומטרי?",2)
+    question(c,y,10,"זווית אחת היא 74° והזווית הצמודה לה היא x. הסבירו מדוע x=106°.",2)
     c.setFillColor(HexColor("#F2B134")); c.roundRect(55,245,500,80,8,fill=1,stroke=0); c.setFillColor(HexColor("#1D3B34")); c.setFont("Arial",11); c.drawRightString(540,296,rtl("תבנית הוכחה: נתון → כלל מתאים → מסקנה. השרטוט עוזר להבין, אך אינו נימוק.")); c.drawRightString(540,270,rtl("אתגר: נסחו שאלה על זוויות קודקודיות וכתבו לה פתרון מלא."))
     c.setFillColor(HexColor("#1F7A8C")); c.setFont("Arial",15); c.drawRightString(555,210,rtl("תשובות לבדיקה עצמית")); c.setFillColor(HexColor("#1D3B34")); c.setFont("Arial",10)
     c.drawRightString(555,180,rtl("1. 107°   2. 118°   3. 64°   4. 57°   5. 70°   6. 85°")); c.drawRightString(555,158,rtl("7. סמוכה: 68°; נגדית: 112°   8. הזווית השנייה 83°, כי זוויות קודקודיות שוות.")); c.drawRightString(555,136,rtl("10. זוויות צמודות על ישר משלימות ל־180°.")); c.showPage()
@@ -106,11 +106,14 @@ def fourth(c):
 def fifth(c):
     header(c,"אתגר מסכם","בעיות מילוליות והוכחה — כתבו דרך מלאה",5)
     c.setFillColor(HexColor("#1F7A8C")); c.setFont("Arial",15); c.drawRightString(555,690,rtl("ו. חושבים ומסבירים"))
-    y=question(c,658,17,"במשולש זווית אחת גדולה פי שניים מזווית אחרת, והשלישית היא 40°. מצאו את שלוש הזוויות.",3)
+    y=question(c,658,17,"במשולש זווית אחת גדולה פי שניים מזווית אחרת, והשלישית היא 60°. מצאו את שלוש הזוויות.",3)
     y=question(c,y,18,"בשני ישרים מקבילים זווית אחת היא 123°. אילו מידות אפשריות לכל שמונה הזוויות? הסבירו.",3)
     y=question(c,y,19,"מצאו טעות: תלמיד כתב שסכום זוויות במשולש הוא 360°. כתבו תיקון ונימוק.",2)
     question(c,y,20,"נסחו הוכחה בת שלוש שורות: נתון ש־a ו־b זוויות קודקודיות ו־a=92°.",3)
-    c.setFillColor(HexColor("#2F9E6A")); c.roundRect(55,88,500,52,8,fill=1,stroke=0); c.setFillColor(white); c.setFont("Arial",11); c.drawRightString(540,112,rtl("משימת רשות: ציירו משולש משלכם, סמנו שתי זוויות, וכתבו שאלה לחבר או לחברה.")); c.save()
+    c.setFillColor(HexColor("#E8F2EE")); c.roundRect(55,70,500,82,8,fill=1,stroke=0); c.setFillColor(HexColor("#1D3B34")); c.setFont("Arial",9)
+    c.drawRightString(540,128,rtl("תשובות 11-14: 34°; 53°; 64°; ובמקבילית 103°, 77°, 103°."))
+    c.drawRightString(540,105,rtl("15-16: הסכום 190° ולכן אי אפשר; ריבוע קטן מסמן זווית ישרה."))
+    c.drawRightString(540,82,rtl("17-20: 40°, 80°, 60°; 123° או 57°; במשולש 180°; הזווית השנייה 92°.")); c.save()
 
 OUT.parent.mkdir(parents=True, exist_ok=True)
 ASSET_OUT.parent.mkdir(parents=True, exist_ok=True)
