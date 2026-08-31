@@ -26,7 +26,7 @@ function Arc({ d }) {
 
 function Frame({ children, label }) {
   return (
-    <svg width="420" height="250" viewBox="0 0 420 250" role="img" aria-label={label}>
+    <svg viewBox="0 0 420 250" role="img" aria-label={label} style={{ width: '100%', maxWidth: 420, height: 'auto', display: 'block' }}>
       <defs>
         <pattern id="proof-grid" width="20" height="20" patternUnits="userSpaceOnUse">
           <path d="M20 0H0V20" fill="none" stroke={GRID} strokeWidth="1" opacity="0.48" />
@@ -107,11 +107,73 @@ function Congruence({ variant }) {
   )
 }
 
+function AreaDiagram({ polygon = false }) {
+  if (polygon) {
+    return (
+      <Frame label="מצולע המחולק למשולשים לצורך חישוב שטח">
+        <text x="400" y="27" textAnchor="end" fontSize="15" fontWeight="700" fill={ACCENT}>מפרקים מצולע למשולשים</text>
+        <polygon points="76,180 112,64 252,42 352,118 310,205 152,214" fill="none" stroke={INK} strokeWidth="3" strokeLinejoin="round" />
+        <line x1="76" y1="180" x2="252" y2="42" stroke={ACCENT} strokeWidth="2.4" strokeDasharray="6 5" />
+        <line x1="76" y1="180" x2="352" y2="118" stroke={ACCENT} strokeWidth="2.4" strokeDasharray="6 5" />
+        <line x1="76" y1="180" x2="310" y2="205" stroke={ACCENT} strokeWidth="2.4" strokeDasharray="6 5" />
+        <text x="218" y="234" textAnchor="middle" fontSize="14" fontWeight="700" fill={GREEN}>שטח המצולע = סכום שטחי המשולשים</text>
+      </Frame>
+    )
+  }
+  return (
+    <Frame label="משולש עם בסיס וגובה פנימי המסומנים לחישוב שטח">
+      <text x="400" y="27" textAnchor="end" fontSize="15" fontWeight="700" fill={ACCENT}>שטח משולש</text>
+      <polygon points="85,200 350,200 246,48" fill="none" stroke={INK} strokeWidth="3" strokeLinejoin="round" />
+      <line x1="246" y1="48" x2="246" y2="200" stroke={ACCENT} strokeWidth="3" strokeDasharray="7 5" />
+      <path d="M246 183H263V200" fill="none" stroke={MARKER} strokeWidth="3" />
+      <path d="M85 220V211M85 216H350M350 220V211" fill="none" stroke={GREEN} strokeWidth="2.4" />
+      <text x="218" y="238" textAnchor="middle" fontSize="14" fontWeight="700" fill={GREEN}>S = (b × h) ÷ 2</text>
+      <text x="226" y="130" textAnchor="end" fontSize="14" fontWeight="700" fill={ACCENT}>h</text>
+      <text x="218" y="214" textAnchor="middle" fontSize="14" fontWeight="700" fill={INK}>b</text>
+    </Frame>
+  )
+}
+
+function ExteriorAngle() {
+  return (
+    <Frame label="משולש עם זווית חיצונית המסומנת כהמשך של אחת הצלעות">
+      <text x="400" y="27" textAnchor="end" fontSize="15" fontWeight="700" fill={ACCENT}>זווית חיצונית במשולש</text>
+      <polygon points="95,195 285,195 190,58" fill="none" stroke={INK} strokeWidth="3" strokeLinejoin="round" />
+      <line x1="285" y1="195" x2="385" y2="195" stroke={INK} strokeWidth="3" strokeLinecap="round" />
+      <Arc d="M310 195 A25 25 0 0 0 299 174" />
+      <Arc d="M119 195 A24 24 0 0 1 108 176" />
+      <Arc d="M177 77 A24 24 0 0 1 203 77" />
+      <text x="337" y="180" textAnchor="middle" fontSize="15" fontWeight="700" fill={MARKER}>α</text>
+      <text x="210" y="235" textAnchor="middle" fontSize="14" fontWeight="700" fill={GREEN}>α = סכום שתי הזוויות הפנימיות שאינן צמודות לה</text>
+    </Frame>
+  )
+}
+
+function CompassConstruction() {
+  return (
+    <Frame label="בניית משולש משלוש צלעות בעזרת שתי קשתות מחוגה">
+      <text x="400" y="27" textAnchor="end" fontSize="15" fontWeight="700" fill={ACCENT}>בנייה לפי צלע–צלע–צלע</text>
+      <line x1="85" y1="198" x2="335" y2="198" stroke={INK} strokeWidth="3" strokeLinecap="round" />
+      <path d="M85 198 A180 180 0 0 1 230 58" fill="none" stroke={ACCENT} strokeWidth="2.5" strokeDasharray="7 5" />
+      <path d="M335 198 A160 160 0 0 0 230 58" fill="none" stroke={GREEN} strokeWidth="2.5" strokeDasharray="7 5" />
+      <line x1="85" y1="198" x2="230" y2="58" stroke={INK} strokeWidth="3" />
+      <line x1="335" y1="198" x2="230" y2="58" stroke={INK} strokeWidth="3" />
+      <circle cx="85" cy="198" r="4" fill={ACCENT} /><circle cx="335" cy="198" r="4" fill={GREEN} /><circle cx="230" cy="58" r="4" fill={MARKER} />
+      <Label x="72" y="218">B</Label><Label x="348" y="218">C</Label><Label x="230" y="48">A</Label>
+      <text x="210" y="236" textAnchor="middle" fontSize="14" fontWeight="700" fill={GREEN}>נקודת חיתוך הקשתות קובעת את הקודקוד A</text>
+    </Frame>
+  )
+}
+
 export const GEOMETRY_PROOF_KINDS = {
   geoproof: function GeometryProof({ param }) {
     const variant = String(param || 'bisector').trim().toLowerCase()
     if (['bisector', 'altitude', 'median'].includes(variant)) return <Construction variant={variant} />
     if (['sss', 'sas', 'asa'].includes(variant)) return <Congruence variant={variant} />
+    if (variant === 'area') return <AreaDiagram />
+    if (variant === 'polygon-area') return <AreaDiagram polygon />
+    if (variant === 'exterior') return <ExteriorAngle />
+    if (variant === 'construction') return <CompassConstruction />
     return <Isosceles />
   },
 }
