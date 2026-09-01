@@ -124,6 +124,43 @@ def health() -> HealthResult:
     return HealthResult(status="ok")
 
 
+# TEMPORARY diagnostic — remove after confirming which DB the deployed
+# function connects to. Reports the host (no credentials) and a few counts.
+@router.get("/_dbcheck")
+def _dbcheck(db: Session = Depends(get_db)):
+    import os
+    from sqlalchemy import text
+
+    from app.database import SQLALCHEMY_DATABASE_URL
+
+    raw = SQLALCHEMY_DATABASE_URL
+    host = raw.split("@", 1)[1].split("/", 1)[0] if "@" in raw else raw.split("://", 1)[0]
+    scheme = raw.split("://", 1)[0]
+    env_host = ""
+    ev = os.environ.get("DATABASE_URL", "")
+    if "@" in ev:
+        env_host = ev.split("@", 1)[1].split("/", 1)[0]
+
+    def scalar(sql):
+        try:
+            return db.execute(text(sql)).scalar()
+        except Exception as exc:  # noqa: BLE001
+            return f"err: {exc.__class__.__name__}"
+
+    return {
+        "engine_scheme": scheme,
+        "engine_host": host,
+        "env_DATABASE_URL_host": env_host,
+        "psy_items_total": scalar("select count(*) from psy_items"),
+        "matrix_active": scalar(
+            "select count(*) from psy_items where topic = 'מטריצות' and is_active"
+        ),
+        "k_mac": scalar("select count(*) from psy_items where ref like 'k-mac-%'"),
+        "k_maa": scalar("select count(*) from psy_items where ref like 'k-maa-%'"),
+        "max_user_id": scalar("select max(id) from users"),
+    }
+
+
 @router.get("/courses", response_model=list[CourseSummary])
 def list_courses(
     track: str = "school",
