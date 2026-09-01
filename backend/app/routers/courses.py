@@ -124,60 +124,6 @@ def health() -> HealthResult:
     return HealthResult(status="ok")
 
 
-# TEMPORARY diagnostic — remove after confirming which DB the deployed
-# function connects to. Reports the host (no credentials) and a few counts.
-@router.get("/_dbcheck")
-def _dbcheck(topic: str = "מטריצות", db: Session = Depends(get_db)):
-    from sqlalchemy import text
-
-    from app import models
-
-    def scalar(sql, **p):
-        try:
-            return db.execute(text(sql), p).scalar()
-        except Exception as exc:  # noqa: BLE001
-            return f"err: {exc.__class__.__name__}: {exc}"
-
-    # distinct topic strings that look like "matrix", with byte length + hex
-    rows = db.execute(
-        text(
-            "select topic, count(*) c, length(topic) len, "
-            "encode(convert_to(topic,'UTF8'),'hex') hexbytes "
-            "from psy_items where topic like '%מטר%' group by topic order by c desc"
-        )
-    ).fetchall()
-    topic_variants = [
-        {"topic": r[0], "count": r[1], "char_len": r[2], "utf8_hex": r[3]}
-        for r in rows
-    ]
-
-    # the exact ORM filter the drill uses, with the param as received
-    orm_count = (
-        db.query(models.PsyItem)
-        .filter(models.PsyItem.is_active.is_(True), models.PsyItem.topic == topic)
-        .count()
-    )
-
-    return {
-        "param_topic": topic,
-        "param_char_len": len(topic),
-        "param_utf8_hex": topic.encode("utf-8").hex(),
-        "orm_filter_count (drill-style)": orm_count,
-        "topic_variants_in_db": topic_variants,
-        "k_mac_active": scalar(
-            "select count(*) from psy_items where ref like 'k-mac-%' and is_active"
-        ),
-        "k_mac_topic_hex": scalar(
-            "select encode(convert_to(topic,'UTF8'),'hex') from psy_items "
-            "where ref = 'k-mac-01'"
-        ),
-        "src_topic_hex": scalar(
-            "select encode(convert_to(topic,'UTF8'),'hex') from psy_items "
-            "where ref like 'src-shapes-%' and topic like '%מטר%' limit 1"
-        ),
-    }
-
-
 @router.get("/courses", response_model=list[CourseSummary])
 def list_courses(
     track: str = "school",
