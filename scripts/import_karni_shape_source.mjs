@@ -7,6 +7,42 @@ if (!sourceRoot || !outputPath) {
   throw new Error('usage: node scripts/import_karni_shape_source.mjs <source-dir> <output-json>')
 }
 
+// SVG <pattern> fills ("stripes", "cross-hatch", "dots") in the source files are
+// defined once in a page-level <defs> block, not inside each drawing. A single
+// extracted <svg> that says fill="url(#pH)" would render empty, so every figure
+// and option we emit carries its own copy of the four patterns.
+const PATTERN_DEFS =
+  '<pattern id="pH" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#fff"/><line x1="0" y1="4" x2="8" y2="4" stroke="#222" stroke-width="1.6"/></pattern>' +
+  '<pattern id="pV" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#fff"/><line x1="4" y1="0" x2="4" y2="8" stroke="#222" stroke-width="1.6"/></pattern>' +
+  '<pattern id="pX" width="9" height="9" patternUnits="userSpaceOnUse"><rect width="9" height="9" fill="#fff"/><path d="M-1,1 l3,-3 M0,9 L9,0 M7,11 l3,-3 M-1,8 L8,-1 M9,9 l1,1" stroke="#222" stroke-width="1.3" fill="none"/></pattern>' +
+  '<pattern id="pDots" width="10" height="10" patternUnits="userSpaceOnUse"><rect width="10" height="10" fill="#fff"/><circle cx="3" cy="3" r="1.7" fill="#222"/><circle cx="8" cy="8" r="1.7" fill="#222"/></pattern>'
+
+function withPatternDefs(svg) {
+  return svg.replace(/(<svg\b[^>]*>)/i, `$1<defs>${PATTERN_DEFS}</defs>`)
+}
+
+// Deterministic option shuffle: the authored files always put the correct
+// answer first, and a bank whose answer is always index 0 trains nothing.
+function mulberry32(seed) {
+  return function () {
+    seed |= 0
+    seed = (seed + 0x6d2b79f5) | 0
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed)
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296
+  }
+}
+
+function shuffledOrder(length, seed) {
+  const rand = mulberry32(seed)
+  const order = Array.from({ length }, (_, i) => i)
+  for (let i = length - 1; i > 0; i -= 1) {
+    const j = Math.floor(rand() * (i + 1))
+    ;[order[i], order[j]] = [order[j], order[i]]
+  }
+  return order
+}
+
 const decode = (value) => String(value || '')
   .replace(/<br\s*\/?\s*>/gi, '\n')
   .replace(/<[^>]+>/g, ' ')
@@ -102,14 +138,23 @@ const configs = [
 
 const allFiles = fs.readdirSync(sourceRoot, { recursive: true, withFileTypes: true })
 const fileMap = new Map()
+const jsonMap = new Map()
 for (const entry of allFiles) {
-  if (!entry.isFile() || !entry.name.endsWith('.html')) continue
+  if (!entry.isFile()) continue
   const full = path.join(entry.parentPath || entry.path, entry.name)
-  fileMap.set(entry.name, full)
+  if (entry.name.endsWith('.html')) fileMap.set(entry.name, full)
+  else if (entry.name.endsWith('.json')) jsonMap.set(entry.name, full)
 }
 
 const items = []
 
+// The seven fixed source files (+ matrices-advanced.html) build psy_bank_79.
+// A source dir that has none of them is a deliberate "just re-import the
+// 100-matrix file" run, not a mistake — skip the 79 rebuild and leave that
+// bank as it is on disk. A dir with *some* of them still errors on the gap.
+const buildingSeventyNine = configs.some(([fileName]) => fileMap.has(fileName))
+
+if (buildingSeventyNine) {
 for (const [fileName, domain, qtype, topic, subtopic] of configs) {
   const fullPath = fileMap.get(fileName)
   if (!fullPath) throw new Error(`missing source file: ${fileName}`)
@@ -201,3 +246,113 @@ const result = {
 }
 fs.writeFileSync(outputPath, `${JSON.stringify(result, null, 2)}\n`, 'utf8')
 console.log(`wrote ${items.length} items to ${outputPath}`)
+} else {
+  console.log(`skipped ${path.basename(outputPath)}: none of the fixed מבחני צורות source files are in the source dir`)
+}
+
+// ---------------------------------------------------------------------------
+// מטריצות-100-תרגילים.html — a second authoring schema.
+//
+// Unlike the files above (one <section class="q"> per question, or an
+// `matrices-advanced.html`-style flat `QUESTIONS` array) this file builds a
+// `sections` array of `{ short, title, qs: [...] }`, where every `qs` entry is
+//   { cells: string[], opts: string[], ans: number, expl: string,
+//     view: {cols?|strip?|big?}, diff: 1..3 }
+// `cells` already carries the '?' slot in place, so the grid is composed
+// position-aware rather than by appending blanks. It ships with a pre-rendered
+// `matrices-content.json` (same shape, SVG strings resolved) which we prefer;
+// evaluating the page's authored script is the fallback.
+//
+// Written to its own bank file so psy_bank_79 — and the test that pins it at
+// 94 items — stay untouched.
+function loadMatrixHundred() {
+  const jsonPath = jsonMap.get('matrices-content.json')
+  if (jsonPath) {
+    return JSON.parse(fs.readFileSync(jsonPath, 'utf8')).sections
+  }
+  const htmlPath = fileMap.get('מטריצות-100-תרגילים.html')
+  if (!htmlPath) return null
+  const raw = fs.readFileSync(htmlPath, 'utf8')
+  const inline = raw.match(/<script\b[^>]*>([\s\S]*?)<\/script>/i)?.[1]
+  if (!inline) throw new Error('מטריצות-100-תרגילים.html has no inline script')
+  const authored = inline.split("if (typeof document !== 'undefined')")[0]
+  const sandbox = {}
+  vm.runInNewContext(`${authored}\nglobalThis.__sections = sections`, sandbox)
+  return sandbox.__sections
+}
+
+function composeGridInPlace(cells, cols) {
+  const rows = Math.ceil(cells.length / cols)
+  const box = 108
+  const parts = cells.map((cell, i) => {
+    const x = (i % cols) * box + 4
+    const y = Math.floor(i / cols) * box + 4
+    if (!cell || cell === '?') {
+      return (
+        `<rect x="${x}" y="${y}" width="100" height="100" rx="8" fill="#eef2fb" stroke="#1d3b34" stroke-width="2"/>` +
+        `<text x="${x + 50}" y="${y + 68}" text-anchor="middle" font-family="Arial" font-size="52" font-weight="bold" fill="#7d8db1">?</text>`
+      )
+    }
+    return nestedSvg(cell, x, y, 100, 100)
+  })
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${cols * box} ${rows * box}">${parts.join('')}</svg>`
+}
+
+const matrixSections = loadMatrixHundred()
+if (!matrixSections) {
+  console.log('skipped psy_bank_81: מטריצות-100-תרגילים.html / matrices-content.json not in source dir')
+} else {
+  const hundred = []
+  matrixSections.forEach((section) => {
+    section.qs.forEach((q) => {
+      const cells = q.cells.map((cell) => cell || '')
+      // A 9- or 16-cell stimulus is always a square grid regardless of the
+      // page's `view.cols` (the source sets cols:2 on one 3×3 "super-matrix").
+      const cols = q.view?.strip
+        ? cells.length
+        : cells.length === 16
+          ? 4
+          : cells.length === 9
+            ? 3
+            : q.view?.cols || 3
+      const seed = 0x51ed270b + hundred.length * 0x9e3779b9
+      const order = shuffledOrder(q.opts.length, seed)
+      const difficulty = q.diff <= 1 ? 2 : q.diff === 2 ? 3 : 4
+      hundred.push({
+        ref: `src-matrix100-${String(hundred.length + 1).padStart(3, '0')}`,
+        domain: 'figural',
+        qtype: 'matrix',
+        topic: 'מטריצות',
+        subtopic: `מטריצות מתקדמות — ${section.short}`,
+        stem: q.view?.strip
+          ? 'איזו צורה ממשיכה את הרצף?'
+          : 'איזו צורה משלימה את המטריצה במקום סימן השאלה?',
+        figure: token(withPatternDefs(composeGridInPlace(cells, cols))),
+        options: order.map((i) => token(withPatternDefs(q.opts[i]))),
+        correct_index: order.indexOf(q.ans),
+        difficulty,
+        level: difficulty === 2 ? 'beginner' : difficulty === 3 ? 'standard' : 'advanced',
+        target_seconds: difficulty === 2 ? 55 : difficulty === 3 ? 75 : 95,
+        explanation: decode(q.expl),
+        solution: decode(q.expl),
+        tags: ['מאגר מבחני צורות', 'מטריצות 100', section.short],
+        source: 'מבחני צורות — מטריצות-100-תרגילים.html',
+      })
+    })
+  })
+  const hundredPath = path.join(path.dirname(outputPath), 'psy_bank_81_matrices_100.json')
+  fs.writeFileSync(
+    hundredPath,
+    `${JSON.stringify(
+      {
+        _comment:
+          'מאגר קרני — 100 מטריצות פרוגרסיביות מתקדמות, יובא מ-מטריצות-100-תרגילים.html דרך scripts/import_karni_shape_source.mjs. source תואם לגייט "מבחני צורות — %" ולכן הפריטים נשלפים לתרגול, למבחני הצורות ולסימולציות הכלליות.',
+        items: hundred,
+      },
+      null,
+      2,
+    )}\n`,
+    'utf8',
+  )
+  console.log(`wrote ${hundred.length} items to ${hundredPath}`)
+}
