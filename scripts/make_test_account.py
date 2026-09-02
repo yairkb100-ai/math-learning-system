@@ -12,6 +12,11 @@
 
 אידמפוטנטי: הרצה חוזרת על אותו שם משתמש מסנכרנת את המנויים למצב המבוקש
 במקום ליצור כפילות, כך שאפשר להחליף ``--product`` הלוך ושוב על אותו חשבון.
+
+``--delete USERNAME`` מוחק חשבון בדיקה על כל שורות ה-FK שלו (אותה רשימה
+ש-``admin.delete_user`` מנקה), כדי שאפשר יהיה לנקות חשבון QA שנוצר לאימות
+בפרודקשן בלי גישת אדמין. מסרב למחוק חשבון ``role='admin'``, ואידמפוטנטי —
+שם שלא קיים יוצא בהצלחה.
 """
 
 import argparse
@@ -34,17 +39,71 @@ TEST_PLAN_CODE = "qa-test"
 TEST_PLAN_NAME = "בדיקה פנימית (לא למכירה)"
 
 
+# שורות ה-FK שמצביעות על ``users.id`` בלי ``ON DELETE CASCADE`` — אותה רשימה
+# ש-``admin.delete_user`` מנקה לפני ``db.delete(user)``. חשבון בדיקה לא מעלה
+# קבצים ולא שולח הודעות, אבל שומרים את הרשימה מלאה כדי שהמחיקה תישאר נכונה
+# גם אם חשבון כזה כן צבר פעילות.
+def _delete_test_account(db, username: str) -> int:
+    user = db.query(models.User).filter_by(username=username).first()
+    if user is None:
+        print(f"  user      : {username} — לא קיים, אין מה למחוק")
+        return 0
+    if user.role == "admin":
+        print(f"  ! {username} הוא admin — מסרב למחוק")
+        return 1
+
+    # admin.delete_user reassigns uploads to the acting admin because they are
+    # course content; a QA account's uploads are test junk, and uploader_id is
+    # NOT NULL, so here they are just removed.
+    db.query(models.FileAsset).filter(
+        models.FileAsset.uploader_id == user.id
+    ).delete(synchronize_session=False)
+    db.query(models.Message).filter(
+        (models.Message.sender_id == user.id) | (models.Message.recipient_id == user.id)
+    ).delete(synchronize_session=False)
+    db.query(models.Referral).filter(
+        (models.Referral.referrer_id == user.id)
+        | (models.Referral.referred_user_id == user.id)
+    ).delete(synchronize_session=False)
+    for Model in (
+        models.LessonRequest,
+        models.UserAchievement,
+        models.ExamSubmission,
+        models.PracticeAttempt,
+        models.PsyAttempt,
+        models.PsyDrillAttempt,
+        models.Subscription,
+        models.ChapterProgress,
+        models.UserCourseEnrollment,
+        models.ChapterView,
+        models.LoginEvent,
+        models.UserDevice,
+    ):
+        db.query(Model).filter(Model.user_id == user.id).delete(synchronize_session=False)
+
+    db.delete(user)
+    db.commit()
+    print(f"  user      : {username} (id {user.id}) — נמחק על כל שורות ה-FK")
+    return 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--username", default="bodek-karni")
     ap.add_argument("--product", choices=list(ALL_PRODUCTS), default="lomda",
                     help="המוצר שיישאר פעיל; בשני התלמיד יראה את הטעימה")
     ap.add_argument("--days", type=int, default=365)
+    ap.add_argument("--delete", metavar="USERNAME",
+                    help="מוחק את חשבון הבדיקה הזה במקום ליצור/לסנכרן")
     args = ap.parse_args()
 
-    other = [p for p in ALL_PRODUCTS if p != args.product]
     Base.metadata.create_all(bind=engine)
     db = SessionLocal()
+
+    if args.delete:
+        return _delete_test_account(db, args.delete)
+
+    other = [p for p in ALL_PRODUCTS if p != args.product]
     now = datetime.utcnow()
 
     plan = db.query(models.SubscriptionPlan).filter_by(code=TEST_PLAN_CODE).first()

@@ -9,6 +9,12 @@ name: Test account
 on:
   workflow_dispatch:
     inputs:
+      action:
+        description: "create = יוצר/מסנכרן, delete = מוחק את החשבון על כל שורות ה-FK"
+        required: true
+        default: "create"
+        type: choice
+        options: [create, delete]
       username:
         description: "שם המשתמש של חשבון הבדיקה"
         required: true
@@ -39,6 +45,7 @@ jobs:
         run: python -m pip install --upgrade pip && pip install -r backend/requirements.txt
 
       - name: Create/sync the test account
+        if: ${{ inputs.action == 'create' }}
         env:
           PYTHONIOENCODING: utf-8
           PYTHONUTF8: "1"
@@ -49,3 +56,12 @@ jobs:
             --username "${{ inputs.username }}" \
             --product "${{ inputs.product }}" \
             --days "${{ inputs.days }}"
+
+      - name: Delete the test account
+        if: ${{ inputs.action == 'delete' }}
+        env:
+          PYTHONIOENCODING: utf-8
+          PYTHONUTF8: "1"
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        run: python scripts/make_test_account.py --delete "${{ inputs.username }}"
