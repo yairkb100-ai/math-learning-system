@@ -2943,7 +2943,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-full-1",
         "title": "סימולציה מלאה 1",
-        "description": "מבחן קרני שלם בתנאי אמת — אחד-עשר פרקים קצרים ברצף, 117 שאלות ב-77 דקות, בדיוק כמו במבחן",
+        "description": "מבחן קרני שלם בתנאי אמת — אחד-עשר פרקים קצרים ברצף, 120 שאלות ב-79 דקות, בדיוק כמו במבחן",
         "kind": "full",
         "order": 20,
         "free_preview": False,
@@ -2962,9 +2962,9 @@ _PSY_SIMULATIONS = [
             # שורת "תבניות" בטבלת הנושאים של קרני מונה יחד שטיחים, מטריצות
             # וקיפולים, ולכן הפרק הזה מחזיק את שלושת סוגי התבנית ולא רק מטריצה.
             {"order": 2, "domain": "figural", "title": "תבניות: מטריצות, שטיחים וצורות ברצף",
-             "minutes": 8, "num_questions": 12,
+             "minutes": 10, "num_questions": 15,
              "blueprint": [
-                 {"count": 4, "topic": "מטריצות"},
+                 {"count": 7, "topic": "מטריצות"},
                  {"count": 4, "topic": "שטיחים ותבניות"},
                  {"count": 4, "topic": "סדרות צורות"},
              ]},
@@ -3010,7 +3010,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-full-advanced-1",
         "title": "סימולציה מלאה 2 — מתקדמת",
-        "description": "מבחן שלם מאל\"ף ועד תי\"ו בקושי מוגבר — כל שבעת התחומים, שאלות מהחצי הקשה של המאגר בלבד, 117 שאלות ב-84 דקות",
+        "description": "מבחן שלם מאל\"ף ועד תי\"ו בקושי מוגבר — כל שבעת התחומים, שאלות מהחצי הקשה של המאגר בלבד, 120 שאלות ב-86 דקות",
         "kind": "full",
         "level": "advanced",
         "order": 21,
@@ -3023,9 +3023,9 @@ _PSY_SIMULATIONS = [
              "minutes": 11, "num_questions": 12,
              "blueprint": [{"count": 12, "min_difficulty": 3}]},
             {"order": 2, "domain": "figural", "title": "תבניות: מטריצות, שטיחים וצורות ברצף",
-             "minutes": 8, "num_questions": 12,
+             "minutes": 10, "num_questions": 15,
              "blueprint": [
-                 {"count": 4, "topic": "מטריצות", "min_difficulty": 3},
+                 {"count": 7, "topic": "מטריצות", "min_difficulty": 3},
                  {"count": 4, "topic": "שטיחים ותבניות", "min_difficulty": 3},
                  {"count": 4, "topic": "סדרות צורות", "min_difficulty": 3},
              ]},
@@ -3077,7 +3077,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-full-advanced-2",
         "title": "סימולציה מלאה 3 — מתקדמת",
-        "description": "מבחן שלם מאל\"ף ועד תי\"ו בקושי מוגבר, בסדר פרקים אחר ובדגש כמותי-מרחבי — 122 שאלות ב-90 דקות",
+        "description": "מבחן שלם מאל\"ף ועד תי\"ו בקושי מוגבר, בסדר פרקים אחר ובדגש כמותי-מרחבי — 125 שאלות ב-92 דקות",
         "kind": "full",
         "level": "advanced",
         "order": 22,
@@ -3092,10 +3092,10 @@ _PSY_SIMULATIONS = [
              "minutes": 11, "num_questions": 12,
              "blueprint": [{"count": 12, "min_difficulty": 3}]},
             {"order": 1, "domain": "figural", "title": "צורות ברצף, מטריצות ושטיחים",
-             "minutes": 8, "num_questions": 12,
+             "minutes": 10, "num_questions": 15,
              "blueprint": [
                  {"count": 4, "topic": "סדרות צורות", "min_difficulty": 3},
-                 {"count": 4, "topic": "מטריצות", "min_difficulty": 3},
+                 {"count": 7, "topic": "מטריצות", "min_difficulty": 3},
                  {"count": 4, "topic": "שטיחים ותבניות", "min_difficulty": 3},
              ]},
             {"order": 2, "domain": "verbal", "title": "הקבלות ואוצר מילים",
@@ -3171,7 +3171,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-full-expert-1",
         "title": "סימולציה מלאה 4 — מומחה",
-        "description": "הרמה הגבוהה ביותר: מילולי, כמותי וצורני נשלפים מקושי 4 ומעלה בלבד — 99 שאלות ב-83 דקות",
+        "description": "הרמה הגבוהה ביותר: מילולי, כמותי וצורני נשלפים מקושי 4 ומעלה בלבד — 102 שאלות ב-85 דקות",
         "kind": "full",
         "level": "expert",
         "order": 23,
@@ -3187,9 +3187,9 @@ _PSY_SIMULATIONS = [
              "minutes": 10, "num_questions": 10,
              "blueprint": [{"count": 10, "min_difficulty": 4}]},
             {"order": 2, "domain": "figural", "title": "תבניות מתקדמות",
-             "minutes": 9, "num_questions": 12,
+             "minutes": 11, "num_questions": 15,
              "blueprint": [
-                 {"count": 4, "topic": "מטריצות", "min_difficulty": 4},
+                 {"count": 7, "topic": "מטריצות", "min_difficulty": 4},
                  {"count": 4, "topic": "שטיחים ותבניות", "min_difficulty": 4},
                  {"count": 4, "topic": "סדרות צורות", "min_difficulty": 4},
              ]},
@@ -3239,7 +3239,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-full-expert-2",
         "title": "סימולציה מלאה 5 — מומחה",
-        "description": "רמת מומחה בסדר פרקים אחר ובדגש אלגברי — 101 שאלות ב-86 דקות",
+        "description": "רמת מומחה בסדר פרקים אחר ובדגש אלגברי — 104 שאלות ב-88 דקות",
         "kind": "full",
         "level": "expert",
         "order": 24,
@@ -3252,10 +3252,10 @@ _PSY_SIMULATIONS = [
              "minutes": 12, "num_questions": 12,
              "blueprint": [{"count": 12, "min_difficulty": 4}]},
             {"order": 1, "domain": "figural", "title": "שטיחים, מטריצות וסדרות",
-             "minutes": 9, "num_questions": 12,
+             "minutes": 11, "num_questions": 15,
              "blueprint": [
                  {"count": 5, "topic": "שטיחים ותבניות", "min_difficulty": 4},
-                 {"count": 4, "topic": "מטריצות", "min_difficulty": 4},
+                 {"count": 7, "topic": "מטריצות", "min_difficulty": 4},
                  {"count": 3, "topic": "סדרות צורות", "min_difficulty": 4},
              ]},
             {"order": 2, "domain": "verbal", "title": "הבנה, הקבלות ואוצר מילים",

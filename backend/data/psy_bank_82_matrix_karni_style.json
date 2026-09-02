@@ -1,0 +1,269 @@
+{
+  "_comment": "קרני — הפרק הצורני, מטריצות 3x3 בנוסח מבחן הדוגמה של מכון קרני (חלק א: חמשת סוגי החוקיות של המבחן; חלק ב: אותו פורמט עם שלושה משתנים או חוק הרכבה מורכב יותר). התוכן נכתב מחדש בהשראת קובץ 'מטריצות סגנון קרני', ולא הועתק. topic הוא 'מטריצות' ו-domain 'figural' כדי שהפריטים ייכנסו אוטומטית לפרק התבניות של כל חמש הסימולציות המלאות (karni-full-1, karni-full-advanced-1/2, karni-full-expert-1/2) ולמבחני המטריצות. כמה פריטים משתמשים בפרימיטיבים שנוספו ל-FigureArt.jsx במיוחד עבורם: rays (קווים מצטברים), spoke (סימון כיווני), pips (מערך נקודות), dot2 (סמן שני).",
+  "items": [
+    {
+      "ref": "k-hml-01",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "ריבוע לטיני כפול — צורה בשורה ובטור, מילוי בשורה ובטור",
+      "stem": "איזו אפשרות משלימה את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:shape=triangle,fill=none;shape=square,fill=stripes;shape=circle,fill=solid/shape=square,fill=solid;shape=circle,fill=none;shape=triangle,fill=stripes/shape=circle,fill=stripes;shape=triangle,fill=solid;?}}",
+      "options": [
+        "{{figcell:shape=square,fill=solid}}",
+        "{{figcell:shape=square,fill=none}}",
+        "{{figcell:shape=circle,fill=none}}",
+        "{{figcell:shape=triangle,fill=none}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 2,
+      "level": "standard",
+      "target_seconds": 35,
+      "explanation": "בכל שורה ובכל טור מופיעות שלוש הצורות פעם אחת ושלושת המילויים פעם אחת. בשורה התחתונה כבר יש עיגול ומשולש, ולכן החסר הוא ריבוע; בטור השמאלי כבר יש מילוי מקווקו ומלא, ולכן החסר הוא ריק. ריבוע ריק.",
+      "solution": "מטריצת ריבוע לטיני כפול נפתרת בשתי סריקות נפרדות: קודם רק הצורות — איזו חסרה בשורה של התא הריק, ואז רק המילויים — איזה חסר בטור שלו. אל תבחרו לפי 'מה לא הופיע בטבלה'; נסחו את שני החוקים במילים ובדקו כל אפשרות מול שניהם.",
+      "tags": ["ריבוע לטיני", "צורה", "צבע"]
+    },
+    {
+      "ref": "k-hml-02",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "חיבור: התא השלישי הוא איחוד המשבצות השחורות של שני התאים שלפניו",
+      "stem": "איזה לוח משלים את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:board=10-00;board=01-00;board=11-00/board=00-10;board=10-00;board=10-10/board=10-10;board=11-00;?}}",
+      "options": [
+        "{{figcell:board=11-00}}",
+        "{{figcell:board=11-11}}",
+        "{{figcell:board=11-10}}",
+        "{{figcell:board=10-10}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 3,
+      "level": "standard",
+      "target_seconds": 40,
+      "explanation": "בכל שורה, הלוח השלישי הוא איחוד המשבצות השחורות של שני הלוחות שלפניו, ואותו חוק פועל גם בטורים. בשורה התחתונה מתאחדות המשבצות השמאלית-עליונה, הימנית-עליונה והשמאלית-תחתונה, והמשבצת הימנית-תחתונה נשארת לבנה.",
+      "solution": "כשחושדים בחוק חיבור, בדקו קודם אם התא השלישי גדול או שווה לשני הראשונים יחד — אם כן, זה איחוד; אם הוא קטן מהם, זה ביטול. כאן כל משבצת שחורה באחד משני התאים הראשונים נשארת שחורה בשלישי.",
+      "tags": ["הרכבה", "לוחות", "איחוד"]
+    },
+    {
+      "ref": "k-hml-03",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "צורה לפי השורה, נקודה שנעה בפינות נגד כיוון השעון לפי סדר הקריאה",
+      "stem": "איזו אפשרות משלימה את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:shape=triangle,dot=tr;shape=triangle,dot=tl;shape=triangle,dot=bl/shape=square,dot=br;shape=square,dot=tr;shape=square,dot=tl/shape=circle,dot=bl;shape=circle,dot=br;?}}",
+      "options": [
+        "{{figcell:shape=circle,dot=br}}",
+        "{{figcell:shape=circle,dot=bl}}",
+        "{{figcell:shape=square,dot=tr}}",
+        "{{figcell:shape=circle,dot=tr}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 3,
+      "level": "standard",
+      "target_seconds": 40,
+      "explanation": "שני חוקים נפרדים: הצורה נקבעת לפי השורה — משולש, ריבוע, עיגול. הנקודה עוברת פינה אחת נגד כיוון השעון בכל תא לפי סדר הקריאה, ואחרי שמונה מעברים היא חוזרת לפינה הימנית-העליונה. בתא החסר: עיגול עם נקודה בפינה הימנית-העליונה.",
+      "solution": "כשתכונה 'זזה' בין תאים במקום להישמר, ספרו את מספר הצעדים עד לתא הריק ופזרו את התנועה בראש. כאן שמונה צעדים של רבע-סיבוב סוגרים מעגל שלם, ולכן הנקודה חוזרת למקום שבו התחילה. הצורה, לעומת זאת, נקבעת פשוט לפי השורה.",
+      "tags": ["כיוון", "צורה", "תנועה"]
+    },
+    {
+      "ref": "k-hml-04",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "גודל לפי השורה, זווית סיבוב לפי הטור",
+      "stem": "איזו אפשרות משלימה את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:shape=triangle,size=s,rot=0;shape=triangle,size=s,rot=90;shape=triangle,size=s,rot=180/shape=triangle,size=m,rot=0;shape=triangle,size=m,rot=90;shape=triangle,size=m,rot=180/shape=triangle,size=l,rot=0;shape=triangle,size=l,rot=90;?}}",
+      "options": [
+        "{{figcell:shape=triangle,size=l,rot=180}}",
+        "{{figcell:shape=triangle,size=l,rot=90}}",
+        "{{figcell:shape=triangle,size=m,rot=180}}",
+        "{{figcell:shape=triangle,size=l,rot=270}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 2,
+      "level": "standard",
+      "target_seconds": 35,
+      "explanation": "שני חוקים בלתי-תלויים: הגודל נקבע לפי השורה — קטן, בינוני, גדול. זווית הסיבוב נקבעת לפי הטור — המשולש מסתובב 90 מעלות מטור לטור. בתא החסר: שורה שלישית ⇐ גדול, טור שלישי ⇐ מסובב 180 מעלות.",
+      "solution": "כשגודל וכיוון משתנים יחד, קל להתבלבל ולבחור אפשרות שמדויקת רק באחד מהם. הפרידו: קבעו את הגודל מהשורה, את הזווית מהטור, ורק אז חפשו אפשרות שמדויקת בשניהם. מסיח עם הזווית הנכונה אך הגודל הקטן — פסול.",
+      "tags": ["גודל", "כיוון"]
+    },
+    {
+      "ref": "k-hml-05",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "הצטברות קווים — קו נוסף בכל צעד — ומילוי הריבוע לפי השורה",
+      "stem": "איזו אפשרות משלימה את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:shape=square,size=s,fill=none,rays=1;shape=square,size=s,fill=none,rays=2;shape=square,size=s,fill=none,rays=3/shape=square,size=s,fill=stripes,rays=2;shape=square,size=s,fill=stripes,rays=3;shape=square,size=s,fill=stripes,rays=4/shape=square,size=s,fill=solid,rays=3;shape=square,size=s,fill=solid,rays=4;?}}",
+      "options": [
+        "{{figcell:shape=square,size=s,fill=solid,rays=4}}",
+        "{{figcell:shape=square,size=s,fill=solid,rays=5}}",
+        "{{figcell:shape=square,size=s,fill=stripes,rays=5}}",
+        "{{figcell:shape=square,size=s,fill=solid,rays=6}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 3,
+      "level": "standard",
+      "target_seconds": 40,
+      "explanation": "בכל צעד ימינה או למטה נוסף קו אחד היוצא מהמרכז, וכל קו חדש ב-45 מעלות מעבר לקודם. בפינה הימנית-העליונה קו אחד, והתא החסר נמצא שתי שורות ושני טורים משם — ולכן בו חמישה קווים. במקביל, מילוי הריבוע המרכזי נקבע לפי השורה: ריק, מקווקו, מלא — ובשורה התחתונה הוא מלא.",
+      "solution": "בחוק הצטברות סופרים כמה פריטים נוספו עד כה ולא מנחשים לפי צורה כללית. ודאו שהספירה עולה באותו קצב גם בשורות וגם בטורים, ואז הוסיפו פריט אחד לתא הריק. המילוי כאן הוא חוק נפרד לגמרי, לפי השורה בלבד.",
+      "tags": ["כיוון", "צבע", "הצטברות"]
+    },
+    {
+      "ref": "k-hml-06",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "ריבוע לטיני משולש — צורה, מילוי וגודל, כל אחד פעם אחת בכל שורה ובכל טור",
+      "stem": "איזו אפשרות משלימה את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:shape=triangle,fill=none,size=s;shape=square,fill=solid,size=m;shape=circle,fill=stripes,size=l/shape=square,fill=stripes,size=l;shape=circle,fill=none,size=s;shape=triangle,fill=solid,size=m/shape=circle,fill=solid,size=m;shape=triangle,fill=stripes,size=l;?}}",
+      "options": [
+        "{{figcell:shape=square,fill=solid,size=s}}",
+        "{{figcell:shape=square,fill=none,size=m}}",
+        "{{figcell:shape=square,fill=none,size=s}}",
+        "{{figcell:shape=triangle,fill=none,size=s}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 3,
+      "level": "standard",
+      "target_seconds": 45,
+      "explanation": "שלושה משתנים בו-זמנית, וכל אחד מהם מופיע פעם אחת בכל שורה ובכל טור: הצורה, המילוי והגודל. בשורה התחתונה חסר ריבוע; המילוי החסר בטור השמאלי הוא ריק; והגודל החסר בשורה התחתונה הוא קטן. ריבוע ריק קטן.",
+      "solution": "ריבוע לטיני משולש הוא שלוש בדיקות ריבוע-לטיני נפרדות זו אחר זו — צורה, ואז מילוי, ואז גודל. אל תנסו לראות את שלושתן יחד; מצאו את הערך החסר בכל תכונה בנפרד ורק בסוף הרכיבו אותם.",
+      "tags": ["ריבוע לטיני", "צורה", "צבע", "גודל"]
+    },
+    {
+      "ref": "k-hml-07",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "חיבור מסוג ביטול — סימן שמופיע בשני התאים מתבטל — וצורת הסימן לפי השורה",
+      "stem": "איזו אפשרות משלימה את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:group=s-s-x;group=x-s-s;group=s-x-s/group=c-x-x;group=x-c-c;group=c-c-c/group=t-t-t;group=t-x-t;?}}",
+      "options": [
+        "{{figcell:group=x-c-x}}",
+        "{{figcell:group=t-x-t}}",
+        "{{figcell:group=t-t-t}}",
+        "{{figcell:group=x-t-x}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 4,
+      "level": "advanced",
+      "target_seconds": 50,
+      "explanation": "התא השלישי בכל שורה מכיל את הסימנים שמופיעים רק באחד משני התאים שלפניו — סימן שמופיע בשניהם מתבטל. במקביל, צורת הסימן נקבעת לפי השורה: ריבוע, עיגול, משולש. בשורה התחתונה הסימן השמאלי והימני מופיעים בשני התאים ומתבטלים, ונשאר רק הסימן האמצעי — משולש.",
+      "solution": "כדי להבחין בין איחוד לביטול, השוו את מספר הסימנים: אם התא השלישי דל מהשניים הראשונים יחד, זה ביטול. סמנו מה משותף לשני התאים הראשונים — זה בדיוק מה שנעלם. המסיח המסוכן כאן הוא איחוד כל הסימנים.",
+      "tags": ["הרכבה", "צורה", "XOR"]
+    },
+    {
+      "ref": "k-hml-08",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "סיבוב מצטבר של החץ 45 מעלות בכל תא, וגודל לפי הטור",
+      "stem": "איזו אפשרות משלימה את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:shape=arrow,rot=0,size=s;shape=arrow,rot=45,size=m;shape=arrow,rot=90,size=l/shape=arrow,rot=135,size=s;shape=arrow,rot=180,size=m;shape=arrow,rot=225,size=l/shape=arrow,rot=270,size=s;shape=arrow,rot=315,size=m;?}}",
+      "options": [
+        "{{figcell:shape=arrow,rot=0,size=l}}",
+        "{{figcell:shape=arrow,rot=45,size=l}}",
+        "{{figcell:shape=arrow,rot=0,size=m}}",
+        "{{figcell:shape=arrow,rot=315,size=l}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 3,
+      "level": "standard",
+      "target_seconds": 40,
+      "explanation": "החץ מסתובב 45 מעלות עם כיוון השעון בכל תא לפי סדר הקריאה, ולכן אחרי שמונה צעדים (8 כפול 45 = 360) הוא חוזר בדיוק למצבו ההתחלתי — מצביע כלפי מעלה. הגודל נקבע לפי הטור וגדל משמאל לימין. בתא החסר: חץ במצב המקורי, בגודל הגדול.",
+      "solution": "בסיבוב מצטבר חשבו כמה מעלות הצטברו עד לתא הריק ומצאו את השארית מ-360. שמונה צעדים של 45 מעלות מסתכמים בדיוק בסיבוב שלם, ולכן החץ במצב ההתחלתי. הגודל הוא חוק נפרד לפי הטור.",
+      "tags": ["כיוון", "גודל", "סיבוב מצטבר"]
+    },
+    {
+      "ref": "k-hml-09",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "הרכבה: הצורה האמצעית נכנסת אל תוך הראשונה, ומילוי הפנימית לפי השורה",
+      "stem": "איזו אפשרות משלימה את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:shape=circle;shape=triangle;shape=circle,in=triangle,infill=none/shape=square;shape=star;shape=square,in=star,infill=stripes/shape=hexagon;shape=diamond;?}}",
+      "options": [
+        "{{figcell:shape=hexagon,in=diamond,infill=stripes}}",
+        "{{figcell:shape=hexagon,in=diamond,infill=solid}}",
+        "{{figcell:shape=square,in=diamond,infill=solid}}",
+        "{{figcell:shape=hexagon,in=star,infill=solid}}"
+      ],
+      "correct_index": 1,
+      "difficulty": 3,
+      "level": "standard",
+      "target_seconds": 45,
+      "explanation": "בכל שורה, הצורה שבטור השני נכנסת אל תוך הצורה שבטור הראשון ויוצרת איתה את התא השלישי. החוק השני הוא מילוי הצורה הפנימית, שנקבע לפי השורה: ריק, מקווקו, מלא. בשורה התחתונה: מעוין בתוך משושה, והמעוין מלא.",
+      "solution": "בשאלת הרכבה, זהו קודם מי הצורה החיצונית ומי הפנימית לפי שני התאים הראשונים בשורה, והרכיבו אותן. רק אחר כך בדקו את התכונה השנייה — כאן המילוי הפנימי — שהיא חוק לפי שורה בלבד. מסיח שמחליף את הצורה החיצונית נפסל מיד.",
+      "tags": ["הרכבה", "צבע"]
+    },
+    {
+      "ref": "k-hml-10",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "שני ריבועים לטיניים — הצורה, וכיוון הסימון היוצא ממנה",
+      "stem": "איזו אפשרות משלימה את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:shape=triangle,spoke=0;shape=square,spoke=120;shape=circle,spoke=240/shape=square,spoke=240;shape=circle,spoke=0;shape=triangle,spoke=120/shape=circle,spoke=120;shape=triangle,spoke=240;?}}",
+      "options": [
+        "{{figcell:shape=square,spoke=120}}",
+        "{{figcell:shape=circle,spoke=0}}",
+        "{{figcell:shape=square,spoke=0}}",
+        "{{figcell:shape=triangle,spoke=0}}"
+      ],
+      "correct_index": 2,
+      "difficulty": 4,
+      "level": "advanced",
+      "target_seconds": 50,
+      "explanation": "שני ריבועים לטיניים זה על גבי זה: הצורה (משולש, ריבוע, עיגול) מופיעה פעם אחת בכל שורה ובכל טור, וגם כיוון הסימון (כלפי מעלה, 120 מעלות, 240 מעלות) מופיע פעם אחת בכל שורה ובכל טור. בשורה התחתונה חסר ריבוע, ובטור השמאלי חסר סימון כלפי מעלה.",
+      "solution": "כששתי תכונות מסודרות שתיהן כריבוע לטיני, פתרו כל שכבה בנפרד: קודם רק הצורות — מה חסר בשורה ובטור של התא הריק — ואז רק כיווני הסימון, באותה בדיקה בדיוק. הרכיבו את שתי התשובות בסוף.",
+      "tags": ["ריבוע לטיני", "צורה", "כיוון"]
+    },
+    {
+      "ref": "k-hml-11",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "חיסור: התא השלישי הוא נקודות התא הראשון בלי אלה של השני, וגודל הנקודות לפי הטור",
+      "stem": "איזו אפשרות משלימה את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:pips=1110,size=s;pips=0100,size=m;pips=1010,size=l/pips=1001,size=s;pips=0001,size=m;pips=1000,size=l/pips=0111,size=s;pips=0011,size=m;?}}",
+      "options": [
+        "{{figcell:pips=0100,size=m}}",
+        "{{figcell:pips=0010,size=l}}",
+        "{{figcell:pips=0111,size=l}}",
+        "{{figcell:pips=0100,size=l}}"
+      ],
+      "correct_index": 3,
+      "difficulty": 4,
+      "level": "advanced",
+      "target_seconds": 50,
+      "explanation": "בכל שורה, התא השלישי מכיל את הנקודות שמופיעות בתא הראשון ואינן מופיעות בתא השני. במקביל, גודל הנקודות גדל מטור לטור — קטן, בינוני, גדול. בשורה התחתונה מורידים מהתא הראשון את שתי הנקודות התחתונות, ונשארת נקודה אחת בפינה הימנית-העליונה, בגודל הגדול.",
+      "solution": "בחוק חיסור, עברו נקודה-נקודה על התא הראשון ושאלו לגבי כל אחת אם היא מופיעה גם בתא השני — אם כן, היא נמחקת. הגודל הוא חוק נפרד לפי הטור, ולכן קבעו אותו מהמיקום של התא הריק ולא מהתאים שמעליו.",
+      "tags": ["הרכבה", "גודל", "חיסור"]
+    },
+    {
+      "ref": "k-hml-12",
+      "domain": "figural",
+      "qtype": "matrix",
+      "topic": "מטריצות",
+      "subtopic": "שני סמנים בכיוונים מנוגדים — שחור לפי השורה, לבן לפי הטור — ומילוי הריבוע המרכזי",
+      "stem": "איזו אפשרות משלימה את המטריצה במקום סימן השאלה?",
+      "figure": "{{figmatrix:shape=circle,in=square,infill=none,dot=30,dot2=330;shape=circle,in=square,infill=stripes,dot=30,dot2=240;shape=circle,in=square,infill=solid,dot=30,dot2=150/shape=circle,in=square,infill=stripes,dot=120,dot2=330;shape=circle,in=square,infill=solid,dot=120,dot2=240;shape=circle,in=square,infill=none,dot=120,dot2=150/shape=circle,in=square,infill=solid,dot=210,dot2=330;shape=circle,in=square,infill=none,dot=210,dot2=240;?}}",
+      "options": [
+        "{{figcell:shape=circle,in=square,infill=stripes,dot=210,dot2=150}}",
+        "{{figcell:shape=circle,in=square,infill=solid,dot=210,dot2=150}}",
+        "{{figcell:shape=circle,in=square,infill=stripes,dot=120,dot2=150}}",
+        "{{figcell:shape=circle,in=square,infill=stripes,dot=210,dot2=240}}"
+      ],
+      "correct_index": 0,
+      "difficulty": 4,
+      "level": "advanced",
+      "target_seconds": 55,
+      "explanation": "שלושה חוקים: הסמן השחור מסתובב 90 מעלות עם כיוון השעון בכל שורה; הסמן הלבן מסתובב 90 מעלות נגד כיוון השעון בכל טור; ומילוי הריבוע המרכזי מתקדם ריק ⇐ מקווקו ⇐ מלא לפי (שורה + טור). בתא החסר: השחור למטה-שמאל, הלבן למטה-ימין, והריבוע מקווקו.",
+      "solution": "כששני סמנים זזים, עקבו אחרי כל אחד בנפרד ורשמו את מיקומו לתא הריק לפני שמסתכלים באפשרויות. שימו לב שכל סמן תלוי בציר אחר — האחד בשורה, האחר בטור — והמילוי המרכזי הוא חוק שלישי לגמרי.",
+      "tags": ["כיוון", "צבע", "סיבוב"]
+    }
+  ]
+}
