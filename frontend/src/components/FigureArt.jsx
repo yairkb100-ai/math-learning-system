@@ -56,6 +56,19 @@
 //          A board replaces the shape entirely; other shape attributes are
 //          ignored. Boards are their own family of items (grid patterns), and
 //          being a cell attribute they drop straight into rows and matrices.
+//   rays   an integer N — N straight lines from the centre outward, 45° apart,
+//          starting straight up and going clockwise. The "one more line each
+//          step" accumulation rule; the body shape (a small square, say) is
+//          still drawn on top, so `rays` pairs with `fill`.
+//   spoke  one angle in degrees (0 = up, clockwise) — a single radial tick near
+//          the rim. A directional mark that rides on top of a Latin-square shape
+//          without being the shape itself.
+//   pips   filled discs at 2×2 positions, "TL TR BL BR" as 1/0, e.g. "1101".
+//          Radius follows `size`, colour follows `color`. Replaces the body —
+//          the dot-set family (union / difference of dot patterns).
+//   dot2   a SECOND marker, drawn hollow so it never reads as `dot`. Same corner
+//          keywords as `dot`, and also an angle in degrees placing it on the rim
+//          — two markers orbiting in opposite senses is a real Karni matrix.
 //
 // Example: "shape=triangle,n=2,fill=solid,rot=90"
 // Example: "shape=square,in=circle,infill=solid"   (square holding a disc)
@@ -119,6 +132,11 @@ export function parseCell(spec) {
     board: null,
     panel: null,
     group: null,
+    // ---- overlays keyed on top of any body (added for the מטריצות-קרני set) ----
+    rays: null, // N line segments from the centre, 45° apart — "accumulating lines"
+    spoke: null, // one radial tick at a given angle in degrees — a directional mark
+    pips: null, // filled discs at 2×2 positions, e.g. "1011"; radius follows `size`
+    dot2: null, // a SECOND marker (drawn hollow) — corner keyword or an angle in degrees
   }
   const raw = String(spec ?? '').trim()
   if (raw === '?' || raw === '') {
@@ -564,6 +582,37 @@ export function FigCell({ spec, boxed = true, px = 76 }) {
   let body
   if (c.board) {
     body = <Board rows={c.board.split('-')} px={px} pad={pad} color={color} />
+  } else if (c.pips) {
+    // Dot-set family: filled discs at the four 2×2 positions (TL TR BL BR). The
+    // radius tracks `size` so "the dots grow" is expressible, and the colour is
+    // the cell colour so a colour rule can ride along too.
+    const pr = Math.max(3, 7 * (SIZES[c.size] || SIZES.m))
+    const spots = [
+      [px * 0.32, px * 0.32],
+      [px * 0.68, px * 0.32],
+      [px * 0.32, px * 0.68],
+      [px * 0.68, px * 0.68],
+    ]
+    body = (
+      <>
+        {String(c.pips)
+          .replace(/[^01]/g, '')
+          .split('')
+          .map((ch, i) =>
+            ch === '1' && spots[i] ? (
+              <circle
+                key={i}
+                cx={spots[i][0]}
+                cy={spots[i][1]}
+                r={pr}
+                fill={color}
+                stroke={color}
+                strokeWidth={1.5}
+              />
+            ) : null
+          )}
+      </>
+    )
   } else if (c.panel || c.group) {
     body = (
       <Panel
@@ -605,13 +654,36 @@ export function FigCell({ spec, boxed = true, px = 76 }) {
     body = <>{copies}</>
   }
 
-  const dotPos = {
-    tl: [pad + 6, pad + 6],
-    tr: [px - pad - 6, pad + 6],
-    bl: [pad + 6, px - pad - 6],
-    br: [px - pad - 6, px - pad - 6],
-    c: [px / 2, px / 2],
-  }[c.dot]
+  // A marker is either a corner keyword or an angle in degrees (0 = up, going
+  // clockwise) that drops it on the rim. `dot` is a solid warm disc; `dot2` is a
+  // hollow ring — so two markers orbiting in opposite senses never blur into one.
+  const ringR = inner / 2 - 3
+  const markerXY = (v) => {
+    if (v == null || v === '') return null
+    const kw = {
+      tl: [pad + 6, pad + 6],
+      tr: [px - pad - 6, pad + 6],
+      bl: [pad + 6, px - pad - 6],
+      br: [px - pad - 6, px - pad - 6],
+      c: [px / 2, px / 2],
+    }
+    if (kw[v]) return kw[v]
+    const deg = Number(v)
+    if (Number.isNaN(deg)) return null
+    const a = (deg * Math.PI) / 180
+    return [px / 2 + ringR * Math.sin(a), px / 2 - ringR * Math.cos(a)]
+  }
+  const dotPos = markerXY(c.dot)
+  const dot2Pos = markerXY(c.dot2)
+  const rayN = Math.max(0, Math.min(8, parseInt(c.rays, 10) || 0))
+  const spokeDeg =
+    c.spoke == null || c.spoke === '' || Number.isNaN(Number(c.spoke))
+      ? null
+      : Number(c.spoke)
+  const radial = (deg, frac) => [
+    px / 2 + ringR * frac * Math.sin((deg * Math.PI) / 180),
+    px / 2 - ringR * frac * Math.cos((deg * Math.PI) / 180),
+  ]
 
   return (
     <svg width={px} height={px} viewBox={`0 0 ${px} ${px}`} className="fig-cell">
@@ -647,8 +719,35 @@ export function FigCell({ spec, boxed = true, px = 76 }) {
           strokeWidth={1.5}
         />
       )}
+      {rayN > 0 &&
+        Array.from({ length: rayN }).map((_, i) => {
+          const [x2, y2] = radial(i * 45, 1)
+          return (
+            <line
+              key={`ray-${i}`}
+              x1={px / 2}
+              y1={px / 2}
+              x2={x2}
+              y2={y2}
+              stroke={color}
+              strokeWidth={2}
+              strokeLinecap="round"
+            />
+          )
+        })}
       {body}
+      {spokeDeg != null &&
+        (() => {
+          const [x1, y1] = radial(spokeDeg, 0.42)
+          const [x2, y2] = radial(spokeDeg, 1)
+          return (
+            <line x1={x1} y1={y1} x2={x2} y2={y2} stroke={color} strokeWidth={3} strokeLinecap="round" />
+          )
+        })()}
       {dotPos && <circle cx={dotPos[0]} cy={dotPos[1]} r={3.5} fill={WARM} />}
+      {dot2Pos && (
+        <circle cx={dot2Pos[0]} cy={dot2Pos[1]} r={4} fill="#fff" stroke={INK} strokeWidth={2} />
+      )}
     </svg>
   )
 }
