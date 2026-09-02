@@ -1,0 +1,48 @@
+name: Verify shape-source draw
+
+# בדיקת קבלה קריאה-בלבד: מריצה את שליפת השאלות הצורניות שהסרוור מריץ ב-start,
+# פעמים רבות, ומוודאת שפריטי מקור עם תחילית נתונה (ברירת מחדל src-matrix100-)
+# באמת נכנסים לסימולציות מבוססות-blueprint. משתמש באותו secrets.DATABASE_URL
+# של seed.yml — אין גישה חדשה, ולא כותב כלום למסד.
+
+on:
+  workflow_dispatch:
+    inputs:
+      expect_prefix:
+        description: "תחילית ה-ref שחייבת להופיע בשליפה"
+        required: true
+        default: "src-matrix100-"
+      topic:
+        description: "נושא המקטע לבדיקה"
+        required: true
+        default: "מטריצות"
+      rounds:
+        description: "כמה שליפות לכל מקטע"
+        required: false
+        default: "40"
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: python -m pip install --upgrade pip && pip install -r backend/requirements.txt
+
+      - name: Run the draw verification
+        env:
+          PYTHONIOENCODING: utf-8
+          PYTHONUTF8: "1"
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        run: |
+          python scripts/verify_shape_source_draw.py \
+            --expect-prefix "${{ inputs.expect_prefix }}" \
+            --topic "${{ inputs.topic }}" \
+            --rounds "${{ inputs.rounds }}"

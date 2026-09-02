@@ -93,15 +93,18 @@ def main() -> int:
     ap.add_argument("--product", choices=list(ALL_PRODUCTS), default="lomda",
                     help="המוצר שיישאר פעיל; בשני התלמיד יראה את הטעימה")
     ap.add_argument("--days", type=int, default=365)
-    ap.add_argument("--delete", metavar="USERNAME",
-                    help="מוחק את חשבון הבדיקה הזה במקום ליצור/לסנכרן")
+    ap.add_argument("--delete", metavar="USERNAME[,USERNAME...]",
+                    help="מוחק את חשבונות הבדיקה האלה (מופרד בפסיקים) במקום ליצור/לסנכרן")
     args = ap.parse_args()
 
     Base.metadata.create_all(bind=engine)
     db = SessionLocal()
 
     if args.delete:
-        return _delete_test_account(db, args.delete)
+        rc = 0
+        for name in (n.strip() for n in args.delete.split(",") if n.strip()):
+            rc |= _delete_test_account(db, name)
+        return rc
 
     other = [p for p in ALL_PRODUCTS if p != args.product]
     now = datetime.utcnow()
