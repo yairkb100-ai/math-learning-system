@@ -164,6 +164,7 @@ export default function ChapterView() {
   const [step, setStep] = useState(0)
   const [videoFile, setVideoFile] = useState(null)
   const [chapterFiles, setChapterFiles] = useState([])
+  const chapterRefreshRef = useRef({ inFlight: false, lastAt: 0 })
   // Shared in-flight guard between the auto-complete effect and the manual
   // "mark complete" button — see the effect below for why this is needed.
   const completingRef = useRef(false)
@@ -209,6 +210,37 @@ export default function ChapterView() {
   useEffect(() => {
     load()
   }, [load])
+
+  // The frontend deploy and the production content seed are separate jobs.
+  // A student can therefore open a chapter after the new bundle is live but
+  // before the database copy has caught up. Refresh only the chapter payload
+  // when the tab becomes active again: this picks up the seeded copy without
+  // resetting the current step, progress, video or downloads.
+  useEffect(() => {
+    const refreshChapter = () => {
+      const now = Date.now()
+      const state = chapterRefreshRef.current
+      if (state.inFlight || now - state.lastAt < 15_000) return
+      state.inFlight = true
+      state.lastAt = now
+      api
+        .getChapter(id, number)
+        .then((chData) => setChapter(chData?.chapter ?? chData))
+        .catch(() => {})
+        .finally(() => {
+          chapterRefreshRef.current.inFlight = false
+        })
+    }
+    const onVisibility = () => {
+      if (!document.hidden) refreshChapter()
+    }
+    window.addEventListener('focus', refreshChapter)
+    document.addEventListener('visibilitychange', onVisibility)
+    return () => {
+      window.removeEventListener('focus', refreshChapter)
+      document.removeEventListener('visibilitychange', onVisibility)
+    }
+  }, [id, number])
 
   const rtl = language === 'Hebrew'
   const steps = useMemo(

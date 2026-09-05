@@ -33,7 +33,10 @@ async function request(path, options = {}) {
   const headers = { 'Content-Type': 'application/json' }
   if (token) headers['Authorization'] = `Bearer ${token}`
 
-  const res = await fetch(BASE + path, { headers, ...options })
+  // Course copy is updated by the production seed after the frontend deploy.
+  // Do not let a response fetched during that short gap survive in the browser
+  // cache after the database has already been refreshed.
+  const res = await fetch(BASE + path, { cache: 'no-store', headers, ...options })
 
   // A 401 on an authenticated request means the session died (expired/invalid
   // token) — force back to login. A 401 with no token attached is an anonymous
