@@ -663,13 +663,15 @@ function Tangent({ param }) {
   )
 }
 
-// Number line for directed (signed) numbers, e.g. {{signedline:-3}} places a dot
-// at -3; {{signedline:-2;3}} draws a jump-arrow from -2 to 3 (for showing
-// addition/subtraction on the line). Auto-ranges to include 0 and the value(s),
-// marks 0 in red, and puts arrowheads on both ends of the axis.
+// Number line for directed (signed) numbers. {{signedline:-3}} places one dot;
+// {{signedline:-2;3}} draws a jump-arrow for a movement; {{signedline:-2,3}}
+// places two dots on one shared scale for comparisons/opposites, without
+// implying movement. Auto-ranges to include 0 and every marked value.
 function SignedLine({ param }) {
-  const parts = String(param == null ? '0' : param)
-    .split(';')
+  const raw = String(param == null ? '0' : param)
+  const comparison = raw.includes(',') && !raw.includes(';')
+  const parts = raw
+    .split(comparison ? ',' : ';')
     .map((s) => parseInt(s, 10))
     .filter((v) => Number.isFinite(v))
   const a = parts.length ? parts[0] : 0
@@ -699,7 +701,12 @@ function SignedLine({ param }) {
       <polygon points={`${x1},${y} ${x1 - 9},${y - 5} ${x1 - 9},${y + 5}`} fill={NAVY} />
       <polygon points={`${x0},${y} ${x0 + 9},${y - 5} ${x0 + 9},${y + 5}`} fill={NAVY} />
       {ticks}
-      {b != null ? (
+      {b != null && comparison ? (
+        <g>
+          <circle cx={sx(a)} cy={y} r="6" fill={FILL} stroke={NAVY} strokeWidth="2" />
+          <circle cx={sx(b)} cy={y} r="6" fill={TOMATO} stroke="#fff" strokeWidth="1.5" />
+        </g>
+      ) : b != null ? (
         <g>
           <line x1={sx(a)} y1={y - 15} x2={sx(b)} y2={y - 15} stroke={FILL} strokeWidth="3" />
           <polygon
