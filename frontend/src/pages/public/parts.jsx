@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import MathDoodles from '../../components/MathDoodles.jsx'
-import { InlineMathText } from '../../components/MathText.jsx'
+import { BidiSafeText, InlineMathText } from '../../components/MathText.jsx'
 import { paths } from '../../lib/publicRoutes.js'
 import { fadeInUp, staggerContainer, hoverLift, tapScale } from '../../lib/motion.js'
 import {
@@ -187,7 +187,11 @@ export function ChapterList({ courseSlug, chapters }) {
             <span className="chapter-num">{ch.number}</span>
             <span className="pub-chapter-body">
               <span className="chapter-title">{ch.title}</span>
-              {ch.summary && <span className="pub-chapter-summary">{ch.summary}</span>}
+              {ch.summary && (
+                <span className="pub-chapter-summary">
+                  <BidiSafeText text={ch.summary} />
+                </span>
+              )}
             </span>
             <span className="chapter-go">
               <IconArrowStart className="chapter-go-arrow" />

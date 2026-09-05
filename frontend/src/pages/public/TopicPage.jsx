@@ -1,5 +1,5 @@
 import { useParams, Link } from 'react-router-dom'
-import MathText, { InlineMathText } from '../../components/MathText.jsx'
+import MathText, { BidiSafeText, InlineMathText } from '../../components/MathText.jsx'
 import { usePublicData } from '../../lib/publicData.js'
 import { usePageMeta, useJsonLd, breadcrumbJsonLd } from '../../lib/seo.js'
 import { SITE_URL, SITE_NAME } from '../../lib/site.js'
@@ -95,7 +95,7 @@ export default function TopicPage() {
           </>
         }
         title={<InlineMathText text={chapter.title} />}
-        sub={chapter.summary}
+        sub={<BidiSafeText text={chapter.summary} />}
         meta={
           <>
             <span className="course-meta-item">
