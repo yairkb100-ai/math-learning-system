@@ -24,7 +24,7 @@ function OptionText({ text }) {
   if (ART_ONLY.test(String(text ?? ''))) {
     return <MathText text={text} />
   }
-  return <InlineMathText text={text} />
+  return <InlineMathText text={text} mathRuns />
 }
 
 export default function Quiz({ questions, chapterId, rtl }) {
