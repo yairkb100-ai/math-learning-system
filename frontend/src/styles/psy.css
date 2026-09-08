@@ -1843,15 +1843,33 @@
   margin: 0;
   padding: 0;
 }
+/* השורה יושבת על משטח משלה ולא על דף המשבצות של העמוד: ‎.psy-panel‎ שקוף,
+   ובלי רקע כאן הרקע המצויר עבר דרך כל שורה והן נקראו דהויות. כל שורה היא
+   כרטיס עם קו-צד בגוון המצב, כך שההתקדמות נקראת בסריקה אנכית אחת של
+   הרצועות — בלי להוסיף גוון חדש: ‎--ok/--accent/--no/--cta‎ בלבד.
+   ‎border-radius: 0‎ בכוונה — פינות מעוגלות עם קו-צד חד-צדדי נראות שבורות. */
 .psy-trow {
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 14px 4px;
-  border-bottom: 1px solid var(--border);
+  padding: 14px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-inline-start: 4px solid var(--cta);
+  border-radius: 0;
+  margin-bottom: 8px;
 }
 .psy-trow:last-child {
-  border-bottom: 0;
+  margin-bottom: 0;
+}
+.psy-trow.is-strong {
+  border-inline-start-color: var(--ok);
+}
+.psy-trow.is-mid {
+  border-inline-start-color: var(--accent);
+}
+.psy-trow.is-weak {
+  border-inline-start-color: var(--no);
 }
 
 /* העיגול: טבעת ריקה לנושא שטרם תורגל, ווי בגוון השליטה למי שכבר נגעו בו.
