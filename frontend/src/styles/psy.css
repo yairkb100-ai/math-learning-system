@@ -611,6 +611,9 @@
   display: flex;
   width: 100%;
 }
+/* משטח לבן מלא ולא ‎--surface-2‎: הכרטיס יושב ישירות על דף המשבצות של העמוד
+   (‎--bg‎ #eef2ee), ו---surface-2 (#e8eee9) כמעט זהה לו — הכרטיסים נראו שקופים
+   והרקע המצויר עבר דרכם. אותו שיקול בדיוק כמו ב-‎.psy-trow‎. */
 .psy-course-card {
   display: flex;
   flex-direction: column;
@@ -618,7 +621,7 @@
   padding: 18px;
   border: 1px solid var(--border);
   border-radius: 14px;
-  background: var(--surface-2);
+  background: var(--surface);
   color: var(--text);
   height: 100%;
 }
@@ -1241,11 +1244,12 @@
   padding: 0;
   gap: 10px;
 }
+/* גם הוא יושב על דף המשבצות ולא על משטח לבן — ראה ‎.psy-course-card‎. */
 .psy-history-card {
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 14px;
-  background: var(--surface-2);
+  background: var(--surface);
   display: grid;
   gap: 6px;
 }
