@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import katex from 'katex'
 import FractionArt from './FractionArt.jsx'
+import '../styles/lesson-prose.css'
 
 // Lightweight Markdown + LaTeX renderer for course content.
 // Handles: ## / ### headings, **bold**, bullet/numbered lists, tables,
@@ -55,13 +56,54 @@ function renderInlineMath(text, keyPrefix, opts) {
       } else if (p) {
         out.push(
           <span key={`${keyPrefix}-${k++}`}>
-            {opts?.mathRuns ? unbreakableRuns(p, `${keyPrefix}-r${k}`) : p}
+            {renderPlain(p, `${keyPrefix}-t${k}`, opts)}
           </span>
         )
       }
     })
   return out
 }
+
+// Plain (non-math) prose: single-star *emphasis*, authored line breaks, and
+// bidi isolation of bare LTR math. Content is authored line by line — "א. …\n
+// ב. …", "**פתרון:**\nהשלב הראשון…" — so a single "\n" inside a paragraph is a
+// deliberate break. Joining those lines with a space (the old behaviour) ran
+// every answer of an exercise into one unreadable line.
+// The asterisks must hug a non-space on both inner edges, so "2 * 3 * 4" (a
+// bare multiplication) never turns into emphasis.
+const EMPHASIS = /(?<![*\w])\*(?=[^\s*])([^*\n]*[^\s*])\*(?![*\w])/g
+
+function renderPlain(src, keyPrefix, opts) {
+  const nodes = []
+  let k = 0
+  const pushText = (chunk) => {
+    chunk.split('\n').forEach((line, li) => {
+      if (li > 0) nodes.push(<br key={`${keyPrefix}-br${k++}`} />)
+      if (!line) return
+      const inner = opts?.mathRuns
+        ? unbreakableRuns(line, `${keyPrefix}-r${k++}`)
+        : proseRunNodes(line, `${keyPrefix}-p${k++}`)
+      if (Array.isArray(inner)) nodes.push(...inner)
+      else nodes.push(inner)
+    })
+  }
+  let last = 0
+  EMPHASIS.lastIndex = 0
+  let m
+  while ((m = EMPHASIS.exec(src)) !== null) {
+    pushText(src.slice(last, m.index))
+    nodes.push(<em key={`${keyPrefix}-em${k++}`}>{proseRunNodes(m[1], `${keyPrefix}-e${k++}`)}</em>)
+    last = m.index + m[0].length
+  }
+  pushText(src.slice(last))
+  return nodes
+}
+
+// Inline formulas longer than this (in LaTeX source characters) may wrap at
+// KaTeX's own break points (after "=", "+", …) instead of being one unbreakable
+// box — on a 375px phone a long chain like "$6 + \frac{18}{4} = 6 + 4\frac12 =
+// 10\frac12$" otherwise pokes out of the card.
+const LONG_INLINE_MATH = 28
 
 function renderMath(value, display, key, raw) {
   let html
@@ -70,10 +112,16 @@ function renderMath(value, display, key, raw) {
   } catch {
     return <span key={key}>{raw}</span>
   }
+  const cls = display
+    ? 'math-display'
+    : value.length > LONG_INLINE_MATH
+      ? 'math-inline math-inline-long'
+      : 'math-inline'
   return (
     <span
       key={key}
-      className={display ? 'math-display' : 'math-inline'}
+      dir="ltr"
+      className={cls}
       dangerouslySetInnerHTML={{ __html: html }}
     />
   )
@@ -173,6 +221,63 @@ export function mathRunNodes(src, keyPrefix = 'bs', className = 'bidi-math') {
       </span>
     )
     last = end
+  }
+  if (!nodes.length) return src
+  if (last < src.length) nodes.push(src.slice(last))
+  return nodes
+}
+
+// Prose variant of mathRunNodes, for bare (un-$-wrapped) math inside authored
+// Hebrew sentences: "10% של 40 = 4", "הנקודה (2, 3)", "x/2 − 8". It is
+// deliberately stricter than the option/answer variant:
+//   * a run is isolated only when an operator or bracket sits BETWEEN two
+//     strong characters ("40 = 4", "2, 3" inside parens) — a lone "5+" or
+//     "-3" is left exactly as authored, because Hebrew authors type those in
+//     visual order and isolating them would flip what they already fixed;
+//   * the run may grow over ONE enclosing bracket pair, and only when that
+//     leaves the brackets balanced.
+const PROSE_OPERATOR = /[()[\]{}+\-*/^<>=−–·×÷≤≥≠≈±→√]/
+function proseRunNodes(src, keyPrefix = 'pr') {
+  const nodes = []
+  let last = 0
+  let k = 0
+  let i = 0
+  while (i < src.length) {
+    if (!IS_LTR_STRONG.test(src[i])) {
+      i++
+      continue
+    }
+    let start = i
+    let end = i + 1
+    let j = i + 1
+    while (j < src.length && (IS_LTR_STRONG.test(src[j]) || IS_NEUTRAL.test(src[j]))) {
+      if (IS_LTR_STRONG.test(src[j])) end = j + 1
+      j++
+    }
+    const core = src.slice(start, end)
+    i = end
+    if (!PROSE_OPERATOR.test(core)) continue
+    if (start > last && end < src.length && /[([{]/.test(src[start - 1]) && /[)\]}]/.test(src[end])) {
+      start--
+      end++
+    }
+    const balance = (s) =>
+      (s.match(/[([{]/g) || []).length - (s.match(/[)\]}]/g) || []).length
+    let bal = balance(src.slice(start, end))
+    // "f(x" → take the closing bracket; "x)²"-style leftovers → the opener.
+    if (bal > 0 && end < src.length && /[)\]}]/.test(src[end])) end++
+    else if (bal < 0 && start > last && /[([{]/.test(src[start - 1])) start--
+    bal = balance(src.slice(start, end))
+    if (bal !== 0) continue
+    const run = src.slice(start, end)
+    if (start > last) nodes.push(src.slice(last, start))
+    nodes.push(
+      <span key={`${keyPrefix}-${k++}`} className="bidi-math">
+        {run}
+      </span>
+    )
+    last = end
+    i = end
   }
   if (!nodes.length) return src
   if (last < src.length) nodes.push(src.slice(last))
@@ -372,11 +477,149 @@ export default function MathText({ text, className, mathRuns }) {
             </div>
           )
         }
+        if (block.type === 'lettered') {
+          // The letter is kept as authored (a list may skip or restart), so it
+          // is rendered as text rather than a CSS counter.
+          return (
+            <ol key={key} className={'prose-lettered' + (block.loose ? ' is-loose' : '')}>
+              {block.items.map((it, j) => (
+                <li key={`${key}-${j}`}>
+                  <span className="prose-mark" aria-hidden="true">{it.mark}</span>
+                  <span className="prose-item">{renderInline(it.text, `${key}-${j}`, opts)}</span>
+                </li>
+              ))}
+            </ol>
+          )
+        }
+        if (block.type === 'step') {
+          return (
+            <div key={key} className="prose-step">
+              <span className="prose-step-num" aria-hidden="true">{block.num}</span>
+              <div className="prose-step-body">
+                <span className="sr-only">{block.word} {block.num}: </span>
+                {renderInline(block.text, key, opts)}
+              </div>
+            </div>
+          )
+        }
+        if (block.type === 'label') {
+          return (
+            <p key={key} className="prose-label">
+              {renderInline(block.text, key, opts)}
+            </p>
+          )
+        }
+        if (block.type === 'display') {
+          return (
+            <div key={key} className="prose-display">
+              {renderInline(block.text, key, opts)}
+            </div>
+          )
+        }
         // paragraph
-        return <p key={key} className="prose-p">{renderInline(block.text, key, opts)}</p>
+        return (
+          <p key={key} className={'prose-p' + (block.note ? ` prose-note note-${block.note}` : '')}>
+            {renderInline(block.text, key, opts)}
+          </p>
+        )
       })}
     </div>
   )
+}
+
+// ---- paragraph-level structure ---------------------------------------------
+// A Hebrew-letter item: "א. …", "ב) …", "**ג.** …" (the bold variant marks the
+// letter only). Exercises and their solutions are written this way ~2,500
+// times across the content.
+const LETTERED = /^(?:\*\*([א-ת]{1,2})['׳]?[.)]\*\*|([א-ת]{1,2})['׳]?[.)])(?:\s+(.*))?$/
+// "**צעד 2:** …", "**שלב 3**", "**שלב 1.** …" — one step of a worked solution.
+const STEP = /^\*\*(צעד|שלב)\s+(\d+)\s*[:.]?\*\*\s*(.*)$/
+// A bold label alone on its line: "**פתרון:**", "**בדיקה:**".
+const LABEL_ONLY = /^\*\*([^*]{1,40}?)\s*[:.]\*\*$/
+// Display math alone on its line.
+const DISPLAY_LINE = /^\$\$[^$]+\$\$$/
+// A paragraph opening with one of these bold labels is an aside, styled as a
+// note so it reads differently from the running explanation.
+const NOTE_KINDS = [
+  [/^\*\*(?:טעות נפוצה|הטעות הנפוצה|איפה הטעות|הדרך השגויה|מלכודת)/, 'mistake'],
+  [/^\*\*(?:הכלל|כלל|זכרו|שימו לב|חשוב|טיפ|המסקנה|מסקנה)/, 'rule'],
+  [/^\*\*(?:בדיקה|בדיקת זהב|בדיקת היגיון|בדיקה מהירה)/, 'check'],
+]
+
+function letteredItem(line) {
+  const m = line.match(LETTERED)
+  if (!m) return null
+  return { mark: m[1] || m[2], text: m[3] || '' }
+}
+
+function paragraphBlocks(lines) {
+  const out = []
+  let buf = []
+  const flushText = () => {
+    if (!buf.length) return
+    const text = buf.join('\n')
+    const note = NOTE_KINDS.find(([re]) => re.test(text))
+    out.push({ type: 'paragraph', text, note: note ? note[1] : null })
+    buf = []
+  }
+  let i = 0
+  while (i < lines.length) {
+    const line = lines[i]
+    const item = letteredItem(line)
+    if (item) {
+      flushText()
+      const items = [item]
+      i++
+      while (i < lines.length) {
+        const next = letteredItem(lines[i])
+        if (next) {
+          items.push(next)
+          i++
+        } else if (!items[items.length - 1].text || DISPLAY_LINE.test(lines[i])) {
+          // "א." on a line of its own (its content follows), or a display
+          // formula that belongs to the item above it.
+          const cur = items[items.length - 1]
+          cur.text = cur.text ? `${cur.text}\n${lines[i]}` : lines[i]
+          i++
+        } else break
+      }
+      out.push({ type: 'lettered', items })
+      continue
+    }
+    const step = line.match(STEP)
+    if (step) {
+      flushText()
+      const body = step[3] ? [step[3]] : []
+      i++
+      while (
+        i < lines.length &&
+        !STEP.test(lines[i]) &&
+        !letteredItem(lines[i]) &&
+        !LABEL_ONLY.test(lines[i])
+      ) {
+        body.push(lines[i])
+        i++
+      }
+      out.push({ type: 'step', word: step[1], num: step[2], text: body.join('\n') })
+      continue
+    }
+    if (DISPLAY_LINE.test(line)) {
+      flushText()
+      out.push({ type: 'display', text: line })
+      i++
+      continue
+    }
+    if (LABEL_ONLY.test(line)) {
+      flushText()
+      out.push({ type: 'label', text: line.match(LABEL_ONLY)[1] })
+      i++
+      continue
+    }
+    buf.push(line)
+    i++
+  }
+  flushText()
+  return out
 }
 
 function parseBlocks(text) {
@@ -387,7 +630,17 @@ function parseBlocks(text) {
 
   const flushPara = () => {
     if (para.length) {
-      blocks.push({ type: 'paragraph', text: para.join(' ') })
+      for (const b of paragraphBlocks(para)) {
+        // "א. …" and "ב. …" written as separate paragraphs (a blank line
+        // between long answers) still read as one lettered list.
+        const prev = blocks[blocks.length - 1]
+        if (b.type === 'lettered' && prev?.type === 'lettered') {
+          prev.items.push(...b.items)
+          prev.loose = true
+        } else {
+          blocks.push(b)
+        }
+      }
       para = []
     }
   }

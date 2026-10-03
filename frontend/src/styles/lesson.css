@@ -1,0 +1,198 @@
+/* =========================================================================
+   Lesson page (ChapterView) — reading layout. Kept out of index.css so the
+   lesson can evolve without touching the shared stylesheet. Tokens only.
+   ========================================================================= */
+
+/* One reading column. The page used to span the full 1160px content width,
+   so a Hebrew line in the lesson ran ~110 characters; at 52rem it is ~75-85,
+   inside the comfortable range, and the header, step bar and nav line up
+   with the text instead of sitting at the far edges. */
+.chapter-view.chapter-view {
+  max-width: 52rem;
+  margin-inline: auto;
+}
+
+.chapter-view .prose {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  max-width: none;
+}
+.chapter-view .prose-p {
+  margin-bottom: 16px;
+}
+.chapter-view .prose-list {
+  margin-bottom: 18px;
+}
+
+/* ---- lesson step: sections ------------------------------------------- */
+.chapter-view .chapter-content.card {
+  padding: 30px 34px 28px;
+}
+.chapter-view .step-section {
+  margin-top: 30px;
+  padding-top: 24px;
+  border-top: 2px dashed var(--border);
+}
+.chapter-view .step-title {
+  font-size: 1.4rem;
+  line-height: 1.35;
+  margin-bottom: 14px;
+  align-items: flex-start;
+}
+.chapter-view .step-title .step-title-icon {
+  margin-top: 0.2em;
+}
+
+/* "הטעות הנפוצה" and "סיכום" sections — boxed so the reader can find them
+   at a glance, and so the warning reads as a warning. */
+.chapter-view .step-section.lesson-section-mistake,
+.chapter-view .step-section.lesson-section-summary {
+  border-top: 0;
+  margin-top: 30px;
+  padding: 20px 22px 18px;
+  border-radius: 14px;
+  border-inline-start: 5px solid var(--no);
+  background: var(--no-bg);
+}
+.chapter-view .lesson-section-mistake .step-title {
+  color: var(--no);
+}
+.chapter-view .lesson-section-mistake .step-title-icon {
+  color: var(--no);
+}
+.chapter-view .step-section.lesson-section-summary {
+  border-inline-start-color: var(--accent-2);
+  background: var(--surface-2);
+}
+.chapter-view .lesson-section-summary .step-title-icon {
+  color: var(--accent-2);
+}
+/* A note inside a boxed section would be a box in a box — flatten it. */
+.chapter-view .lesson-section-mistake .prose-note,
+.chapter-view .lesson-section-summary .prose-note {
+  background: var(--surface);
+}
+
+/* ---- examples & exercises ---------------------------------------------- */
+.chapter-view .example,
+.chapter-view .exercise {
+  margin-bottom: 18px;
+  padding: 22px 26px;
+  border-inline-start: 5px solid var(--accent-2);
+}
+.chapter-view .exercise {
+  border-inline-start-color: var(--accent);
+}
+.chapter-view .example .example-head,
+.chapter-view .exercise .exercise-head {
+  align-items: flex-start;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed var(--border);
+}
+.chapter-view .example h3,
+.chapter-view .exercise h3 {
+  margin: 0;
+  font-size: 1.18rem;
+  line-height: 1.4;
+}
+.lesson-kicker {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: var(--accent-2);
+}
+.exercise .lesson-kicker {
+  color: var(--accent);
+}
+.chapter-view .diff {
+  flex: 0 0 auto;
+  text-transform: none;
+  font-size: 0.8rem;
+  letter-spacing: 0;
+}
+
+.chapter-view .exercise > .btn {
+  margin-top: 4px;
+}
+.chapter-view .solution {
+  margin-top: 16px;
+  padding: 16px 20px;
+}
+.chapter-view .solution h4 {
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+.chapter-view .solution .prose {
+  font-size: 1.05rem;
+}
+
+.verdict-icon {
+  vertical-align: -0.15em;
+  font-size: 1.05em;
+}
+
+/* ---- quiz -------------------------------------------------------------- */
+.chapter-view .quiz-q {
+  padding: 20px 22px;
+}
+.chapter-view .q-text .prose {
+  font-size: 1.08rem;
+  font-weight: 600;
+}
+.chapter-view .option {
+  padding: 10px 14px;
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+.chapter-view .option > span {
+  min-width: 0;
+}
+.chapter-view .quiz-explanation.prose {
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+/* ---- phones ------------------------------------------------------------ */
+@media (max-width: 640px) {
+  .chapter-view .chapter-content.card {
+    padding: 22px 16px 20px;
+  }
+  .chapter-view .prose {
+    font-size: 1.05rem;
+    line-height: 1.75;
+  }
+  .chapter-view .step-title {
+    font-size: 1.22rem;
+  }
+  .chapter-view .step-section.lesson-section-mistake,
+  .chapter-view .step-section.lesson-section-summary {
+    padding: 16px 14px 14px;
+    margin-inline: -4px;
+  }
+  .chapter-view .example,
+  .chapter-view .exercise {
+    padding: 18px 16px;
+  }
+  .chapter-view .solution {
+    padding: 14px 14px;
+  }
+  .chapter-view .quiz-q {
+    padding: 16px 14px;
+  }
+  /* Finish card: trophy, title and two buttons in one row squeezed the
+     title to a word per line and pushed "לפרק הבא" past the card edge. */
+  .chapter-view .chapter-footer.step-finish {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+  .chapter-view .chapter-footer.step-finish h2 {
+    margin: 0;
+  }
+  .chapter-view .chapter-footer.step-finish .btn {
+    min-height: 44px;
+  }
+}

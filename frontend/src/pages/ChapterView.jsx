@@ -9,6 +9,7 @@ import DragDrop from '../components/DragDrop.jsx'
 import { celebrate } from '../lib/celebrate.js'
 import { fadeInUp, tapScale, DURATION, EASE_OUT } from '../lib/motion.js'
 import '../styles/catalog-course.css'
+import '../styles/lesson.css'
 import {
   IconPlay,
   IconBook,
@@ -26,6 +27,7 @@ import {
   IconLines,
   IconLock,
   IconGrip,
+  IconX,
 } from '../components/icons.jsx'
 
 const t = (rtl, he, en) => (rtl ? he : en)
@@ -433,6 +435,17 @@ export default function ChapterView() {
   )
 }
 
+// Two section kinds recur in nearly every chapter and deserve their own look:
+// "הטעות הנפוצה" (~106 chapters) and "סיכום"/"לסיכום" (~120).
+function sectionKind(title) {
+  const s = String(title || '')
+  if (/^(?:ה)?טעו(?:ת|יות) נפוצ/.test(s)) return 'mistake'
+  if (/^(?:ל)?סיכום|— סיכום$/.test(s)) return 'summary'
+  return null
+}
+
+const DIFFICULTY_HE = { easy: 'קל', medium: 'בינוני', hard: 'מאתגר' }
+
 function jumpToSection(e, i) {
   const el = document.getElementById(`chapter-sec-${i}`)
   if (!el) return
@@ -490,20 +503,30 @@ function StepBody({
             </ol>
           </nav>
         )}
-        {step.sections.map((sec, i) => (
-          <div
-            key={i}
-            id={`chapter-sec-${i}`}
-            className={i > 0 ? 'step-section' : ''}
-          >
-            {sec.title && (
-              <h2 className="step-title">
-                <InlineMathText text={sec.title} />
-              </h2>
-            )}
-            <MathText text={sec.body} className="prose" />
-          </div>
-        ))}
+        {step.sections.map((sec, i) => {
+          const kind = sectionKind(sec.title)
+          return (
+            <div
+              key={i}
+              id={`chapter-sec-${i}`}
+              className={
+                (i > 0 ? 'step-section' : 'lesson-section-first') +
+                (kind ? ` lesson-section-${kind}` : '')
+              }
+            >
+              {sec.title && (
+                <h2 className="step-title">
+                  {kind === 'mistake' && <IconWarning className="step-title-icon" />}
+                  {kind === 'summary' && <IconCheck className="step-title-icon" />}
+                  <span>
+                    <InlineMathText text={sec.title} />
+                  </span>
+                </h2>
+              )}
+              <MathText text={sec.body} className="prose" />
+            </div>
+          )
+        })}
       </article>
     )
   }
@@ -511,7 +534,7 @@ function StepBody({
     return (
       <div className="step-card">
         {step.examples.map((ex, i) => (
-          <Example key={i} example={ex} />
+          <Example key={i} example={ex} index={i + 1} rtl={rtl} />
         ))}
       </div>
     )
@@ -783,13 +806,20 @@ function VideoPlayer({ fileId, externalUrl, rtl }) {
   )
 }
 
-function Example({ example }) {
+function Example({ example, index, rtl }) {
   const isCode = example.type === 'code'
   return (
     <div className="card example">
       <div className="example-head">
-        <h3>{example.title}</h3>
-        <span className="type-tag">{example.type}</span>
+        <h3>
+          <span className="lesson-kicker">
+            {t(rtl, 'דוגמה', 'Example')} {index}
+          </span>
+          {example.title}
+        </h3>
+        {/* The type is an authoring field ("text" on almost every example);
+            it only means something to the reader for code. */}
+        {isCode && <span className="type-tag">{example.type}</span>}
       </div>
       {isCode ? (
         <pre className="code-block" dir="ltr">
@@ -853,12 +883,14 @@ function Exercise({ exercise, courseId, chapterNumber, rtl }) {
     <div className="card exercise">
       <div className="exercise-head">
         <h3>
-          <span className="ex-num">#{exercise.number}</span>{' '}
-          {exercise.title || t(rtl, 'תרגיל', 'Exercise')}
+          <span className="lesson-kicker">
+            {t(rtl, 'תרגיל', 'Exercise')} {exercise.number}
+          </span>
+          {exercise.title || ''}
         </h3>
         {exercise.difficulty && (
           <span className={'diff diff-' + exercise.difficulty}>
-            {exercise.difficulty}
+            {rtl ? DIFFICULTY_HE[exercise.difficulty] || exercise.difficulty : exercise.difficulty}
           </span>
         )}
       </div>
@@ -887,10 +919,10 @@ function Exercise({ exercise, courseId, chapterNumber, rtl }) {
       {result && (
         <div className={'verdict ' + (result.correct ? 'ok' : 'no')}>
           {result.correct ? (
-            <strong>✓ {t(rtl, 'כל הכבוד, נכון!', 'Correct!')}</strong>
+            <strong><IconCheck className="verdict-icon" /> {t(rtl, 'כל הכבוד, נכון!', 'Correct!')}</strong>
           ) : (
             <>
-              <strong>✗ {t(rtl, 'לא מדויק, נסו שוב.', 'Not quite, try again.')}</strong>
+              <strong><IconX className="verdict-icon" /> {t(rtl, 'לא מדויק, נסו שוב.', 'Not quite, try again.')}</strong>
               {result.expected != null && (
                 <span className="correct-answer">
                   {' '}{t(rtl, 'התשובה:', 'Answer:')}{' '}

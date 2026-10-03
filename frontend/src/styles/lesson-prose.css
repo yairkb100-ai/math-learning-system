@@ -1,0 +1,171 @@
+/* =========================================================================
+   Prose blocks produced by MathText — lettered answers, solution steps,
+   labels, notes, display math. Imported by MathText.jsx itself, so every
+   surface that renders course prose (lesson, quiz, practice, exams) gets the
+   same reading structure. Colours are tokens from index.css only.
+   ========================================================================= */
+
+/* Lettered items "א. … / ב. …" — the letter sits in its own column at the
+   inline-start edge, so a wrapped second line aligns under the text instead
+   of under the letter. */
+.prose-lettered {
+  list-style: none;
+  margin: 0 0 18px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.prose-lettered.is-loose {
+  gap: 14px;
+}
+.prose-lettered > li {
+  display: grid;
+  grid-template-columns: 1.9em minmax(0, 1fr);
+  align-items: baseline;
+  gap: 6px;
+}
+.prose-mark {
+  font-family: var(--font-display);
+  font-weight: 400;
+  color: var(--lv, var(--accent));
+  text-align: center;
+  line-height: 1;
+  padding: 0.28em 0 0.2em;
+  border-radius: 7px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  font-size: 0.92em;
+}
+.prose-item {
+  min-width: 0;
+}
+
+/* A worked-solution step: number badge + body, joined by a faint rail so a
+   run of steps reads as one sequence. */
+.prose-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 2em minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  margin: 0 0 14px;
+}
+.prose-step + .prose-step::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: calc(1em - 1px);
+  top: -14px;
+  height: 14px;
+  border-inline-start: 2px solid var(--border);
+}
+.prose-step-num {
+  display: grid;
+  place-items: center;
+  width: 2em;
+  height: 2em;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--surface);
+  font-family: var(--font-display);
+  font-size: 0.95em;
+  line-height: 1;
+  margin-top: 0.15em;
+}
+.prose-step-body {
+  min-width: 0;
+}
+
+/* "**פתרון:**" on a line of its own → a small section label, not a stray
+   bold word floating between paragraphs. */
+.prose-label {
+  margin: 22px 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  color: var(--accent);
+  font-size: 0.98em;
+}
+.prose-label::after {
+  content: '';
+  flex: 1;
+  border-top: 1px dashed var(--border);
+}
+.prose-label:first-child {
+  margin-top: 0;
+}
+
+/* Notes: a paragraph opening with "**טעות נפוצה:**", "**הכלל:**",
+   "**בדיקה:**" … */
+.prose-note {
+  padding: 12px 16px;
+  border-radius: 10px;
+  border-inline-start: 4px solid var(--accent);
+  background: var(--surface-2);
+}
+.prose-note.note-mistake {
+  border-inline-start-color: var(--no);
+  background: var(--no-bg);
+}
+.prose-note.note-mistake strong:first-child {
+  color: var(--no);
+}
+.prose-note.note-rule {
+  border-inline-start-color: var(--marker);
+}
+.prose-note.note-check {
+  border-inline-start-color: var(--ok);
+  background: var(--ok-bg);
+}
+
+/* Display math on a line of its own: centred, and it scrolls inside its own
+   box on a narrow screen rather than widening the page. */
+.prose-display {
+  margin: 4px 0 18px;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.prose-display .math-display {
+  margin: 0;
+}
+.math-display {
+  max-width: 100%;
+  overflow-y: hidden;
+  padding-block: 2px;
+}
+.math-display .katex-display {
+  margin: 0.5em 0;
+}
+/* index.css left-aligns .katex inside display math (needed for the LTR
+   box), which parked every centred formula — and every "cases" system — at
+   the far, wrong edge of an RTL page. Centre the display line itself. */
+.math-display .katex-display > .katex {
+  text-align: center;
+}
+
+/* Long inline formulas may wrap at KaTeX's own break points (after "=",
+   "+") — an inline-block can't, and on a phone it overflows the card. */
+.math-inline.math-inline-long {
+  display: inline;
+}
+
+/* Display math as a quiz answer ("$$\begin{cases}…$$" options): no centred
+   block with 1em margins — that made each option a 90px box with the system
+   floating in its middle. Sit it at the start of the row like any answer. */
+.option .math-display {
+  display: inline-block;
+  margin: 0;
+  text-align: start;
+  vertical-align: middle;
+}
+.option .math-display .katex-display {
+  margin: 0;
+}
+
+.prose em {
+  font-style: normal;
+  font-weight: 600;
+  color: var(--accent);
+}

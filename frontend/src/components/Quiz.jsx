@@ -5,6 +5,7 @@ import MathText, { InlineMathText } from './MathText.jsx'
 import { celebrate } from '../lib/celebrate.js'
 import { fadeInUp, staggerContainer, tapScale, DURATION, EASE_OUT } from '../lib/motion.js'
 import '../styles/quiz.css'
+import { IconCheck, IconX, IconWarning } from './icons.jsx'
 
 const t = (rtl, he, en) => (rtl ? he : en)
 
@@ -133,7 +134,11 @@ function QuizQuestion({ question, chapterId, rtl }) {
         </motion.button>
       </div>
 
-      {err && <p className="inline-error">⚠️ {String(err.message || err)}</p>}
+      {err && (
+        <p className="inline-error">
+          <IconWarning className="inline-error-icon" /> {String(err.message || err)}
+        </p>
+      )}
 
       <AnimatePresence>
         {result && (
@@ -145,10 +150,10 @@ function QuizQuestion({ question, chapterId, rtl }) {
             transition={{ duration: DURATION.medium, ease: EASE_OUT }}
           >
             {result.correct ? (
-              <strong>✓ {t(rtl, 'תשובה נכונה!', 'Correct!')}</strong>
+              <strong><IconCheck className="verdict-icon" /> {t(rtl, 'תשובה נכונה!', 'Correct!')}</strong>
             ) : (
               <>
-                <strong>✗ {t(rtl, 'לא נכון.', 'Incorrect.')}</strong>
+                <strong><IconX className="verdict-icon" /> {t(rtl, 'לא נכון.', 'Incorrect.')}</strong>
                 {result.correct_answer != null && (
                   <span className="correct-answer">
                     {t(rtl, 'התשובה הנכונה: ', 'Correct answer: ')}
@@ -159,10 +164,10 @@ function QuizQuestion({ question, chapterId, rtl }) {
             )}
             {/* Shown on right answers too — a student who guessed right still
                 needs the reasoning. */}
+            {/* Block prose, not inline: explanations carry line breaks and
+                "א. / ב." parts that an inline render ran together. */}
             {result.explanation && (
-              <span className="quiz-explanation">
-                <InlineMathText text={result.explanation} />
-              </span>
+              <MathText text={result.explanation} className="prose quiz-explanation" />
             )}
           </motion.div>
         )}
