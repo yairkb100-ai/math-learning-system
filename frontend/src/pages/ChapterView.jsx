@@ -439,7 +439,7 @@ export default function ChapterView() {
 // "הטעות הנפוצה" (~106 chapters) and "סיכום"/"לסיכום" (~120).
 function sectionKind(title) {
   const s = String(title || '')
-  if (/^(?:ה)?טעו(?:ת|יות) נפוצ/.test(s)) return 'mistake'
+  if (/^ה?טעו(?:ת|יות) ה?נפוצ/.test(s)) return 'mistake'
   if (/^(?:ל)?סיכום|— סיכום$/.test(s)) return 'summary'
   return null
 }
@@ -815,7 +815,8 @@ function Example({ example, index, rtl }) {
           <span className="lesson-kicker">
             {t(rtl, 'דוגמה', 'Example')} {index}
           </span>
-          {example.title}
+          {/* Many titles already open with "דוגמה 2:" — the kicker says it. */}
+          {String(example.title || '').replace(/^דוגמה\s*\d*\s*[:—–-]\s*/, '')}
         </h3>
         {/* The type is an authoring field ("text" on almost every example);
             it only means something to the reader for code. */}

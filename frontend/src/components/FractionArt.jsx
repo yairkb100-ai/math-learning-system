@@ -77,7 +77,11 @@ function CirclePlain({ n, d }) {
 }
 
 function Bar({ n, d }) {
-  const W = 180
+  // A bar cut into many parts ("bar:37/100") has cells narrower than the
+  // 2px outline, so the strokes merged into one solid navy block and the
+  // shaded part was invisible. Dense bars get a wider strip and hairlines.
+  const dense = d > 24
+  const W = dense ? 280 : 180
   const w = W / d
   const parts = []
   for (let i = 0; i < d; i++) {
@@ -90,14 +94,17 @@ function Bar({ n, d }) {
         height={46}
         fill={i < n ? FILL : '#fff'}
         stroke={NAVY}
-        strokeWidth="2"
-        rx="3"
+        strokeWidth={dense ? 0.5 : 2}
+        rx={dense ? 0 : 3}
       />
     )
   }
   return (
     <svg width={W + 2} height="48" viewBox={`0 0 ${W + 2} 48`}>
       {parts}
+      {dense && (
+        <rect x="1" y="1" width={W} height="46" fill="none" stroke={NAVY} strokeWidth="2" rx="3" />
+      )}
     </svg>
   )
 }

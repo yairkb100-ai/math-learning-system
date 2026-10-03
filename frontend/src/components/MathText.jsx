@@ -533,7 +533,8 @@ export default function MathText({ text, className, mathRuns }) {
 // times across the content.
 const LETTERED = /^(?:\*\*([א-ת]{1,2})['׳]?[.)]\*\*|([א-ת]{1,2})['׳]?[.)])(?:\s+(.*))?$/
 // "**צעד 2:** …", "**שלב 3**", "**שלב 1.** …" — one step of a worked solution.
-const STEP = /^\*\*(צעד|שלב)\s+(\d+)\s*[:.]?\*\*\s*(.*)$/
+// A titled step, "**צעד 1 — הצבה:** …", keeps its title as the bold lead-in.
+const STEP = /^\*\*(צעד|שלב)\s+(\d+)(?:\s*[—–-]\s*([^*]+?))?\s*[:.]?\*\*\s*(.*)$/
 // A bold label alone on its line: "**פתרון:**", "**בדיקה:**".
 const LABEL_ONLY = /^\*\*([^*]{1,40}?)\s*[:.]\*\*$/
 // Display math alone on its line.
@@ -589,7 +590,8 @@ function paragraphBlocks(lines) {
     const step = line.match(STEP)
     if (step) {
       flushText()
-      const body = step[3] ? [step[3]] : []
+      const lead = [step[3] ? `**${step[3]}:**` : '', step[4]].filter(Boolean).join(' ')
+      const body = lead ? [lead] : []
       i++
       while (
         i < lines.length &&
