@@ -184,39 +184,51 @@ export default function Navbar() {
           </span>
         </Link>
 
+        {/* שורת הניווט העליונה. עשרה-אחד-עשר קישורים + כפתור + פרטי משתמש לא
+            נכנסים ב-1200px של ה-topbar בשום רוחב מסך: הם נשברו לשלוש שורות כל
+            אחד ונראו כמו תקלה. לכן למעלה נשארות רק נקודות הכניסה הראשיות, וכל
+            השאר (כולל שם המשתמש והיציאה) יושב במגירה שנפתחת מכפתור התפריט —
+            בכל רוחב, לא רק בנייד. זה גם העותק היחיד שמשתתף באנימציית
+            ה-layoutId של הקו התחתון. */}
         {user && (
-          <button
-            className="nav-toggle"
-            onClick={() => setMenuOpen((o) => !o)}
-            aria-label={menuOpen ? 'סגירת תפריט' : 'פתיחת תפריט'}
-            aria-expanded={menuOpen}
-            aria-controls="mobile-nav-panel"
-          >
-            {menuOpen ? <IconX /> : <IconMenu />}
-            {!menuOpen && badgeTotal > 0 && (
-              <span className="nav-badge nav-toggle-badge">{badgeTotal}</span>
+          <nav className="topbar-quick" aria-label="ניווט ראשי">
+            {user.role === 'admin' ? (
+              <>
+                <NavItem to="/admin" exact indicator>לוח בקרה</NavItem>
+                <NavItem to="/admin/users" indicator className="topbar-quick-2">ניהול תלמידים</NavItem>
+                <NavItem to="/lomda" className="nav-link-lomda" indicator>לומדת מתמטיקה</NavItem>
+                <NavItem to="/psy" className="nav-link-karni" indicator>הכנה לקרני</NavItem>
+              </>
+            ) : (
+              <>
+                <NavItem to="/lomda" className="nav-link-lomda" indicator>לומדת מתמטיקה</NavItem>
+                <NavItem to="/psy" className="nav-link-karni" indicator>הכנה לקרני</NavItem>
+                <NavItem to="/practice" indicator className="topbar-quick-2">תרגול</NavItem>
+                <NavItem to="/exams" indicator className="topbar-quick-2">מבחנים</NavItem>
+                <NavItem to="/progress" indicator className="topbar-quick-2">ההתקדמות שלי</NavItem>
+              </>
             )}
-          </button>
+          </nav>
         )}
 
-        {/* Desktop inline nav — unaffected by menuOpen, hidden below 1080px
-            via CSS. This is the only copy of the links that participates in
-            the shared layoutId underline animation. */}
         {user && (
-          <div className="topbar-menu">
-            <nav className="topbar-nav">{buildNavLinks(true)}</nav>
-
-            <div className="topbar-user">
-              {/* "הערכות שלי" גם כאן ולא רק בהירו: אחרי שהתלמיד עזב את דף
-                  הנחיתה הכפתור נעלם, והדרך חזרה אל מה שרכש הייתה דרך הלוגו.
-                  יושב בקצה השמאלי-עליון, לפני פרטי המשתמש. */}
-              <KitsButton variant="nav" />
-              <span className="user-name">{user.full_name}</span>
-              <span className={`role-badge role-${user.role}`}>
-                {user.role === 'admin' ? 'מנהל' : 'תלמיד'}
-              </span>
-              <button className="btn-logout" onClick={handleLogout}>יציאה</button>
-            </div>
+          <div className="topbar-end">
+            {/* "הערכות שלי" גם כאן ולא רק בהירו: אחרי שהתלמיד עזב את דף
+                הנחיתה הכפתור נעלם, והדרך חזרה אל מה שרכש הייתה דרך הלוגו. */}
+            <KitsButton variant="nav" />
+            <button
+              className="nav-toggle"
+              onClick={() => setMenuOpen((o) => !o)}
+              aria-label={menuOpen ? 'סגירת תפריט' : 'פתיחת תפריט'}
+              aria-expanded={menuOpen}
+              aria-controls="mobile-nav-panel"
+            >
+              {menuOpen ? <IconX /> : <IconMenu />}
+              <span className="nav-toggle-label">תפריט</span>
+              {!menuOpen && badgeTotal > 0 && (
+                <span className="nav-badge nav-toggle-badge">{badgeTotal}</span>
+              )}
+            </button>
           </div>
         )}
 
@@ -224,8 +236,10 @@ export default function Navbar() {
             two entry points, no burger menu since there's nothing to list. */}
         {!user && (
           <div className="topbar-guest">
+            {/* הקטלוג הציבורי פתוח לכולם — מבקר צריך לראות מה יש לפני שנרשם. */}
+            <Link to="/courses" className="nav-link topbar-guest-courses">כל הקורסים</Link>
             <Link to="/login" className="nav-link">התחברות</Link>
-            <Link to="/register" className="btn btn-sm">הרשמה</Link>
+            <Link to="/register" className="btn topbar-guest-cta">הרשמה חינם</Link>
           </div>
         )}
       </div>

@@ -3,6 +3,8 @@ import { usePublicData } from '../../lib/publicData.js'
 import { usePageMeta, useJsonLd, breadcrumbJsonLd } from '../../lib/seo.js'
 import { SITE_URL, SITE_NAME } from '../../lib/site.js'
 import { paths } from '../../lib/publicRoutes.js'
+import { cleanDescription, partBase } from '../../lib/courseParts.js'
+import PartsNav from '../../components/PartsNav.jsx'
 import {
   Crumbs,
   PublicHero,
@@ -29,6 +31,9 @@ export default function CoursePage() {
   const { id: slug } = useParams()
   const { data, loading, error } = usePublicData(`topics/${slug}`)
   const course = data?.course
+  // החלקים האחים של הנושא (…--part-2) — כדי שמי שנחת מגוגל על חלק ב׳ יראה שיש חלק א׳.
+  const { data: catalog } = usePublicData('catalog')
+  const siblings = (catalog?.courses || []).filter((c) => partBase(c.slug) === partBase(slug))
 
   const trail = [
     { label: 'לומדת מתמטיקה', to: paths.home() },
@@ -88,7 +93,7 @@ export default function CoursePage() {
           </>
         }
         title={course.title}
-        sub={course.description}
+        sub={cleanDescription(course.description)}
         meta={
           <>
             <span className="course-meta-item">
@@ -109,9 +114,18 @@ export default function CoursePage() {
         }
       />
 
+      <PartsNav
+        currentSlug={slug}
+        parts={siblings.map((c) => ({
+          slug: c.slug,
+          to: paths.course(c.slug),
+          chapters: c.chapterCount,
+        }))}
+      />
+
       <ObjectivesCard objectives={course.objectives} title="מה יודעים בסוף הקורס" />
 
-      <SectionHead icon={<IconLayers />} title="הפרקים בקורס" count={course.chapters.length} />
+      <SectionHead icon={<IconLayers />} title="הפרקים בקורס" count={course.chapters.length} unit="פרקים" />
       <p className="pub-section-desc">
         לכל פרק יש עמוד משלו עם פתיחת ההסבר. הפרק המלא — הסבר מלא, סרטון, דוגמאות פתורות, תרגול
         עם משוב, בוחן ודף עבודה להדפסה — נפתח אחרי ההרשמה.

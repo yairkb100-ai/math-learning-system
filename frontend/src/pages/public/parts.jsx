@@ -3,6 +3,8 @@ import { motion } from 'framer-motion'
 import MathDoodles from '../../components/MathDoodles.jsx'
 import { BidiSafeText, InlineMathText } from '../../components/MathText.jsx'
 import { paths } from '../../lib/publicRoutes.js'
+import { groupCourseParts } from '../../lib/courseParts.js'
+import TopicCard from '../../components/TopicCard.jsx'
 import { fadeInUp, staggerContainer, hoverLift, tapScale } from '../../lib/motion.js'
 import {
   IconArrowStart,
@@ -64,16 +66,47 @@ export function PublicHero({ eyebrow, title, sub, meta, actions, className = '' 
   )
 }
 
-export function SectionHead({ icon, title, count }) {
+export function SectionHead({ icon, title, count, unit = '' }) {
   return (
     <div className="cat-head">
       <h2 className="cat-head-title">
         {icon} {title}
       </h2>
-      {count != null && <span className="cat-head-count">{count}</span>}
+      {/* מספר בודד בקצה השורה ("7") לא אומר כלום למבקר — תמיד עם יחידה. */}
+      {count != null && (
+        <span className="cat-head-count">
+          {count} {unit}
+        </span>
+      )}
     </div>
   )
 }
+
+/**
+ * רשת קורסים מקובצת לנושאים: חלקים של אותו קורס (…--part-2) מוצגים ככרטיס
+ * אחד, בסדר א׳→ב׳. ראה lib/courseParts.js.
+ */
+export function TopicGrid({ courses, gradeLabel, labelOf }) {
+  const topics = groupCourseParts(courses)
+  return (
+    <CourseGrid>
+      {topics.map((t) => (
+        <TopicCard
+          key={t.key}
+          group={t}
+          hrefOf={(c) => paths.course(c.slug)}
+          chaptersOf={(c) => c.chapterCount ?? c.chapters?.length ?? 0}
+          hoursOf={(c) => c.estimatedHours ?? null}
+          gradeLabel={labelOf ? labelOf(t.first) : gradeLabel}
+          gradeClass={gradeClass(t.first.grade).trim()}
+          ctaLabel="לפרטים על הקורס"
+        />
+      ))}
+    </CourseGrid>
+  )
+}
+
+export const topicCountOf = (courses) => groupCourseParts(courses).length
 
 /** One course in a grid — links to the course's public page. */
 export function CourseCard({ course, gradeLabel }) {
@@ -151,7 +184,10 @@ export function ObjectivesCard({ objectives, title = 'מה לומדים כאן' 
 /** The one call to action every public page ends with. */
 export function JoinCta({
   title = 'רוצים ללמוד את זה עד הסוף?',
-  text = 'ההרשמה חינם, וכל תלמיד חדש מקבל תקופת התנסות עם גישה מלאה לכל הלומדה — הסברים, סרטונים, תרגול, מבחנים ודפי עבודה.',
+  // ההתנסות פותחת את הפרקים הראשונים של כל קורס, לא את הכול (backend/app/
+  // trials.py) — הבטחה של "גישה מלאה" שמתנפצת אחרי ההרשמה פוגעת באמון יותר
+  // מכל ניסוח זהיר.
+  text = 'ההרשמה חינם, ובתקופת ההתנסות פתוחים לכם הפרקים הראשונים בכל קורס — עם ההסברים, הסרטונים, התרגול ודפי העבודה. כך אפשר להתרשם באמת לפני שמחליטים.',
   label = 'להרשמה ולהתחלת הלמידה',
 }) {
   return (

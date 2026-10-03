@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState, useCallback } from 'react'
-import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { useAuth } from '../context/AuthContext.jsx'
 import api from '../api.js'
@@ -9,16 +8,10 @@ import SearchBar from '../components/SearchBar.jsx'
 import InviteBanner from '../components/InviteBanner.jsx'
 import ProductUpsell from '../components/ProductUpsell.jsx'
 import { PRODUCT_LOMDA } from '../lib/products.js'
-import { fadeInUp, staggerContainer, tapScale, hoverLift } from '../lib/motion.js'
-import {
-  IconLayers,
-  IconClock,
-  IconArrowStart,
-  IconGraduation,
-  IconCompass,
-} from '../components/icons.jsx'
-
-const MotionLink = motion(Link)
+import TopicCard from '../components/TopicCard.jsx'
+import { groupCourseParts } from '../lib/courseParts.js'
+import { fadeInUp, staggerContainer, tapScale } from '../lib/motion.js'
+import { IconLayers, IconGraduation, IconCompass } from '../components/icons.jsx'
 
 // School years, in curriculum order. `key` matches Course.grade on the server.
 const GRADES = [
@@ -32,7 +25,7 @@ const GRADES = [
 const GRADE_BY_KEY = Object.fromEntries(GRADES.map((g) => [g.key, g]))
 const GRADE_ORDER = Object.fromEntries(GRADES.map((g, i) => [g.key, i]))
 
-const courseCount = (n) => (n === 1 ? 'קורס אחד' : `${n} קורסים`)
+const topicCount = (n) => (n === 1 ? 'נושא אחד' : `${n} נושאים`)
 
 const gradeChip = (grade) => GRADE_BY_KEY[grade]?.chip || ''
 
@@ -72,9 +65,11 @@ export default function CourseList() {
 
   // Only offer a grade pill when the catalog actually has courses for it.
   const gradeCounts = useMemo(() => {
+    // סופרים נושאים ולא חלקים — אותו דבר שהכרטיסים מתחת מציגים.
     const counts = {}
-    for (const c of courses) {
-      if (c.grade) counts[c.grade] = (counts[c.grade] || 0) + 1
+    for (const g of groupCourseParts(courses)) {
+      const key = g.first.grade
+      if (key) counts[key] = (counts[key] || 0) + 1
     }
     return counts
   }, [courses])
@@ -103,14 +98,14 @@ export default function CourseList() {
     const byGrade = (a, b) =>
       (GRADE_ORDER[a.grade] ?? 99) - (GRADE_ORDER[b.grade] ?? 99) || a.id - b.id
     const out = ordered
-      .map((s) => ({ ...s, courses: byId.get(s.id).sort(byGrade) }))
-      .filter((s) => s.courses.length > 0)
+      .map((s) => ({ ...s, topics: groupCourseParts(byId.get(s.id).sort(byGrade)) }))
+      .filter((s) => s.topics.length > 0)
     if (loose.length) {
       out.push({
         id: 'loose',
         title: 'קורסים נוספים',
         description: null,
-        courses: loose.sort(byGrade),
+        topics: groupCourseParts(loose.sort(byGrade)),
       })
     }
     return out
@@ -123,6 +118,8 @@ export default function CourseList() {
   const totalHours = courses.reduce((s, c) => s + (c.estimated_hours || 0), 0)
   const firstName = user ? user.full_name.split(' ')[0] : ''
   const activeGrades = GRADES.filter((g) => gradeCounts[g.key])
+  const totalTopics = groupCourseParts(courses).length
+  const visibleTopics = groups.reduce((n, s) => n + s.topics.length, 0)
 
   return (
     <section dir="rtl" className="catalog">
@@ -187,14 +184,12 @@ export default function CourseList() {
       {/* Catalog */}
       <div className="cat-head">
         <h2 className="cat-head-title">
-          <IconCompass /> הקורסים שלך
+          <IconCompass /> {grade === 'all' ? 'כל הקורסים' : `הקורסים של ${gradeChip(grade)}`}
         </h2>
         <span className="cat-head-count">
-          {visible.length !== courses.length
-            ? `${visible.length} מתוך ${courses.length} קורסים`
-            : courses.length === 1
-              ? 'קורס אחד זמין'
-              : `${courses.length} קורסים זמינים`}
+          {grade === 'all'
+            ? topicCount(totalTopics)
+            : `${topicCount(visibleTopics)} מתוך ${totalTopics}`}
         </span>
       </div>
 
@@ -208,7 +203,7 @@ export default function CourseList() {
             {...tapScale}
           >
             הכול
-            <span className="grade-pill-num">{courses.length}</span>
+            <span className="grade-pill-num">{totalTopics}</span>
           </motion.button>
           {activeGrades.map((g) => (
             <motion.button
@@ -230,8 +225,8 @@ export default function CourseList() {
         <div className="card empty">
           <p>
             {courses.length === 0
-              ? 'אין קורסים עדיין. ייבאו קורס לשרת כדי לראותו כאן.'
-              : 'אין קורסים בכיתה הזו.'}
+              ? 'הקורסים בדרך — עוד רגע הם יופיעו כאן.'
+              : 'עדיין אין קורסים לכיתה הזו. אפשר לבחור כיתה אחרת למעלה.'}
           </p>
         </div>
       ) : (
@@ -239,9 +234,7 @@ export default function CourseList() {
           <div key={section.id} className="cat-section">
             <div className="cat-section-head">
               <h3 className="cat-section-title">{section.title}</h3>
-              <span className="cat-section-count">
-                {courseCount(section.courses.length)}
-              </span>
+              <span className="cat-section-count">{topicCount(section.topics.length)}</span>
             </div>
             {section.description && (
               <p className="cat-section-desc">{section.description}</p>
@@ -255,43 +248,18 @@ export default function CourseList() {
               // leaves every card at the hidden opacity forever.
               animate="show"
             >
-              {section.courses.map((c) => (
-                <MotionLink
-                  key={c.id}
-                  to={`/courses/${c.id}`}
-                  className={`cat-card ${gradeClass(c.grade)}`}
-                  variants={fadeInUp}
-                  {...hoverLift}
-                >
-                  <span className="cat-card-bar" aria-hidden="true" />
-                  <div className="cat-card-top">
-                    <span className="cat-medallion" aria-hidden="true">
-                      <IconLayers />
-                    </span>
-                    {gradeChip(c.grade) && (
-                      <span className="cat-chip">{gradeChip(c.grade)}</span>
-                    )}
-                  </div>
-
-                  <h4 className="cat-card-title">{c.title}</h4>
-                  <p className="cat-card-desc">{c.description}</p>
-
-                  <div className="cat-meta">
-                    <span className="cat-meta-item">
-                      <IconLayers /> {c.chapters_count ?? 0} פרקים
-                    </span>
-                    {c.estimated_hours != null && (
-                      <span className="cat-meta-item">
-                        <IconClock /> {c.estimated_hours} שעות
-                      </span>
-                    )}
-                  </div>
-
-                  <span className="cat-cta">
-                    התחילו ללמוד
-                    <IconArrowStart className="cat-cta-arrow" />
-                  </span>
-                </MotionLink>
+              {section.topics.map((t) => (
+                <TopicCard
+                  key={t.key}
+                  group={t}
+                  hrefOf={(c) => `/courses/${c.id}`}
+                  chaptersOf={(c) => c.chapters_count ?? 0}
+                  hoursOf={(c) => c.estimated_hours}
+                  gradeLabel={gradeChip(t.first.grade)}
+                  gradeClass={gradeClass(t.first.grade)}
+                  medallion={<IconLayers />}
+                  headingLevel={4}
+                />
               ))}
             </motion.div>
           </div>

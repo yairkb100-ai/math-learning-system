@@ -197,8 +197,13 @@ export default function TrialWelcome() {
             {inTrial ? (
               <div className="welcome-trial">
                 <div className="welcome-trial-head">
-                  <IconClock /> יש לך <strong>{access.trial_days} ימים</strong> לטעום מהלומדה (כ-30%
-                  מכל קורס) ומהכנה לקרני (כ-10% ממאגר השאלות) בלי תשלום
+                  <IconClock />
+                  {/* span אחד: הכותרת היא flex, וצמתי טקסט חשופים בתוכה הפכו כל
+                      אחד לעמודה צרה משלו ("יש / לך" אחד מעל השני). */}
+                  <span>
+                    יש לך <strong>{access.trial_days} ימי התנסות חינם</strong>: הפרקים הראשונים בכל
+                    קורס בלומדה (כ-30%) וטעימה מההכנה לקרני (כ-10% ממאגר השאלות).
+                  </span>
                 </div>
                 <div className="countdown" aria-label="הזמן שנותר לתקופת ההתנסות">
                   <div className="cd-cell">
@@ -219,8 +224,8 @@ export default function TrialWelcome() {
                   </div>
                 </div>
                 <p className="welcome-note">
-                  בתום תקופת ההתנסות הגישה לתוכן תיחסם עד לאישור גישה שלי —
-                  נשמח להמשיך יחד. תמיד אפשר לפנות אליי בהודעה מתוך הלומדה.
+                  בסוף ההתנסות הגישה לתוכן נסגרת עד שמסדרים מנוי. רוצים להמשיך, או שיש
+                  שאלה? אפשר לכתוב לי בכל רגע מתוך הלומדה.
                 </p>
               </div>
             ) : ended ? (

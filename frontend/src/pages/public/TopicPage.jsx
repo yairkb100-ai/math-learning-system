@@ -173,6 +173,7 @@ export default function TopicPage() {
         icon={<IconLayers />}
         title={`כל הפרקים ב"${course.title}"`}
         count={course.chapters.length}
+        unit="פרקים"
       />
       <LinkList
         items={course.chapters.map((ch) => ({

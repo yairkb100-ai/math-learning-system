@@ -29,6 +29,13 @@ export const COURSE_GRADES = {
   functions: '8',
   'shortcut-formulas': '8',
   'two-equations-two-unknowns': '8',
+  // חמשת אלה היו חסרים כאן (אבל קיימים ב-COURSE_GRADES של backend/seed.py), ולכן
+  // נעדרו מדפי הכיתות הציבוריים ומדף הנחיתה למרות שהם בקטלוג של התלמידים.
+  'pythagoras-transformations': '8',
+  'circle-theorems': '9',
+  'three-dimensional-solids': '9',
+  'sequences-arithmetic-geometric': 'hs',
+  'exponential-functions-logarithms': 'hs',
   'congruence-similarity': '9',
   'analytic-geometry': '9',
   'factoring-quadratics': '9',

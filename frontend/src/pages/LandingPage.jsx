@@ -6,6 +6,7 @@ import MyKits from '../components/MyKits.jsx'
 import { useAuth } from '../context/AuthContext.jsx'
 import { usePageMeta, useJsonLd } from '../lib/seo.js'
 import { CATALOG_STATS } from '../lib/catalogStats.js'
+import { paths } from '../lib/publicRoutes.js'
 import { fadeInUp, staggerContainer, hoverLift, tapScale } from '../lib/motion.js'
 import {
   IconGraduation,
@@ -27,14 +28,23 @@ import {
 
 const MotionLink = motion(Link)
 
+// `path` = the public grade page (/grade-5 …). A visitor who is not signed in
+// lands there — the actual course list and every chapter title — instead of
+// being sent straight to a registration form before seeing anything.
 const GRADE_CARDS = [
-  { pill: 'ה׳', title: 'חשבון לכיתה ה׳', desc: 'שברים, עשרוניים, גיאומטריה בסיסית ועוד — לפי תוכנית הלימודים.' },
-  { pill: 'ו׳', title: 'חשבון לכיתה ו׳', desc: 'המשך שברים ועשרוניים, יחס ופרופורציה, הכנה למעבר לחטיבה.' },
-  { pill: 'ז׳', title: 'מתמטיקה לכיתה ז׳', desc: 'מספרים שליליים, ביטויים אלגבריים, משוואות וגיאומטריה.' },
-  { pill: 'ח׳', title: 'מתמטיקה לכיתה ח׳', desc: 'פונקציות, משפט פיתגורס, מערכת צירים ועוד.' },
-  { pill: 'ט׳', title: 'מתמטיקה לכיתה ט׳', desc: 'הכנה לתיכון: פונקציות, אי-שוויונות, סטטיסטיקה והסתברות.' },
-  { pill: 'תיכון', title: 'מתמטיקה לתיכון', desc: 'קורסים לפי נושא, לקראת בגרות — מהיסודות ועד השאלות המורכבות.' },
+  { key: '5', path: 'grade-5', pill: 'ה׳', title: 'חשבון לכיתה ה׳', desc: 'מספרים גדולים, שברים פשוטים, עשרוניים והתחלקות.' },
+  { key: '6', path: 'grade-6', pill: 'ו׳', title: 'חשבון לכיתה ו׳', desc: 'כפל וחילוק שברים, אחוזים, יחס וקנה מידה — הכנה לחטיבה.' },
+  { key: '7', path: 'grade-7', pill: 'ז׳', title: 'מתמטיקה לכיתה ז׳', desc: 'מספרים מכוונים, אלגברה ומשוואות, חזקות וגאומטריה.' },
+  { key: '8', path: 'grade-8', pill: 'ח׳', title: 'מתמטיקה לכיתה ח׳', desc: 'פונקציות, מערכות משוואות, כפל מקוצר ופיתגורס.' },
+  { key: '9', path: 'grade-9', pill: 'ט׳', title: 'מתמטיקה לכיתה ט׳', desc: 'משוואות ריבועיות, חפיפה ודמיון, הסתברות וגאומטריה אנליטית.' },
+  { key: 'hs', path: 'high-school', pill: 'תיכון', title: 'מתמטיקה לתיכון', desc: 'קורסים לפי נושא לקראת בגרות — נגזרות, טריגונומטריה, סדרות ועוד.' },
 ]
+
+const gradeCounts = (key) => {
+  const g = CATALOG_STATS.byGrade?.[key]
+  if (!g || !g.topics) return null
+  return `${g.topics} נושאים · ${g.chapters} פרקים`
+}
 
 // מספרי הכותרת נגזרים מהקטלוג בזמן הבנייה (scripts/seo/build_catalog.mjs),
 // ולא נכתבים ביד — מספר שהומצא פעם אחת מזדקן בשקט בכל פעם שנוסף תוכן.
@@ -50,22 +60,22 @@ const HOW_STEPS = [
   {
     icon: <IconPlay />,
     title: 'צופים בהסבר',
-    text: 'כל פרק נפתח בוידאו הסבר קצר בעברית, שמראה את הנושא מההתחלה — בלי להניח שהתלמיד כבר יודע. אפשר לעצור, לחזור אחורה ולצפות שוב כמה פעמים שצריך, בקצב של התלמיד ולא של הכיתה.',
+    text: 'כל פרק נפתח בוידאו הסבר קצר בעברית, שמראה את הנושא מההתחלה — בלי להניח שהתלמיד כבר יודע. אפשר לעצור, לחזור ולצפות שוב, בקצב של התלמיד ולא של הכיתה.',
   },
   {
     icon: <IconBulb />,
     title: 'עוברים על דוגמאות פתורות',
-    text: 'אחרי ההסבר מגיעות דוגמאות פתורות שלב אחר שלב, עם ההיגיון מאחורי כל מעבר. זה החלק שבדרך כלל חסר בשיעורי הבית: לא רק התשובה הנכונה, אלא איך בכלל חושבים על השאלה.',
+    text: 'דוגמאות פתורות שלב אחר שלב, עם ההיגיון מאחורי כל מעבר — לא רק התשובה הנכונה, אלא איך בכלל חושבים על השאלה.',
   },
   {
     icon: <IconPencil />,
     title: 'מתרגלים עם משוב מיידי',
-    text: 'התרגול הדיגיטלי בודק כל תשובה ברגע שהיא נשלחת ומסביר מה השתבש, כך שתלמיד לא מתאמן שוב ושוב על טעות. מי שמעדיף נייר ועיפרון מקבל בכל פרק גם דף עבודה להדפסה.',
+    text: 'כל תשובה נבדקת מיד, ואם משהו השתבש מוסבר מה — כך שאף אחד לא מתאמן שוב ושוב על טעות. למי שמעדיף נייר: דף עבודה להדפסה בכל פרק.',
   },
   {
     icon: <IconTrophy />,
     title: 'בודקים שהחומר נקלט',
-    text: 'בסוף כל פרק בוחן קצר, ולצידו מבחני תרגול בתנאי זמן אמיתיים. דוח ההתקדמות מראה בדיוק אילו נושאים כבר יושבים ואיפה כדאי לחזור — לתלמיד וגם להורה.',
+    text: 'בוחן קצר בסוף כל פרק, מבחני תרגול בתנאי זמן אמיתיים, ודוח התקדמות שמראה מה כבר יושב ואיפה כדאי לחזור — לתלמיד וגם להורה.',
   },
 ]
 
@@ -83,7 +93,7 @@ const FEATURES = [
   {
     icon: <IconUsers />,
     title: 'מורה פרטי למתמטיקה אונליין',
-    text: 'מי שצריך ליווי אישי יכול לקבוע שיעור פרטי בחשבון אונליין או שיעור פרטי במתמטיקה אונליין, ישירות דרך המערכת.',
+    text: 'מי שצריך ליווי אישי יכול לקבוע שיעור פרטי במתמטיקה או בחשבון אונליין, ישירות דרך המערכת.',
   },
   {
     icon: <IconTrophy />,
@@ -129,10 +139,29 @@ const PSY_ADVANTAGES = [
   },
 ]
 
+// שלושה מצבים אמיתיים, כדי שהמבקר יזהה את עצמו.
+const AUDIENCE = [
+  {
+    icon: <IconRefresh />,
+    title: 'לתלמיד שנשאר מאחור',
+    text: 'כשהכיתה ממשיכה הלאה וההרגשה היא שהרכבת יצאה, אפשר לחזור לנושא שנפל בלי להודות בזה מול אף אחד: לצפות באותו הסבר שלוש פעמים, לתרגל עד שזה יושב, ולחזור לכיתה עם החומר סגור.',
+  },
+  {
+    icon: <IconSpark />,
+    title: 'לתלמיד שרוצה להתקדם',
+    text: 'מי שהחומר בכיתה קל לו מדי יכול לרוץ קדימה: הקורסים פתוחים לפי נושא ולא לפי שכבה, אז תלמיד כיתה ז׳ שסיים את החומר שלו יכול להמשיך לכיתה ח׳ או להיכנס לנושאי תיכון.',
+  },
+  {
+    icon: <IconUsers />,
+    title: 'להורה שרוצה לדעת מה קורה',
+    text: 'דוח ההתקדמות מראה מה נלמד בפועל, כמה זמן הושקע ואילו נושאים עדיין חלשים — תמונת מצב אמיתית במקום "היה בסדר". ואם צריך, אפשר להוסיף שיעור פרטי בדיוק בנושא שהדוח מסמן.',
+  },
+]
+
 const FAQ = [
   {
     q: 'מה זה לומדת מתמטיקה?',
-    a: 'לומדה מתמטיקה מקוונת ללימוד עצמי ותרגול, עם קורסים לכל כיתה מכיתה ה׳ ועד תיכון, בנק תרגול ומבחנים, והכנה למבחן קרני.',
+    a: 'לומדה מקוונת ללימוד עצמי ותרגול במתמטיקה, עם קורסים לכל כיתה מכיתה ה׳ ועד תיכון, בנק תרגול ומבחנים, והכנה למבחן קרני.',
   },
   {
     q: 'איך עובדת ההכנה לקרני באתר?',
@@ -167,10 +196,80 @@ const FAQ = [
     a: 'כן. הקורסים בנויים לפי נושאים ולא לפי לוח זמנים של בית ספר, ולכן אפשר להיכנס ישר לנושא שקשה עכשיו — שברים, משוואות, פונקציות או כל נושא אחר — בלי לעבור את כל הקורס מההתחלה.',
   },
   {
+    // ההתנסות פותחת את הפרקים הראשונים של כל קורס — לא את הכול, ולא לתמיד
+    // (backend/app/trials.py). הנוסח הקודם הבטיח "גישה מלאה" ו"טעימה קבועה"
+    // אחרי ההתנסות, ושתיהן לא נכונות; מי שנרשם על סמך זה מגלה את הפער מיד.
     q: 'איך אפשר לדעת שזה מתאים לפני שמשלמים?',
-    a: 'כל תלמיד שנרשם מקבל תקופת התנסות עם גישה מלאה לכל הלומדה, ואחריה נשאר פתוח חלק מכל קורס כטעימה קבועה. אפשר להיכנס, לצפות בוידאו, לפתור תרגילים ולראות איך זה מרגיש לפני החלטה.',
+    a: 'כל תלמיד שנרשם מקבל תקופת התנסות חינם, שבה הפרקים הראשונים של כל קורס פתוחים לו במלואם — וידאו, דוגמאות, תרגול ודף עבודה. אפשר להיכנס, לפתור תרגילים ולראות איך זה מרגיש לפני שמחליטים.',
   },
 ]
+
+/** שבר מוערם קטן — מספיק לתצוגה המקדימה, בלי לטעון את KaTeX לדף הנחיתה. */
+function Frac({ n, d }) {
+  return (
+    <span className="lp-frac" aria-label={`${n} חלקי ${d}`}>
+      <span>{n}</span>
+      <span>{d}</span>
+    </span>
+  )
+}
+
+/**
+ * "הצצה לתוך פרק" — כרטיס סטטי שמראה את מבנה הפרק האמיתי (השלבים, שאלת תרגול
+ * ומשוב) במקום לתאר אותו במילים. הפרק עצמו קיים: שברים פשוטים לכיתה ה׳, פרק 5.
+ */
+function LessonPeek() {
+  return (
+    <figure className="lp-peek grade-5">
+      <div className="lp-peek-head">
+        <span className="cat-chip">כיתה ה׳</span>
+        <span className="lp-peek-course">שברים פשוטים · פרק 5</span>
+      </div>
+      <p className="lp-peek-title">חיבור וחיסור שברים</p>
+      <ol className="lp-peek-steps">
+        <li className="is-done">
+          <IconPlay /> סרטון הסבר <IconCheck className="lp-peek-tick" />
+        </li>
+        <li className="is-done">
+          <IconBulb /> דוגמאות פתורות <IconCheck className="lp-peek-tick" />
+        </li>
+        <li className="is-current">
+          <IconPencil /> תרגול עם משוב
+        </li>
+        <li>
+          <IconTrophy /> בוחן סיום
+        </li>
+      </ol>
+      <div className="lp-peek-q">
+        <p className="lp-peek-q-text">
+          כמה זה{' '}
+          <span className="lp-peek-expr" dir="ltr">
+            <Frac n="1" d="4" /> + <Frac n="1" d="2" />
+          </span>
+          ?
+        </p>
+        <div className="lp-peek-opts" dir="ltr">
+          <span className="lp-peek-opt">
+            <Frac n="2" d="6" />
+          </span>
+          <span className="lp-peek-opt is-ok">
+            <Frac n="3" d="4" />
+          </span>
+          <span className="lp-peek-opt">
+            <Frac n="2" d="4" />
+          </span>
+        </div>
+        <p className="lp-peek-feedback">
+          <IconCheck /> נכון! מרחיבים את <span dir="ltr"><Frac n="1" d="2" /></span> לרבעים:{' '}
+          <span dir="ltr">
+            <Frac n="1" d="4" /> + <Frac n="2" d="4" /> = <Frac n="3" d="4" />
+          </span>
+        </p>
+      </div>
+      <figcaption className="lp-peek-cap">כך נראה פרק בלומדה</figcaption>
+    </figure>
+  )
+}
 
 export default function LandingPage() {
   const { user } = useAuth()
@@ -194,30 +293,31 @@ export default function LandingPage() {
     })),
   })
 
+  const gradeHref = (g) => (user ? '/lomda' : paths.grade(g.path))
+
   return (
     <div className="catalog landing-page" dir="rtl">
       {/* Hero */}
       <div className="cat-hero lp-hero-pastel">
         <MathDoodles className="hero-doodles" />
         <motion.div
-          className="cat-hero-body lp-hero-body"
+          className="cat-hero-body lp-hero-body lp-hero-split"
           variants={staggerContainer}
           initial="hidden"
           animate="show"
         >
           <motion.div className="cat-hero-text" variants={fadeInUp}>
             <span className="cat-eyebrow">
-              <IconGraduation /> לומדת מתמטיקה מכיתה ה׳ ועד תיכון
+              <IconGraduation /> לומדת מתמטיקה בעברית · מכיתה ה׳ ועד תיכון
             </span>
             <h1 className="cat-title">
-              מהיסודי ועד לתיכון, הדרך שלך <span className="cat-title-accent">להצלחה!</span>
+              מתמטיקה שסוף סוף <span className="cat-title-accent">מבינים</span>
             </h1>
             <p className="lp-hero-sub">
-              קורסים במתמטיקה לפי כיתה, תרגול ומבחנים, הכנה לקרני עם סימולציות בתנאי אמת, ואפשרות
-              לשיעורים פרטיים במתמטיקה ובחשבון — הכול בלומדה אחת, בעברית.
+              וידאו הסבר קצר, דוגמאות פתורות שלב אחר שלב ותרגול עם משוב מיידי — מסודרים לפי כיתה
+              ונושא. ולצד זה מסלול הכנה מלא למבחן קרני, ושיעורים פרטיים למי שצריך יד מכוונת.
             </p>
-            {/* המספרים האמיתיים של הקטלוג. הם גם ממלאים את ההירו, שהיה עד כה
-                כותרת ושני כפתורים בלבד, וגם עונים על השאלה הראשונה שכל הורה
+            {/* המספרים האמיתיים של הקטלוג — עונים על השאלה הראשונה שכל הורה
                 שואל: כמה תוכן באמת יש כאן. */}
             <div className="cat-stats lp-hero-stats">
               {HERO_STATS.map((stat, i) => (
@@ -230,46 +330,74 @@ export default function LandingPage() {
                 </Fragment>
               ))}
             </div>
-            {/* דף הנחיתה הוא "/" גם למי שמחובר: אורח מקבל הרשמה/התחברות,
-                תלמיד מחובר מקבל את הדרך פנימה אל מה שרכש. */}
+            {/* דף הנחיתה הוא "/" גם למי שמחובר: אורח מקבל הרשמה + דרך לראות
+                את הקורסים לפני שנרשם, תלמיד מחובר מקבל את הדרך פנימה. */}
             {user ? (
               <MyKits />
             ) : (
-              <div className="lp-hero-actions">
-                <MotionLink to="/register" className="btn btn-cta lp-cta" {...tapScale}>
-                  <IconArrowStart /> הרשמה ללומדה
-                </MotionLink>
-                <MotionLink to="/login" className="btn-ghost lp-cta-ghost" {...tapScale}>
-                  כבר יש לי חשבון — התחברות
-                </MotionLink>
-              </div>
+              <>
+                <div className="lp-hero-actions">
+                  <MotionLink to="/register" className="btn btn-cta lp-cta" {...tapScale}>
+                    הרשמה חינם <IconArrowStart />
+                  </MotionLink>
+                  <MotionLink to={paths.courses()} className="btn-ghost lp-cta-ghost" {...tapScale}>
+                    לראות את כל הקורסים
+                  </MotionLink>
+                </div>
+                <p className="lp-hero-login">
+                  כבר רשומים? <Link to="/login">התחברות</Link>
+                </p>
+              </>
             )}
+          </motion.div>
+          <motion.div className="lp-hero-peek" variants={fadeInUp}>
+            <LessonPeek />
           </motion.div>
         </motion.div>
       </div>
 
-      {/* Intro / keyword-rich value prop */}
-      <section className="lp-panel">
-        <p className="lp-intro lp-intro-wide">
-          <strong>לומדת מתמטיקה</strong> היא מערכת לימוד מקוונת לתלמידים בבית הספר היסודי,
-          בחטיבת הביניים ובתיכון. באתר תמצאו <strong>קורסים במתמטיקה</strong> מסודרים לפי כיתה
-          ונושא, בנק שאלות לתרגול, מבחני תרגול בתנאי זמן אמיתיים, מסלול מלא של{' '}
-          <strong>הכנה לקרני</strong> לקראת <strong>מבחן קרני</strong>, ואפשרות לקבוע{' '}
-          <strong>שיעורים פרטיים</strong> במתמטיקה ובחשבון עם מורה אישי.
-        </p>
-        <p className="lp-intro lp-intro-wide">
-          הרעיון פשוט: תלמיד שמתקשה במתמטיקה כמעט תמיד מתקשה בגלל חוליה אחת שנשארה פתוחה
-          מאחור — שברים שלא הובנו בכיתה ה׳ שממשיכים להכשיל משוואות בכיתה ח׳. לכן החומר כאן
-          מסודר לפי נושאים ולא לפי לוח זמנים של בית ספר: אפשר לחזור אחורה בדיוק לנקודה שבה
-          נוצר הפער, לסגור אותה בקצב אישי, ורק אז להמשיך הלאה. הכול בעברית, בלי תרגומים
-          מסורבלים ובלי צורך בידע מוקדם.
-        </p>
-      </section>
+      {/* Grades — the first thing a parent looks for: "is my kid's year here?" */}
+      <div className="cat-head lp-head-math">
+        <h2 className="cat-head-title">
+          <IconCompass /> בוחרים כיתה ומתחילים
+        </h2>
+        {!user && (
+          <Link to={paths.courses()} className="lp-head-link">
+            לכל הקורסים <IconArrowStart />
+          </Link>
+        )}
+      </div>
+      <motion.div
+        className="lp-grade-grid"
+        variants={staggerContainer}
+        initial="hidden"
+        animate="show"
+      >
+        {GRADE_CARDS.map((g) => (
+          <motion.div key={g.key} variants={fadeInUp}>
+            <motion.div {...hoverLift}>
+              <Link to={gradeHref(g)} className={`lp-grade-card grade-${g.key}`}>
+                <span className="lp-grade-top">
+                  <span className="lp-grade-pill">{g.pill}</span>
+                  {gradeCounts(g.key) && (
+                    <span className="lp-grade-count">{gradeCounts(g.key)}</span>
+                  )}
+                </span>
+                <h3>{g.title}</h3>
+                <p>{g.desc}</p>
+                <span className="lp-grade-go">
+                  {user ? 'לקורסים' : 'לראות את הקורסים'} <IconArrowStart />
+                </span>
+              </Link>
+            </motion.div>
+          </motion.div>
+        ))}
+      </motion.div>
 
       {/* איך זה עובד — מה באמת קורה בתוך פרק */}
       <div className="cat-head lp-head-math">
         <h2 className="cat-head-title">
-          <IconLayers /> איך פרק בלומדה בנוי
+          <IconLayers /> איך בנוי כל פרק
         </h2>
       </div>
       <motion.div
@@ -289,6 +417,28 @@ export default function LandingPage() {
         ))}
       </motion.div>
 
+      {/* Features */}
+      <div className="cat-head lp-head-math">
+        <h2 className="cat-head-title">
+          <IconTarget /> מה עוד יש בלומדה
+        </h2>
+      </div>
+      <motion.div
+        className="lp-feature-grid"
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: '-40px' }}
+      >
+        {FEATURES.map((f) => (
+          <motion.div key={f.title} className="lp-feature-card" variants={fadeInUp}>
+            <span className="lp-feature-icon lp-feature-icon-math">{f.icon}</span>
+            <h3>{f.title}</h3>
+            <p>{f.text}</p>
+          </motion.div>
+        ))}
+      </motion.div>
+
       {/* Karni prep */}
       <section className="lp-panel lp-panel-board lp-panel-karni">
         <div className="lp-panel-board-inner">
@@ -304,8 +454,8 @@ export default function LandingPage() {
               </li>
             ))}
           </ul>
-          <Link to={user ? '/psy' : '/register'} className="btn btn-cta lp-cta">
-            <IconArrowStart /> להתחיל בהכנה לקרני
+          <Link to={user ? '/psy' : paths.karni()} className="btn btn-cta lp-cta">
+            {user ? 'להתחיל בהכנה לקרני' : 'לפרטים על ההכנה לקרני'} <IconArrowStart />
           </Link>
         </div>
       </section>
@@ -332,89 +482,40 @@ export default function LandingPage() {
         ))}
       </motion.div>
 
-      {/* Grades — transition from Karni prep into the everyday math track */}
-      <p className="lp-transition">
-        לצד ההכנה לקרני, הלומדה מלווה גם את הלימודים השוטפים במתמטיקה ובחשבון — קורס מסודר
-        לכל כיתה, עם וידאו, תרגול ודפי עבודה:
-      </p>
-      <div className="cat-head lp-head-math">
-        <h2 className="cat-head-title">
-          <IconCompass /> חשבון ומתמטיקה לפי כיתה
-        </h2>
-      </div>
-      <motion.div
-        className="lp-grade-grid"
-        variants={staggerContainer}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, margin: '-40px' }}
-      >
-        {GRADE_CARDS.map((g) => (
-          <motion.div key={g.title} variants={fadeInUp}>
-            <motion.div {...hoverLift}>
-              <Link to={user ? '/lomda' : '/register'} className={`lp-grade-card grade-${g.pill === 'תיכון' ? 'hs' : g.pill.replace('׳', '')}`}>
-                <span className="lp-grade-pill">{g.pill}</span>
-                <h3>{g.title}</h3>
-                <p>{g.desc}</p>
-              </Link>
-            </motion.div>
-          </motion.div>
-        ))}
-      </motion.div>
-
-      {/* Features */}
-      <div className="cat-head lp-head-math">
-        <h2 className="cat-head-title">
-          <IconTarget /> למה לומדת מתמטיקה
-        </h2>
-      </div>
-      <motion.div
-        className="lp-feature-grid"
-        variants={staggerContainer}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, margin: '-40px' }}
-      >
-        {FEATURES.map((f) => (
-          <motion.div key={f.title} className="lp-feature-card" variants={fadeInUp}>
-            <span className="lp-feature-icon lp-feature-icon-math">{f.icon}</span>
-            <h3>{f.title}</h3>
-            <p>{f.text}</p>
-          </motion.div>
-        ))}
-      </motion.div>
-
-      {/* למי זה מתאים — שלושה מצבים אמיתיים, כדי שהמבקר יזהה את עצמו */}
+      {/* למי זה מתאים */}
       <div className="cat-head lp-head-math">
         <h2 className="cat-head-title">
           <IconUsers /> למי הלומדה מתאימה
         </h2>
       </div>
-      <section className="lp-panel lp-audience">
-        <div className="lp-audience-item">
-          <h3>לתלמיד שנשאר מאחור</h3>
-          <p>
-            כשהכיתה ממשיכה הלאה וההרגשה היא שהרכבת יצאה, הלומדה מאפשרת לחזור לנושא שנפל בלי
-            להודות בזה מול אף אחד. אפשר לצפות באותו הסבר שלוש פעמים, לתרגל עד שזה יושב, ולחזור
-            לכיתה עם החומר סגור.
-          </p>
-        </div>
-        <div className="lp-audience-item">
-          <h3>לתלמיד שרוצה להתקדם</h3>
-          <p>
-            מי שהחומר בכיתה קל לו מדי יכול לרוץ קדימה: הקורסים פתוחים לפי נושא ולא לפי שכבה,
-            אז תלמיד כיתה ז׳ שסיים את החומר שלו יכול פשוט להמשיך לכיתה ח׳ או להיכנס לנושאי
-            תיכון שמעניינים אותו.
-          </p>
-        </div>
-        <div className="lp-audience-item">
-          <h3>להורה שרוצה לדעת מה קורה</h3>
-          <p>
-            דוח ההתקדמות מראה מה נלמד בפועל, כמה זמן הושקע ואילו נושאים עדיין חלשים — תמונת
-            מצב אמיתית במקום "היה בסדר" אחרי מבחן. מי שצריך יותר מזה יכול להוסיף שיעור פרטי
-            נקודתי בדיוק בנושא שהדוח מסמן.
-          </p>
-        </div>
+      <div className="lp-audience-grid">
+        {AUDIENCE.map((a) => (
+          <div key={a.title} className="lp-audience-card">
+            <span className="lp-feature-icon lp-feature-icon-math">{a.icon}</span>
+            <h3>{a.title}</h3>
+            <p>{a.text}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Intro / keyword-rich value prop — below the fold on purpose: it is the
+          long-form explanation for whoever wants it, not the first impression. */}
+      <section className="lp-panel lp-about">
+        <h2>על הלומדה</h2>
+        <p className="lp-intro">
+          <strong>לומדת מתמטיקה</strong> היא מערכת לימוד מקוונת לתלמידים בבית הספר היסודי,
+          בחטיבת הביניים ובתיכון. באתר תמצאו <strong>קורסים במתמטיקה</strong> מסודרים לפי כיתה
+          ונושא, בנק שאלות לתרגול, מבחני תרגול בתנאי זמן אמיתיים, מסלול מלא של{' '}
+          <strong>הכנה לקרני</strong> לקראת <strong>מבחן קרני</strong>, ואפשרות לקבוע{' '}
+          <strong>שיעורים פרטיים</strong> במתמטיקה ובחשבון עם מורה אישי.
+        </p>
+        <p className="lp-intro">
+          הרעיון פשוט: תלמיד שמתקשה במתמטיקה כמעט תמיד מתקשה בגלל חוליה אחת שנשארה פתוחה
+          מאחור — שברים שלא הובנו בכיתה ה׳ שממשיכים להכשיל משוואות בכיתה ח׳. לכן החומר כאן
+          מסודר לפי נושאים ולא לפי לוח זמנים של בית ספר: אפשר לחזור אחורה בדיוק לנקודה שבה
+          נוצר הפער, לסגור אותה בקצב אישי, ורק אז להמשיך הלאה. הכול בעברית, בלי תרגומים
+          מסורבלים ובלי צורך בידע מוקדם.
+        </p>
       </section>
 
       {/* Private lessons */}
@@ -423,10 +524,9 @@ export default function LandingPage() {
         <div>
           <h2>שיעורים פרטיים במתמטיקה ובחשבון</h2>
           <p>
-            לצד הלימוד העצמי אפשר לקבוע שיעור פרטי במתמטיקה או שיעור פרטי בחשבון לכיתות ו׳, ז׳,
-            ח׳ ו-ט׳ — ישירות דרך המערכת, בהתאמה אישית לרמה ולקצב של כל תלמיד: שיעורים פרטיים
-            לחשבון לכיתה ו׳, שיעורים פרטיים למתמטיקה לכיתה ז׳, שיעורים פרטיים למתמטיקה לכיתה ח׳
-            ושיעורים פרטיים למתמטיקה לכיתה ט׳.
+            לצד הלימוד העצמי אפשר לקבוע שיעור פרטי במתמטיקה או שיעור פרטי בחשבון אונליין,
+            ישירות דרך המערכת — בדיוק בנושא שקשה עכשיו, ברמה ובקצב של התלמיד. מתאים לתלמידי
+            יסודי וחטיבת ביניים, מכיתה ו׳ ועד ט׳.
           </p>
           <Link to={user ? '/lessons' : '/register'} className="btn-ghost lp-cta-ghost">
             קביעת שיעור פרטי
@@ -434,16 +534,22 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* FAQ */}
+      {/* FAQ — native <details>: scannable questions, answers on demand, and the
+          answer text stays in the DOM for the FAQPage markup above. */}
       <div className="cat-head">
-        <h2 className="cat-head-title">שאלות נפוצות</h2>
+        <h2 className="cat-head-title">
+          <IconBulb /> שאלות נפוצות
+        </h2>
       </div>
-      <section className="lp-panel lp-faq">
+      <section className="lp-faq-list">
         {FAQ.map((item) => (
-          <div key={item.q} className="lp-faq-item">
-            <h3>{item.q}</h3>
+          <details key={item.q} className="lp-faq-q">
+            <summary>
+              <h3>{item.q}</h3>
+              <span className="lp-faq-chev" aria-hidden="true" />
+            </summary>
             <p>{item.a}</p>
-          </div>
+          </details>
         ))}
       </section>
 
@@ -452,10 +558,18 @@ export default function LandingPage() {
       {!user && (
         <section className="lp-panel lp-final-cta">
           <h2>מוכנים להתחיל?</h2>
-          <p>הרשמה חינם, וכל תלמיד מקבל תקופת התנסות עם גישה מלאה לכל הלומדה.</p>
-          <Link to="/register" className="btn btn-cta lp-cta">
-            <IconArrowStart /> הרשמה להלומדה
-          </Link>
+          <p>
+            ההרשמה חינם ולוקחת פחות מדקה. בתקופת ההתנסות הפרקים הראשונים בכל קורס פתוחים לכם
+            במלואם.
+          </p>
+          <div className="lp-hero-actions">
+            <MotionLink to="/register" className="btn btn-cta lp-cta" {...tapScale}>
+              הרשמה חינם <IconArrowStart />
+            </MotionLink>
+            <MotionLink to={paths.courses()} className="btn-ghost lp-cta-ghost lp-cta-ghost-paper" {...tapScale}>
+              לראות את הקורסים קודם
+            </MotionLink>
+          </div>
         </section>
       )}
     </div>

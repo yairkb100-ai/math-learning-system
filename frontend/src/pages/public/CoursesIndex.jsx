@@ -9,6 +9,8 @@ import {
   SectionHead,
   CourseCard,
   CourseGrid,
+  TopicGrid,
+  topicCountOf,
   JoinCta,
   Loading,
   IconCompass,
@@ -97,14 +99,11 @@ export default function CoursesIndex() {
                   {grade.title}
                 </Link>
               }
-              count={courses.length}
+              count={topicCountOf(courses)}
+              unit="נושאים"
             />
             <p className="pub-section-desc">{grade.description}</p>
-            <CourseGrid>
-              {courses.map((course) => (
-                <CourseCard key={course.slug} course={course} gradeLabel={grade.label} />
-              ))}
-            </CourseGrid>
+            <TopicGrid courses={courses} gradeLabel={grade.label} />
           </section>
         )
       })}
@@ -119,6 +118,7 @@ export default function CoursesIndex() {
               </Link>
             }
             count={catalog.karniAreas.reduce((n, a) => n + a.courseSlugs.length, 0)}
+            unit="קורסים"
           />
           <p className="pub-section-desc">
             מסלול נפרד לקראת מבחן הקבלה של מכון קרני, מחולק לפי תחומי המבחן — מילולי, כמותי,

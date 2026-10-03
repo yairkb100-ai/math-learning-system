@@ -4,22 +4,16 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useAuth } from '../context/AuthContext.jsx'
 import api from '../api.js'
 import { usePageMeta } from '../lib/seo.js'
+import { friendlyError } from '../components/Status.jsx'
+import AuthAside from '../components/AuthAside.jsx'
+import { IconBrand } from '../components/icons.jsx'
 import { fadeInUp, staggerContainer, tapScale, DURATION, EASE_OUT, EASE_IN } from '../lib/motion.js'
 
+// opacity/transform בלבד (לא height) — כלל האנימציה של הפרויקט.
 const errorVariants = {
-  hidden: { opacity: 0, y: -6, height: 0 },
-  show: {
-    opacity: 1,
-    y: 0,
-    height: 'auto',
-    transition: { duration: DURATION.short, ease: EASE_OUT },
-  },
-  exit: {
-    opacity: 0,
-    y: -6,
-    height: 0,
-    transition: { duration: DURATION.short, ease: EASE_IN },
-  },
+  hidden: { opacity: 0, y: -6 },
+  show: { opacity: 1, y: 0, transition: { duration: DURATION.short, ease: EASE_OUT } },
+  exit: { opacity: 0, y: -6, transition: { duration: DURATION.short, ease: EASE_IN } },
 }
 
 export default function RegisterPage() {
@@ -53,12 +47,12 @@ export default function RegisterPage() {
   async function handleSubmit(e) {
     e.preventDefault()
     setError('')
-    if (password !== confirm) {
-      setError('הסיסמאות אינן תואמות')
+    if (password.length < 6) {
+      setError('הסיסמה צריכה להכיל לפחות 6 תווים')
       return
     }
-    if (password.length < 6) {
-      setError('הסיסמה חייבת להכיל לפחות 6 תווים')
+    if (password !== confirm) {
+      setError('שתי הסיסמאות לא זהות — כדאי להקליד שוב את האימות')
       return
     }
     setLoading(true)
@@ -73,7 +67,7 @@ export default function RegisterPage() {
       navigate('/')
     } catch (err) {
       console.error('Register error:', err)
-      setError(err.message || 'שגיאה בהרשמה — בדוק שהשרת רץ')
+      setError(friendlyError(err))
     } finally {
       setLoading(false)
     }
@@ -85,7 +79,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="auth-page" dir="rtl">
+    <div className="auth-page auth-split" dir="rtl">
       <motion.div
         className="auth-card"
         initial="hidden"
@@ -93,13 +87,12 @@ export default function RegisterPage() {
         variants={staggerContainer}
       >
         <motion.div className="auth-logo" variants={fadeInUp}>
-          <span className="brand-mark large">∑</span>
+          <span className="brand-mark"><IconBrand size={52} /></span>
         </motion.div>
-        <motion.h1 variants={fadeInUp}>הלומדה</motion.h1>
-        <motion.p className="auth-tagline" variants={fadeInUp}>
-          מתמטיקה והכנה לקרני
+        <motion.h1 variants={fadeInUp}>פותחים חשבון חינם</motion.h1>
+        <motion.p className="auth-lead" variants={fadeInUp}>
+          דקה אחת של הרשמה, ואפשר להתחיל ללמוד.
         </motion.p>
-        <motion.h2 variants={fadeInUp}>הרשמה למערכת</motion.h2>
 
         <AnimatePresence initial={false}>
           {referrer && (
@@ -124,7 +117,7 @@ export default function RegisterPage() {
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
               required
-              placeholder="השם שיוצג במערכת"
+              placeholder="למשל: נועה כהן"
               autoComplete="name"
               {...fieldMotion}
             />
@@ -138,51 +131,55 @@ export default function RegisterPage() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              placeholder="בחר שם משתמש להתחברות"
+              placeholder="איתו תתחברו בפעם הבאה"
               autoComplete="username"
+              autoCapitalize="none"
+              spellCheck={false}
               {...fieldMotion}
             />
           </div>
 
-          <div className="form-group">
-            <label htmlFor="password">סיסמה</label>
-            <motion.input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              minLength={6}
-              placeholder="לפחות 6 תווים"
-              autoComplete="new-password"
-              {...fieldMotion}
-            />
-          </div>
+          <div className="form-row-2">
+            <div className="form-group">
+              <label htmlFor="password">סיסמה</label>
+              <motion.input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                minLength={6}
+                placeholder="לפחות 6 תווים"
+                autoComplete="new-password"
+                {...fieldMotion}
+              />
+            </div>
 
-          <div className="form-group">
-            <label htmlFor="confirm">אימות סיסמה</label>
-            <motion.input
-              id="confirm"
-              type="password"
-              value={confirm}
-              onChange={(e) => setConfirm(e.target.value)}
-              required
-              minLength={6}
-              placeholder="הקלד שוב את הסיסמה"
-              autoComplete="new-password"
-              {...fieldMotion}
-            />
+            <div className="form-group">
+              <label htmlFor="confirm">אימות סיסמה</label>
+              <motion.input
+                id="confirm"
+                type="password"
+                value={confirm}
+                onChange={(e) => setConfirm(e.target.value)}
+                required
+                minLength={6}
+                placeholder="אותה סיסמה שוב"
+                autoComplete="new-password"
+                {...fieldMotion}
+              />
+            </div>
           </div>
 
           <AnimatePresence initial={false}>
             {error && (
               <motion.p
                 className="auth-error"
+                role="alert"
                 variants={errorVariants}
                 initial="hidden"
                 animate="show"
                 exit="exit"
-                style={{ overflow: 'hidden' }}
               >
                 {error}
               </motion.p>
@@ -195,14 +192,17 @@ export default function RegisterPage() {
             disabled={loading}
             {...tapScale}
           >
-            {loading ? 'נרשם...' : 'הרשמה וכניסה'}
+            {loading ? 'פותחים את החשבון…' : 'פתיחת חשבון והתחלה'}
           </motion.button>
+          <p className="auth-fineprint">ההרשמה חינם, בלי כרטיס אשראי.</p>
         </motion.form>
 
         <motion.p className="auth-switch" variants={fadeInUp}>
-          כבר יש לך חשבון? <Link to="/login">התחברות</Link>
+          כבר יש לכם חשבון? <Link to="/login">התחברות</Link>
         </motion.p>
       </motion.div>
+
+      <AuthAside mode="register" />
     </div>
   )
 }

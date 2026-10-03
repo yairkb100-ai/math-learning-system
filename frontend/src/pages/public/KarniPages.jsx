@@ -126,7 +126,7 @@ export function KarniPage() {
 
       {loading && <Loading />}
 
-      <SectionHead icon={<IconSpark />} title="תחומי המבחן" count={areas.length} />
+      <SectionHead icon={<IconSpark />} title="תחומי המבחן" count={areas.length} unit="תחומים" />
       <div className="pub-topic-columns">
         {areas.map((area) => (
           <section key={area.slug} className="pub-topic-block">
@@ -160,7 +160,7 @@ export function KarniPage() {
 
       <JoinCta
         title="להתחיל את ההכנה לקרני"
-        text="ההרשמה חינם, וכל תלמיד חדש מקבל תקופת התנסות עם גישה מלאה: קורסי התיאוריה, התרגול הממוקד והסימולציות."
+        text="ההרשמה חינם, ובתקופת ההתנסות פתוחה לכם טעימה מכל שלב במסלול — קורסי התיאוריה, התרגול הממוקד והסימולציות — כדי להתרשם לפני שמחליטים."
       />
     </div>
   )
@@ -206,7 +206,7 @@ export function KarniAreaPage() {
         }
       />
 
-      <SectionHead icon={<IconBook />} title="הקורסים בתחום" count={courses.length} />
+      <SectionHead icon={<IconBook />} title="הקורסים בתחום" count={courses.length} unit="קורסים" />
       <CourseGrid>
         {courses.map((course) => (
           <CourseCard key={course.slug} course={course} gradeLabel={area.title} />

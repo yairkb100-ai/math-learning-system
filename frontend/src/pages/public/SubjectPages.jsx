@@ -6,8 +6,8 @@ import {
   Crumbs,
   PublicHero,
   SectionHead,
-  CourseCard,
-  CourseGrid,
+  TopicGrid,
+  topicCountOf,
   LinkList,
   JoinCta,
   Loading,
@@ -146,18 +146,13 @@ export function SubjectPage() {
         }
       />
 
-      <SectionHead icon={<IconBook />} title="הקורסים בנושא" count={courses.length} />
-      <CourseGrid>
-        {courses.map((course) => (
-          <CourseCard
-            key={course.slug}
-            course={course}
-            gradeLabel={catalog.grades.find((g) => g.key === course.grade)?.label}
-          />
-        ))}
-      </CourseGrid>
+      <SectionHead icon={<IconBook />} title="הקורסים בנושא" count={topicCountOf(courses)} unit="נושאים" />
+      <TopicGrid
+        courses={courses}
+        labelOf={(course) => catalog.grades.find((g) => g.key === course.grade)?.label}
+      />
 
-      <SectionHead icon={<IconLayers />} title="כל הפרקים בנושא" count={chapterCount} />
+      <SectionHead icon={<IconLayers />} title="כל הפרקים בנושא" count={chapterCount} unit="פרקים" />
       <div className="pub-topic-columns">
         {courses.map((course) => (
           <section key={course.slug} className="pub-topic-block">

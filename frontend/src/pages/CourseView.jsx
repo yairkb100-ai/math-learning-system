@@ -1,19 +1,21 @@
 import { useEffect, useState, useCallback } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
 import { InlineMathText } from '../components/MathText.jsx'
 import MathDoodles from '../components/MathDoodles.jsx'
-import { fadeInUp, staggerContainer, hoverLift } from '../lib/motion.js'
+import PartsNav from '../components/PartsNav.jsx'
+import { cleanDescription, partBase, partLabel, partNumber } from '../lib/courseParts.js'
+import { fadeInUp, staggerContainer, hoverLift, tapScale } from '../lib/motion.js'
 import {
   IconArrowStart,
   IconLayers,
   IconClock,
-  IconLines,
   IconTarget,
   IconCompass,
   IconLock,
+  IconCheck,
 } from '../components/icons.jsx'
 
 const MotionLink = motion(Link)
@@ -33,28 +35,81 @@ const gradeHe = (grade) => GRADE_LABELS[grade] || ''
 // Drives --lv for the whole page; unknown/absent grade keeps the default accent.
 const gradeClass = (grade) => (GRADE_LABELS[grade] ? ` grade-${grade}` : '')
 
+const OBJECTIVES_PREVIEW = 5
+
+const fmtHours = (h) => {
+  const r = Math.round(h * 2) / 2
+  return r < 1 ? 'פחות משעה' : r === 1 ? 'שעה' : `${r} שעות`
+}
+
 export default function CourseView() {
   const { id } = useParams()
+  const navigate = useNavigate()
   const [course, setCourse] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [progress, setProgress] = useState(null)
+  const [siblings, setSiblings] = useState([])
+  const [showAllObjectives, setShowAllObjectives] = useState(false)
+
+  // הדפים הציבוריים, מפת האתר ותוצאות החיפוש מקשרים ל-/courses/<slug>, אבל ה-API
+  // של תלמיד מחובר מכיר רק מזהה מספרי — בלי ההמרה הזו מי שמחובר ולחץ על קישור
+  // כזה קיבל "422 [object Object]". מתרגמים את ה-slug למזהה ומחליפים את הכתובת.
+  const isSlug = !/^\d+$/.test(String(id))
 
   const load = useCallback(() => {
     setLoading(true)
     setError(null)
+    if (isSlug) {
+      api
+        .listCourses()
+        .then((list) => {
+          const hit = (list || []).find((c) => c.slug === id)
+          if (hit) navigate(`/courses/${hit.id}`, { replace: true })
+          else setError(new Error('הקורס הזה לא נמצא. אפשר לחזור לרשימת הקורסים ולבחור משם.'))
+        })
+        .catch(setError)
+        .finally(() => setLoading(false))
+      return
+    }
     api
       .getCourse(id)
       // Response mirrors course-schema.json under a `course` key.
       .then((data) => setCourse(data?.course ?? data))
       .catch(setError)
       .finally(() => setLoading(false))
-  }, [id])
+  }, [id, isSlug, navigate])
 
   useEffect(() => {
     load()
   }, [load])
 
-  if (loading) return <Loading label="טוען קורס…" />
+  // התקדמות + החלקים האחים — שתיהן תוספות: אם אחת נכשלת העמוד נשאר שלם.
+  useEffect(() => {
+    if (!course?.id) return
+    let alive = true
+    setProgress(null)
+    setSiblings([])
+    api
+      .getProgress(course.id)
+      .then((p) => alive && setProgress(p))
+      .catch(() => {})
+    if (course.slug) {
+      const base = partBase(course.slug)
+      api
+        .listCourses()
+        .then((list) => {
+          if (!alive) return
+          setSiblings((list || []).filter((c) => c.slug && partBase(c.slug) === base))
+        })
+        .catch(() => {})
+    }
+    return () => {
+      alive = false
+    }
+  }, [course?.id, course?.slug])
+
+  if (loading) return <Loading label="טוען את הקורס…" />
   if (error) return <ErrorBox error={error} onRetry={load} />
   if (!course) return null
 
@@ -76,6 +131,33 @@ export default function CourseView() {
     ? Math.round((unlocked / chapters.length) * 100)
     : Math.round((course.free_ratio ?? 0.3) * 100)
 
+  // Progress — keyed by chapter id. The row and the hero CTA both read it.
+  const doneIds = new Set(
+    (progress?.chapters || []).filter((c) => c.completed).map((c) => c.chapter_id)
+  )
+  const isDone = (ch) => ch.id != null && doneIds.has(ch.id)
+  const doneCount = chapters.filter(isDone).length
+  const open = chapters.filter((ch) => !ch.locked)
+  const nextUp = open.find((ch) => !isDone(ch)) || null
+  const allOpenDone = open.length > 0 && !nextUp
+  const pct = chapters.length ? Math.round((doneCount / chapters.length) * 100) : 0
+
+  const hasParts = siblings.length > 1
+  const thisPart = course.slug ? partNumber(course.slug) : 1
+
+  const startLabel = !isRtl
+    ? doneCount
+      ? `Continue — chapter ${nextUp?.number ?? 1}`
+      : 'Start chapter 1'
+    : allOpenDone
+      ? 'לחזור לפרק הראשון'
+      : doneCount
+        ? `להמשיך לפרק ${nextUp.number}`
+        : `להתחיל מפרק ${nextUp?.number ?? 1}`
+  const startTo = `/courses/${id}/chapters/${(nextUp || open[0])?.number ?? 1}`
+
+  const description = cleanDescription(meta.description)
+
   return (
     <section
       dir={isRtl ? 'rtl' : 'ltr'}
@@ -87,7 +169,7 @@ export default function CourseView() {
           {isRtl
             ? isPsy
               ? 'חזרה להכנה לקרני'
-              : 'חזרה לקורסים'
+              : 'חזרה לכל הקורסים'
             : isPsy
               ? 'Karni prep'
               : 'Courses'}
@@ -102,27 +184,70 @@ export default function CourseView() {
             {gradeHe(meta.grade) && (
               <span className="cat-chip">{gradeHe(meta.grade)}</span>
             )}
-            {meta.language && <span className="lang-tag">{meta.language}</span>}
+            {hasParts && (
+              <span className="course-part-tag">
+                {partLabel(thisPart)} מתוך {siblings.length}
+              </span>
+            )}
           </div>
           <h1 className="course-hero-title">{meta.title}</h1>
-          {meta.description && (
-            <p className="course-hero-sub">{meta.description}</p>
-          )}
+          {description && <p className="course-hero-sub">{description}</p>}
           <div className="course-hero-meta">
             <span className="course-meta-item">
               <IconLayers /> {chapters.length} {isRtl ? 'פרקים' : 'chapters'}
             </span>
             {meta.estimated_hours != null && (
               <span className="course-meta-item">
-                <IconClock /> {meta.estimated_hours} {isRtl ? 'שעות' : 'h'}
-              </span>
-            )}
-            {meta.word_count != null && (
-              <span className="course-meta-item">
-                <IconLines /> {meta.word_count} {isRtl ? 'מילים' : 'words'}
+                <IconClock />{' '}
+                {isRtl ? `כ-${fmtHours(meta.estimated_hours)} לימוד` : `${meta.estimated_hours} h`}
               </span>
             )}
           </div>
+
+          {open.length > 0 && (
+            <div className="course-hero-actions">
+              <MotionLink to={startTo} className="btn btn-cta course-start-btn" {...tapScale}>
+                {startLabel}
+                <IconArrowStart className="btn-arrow" />
+              </MotionLink>
+              {progress && chapters.length > 0 && (
+                <div
+                  className="course-progress"
+                  role="progressbar"
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                  aria-valuenow={pct}
+                  aria-label={isRtl ? 'התקדמות בקורס' : 'Course progress'}
+                >
+                  <span className="course-progress-track">
+                    <span
+                      className="course-progress-fill"
+                      style={{ transform: `scaleX(${pct / 100})` }}
+                    />
+                  </span>
+                  <span className="course-progress-text">
+                    {isRtl
+                      ? doneCount
+                        ? `${doneCount} מתוך ${chapters.length} פרקים הושלמו`
+                        : 'עוד לא התחלת — הפרק הראשון מחכה'
+                      : `${doneCount}/${chapters.length} done`}
+                  </span>
+                </div>
+              )}
+            </div>
+          )}
+
+          {hasParts && (
+            <PartsNav
+              onBoard
+              currentSlug={course.slug}
+              parts={siblings.map((c) => ({
+                slug: c.slug,
+                to: `/courses/${c.id}`,
+                chapters: c.chapters_count,
+              }))}
+            />
+          )}
         </div>
       </header>
 
@@ -130,19 +255,32 @@ export default function CourseView() {
         <div className="card objectives">
           <h3>
             <IconTarget className="objectives-icon" />
-            {isRtl ? 'מטרות למידה' : 'Learning objectives'}
+            {isRtl ? 'מה תדעו בסוף הקורס' : 'Learning objectives'}
           </h3>
           <ul>
-            {objectives.map((o, i) => (
+            {(showAllObjectives ? objectives : objectives.slice(0, OBJECTIVES_PREVIEW)).map((o, i) => (
               <li key={i}><InlineMathText text={o} /></li>
             ))}
           </ul>
+          {/* קורס ארוך נושא 12–15 מטרות — קיר טקסט שדוחק את רשימת הפרקים
+              מתחת לקפל. מציגים את הראשונות, והשאר בלחיצה. */}
+          {objectives.length > OBJECTIVES_PREVIEW && !showAllObjectives && (
+            <button
+              type="button"
+              className="objectives-more"
+              onClick={() => setShowAllObjectives(true)}
+            >
+              {isRtl
+                ? `להציג את כל ${objectives.length} המטרות`
+                : `Show all ${objectives.length}`}
+            </button>
+          )}
         </div>
       )}
 
       <div className="cat-head">
         <h2 className="cat-head-title">
-          <IconCompass /> {isRtl ? 'פרקים' : 'Chapters'}
+          <IconCompass /> {isRtl ? 'הפרקים בקורס' : 'Chapters'}
         </h2>
         <span className="cat-head-count">
           {isFree
@@ -195,22 +333,34 @@ export default function CourseView() {
             <motion.li key={ch.number} variants={fadeInUp}>
               <MotionLink
                 to={`/courses/${id}/chapters/${ch.number}`}
-                className="chapter-row"
+                className={`chapter-row${isDone(ch) ? ' is-done' : ''}${
+                  nextUp && ch.number === nextUp.number && doneCount ? ' is-next' : ''
+                }`}
                 {...hoverLift}
               >
-                <span className="chapter-num">{ch.number}</span>
-                <span className="chapter-title">{ch.title}</span>
-                <span className="chapter-go chapter-start-btn">
-                  {isRtl ? 'התחל' : 'Start'}
-                  <IconArrowStart className="chapter-go-arrow" />
+                <span className="chapter-num">
+                  {isDone(ch) ? <IconCheck aria-label={isRtl ? 'הושלם' : 'Done'} /> : ch.number}
                 </span>
+                <span className="chapter-title">{ch.title}</span>
+                {isDone(ch) ? (
+                  <span className="chapter-go chapter-done-tag">
+                    {isRtl ? 'הושלם' : 'Done'}
+                    <IconArrowStart className="chapter-go-arrow" />
+                  </span>
+                ) : (
+                  <span className="chapter-go chapter-start-btn">
+                    {isRtl ? (ch.number === nextUp?.number && doneCount ? 'להמשיך' : 'להתחיל') : 'Start'}
+                    <IconArrowStart className="chapter-go-arrow" />
+                  </span>
+                )}
               </MotionLink>
             </motion.li>
           )
         )}
       </motion.ol>
 
-      {id === 'karni-figural-matrices' && (
+      {/* הנתיב נושא מזהה מספרי, לא slug — ההשוואה מול id לא התקיימה אף פעם. */}
+      {course.slug === 'karni-figural-matrices' && (
         <motion.aside className="course-extra-practice" variants={fadeInUp} initial="hidden" animate="show">
           <IconCompass className="course-extra-practice-icon" />
           <div>

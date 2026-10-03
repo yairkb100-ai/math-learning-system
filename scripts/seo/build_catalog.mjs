@@ -236,6 +236,16 @@ const stats = {
   chapters: topicCount,
   hours: Math.round(courses.reduce((n, c) => n + (c.estimatedHours || 0), 0)),
   grades: catalog.grades.length,
+  // לכרטיסי הכיתות בדף הנחיתה: כמה נושאים (חלקים של אותו קורס נספרים פעם
+  // אחת — "--part-N") וכמה פרקים יש בכל שכבה.
+  byGrade: Object.fromEntries(
+    catalog.grades.map((g) => {
+      const list = courses.filter((c) => g.courseSlugs.includes(c.slug))
+      const topics = new Set(list.map((c) => c.slug.replace(/--part-\d+$/, ''))).size
+      const chapters = list.reduce((n, c) => n + (c.chapterCount || 0), 0)
+      return [g.key, { topics, chapters }]
+    }),
+  ),
 }
 fs.writeFileSync(
   STATS_OUT,

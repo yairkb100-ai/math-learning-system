@@ -2,12 +2,13 @@ import { useParams, Link } from 'react-router-dom'
 import { usePublicData } from '../../lib/publicData.js'
 import { usePageMeta, useJsonLd, breadcrumbJsonLd } from '../../lib/seo.js'
 import { paths } from '../../lib/publicRoutes.js'
+import { groupCourseParts } from '../../lib/courseParts.js'
 import {
   Crumbs,
   PublicHero,
   SectionHead,
-  CourseCard,
-  CourseGrid,
+  TopicGrid,
+  topicCountOf,
   LinkList,
   JoinCta,
   Loading,
@@ -62,7 +63,7 @@ export default function GradePage() {
         meta={
           <>
             <span className="course-meta-item">
-              <IconBook /> {courses.length} קורסים
+              <IconBook /> {topicCountOf(courses)} נושאים
             </span>
             <span className="course-meta-item">
               <IconLayers /> {chapterCount} פרקים
@@ -75,16 +76,17 @@ export default function GradePage() {
         <p className="lp-intro">{grade.intro}</p>
       </section>
 
-      <SectionHead icon={<IconBook />} title={`הקורסים ב${grade.label}`} count={courses.length} />
-      <CourseGrid>
-        {courses.map((course) => (
-          <CourseCard key={course.slug} course={course} gradeLabel={grade.label} />
-        ))}
-      </CourseGrid>
+      <SectionHead
+        icon={<IconBook />}
+        title={`הקורסים ב${grade.label}`}
+        count={topicCountOf(courses)}
+        unit="נושאים"
+      />
+      <TopicGrid courses={courses} gradeLabel={grade.label} />
 
-      <SectionHead icon={<IconLayers />} title="כל הנושאים בכיתה" count={chapterCount} />
+      <SectionHead icon={<IconLayers />} title="כל הפרקים בכיתה" count={chapterCount} unit="פרקים" />
       <div className="pub-topic-columns">
-        {courses.map((course) => (
+        {groupCourseParts(courses).flatMap((g) => g.parts).map((course) => (
           <section key={course.slug} className="pub-topic-block">
             <h3>
               <Link to={paths.course(course.slug)}>{course.title}</Link>
@@ -114,7 +116,6 @@ export default function GradePage() {
 
       <JoinCta
         title={`להתחיל ללמוד ${grade.title}`}
-        text="ההרשמה חינם, וכל תלמיד חדש מקבל תקופת התנסות עם גישה מלאה: כל הפרקים, הסרטונים, התרגול, המבחנים ודפי העבודה."
       />
     </div>
   )

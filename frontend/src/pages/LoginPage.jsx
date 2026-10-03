@@ -4,23 +4,17 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useAuth } from '../context/AuthContext.jsx'
 import api from '../api.js'
 import { usePageMeta } from '../lib/seo.js'
+import { friendlyError } from '../components/Status.jsx'
+import AuthAside from '../components/AuthAside.jsx'
+import { IconBrand } from '../components/icons.jsx'
 import { fadeInUp, staggerContainer, tapScale, DURATION, EASE_OUT, EASE_IN } from '../lib/motion.js'
 
-// שקופית קטנה מתחת לשדה — לא רק "מופיע", גם "נעלם" יפה כשהשגיאה מתנקה.
+// שקופית קטנה מתחת לשדה — לא רק "מופיעה", גם "נעלמת" יפה כשהשגיאה מתנקה.
+// opacity/transform בלבד (לא height) — כלל האנימציה של הפרויקט.
 const errorVariants = {
-  hidden: { opacity: 0, y: -6, height: 0 },
-  show: {
-    opacity: 1,
-    y: 0,
-    height: 'auto',
-    transition: { duration: DURATION.short, ease: EASE_OUT },
-  },
-  exit: {
-    opacity: 0,
-    y: -6,
-    height: 0,
-    transition: { duration: DURATION.short, ease: EASE_IN },
-  },
+  hidden: { opacity: 0, y: -6 },
+  show: { opacity: 1, y: 0, transition: { duration: DURATION.short, ease: EASE_OUT } },
+  exit: { opacity: 0, y: -6, transition: { duration: DURATION.short, ease: EASE_IN } },
 }
 
 export default function LoginPage() {
@@ -46,14 +40,15 @@ export default function LoginPage() {
       navigate(res.user.role === 'admin' ? '/admin' : '/')
     } catch (err) {
       console.error('Login error:', err)
-      setError(err.message || 'שגיאה בהתחברות — בדוק שהשרת רץ')
+      // api.js מצמיד את קוד הסטטוס ("401 שם משתמש…") — למשתמש מציגים רק את ההודעה.
+      setError(friendlyError(err))
     } finally {
       setLoading(false)
     }
   }
 
   return (
-    <div className="auth-page" dir="rtl">
+    <div className="auth-page auth-split" dir="rtl">
       <motion.div
         className="auth-card"
         initial="hidden"
@@ -61,13 +56,12 @@ export default function LoginPage() {
         variants={staggerContainer}
       >
         <motion.div className="auth-logo" variants={fadeInUp}>
-          <span className="brand-mark large">∑</span>
+          <span className="brand-mark"><IconBrand size={52} /></span>
         </motion.div>
-        <motion.h1 variants={fadeInUp}>הלומדה</motion.h1>
-        <motion.p className="auth-tagline" variants={fadeInUp}>
-          מתמטיקה והכנה לקרני
+        <motion.h1 variants={fadeInUp}>ברוכים השבים</motion.h1>
+        <motion.p className="auth-lead" variants={fadeInUp}>
+          מתחברים לחשבון וממשיכים ללמוד.
         </motion.p>
-        <motion.h2 variants={fadeInUp}>התחברות למערכת</motion.h2>
 
         <motion.form onSubmit={handleSubmit} variants={fadeInUp}>
           <div className="form-group">
@@ -78,8 +72,10 @@ export default function LoginPage() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              placeholder="הכנס שם משתמש"
+              placeholder="שם המשתמש שבחרתם בהרשמה"
               autoComplete="username"
+              autoCapitalize="none"
+              spellCheck={false}
               whileFocus={{ scale: 1.01 }}
               transition={{ duration: DURATION.short, ease: EASE_OUT }}
             />
@@ -104,11 +100,11 @@ export default function LoginPage() {
             {error && (
               <motion.p
                 className="auth-error"
+                role="alert"
                 variants={errorVariants}
                 initial="hidden"
                 animate="show"
                 exit="exit"
-                style={{ overflow: 'hidden' }}
               >
                 {error}
               </motion.p>
@@ -121,14 +117,16 @@ export default function LoginPage() {
             disabled={loading}
             {...tapScale}
           >
-            {loading ? 'מתחבר...' : 'כניסה'}
+            {loading ? 'מתחברים…' : 'כניסה'}
           </motion.button>
         </motion.form>
 
         <motion.p className="auth-switch" variants={fadeInUp}>
-          אין לך חשבון? <Link to="/register">הרשמה</Link>
+          עוד אין לכם חשבון? <Link to="/register">להרשמה חינם</Link>
         </motion.p>
       </motion.div>
+
+      <AuthAside mode="login" />
     </div>
   )
 }
