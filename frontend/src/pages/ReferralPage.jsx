@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import api from '../api.js'
-import { Loading, ErrorBox } from '../components/Status.jsx'
+import { Loading, ErrorBox, friendlyError } from '../components/Status.jsx'
 import MathDoodles from '../components/MathDoodles.jsx'
 import {
   IconUsers,
@@ -89,7 +89,7 @@ export default function ReferralPage() {
       await api.chooseReferralReward(refId, kind)
       load()
     } catch (err) {
-      alert(err.message)
+      alert(friendlyError(err))
     } finally {
       setBusy(false)
     }

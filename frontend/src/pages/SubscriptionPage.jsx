@@ -46,6 +46,25 @@ export default function SubscriptionPage() {
 
   if (loading) return <Loading label="טוען את פרטי המנוי…" />
 
+  // בלי זה כישלון בטעינה השאיר כרטיס עם הכותרת "המנוי שלי" ושום דבר מתחתיה —
+  // בדיוק בדף שאליו מופנה תלמיד שנחסם.
+  if (!access && !isAdmin)
+    return (
+      <section dir="rtl" className="card subscription-card">
+        <h1>המנוי שלי</h1>
+        <p className="sub-note">
+          לא הצלחנו לטעון את פרטי המנוי כרגע. אפשר לנסות שוב, או לכתוב למורה
+          ונבדוק יחד.
+        </p>
+        <div className="sub-actions">
+          <button type="button" className="btn" onClick={() => window.location.reload()}>
+            לנסות שוב
+          </button>
+          <Link to="/messages" className="btn">שליחת הודעה למורה</Link>
+        </div>
+      </section>
+    )
+
   const state = access?.state
   // מצב פר-מוצר. שרת ישן (לפני הפיצול) לא מחזיר את השדה — במקרה כזה נופלים
   // למצב הגורף, כדי שהעמוד לא יישאר ריק.
@@ -118,11 +137,11 @@ export default function SubscriptionPage() {
             </p>
             <p className="sub-note">
               בתקופת ההתנסות פתוחים לך כ-30% מכל קורס בלומדה וכ-10% ממאגר
-              השאלות בהכנה לקרני. בתום התקופה הגישה נחסמת עד לרכישה — רוצה
-              להמשיך? שלח הודעה ונסדר את זה מראש.
+              השאלות בהכנה לקרני. בתום התקופה הגישה נחסמת עד לרכישה — רוצים
+              להמשיך? שלחו לי הודעה ונסדר את זה מראש.
             </p>
             <div className="sub-actions">
-              <Link to="/messages" className="btn">שליחת הודעה למנהל</Link>
+              <Link to="/messages" className="btn">שליחת הודעה למורה</Link>
             </div>
           </>
         ) : state === 'trial_ended' ? (
@@ -134,12 +153,12 @@ export default function SubscriptionPage() {
               <p className="muted">ההתנסות הסתיימה ב-{fmt(access.expires_at)}</p>
             )}
             <p className="sub-note">
-              נהניתי שהיית כאן! הגישה לתוכן חסומה עד לחידוש מנוי.
+              שמחתי שהייתם כאן! הגישה לתוכן חסומה עד לרכישת מנוי.
               <br />
-              רוצה להמשיך? שלח הודעה ואאשר לך את ההמשך.
+              רוצים להמשיך? שלחו לי הודעה ואפתח את הגישה מחדש.
             </p>
             <div className="sub-actions">
-              <Link to="/messages" className="btn">שליחת הודעה למנהל</Link>
+              <Link to="/messages" className="btn">שליחת הודעה למורה</Link>
             </div>
           </>
         ) : state === 'blocked' ? (
@@ -153,10 +172,10 @@ export default function SubscriptionPage() {
             <p className="sub-note">
               כדי להמשיך בלימודים יש לחדש את המנוי — הגישה לתוכן חסומה עד אז.
               <br />
-              לחידוש שלח לי הודעה ואסדר את זה מולך.
+              לחידוש שלחו לי הודעה ונסדר את זה.
             </p>
             <div className="sub-actions">
-              <Link to="/messages" className="btn">שליחת הודעה למנהל</Link>
+              <Link to="/messages" className="btn">שליחת הודעה למורה</Link>
             </div>
           </>
         ) : null}
@@ -187,13 +206,13 @@ export default function SubscriptionPage() {
                   {row.state === 'not_purchased' && (
                     <p className="muted">
                       פתוחים לך כ-{crossPct}% מהתוכן כטעימה. להוספת האזור הזה —
-                      שלח לי הודעה.
+                      שלחו לי הודעה.
                     </p>
                   )}
                   {row.state === 'trial' && (
                     <p className="muted">
                       פתוחים לך כ-{Math.round((row.free_ratio ?? 0.3) * 100)}% מהתוכן כטעימה
-                      בתקופת ההתנסות. לגישה מלאה — שלח לי הודעה.
+                      בתקופת ההתנסות. לגישה מלאה — שלחו לי הודעה.
                     </p>
                   )}
                   {meta.ok && target && (
@@ -287,7 +306,7 @@ export default function SubscriptionPage() {
             </p>
           )}
           <div className="sub-actions">
-            <Link to="/messages" className="btn">שליחת הודעה למנהל</Link>
+            <Link to="/messages" className="btn">שליחת הודעה למורה</Link>
           </div>
         </motion.div>
       )}
@@ -296,7 +315,7 @@ export default function SubscriptionPage() {
           להוריד אותו. למנהל אין מנוי ולכן גם אין הטבה להציג לו. */}
       {!isAdmin && state !== 'admin' && pricing && (
         <motion.div className="sub-referral" variants={fadeInUp}>
-          <h3>רוצה לשלם פחות?</h3>
+          <h3>רוצים לשלם פחות?</h3>
           <p>
             על כל תלמיד שיצטרף דרך הקישור האישי שלך מגיעה לך{' '}
             <strong>{Math.round(pricing.referral_sub_discount_pct)}% הנחה על החודש הבא</strong>{' '}

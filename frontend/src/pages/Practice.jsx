@@ -226,14 +226,14 @@ export default function Practice() {
     <section dir="rtl" className={`sa-page practice-page${inSession ? ' is-in-session' : ''}`}>
       {!inSession && (
         <PageHead
-          title="מרכז התרגול"
-          lead="בוחרים נושא, עונים על כמה שאלות ומקבלים הסבר מיד אחרי כל תשובה."
+          title={finished ? "סיכום התרגול" : "מרכז התרגול"}
+          lead={finished ? undefined : "בוחרים נושא, עונים על כמה שאלות ומקבלים הסבר מיד אחרי כל תשובה."}
         />
       )}
 
       {/* free tier: the bank is sampled from the open part of every topic.
           Hidden mid-session — there it only pushes the question off screen. */}
-      {!inSession && meta?.access_tier === 'free' && (
+      {!started && meta?.access_tier === 'free' && (
         <motion.div className="free-note" variants={fadeInUp} initial="hidden" animate="show">
           <span className="free-note-icon" aria-hidden="true">
             <IconLock />
@@ -256,7 +256,7 @@ export default function Practice() {
 
       {/* stats strip — only once there is something to show; a brand-new
           student gets an invitation instead of "0%" in three boxes. */}
-      {!inSession && stats && !isNew && (
+      {!started && stats && !isNew && (
         <motion.div
           className="practice-stats"
           variants={staggerContainer}

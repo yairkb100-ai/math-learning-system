@@ -787,6 +787,13 @@
 .ach-go { margin-top: auto; padding-top: 6px; min-height: 36px; display: inline-flex; align-items: center; font-weight: 700; }
 
 /* ==========================================================================
+   Messages (student view shares the page with admin — only safe touch-ups)
+   ========================================================================== */
+.messages-page .chat-compose input { flex: 1 1 0; min-width: 0; font-size: 1rem; }
+.messages-page .chat-compose .btn { flex: 0 0 auto; }
+.messages-page .chat-empty { max-width: 44ch; margin-inline: auto; text-align: center; }
+
+/* ==========================================================================
    Files
    ========================================================================== */
 .files-page .file-manager-head { align-items: center; }

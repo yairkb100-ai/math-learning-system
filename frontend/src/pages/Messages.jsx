@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useAuth } from '../context/AuthContext.jsx'
 import api from '../api.js'
-import { Loading, ErrorBox } from '../components/Status.jsx'
+import { Loading, ErrorBox, friendlyError } from '../components/Status.jsx'
 import { IconPaperclip, IconArrowStart, IconX, IconUsers } from '../components/icons.jsx'
 import { fadeInUp, staggerContainer, tapScale, DURATION, EASE_OUT } from '../lib/motion.js'
 import '../styles/comms-files-shared.css'
@@ -218,7 +218,7 @@ function BroadcastModal({ students, onClose, onSent }) {
                 type="button"
                 className="chat-pending-file-remove"
                 onClick={() => setFile(null)}
-                aria-label="הסר קובץ"
+                aria-label="הסרת הקובץ"
               >
                 <IconX />
               </button>
@@ -293,9 +293,21 @@ export default function Messages() {
         )
 
     Promise.all([loadConversations(), contactsP])
-      .then(([, contactList]) => setContacts(contactList))
+      .then(([convos, contactList]) => {
+        setContacts(contactList)
+        // לתלמיד יש בדרך כלל איש קשר אחד — המורה. במקום "בחרו שיחה מהרשימה"
+        // מול רשימה של שורה אחת, נפתחים ישר על השיחה עם תיבת הכתיבה.
+        if (!isAdmin) {
+          const parties = new Map()
+          for (const c of Array.isArray(convos) ? convos : [])
+            parties.set(c.user_id, { user_id: c.user_id, full_name: c.full_name })
+          for (const c of contactList) if (!parties.has(c.user_id)) parties.set(c.user_id, c)
+          if (parties.size === 1) openThread([...parties.values()][0])
+        }
+      })
       .catch(setError)
       .finally(() => setLoading(false))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAdmin, loadConversations])
 
   const openThread = useCallback((party) => {
@@ -334,7 +346,7 @@ export default function Messages() {
       setThread(Array.isArray(msgs) ? msgs : [])
       loadConversations()
     } catch (err) {
-      alert(err.message)
+      alert(friendlyError(err))
     } finally {
       setSending(false)
     }
@@ -348,12 +360,14 @@ export default function Messages() {
   const startable = contacts.filter((c) => !convoIds.has(c.user_id))
 
   return (
-    <section dir="rtl" className="messages-page">
-      <div className="page-head">
-        <div>
+    <section dir="rtl" className="sa-page messages-page">
+      <div className="page-head sa-head">
+        <div className="sa-head-text">
           <h1>הודעות</h1>
-          <p className="muted">
-            {isAdmin ? 'התכתבות עם התלמידים' : 'התכתבות עם צוות ההוראה'}
+          <p className="sa-head-lead">
+            {isAdmin
+              ? 'התכתבות עם התלמידים'
+              : 'קו ישיר למורה: שאלות על החומר, על המנוי או על שיעור פרטי.'}
           </p>
         </div>
         {isAdmin && (
@@ -419,7 +433,7 @@ export default function Messages() {
 
           {startable.length > 0 && (
             <>
-              <div className="chat-sidebar-label">התחל שיחה חדשה</div>
+              <div className="chat-sidebar-label">שיחה חדשה</div>
               {startable.map((c) => (
                 <motion.button
                   key={`s-${c.user_id}`}
@@ -432,7 +446,7 @@ export default function Messages() {
                   whileTap={{ scale: 0.98 }}
                 >
                   <span className="chat-contact-name">{c.full_name}</span>
-                  <span className="chat-contact-last muted">שלח הודעה ראשונה…</span>
+                  <span className="chat-contact-last muted">לכתוב הודעה ראשונה</span>
                 </motion.button>
               ))}
             </>
@@ -443,7 +457,7 @@ export default function Messages() {
         {/* Thread */}
         <div className="chat-main">
           {!active ? (
-            <div className="chat-empty">בחרו שיחה מהרשימה כדי להתחיל.</div>
+            <div className="chat-empty">{isAdmin ? 'בחרו שיחה מהרשימה כדי להתחיל.' : 'בחרו שיחה מהרשימה — אפשר לשאול כל שאלה על החומר, על המנוי או על שיעור פרטי.'}</div>
           ) : (
             <>
               <div className="chat-thread-head">
@@ -459,7 +473,7 @@ export default function Messages() {
               </div>
               <div className="chat-messages">
                 {thread.length === 0 && (
-                  <p className="muted chat-empty">אין הודעות עדיין — כתבו הודעה.</p>
+                  <p className="muted chat-empty">{isAdmin ? 'אין הודעות עדיין — כתבו הודעה.' : 'עוד אין הודעות בשיחה. אפשר לשאול כאן כל שאלה — על תרגיל, על המנוי או על שיעור פרטי.'}</p>
                 )}
                 <AnimatePresence initial={false}>
                   {thread.map((m) => (
@@ -497,7 +511,7 @@ export default function Messages() {
                     type="button"
                     className="chat-pending-file-remove"
                     onClick={() => setPendingFile(null)}
-                    aria-label="הסר קובץ"
+                    aria-label="הסרת הקובץ"
                   >
                     <IconX />
                   </button>
@@ -515,7 +529,7 @@ export default function Messages() {
                   className="chat-attach-btn"
                   onClick={() => fileInputRef.current?.click()}
                   disabled={sending}
-                  title="צרף קובץ או תמונה"
+                  title="צירוף קובץ או תמונה" aria-label="צירוף קובץ או תמונה"
                   {...tapScale}
                 >
                   <IconPaperclip width={20} height={20} />
@@ -531,7 +545,7 @@ export default function Messages() {
                   disabled={sending || (!draft.trim() && !pendingFile)}
                   {...tapScale}
                 >
-                  שלח
+                  שליחה
                 </motion.button>
               </form>
             </>
