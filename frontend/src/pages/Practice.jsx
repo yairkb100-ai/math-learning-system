@@ -264,7 +264,7 @@ export default function Practice() {
           animate="show"
         >
           <motion.div className="card stat-card" variants={fadeInUp}>
-            <div className="stat-value">{stats.accuracy_pct}%</div>
+            <div className="stat-value">{Math.round(stats.accuracy_pct)}%</div>
             <div className="stat-label muted">תשובות נכונות</div>
           </motion.div>
           <motion.div className="card stat-card" variants={fadeInUp}>
