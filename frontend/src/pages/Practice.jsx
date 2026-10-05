@@ -3,30 +3,34 @@ import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
-import { IconLock } from '../components/icons.jsx'
+import {
+  IconLock,
+  IconCheck,
+  IconX,
+  IconTrophy,
+  IconSpark,
+  IconTarget,
+  IconPencil,
+  IconRefresh,
+} from '../components/icons.jsx'
+import {
+  PageHead,
+  EmptyState,
+  subjectLabel,
+  difficultyLabel,
+} from '../components/StudentUi.jsx'
 import MathText, { InlineMathText, BidiSafeText } from '../components/MathText.jsx'
 import { celebrate } from '../lib/celebrate.js'
-import { fadeInUp, staggerContainer, tapScale, hoverLift, DURATION, EASE_OUT, EASE_IN } from '../lib/motion.js'
+import { fadeInUp, staggerContainer, tapScale, DURATION, EASE_OUT, EASE_IN } from '../lib/motion.js'
 import '../styles/practice.css'
 
-const DIFFICULTY_HE = { easy: 'קל', medium: 'בינוני', hard: 'קשה' }
-const SUBJECT_HE = {
-  math: 'מתמטיקה',
-  psychometric: 'פסיכומטרי',
-  english: 'אנגלית',
-  logic: 'לוגיקה',
-  verbal: 'מילולי',
-}
-
-const subjectLabel = (s) => SUBJECT_HE[s] || s
-const difficultyLabel = (d) => DIFFICULTY_HE[d] || d
 const OPTION_LETTERS = ['א', 'ב', 'ג', 'ד', 'ה', 'ו']
 const COUNT_OPTIONS = [5, 10, 15, 20]
 
-// Drill flow — questions get answered repeatedly in quick succession, so the
-// question-card transition must stay out of the way of fast, rapid tapping.
-// Shorter than the shared DURATION.medium page-level feel.
-const QUICK = 0.16
+// נושא נחשב "כדאי לחזק" רק אחרי מספיק ניסיונות כדי שהאחוז יגיד משהו —
+// שאלה אחת שגויה היא לא חולשה.
+const WEAK_MIN_ATTEMPTS = 3
+const WEAK_MAX_ACCURACY = 60
 
 function formatDuration(totalSeconds) {
   const s = Math.max(0, Math.round(totalSeconds))
@@ -71,10 +75,14 @@ export default function Practice() {
   const current = questions[index] || null
 
   // ---- initial load: filter metadata + stats ----
+  function loadMeta() {
+    setMetaErr(null)
+    return api.getPracticeTopics()
+  }
+
   useEffect(() => {
     let alive = true
-    api
-      .getPracticeTopics()
+    loadMeta()
       .then((m) => alive && setMeta(m))
       .catch((e) => alive && setMetaErr(e))
     refreshStats()
@@ -82,6 +90,7 @@ export default function Practice() {
       alive = false
       if (toastTimer.current) clearTimeout(toastTimer.current)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // reset timer whenever a new question is shown
@@ -96,7 +105,8 @@ export default function Practice() {
       .catch(() => {})
   }
 
-  async function startSession() {
+  async function startSession(overrides = {}) {
+    const sel = { subject, difficulty, topic, count, ...overrides }
     setLoadingQ(true)
     setSessionErr(null)
     setResult(null)
@@ -107,10 +117,10 @@ export default function Practice() {
     setEarnedInSession([])
     try {
       const qs = await api.getPracticeQuestions({
-        subject: subject || undefined,
-        difficulty: difficulty || undefined,
-        topic: topic || undefined,
-        limit: count,
+        subject: sel.subject || undefined,
+        difficulty: sel.difficulty || undefined,
+        topic: sel.topic || undefined,
+        limit: sel.count,
       })
       setQuestions(qs || [])
       setIndex(0)
@@ -126,6 +136,7 @@ export default function Practice() {
     const trimmed = String(answer).trim()
     if (!trimmed) return
     setSubmitting(true)
+    setSessionErr(null)
     const timeSpent = Math.max(0, Math.round((Date.now() - shownAt.current) / 1000))
     try {
       const res = await api.submitPracticeAttempt({
@@ -188,29 +199,42 @@ export default function Practice() {
     setIndex(0)
     setResult(null)
     setAnswer('')
+    setSessionErr(null)
     setSessionLog([])
     setEarnedInSession([])
   }
 
-  const accuracy = stats ? `${stats.accuracy_pct}%` : '—'
-  const streak = stats ? stats.current_streak : 0
   const totalAttempts = stats ? stats.total_attempts : 0
+  const isNew = !!stats && totalAttempts === 0
+  const inSession = started && !finished
+  const sessionCorrect = sessionLog.filter((e) => e.isCorrect).length
+
+  const weakTopics = (stats?.by_topic || [])
+    .filter((t) => t.total >= WEAK_MIN_ATTEMPTS && t.accuracy < WEAK_MAX_ACCURACY)
+    .sort((a, b) => a.accuracy - b.accuracy)
+    .slice(0, 4)
+
+  // מה נבחר בפועל — מוצג מעל השאלה כדי שיהיה ברור על מה התרגול הנוכחי.
+  const selectionLabel = [
+    topic || (subject ? subjectLabel(subject) : 'כל הנושאים'),
+    difficulty ? `רמה: ${difficultyLabel(difficulty)}` : null,
+  ]
+    .filter(Boolean)
+    .join(' · ')
 
   return (
-    <section dir="rtl">
-      <div className="page-head">
-        <h1>מרכז התרגול</h1>
-        <p className="muted">תרגלו שאלות לפי נושא ורמת קושי, וצברו רצף והישגים.</p>
-      </div>
+    <section dir="rtl" className={`sa-page practice-page${inSession ? ' is-in-session' : ''}`}>
+      {!inSession && (
+        <PageHead
+          title="מרכז התרגול"
+          lead="בוחרים נושא, עונים על כמה שאלות ומקבלים הסבר מיד אחרי כל תשובה."
+        />
+      )}
 
-      {/* free tier: the bank is sampled from the open ~30% of every topic */}
-      {meta?.access_tier === 'free' && (
-        <motion.div
-          className="free-note"
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: DURATION.medium, ease: EASE_OUT }}
-        >
+      {/* free tier: the bank is sampled from the open part of every topic.
+          Hidden mid-session — there it only pushes the question off screen. */}
+      {!inSession && meta?.access_tier === 'free' && (
+        <motion.div className="free-note" variants={fadeInUp} initial="hidden" animate="show">
           <span className="free-note-icon" aria-hidden="true">
             <IconLock />
           </span>
@@ -220,7 +244,7 @@ export default function Practice() {
               פתוחות לך
             </strong>
             <p>
-              בכל נושא פתוח חלק מהשאלות — אפשר לתרגל הכול, בטעימות. מנוי מלא
+              בכל נושא פתוח חלק מהשאלות, כך שאפשר לטעום מכל הנושאים. מנוי מלא
               פותח את כל המאגר.
             </p>
           </div>
@@ -230,26 +254,33 @@ export default function Practice() {
         </motion.div>
       )}
 
-      {/* live stats strip */}
-      <motion.div
-        className="practice-stats"
-        variants={staggerContainer}
-        initial="hidden"
-        animate="show"
-      >
-        <motion.div className="card stat-card" variants={fadeInUp}>
-          <div className="stat-value">{accuracy}</div>
-          <div className="stat-label muted">דיוק</div>
+      {/* stats strip — only once there is something to show; a brand-new
+          student gets an invitation instead of "0%" in three boxes. */}
+      {!inSession && stats && !isNew && (
+        <motion.div
+          className="practice-stats"
+          variants={staggerContainer}
+          initial="hidden"
+          animate="show"
+        >
+          <motion.div className="card stat-card" variants={fadeInUp}>
+            <div className="stat-value">{stats.accuracy_pct}%</div>
+            <div className="stat-label muted">תשובות נכונות</div>
+          </motion.div>
+          <motion.div className="card stat-card" variants={fadeInUp}>
+            <div className="stat-value">
+              <IconSpark className="practice-streak-icon" /> {stats.current_streak}
+            </div>
+            <div className="stat-label muted">
+              רצף נוכחי{stats.best_streak > 0 ? ` · שיא ${stats.best_streak}` : ''}
+            </div>
+          </motion.div>
+          <motion.div className="card stat-card" variants={fadeInUp}>
+            <div className="stat-value">{totalAttempts}</div>
+            <div className="stat-label muted">שאלות שנענו</div>
+          </motion.div>
         </motion.div>
-        <motion.div className="card stat-card" variants={fadeInUp}>
-          <div className="stat-value">🔥 {streak}</div>
-          <div className="stat-label muted">רצף נוכחי</div>
-        </motion.div>
-        <motion.div className="card stat-card" variants={fadeInUp}>
-          <div className="stat-value">{totalAttempts}</div>
-          <div className="stat-label muted">סה"כ תרגולים</div>
-        </motion.div>
-      </motion.div>
+      )}
 
       {/* achievement toast */}
       <AnimatePresence>
@@ -257,69 +288,135 @@ export default function Practice() {
           <motion.div
             className="practice-toast"
             role="status"
-            initial={{ opacity: 0, y: -10, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -6, transition: { duration: DURATION.short, ease: EASE_IN } }}
-            transition={{ duration: DURATION.medium, ease: EASE_OUT }}
+            variants={fadeInUp}
+            initial="hidden"
+            animate="show"
+            exit={{ opacity: 0, transition: { duration: DURATION.short, ease: EASE_IN } }}
           >
-            <span className="practice-toast-icon">🏆</span>
-            <span>
-              {toast.map((b) => `הישג חדש: ${b.icon || ''} ${b.title}`).join(' · ')}
+            <span className="practice-toast-icon" aria-hidden="true">
+              <IconTrophy />
             </span>
+            <span>הישג חדש: {toast.map((b) => b.title).join(' · ')}</span>
+            <Link to="/achievements" className="practice-toast-link">
+              לכל ההישגים
+            </Link>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* filter bar (shown when idle) */}
+      {/* setup card (shown when idle) */}
       {!started && (
-        <div className="card">
+        <div className="card practice-setup">
           {metaErr ? (
-            <ErrorBox error={metaErr} onRetry={() => window.location.reload()} />
+            <ErrorBox
+              error={metaErr}
+              onRetry={() =>
+                loadMeta()
+                  .then(setMeta)
+                  .catch(setMetaErr)
+              }
+            />
           ) : !meta ? (
-            <Loading label="טוען מסננים…" />
+            <Loading label="טוען את נושאי התרגול…" />
           ) : (
             <>
-              <motion.div
-                className="practice-filters"
-                variants={staggerContainer}
-                initial="hidden"
-                animate="show"
-              >
-                <motion.div className="practice-field" variants={fadeInUp}>
-                  <label htmlFor="pf-subject">נושא</label>
-                  <select
-                    id="pf-subject"
-                    className="practice-select"
-                    value={subject}
-                    onChange={(e) => setSubject(e.target.value)}
-                  >
-                    <option value="">כל הנושאים</option>
-                    {meta.subjects.map((s) => (
-                      <option key={s} value={s}>
-                        {subjectLabel(s)}
-                      </option>
-                    ))}
-                  </select>
-                </motion.div>
+              {isNew && (
+                <div className="practice-welcome">
+                  <span className="practice-welcome-icon" aria-hidden="true">
+                    <IconPencil />
+                  </span>
+                  <div>
+                    <strong>התרגול הראשון שלך</strong>
+                    <p>
+                      אפשר פשוט ללחוץ על ״התחלת תרגול״ ולקבל שאלות מכל הנושאים,
+                      או לבחור קודם נושא מהרשימה.
+                    </p>
+                  </div>
+                </div>
+              )}
 
-                <motion.div className="practice-field" variants={fadeInUp}>
-                  <label htmlFor="pf-topic">תת-נושא</label>
-                  <select
-                    id="pf-topic"
-                    className="practice-select"
-                    value={topic}
-                    onChange={(e) => setTopic(e.target.value)}
-                  >
-                    <option value="">כל תתי-הנושאים</option>
-                    {meta.topics.map((t) => (
-                      <option key={t} value={t}>
-                        {t}
-                      </option>
+              {weakTopics.length > 0 && (
+                <div className="practice-weak">
+                  <span className="practice-step-label">
+                    <IconTarget /> נושאים שכדאי לחזק
+                  </span>
+                  <div className="practice-topic-chips">
+                    {weakTopics.map((t) => (
+                      <motion.button
+                        key={t.topic}
+                        type="button"
+                        className="practice-chip is-weak"
+                        onClick={() => {
+                          setTopic(t.topic)
+                          setSubject('')
+                          startSession({ topic: t.topic, subject: '' })
+                        }}
+                        {...tapScale}
+                      >
+                        {t.topic}
+                        <span className="practice-chip-meta">
+                          {Math.round(t.accuracy)}% נכון
+                        </span>
+                      </motion.button>
                     ))}
-                  </select>
-                </motion.div>
+                  </div>
+                </div>
+              )}
 
-                <motion.div className="practice-field" variants={fadeInUp}>
+              <div className="practice-step">
+                <span className="practice-step-label" id="pf-topic-label">
+                  נושא
+                </span>
+                <div
+                  className="practice-topic-chips"
+                  role="group"
+                  aria-labelledby="pf-topic-label"
+                >
+                  <motion.button
+                    type="button"
+                    className={`practice-chip ${topic === '' ? 'is-active' : ''}`}
+                    aria-pressed={topic === ''}
+                    onClick={() => setTopic('')}
+                    {...tapScale}
+                  >
+                    כל הנושאים
+                  </motion.button>
+                  {meta.topics.map((t) => (
+                    <motion.button
+                      key={t}
+                      type="button"
+                      className={`practice-chip ${topic === t ? 'is-active' : ''}`}
+                      aria-pressed={topic === t}
+                      onClick={() => setTopic(t)}
+                      {...tapScale}
+                    >
+                      {t}
+                    </motion.button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="practice-filters">
+                {meta.subjects.length > 1 && (
+                  <div className="practice-field">
+                    <label htmlFor="pf-subject">מקצוע</label>
+                    <select
+                      id="pf-subject"
+                      className="practice-select"
+                      value={subject}
+                      onChange={(e) => setSubject(e.target.value)}
+                    >
+                      <option value="">כל המקצועות</option>
+                      {meta.subjects.map((s) => (
+                        <option key={s} value={s}>
+                          {subjectLabel(s)}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+
+                <div className="practice-field">
                   <label htmlFor="pf-difficulty">רמת קושי</label>
                   <select
                     id="pf-difficulty"
@@ -334,10 +431,10 @@ export default function Practice() {
                       </option>
                     ))}
                   </select>
-                </motion.div>
+                </div>
 
-                <motion.div className="practice-field" variants={fadeInUp}>
-                  <label htmlFor="pf-count">מספר שאלות</label>
+                <div className="practice-field">
+                  <label htmlFor="pf-count">כמה שאלות</label>
                   <select
                     id="pf-count"
                     className="practice-select"
@@ -346,87 +443,84 @@ export default function Practice() {
                   >
                     {COUNT_OPTIONS.map((n) => (
                       <option key={n} value={n}>
-                        {n}
+                        {n} שאלות
                       </option>
                     ))}
                   </select>
-                </motion.div>
+                </div>
 
                 <motion.button
-                  className="btn practice-start-btn"
-                  style={{ background: 'var(--cta)', color: '#fff' }}
-                  onClick={startSession}
+                  className="btn btn-cta practice-start-btn"
+                  onClick={() => startSession()}
                   disabled={loadingQ}
-                  variants={fadeInUp}
                   {...tapScale}
                 >
-                  {loadingQ ? 'טוען…' : 'התחל תרגול'}
+                  {loadingQ ? 'טוען…' : 'התחלת תרגול'}
                 </motion.button>
-              </motion.div>
-
-              {/* quick topic chips — one tap to focus a topic */}
-              {meta.topics.length > 0 && (
-                <motion.div
-                  className="practice-topic-chips"
-                  variants={staggerContainer}
-                  initial="hidden"
-                  animate="show"
-                >
-                  <motion.button
-                    type="button"
-                    className={`practice-chip ${topic === '' ? 'is-active' : ''}`}
-                    onClick={() => setTopic('')}
-                    variants={fadeInUp}
-                    {...tapScale}
-                  >
-                    הכול
-                  </motion.button>
-                  {meta.topics.map((t) => (
-                    <motion.button
-                      key={t}
-                      type="button"
-                      className={`practice-chip ${topic === t ? 'is-active' : ''}`}
-                      onClick={() => setTopic(t)}
-                      variants={fadeInUp}
-                      {...tapScale}
-                    >
-                      {t}
-                    </motion.button>
-                  ))}
-                </motion.div>
-              )}
-
-              {stats && stats.best_streak > 0 && (
-                <p className="muted" style={{ margin: '4px 0 0' }}>
-                  שיא הרצף שלך: 🔥 {stats.best_streak}
-                </p>
-              )}
+              </div>
             </>
           )}
         </div>
       )}
 
       {/* active session */}
-      {started && !finished && (
+      {inSession && (
         <>
           {loadingQ ? (
             <div className="card">
               <Loading label="טוען שאלות…" />
             </div>
-          ) : sessionErr ? (
+          ) : questions.length === 0 && sessionErr ? (
             <div className="card">
-              <ErrorBox error={sessionErr} onRetry={startSession} />
+              <ErrorBox error={sessionErr} onRetry={() => startSession()} />
+              <div className="practice-actions is-centered">
+                <button className="btn btn-secondary" onClick={resetToFilters}>
+                  חזרה לבחירת נושא
+                </button>
+              </div>
             </div>
           ) : questions.length === 0 ? (
-            <div className="card practice-empty">
-              <div className="practice-empty-icon">🗒️</div>
-              <p>לא נמצאו שאלות מתאימות למסננים שבחרת.</p>
-              <button className="btn" onClick={resetToFilters}>
-                חזרה למסננים
-              </button>
+            <div className="card">
+              <EmptyState
+                icon={<IconPencil />}
+                title="אין שאלות שמתאימות לבחירה הזאת"
+                actions={
+                  <>
+                    <button
+                      className="btn"
+                      onClick={() => {
+                        setSubject('')
+                        setDifficulty('')
+                        startSession({ subject: '', difficulty: '' })
+                      }}
+                    >
+                      לתרגל בלי הגבלת רמה ומקצוע
+                    </button>
+                    <button className="btn btn-secondary" onClick={resetToFilters}>
+                      לבחור נושא אחר
+                    </button>
+                  </>
+                }
+              >
+                <p>
+                  השילוב של הנושא, המקצוע ורמת הקושי שנבחרו לא מחזיר שאלות
+                  {meta?.access_tier === 'free' ? ' מתוך החלק הפתוח לך' : ''}.
+                </p>
+              </EmptyState>
             </div>
           ) : current ? (
-            <AnimatePresence mode="wait">
+            <>
+              <div className="practice-session-bar">
+                <button type="button" className="practice-session-quit" onClick={() => setFinished(true)}>
+                  <IconX /> סיום התרגול
+                </button>
+                <span className="practice-session-topic">{selectionLabel}</span>
+                <span className="practice-session-score" aria-live="polite">
+                  <IconCheck /> {sessionCorrect} נכונות
+                </span>
+              </div>
+              {/* בלי AnimatePresence mode="wait": השאלה הבאה חייבת להופיע מיד,
+                  גם אם אנימציית היציאה של הקודמת נתקעה (טאב ברקע וכו׳). */}
               <QuestionCard
                 key={current.id ?? index}
                 question={current}
@@ -436,11 +530,11 @@ export default function Practice() {
                 setAnswer={setAnswer}
                 result={result}
                 submitting={submitting}
+                submitError={sessionErr}
                 onSubmit={submit}
                 onNext={next}
-                onQuit={() => setFinished(true)}
               />
-            </AnimatePresence>
+            </>
           ) : null}
         </>
       )}
@@ -450,7 +544,7 @@ export default function Practice() {
         <SessionSummary
           log={sessionLog}
           earned={earnedInSession}
-          onRestart={startSession}
+          onRestart={() => startSession()}
           onNew={resetToFilters}
         />
       )}
@@ -466,13 +560,22 @@ function QuestionCard({
   setAnswer,
   result,
   submitting,
+  submitError,
   onSubmit,
   onNext,
-  onQuit,
 }) {
   const isMC = question.type === 'multiple-choice' && Array.isArray(question.options)
   const answered = !!result
-  const progressPct = Math.round(((index + (answered ? 1 : 0)) / total) * 100)
+  const progress = (index + (answered ? 1 : 0)) / total
+  const nextRef = useRef(null)
+
+  // אחרי הבדיקה הפוקוס עובר ל"השאלה הבאה" — Enter ממשיך, ובנייד המשוב
+  // וכפתור ההמשך נגללים לתוך המסך במקום להישאר מתחת לקפל.
+  useEffect(() => {
+    if (!answered || !nextRef.current) return
+    nextRef.current.focus({ preventScroll: true })
+    nextRef.current.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+  }, [answered])
 
   function optionClass(opt) {
     let cls = 'option practice-option'
@@ -492,24 +595,32 @@ function QuestionCard({
   return (
     <motion.div
       className="card practice-question-card"
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -8, transition: { duration: QUICK * 0.8, ease: EASE_IN } }}
-      transition={{ duration: QUICK, ease: EASE_OUT }}
+      variants={fadeInUp}
+      initial="hidden"
+      animate="show"
     >
-      <div className="practice-progressbar" aria-hidden="true">
-        <div className="practice-progressbar-fill" style={{ width: `${progressPct}%` }} />
-      </div>
-
       <div className="practice-q-head">
-        <div className="practice-q-meta">
-          <span className="badge">{difficultyLabel(question.difficulty)}</span>
-          {question.topic && <span className="badge">{question.topic}</span>}
-          <span className="badge">{subjectLabel(question.subject)}</span>
-        </div>
         <span className="practice-progress-label">
           שאלה {index + 1} מתוך {total}
         </span>
+        <div className="practice-q-meta">
+          {question.topic && <span className="badge">{question.topic}</span>}
+          <span className="badge">{difficultyLabel(question.difficulty)}</span>
+        </div>
+      </div>
+      <div
+        className="practice-progressbar"
+        role="progressbar"
+        aria-valuemin={0}
+        aria-valuemax={total}
+        aria-valuenow={index + (answered ? 1 : 0)}
+      >
+        <motion.div
+          className="practice-progressbar-fill"
+          initial={false}
+          animate={{ scaleX: progress }}
+          transition={{ duration: DURATION.medium, ease: EASE_OUT }}
+        />
       </div>
 
       {/* Authored prose — block renderer, same as Quiz.jsx's question stem. */}
@@ -530,10 +641,10 @@ function QuestionCard({
               type="button"
               className={optionClass(opt)}
               disabled={answered}
+              aria-pressed={!answered && opt === answer}
               onClick={() => setAnswer(opt)}
               variants={fadeInUp}
-              whileTap={answered ? {} : { scale: 0.98 }}
-              transition={{ duration: DURATION.short, ease: EASE_OUT }}
+              whileTap={answered ? {} : tapScale.whileTap}
             >
               <span className="practice-option-marker">
                 {OPTION_LETTERS[i] || i + 1}
@@ -549,7 +660,8 @@ function QuestionCard({
           className="text-answer"
           type="text"
           inputMode={question.type === 'numeric' ? 'decimal' : 'text'}
-          placeholder="הקלד/י את התשובה"
+          placeholder="כאן כותבים את התשובה"
+          aria-label="התשובה שלך"
           value={answer}
           disabled={answered}
           onChange={(e) => setAnswer(e.target.value)}
@@ -559,54 +671,63 @@ function QuestionCard({
         />
       )}
 
-      <AnimatePresence>
-        {answered && (
-          <motion.div
-            className={`verdict ${result.is_correct ? 'ok' : 'no'}`}
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: DURATION.short, ease: EASE_OUT }}
-          >
-            <strong>{result.is_correct ? '✓ תשובה נכונה!' : '✗ תשובה שגויה'}</strong>
-            {!result.is_correct && (
-              <span className="correct-answer">
-                התשובה הנכונה: <BidiSafeText text={result.correct_answer} />
-              </span>
-            )}
-            {result.explanation && (
-              <span className="practice-verdict-explain">
-                <InlineMathText text={result.explanation} />
-              </span>
-            )}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {answered && (
+        <motion.div
+          className={`verdict practice-verdict ${result.is_correct ? 'ok' : 'no'}`}
+          role="status"
+          variants={fadeInUp}
+          initial="hidden"
+          animate="show"
+        >
+          <strong className="practice-verdict-title">
+            <span className="practice-verdict-mark" aria-hidden="true">
+              {result.is_correct ? <IconCheck /> : <IconX />}
+            </span>
+            {result.is_correct ? 'נכון!' : 'לא מדויק — ככה לומדים'}
+          </strong>
+          {!result.is_correct && (
+            <span className="correct-answer">
+              התשובה הנכונה: <BidiSafeText text={result.correct_answer} />
+            </span>
+          )}
+          {result.explanation && (
+            <span className="practice-verdict-explain">
+              <InlineMathText text={result.explanation} />
+            </span>
+          )}
+        </motion.div>
+      )}
+
+      {submitError && !answered && (
+        <p className="practice-submit-error" role="alert">
+          התשובה לא נשלחה. כדאי לבדוק את החיבור לאינטרנט ולנסות שוב.
+        </p>
+      )}
 
       <div className="practice-actions">
         {!answered ? (
-          <>
-            <motion.button
-              className="btn"
-              onClick={onSubmit}
-              disabled={submitting || !String(answer).trim()}
-              {...tapScale}
-            >
-              {submitting ? 'בודק…' : 'בדוק'}
-            </motion.button>
-            <motion.button className="btn btn-sm" onClick={onQuit} {...tapScale}>
-              סיום
-            </motion.button>
-          </>
+          <motion.button
+            className="btn btn-cta practice-main-btn"
+            onClick={onSubmit}
+            disabled={submitting || !String(answer).trim()}
+            {...tapScale}
+          >
+            {submitting ? 'בודק…' : 'בדיקת התשובה'}
+          </motion.button>
         ) : (
           <motion.button
-            className="btn"
-            style={{ background: 'var(--cta)', color: '#fff' }}
+            ref={nextRef}
+            className="btn btn-cta practice-main-btn"
             onClick={onNext}
             {...tapScale}
           >
-            {index + 1 < total ? 'השאלה הבאה' : 'לסיכום התרגול'}
+            {index + 1 < total ? 'לשאלה הבאה' : 'לסיכום התרגול'}
           </motion.button>
+        )}
+        {!answered && !String(answer).trim() && (
+          <span className="practice-hint muted">
+            {isMC ? 'בוחרים תשובה ואז בודקים' : 'כותבים תשובה ואז בודקים'}
+          </span>
         )}
       </div>
     </motion.div>
@@ -622,23 +743,27 @@ function SessionSummary({ log, earned, onRestart, onNew }) {
 
   const grade =
     pct >= 90
-      ? { emoji: '🏆', text: 'מצוין!', cls: 'is-great' }
+      ? { Icon: IconTrophy, text: 'מצוין!', cls: 'is-great' }
       : pct >= 70
-      ? { emoji: '👏', text: 'כל הכבוד!', cls: 'is-good' }
+      ? { Icon: IconCheck, text: 'כל הכבוד!', cls: 'is-good' }
       : pct >= 50
-      ? { emoji: '💪', text: 'בדרך הנכונה', cls: 'is-ok' }
-      : { emoji: '📚', text: 'ממשיכים לתרגל', cls: 'is-low' }
+      ? { Icon: IconSpark, text: 'בדרך הנכונה', cls: 'is-ok' }
+      : { Icon: IconRefresh, text: 'עוד סיבוב וזה משתפר', cls: 'is-low' }
 
   if (total === 0) {
     return (
-      <div className="card practice-empty">
-        <div className="practice-empty-icon">🗒️</div>
-        <p>לא ענית על שאלות בתרגול הזה.</p>
-        <div className="practice-actions" style={{ justifyContent: 'center' }}>
-          <button className="btn" onClick={onNew}>
-            חזרה למסננים
-          </button>
-        </div>
+      <div className="card">
+        <EmptyState
+          icon={<IconPencil />}
+          title="התרגול הסתיים לפני השאלה הראשונה"
+          actions={
+            <button className="btn" onClick={onNew}>
+              לבחור נושא ולהתחיל
+            </button>
+          }
+        >
+          <p>שום דבר לא נשמר — אפשר להתחיל מחדש מתי שנוח.</p>
+        </EmptyState>
       </div>
     )
   }
@@ -650,21 +775,17 @@ function SessionSummary({ log, earned, onRestart, onNew }) {
       animate="show"
       variants={staggerContainer}
     >
-      <motion.div
-        className={`practice-summary-hero ${grade.cls}`}
-        variants={fadeInUp}
-        initial={{ opacity: 0, scale: 0.92 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: DURATION.long, ease: EASE_OUT }}
-      >
-        <div className="practice-summary-emoji">{grade.emoji}</div>
+      <motion.div className={`practice-summary-hero ${grade.cls}`} variants={fadeInUp}>
+        <span className="practice-summary-icon" aria-hidden="true">
+          <grade.Icon />
+        </span>
         <div className="practice-summary-score">{pct}%</div>
         <div className="practice-summary-grade">{grade.text}</div>
       </motion.div>
 
       <motion.div className="practice-summary-stats" variants={staggerContainer}>
         <motion.div className="practice-summary-stat" variants={fadeInUp}>
-          <div className="stat-value">
+          <div className="stat-value" dir="ltr">
             {correct}/{total}
           </div>
           <div className="stat-label muted">תשובות נכונות</div>
@@ -682,29 +803,35 @@ function SessionSummary({ log, earned, onRestart, onNew }) {
       </motion.div>
 
       {earned.length > 0 && (
-        <motion.div className="practice-toast" role="status" style={{ marginTop: 4 }} variants={fadeInUp}>
-          <span className="practice-toast-icon">🏆</span>
-          <span>
-            {earned.map((b) => `${b.icon || ''} ${b.title}`).join(' · ')}
+        <motion.div className="practice-toast" role="status" variants={fadeInUp}>
+          <span className="practice-toast-icon" aria-hidden="true">
+            <IconTrophy />
           </span>
+          <span>הישג חדש: {earned.map((b) => b.title).join(' · ')}</span>
+          <Link to="/achievements" className="practice-toast-link">
+            לכל ההישגים
+          </Link>
         </motion.div>
       )}
 
       {wrong.length > 0 ? (
         <div className="practice-review">
-          <h3 className="practice-review-title">מה כדאי לחזור עליו ({wrong.length})</h3>
-          <motion.div variants={staggerContainer} initial="hidden" animate="show">
+          <h3 className="practice-review-title">
+            שווה לעבור שוב על {wrong.length === 1 ? 'השאלה הזאת' : `${wrong.length} השאלות האלה`}
+          </h3>
+          <div>
             {wrong.map((e, i) => (
-              <motion.div key={i} className="practice-review-item" variants={fadeInUp}>
+              <div key={i} className="practice-review-item">
+                {e.topic && <span className="badge practice-review-topic">{e.topic}</span>}
                 <p className="practice-review-q">
                   <InlineMathText text={e.question} />
                 </p>
                 <div className="practice-review-answers">
                   <span className="practice-review-yours">
-                    תשובתך: <BidiSafeText text={e.yourAnswer} />
+                    התשובה שלך: <BidiSafeText text={e.yourAnswer} />
                   </span>
                   <span className="practice-review-correct">
-                    הנכונה: <BidiSafeText text={e.correctAnswer} />
+                    התשובה הנכונה: <BidiSafeText text={e.correctAnswer} />
                   </span>
                 </div>
                 {e.explanation && (
@@ -712,29 +839,29 @@ function SessionSummary({ log, earned, onRestart, onNew }) {
                     <InlineMathText text={e.explanation} />
                   </p>
                 )}
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </div>
       ) : (
         <motion.p className="practice-review-perfect" variants={fadeInUp}>
-          🎯 כל התשובות נכונות — פגיעה מושלמת!
+          <IconTarget /> כל התשובות נכונות. אפשר לעלות רמה או לעבור לנושא הבא.
         </motion.p>
       )}
 
-      <div className="practice-actions" style={{ justifyContent: 'center' }}>
-        <motion.button
-          className="btn"
-          style={{ background: 'var(--cta)', color: '#fff' }}
-          onClick={onRestart}
-          {...tapScale}
-        >
-          תרגול נוסף (אותם מסננים)
+      <div className="practice-actions is-centered">
+        <motion.button className="btn btn-cta" onClick={onRestart} {...tapScale}>
+          עוד סבב באותו נושא
         </motion.button>
-        <motion.button className="btn btn-sm" onClick={onNew} {...tapScale}>
-          שינוי מסננים
+        <motion.button className="btn btn-secondary" onClick={onNew} {...tapScale}>
+          לבחור נושא אחר
         </motion.button>
       </div>
+      <p className="practice-next-links">
+        <Link to="/exams">לבחון את עצמי במבחן</Link>
+        <span aria-hidden="true">·</span>
+        <Link to="/lomda">חזרה ללמידה</Link>
+      </p>
     </motion.div>
   )
 }
