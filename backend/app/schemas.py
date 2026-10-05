@@ -106,6 +106,17 @@ class CourseProgressOut(BaseModel):
     chapters: List[ChapterProgressOut]
 
 
+class CourseProgressSummary(BaseModel):
+    """שורה לקורס שהתלמיד כבר סיים בו פרק אחד לפחות — לדף "ההתקדמות שלי"."""
+
+    course_id: int
+    total_chapters: int
+    completed_chapters: int
+    last_completed_at: Optional[datetime] = None
+    # מספר הפרק הראשון (בסדר הלימוד) שעוד לא הושלם; None כשהקורס הושלם.
+    next_chapter_number: Optional[int] = None
+
+
 class StudentCourseProgress(BaseModel):
     course_id: int
     course_title: str

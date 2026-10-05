@@ -8,9 +8,65 @@ from sqlalchemy.orm import Session
 from app import models
 from app.database import get_db
 from app.dependencies import get_current_user
-from app.schemas import CourseProgressOut, ChapterProgressOut
+from app.schemas import CourseProgressOut, ChapterProgressOut, CourseProgressSummary
 
 router = APIRouter(prefix="/api/progress", tags=["progress"])
+
+
+@router.get("", response_model=list[CourseProgressSummary])
+def my_progress_summary(
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user),
+) -> list[CourseProgressSummary]:
+    """סיכום התקדמות לקריאה בלבד: רק הקורסים שהתלמיד כבר סיים בהם פרק.
+
+    דף "ההתקדמות שלי" קרא עד עכשיו ל-``/{course_id}`` פעם לכל קורס בקטלוג
+    (עשרות בקשות, רובן מחזירות אפס). כאן זה שתי שאילתות, ורק מה שהתחיל.
+    """
+    done = (
+        db.query(
+            models.Chapter.course_id,
+            models.Chapter.number,
+            models.ChapterProgress.completed_at,
+        )
+        .join(models.ChapterProgress, models.ChapterProgress.chapter_id == models.Chapter.id)
+        .filter(
+            models.ChapterProgress.user_id == current_user.id,
+            models.ChapterProgress.completed == True,  # noqa: E712
+        )
+        .all()
+    )
+    if not done:
+        return []
+
+    done_numbers: dict[int, set[int]] = {}
+    last_done: dict[int, datetime] = {}
+    for course_id, number, completed_at in done:
+        done_numbers.setdefault(course_id, set()).add(number)
+        if completed_at and (course_id not in last_done or completed_at > last_done[course_id]):
+            last_done[course_id] = completed_at
+
+    all_numbers: dict[int, list[int]] = {}
+    for course_id, number in (
+        db.query(models.Chapter.course_id, models.Chapter.number)
+        .filter(models.Chapter.course_id.in_(list(done_numbers)))
+        .order_by(models.Chapter.course_id, models.Chapter.number)
+        .all()
+    ):
+        all_numbers.setdefault(course_id, []).append(number)
+
+    return [
+        CourseProgressSummary(
+            course_id=course_id,
+            total_chapters=len(numbers),
+            completed_chapters=len(done_numbers[course_id]),
+            last_completed_at=last_done.get(course_id),
+            next_chapter_number=next(
+                (n for n in numbers if n not in done_numbers[course_id]), None
+            ),
+        )
+        for course_id, numbers in all_numbers.items()
+    ]
 
 
 @router.get("/{course_id}", response_model=CourseProgressOut)

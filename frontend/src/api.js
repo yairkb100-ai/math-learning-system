@@ -232,6 +232,8 @@ export const api = {
 
   // Progress (student)
   getProgress: (courseId) => request(`/progress/${courseId}`),
+  // כל הקורסים שהתלמיד כבר סיים בהם פרק, בבקשה אחת (דף "ההתקדמות שלי").
+  getProgressSummary: () => request('/progress'),
   markChapterComplete: (courseId, chapterId) =>
     request(`/progress/${courseId}/chapters/${chapterId}/complete`, {
       method: 'POST',
