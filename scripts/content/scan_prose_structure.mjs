@@ -41,7 +41,8 @@ await esbuild.build({
       import React from 'react'
       import { renderToStaticMarkup } from 'react-dom/server'
       import MathText, { InlineMathText, BidiSafeText, parseBlocks } from './src/components/MathText.jsx'
-      export { parseBlocks }
+      import { artTokenProblem } from './src/components/FractionArt.jsx'
+      export { parseBlocks, artTokenProblem }
       export const block = (text, props) =>
         renderToStaticMarkup(React.createElement(MathText, { text, ...props }))
       export const inline = (text, props) =>
@@ -131,7 +132,12 @@ function checkSource(src, where) {
     const body = m[1] ?? m[2]
     if (/(?<!\\)%/.test(body)) add('percent-in-math', where, clip(m[0]))
   }
-  // a display formula that the block parser will NOT lift (text on its line)
+  // illustration tokens: unknown kind (draws nothing) or a parameter the kind
+  // cannot read (silently draws its default)
+  for (const m of src.matchAll(/\{\{([a-z-]+)(?::([^|}]+))?(?:\|(?:[^}]|\}(?!\}))*)?\}\}/g)) {
+    const problem = R.artTokenProblem(m[1], m[2])
+    if (problem) add(problem.startsWith('unknown') ? 'art-unknown-kind' : 'art-invalid-param', where, clip(m[0], 90))
+  }
   for (const line of src.split('\n')) {
     if (/^[\s.,:;!?\-–—*_>·•]+$/.test(line)) add('punctuation-only-line', where, clip(line))
   }
@@ -156,24 +162,40 @@ function checkRendered(html, where, src) {
 // Structural checks on the block parser's output (block-rendered fields).
 function checkBlocks(src, where) {
   const blocks = R.parseBlocks(src)
+  // A field's lettered items often sit in several one-item lists (a proof or a
+  // drawing between "א." and "ב."), so sequence is judged over the whole field.
+  const allMarks = blocks.filter((b) => b.type === 'lettered').flatMap((b) => b.items.map((it) => it.mark))
+  if (allMarks.length === 1) {
+    const only = blocks.find((b) => b.type === 'lettered').items[0]
+    add('lettered-single', where, clip(`${only.mark}. ${only.text}`))
+  }
+  const idx = allMarks.map((mk) => MARKS.indexOf(mk))
+  if (idx.some((x) => x < 0)) add('lettered-not-a-letter', where, allMarks.join(' '))
+  else if (idx.some((x, j) => j > 0 && x !== idx[j - 1] + 1 && x !== 0)) add('lettered-out-of-order', where, allMarks.join(' '))
+  let lastNum = null
   blocks.forEach((b, i) => {
     const next = blocks[i + 1]
     if (b.type === 'lettered') {
-      const marks = b.items.map((it) => it.mark)
-      if (b.items.length === 1) add('lettered-single', where, clip(`${marks[0]}. ${b.items[0].text}`))
-      b.items.forEach((it) => {
-        if (!it.text.trim()) add('lettered-empty-item', where, `${it.mark}.`)
+      b.items.forEach((it, j) => {
+        // "א." alone above a drawing is a caption for it, not an empty item.
+        const captionsArt = it.art || (j === b.items.length - 1 && next?.type === 'art')
+        if (!it.text.trim() && !captionsArt) add('lettered-empty-item', where, `${it.mark}.`)
       })
-      const idx = marks.map((mk) => MARKS.indexOf(mk))
-      if (idx.some((x) => x < 0)) add('lettered-not-a-letter', where, clip(marks.join(' ') + ' | ' + b.items[idx.findIndex((x) => x < 0)].text))
-      else if (b.items.length > 1 && idx.some((x, j) => j > 0 && x !== idx[j - 1] + 1)) add('lettered-out-of-order', where, marks.join(' '))
     }
     if (b.type === 'step' && !b.text.trim()) add('step-empty', where, `${b.word} ${b.num}`)
     if (b.type === 'label') {
-      if (!next || next.type === 'heading' || next.type === 'label') add('label-dangling', where, clip(b.text))
+      if (!next || next.type === 'heading') add('label-dangling', where, clip(b.text))
     }
     if (b.type === 'paragraph' && b.note && b.text.length > NOTE_MAX) add('note-long', where, `${b.text.length} chars: ${clip(b.text, 60)}`)
-    if (b.type === 'ol' && b.items.length === 1) add('numbered-single', where, clip(b.items[0]))
+    if (b.type === 'heading') lastNum = null
+    if (b.type === 'ol') {
+      const nums = b.items.map((it) => it.num)
+      // Numbering may run on across formulas and labels, but must not jump.
+      const first = nums[0]
+      if (!(first === 1 || (lastNum != null && first === lastNum + 1))) add('numbered-starts-mid', where, `${first}. ${clip(b.items[0].text, 70)}`)
+      if (nums.some((n, j) => j > 0 && n !== nums[j - 1] + 1)) add('numbered-out-of-order', where, nums.join(' '))
+      lastNum = nums[nums.length - 1]
+    }
     if (b.type === 'ul' && b.items.some((x) => !x.trim())) add('bullet-empty', where, '')
     if (b.type === 'table') {
       const w = b.header.length

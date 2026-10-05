@@ -105,7 +105,16 @@ function renderPlain(src, keyPrefix, opts) {
 // 10\frac12$" otherwise pokes out of the card.
 const LONG_INLINE_MATH = 28
 
-function renderMath(value, display, key, raw) {
+// "%" starts a comment in TeX, so "$20\% + 5$" authored as "$20% + 5$" would
+// silently lose everything after the percent sign (KaTeX renders "20" and
+// reports no error). No course formula wants a TeX comment — escape every
+// bare one before rendering.
+export function escapeMathPercent(tex) {
+  return String(tex).replace(/(?<!\\)%/g, '\\%')
+}
+
+function renderMath(source, display, key, raw) {
+  const value = escapeMathPercent(source)
   let html
   try {
     html = katex.renderToString(value, { displayMode: display, throwOnError: false })
@@ -114,7 +123,7 @@ function renderMath(value, display, key, raw) {
   }
   const cls = display
     ? 'math-display'
-    : value.length > LONG_INLINE_MATH
+    : source.length > LONG_INLINE_MATH
       ? 'math-inline math-inline-long'
       : 'math-inline'
   return (
@@ -162,7 +171,10 @@ export function isLatinText(text) {
 // untouched, and the concatenated text content is identical to the input.
 
 // A "strong" LTR character: latin letters, digits, super/subscript digits.
-const IS_LTR_STRONG = /[0-9A-Za-z²³¹⁰⁴-⁹₀-₉]/
+// Greek letters are strong-LTR for the bidi algorithm itself, and "√" / "½"
+// belong to the number they are glued to — leave any of them outside the
+// isolated run and it lands on the far side of it ("r² = 78.5π", "25√").
+const IS_LTR_STRONG = /[0-9A-Za-zΑ-Ωα-ω²³¹⁰⁴-⁹ⁿ₀-₉½¼¾⅓⅔√∞]/
 // Direction-neutral characters that may sit *between* two strong ones. These
 // are exactly the ones bidi rule N1 hands to the surrounding RTL context.
 const IS_NEUTRAL =
@@ -236,39 +248,71 @@ export function mathRunNodes(src, keyPrefix = 'bs', className = 'bidi-math') {
 //     visual order and isolating them would flip what they already fixed;
 //   * the run may grow over ONE enclosing bracket pair, and only when that
 //     leaves the brackets balanced.
+//   * a run is everything between two strong LTR characters with no RTL
+//     letter in between — the same span the bidi algorithm itself treats as
+//     one LTR run. Stopping earlier (at an "_" or a "?") isolated the tail of
+//     an English sentence and threw it to the other side of its own start:
+//     "A. This book is ___ (interesting) than the movie";
+//   * "%", "°" directly after the run and a sign directly before it belong to
+//     it: "= 25%" must not render as "%25 =", nor "−2x > 6" as "2x > 6−";
+//   * an exponent glued to a Hebrew word ("צלע² = 7²") stays with that word;
+//   * signs typed AFTER their number ("12−, 12−, 12−") are the author's own
+//     visual-order fix for RTL — isolating the run would undo it.
 const PROSE_OPERATOR = /[()[\]{}+\-*/^<>=−–·×÷≤≥≠≈±→√]/
+const RTL_LETTER = /[֐-ࣿיִ-﷿ﹰ-ﻼ]/
+const SCRIPT_DIGIT = /[²³¹⁰⁴-⁹ⁿ₀-₉]/
+const TRAILING_UNIT = /[%°′″]/
+const VISUAL_ORDER_SIGN = /[0-9A-Za-z][+\-−–]\s*(?:[,;]|$)/
+const bracketBalance = (s) =>
+  (s.match(/[([{]/g) || []).length - (s.match(/[)\]}]/g) || []).length
+
 function proseRunNodes(src, keyPrefix = 'pr') {
   const nodes = []
   let last = 0
   let k = 0
   let i = 0
   while (i < src.length) {
-    if (!IS_LTR_STRONG.test(src[i])) {
+    if (
+      !IS_LTR_STRONG.test(src[i]) ||
+      (SCRIPT_DIGIT.test(src[i]) && i > 0 && RTL_LETTER.test(src[i - 1]))
+    ) {
       i++
       continue
     }
     let start = i
     let end = i + 1
     let j = i + 1
-    while (j < src.length && (IS_LTR_STRONG.test(src[j]) || IS_NEUTRAL.test(src[j]))) {
+    while (j < src.length && !RTL_LETTER.test(src[j])) {
       if (IS_LTR_STRONG.test(src[j])) end = j + 1
       j++
     }
+    while (end < src.length && TRAILING_UNIT.test(src[end])) end++
     const core = src.slice(start, end)
     i = end
-    if (!PROSE_OPERATOR.test(core)) continue
-    if (start > last && end < src.length && /[([{]/.test(src[start - 1]) && /[)\]}]/.test(src[end])) {
+    // "(2, 3)" has no operator between its numbers, but the comma-and-space
+    // still reorders it to "(3 ,2)" in an RTL line.
+    const enclosed =
+      start > last && end < src.length &&
+      /[([{]/.test(src[start - 1]) && /[)\]}]/.test(src[end]) &&
+      bracketBalance(core) === 0
+    if (!PROSE_OPERATOR.test(core) && !(enclosed && /[,;]\s/.test(core))) continue
+    if (VISUAL_ORDER_SIGN.test(core + src.slice(end, end + 1).replace(/[^+\-−–]/, ''))) continue
+    if (enclosed) {
       start--
       end++
     }
-    const balance = (s) =>
-      (s.match(/[([{]/g) || []).length - (s.match(/[)\]}]/g) || []).length
-    let bal = balance(src.slice(start, end))
+    let bal = bracketBalance(src.slice(start, end))
     // "f(x" → take the closing bracket; "x)²"-style leftovers → the opener.
     if (bal > 0 && end < src.length && /[)\]}]/.test(src[end])) end++
     else if (bal < 0 && start > last && /[([{]/.test(src[start - 1])) start--
-    bal = balance(src.slice(start, end))
+    bal = bracketBalance(src.slice(start, end))
     if (bal !== 0) continue
+    // A leading sign ("−2x > 6", "= -5 + 3") — but never the hyphen of a
+    // Hebrew prefix ("ב-3 + 4").
+    if (
+      start > last && /[+\-−–]/.test(src[start - 1]) &&
+      (start === 1 || /[\s(=:,]/.test(src[start - 2]))
+    ) start--
     const run = src.slice(start, end)
     if (start > last) nodes.push(src.slice(last, start))
     nodes.push(
@@ -378,6 +422,51 @@ function parseArtLine(line) {
   return items
 }
 
+// A line that mixes prose and illustrations — "**התשובה:** {{figcell:…}}",
+// "שורה 2: {{figrow:…}}" — split into its text and art parts, in order.
+// Such a token used to be dropped as "unrecognized" (only a line made of
+// tokens alone was drawn), which left "התשובה:" pointing at nothing.
+// Returns null when the line holds no token.
+function splitArtLine(line) {
+  const parts = []
+  let last = 0
+  let m
+  const re = new RegExp(ART_TOKEN.source, 'g')
+  const pushText = (text) => {
+    // A dash that only linked the sentence to its drawing goes with it.
+    const kept = text.trim().replace(/\s+[—–-]$/, '')
+    if (kept) parts.push({ text: kept })
+  }
+  while ((m = re.exec(line)) !== null) {
+    pushText(line.slice(last, m.index))
+    const items = parseArtLine(m[0])
+    const prev = parts[parts.length - 1]
+    if (prev?.art) prev.art.push(...items)
+    else parts.push({ art: items })
+    last = m.index + m[0].length
+  }
+  if (!last) return null
+  pushText(line.slice(last))
+  return parts
+}
+
+function ArtRow({ items, keyPrefix, opts }) {
+  return (
+    <div className="art-row">
+      {items.map((it, j) => (
+        // The caption is authored like any other prose, so it goes through
+        // renderInline — otherwise "$3 \times 4$" reaches the reader as
+        // literal dollar signs, and a bare < in it flips.
+        <FractionArt
+          key={j}
+          {...it}
+          caption={it.caption ? renderInline(it.caption, `${keyPrefix}-${j}-cap`, opts) : null}
+        />
+      ))}
+    </div>
+  )
+}
+
 // Strip any leftover "{{...}}"-shaped text a paragraph might contain (e.g. an
 // authoring typo that didn't parse as a standalone art line) instead of
 // showing broken raw syntax to the reader.
@@ -398,8 +487,12 @@ function splitRow(line) {
   return line.trim().replace(/^\||\|$/g, '').split('|').map((c) => c.trim())
 }
 
-export default function MathText({ text, className, mathRuns }) {
-  const blocks = useMemo(() => parseBlocks(String(text || '')), [text])
+// `plain` is for compact surfaces — an answer button, a card label — where
+// the text is one short statement: paragraphs, illustrations, tables and
+// formulas still render, but nothing is promoted to a heading, list, step,
+// label or note box, whatever the string happens to start with.
+export default function MathText({ text, className, mathRuns, plain }) {
+  const blocks = useMemo(() => parseBlocks(String(text || ''), { plain }), [text, plain])
   const opts = useMemo(() => ({ mathRuns }), [mathRuns])
 
   return (
@@ -421,30 +514,17 @@ export default function MathText({ text, className, mathRuns }) {
         }
         if (block.type === 'ol') {
           return (
-            <ol key={key} className="prose-list">
+            <ol key={key} className={'prose-list' + (block.loose ? ' is-loose' : '')}>
               {block.items.map((it, j) => (
-                <li key={`${key}-${j}`}>{renderInline(it, `${key}-${j}`, opts)}</li>
+                <li key={`${key}-${j}`} value={it.num}>
+                  {renderInline(it.text, `${key}-${j}`, opts)}
+                </li>
               ))}
             </ol>
           )
         }
         if (block.type === 'art') {
-          return (
-            <div key={key} className="art-row">
-              {block.items.map((it, j) => (
-                // The caption is authored like any other prose, so it goes
-                // through renderInline — otherwise "$3 \times 4$" reaches the
-                // reader as literal dollar signs, and a bare < in it flips.
-                <FractionArt
-                  key={j}
-                  {...it}
-                  caption={
-                    it.caption ? renderInline(it.caption, `${key}-${j}-cap`, opts) : null
-                  }
-                />
-              ))}
-            </div>
-          )
+          return <ArtRow key={key} items={block.items} keyPrefix={key} opts={opts} />
         }
         if (block.type === 'quote') {
           return (
@@ -485,7 +565,21 @@ export default function MathText({ text, className, mathRuns }) {
               {block.items.map((it, j) => (
                 <li key={`${key}-${j}`}>
                   <span className="prose-mark" aria-hidden="true">{it.mark}</span>
-                  <span className="prose-item">{renderInline(it.text, `${key}-${j}`, opts)}</span>
+                  {it.art ? (
+                    // "א. {{figcell:…}}" — the item IS a drawing (a figural
+                    // answer option), or "א." captions the drawing below it.
+                    <div className="prose-item prose-item-art">
+                      {it.art.map((part, p) =>
+                        part.art ? (
+                          <ArtRow key={p} items={part.art} keyPrefix={`${key}-${j}-${p}`} opts={opts} />
+                        ) : (
+                          <span key={p}>{renderInline(part.text, `${key}-${j}-${p}`, opts)}</span>
+                        )
+                      )}
+                    </div>
+                  ) : (
+                    <span className="prose-item">{renderInline(it.text, `${key}-${j}`, opts)}</span>
+                  )}
                 </li>
               ))}
             </ol>
@@ -531,12 +625,29 @@ export default function MathText({ text, className, mathRuns }) {
 // A Hebrew-letter item: "א. …", "ב) …", "**ג.** …" (the bold variant marks the
 // letter only). Exercises and their solutions are written this way ~2,500
 // times across the content.
-const LETTERED = /^(?:\*\*([א-ת]{1,2})['׳]?[.)]\*\*|([א-ת]{1,2})['׳]?[.)])(?:\s+(.*))?$/
+// The mark must be a real list letter — one letter, or a two-letter numeral
+// (יא…יט, טו, טז). Any two letters used to qualify, so an answer that opens
+// with "לא. …" or "כן. …" lost its first word to a list badge.
+const MARK = String.raw`(?:י[א-ט]|ט[וז]|[א-ת])`
+const LETTERED = new RegExp(
+  String.raw`^(?:\*\*(${MARK})['׳]?[.)]\*\*|(${MARK})['׳]?[.)])(?:\s+(.*))?$`)
 // "**צעד 2:** …", "**שלב 3**", "**שלב 1.** …" — one step of a worked solution.
 // A titled step, "**צעד 1 — הצבה:** …", keeps its title as the bold lead-in.
 const STEP = /^\*\*(צעד|שלב)\s+(\d+)(?:\s*[—–-]\s*([^*]+?))?\s*[:.]?\*\*\s*(.*)$/
-// A bold label alone on its line: "**פתרון:**", "**בדיקה:**".
-const LABEL_ONLY = /^\*\*([^*]{1,40}?)\s*[:.]\*\*$/
+// A bold label alone on its line: "**פתרון:**", "**בדיקה:**", "**הצעדים.**".
+// A label introduces what follows, so it ends in a colon — or is a bare
+// heading of up to three words closed with a period. A whole bold sentence
+// ("**התשובה: אין פתרון.**", "**זוויות צמודות משלימות ל-180°.**") is a
+// statement, not a label, and stays an ordinary bold paragraph.
+const LABEL_COLON = /^\*\*([^*]{1,40}?)\s*:\*\*$/
+const LABEL_PERIOD = /^\*\*([^*:,?!$]{1,40}?)\s*\.\*\*$/
+function labelOnly(line) {
+  const colon = line.match(LABEL_COLON)
+  if (colon) return colon[1]
+  const period = line.match(LABEL_PERIOD)
+  if (period && period[1].trim().split(/\s+/).length <= 3) return period[1]
+  return null
+}
 // Display math alone on its line.
 const DISPLAY_LINE = /^\$\$[^$]+\$\$$/
 // A paragraph opening with one of these bold labels is an aside, styled as a
@@ -550,7 +661,18 @@ const NOTE_KINDS = [
 function letteredItem(line) {
   const m = line.match(LETTERED)
   if (!m) return null
-  return { mark: m[1] || m[2], text: m[3] || '' }
+  const text = m[3] || ''
+  // "א. {{figcell:…}}", "ב. ערימת קוביות: {{blockstack:…}}. כמה קוביות?" —
+  // an item holding a drawing keeps its parts in order (see the renderer).
+  const mixed = text.includes('{{') ? splitArtLine(text) : null
+  const mark = m[1] || m[2]
+  if (mixed) {
+    const parts = mixed
+      .map((p) => (p.art ? p : { text: p.text.replace(/^[.,;:—–-]\s*/, '') }))
+      .filter((p) => p.art || p.text)
+    return { mark, text: '', art: parts }
+  }
+  return { mark, text }
 }
 
 function paragraphBlocks(lines) {
@@ -576,7 +698,10 @@ function paragraphBlocks(lines) {
         if (next) {
           items.push(next)
           i++
-        } else if (!items[items.length - 1].text || DISPLAY_LINE.test(lines[i])) {
+        } else if (
+          (!items[items.length - 1].text && !items[items.length - 1].art) ||
+          DISPLAY_LINE.test(lines[i])
+        ) {
           // "א." on a line of its own (its content follows), or a display
           // formula that belongs to the item above it.
           const cur = items[items.length - 1]
@@ -597,7 +722,7 @@ function paragraphBlocks(lines) {
         i < lines.length &&
         !STEP.test(lines[i]) &&
         !letteredItem(lines[i]) &&
-        !LABEL_ONLY.test(lines[i])
+        labelOnly(lines[i]) == null
       ) {
         body.push(lines[i])
         i++
@@ -611,9 +736,10 @@ function paragraphBlocks(lines) {
       i++
       continue
     }
-    if (LABEL_ONLY.test(line)) {
+    const label = labelOnly(line)
+    if (label != null) {
       flushText()
-      out.push({ type: 'label', text: line.match(LABEL_ONLY)[1] })
+      out.push({ type: 'label', text: label })
       i++
       continue
     }
@@ -624,13 +750,17 @@ function paragraphBlocks(lines) {
   return out
 }
 
-export function parseBlocks(text) {
+export function parseBlocks(text, { plain = false } = {}) {
   const lines = text.split('\n')
   const blocks = []
   let i = 0
   let para = []
 
   const flushPara = () => {
+    if (para.length && plain) {
+      blocks.push({ type: 'paragraph', text: para.join('\n'), note: null })
+      para = []
+    }
     if (para.length) {
       for (const b of paragraphBlocks(para)) {
         // "א. …" and "ב. …" written as separate paragraphs (a blank line
@@ -661,7 +791,35 @@ export function parseBlocks(text) {
     const art = parseArtLine(trimmed)
     if (art) {
       flushPara()
-      blocks.push({ type: 'art', items: art })
+      // "א." on its own, then the drawing it names: one item, not a stray
+      // letter badge floating above an unrelated figure.
+      const prev = blocks[blocks.length - 1]
+      const open = prev?.type === 'lettered' ? prev.items[prev.items.length - 1] : null
+      if (open && !open.text && !open.art) open.art = [{ art }]
+      else blocks.push({ type: 'art', items: art })
+      i++
+      continue
+    }
+
+    // prose and illustration on one line
+    if (trimmed.includes('{{') && !isTableRow(line) && (plain || !letteredItem(trimmed))) {
+      const mixed = splitArtLine(trimmed)
+      if (mixed) {
+        for (const part of mixed) {
+          if (part.art) {
+            flushPara()
+            blocks.push({ type: 'art', items: part.art })
+          } else {
+            para.push(part.text)
+          }
+        }
+        i++
+        continue
+      }
+    }
+
+    if (plain && !(isTableRow(line) && i + 1 < lines.length && isTableSep(lines[i + 1]))) {
+      para.push(trimmed)
       i++
       continue
     }
@@ -719,12 +877,24 @@ export function parseBlocks(text) {
     // numbered list
     if (/^\s*\d+\.\s+/.test(line)) {
       flushPara()
+      // The authored number is kept (see the <li value>): the lines of a
+      // geometry proof are separated by blank lines and display formulas, and
+      // are referred to by number ("הוכח בשורה 2"). Letting the browser count
+      // restarted every one of them at "1.".
       const items = []
       while (i < lines.length && /^\s*\d+\.\s+/.test(lines[i])) {
-        items.push(lines[i].replace(/^\s*\d+\.\s+/, ''))
+        const m = lines[i].match(/^\s*(\d+)\.\s+(.*)$/)
+        items.push({ num: Number(m[1]), text: m[2] })
         i++
       }
-      blocks.push({ type: 'ol', items })
+      const prev = blocks[blocks.length - 1]
+      if (prev?.type === 'ol' && items[0].num === prev.items[prev.items.length - 1].num + 1) {
+        // "1. …", blank line, "2. …" — one list, written with breathing room.
+        prev.items.push(...items)
+        prev.loose = true
+      } else {
+        blocks.push({ type: 'ol', items })
+      }
       continue
     }
 

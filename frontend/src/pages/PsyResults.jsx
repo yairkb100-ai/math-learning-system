@@ -294,7 +294,7 @@ export default function PsyResults() {
                         .join(' ')}
                     >
                       <span className="psy-option-letter">{OPTION_LETTERS[i]}</span>
-                      <MathText text={opt} />
+                      <MathText text={opt} plain />
                       {i === r.correct_index && <span className="psy-tag">התשובה הנכונה</span>}
                       {i === r.chosen && i !== r.correct_index && (
                         <span className="psy-tag psy-tag-bad">התשובה שלך</span>

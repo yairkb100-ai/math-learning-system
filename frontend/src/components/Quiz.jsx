@@ -23,7 +23,7 @@ const ART_ONLY = /^\s*\{\{[a-z-]+(?::[^|}]+)?(?:\|(?:[^}]|\}(?!\}))*)?\}\}\s*$/
  */
 function OptionText({ text }) {
   if (ART_ONLY.test(String(text ?? ''))) {
-    return <MathText text={text} />
+    return <MathText text={text} plain />
   }
   return <InlineMathText text={text} mathRuns />
 }

@@ -1294,7 +1294,69 @@ const KINDS = {
   ...MECHANICAL_KINDS,
 }
 
+// ---- authoring check -------------------------------------------------------
+// Every drawing falls back to a default when its parameter does not parse, so
+// a typo still draws SOMETHING: "{{parabola:1,0,0}}" drew the stock two-root
+// parabola under a sentence about a different one. This table states what each
+// kind accepts, so the mistake can be named — in the dev console (below) and by
+// scripts/content/scan_prose_structure.mjs. It changes nothing that is drawn.
+// Kinds with their own grammar files (figural, spatial, mechanical, geoproof)
+// are not listed and are only checked for existing at all.
+const NUM = String.raw`-?\d+(?:\.\d+)?`
+const FRACTION_PARAM = /^\d+(?:\.\d+)?(?:\/\d+(?:\.\d+)?)?$/
+const PAIRS_PARAM = new RegExp(`^${NUM},${NUM}(?:;${NUM},${NUM})*$`)
+const LABELLED_PARAM = new RegExp(`^[^=;]+=${NUM}(?:;[^=;]+=${NUM})*$`)
+const PARAM_SHAPE = {
+  pizza: FRACTION_PARAM,
+  circle: FRACTION_PARAM,
+  bar: FRACTION_PARAM,
+  'bar-unequal': FRACTION_PARAM,
+  chocolate: FRACTION_PARAM,
+  numberline: FRACTION_PARAM,
+  grid: /^\d+x\d+(?:\/\d+)?$/,
+  rect: /^[\d.]+x[\d.]+$/,
+  parabola: /^(?:up|down)\/[012]$/,
+  linesystem: PAIRS_PARAM,
+  linegraph: PAIRS_PARAM,
+  axespoints: new RegExp(`^(?:blank|${NUM},${NUM}(?:;${NUM},${NUM})*)$`),
+  funcline: new RegExp(`^${NUM},${NUM}$`),
+  ratiobar: /^\d+(?::\d+)+$/,
+  righttriangle: new RegExp(`^${NUM},${NUM}$`),
+  triangle: new RegExp(`^${NUM},${NUM},${NUM}$`),
+  inequality: new RegExp(`^(?:>=|<=|>|<)${NUM}$`),
+  tangent: /^(?:left|min|right)$/,
+  signedline: /^-?\d+(?:[;,]-?\d+)?$/,
+  angle: /^\d+(?:\.\d+)?$/,
+  angles: /^\d+(?:\.\d+)?$/,
+  quad: new RegExp(`^(?:${Object.keys(QUADS).join('|')})$`),
+  box: new RegExp(`^${NUM},${NUM},${NUM}$`),
+  cylinder: new RegExp(`^${NUM},${NUM}$`),
+  barchart: LABELLED_PARAM,
+  piechart: LABELLED_PARAM,
+}
+
+// Returns a sentence describing what is wrong with the token, or null.
+export function artTokenProblem(kind, param) {
+  if (!KINDS[kind]) return `unknown illustration kind "${kind}" — nothing is drawn`
+  const shape = PARAM_SHAPE[kind]
+  if (shape && param != null && !shape.test(String(param).trim())) {
+    return `parameter "${param}" is not valid for "${kind}" — a default drawing is shown instead`
+  }
+  return null
+}
+
+const warnedTokens = new Set()
+function warnInDev(kind, param) {
+  const token = `{{${kind}${param != null ? `:${param}` : ''}}}`
+  if (warnedTokens.has(token)) return
+  warnedTokens.add(token)
+  const problem = artTokenProblem(kind, param)
+  if (problem) console.warn(`[art] ${token}: ${problem}`)
+}
+
 export default function FractionArt({ kind, n = 1, d = 4, param, caption }) {
+  // Development builds only — production renders exactly as before.
+  if (import.meta.env?.DEV) warnInDev(kind, param)
   const Art = KINDS[kind]
   if (!Art) return null
   return (

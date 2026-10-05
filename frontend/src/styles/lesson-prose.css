@@ -40,6 +40,34 @@
 .prose-item {
   min-width: 0;
 }
+/* An item that is a drawing ("א. {{figcell:…}}" — a figural answer option):
+   the figure sits beside its letter, without the boxed, centred art-row that
+   a stand-alone illustration gets. */
+.prose-item-art {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+.prose-item-art .art-row {
+  margin: 0;
+  padding: 0;
+  gap: 10px;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  justify-content: flex-start;
+  overflow: visible;
+}
+.prose-lettered > li:has(.prose-item-art) {
+  align-items: center;
+}
+
+/* "1. …" / "2. …" written as separate paragraphs (the numbered lines of a
+   proof) — one list, with the breathing room the author gave it. */
+.prose-list.is-loose {
+  gap: 14px;
+}
 
 /* A worked-solution step: number badge + body, joined by a faint rail so a
    run of steps reads as one sequence. */

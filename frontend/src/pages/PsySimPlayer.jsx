@@ -376,7 +376,7 @@ export default function PsySimPlayer() {
                             >
                               <span className="psy-option-letter">{OPTION_LETTERS[i]}</span>
                               <span className="psy-option-text">
-                                <MathText text={opt} />
+                                <MathText text={opt} plain />
                               </span>
                             </motion.button>
                           </motion.li>
