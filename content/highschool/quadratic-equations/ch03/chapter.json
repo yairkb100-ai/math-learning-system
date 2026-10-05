@@ -72,24 +72,24 @@
       "question": "לפי משפטי וייטה, מהו סכום השורשים של $x^2 - 5x + 6 = 0$?",
       "type": "multiple-choice",
       "options": [
-        "-5",
-        "5",
-        "6",
-        "-6"
+        "$-5$",
+        "$5$",
+        "$6$",
+        "$-6$"
       ],
-      "correct_answer": "5"
+      "correct_answer": "$5$"
     },
     {
       "number": 2,
       "question": "לפי משפטי וייטה, מהי מכפלת השורשים של $x^2 - 5x + 6 = 0$?",
       "type": "multiple-choice",
       "options": [
-        "5",
-        "6",
-        "-6",
-        "-5"
+        "$5$",
+        "$6$",
+        "$-6$",
+        "$-5$"
       ],
-      "correct_answer": "6"
+      "correct_answer": "$6$"
     },
     {
       "number": 3,

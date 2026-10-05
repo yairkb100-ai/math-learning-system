@@ -115,12 +115,12 @@
       "question": "מהו הדיסקרימיננט של $x^2 + x + 1 = 0$?",
       "type": "multiple-choice",
       "options": [
-        "-3",
-        "3",
-        "5",
-        "-1"
+        "$-3$",
+        "$3$",
+        "$5$",
+        "$-1$"
       ],
-      "correct_answer": "-3"
+      "correct_answer": "$-3$"
     }
   ],
   "interactive": [
