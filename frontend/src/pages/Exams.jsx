@@ -1,59 +1,64 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
-import { IconLock } from '../components/icons.jsx'
-import { fadeInUp, fadeIn, staggerContainer, hoverLift, tapScale } from '../lib/motion.js'
+import { IconLock, IconTrophy, IconClock, IconCheck, IconClipboard } from '../components/icons.jsx'
+import { PageHead, EmptyState, ExamIcon, subjectLabel } from '../components/StudentUi.jsx'
+import { fadeInUp, staggerContainer, hoverLift } from '../lib/motion.js'
 import '../styles/exams.css'
 
-const SUBJECT_HE = {
-  math: 'מתמטיקה',
-  psychometric: 'פסיכומטרי',
-  english: 'אנגלית',
-  logic: 'לוגיקה',
-  verbal: 'מילולי',
+const HISTORY_LIMIT = 5
+
+function fmtDate(iso) {
+  try {
+    return new Date(iso).toLocaleDateString('he-IL', { day: 'numeric', month: 'numeric' })
+  } catch {
+    return ''
+  }
 }
-const subjectLabel = (s) => SUBJECT_HE[s] || s
 
 export default function Exams() {
   const [exams, setExams] = useState(null)
+  const [history, setHistory] = useState([])
   const [error, setError] = useState(null)
-  const navigate = useNavigate()
 
-  useEffect(() => {
+  function load() {
+    setError(null)
     api.listExams().then(setExams).catch(setError)
-  }, [])
+    // היסטוריית ההגשות היא תוספת — כישלון בה לא מסתיר את רשימת המבחנים.
+    api
+      .listExamSubmissions()
+      .then((rows) => setHistory(Array.isArray(rows) ? rows : []))
+      .catch(() => setHistory([]))
+  }
 
-  if (error) return <ErrorBox error={error} />
+  useEffect(load, [])
+
+  if (error) return <ErrorBox error={error} onRetry={load} />
   if (!exams) return <Loading label="טוען מבחנים…" />
 
-  // Free tier: the server marks the exams past the ~30% preview as locked.
+  // Free tier: the server marks the exams past the free preview as locked.
   const openCount = exams.filter((e) => !e.locked).length
   const anyLocked = openCount < exams.length
 
   return (
-    <section dir="rtl">
-      <div className="page-head">
-        <h1>מבחנים</h1>
-        <p className="muted">
-          מבחנים אדפטיביים — רמת הקושי מתאימה את עצמה לתשובות שלך בזמן אמת.
-        </p>
-      </div>
+    <section dir="rtl" className="sa-page exams-page">
+      <PageHead
+        title="מבחנים"
+        lead="מבחן קצר על שעון. רמת הקושי מתאימה את עצמה לתשובות, ובסוף מקבלים הסבר לכל שאלה."
+      />
 
       {anyLocked && (
-        <motion.div
-          className="free-note"
-          variants={fadeIn}
-          initial="hidden"
-          animate="show"
-        >
+        <motion.div className="free-note" variants={fadeInUp} initial="hidden" animate="show">
           <span className="free-note-icon" aria-hidden="true">
             <IconLock />
           </span>
           <div className="free-note-body">
             <strong>
-              {openCount} מתוך {exams.length} מבחנים פתוחים לך
+              {openCount === 1
+                ? `מבחן אחד מתוך ${exams.length} פתוח לך`
+                : `${openCount} מתוך ${exams.length} מבחנים פתוחים לך`}
             </strong>
             <p>שאר המבחנים נפתחים עם מנוי מלא — כמו שאר פרקי הקורסים.</p>
           </div>
@@ -64,10 +69,22 @@ export default function Exams() {
       )}
 
       {exams.length === 0 ? (
-        <div className="card empty">אין מבחנים זמינים כרגע.</div>
+        <div className="card">
+          <EmptyState
+            icon={<IconClipboard />}
+            title="עדיין אין מבחנים פתוחים"
+            actions={
+              <Link to="/practice" className="btn">
+                למרכז התרגול
+              </Link>
+            }
+          >
+            <p>בינתיים אפשר לתרגל שאלות לפי נושא ולקבל הסבר אחרי כל תשובה.</p>
+          </EmptyState>
+        </div>
       ) : (
         <motion.div
-          className="grid"
+          className="grid exam-grid"
           variants={staggerContainer}
           initial="hidden"
           animate="show"
@@ -77,13 +94,16 @@ export default function Exams() {
               key={e.id}
               variants={fadeInUp}
               whileHover={e.locked ? undefined : hoverLift.whileHover}
-              whileTap={e.locked ? undefined : hoverLift.whileTap}
-              transition={hoverLift.transition}
               className={`card exam-card${e.locked ? ' is-locked' : ''}`}
             >
               <div className="exam-card-top">
-                <span className="exam-icon">{e.icon}</span>
-                <h3 className="exam-card-title">{e.title}</h3>
+                <span className="exam-icon-tile" aria-hidden="true">
+                  <ExamIcon subject={e.subject} />
+                </span>
+                <div className="exam-card-heading">
+                  <h2 className="exam-card-title">{e.title}</h2>
+                  <span className="exam-card-subject">{subjectLabel(e.subject)}</span>
+                </div>
                 {e.locked && (
                   <span className="chapter-locked-tag">
                     <IconLock className="chapter-lock-icon" />
@@ -91,52 +111,58 @@ export default function Exams() {
                   </span>
                 )}
               </div>
-              <p className="exam-card-desc">{e.description}</p>
-              <div>
-                <span className="badge">{subjectLabel(e.subject)}</span>
-                {e.adaptive && (
-                  <span className="badge" style={{ marginInlineStart: 6 }}>
-                    אדפטיבי
-                  </span>
-                )}
-              </div>
-              <div className="exam-meta">
-                <span>
-                  <b>{e.num_questions}</b> שאלות
-                </span>
-                <span>
-                  <b>{e.duration_minutes}</b> דק׳
-                </span>
-                <span>
-                  ציון עובר <b>{e.passing_score}%</b>
-                </span>
-              </div>
+              {e.description && <p className="exam-card-desc">{e.description}</p>}
+              <ul className="exam-meta">
+                <li>
+                  <IconClipboard /> <b>{e.num_questions}</b> שאלות
+                </li>
+                <li>
+                  <IconClock /> <b>{e.duration_minutes}</b> דקות
+                </li>
+                <li>
+                  <IconCheck /> ציון עובר <b>{e.passing_score}</b>
+                </li>
+              </ul>
               {e.best_score != null && (
                 <div className="exam-best">
-                  ⭐ הציון הטוב ביותר: {e.best_score}% · {e.attempts_count} ניסיונות
+                  <IconTrophy /> הציון הכי טוב שלך: {Math.round(e.best_score)}
+                  <span className="exam-best-tries">
+                    {e.attempts_count === 1 ? 'ניסיון אחד' : `${e.attempts_count} ניסיונות`}
+                  </span>
                 </div>
               )}
               {e.locked ? (
-                <Link
-                  to="/subscription"
-                  className="btn btn-secondary"
-                  style={{ marginTop: 6 }}
-                >
+                <Link to="/subscription" className="btn btn-secondary exam-card-cta">
                   נפתח עם מנוי מלא
                 </Link>
               ) : (
-                <motion.button
-                  className="btn"
-                  style={{ marginTop: 6 }}
-                  onClick={() => navigate(`/exams/${e.id}`)}
-                  {...tapScale}
-                >
-                  התחל מבחן
-                </motion.button>
+                <Link to={`/exams/${e.id}`} className="btn exam-card-cta">
+                  {e.attempts_count > 0 ? 'לנסות שוב' : 'למבחן'}
+                </Link>
               )}
             </motion.div>
           ))}
         </motion.div>
+      )}
+
+      {history.length > 0 && (
+        <div className="exam-history">
+          <h2 className="sa-section-title">המבחנים האחרונים שלי</h2>
+          <ul className="exam-history-list card">
+            {history.slice(0, HISTORY_LIMIT).map((h) => (
+              <li key={h.id}>
+                <Link to={`/exam-results/${h.id}`} className="exam-history-row">
+                  <span className={`exam-history-score ${h.passed ? 'pass' : 'fail'}`}>
+                    {Math.round(h.score)}
+                  </span>
+                  <span className="exam-history-title">{h.exam_title || 'מבחן'}</span>
+                  <span className="exam-history-date">{fmtDate(h.created_at)}</span>
+                  <span className="exam-history-link">לתוצאות ולהסברים</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
     </section>
   )
