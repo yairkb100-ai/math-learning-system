@@ -125,7 +125,7 @@
       <span class="tag med">בינוני</span></div>
     <div>חשבו: <span class="eq">(<span class="fr"><b>1</b><i>2</i></span>)<sup>-1</sup></span>.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol">מעריך <span class="eq">-1</span> הופך את השבר: <span class="eq">(<span class="fr"><b>1</b><i>2</i></span>)<sup>-1</sup> = 2</span>.</div>
+    <div class="sol">מעריך <span class="eq">(-1)</span> הופך את השבר: <span class="eq">(<span class="fr"><b>1</b><i>2</i></span>)<sup>-1</sup> = 2</span>.</div>
   </div>
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 5: אתגר</strong>
@@ -179,9 +179,9 @@
   <div class="ex">
     <div class="ex-h"><strong>תרגיל 12: חיזוק נוסף: בודקים ומנמקים</strong>
       <span class="tag easy">קל</span></div>
-    <div>כתבו את <span class="eq">2<sup>4</sup></span> כמכפלה, חשבו, והסבירו מדוע הוא אינו שווה ל־<span class="eq">2cdot4</span>.</div>
+    <div>כתבו את <span class="eq">2<sup>4</sup></span> כמכפלה, חשבו, והסבירו מדוע הוא אינו שווה ל־<span class="eq">2·4</span>.</div>
     <button class="reveal" onclick="this.nextElementSibling.classList.toggle('show')">💡 הצג פתרון</button>
-    <div class="sol"><span class="eq">2<sup>4</sup>=2cdot2cdot2cdot2=16</span>. לעומת זאת <span class="eq">2cdot4=8</span>; המעריך מציין כפל חוזר של הבסיס, לא כפל במספר המעריך.</div>
+    <div class="sol"><span class="eq">2<sup>4</sup>=2·2·2·2=16</span>. לעומת זאת <span class="eq">2·4=8</span>; המעריך מציין כפל חוזר של הבסיס, לא כפל במספר המעריך.</div>
   </div>
 </div>
 
@@ -195,7 +195,7 @@
 <div class="credit" style="max-width:780px; margin:0 auto">© כל הזכויות שמורות ליאיר כהנא</div>
 
 <script>
-const quiz = [{"q": "כמה זה <span class=\"eq\">8<sup>0</sup></span>?", "o": ["<span class=\"eq\">1</span>", "<span class=\"eq\">0</span>", "<span class=\"eq\">8</span>", "<span class=\"eq\">80</span>"], "a": 0}, {"q": "כמה זה <span class=\"eq\">2<sup>-2</sup></span>?", "o": ["<span class=\"eq\"><span class=\"fr\"><b>1</b><i>4</i></span></span>", "<span class=\"eq\">-4</span>", "<span class=\"eq\">4</span>", "<span class=\"eq\">-<span class=\"fr\"><b>1</b><i>4</i></span></span>"], "a": 0}, {"q": "נכון או לא נכון: <span class=\"eq\">a<sup>0</sup> = 1</span> לכל <span class=\"eq\">a ≠ 0</span>.", "o": ["נכון", "לא נכון"], "a": 0}, {"q": "כמה זה <span class=\"eq\">10<sup>-2</sup></span>?", "o": ["<span class=\"eq\"><span class=\"fr\"><b>1</b><i>100</i></span></span>", "<span class=\"eq\">-100</span>", "<span class=\"eq\"><span class=\"fr\"><b>1</b><i>20</i></span></span>", "<span class=\"eq\">100</span>"], "a": 0}, {"q": "כמה זה <span class=\"eq\">3<sup>-1</sup></span>?", "o": ["<span class=\"eq\"><span class=\"fr\"><b>1</b><i>3</i></span></span>", "<span class=\"eq\">-3</span>", "<span class=\"eq\">3</span>", "<span class=\"eq\">-<span class=\"fr\"><b>1</b><i>3</i></span></span>"], "a": 0}];
+const quiz = [{"q": "כמה זה <span class=\"eq\">8<sup>0</sup></span>?", "o": ["<span class=\"eq\">1</span>", "<span class=\"eq\">0</span>", "<span class=\"eq\">8</span>", "<span class=\"eq\">80</span>"], "a": 0}, {"q": "כמה זה <span class=\"eq\">2<sup>-2</sup></span>?", "o": ["<span class=\"eq\"><span class=\"fr\"><b>1</b><i>4</i></span></span>", "<span class=\"eq\">(-4)</span>", "<span class=\"eq\">4</span>", "<span class=\"eq\">-<span class=\"fr\"><b>1</b><i>4</i></span></span>"], "a": 0}, {"q": "נכון או לא נכון: <span class=\"eq\">a<sup>0</sup> = 1</span> לכל <span class=\"eq\">a ≠ 0</span>.", "o": ["נכון", "לא נכון"], "a": 0}, {"q": "כמה זה <span class=\"eq\">10<sup>-2</sup></span>?", "o": ["<span class=\"eq\"><span class=\"fr\"><b>1</b><i>100</i></span></span>", "<span class=\"eq\">(-100)</span>", "<span class=\"eq\"><span class=\"fr\"><b>1</b><i>20</i></span></span>", "<span class=\"eq\">100</span>"], "a": 0}, {"q": "כמה זה <span class=\"eq\">3<sup>-1</sup></span>?", "o": ["<span class=\"eq\"><span class=\"fr\"><b>1</b><i>3</i></span></span>", "<span class=\"eq\">(-3)</span>", "<span class=\"eq\">3</span>", "<span class=\"eq\">-<span class=\"fr\"><b>1</b><i>3</i></span></span>"], "a": 0}];
 let answered = 0, correct = 0;
 document.getElementById('quiz').innerHTML = quiz.map((q, i) => `
   <div class="q">
