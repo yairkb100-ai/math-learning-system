@@ -54,7 +54,7 @@
   "exercises": [
     {
       "number": 1,
-      "title": "אמצע קטע - שני תרגילים",
+      "title": "אמצע קטע — שני תרגילים",
       "description": "מצאו את אמצע הקטע:\n\nא. $A(1,3)$ ו-$B(7,9)$\nב. $C(-5,2)$ ו-$D(3,-8)$",
       "difficulty": "easy",
       "solution": "א. $M = \\left(\\frac{1+7}{2}, \\frac{3+9}{2}\\right) = (4,6)$.\nב. $M = \\left(\\frac{-5+3}{2}, \\frac{2+(-8)}{2}\\right) = \\left(\\frac{-2}{2}, \\frac{-6}{2}\\right) = (-1,-3)$."
