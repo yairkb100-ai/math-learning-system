@@ -25,6 +25,13 @@ DATABASE_URL = os.environ.get("DATABASE_URL", f"sqlite:///{DB_PATH}")
 if DATABASE_URL.startswith("postgres://"):
     DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
 
+# Name the driver explicitly. requirements.txt installs psycopg2-binary, but a
+# bare "postgresql://" (or "postgresql+psycopg://") URL makes newer SQLAlchemy
+# import psycopg 3, which is not installed — the seed workflow and the Vercel
+# function both died at import with "No module named 'psycopg'".
+if DATABASE_URL.startswith("postgresql"):
+    DATABASE_URL = "postgresql+psycopg2://" + DATABASE_URL.split("://", 1)[1]
+
 SQLALCHEMY_DATABASE_URL = DATABASE_URL
 
 # check_same_thread is a SQLite-only connect arg; omit it for Postgres.
