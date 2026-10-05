@@ -1,7 +1,10 @@
 import { useEffect, useMemo, useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import api from '../api.js'
-import { Loading, ErrorBox } from '../components/Status.jsx'
+import { Link } from 'react-router-dom'
+import { Loading, ErrorBox, friendlyError } from '../components/Status.jsx'
+import { PageHead, EmptyState } from '../components/StudentUi.jsx'
+import { IconClock } from '../components/icons.jsx'
 import {
   fadeInUp,
   staggerContainer,
@@ -20,7 +23,7 @@ const confirmVariants = {
 
 const STATUS = {
   pending: { he: 'ממתין לאישור', cls: 'pending' },
-  approved: { he: 'אושר ✓', cls: 'approved' },
+  approved: { he: 'אושר', cls: 'approved' },
   declined: { he: 'נדחה', cls: 'declined' },
   canceled: { he: 'בוטל', cls: 'canceled' },
 }
@@ -112,7 +115,7 @@ export default function LessonsBooking() {
       setNote('')
       load()
     } catch (err) {
-      alert(err.message)
+      alert(friendlyError(err))
     } finally {
       setBusy(false)
     }
@@ -125,14 +128,14 @@ export default function LessonsBooking() {
       await api.cancelLessonRequest(reqId)
       load()
     } catch (err) {
-      alert(err.message)
+      alert(friendlyError(err))
     } finally {
       setBusy(false)
     }
   }
 
-  if (loading) return <Loading />
-  if (error) return <ErrorBox error={error} />
+  if (loading) return <Loading label="טוען מועדים…" />
+  if (error) return <ErrorBox error={error} onRetry={load} />
 
   const activeReqs = requests.filter((r) => r.status !== 'canceled')
   const dayTimes = selectedDay ? slotsByDay.get(selectedDay) || [] : []
@@ -141,15 +144,17 @@ export default function LessonsBooking() {
   return (
     <motion.div
       dir="rtl"
-      className="lessons-page booking-page"
+      className="sa-page lessons-page booking-page"
       initial="hidden"
       animate="show"
       variants={staggerContainer}
     >
-      <motion.h1 className="page-title" variants={fadeInUp}>📅 קביעת שיעור פרטי</motion.h1>
-      <motion.p className="page-sub" variants={fadeInUp}>
-        בחרו יום ושעה שנוחים לכם ושלחו בקשה. הבקשה ממתינה לאישור המורה, ותקבלו עדכון כאן ברגע שתאושר.
-      </motion.p>
+      <motion.div variants={fadeInUp}>
+        <PageHead
+          title="קביעת שיעור פרטי"
+          lead="בוחרים יום ושעה ושולחים בקשה. הבקשה ממתינה לאישור המורה, והעדכון מופיע כאן ברגע שהיא מאושרת."
+        />
+      </motion.div>
 
       {/* המחירון של המורה — מוצג רק אם הוגדרו מחירים */}
       {priced.length > 0 && (
@@ -181,7 +186,7 @@ export default function LessonsBooking() {
                     key={r.id}
                     className="req-row"
                     variants={fadeInUp}
-                    exit={{ opacity: 0, height: 0, transition: { duration: DURATION.short, ease: EASE_IN } }}
+                    exit={{ opacity: 0, transition: { duration: DURATION.short, ease: EASE_IN } }}
                   >
                     <div className="req-when">
                       <strong>{r.starts_at ? fmtFullDate(r.starts_at) : '—'}</strong>
@@ -222,11 +227,20 @@ export default function LessonsBooking() {
       {/* Calendly-style picker: choose a day, then a time */}
       <motion.section className="card booking-card" variants={fadeInUp}>
         {days.length === 0 ? (
-          <div className="booking-empty">
-            <span className="booking-empty-emoji">🗓️</span>
-            <h2 className="section-h">אין כרגע מועדים פנויים</h2>
-            <p className="empty">המורה עדיין לא פרסם/ה זמינות. בדקו שוב מאוחר יותר 🙂</p>
-          </div>
+          <EmptyState
+            icon={<IconClock />}
+            title="אין כרגע מועדים פנויים"
+            actions={
+              <Link to="/messages" className="btn">
+                לכתוב למורה
+              </Link>
+            }
+          >
+            <p>
+              מועדים חדשים מתפרסמים כאן. אפשר גם לכתוב למורה ולתאם זמן שנוח
+              לשני הצדדים.
+            </p>
+          </EmptyState>
         ) : (
           <div className="booking-grid">
             {/* Step 1 — day */}
@@ -266,13 +280,14 @@ export default function LessonsBooking() {
               <h2 className="section-h">
                 {selectedDay ? `בחרו שעה · ${fmtFullDate(dayTimes[0].starts_at)}` : 'בחרו שעה'}
               </h2>
-              <AnimatePresence mode="wait">
+              {/* בלי AnimatePresence mode="wait": השעות של היום שנבחר חייבות
+                  להופיע מיד, גם אם אנימציית היציאה של הקודמות נתקעה. */}
+              <>
                 <motion.div
                   key={selectedDay || 'none'}
                   className="time-grid"
                   initial="hidden"
                   animate="show"
-                  exit="hidden"
                   variants={staggerContainer}
                 >
                   {dayTimes.map((s) => (
@@ -298,7 +313,7 @@ export default function LessonsBooking() {
                     </motion.button>
                   ))}
                 </motion.div>
-              </AnimatePresence>
+              </>
 
               {/* Step 3 — confirm */}
               <AnimatePresence>

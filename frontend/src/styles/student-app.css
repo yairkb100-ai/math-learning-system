@@ -786,7 +786,89 @@
 .ach-progress-bar span { display: block; height: 100%; border-radius: 999px; background: var(--accent-2); transform-origin: right center; }
 .ach-go { margin-top: auto; padding-top: 6px; min-height: 36px; display: inline-flex; align-items: center; font-weight: 700; }
 
+/* ==========================================================================
+   Files
+   ========================================================================== */
+.files-page .file-manager-head { align-items: center; }
+.fm-title { font-family: var(--font-display); font-weight: 400; font-size: 1.25rem; margin: 0; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.fm-count { font-family: var(--font-body); font-size: 0.92rem; font-weight: 600; color: var(--muted); }
+.fm-notice { margin: 0 0 12px; padding: 10px 14px; border-radius: 10px; background: var(--no-bg); color: var(--no); font-weight: 600; }
+.fm-search { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+.fm-search input {
+  flex: 1 1 260px;
+  min-height: 46px;
+  padding: 8px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  font: inherit;
+  font-size: 1rem;
+}
+.fm-search input:focus { background: var(--surface); border-color: var(--accent); }
+.fm-search-count { color: var(--muted); font-weight: 600; }
+.fm-link { appearance: none; background: none; border: 0; padding: 0; font: inherit; color: var(--accent); font-weight: 700; cursor: pointer; text-decoration: underline; }
+.fm-groups { display: flex; flex-direction: column; gap: 8px; }
+.fm-group { border: 1px solid var(--border); border-radius: 14px; background: var(--surface); overflow: hidden; }
+.fm-group > summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 8px 14px;
+  cursor: pointer;
+  list-style: none;
+}
+.fm-group > summary::-webkit-details-marker { display: none; }
+.fm-group > summary::after {
+  content: "";
+  flex: 0 0 auto;
+  width: 9px;
+  height: 9px;
+  border-inline-start: 2px solid var(--muted);
+  border-bottom: 2px solid var(--muted);
+  transform: rotate(-45deg);
+  transition: transform 0.15s ease;
+  margin-inline: 4px 6px;
+}
+.fm-group[open] > summary::after { transform: rotate(-45deg) scaleY(-1) translate(3px, 3px); }
+.fm-group > summary:hover { background: var(--surface-2); }
+.fm-group[open] > summary { border-bottom: 1px solid var(--border); background: var(--surface-2); }
+.fm-group-icon {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--surface-2);
+  color: var(--accent);
+  font-size: 1.1rem;
+}
+.fm-group[open] .fm-group-icon { background: var(--surface); }
+.fm-group-title { flex: 1; min-width: 0; font-weight: 700; }
+.fm-group-count { color: var(--muted); font-size: 0.9rem; white-space: nowrap; }
+.files-page .fm-group .file-list { margin: 0; padding: 8px; gap: 0; }
+.files-page .file-row {
+  background: transparent;
+  border: 0;
+  border-radius: 10px;
+  padding: 8px 8px;
+  align-items: center;
+}
+.files-page .file-row + .file-row { border-top: 1px solid var(--border); border-radius: 0; }
+.files-page .file-icon { color: var(--accent); font-size: 1.2rem; display: inline-flex; }
+.files-page .file-name { display: flex; flex-direction: column; min-width: 0; word-break: normal; font-weight: 400; }
+.fm-file-title { font-weight: 700; overflow-wrap: anywhere; }
+.fm-file-meta { color: var(--muted); font-size: 0.9rem; }
+.files-page .file-actions .btn-sm { display: inline-flex; align-items: center; gap: 6px; padding-inline: 14px; }
+
 @media (max-width: 640px) {
+  .files-page .file-row { flex-wrap: nowrap; padding: 10px 4px; }
+  .files-page .file-name { flex-basis: auto; flex: 1; order: 0; }
+  .files-page .file-actions { order: 0; flex-direction: column; }
+  .fm-group > summary { padding: 8px 10px; gap: 10px; }
+  .fm-group-count { font-size: 0.82rem; }
   .sp-tiles { gap: 8px; }
   .sp-tile-num { font-size: 1.6rem; }
   .sp-tile-label { font-size: 0.8rem; }
