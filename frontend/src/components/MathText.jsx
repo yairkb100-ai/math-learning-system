@@ -624,7 +624,7 @@ function paragraphBlocks(lines) {
   return out
 }
 
-function parseBlocks(text) {
+export function parseBlocks(text) {
   const lines = text.split('\n')
   const blocks = []
   let i = 0
