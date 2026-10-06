@@ -22,6 +22,7 @@ import {
 import { fadeInUp, staggerContainer, hoverLift, tapScale, DURATION, EASE_OUT } from '../lib/motion.js'
 import { PRODUCT_KARNI } from '../lib/products.js'
 import '../styles/psy.css'
+import '../styles/karni.css'
 
 const DOMAIN_HE = {
   verbal: 'מילולי',
@@ -168,7 +169,7 @@ function TopicRow({ t }) {
       <span className="psy-trow-body">
         <span className="psy-trow-name">{topicLabel}</span>
         <span className="psy-trow-meta">
-          {open === t.count ? `${t.count} שאלות במאגר` : `${open} מתוך ${t.count} שאלות`}
+          {open === t.count ? `${t.count} שאלות במאגר` : `${open} מתוך ${t.count} שאלות פתוחות`}
           {' · '}
           <span className="psy-trow-mastery">
             {t.answered ? `${pct(t.accuracy || 0)} דיוק · ${t.answered} נענו` : m.label}
@@ -212,7 +213,7 @@ function SimRow({ s }) {
           )}
         </span>
         <span className="psy-trow-meta">
-          {s.total_minutes} דקות · {s.total_questions} שאלות · {s.sections.length} פרקים
+          {s.total_minutes} דקות · {s.total_questions} שאלות · {s.sections.length === 1 ? 'פרק אחד' : `${s.sections.length} פרקים`}
           {s.best_percent != null && (
             <>
               {' · '}
@@ -224,9 +225,9 @@ function SimRow({ s }) {
         </span>
       </span>
       {s.locked ? (
-        <span className="psy-trow-lock">
-          <IconLock /> נדרש מנוי פעיל
-        </span>
+        <Link className="psy-trow-lock" to="/subscription">
+          <IconLock /> נפתח במנוי
+        </Link>
       ) : (
         <Link className="psy-trow-cta" to={`/psy/sim/${s.slug}`}>
           {s.attempts_count > 0 ? 'להתחיל שוב' : 'להתחיל'}
@@ -305,10 +306,15 @@ export default function PsyHome() {
     // topics מגיע ממוין: תחום לפי סדר הבחינה, ובתוכו המאגר הגדול קודם.
     const fresh = (data.topics || []).find((t) => CORE_DOMAINS.includes(t.domain) && !t.answered)
     if (fresh) {
+      // לנבחן שעוד לא ענה על אף שאלה: הזמנה לסבב ראשון, לא "עוד לא תרגלת".
+      const first = !data.drill_answered && !(data.recent_attempts || []).length
+      const openCount = fresh.open_count != null ? fresh.open_count : fresh.count
       return {
-        label: `התחל תרגול: ${fresh.topic}`,
+        label: first ? `סבב תרגול ראשון: ${fresh.topic}` : `התחל תרגול: ${fresh.topic}`,
         to: `/psy/drill?domain=${fresh.domain}&topic=${encodeURIComponent(fresh.topic)}`,
-        why: `${fresh.count} שאלות מחכות, ועוד לא תרגלת אותן. זה אחד הנושאים הגדולים במבחן.`,
+        why: first
+          ? `עד עשר שאלות ב${DOMAIN_HE[fresh.domain] || 'תחום'}, עם הסבר מיד אחרי כל תשובה. כמה דקות, ורואים איך זה עובד.`
+          : `${openCount} שאלות מחכות, ועוד לא תרגלת אותן. זה אחד הנושאים הגדולים במבחן.`,
         Icon: IconSpark,
       }
     }
@@ -445,6 +451,15 @@ export default function PsyHome() {
 
   const scored = attempts.filter((a) => a.score_percent != null)
   const best = scored.length ? Math.max(...scored.map((a) => a.score_percent)) : null
+  // נבחן חדש לגמרי: עוד לא ענה על שאלת תרגול ועוד לא פתח מבחן.
+  const isNew = !data.drill_answered && attempts.length === 0 && !data.open_attempt
+
+  // טעימה: התנסות או מי שרכש רק את הלומדה. המספרים נספרים ממה שה-API מחזיר
+  // כפתוח בפועל — לא מבטיחים כאן שום דבר שהקוד לא נותן.
+  const preview = karni && (karni.state === 'not_purchased' || karni.is_trial) && karni.free_ratio < 1
+  const openSims = simulations.filter((s) => !s.locked).length
+  const bankTotal = topics.reduce((n, t) => n + t.count, 0)
+  const bankOpen = topics.reduce((n, t) => n + (t.open_count != null ? t.open_count : t.count), 0)
 
   // מוקדי העבודה בכרטיס "הצעד הבא": קודם הנושאים החלשים, ואם עוד אין מספיק
   // היסטוריה — נושאי ליבה גדולים שעוד לא נגעו בהם.
@@ -457,7 +472,7 @@ export default function PsyHome() {
     : topics
         .filter((t) => CORE_DOMAINS.includes(t.domain) && !t.answered)
         .slice(0, 4)
-        .map((t) => ({ domain: t.domain, topic: t.topic, note: `${t.count} שאלות · טרם תורגל` }))
+        .map((t) => ({ domain: t.domain, topic: t.topic, note: `${t.open_count != null && t.open_count < t.count ? `${t.open_count} מתוך ${t.count}` : t.count} שאלות · טרם תורגל` }))
 
   return (
     <div className="psy-home" dir="rtl">
@@ -468,12 +483,13 @@ export default function PsyHome() {
         transition={{ duration: DURATION.long, ease: EASE_OUT }}
       >
         <div className="psy-hero-text">
-          <span className="psy-eyebrow">מכון קרני · שבעה תחומים</span>
+          <span className="psy-eyebrow">מבחן הקבלה של מכון קרני</span>
           <h1>הכנה לקרני</h1>
+          {/* בלי לנקוב במספר תחומים: הרשת למטה מציגה את התחומים שיש בהם תוכן
+              בפועל, ומספר קבוע כאן כבר לא התאים לה. */}
           <p>
-            מבחן הקבלה של מכון קרני לישיבות התיכוניות, בשבעה תחומים: מילולי, כמותי, צורני,
-            לוגי, מרחבי, זריזות ודיוק ואנגלית. זהו מסלול מסודר: לומדים את השיטה, מתרגלים לפי
-            נושא, ואז בודקים מוכנות במבחן.
+            הכנה למבחן הקבלה של מכון קרני לישיבות התיכוניות, במסלול מסודר: לומדים את השיטה של
+            כל תחום, מתרגלים לפי נושא עם הסבר לכל שאלה, ואז בודקים מוכנות במבחן על השעון.
           </p>
           <div className="psy-hero-actions">
             {data.open_attempt ? (
@@ -502,39 +518,79 @@ export default function PsyHome() {
             )}
           </div>
         </div>
-        <dl className="psy-hero-stats">
-          <div>
-            <dt>שאלות שתורגלו</dt>
-            <dd>{data.drill_answered}</dd>
-          </div>
-          <div>
-            <dt>דיוק בתרגול</dt>
-            <dd>{data.drill_answered ? pct(data.drill_accuracy) : '—'}</dd>
-          </div>
-          <div>
-            <dt>הסימולציה הטובה ביותר</dt>
-            <dd>{best != null ? `${Math.round(best)}%` : '—'}</dd>
-          </div>
-        </dl>
+        {isNew ? (
+          /* מי שעוד לא ענה על אף שאלה ראה כאן שלושה אריחים ריקים (0 / — / —).
+             במקומם: שלושת השלבים של המסלול. */
+          <ol className="psy-hero-steps" aria-label="שלבי ההכנה">
+            <li>
+              <span className="psy-hero-step-num">1</span>
+              <span>
+                <b>לומדים את השיטה</b>
+                קורס קצר לכל תחום
+              </span>
+            </li>
+            <li>
+              <span className="psy-hero-step-num">2</span>
+              <span>
+                <b>מתרגלים לפי נושא</b>
+                הסבר מיד אחרי כל תשובה
+              </span>
+            </li>
+            <li>
+              <span className="psy-hero-step-num">3</span>
+              <span>
+                <b>נבחנים על השעון</b>
+                ודוח שמראה מה לחזק
+              </span>
+            </li>
+          </ol>
+        ) : (
+          <dl className="psy-hero-stats">
+            <div>
+              <dt>שאלות שתורגלו</dt>
+              <dd>{data.drill_answered}</dd>
+            </div>
+            <div>
+              <dt>דיוק בתרגול</dt>
+              <dd>{data.drill_answered ? pct(data.drill_accuracy) : '—'}</dd>
+            </div>
+            <div>
+              <dt>המבחן הטוב ביותר</dt>
+              <dd>{best != null ? `${Math.round(best)}%` : '—'}</dd>
+            </div>
+          </dl>
+        )}
       </motion.section>
 
-      {karni?.state === 'not_purchased' && (
+      {preview && (
         <motion.section
           className="psy-panel psy-upsell"
           variants={fadeInUp}
           initial="hidden"
           animate="show"
         >
-          <h2>ההכנה לקרני נמכרת בנפרד</h2>
+          <h2>
+            {karni.state === 'not_purchased'
+              ? 'ההכנה לקרני נמכרת בנפרד'
+              : 'בתקופת ההתנסות פתוחה טעימה מההכנה לקרני'}
+          </h2>
           <p>
-            המנוי שלך פותח את הלומדה. כאן פתוחים לך כ-
-            {Math.round((karni.free_ratio ?? 0.2) * 100)}% מהתוכן כטעימה — הקורסים
-            המלאים, מאגר התרגול והסימולציות בתנאי אמת נפתחים עם מנוי להכנה לקרני.
+            {karni.state === 'not_purchased' ? 'המנוי שלך פותח את הלומדה. כאן פתוחים לך ' : 'פתוחים לך '}
+            <b>
+              {bankOpen} מתוך {bankTotal} שאלות התרגול
+            </b>
+            {openSims > 0 && (
+              <>
+                , <b>{openSims === 1 ? 'מבחן קצר אחד' : `${openSims} מבחנים קצרים`}</b>
+              </>
+            )}{' '}
+            והפרקים הראשונים בכל קורס. כל מה שמסומן במנעול — שאר המאגר, המבחנים הממוקדים
+            והסימולציות המלאות — נפתח עם מנוי להכנה לקרני.
           </p>
           <div className="psy-hero-actions">
             <motion.div {...tapScale}>
               <Link className="psy-btn psy-btn-primary" to="/subscription">
-                למחירים ולרכישה
+                למנויים ולמחירים
               </Link>
             </motion.div>
           </div>
@@ -563,7 +619,9 @@ export default function PsyHome() {
             </Link>
           </motion.div>
 
-          {focus.length > 0 && (
+          {/* לנבחן חדש פעולה אחת מספיקה: רשת התחומים מגיעה מיד אחר כך, וארבעה
+              נושאים נוספים מאותו תחום רק מפזרים את ההחלטה הראשונה. */}
+          {focus.length > 0 && !isNew && (
             <>
               <p className="psy-plan-sub">
                 {weak.length
@@ -649,7 +707,7 @@ export default function PsyHome() {
         <div className="psy-panel-head">
           <h2 className="psy-cat-open-title">ספריית הנושאים · {openCat.title}</h2>
           <button type="button" className="psy-link psy-cat-back" onClick={() => setParams({})}>
-            חזרה לכל הקטגוריות
+            חזרה לכל התחומים
           </button>
         </div>
         {catTopics(openCat.key).length > 0 && (
@@ -679,9 +737,11 @@ export default function PsyHome() {
         {shownCourseGroups.length === 0 &&
         shownLooseDomains.length === 0 &&
         catTopics(openCat.key).length === 0 ? (
-          <p className="psy-empty">
-            קורסי התיאוריה נכתבים כעת. בינתיים אפשר להתחיל מהתרגול הממוקד ומהמיני-תרגולים.
-          </p>
+          openCat.key !== 'full' && (
+            <p className="psy-empty">
+              קורסי התיאוריה נכתבים כעת. בינתיים אפשר להתחיל מהתרגול הממוקד ומהמיני-תרגולים.
+            </p>
+          )
         ) : (
           shownCourseGroups.map(({ title, list, domain: d, core }) => {
             const done = list.reduce((n, c) => n + c.completed_chapters, 0)
@@ -725,14 +785,18 @@ export default function PsyHome() {
 
       </motion.section>
 
+      {shownSimGroups.length > 0 && (
       <motion.section
         className={`psy-panel ${openCat.ramp}`}
         variants={fadeInUp}
         initial="hidden"
         animate="show"
       >
-        <h2>מבחנים בתנאי אמת</h2>
-        <p className="psy-plan-sub">כשסיימתם נושא — כאן בודקים אותו על השעון.</p>
+        <h2>מבחנים על השעון</h2>
+        <p className="psy-plan-sub">
+          כשסיימתם נושא — כאן בודקים אותו על השעון. לפני כל מבחן יש מסך פתיחה, והשעון מתחיל
+          רק כשלוחצים ״התחלה״.
+        </p>
         {shownSimGroups.map(([kind, list]) => (
           <div key={kind} className="psy-sim-kind">
             <h3 className="psy-sim-kind-title">{KIND_HE_TITLE[kind] || KIND_HE[kind] || kind}</h3>
@@ -790,6 +854,7 @@ export default function PsyHome() {
           </div>
         ))}
       </motion.section>
+      )}
         </>
       )}
 
