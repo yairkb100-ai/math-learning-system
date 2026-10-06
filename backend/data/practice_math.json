@@ -716,7 +716,7 @@
       "x<3"
     ],
     "correct_answer": "x<-3",
-    "explanation": "מחלקים ב-2- ומהפכים את הסימן: x < −3.",
+    "explanation": "מחלקים ב-(−2) ומהפכים את הסימן: x < −3.",
     "difficulty": "hard"
   },
   {
@@ -1211,7 +1211,7 @@
     "type": "numeric",
     "options": null,
     "correct_answer": "3",
-    "explanation": "מכפלה מתאפסת כשאחד הגורמים מתאפס: x=3 או x=5-.",
+    "explanation": "מכפלה מתאפסת כשאחד הגורמים מתאפס: x = 3 או x = −5.",
     "difficulty": "medium"
   },
   {
@@ -1241,7 +1241,7 @@
     "type": "numeric",
     "options": null,
     "correct_answer": "5",
-    "explanation": "סכום השורשים = b/a- = 5. (השורשים 2 ו-3.)",
+    "explanation": "סכום השורשים = −b/a = 5. (השורשים 2 ו-3.)",
     "difficulty": "medium"
   },
   {
@@ -1271,7 +1271,7 @@
     "type": "numeric",
     "options": null,
     "correct_answer": "0",
-    "explanation": "x² = 4-, ואין מספר ממשי שריבועו שלילי — אין פתרונות ממשיים.",
+    "explanation": "x² = −4, ואין מספר ממשי שריבועו שלילי — אין פתרונות ממשיים.",
     "difficulty": "hard"
   },
   {

@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import katex from 'katex'
-import FractionArt from './FractionArt.jsx'
+import FractionArt, { isArtKind } from './FractionArt.jsx'
 import '../styles/lesson-prose.css'
 
 // Lightweight Markdown + LaTeX renderer for course content.
@@ -454,7 +454,11 @@ function splitArtLine(line) {
   return parts
 }
 
-function ArtRow({ items, keyPrefix, opts }) {
+function ArtRow({ items: all, keyPrefix, opts }) {
+  // A kind the renderer does not have draws nothing — and must not leave an
+  // empty framed box where the drawing would have been.
+  const items = all.filter((it) => isArtKind(it.kind))
+  if (!items.length) return null
   return (
     <div className="art-row">
       {items.map((it, j) => (

@@ -1335,6 +1335,10 @@ const PARAM_SHAPE = {
   piechart: LABELLED_PARAM,
 }
 
+export function isArtKind(kind) {
+  return Object.prototype.hasOwnProperty.call(KINDS, kind)
+}
+
 // Returns a sentence describing what is wrong with the token, or null.
 export function artTokenProblem(kind, param) {
   if (!KINDS[kind]) return `unknown illustration kind "${kind}" — nothing is drawn`
