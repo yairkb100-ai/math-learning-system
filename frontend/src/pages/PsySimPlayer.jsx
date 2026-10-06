@@ -1,16 +1,27 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import api from '../api.js'
 import MathText, { isLatinText } from '../components/MathText.jsx'
 import { Loading, ErrorBox } from '../components/Status.jsx'
+import {
+  IconArrowStart,
+  IconCheck,
+  IconClipboard,
+  IconClock,
+  IconBulb,
+  IconLock,
+  IconTrophy,
+} from '../components/icons.jsx'
 import { fadeInUp, staggerContainer, tapScale, overlayFade, DURATION, EASE_OUT } from '../lib/motion.js'
 import '../styles/psy.css'
+import '../styles/karni.css'
 
 // Assessment page — motion here is minimal and never gets in the way of the
 // clock. Timings all come from lib/motion.js; this file defines none of its own.
 
-const OPTION_LETTERS = ['א', 'ב', 'ג', 'ד', 'ה']
+// שאלות צורניות מגיעות גם עם שש תשובות — בלי 'ו' העיגול השישי נשאר ריק.
+const OPTION_LETTERS = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח']
 const AUTOSAVE_MS = 15000
 // Below this the clock turns red — the last two minutes are when pacing
 // decisions actually get made.
@@ -43,6 +54,17 @@ export default function PsySimPlayer() {
   // הפרק שהשעון שלו אזל בזמן שהתלמיד לא היה כאן. הוא לא מוגש בשקט אלא מחכה
   // לאישור מפורש — קודם הוא נסגר ונוקד תוך פחות משנייה מאחורי כפתור "התחל".
   const [expiredSection, setExpiredSection] = useState(false)
+  // 'loading' → 'intro' → 'running'. השעון של השרת מתחיל ברגע ש-/start נקרא,
+  // וקודם הוא נקרא בטעינת הדף — לפני שהנבחן ראה כמה שאלות וכמה זמן מחכים לו.
+  // עכשיו /start נקרא רק בלחיצה על "התחלה" (או מיד, כשחוזרים למבחן פתוח
+  // שהשעון שלו כבר רץ ממילא).
+  const [phase, setPhase] = useState('loading')
+  const [sim, setSim] = useState(null)
+  // 'locked' | 'missing' — מסך מסודר במקום "content_locked" גולמי.
+  const [gate, setGate] = useState(null)
+  const [starting, setStarting] = useState(false)
+  // 'submit' | 'leave' — אישור לפני פעולה שאין ממנה חזרה.
+  const [confirm, setConfirm] = useState(null)
 
   // Refs so the timer and the unload handler always see current values without
   // re-subscribing every keystroke.
@@ -103,23 +125,51 @@ export default function PsySimPlayer() {
     [syncClock]
   )
 
+  const begin = useCallback(async () => {
+    setStarting(true)
+    try {
+      const res = await api.psyStartSimulation(slug)
+      setAttemptId(res.attempt_id)
+      await loadSection(res.attempt_id)
+      // ניסיון שהמשכנו אליו והשעון שלו כבר אזל: עוצרים ומבקשים אישור.
+      if (res.section_expired) setExpiredSection(true)
+      setPhase('running')
+    } catch (e) {
+      if (e?.locked) setGate('locked')
+      else setError(e)
+    } finally {
+      setStarting(false)
+    }
+  }, [slug, loadSection])
+
   useEffect(() => {
     let alive = true
-    api
-      .psyStartSimulation(slug)
-      .then(async (res) => {
+    Promise.all([api.psySimulations(), api.psyAttempts().catch(() => [])])
+      .then(([sims, attempts]) => {
         if (!alive) return
-        setAttemptId(res.attempt_id)
-        await loadSection(res.attempt_id)
-        if (!alive) return
-        // ניסיון שהמשכנו אליו והשעון שלו כבר אזל: עוצרים ומבקשים אישור.
-        if (res.section_expired) setExpiredSection(true)
+        const found = (sims || []).find((x) => x.slug === slug) || null
+        setSim(found)
+        if (!found) {
+          setGate('missing')
+          return
+        }
+        const open = (attempts || []).some(
+          (a) => a.simulation_slug === slug && a.status === 'in_progress'
+        )
+        // מבחן פתוח: השעון שלו רץ כבר, ומסך פתיחה רק היה גוזל ממנו עוד זמן.
+        if (open) begin()
+        else if (found.locked) setGate('locked')
+        else setPhase('intro')
       })
-      .catch((e) => alive && setError(e))
+      .catch((e) => {
+        if (!alive) return
+        if (e?.locked) setGate('locked')
+        else setError(e)
+      })
     return () => {
       alive = false
     }
-  }, [slug, loadSection])
+  }, [slug, begin])
 
   // ---- countdown; the server owns the real clock, this only mirrors it -----
   // נגזר מ-Date.now() מול דדליין מוחלט, ולא מספירת פעימות: פעימה שהדפדפן דילג
@@ -235,11 +285,35 @@ export default function PsySimPlayer() {
       }
       setFlagged({})
       setExpiredSection(false)
+      setConfirm(null)
       await loadSection(attemptId)
     } catch (e) {
       // הנגן נשאר על המסך. כישלון רשת רגעי הוא בדיוק הרגע שבו אסור לזרוק את
       // התלמיד מהמבחן — השעון בשרת ממשיך לרוץ בזמן שהוא מנסה להבין מה קרה.
       setSubmitError(e)
+      setConfirm(null)
+      submittingRef.current = false
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  // סיום מוקדם של כל המבחן: קודם שומרים את מה שנענה בפרק הנוכחי (finish מנקד
+  // רק מה שכבר נשמר), ואז סוגרים. פרקים שלא הגיעו אליהם נספרים כלא נענו.
+  async function finishNow() {
+    if (submittingRef.current || !attemptId) return
+    submittingRef.current = true
+    setBusy(true)
+    setSubmitError(null)
+    stampTime(current?.ref)
+    try {
+      if (autosaveRef.current) await autosaveRef.current.catch(() => {})
+      await api.psySaveSection(attemptId, savePayload()).catch(() => {})
+      await api.psyFinishAttempt(attemptId)
+      navigate(`/psy/results/${attemptId}`)
+    } catch (e) {
+      setSubmitError(e)
+      setConfirm(null)
       submittingRef.current = false
     } finally {
       setBusy(false)
@@ -250,8 +324,136 @@ export default function PsySimPlayer() {
     setAnswers((prev) => ({ ...prev, [ref]: optionIndex }))
   }
 
-  if (error) return <ErrorBox error={error} />
-  if (!section) return <Loading />
+  if (gate === 'locked')
+    return (
+      <section dir="rtl" className="sa-page">
+        <div className="locked-chapter card">
+          <span className="locked-chapter-icon" aria-hidden="true">
+            <IconLock />
+          </span>
+          <h2>{sim ? `«${sim.title}» עדיין נעול` : 'המבחן הזה עדיין נעול'}</h2>
+          <p className="locked-chapter-lead">
+            המבחן הזה נפתח עם מנוי להכנה לקרני. חלק מהמבחנים הקצרים ומהתרגול פתוחים לך כבר
+            עכשיו — הם מסומנים בעמוד ההכנה לקרני.
+          </p>
+          <div className="sub-actions">
+            <Link to="/subscription" className="btn">
+              למנויים ולמחירים
+            </Link>
+            <Link to="/psy" className="btn btn-secondary">
+              חזרה למבחנים הפתוחים
+            </Link>
+          </div>
+        </div>
+      </section>
+    )
+  if (gate === 'missing')
+    return (
+      <section dir="rtl" className="sa-page">
+        <div className="locked-chapter card">
+          <span className="locked-chapter-icon" aria-hidden="true">
+            <IconClipboard />
+          </span>
+          <h2>לא מצאנו את המבחן הזה</h2>
+          <p className="locked-chapter-lead">
+            ייתכן שהקישור ישן או שהמבחן הוחלף. כל המבחנים הזמינים נמצאים בעמוד ההכנה לקרני.
+          </p>
+          <div className="sub-actions">
+            <Link to="/psy" className="btn">
+              לכל המבחנים
+            </Link>
+          </div>
+        </div>
+      </section>
+    )
+  if (error)
+    return (
+      <section dir="rtl" className="sa-page">
+        <ErrorBox error={error} />
+        <p className="exam-error-back">
+          <Link to="/psy">חזרה להכנה לקרני</Link>
+        </p>
+      </section>
+    )
+
+  // ---- פתיחה: מה מחכה במבחן, והתחלה מפורשת ----
+  if (phase === 'intro' && sim) {
+    const many = sim.sections.length > 1
+    return (
+      <section dir="rtl" className="sa-page psy-intro-page">
+        <motion.div className="card exam-intro" variants={fadeInUp} initial="hidden" animate="show">
+          <span className="exam-icon-tile is-large" aria-hidden="true">
+            {sim.kind === 'full' ? <IconTrophy /> : <IconClipboard />}
+          </span>
+          <h1 className="exam-intro-title">{sim.title}</h1>
+          {sim.description && <p className="exam-intro-desc">{sim.description}</p>}
+          <ul className="exam-intro-facts">
+            <li>
+              <IconClipboard />
+              <span>
+                <b>{sim.total_questions} שאלות</b>
+                {many ? ` ב-${sim.sections.length} פרקים` : ', פרק אחד'}. בתוך פרק אפשר לדלג, לסמן
+                שאלה לחזרה ולשנות תשובה
+              </span>
+            </li>
+            <li>
+              <IconClock />
+              <span>
+                <b>{sim.total_minutes} דקות</b> — השעון מתחיל רק כשלוחצים על ״התחלה״, ומאותו רגע אי
+                אפשר לעצור אותו. הוא ממשיך לרוץ גם אם יוצאים מהעמוד
+              </span>
+            </li>
+            {many && (
+              <li>
+                <IconArrowStart />
+                <span>
+                  לכל פרק שעון משלו. כשמסיימים פרק, הפרק הבא מתחיל מיד ואי אפשר לחזור אחורה
+                </span>
+              </li>
+            )}
+            <li>
+              <IconCheck />
+              <span>בסוף מקבלים דוח: אחוז הצלחה, פילוח לפי נושא, והסבר לכל שאלה</span>
+            </li>
+          </ul>
+          {many && (
+            <ol className="psy-intro-sections" aria-label="הפרקים במבחן">
+              {sim.sections.map((sec, i) => (
+                <li key={sec.order}>
+                  <span className="psy-intro-sec-num">{i + 1}</span>
+                  <span className="psy-intro-sec-title">{sec.title}</span>
+                  <span className="psy-intro-sec-meta">
+                    {sec.num_questions} שאלות · {sec.minutes} דק׳
+                  </span>
+                </li>
+              ))}
+            </ol>
+          )}
+          {sim.total_minutes >= 30 && (
+            <p className="psy-intro-tip">
+              <IconBulb /> כדאי לשבת למבחן הזה כשיש {sim.total_minutes} דקות פנויות ברצף, עם דף
+              ועיפרון.
+            </p>
+          )}
+          <div className="exam-intro-actions">
+            <motion.button
+              className="btn btn-cta exam-intro-start"
+              onClick={begin}
+              disabled={starting}
+              {...tapScale}
+            >
+              {starting ? 'טוען…' : 'התחלה'}
+            </motion.button>
+            <Link to="/psy" className="btn btn-secondary">
+              לא עכשיו
+            </Link>
+          </div>
+        </motion.div>
+      </section>
+    )
+  }
+
+  if (!section) return <Loading label="טוען מבחן…" />
 
   // פרק שהזמן שלו אזל בהיעדרות: אישור מפורש לפני שהוא נסגר ומנוקד.
   if (expiredSection) {
@@ -285,6 +487,12 @@ export default function PsySimPlayer() {
 
   const answeredCount = items.filter((it) => answers[it.ref] != null).length
   const lastSection = section.section_index >= section.sections_total - 1
+  const unanswered = items.length - answeredCount
+  const flaggedCount = items.filter((it) => flagged[it.ref]).length
+  // section_index הוא ה-order של הפרק, לא מיקום במערך — הפרק הבא נמצא לפי סדר.
+  const nextSection = (sim?.sections || [])
+    .filter((x) => x.order > section.section_index)
+    .sort((a, b) => a.order - b.order)[0]
 
   return (
     <div className="psy-player" dir="rtl">
@@ -296,11 +504,13 @@ export default function PsySimPlayer() {
           </span>
         </div>
         <div
-          className={`psy-clock${secondsLeft <= WARN_SECONDS ? ' is-low' : ''}`}
+          className={`psy-clock${secondsLeft != null && secondsLeft <= WARN_SECONDS ? ' is-low' : ''}`}
           role="timer"
           aria-live="off"
+          aria-label="הזמן שנותר בפרק"
         >
-          {fmtTime(secondsLeft ?? 0)}
+          <IconClock />
+          <span dir="ltr">{secondsLeft != null ? fmtTime(secondsLeft) : '--:--'}</span>
         </div>
       </header>
 
@@ -346,7 +556,9 @@ export default function PsySimPlayer() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: DURATION.short, ease: EASE_OUT }}
               >
-                  <div className="psy-question-num">שאלה {index + 1}</div>
+                  <div className="psy-question-num">
+                    שאלה {index + 1} מתוך {items.length}
+                  </div>
                   <div className="psy-question-split">
                     <div className="psy-question-content">
                       <div className="psy-stem">
@@ -394,7 +606,13 @@ export default function PsySimPlayer() {
                       }
                       {...tapScale}
                     >
-                      {flagged[current.ref] ? 'מסומנת לחזרה ✓' : 'סמן לחזרה'}
+                      {flagged[current.ref] ? (
+                        <>
+                          <IconCheck /> מסומנת לחזרה
+                        </>
+                      ) : (
+                        'סימון לחזרה'
+                      )}
                     </motion.button>
                     <div className="psy-nav-buttons">
                       <motion.button
@@ -451,11 +669,19 @@ export default function PsySimPlayer() {
               אין חזרה לפרק אחרי סיומו — בדיוק כמו במבחן האמיתי.
             </p>
             <button
+              type="button"
               className="psy-btn psy-btn-primary psy-btn-block"
-              onClick={submitSection}
+              onClick={() => setConfirm('submit')}
               disabled={busy}
             >
               {lastSection ? 'סיום המבחן' : 'סיום הפרק'}
+            </button>
+            <button
+              type="button"
+              className="exam-leave-link psy-leave-link"
+              onClick={() => setConfirm('leave')}
+            >
+              יציאה מהמבחן
             </button>
           </nav>
       </div>
@@ -470,13 +696,116 @@ export default function PsySimPlayer() {
           נענו {answeredCount} מתוך {items.length} — ניווט
         </button>
         <button
+          type="button"
           className="psy-btn psy-btn-primary"
-          onClick={submitSection}
+          onClick={() => setConfirm('submit')}
           disabled={busy}
         >
           {lastSection ? 'סיום המבחן' : 'סיום הפרק'}
         </button>
       </div>
+
+      {/* אישור לפני פעולה בלי חזרה. מוצג כרגיל (בלי AnimatePresence) — חלון
+          שחייב להיסגר לא יכול להיות תלוי באנימציית יציאה שעלולה להיתקע. */}
+      {confirm && (
+        <div className="psy-confirm-backdrop" onClick={() => !busy && setConfirm(null)}>
+          <div
+            className="psy-confirm"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="psy-confirm-title"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {confirm === 'submit' ? (
+              <>
+                <h2 id="psy-confirm-title">
+                  {lastSection ? 'לסיים את המבחן?' : 'לסיים את הפרק?'}
+                </h2>
+                <p>
+                  ענית על {answeredCount} מתוך {items.length} שאלות
+                  {unanswered > 0 && (
+                    <>
+                      {' — '}
+                      <b>
+                        {unanswered === 1 ? 'שאלה אחת נשארה' : `${unanswered} שאלות נשארו`} בלי
+                        תשובה
+                      </b>
+                    </>
+                  )}
+                  {flaggedCount > 0 &&
+                    (flaggedCount === 1
+                      ? ', ואחת מסומנת לחזרה'
+                      : `, ו-${flaggedCount} מסומנות לחזרה`)}
+                  . על השעון נשארו <span dir="ltr">{fmtTime(secondsLeft ?? 0)}</span>.
+                </p>
+                <p>
+                  {lastSection
+                    ? 'אחרי הסיום אי אפשר לשנות תשובות, ומיד מתקבל הדוח.'
+                    : `אחרי הסיום אי אפשר לחזור לפרק הזה, והשעון של הפרק הבא${
+                        nextSection ? ` — «${nextSection.title}», ${nextSection.minutes} דקות —` : ''
+                      } מתחיל מיד.`}
+                </p>
+                <div className="psy-confirm-actions">
+                  <button
+                    type="button"
+                    className="btn"
+                    onClick={() => setConfirm(null)}
+                    disabled={busy}
+                  >
+                    לחזור לשאלות
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={submitSection}
+                    disabled={busy}
+                  >
+                    {busy ? 'שולח…' : lastSection ? 'לסיים ולקבל דוח' : 'לסיים את הפרק'}
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <h2 id="psy-confirm-title">לצאת באמצע המבחן?</h2>
+                <p>
+                  התשובות שסימנת נשמרות, אבל <b>השעון ממשיך לרוץ גם כשיוצאים</b>. אפשר לחזור
+                  ולהמשיך מאותה נקודה כל עוד נשאר זמן בפרק.
+                </p>
+                <p>
+                  אפשר גם לסיים עכשיו ולקבל דוח: שאלות שלא נענו ופרקים שלא הגעת אליהם ייספרו
+                  כלא נכונים.
+                </p>
+                <div className="psy-confirm-actions">
+                  <button
+                    type="button"
+                    className="btn"
+                    onClick={() => setConfirm(null)}
+                    disabled={busy}
+                  >
+                    להמשיך במבחן
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={finishNow}
+                    disabled={busy}
+                  >
+                    {busy ? 'סוגר…' : 'לסיים עכשיו ולקבל דוח'}
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={() => navigate('/psy')}
+                    disabled={busy}
+                  >
+                    לצאת ולחזור אחר כך
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
 
       <AnimatePresence>
         {navOpen && (
@@ -529,8 +858,22 @@ export default function PsySimPlayer() {
               <p className="psy-navigator-note">
                 אין חזרה לפרק אחרי סיומו — בדיוק כמו במבחן האמיתי.
               </p>
-              <button className="psy-btn psy-btn-block" onClick={() => setNavOpen(false)}>
+              <button
+                type="button"
+                className="psy-btn psy-btn-block"
+                onClick={() => setNavOpen(false)}
+              >
                 סגירה
+              </button>
+              <button
+                type="button"
+                className="exam-leave-link psy-leave-link"
+                onClick={() => {
+                  setNavOpen(false)
+                  setConfirm('leave')
+                }}
+              >
+                יציאה מהמבחן
               </button>
             </motion.div>
           </>

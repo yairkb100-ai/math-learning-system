@@ -1,0 +1,185 @@
+/* ==========================================================================
+   karni.css — שכבת הליטוש של אזור ההכנה לקרני (בית, תרגול, סימולציה, דוח).
+   נטען אחרי psy.css בכל אחד מדפי האזור, ולכן כלל כאן גובר על כלל שווה-משקל שם.
+   צבעים: רק var(--…) קיימים. אנימציות: transform/opacity בלבד.
+   ========================================================================== */
+
+/* ---------- סימולציה: מסך הפתיחה ---------- */
+.psy-intro-page .exam-intro {
+  max-width: 660px;
+}
+.psy-intro-sections {
+  list-style: none;
+  margin: 2px 0 4px;
+  padding: 0;
+  width: 100%;
+  display: grid;
+  gap: 0;
+  text-align: start;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.psy-intro-sections li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  font-size: 0.95rem;
+}
+.psy-intro-sections li + li {
+  border-top: 1px solid var(--border);
+}
+.psy-intro-sec-num {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--surface-2);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+.psy-intro-sec-title {
+  font-weight: 600;
+}
+.psy-intro-sec-meta {
+  color: var(--muted);
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+.psy-intro-tip {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 0.93rem;
+  text-align: start;
+}
+.psy-intro-tip svg {
+  flex: 0 0 auto;
+  margin-top: 4px;
+  color: var(--marker);
+}
+
+/* ---------- סימולציה: שעון, יציאה, אישור ---------- */
+.psy-clock {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  /* רוחב קבוע לספרות: בלי זה השעון "קופץ" כשספרה צרה מתחלפת ברחבה */
+  font-variant-numeric: tabular-nums;
+}
+.psy-clock svg {
+  font-size: 0.6em;
+  opacity: 0.75;
+}
+.psy-leave-link {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  text-align: center;
+}
+.psy-btn-ghost svg {
+  font-size: 1.05em;
+}
+
+.psy-confirm-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: color-mix(in srgb, var(--board-edge) 55%, transparent);
+  animation: psy-confirm-fade 0.2s ease-out;
+}
+.psy-confirm {
+  width: min(480px, 100%);
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 4px solid var(--marker);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-hover);
+  padding: 22px 22px 18px;
+  animation: psy-confirm-rise 0.2s ease-out;
+}
+.psy-confirm h2 {
+  margin: 0 0 10px;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.35rem;
+}
+.psy-confirm p {
+  margin: 0 0 10px;
+  line-height: 1.7;
+  color: var(--text);
+}
+.psy-confirm p + p {
+  color: var(--muted);
+}
+.psy-confirm-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+.psy-confirm-actions .btn {
+  min-height: 44px;
+  font-family: inherit;
+  font-size: 1rem;
+}
+@keyframes psy-confirm-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes psy-confirm-rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+@media (max-width: 560px) {
+  .psy-confirm-actions .btn {
+    width: 100%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .psy-confirm-backdrop,
+  .psy-confirm {
+    animation: none;
+  }
+}
+
+/* בזמן מבחן על השעון הכפתורים הצפים ("חבר מביא חבר", "קביעת שיעור פרטי")
+   יושבים בדיוק על "סיום הפרק" בסרגל התחתון בנייד, ומסיחים גם בדסקטופ. הם
+   חוזרים מיד כשיוצאים מהנגן. */
+body:has(.psy-player) .book-fab,
+body:has(.psy-player) .invite-fab-wrap {
+  display: none;
+}
+
+/* ---------- תשובות ציוריות בנייד ----------
+   בעמודה אחת שש תשובות ציוריות היו ~900px של גלילה, והשאלה עצמה כבר לא
+   הייתה על המסך כשבוחרים. שתי עמודות, כל תשובה ממלאת את התא שלה. */
+@media (max-width: 900px) {
+  .psy-options:has(.art-row) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    justify-items: stretch;
+    gap: 8px;
+  }
+  .psy-option:has(.art-row) {
+    width: 100%;
+    min-width: 0;
+    min-height: 84px;
+    justify-content: center;
+    padding: 8px;
+    gap: 8px;
+  }
+  .psy-option:has(.art-row) .psy-option-text {
+    flex: 0 1 auto;
+  }
+}
