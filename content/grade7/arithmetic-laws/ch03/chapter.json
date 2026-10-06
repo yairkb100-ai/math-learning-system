@@ -52,7 +52,7 @@
       "title": "אתגר: מכפלה ארוכה",
       "description": "חשבו בדרך נוחה: $4 \\cdot 7 \\cdot 25 \\cdot 5 \\cdot 2$.",
       "difficulty": "hard",
-      "solution": "נחפש זוגות עגולים: $4 \\cdot 25 = 100$ וגם $5 \\cdot 2 = 10$. לפי חוקי החילוף והקיבוץ מותר לסדר מחדש:\n$$(4 \\cdot 25) \\cdot (5 \\cdot 2) \\cdot 7 = 100 \\cdot 10 \\cdot 7 = 1000 \\cdot 7 = 7000$$"
+      "solution": "נחפש זוגות עגולים: $4 \\cdot 25 = 100$ וגם $5 \\cdot 2 = 10$. לפי חוקי החילוף והקיבוץ מותר לסדר מחדש:\n$$\\begin{aligned}(4 \\cdot 25) \\cdot (5 \\cdot 2) \\cdot 7 &= 100 \\cdot 10 \\cdot 7 \\\\ &= 1000 \\cdot 7 \\\\ &= 7000\\end{aligned}$$"
     },
     {
       "number": 5,

@@ -63,7 +63,7 @@
       "title": "אתגר: שני שברים",
       "description": "פתרו: $\\frac{x}{2}+\\frac{x}{4}=9$",
       "difficulty": "hard",
-      "solution": "מכנה משותף 4: כופלים ב-4:\n$$2x+x=36 \\Rightarrow 3x=36 \\Rightarrow x=12$$\n\nבדיקה: $\\frac{12}{2}+\\frac{12}{4}=6+3=9$ ✓."
+      "solution": "מכנה משותף 4: כופלים ב-4:\n$$\\begin{gathered}2x+x=36 \\\\[4pt] \\Rightarrow\\ 3x=36 \\\\[4pt] \\Rightarrow\\ x=12\\end{gathered}$$\n\nבדיקה: $\\frac{12}{2}+\\frac{12}{4}=6+3=9$ ✓."
     },
     {
       "number": 5,
