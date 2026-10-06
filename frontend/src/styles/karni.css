@@ -183,3 +183,267 @@ body:has(.psy-player) .invite-fab-wrap {
     flex: 0 1 auto;
   }
 }
+
+/* ==========================================================================
+   תרגול ממוקד
+   ========================================================================== */
+.psy-drill-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 14px 24px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.psy-drill-head h1 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.1rem);
+  line-height: 1.2;
+  margin: 2px 0 0;
+  display: inline-block;
+  background: linear-gradient(var(--marker), var(--marker)) no-repeat 100% 100% / 2.2em 4px;
+  padding-bottom: 8px;
+}
+.psy-drill-lead {
+  margin: 8px 0 0;
+  color: var(--muted);
+  max-width: 62ch;
+}
+.psy-drill-back {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  min-height: 44px;
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.psy-drill-back:hover {
+  text-decoration: underline;
+}
+/* ב-RTL "חזרה" מצביעה ימינה; IconArrowStart מצויר לכיוון ההתקדמות (שמאלה). */
+.psy-drill-back svg {
+  transform: scaleX(-1);
+}
+.psy-drill-tally {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+.psy-drill-tally b {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.4rem;
+  line-height: 1.2;
+  color: var(--text);
+}
+
+/* בוחר התחום והנושא: פתוח תמיד בדסקטופ, מקופל מאחורי כפתור בנייד. */
+.psy-picker-toggle {
+  display: none;
+}
+.psy-chip-num {
+  margin-inline-start: 4px;
+}
+.psy-drill .psy-filter-domains {
+  margin-top: 6px;
+}
+.psy-drill .psy-filter-domains .psy-chip {
+  font-weight: 700;
+}
+.psy-drill-free {
+  margin: 18px 0 0;
+}
+
+.psy-drill .psy-question-num {
+  flex-wrap: wrap;
+}
+.psy-stopwatch {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* פס הסבב: מקטע לכל שאלה — ירוק לנכונה, אדום לשגויה, טורקיז לנוכחית. */
+.psy-round-track {
+  list-style: none;
+  display: flex;
+  gap: 5px;
+  margin: 0 auto;
+  padding: 0;
+}
+.psy-round-track li {
+  width: 18px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--border);
+}
+.psy-round-track li.is-ok {
+  background: var(--ok);
+}
+.psy-round-track li.is-no {
+  background: var(--no);
+}
+.psy-round-track li.is-now {
+  background: var(--accent);
+}
+.psy-round-track.is-summary {
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin: 6px 0 2px;
+}
+.psy-round-track.is-summary li {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: var(--surface);
+  font-size: 0.95rem;
+}
+
+.psy-feedback-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.psy-feedback-title {
+  flex: 1 1 0;
+  min-width: 0;
+}
+.psy-feedback-icon {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  color: var(--surface);
+  font-size: 1rem;
+}
+.psy-feedback.is-correct .psy-feedback-icon {
+  background: var(--ok);
+}
+.psy-feedback.is-wrong .psy-feedback-icon {
+  background: var(--no);
+}
+.psy-feedback-slow {
+  flex-basis: 100%;
+}
+.psy-feedback .psy-feedback-next {
+  min-width: 180px;
+  min-height: 46px;
+}
+
+.psy-drill-empty {
+  margin-top: 16px;
+}
+.psy-round-done {
+  max-width: 620px;
+  margin: 18px auto 0;
+  padding: 30px 26px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+}
+.psy-round-score {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  line-height: 1;
+  color: var(--accent);
+}
+.psy-round-done h2 {
+  margin: 6px 0 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.4rem;
+}
+.psy-round-meta {
+  margin: 0;
+  color: var(--muted);
+}
+.psy-round-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+@media (max-width: 900px) {
+  .psy-picker-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    min-height: 48px;
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
+    cursor: pointer;
+  }
+  .psy-picker-now {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    font-weight: 700;
+    text-align: start;
+  }
+  .psy-picker-now svg {
+    flex: 0 0 auto;
+    color: var(--accent);
+  }
+  .psy-picker-action {
+    flex: 0 0 auto;
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 0.92rem;
+  }
+  .psy-picker {
+    display: none;
+  }
+  .psy-picker.is-open {
+    display: block;
+    margin-top: 8px;
+    padding: 4px 12px 2px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+  }
+  .psy-drill-lead {
+    display: none;
+  }
+  .psy-drill-head {
+    margin-bottom: 10px;
+  }
+  .psy-drill-tally {
+    display: none;
+  }
+  .psy-round-track li {
+    width: 12px;
+  }
+  .psy-round-actions .btn {
+    width: 100%;
+  }
+  .psy-feedback .psy-feedback-next {
+    width: 100%;
+  }
+}
