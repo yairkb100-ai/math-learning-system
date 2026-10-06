@@ -4,10 +4,15 @@ import { motion, AnimatePresence } from 'framer-motion'
 import api from '../api.js'
 import MathText, { isLatinText } from '../components/MathText.jsx'
 import { Loading, ErrorBox } from '../components/Status.jsx'
+import { IconArrowStart, IconLock, IconRefresh, IconTarget } from '../components/icons.jsx'
 import { fadeInUp, fadeIn, staggerContainer, tapScale, DURATION, EASE_OUT } from '../lib/motion.js'
 import '../styles/psy.css'
+import '../styles/karni.css'
 
-const OPTION_LETTERS = ['א', 'ב', 'ג', 'ד', 'ה']
+// שאלות צורניות מגיעות גם עם שש תשובות — בלי 'ו' העיגול השישי נשאר ריק.
+const OPTION_LETTERS = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח']
+// "כושר מכני" היה חסר כאן: דוח של מבחן מכני הוצג בלי אף אריח תחום, ובשורות
+// הנושא הופיע תחום ריק.
 const DOMAIN_HE = {
   verbal: 'מילולי',
   quantitative: 'כמותי',
@@ -15,9 +20,31 @@ const DOMAIN_HE = {
   logic: 'לוגי',
   spatial: 'מרחבי',
   speed: 'זריזות ודיוק',
+  mechanical: 'כושר מכני',
   english: 'אנגלית',
 }
-const DOMAIN_ORDER = ['verbal', 'quantitative', 'figural', 'logic', 'spatial', 'speed', 'english']
+const DOMAIN_ORDER = [
+  'verbal',
+  'quantitative',
+  'figural',
+  'logic',
+  'spatial',
+  'speed',
+  'mechanical',
+  'english',
+]
+// נושא נכנס ל"מה לתרגל עכשיו" רק כשהדיוק בו נמוך מהסף הזה — אותו סף שצובע
+// את הפס שלו ב"לפי נושא".
+const WEAK_ACCURACY = 0.6
+
+function fmtDate(iso) {
+  if (!iso) return ''
+  return new Date(iso).toLocaleDateString('he-IL', { day: 'numeric', month: 'long' })
+}
+// בדרגת free השרת מסתיר את correct_index לשאלה שמחוץ למכסה. אם התלמיד ענה
+// נכון, התשובה שלו היא התשובה הנכונה — בלי זה היא סומנה באדום כ"התשובה שלך".
+const keyOf = (r) => (r.correct_index != null ? r.correct_index : r.is_correct ? r.chosen : null)
+const drillLink = (t) => `/psy/drill?domain=${t.domain}&topic=${encodeURIComponent(t.topic)}`
 
 export default function PsyResults() {
   const { attemptId } = useParams()
@@ -46,14 +73,38 @@ export default function PsyResults() {
     return data.review.filter((r) => !r.is_correct)
   }, [data, filter])
 
-  if (error) return <ErrorBox error={error} />
-  if (!data) return <Loading />
+  if (error)
+    return (
+      <section dir="rtl" className="sa-page">
+        <ErrorBox error={error} />
+        <p className="exam-error-back">
+          <Link to="/psy">חזרה להכנה לקרני</Link>
+        </p>
+      </section>
+    )
+  if (!data) return <Loading label="טוען דוח…" />
+
+  const counts = {
+    wrong: data.review.filter((r) => !r.is_correct).length,
+    slow: data.review.filter((r) => r.is_correct && r.seconds > r.target_seconds * 1.5).length,
+    all: data.review.length,
+  }
+  // topics מגיע ממוין מהחלש לחזק.
+  const weakTopics = data.topics.filter((t) => t.accuracy < WEAK_ACCURACY).slice(0, 3)
 
   // history מגיע ממוין עולה לפי finished_at, ולכן ה"קודם" הוא האיבר שלפני
   // הניסיון המוצג — לא האחרון ברשימה. כשנכנסים לדוח ישן מ"המבחנים האחרונים",
   // האחרון הוא דווקא ניסיון מאוחר יותר, והדלתא יצאה בסימן הפוך.
   const currentIndex = data.history.findIndex((h) => h.attempt_id === data.attempt_id)
-  const previous = currentIndex > 0 ? data.history[currentIndex - 1] : null
+  // ההשוואה היא רק מול ניסיון קודם באותו מבחן: "ירידה של 30 נקודות" בין מבחן
+  // קצר בכמותי למבחן בצורני איננה ירידה, היא שני מבחנים שונים.
+  const previous =
+    currentIndex > 0
+      ? data.history
+          .slice(0, currentIndex)
+          .reverse()
+          .find((h) => h.title === data.simulation_title) || null
+      : null
   const delta =
     previous && data.score_percent != null && previous.score_percent != null
       ? data.score_percent - previous.score_percent
@@ -63,9 +114,16 @@ export default function PsyResults() {
 
   return (
     <div className="psy-results" dir="rtl">
-      <header className="psy-results-head">
-        <h1>{data.simulation_title}</h1>
-        <Link to="/psy" className="psy-link">חזרה להכנה לקרני</Link>
+      <header className="psy-drill-head">
+        <div>
+          <Link to="/psy" className="psy-drill-back">
+            <IconArrowStart /> חזרה להכנה לקרני
+          </Link>
+          <h1>{data.simulation_title}</h1>
+          <p className="psy-drill-lead psy-results-sub">
+            דוח המבחן{data.finished_at ? ` · ${fmtDate(data.finished_at)}` : ''}
+          </p>
+        </div>
       </header>
 
       <motion.section
@@ -98,7 +156,9 @@ export default function PsyResults() {
           {data.readiness && <div className="psy-readiness">{data.readiness.label}</div>}
           {delta != null && (
             <div className={`psy-delta${delta >= 0 ? ' is-up' : ' is-down'}`}>
-              {delta >= 0 ? '▲' : '▼'} {Math.abs(Math.round(delta * 10) / 10)} נקודות אחוז מהסימולציה הקודמת
+              {Math.round(delta * 10) / 10 === 0
+                ? 'אותו אחוז כמו בניסיון הקודם שלך במבחן הזה'
+                : `${delta > 0 ? 'עלייה' : 'ירידה'} של ${Math.abs(Math.round(delta * 10) / 10)} נקודות אחוז לעומת הניסיון הקודם שלך במבחן הזה`}
             </div>
           )}
         </div>
@@ -127,6 +187,58 @@ export default function PsyResults() {
         ההצלחה בפועל ולא ציון חזוי — הוא נועד להשוואה מול הסימולציות הקודמות שלך ולאיתור הנושאים
         שדורשים עבודה.
       </motion.p>
+
+      {/* הדוח נגמר בפעולה: מה לתרגל עכשיו, לפי הנושאים החלשים במבחן הזה. */}
+      <motion.section
+        className="psy-panel psy-after"
+        variants={fadeInUp}
+        initial="hidden"
+        animate="show"
+      >
+        <h2>מה לתרגל עכשיו</h2>
+        {weakTopics.length > 0 ? (
+          <>
+            <p className="psy-plan-sub">
+              {weakTopics.length === 1
+                ? 'הנושא שבו נפלו הכי הרבה תשובות במבחן הזה. סבב תרגול קצר עליו שווה יותר ממבחן נוסף.'
+                : 'הנושאים שבהם נפלו הכי הרבה תשובות במבחן הזה. סבב תרגול קצר על כל אחד שווה יותר ממבחן נוסף.'}
+            </p>
+            <ul className="psy-after-list">
+              {weakTopics.map((t) => (
+                <li key={`${t.domain}-${t.topic}`}>
+                  <Link className="psy-after-item" to={drillLink(t)}>
+                    <span className="psy-after-icon" aria-hidden="true">
+                      <IconTarget />
+                    </span>
+                    <span className="psy-after-body">
+                      <span className="psy-after-topic">{t.topic}</span>
+                      <span className="psy-after-meta">
+                        {DOMAIN_HE[t.domain] || ''} · {t.correct} מתוך {t.answered} נכונות
+                      </span>
+                    </span>
+                    <span className="psy-after-cta">לתרגל</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </>
+        ) : (
+          <p className="psy-plan-sub">
+            אין נושא שנפל במיוחד במבחן הזה. הצעד הבא הוא מבחן נוסף — רצוי ארוך או קשה יותר —
+            ומעבר על השאלות האיטיות למטה.
+          </p>
+        )}
+        <div className="psy-after-actions">
+          {data.simulation_slug && (
+            <Link to={`/psy/sim/${data.simulation_slug}`} className="btn btn-secondary">
+              <IconRefresh /> לעשות את המבחן שוב
+            </Link>
+          )}
+          <Link to="/psy" className="btn btn-secondary">
+            לכל המבחנים והנושאים
+          </Link>
+        </div>
+      </motion.section>
 
       <motion.section
         className="psy-panel"
@@ -194,7 +306,9 @@ export default function PsyResults() {
             {data.topics.map((t) => (
               <motion.li key={`${t.domain}-${t.topic}`} className="psy-topic-row" variants={fadeInUp}>
                 <div className="psy-topic-name">
-                  {t.topic}
+                  <Link to={drillLink(t)} title={`לתרגל: ${t.topic}`}>
+                    {t.topic}
+                  </Link>
                   <span className="psy-topic-domain">{DOMAIN_HE[t.domain]}</span>
                 </div>
                 <div className="psy-topic-bar" aria-hidden="true">
@@ -232,17 +346,24 @@ export default function PsyResults() {
                 key={key}
                 type="button"
                 className={`psy-chip${filter === key ? ' is-on' : ''}`}
+                aria-pressed={filter === key}
                 onClick={() => setFilter(key)}
                 {...tapScale}
               >
-                {label}
+                {label} <span className="psy-chip-num">{counts[key]}</span>
               </motion.button>
             ))}
           </div>
         </div>
 
         {review.length === 0 ? (
-          <p className="psy-empty">אין שאלות בקטגוריה הזו.</p>
+          <p className="psy-empty">
+            {filter === 'wrong'
+              ? 'אין אף תשובה שגויה במבחן הזה. אפשר לעבור על השאלות האיטיות, או על כולן.'
+              : filter === 'slow'
+                ? 'אין שאלה שענית עליה נכון אבל הרבה מעבר לזמן היעד.'
+                : 'אין שאלות להצגה.'}
+          </p>
         ) : (
           <motion.ol
             className="psy-review"
@@ -260,7 +381,7 @@ export default function PsyResults() {
               >
                 <div className="psy-review-meta">
                   <span>{r.topic}</span>
-                  <span>רמה {r.difficulty}</span>
+                  <span>רמת קושי {r.difficulty} מתוך 5</span>
                   <span className={r.seconds > r.target_seconds ? 'is-slow' : ''}>
                     {r.seconds} שנ׳ (יעד {r.target_seconds})
                   </span>
@@ -287,22 +408,33 @@ export default function PsyResults() {
                       key={i}
                       className={[
                         'psy-review-option',
-                        i === r.correct_index ? 'is-key' : '',
-                        i === r.chosen && i !== r.correct_index ? 'is-yours' : '',
+                        i === keyOf(r) ? 'is-key' : '',
+                        i === r.chosen && i !== keyOf(r) ? 'is-yours' : '',
                       ]
                         .filter(Boolean)
                         .join(' ')}
                     >
                       <span className="psy-option-letter">{OPTION_LETTERS[i]}</span>
                       <MathText text={opt} plain />
-                      {i === r.correct_index && <span className="psy-tag">התשובה הנכונה</span>}
-                      {i === r.chosen && i !== r.correct_index && (
+                      {i === keyOf(r) && <span className="psy-tag">התשובה הנכונה</span>}
+                      {i === r.chosen && i !== keyOf(r) && (
                         <span className="psy-tag psy-tag-bad">התשובה שלך</span>
                       )}
                     </li>
                   ))}
                 </ul>
                 {r.chosen == null && <div className="psy-note">לא נענתה</div>}
+                {/* דרגת free: השרת לא מחזיר את התשובה וההסבר לשאלה שמחוץ למכסה. */}
+                {r.correct_index == null && (
+                  <div className="psy-review-locked">
+                    <IconLock />
+                    <span>
+                      {r.is_correct ? 'ענית נכון. ' : ''}התשובה הנכונה וההסבר לשאלה הזאת נפתחים עם
+                      מנוי להכנה לקרני.
+                    </span>
+                    <Link to="/subscription">למנויים ולמחירים</Link>
+                  </div>
+                )}
                 {r.explanation && (
                   <div className="psy-explanation">
                     <MathText text={r.explanation} />
