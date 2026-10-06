@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { IconArrowStart, IconCompass } from '../components/icons.jsx'
+import '../styles/karni.css'
 
 const SCRIPT_ID = 'matrices-100-embed'
 
@@ -46,10 +47,22 @@ export default function MatricesPractice() {
         <div>
           <p>תרגול נוסף</p>
           <h1>100 תרגילי מטריצות</h1>
-          <span>שמונה חלקים מדורגים, משוב מיידי והסבר לכל תשובה.</span>
+          <span>
+            שמונה חלקים מדורגים. בוחרים את הצורה שמשלימה את המטריצה, ומיד מקבלים משוב והסבר.
+            ההתקדמות נשמרת רק עד שיוצאים מהעמוד.
+          </span>
         </div>
       </header>
-      {error ? <p className="inline-error">לא הצלחנו לטעון את התרגול. נסו לרענן את העמוד.</p> : <div ref={mountRef} className="matrices-practice-widget" />}
+      {error ? (
+        <p className="inline-error" role="alert">
+          לא הצלחנו לטעון את התרגול.{' '}
+          <button type="button" className="matrices-retry" onClick={() => window.location.reload()}>
+            לנסות שוב
+          </button>
+        </p>
+      ) : (
+        <div ref={mountRef} className="matrices-practice-widget" />
+      )}
     </section>
   )
 }

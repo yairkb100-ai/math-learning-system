@@ -110,6 +110,182 @@
   }
 }
 
+/* ==========================================================================
+   100 תרגילי מטריצות — הווידג׳ט המוטמע (public/matrices-100) מביא CSS משלו
+   בכחול-נייבי ובגופן מערכת. כאן הוא מיושר לזהות של האתר, בלי לגעת בקובץ
+   המחולל: רק משתני הצבע והגופנים הקיימים. התאים והאיורים עצמם לא משתנים.
+   ========================================================================== */
+.matrices-practice .mqz {
+  font-family: var(--font-body);
+  color: var(--text);
+  max-width: none;
+  padding: 0;
+  counter-reset: mqz-q;
+}
+/* לעמוד כבר יש כותרת והסבר משלו — הכותרת הכפולה של הווידג׳ט יורדת. */
+.matrices-practice .mqz > h1,
+.matrices-practice .mqz > .sub {
+  display: none;
+}
+.matrices-practice .mqz .bar {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  /* מתחת לסרגל הניווט הדביק של האתר, לא מאחוריו */
+  top: 86px;
+}
+.matrices-practice .mqz .pbar {
+  background: var(--surface-2);
+}
+.matrices-practice .mqz .pfill {
+  background: var(--accent-2);
+}
+.matrices-practice .mqz .stxt {
+  color: var(--text);
+}
+.matrices-practice .mqz .chips a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--accent);
+  font-size: 0.88rem;
+}
+.matrices-practice .mqz .chips a:hover {
+  background: var(--surface-2);
+  border-color: var(--accent);
+}
+.matrices-practice .mqz h2.part {
+  font-family: var(--font-display);
+  font-weight: 400;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
+  /* קישורי הקפיצה (#secA…) נוחתים מתחת לסרגל הדביק ולמד ההתקדמות */
+  scroll-margin-top: 160px;
+}
+.matrices-practice .mqz .partintro {
+  background: var(--surface-2);
+  color: var(--muted);
+  font-size: 0.95rem;
+  border-radius: 10px;
+}
+.matrices-practice .mqz .q {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  counter-increment: mqz-q;
+}
+.matrices-practice .mqz .qhead h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  color: var(--text);
+}
+/* הווידג׳ט כותב "שאלה" בלי מספר על כל אחת ממאה השאלות */
+.matrices-practice .mqz .qhead h2::after {
+  content: ' ' counter(mqz-q);
+}
+.matrices-practice .mqz .diff {
+  color: var(--marker);
+}
+.matrices-practice .mqz .tag {
+  background: var(--surface-2);
+  color: var(--muted);
+}
+.matrices-practice .mqz .inst {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.matrices-practice .mqz .cell {
+  border-color: var(--border);
+}
+.matrices-practice .mqz .cell.missing {
+  border-color: var(--accent);
+  background: var(--surface-2);
+  color: var(--accent);
+}
+.matrices-practice .mqz .opt {
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+.matrices-practice .mqz .opt:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-hover);
+}
+.matrices-practice .mqz .opt .lbl {
+  color: var(--muted);
+}
+.matrices-practice .mqz .opt.correct {
+  background: var(--ok-bg);
+  border-color: var(--ok) !important;
+}
+.matrices-practice .mqz .opt.wrong {
+  background: var(--no-bg);
+  border-color: var(--no) !important;
+}
+.matrices-practice .mqz .fb {
+  font-size: 0.98rem;
+}
+.matrices-practice .mqz .fb.ok {
+  background: var(--ok-bg);
+  border-right-color: var(--ok);
+}
+.matrices-practice .mqz .fb.no {
+  background: var(--no-bg);
+  border-right-color: var(--no);
+}
+.matrices-practice .mqz .summary {
+  background: linear-gradient(135deg, var(--board) 0%, var(--board-edge) 100%);
+  color: var(--chalk);
+}
+.matrices-practice .mqz .summary h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+}
+.matrices-practice .mqz .rbtn {
+  min-height: 44px;
+  background: var(--surface);
+  color: var(--accent);
+}
+.matrices-retry {
+  appearance: none;
+  background: none;
+  border: 0;
+  min-height: 44px;
+  padding: 0 4px;
+  font: inherit;
+  font-weight: 700;
+  color: var(--accent);
+  text-decoration: underline;
+  cursor: pointer;
+}
+@media (max-width: 520px) {
+  .matrices-practice .mqz .bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+    padding: 8px 12px;
+  }
+  .matrices-practice .mqz .pbar {
+    flex: 0 0 auto;
+  }
+  .matrices-practice .mqz .stxt {
+    white-space: normal;
+    text-align: center;
+  }
+  .matrices-practice .mqz .q {
+    padding: 12px 10px 14px;
+  }
+  /* חמש תשובות ב-92px נשברו ל-2+2+1; ב-שלוש בשורה הן נכנסות בשתי שורות */
+  .matrices-practice .mqz .opts {
+    gap: 8px;
+  }
+  .matrices-practice .mqz .opt {
+    width: calc((100% - 16px) / 3);
+  }
+}
+
 /* ---------- סימולציה: מסך הפתיחה ---------- */
 .psy-intro-page .exam-intro {
   max-width: 660px;
