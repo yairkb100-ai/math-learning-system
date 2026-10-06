@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, useCallback, useRef } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, useNavigate, Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
@@ -153,6 +153,12 @@ function buildSteps(chapter, rtl, videoFile) {
 
 export default function ChapterView() {
   const { id, number } = useParams()
+  const navigate = useNavigate()
+  // Public pages, the sitemap and search results link to
+  // /courses/<slug>/chapters/N, but the signed-in API only knows numeric ids —
+  // a slug here used to end in "422 [object Object]". Same fix as CourseView:
+  // resolve the slug and replace the URL.
+  const isSlug = !/^\d+$/.test(String(id))
   const [chapter, setChapter] = useState(null)
   const [language, setLanguage] = useState('English')
   const [chaptersCount, setChaptersCount] = useState(0)
@@ -174,6 +180,23 @@ export default function ChapterView() {
   const load = useCallback(() => {
     setLoading(true)
     setError(null)
+    if (isSlug) {
+      api
+        .listCourses()
+        .then((list) => {
+          const hit = (list || []).find((c) => c.slug === id)
+          if (hit) navigate(`/courses/${hit.id}/chapters/${number}`, { replace: true })
+          else {
+            setError(new Error('הקורס הזה לא נמצא. אפשר לחזור לרשימת הקורסים ולבחור משם.'))
+            setLoading(false)
+          }
+        })
+        .catch((e) => {
+          setError(e)
+          setLoading(false)
+        })
+      return
+    }
     Promise.all([
       api.getChapter(id, number),
       api.getCourse(id),
@@ -207,7 +230,7 @@ export default function ChapterView() {
       })
       .catch(setError)
       .finally(() => setLoading(false))
-  }, [id, number])
+  }, [id, number, isSlug, navigate])
 
   useEffect(() => {
     load()
@@ -222,7 +245,7 @@ export default function ChapterView() {
     const refreshChapter = () => {
       const now = Date.now()
       const state = chapterRefreshRef.current
-      if (state.inFlight || now - state.lastAt < 15_000) return
+      if (isSlug || state.inFlight || now - state.lastAt < 15_000) return
       state.inFlight = true
       state.lastAt = now
       api
