@@ -313,6 +313,10 @@ function proseRunNodes(src, keyPrefix = 'pr') {
       start > last && /[+\-−–]/.test(src[start - 1]) &&
       (start === 1 || /[\s(=:,]/.test(src[start - 2]))
     ) start--
+    // A line that is nothing but the expression ("2×2×2 = 8.") keeps its
+    // full stop: outside the run it resolves RTL and jumps to the front,
+    // reading ".2×2×2 = 8".
+    if (!src.slice(0, start).trim() && /^[.!?]\s*$/.test(src.slice(end))) end = src.length
     const run = src.slice(start, end)
     if (start > last) nodes.push(src.slice(last, start))
     nodes.push(
