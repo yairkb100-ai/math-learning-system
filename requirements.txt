@@ -5,9 +5,10 @@
 # uvicorn — Vercel's Python runtime serves the ASGI app itself, so uvicorn
 # (and its uvloop/httptools/websockets/watchfiles extras) isn't needed here
 # and was the main reason the function bundle exceeded Vercel's 225MB limit.
-fastapi
-sqlalchemy
-pydantic
+# Bounds: see the note at the top of backend/requirements.txt — keep identical.
+fastapi>=0.115,<0.143
+sqlalchemy>=2.0,<2.2
+pydantic>=2.6,<3
 python-jose[cryptography]
 bcrypt
 python-dotenv
