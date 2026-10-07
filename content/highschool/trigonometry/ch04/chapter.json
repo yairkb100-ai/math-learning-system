@@ -11,7 +11,7 @@
     {
       "title": "שלוש צלעות — מציאת זווית",
       "type": "text",
-      "content": "במשולש הצלעות: 4, 6, 8. מצאו את הזווית הגדולה ביותר.\n\n**פתרון:** הזווית הגדולה מול הצלע הארוכה (8):\n\n$\\cos\\theta = \\frac{4^2 + 6^2 - 8^2}{2 \\cdot 4 \\cdot 6} = \\frac{16 + 36 - 64}{48} = \\frac{-12}{48} = -0.25$\n\n$\\theta = \\cos^{-1}(-0.25) \\approx 104.5°$\n\nהקוסינוס שלילי ולכן הזווית קהה, כפי שמתבקש כאשר $8^2 > 4^2 + 6^2$."
+      "content": "במשולש הצלעות: 4, 6, 8. מצאו את הזווית הגדולה ביותר.\n\n**פתרון:** הזווית הגדולה מול הצלע הארוכה (8):\n\n$$\\begin{aligned} \\cos\\theta &= \\frac{4^2 + 6^2 - 8^2}{2 \\cdot 4 \\cdot 6} \\\\ &= \\frac{16 + 36 - 64}{48} \\\\ &= \\frac{-12}{48} \\\\ &= -0.25 \\end{aligned}$$\n\n$\\theta = \\cos^{-1}(-0.25) \\approx 104.5°$\n\nהקוסינוס שלילי ולכן הזווית קהה, כפי שמתבקש כאשר $8^2 > 4^2 + 6^2$."
     }
   ],
   "exercises": [
@@ -27,14 +27,14 @@
       "title": "צז\"צ",
       "description": "במשולש: $a = 8$, $b = 11$, $C = 40°$. חשבו את $c$.",
       "difficulty": "medium",
-      "solution": "$c^2 = 64 + 121 - 2 \\cdot 8 \\cdot 11 \\cdot \\cos 40° = 185 - 176 \\cdot 0.766 \\approx 185 - 134.8 = 50.2$, ולכן $c \\approx 7.08$."
+      "solution": "$$\\begin{aligned} c^2 &= 64 + 121 - 2 \\cdot 8 \\cdot 11 \\cdot \\cos 40° \\\\ &= 185 - 176 \\cdot 0.766 \\\\ &\\approx 185 - 134.8 \\\\ &= 50.2 \\end{aligned}$$\nולכן $c \\approx 7.08$."
     },
     {
       "number": 3,
       "title": "שלוש צלעות",
       "description": "צלעות משולש: 7, 9, 12. מצאו את הזווית שמול הצלע 12.",
       "difficulty": "medium",
-      "solution": "$\\cos\\theta = \\frac{49 + 81 - 144}{2 \\cdot 7 \\cdot 9} = \\frac{-14}{126} \\approx -0.1111$, ולכן $\\theta \\approx 96.4°$."
+      "solution": "$$\\begin{aligned} \\cos\\theta &= \\frac{49 + 81 - 144}{2 \\cdot 7 \\cdot 9} \\\\ &= \\frac{-14}{126} \\\\ &\\approx -0.1111 \\end{aligned}$$\nולכן $\\theta \\approx 96.4°$."
     },
     {
       "number": 4,

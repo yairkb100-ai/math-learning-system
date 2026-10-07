@@ -12,7 +12,7 @@
     {
       "title": "שימוש במשפט צ.ז.צ",
       "type": "text",
-      "content": "במשולשים $ABC$ ו-$DEF$ נתון: $AB = DE = 8$, $AC = DF = 6$, $\\angle A = \\angle D = 70^{\\circ}$. הוכיחו שהמשולשים חופפים ומצאו את $\\angle E$ אם ידוע ש-$\\angle B = 55^{\\circ}$.\n\n**פתרון:** הזווית $\\angle A$ נמצאת בין הצלעות $AB$ ו-$AC$, והזווית $\\angle D$ נמצאת בין $DE$ ו-$DF$. אלה בדיוק הצלעות הנתונות, ולכן מתקיימים תנאי צ.ז.צ:\n\n$$\\triangle ABC \\cong \\triangle DEF \\quad (\\text{צ.ז.צ})$$\n\nמהחפיפה נובע ש-$\\angle E = \\angle B = 55^{\\circ}$. אפשר גם להוסיף: $EF = BC$, וכן $\\angle F = \\angle C = 180^{\\circ} - 70^{\\circ} - 55^{\\circ} = 55^{\\circ}$."
+      "content": "במשולשים $ABC$ ו-$DEF$ נתון: $AB = DE = 8$, $AC = DF = 6$, $\\angle A = \\angle D = 70^{\\circ}$. הוכיחו שהמשולשים חופפים ומצאו את $\\angle E$ אם ידוע ש-$\\angle B = 55^{\\circ}$.\n\n**פתרון:** הזווית $\\angle A$ נמצאת בין הצלעות $AB$ ו-$AC$, והזווית $\\angle D$ נמצאת בין $DE$ ו-$DF$. אלה בדיוק הצלעות הנתונות, ולכן מתקיימים תנאי צ.ז.צ:\n\n$$\\triangle ABC \\cong \\triangle DEF \\quad (\\text{צ.ז.צ})$$\n\nמהחפיפה נובע ש-$\\angle E = \\angle B = 55^{\\circ}$. אפשר גם להוסיף: $EF = BC$, וכן\n$$\\begin{aligned} \\angle F &= \\angle C \\\\ &= 180^{\\circ} - 70^{\\circ} - 55^{\\circ} \\\\ &= 55^{\\circ} \\end{aligned}$$"
     },
     {
       "title": "שימוש במשפט ז.צ.ז",
