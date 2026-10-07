@@ -18,7 +18,7 @@
     {
       "title": "שני צעדים",
       "type": "text",
-      "content": "פתרו: $3x-4=11$.\n\n**פתרון:**\n$$3x=11+4=15 \\ \\Rightarrow\\ x=15\\div3=5$$\n\n**בדיקה:** $3\\times5-4=15-4=11$ ✓."
+      "content": "פתרו: $3x-4=11$.\n\n**פתרון:**\n$$\\begin{gathered}3x=11+4=15 \\\\[4pt] \\Rightarrow\\ x=15\\div3=5\\end{gathered}$$\n\n**בדיקה:** $3\\times5-4=15-4=11$ ✓."
     },
     {
       "title": "נעלם בשני האגפים",

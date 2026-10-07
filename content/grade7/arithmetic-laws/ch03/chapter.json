@@ -17,7 +17,7 @@
     {
       "title": "לאתר את הזוג העגול",
       "type": "text",
-      "content": "חשבו בדרך נוחה: $25 \\cdot 9 \\cdot 4$.\n\n**פתרון:** הזוג המנצח כאן הוא $25 \\cdot 4 = 100$. נחליף סדר ונקבץ:\n$$25 \\cdot 9 \\cdot 4 = (25 \\cdot 4) \\cdot 9 = 100 \\cdot 9 = 900$$"
+      "content": "חשבו בדרך נוחה: $25 \\cdot 9 \\cdot 4$.\n\n**פתרון:** הזוג המנצח כאן הוא $25 \\cdot 4 = 100$. נחליף סדר ונקבץ:\n$$\\begin{aligned}25 \\cdot 9 \\cdot 4 &= (25 \\cdot 4) \\cdot 9 \\\\ &= 100 \\cdot 9 \\\\ &= 900\\end{aligned}$$"
     },
     {
       "title": "דוגמה נגדית: החילוק אינו קיבוצי",
@@ -52,7 +52,7 @@
       "title": "אתגר: מכפלה ארוכה",
       "description": "חשבו בדרך נוחה: $4 \\cdot 7 \\cdot 25 \\cdot 5 \\cdot 2$.",
       "difficulty": "hard",
-      "solution": "נחפש זוגות עגולים: $4 \\cdot 25 = 100$ וגם $5 \\cdot 2 = 10$. לפי חוקי החילוף והקיבוץ מותר לסדר מחדש:\n$$\\begin{aligned}(4 \\cdot 25) \\cdot (5 \\cdot 2) \\cdot 7 &= 100 \\cdot 10 \\cdot 7 \\\\ &= 1000 \\cdot 7 \\\\ &= 7000\\end{aligned}$$"
+      "solution": "נחפש זוגות עגולים: $4 \\cdot 25 = 100$ וגם $5 \\cdot 2 = 10$. לפי חוקי החילוף והקיבוץ מותר לסדר מחדש:\n$$\\begin{gathered}(4 \\cdot 25) \\cdot (5 \\cdot 2) \\cdot 7 \\\\[4pt] = 100 \\cdot 10 \\cdot 7 \\\\[4pt] = 1000 \\cdot 7 \\\\[4pt] = 7000\\end{gathered}$$"
     },
     {
       "number": 5,
