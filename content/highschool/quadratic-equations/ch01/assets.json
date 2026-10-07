@@ -4,7 +4,7 @@
   "worksheet_note": "בכל שאלה כתבו את המקדמים עם הסימן הנכון. זכרו: הסימן שייך למקדם — במשוואה [[eq:x² − 5x + 6 = 0]] המקדם הוא [[eq:b = −5]], לא 5.",
   "worksheet": [
     {"title": "זיהוי מקדמים ישיר", "tag": "easy",
-     "body": "<p>לכל משוואה כתבו את שלושת המקדמים [[eq:a]], [[eq:b]], [[eq:c]]:</p><ol type=\"a\"><li>[[eq:x² − 7x + 10 = 0]] &nbsp; ⟵ a=[[blank]] b=[[blank]] c=[[blank]]</li><li>[[eq:2x² + 5x − 3 = 0]] &nbsp; ⟵ a=[[blank]] b=[[blank]] c=[[blank]]</li><li>[[eq:−x² + 4x + 1 = 0]] &nbsp; ⟵ a=[[blank]] b=[[blank]] c=[[blank]]</li><li>[[eq:3x² − 12 = 0]] &nbsp; ⟵ a=[[blank]] b=[[blank]] c=[[blank]]</li></ol>"},
+     "body": "<p>לכל משוואה כתבו את שלושת המקדמים [[eq:a]], [[eq:b]], [[eq:c]]:</p><ol type=\"a\"><li>[[eq:x² − 7x + 10 = 0]] &nbsp; ⟵ [[eq:a]]=[[blank]] [[eq:b]]=[[blank]] [[eq:c]]=[[blank]]</li><li>[[eq:2x² + 5x − 3 = 0]] &nbsp; ⟵ [[eq:a]]=[[blank]] [[eq:b]]=[[blank]] [[eq:c]]=[[blank]]</li><li>[[eq:−x² + 4x + 1 = 0]] &nbsp; ⟵ [[eq:a]]=[[blank]] [[eq:b]]=[[blank]] [[eq:c]]=[[blank]]</li><li>[[eq:3x² − 12 = 0]] &nbsp; ⟵ [[eq:a]]=[[blank]] [[eq:b]]=[[blank]] [[eq:c]]=[[blank]]</li></ol>"},
 
     {"title": "שימו לב לסימנים", "tag": "easy",
      "body": "<p>זהו את המקדמים. שימו לב במיוחד לסימן של [[eq:b]] ושל [[eq:c]]:</p><ol type=\"a\"><li>[[eq:x² + 6x − 16 = 0]]</li><li>[[eq:4x² − x = 0]]</li><li>[[eq:x² − 25 = 0]]</li><li>[[eq:5x² + 10x + 5 = 0]]</li></ol>", "lines": 3},
