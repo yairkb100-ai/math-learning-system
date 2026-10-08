@@ -1,0 +1,20 @@
+{
+  "metadata": {
+    "title": "מתמטיקה לכיתה ח׳: פיתגורס והעתקות",
+    "description": "לומדה בת חמישה פרקים: משולש ישר־זווית, משפט פיתגורס, צלע חסרה והעתקות במישור.",
+    "level": "Intermediate",
+    "language": "Hebrew",
+    "estimated_hours": 8,
+    "include": [
+      "diagrams",
+      "exercises",
+      "printable-worksheet"
+    ],
+    "slug": "pythagoras-transformations"
+  },
+  "learning_objectives": [
+    "לפתור בעיות בעזרת משפט פיתגורס",
+    "לזהות ולבצע הזזה, שיקוף וסיבוב",
+    "לנמק פתרון מתמטי עם יחידות וסימון תקין"
+  ]
+}
