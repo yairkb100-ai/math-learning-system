@@ -1,0 +1,46 @@
+{
+  "short_title": "משיקים ומיתרים",
+  "subtitle": "להגדיר משיק למעגל ונקודת ההשקה, ולדעת שהמשיק מאונך לרדיוס בנקודת ההשקה",
+  "worksheet_note": "",
+  "worksheet": [
+    {
+      "title": "אורך משיק",
+      "tag": "easy",
+      "body": "<p>מעגל שרדיוסו $6$. מנקודה $P$ שמרחקה $10$ מהמרכז מעבירים משיק. מה אורכו?</p>",
+      "lines": 4
+    },
+    {
+      "title": "מרחק מיתר",
+      "tag": "easy",
+      "body": "<p>במעגל שרדיוסו $13$ מיתר באורך $24$. מה המרחק מהמרכז למיתר?</p>",
+      "lines": 4
+    },
+    {
+      "title": "אורך מיתר",
+      "tag": "med",
+      "body": "<p>במעגל שרדיוסו $17$, מרחק מיתר מהמרכז $8$. מה אורך המיתר?</p>",
+      "lines": 4
+    },
+    {
+      "title": "זוויות",
+      "tag": "med",
+      "body": "<p>מנקודה $P$ יוצאים משיקים $PA$ ו-$PB$ למעגל שמרכזו $O$.</p><ol type=\"a\"><li>אם $\\angle AOB = 140^\\circ$, מצאו את $\\angle APB$.</li><li>אם $\\angle APB = 50^\\circ$, מצאו את $\\angle AOB$.</li><li>אם $\\angle APB = 60^\\circ$, מצאו את $\\angle APO$.</li></ol>",
+      "lines": 4
+    },
+    {
+      "title": "אתגר: הוכחה",
+      "tag": "hard",
+      "body": "<p>מנקודה $P$ מחוץ למעגל שמרכזו $O$ מעבירים משיקים $PA$ ו-$PB$. הוכיחו ש-$OP$ חוצה את $\\angle APB$ ושהוא גם אנך למיתר $AB$.</p>",
+      "lines": 4
+    }
+  ],
+  "worksheet_answers": [
+    "<p>המשולש $OAP$ ישר־זווית עם יתר $OP = 10$ וניצב $OA = 6$:</p><p>$$PA^2 = 100 - 36 = 64 \\quad \\Rightarrow \\quad PA = 8$$</p>",
+    "<p>חצי המיתר $12$. $d^2 = 169 - 144 = 25$, ולכן $d = 5$.</p>",
+    "<p><strong>צעד 1:</strong> חצי המיתר: $\\sqrt{17^2 - 8^2} = \\sqrt{289 - 64} = \\sqrt{225} = 15$.</p><p><strong>צעד 2:</strong> המיתר כולו $2 \\cdot 15 = 30$.</p>",
+    "<ol type=\"a\"><li>$\\angle APB = 180 - 140 = 40^\\circ$.</li><li>$\\angle AOB = 180 - 50 = 130^\\circ$.</li><li>$OP$ חוצה את $\\angle APB$, ולכן $\\angle APO = \\frac{60}{2} = 30^\\circ$.</li></ol>",
+    "<p><strong>חלק א — חצייה:</strong></p><p>1. $OA = OB$ — רדיוסים.<br>2. $\\angle OAP = \\angle OBP = 90^\\circ$ — משיק מאונך לרדיוס.<br>3. $OP = OP$ — צלע משותפת.<br>4. $\\triangle OAP \\cong \\triangle OBP$ — יתר וניצב.<br>5. $\\angle APO = \\angle BPO$ — זוויות מתאימות, ולכן $OP$ חוצה את $\\angle APB$.</p><p><strong>חלק ב — אנך למיתר:</strong></p><p>6. $PA = PB$ — צלעות מתאימות, ולכן $PAB$ שווה־שוקיים.<br>7. $OP$ חוצה את זווית הראש $\\angle APB$ במשולש שווה־שוקיים $PAB$, ולכן $OP$ גם גובה לבסיס $AB$.<br>8. לכן $OP \\perp AB$.</p>"
+  ],
+  "bank_sections": [],
+  "bank_answers": []
+}

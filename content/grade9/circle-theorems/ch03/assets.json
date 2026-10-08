@@ -1,0 +1,46 @@
+{
+  "short_title": "זווית היקפית הנשענת על קוטר",
+  "subtitle": "לנסח את המשפט: זווית היקפית הנשענת על קוטר היא ישרה",
+  "worksheet_note": "",
+  "worksheet": [
+    {
+      "title": "חישוב זוויות",
+      "tag": "easy",
+      "body": "<p>$AB$ קוטר ו-$C$ על המעגל. מצאו את הזוויות החסרות במשולש $ABC$.</p><ol type=\"a\"><li>$\\angle CAB = 28^\\circ$</li><li>$\\angle ABC = 63^\\circ$</li><li>$\\angle CAB = 45^\\circ$</li></ol>",
+      "lines": 4
+    },
+    {
+      "title": "אורכים",
+      "tag": "easy",
+      "body": "<p>$AB = 26$ הוא קוטר ו-$C$ על המעגל, $AC = 10$.</p><ol type=\"a\"><li>מה אורך $BC$?</li><li>מה הרדיוס?</li></ol>",
+      "lines": 4
+    },
+    {
+      "title": "רדיוס חוסם",
+      "tag": "med",
+      "body": "<ol type=\"a\"><li>במשולש ישר־זווית הניצבים $9$ ו-$12$. מה רדיוס המעגל החוסם?</li><li>מה שטח העיגול החוסם? (השאירו $\\pi$.)</li></ol>",
+      "lines": 4
+    },
+    {
+      "title": "משוואה בזוויות",
+      "tag": "med",
+      "body": "<p>$AB$ קוטר ו-$C$ על המעגל. נתון $\\angle CAB = x + 15$ ו-$\\angle ABC = 2x$.</p><ol type=\"a\"><li>כתבו משוואה ופתרו אותה.</li><li>מהן שלוש זוויות המשולש?</li></ol>",
+      "lines": 4
+    },
+    {
+      "title": "אתגר: משולש שווה־שוקיים על קוטר",
+      "tag": "hard",
+      "body": "<p>$AB = 20$ הוא קוטר, $C$ על המעגל, ו-$AC = BC$.</p><ol type=\"a\"><li>מצאו את $\\angle ABC$ ונמקו.</li><li>חשבו את $AC$ (השאירו שורש).</li><li>חשבו את שטח המשולש $ABC$.</li></ol>",
+      "lines": 4
+    }
+  ],
+  "worksheet_answers": [
+    "<ol type=\"a\"><li>$\\angle ACB = 90^\\circ$, $\\angle ABC = 90 - 28 = 62^\\circ$.</li><li>$\\angle ACB = 90^\\circ$, $\\angle CAB = 90 - 63 = 27^\\circ$.</li><li>$\\angle ACB = 90^\\circ$, $\\angle ABC = 90 - 45 = 45^\\circ$. המשולש שווה־שוקיים.</li></ol>",
+    "<ol type=\"a\"><li>$\\angle C = 90^\\circ$, ו-$AB$ היתר: $BC^2 = 676 - 100 = 576$, ולכן $BC = 24$.</li><li>$r = \\frac{26}{2} = 13$.</li></ol>",
+    "<ol type=\"a\"><li>היתר $\\sqrt{81 + 144} = 15$, והרדיוס $7.5$.</li><li>$S = \\pi r^2 = \\pi \\cdot 56.25 = 56.25\\pi$.</li></ol>",
+    "<ol type=\"a\"><li>$\\angle ACB = 90^\\circ$, ולכן שתי החדות משלימות ל-$90$:</li></ol><p>$$(x + 15) + 2x = 90 \\quad \\Rightarrow \\quad 3x = 75 \\quad \\Rightarrow \\quad x = 25$$</p><ol type=\"a\"><li>$\\angle CAB = 40^\\circ$, $\\angle ABC = 50^\\circ$, $\\angle ACB = 90^\\circ$. בדיקה: $40 + 50 + 90 = 180$.</li></ol>",
+    "<ol type=\"a\"><li>$\\angle ACB = 90^\\circ$ (נשענת על קוטר), והמשולש שווה־שוקיים ($AC = BC$), ולכן שתי הזוויות החדות שוות: $\\frac{90}{2} = 45^\\circ$.</li><li>$AC^2 + BC^2 = 400$ ו-$AC = BC$, ולכן $2 \\cdot AC^2 = 400$, $AC^2 = 200$, $AC = \\sqrt{200} = 10\\sqrt{2} \\approx 14.14$.</li><li>$\\frac{AC \\cdot BC}{2} = \\frac{200}{2} = 100$.</li></ol>"
+  ],
+  "bank_sections": [],
+  "bank_answers": []
+}

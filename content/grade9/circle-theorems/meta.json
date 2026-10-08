@@ -1,0 +1,21 @@
+{
+  "metadata": {
+    "title": "מתמטיקה לכיתה ט׳: מעגל ומשפטי מעגל",
+    "description": "לומדה בת חמישה פרקים על רכיבי מעגל, זוויות, משפט תאלס, משיקים והוכחות.",
+    "slug": "circle-theorems",
+    "level": "Intermediate",
+    "language": "Hebrew",
+    "estimated_hours": 8,
+    "include": [
+      "diagrams",
+      "exercises",
+      "printable-worksheet",
+      "interactive"
+    ]
+  },
+  "learning_objectives": [
+    "להשתמש במשפטי מעגל בפתרון בעיות",
+    "לכתוב נימוק גאומטרי מדויק",
+    "לקשור בין שרטוט, נתון ומשפט"
+  ]
+}
