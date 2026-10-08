@@ -1,0 +1,21 @@
+{
+  "metadata": {
+    "title": "מתמטיקה לכיתה ט׳: גופים תלת־ממדיים — נפח ושטח פנים",
+    "description": "לומדה בת חמישה פרקים על מנסרות, תיבות וגלילים, רשתות, נפח ושטח פנים.",
+    "slug": "three-dimensional-solids",
+    "level": "Intermediate",
+    "language": "Hebrew",
+    "estimated_hours": 8,
+    "include": [
+      "diagrams",
+      "exercises",
+      "printable-worksheet",
+      "interactive"
+    ]
+  },
+  "learning_objectives": [
+    "לחשב נפח ושטח פנים של גופים",
+    "לבחור נוסחה לפי הקשר",
+    "לצרף יחידות נכונות ולנמק"
+  ]
+}
