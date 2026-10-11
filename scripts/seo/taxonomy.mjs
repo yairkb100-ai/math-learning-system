@@ -265,8 +265,9 @@ export const KARNI_AREAS = [
     slug: 'quant',
     title: 'חשיבה כמותית',
     description:
-      'מספרים, שברים ואחוזים, גאומטריה, בעיות מילוליות ואסטרטגיות פתרון מהירות לפרק הכמותי.',
+      'זריזות ודיוק בחשבון, מספרים, שברים ואחוזים, גאומטריה, בעיות מילוליות ואסטרטגיות פתרון מהירות לפרק הכמותי.',
     courseSlugs: [
+      'karni-quant-arithmetic-fluency',
       'karni-quant-numbers',
       'karni-quant-geometry',
       'karni-quant-word-problems',

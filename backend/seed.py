@@ -1598,6 +1598,7 @@ _PSY_SECTIONS = [
         "description": "חשבון, שברים ואחוזים, יחס, אלגברה בסיסית, גאומטריה וקריאת נתונים — ברמת חומר חטיבת הביניים ובקצב של מבחן קבלה",
         "order": 2,
         "course_slugs": [
+            "karni-quant-arithmetic-fluency",
             "karni-quant-numbers",
             "karni-quant-word-problems",
             "karni-quant-geometry",
