@@ -43,6 +43,22 @@ function toPlainText(md) {
     .replace(/\{\{[^}]*\}\}/g, ' ') // art tokens
     .replace(/\$\$([^$]*)\$\$/g, ' ')
     .replace(/\\frac\{([^}]*)\}\{([^}]*)\}/g, '$1/$2')
+    // Symbols and function names that carry meaning must survive: dropping
+    // "\log" turned "x = \log_2 1000" into "x = 2 1000", and "\%" kept its
+    // backslash, and "180^\circ" lost its degree sign.
+    .replace(/\\%/g, '%')
+    .replace(/\^\s*\{?\\circ\}?/g, '°')
+    // (?![a-zA-Z]) rather than \b: "_" counts as a word character, so
+    // "\log_2" would never match "\log\b".
+    .replace(/\\(log|ln|sin|cos|tan)(?![a-zA-Z])/g, '$1')
+    .replace(/\\cdot(?![a-zA-Z])/g, '·')
+    .replace(/\\times(?![a-zA-Z])/g, '×')
+    .replace(/\\div(?![a-zA-Z])/g, '÷')
+    .replace(/\\(?:le|leq)(?![a-zA-Z])/g, '≤')
+    .replace(/\\(?:ge|geq)(?![a-zA-Z])/g, '≥')
+    .replace(/\\neq(?![a-zA-Z])/g, '≠')
+    .replace(/\\approx(?![a-zA-Z])/g, '≈')
+    .replace(/\\pi(?![a-zA-Z])/g, 'π')
     .replace(/\\[a-zA-Z]+/g, ' ')
     .replace(/[$*_`#>|]/g, '')
     .replace(/\\\\/g, ' ')
