@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import api from '../api.js'
 import MathText, { isLatinText } from '../components/MathText.jsx'
 import { Loading, ErrorBox } from '../components/Status.jsx'
@@ -63,6 +63,14 @@ export default function PsyResults() {
     }
   }, [attemptId])
 
+  const wrongRefs = useMemo(
+    () => (data ? data.review.filter((r) => !r.is_correct).map((r) => r.ref) : []),
+    [data]
+  )
+
+  // הסקירה מרונדרת בלי stagger/layout/AnimatePresence: בסקירת "הכול" יש 100+ שאלות,
+  // ומדרגות של 40ms לכל אחת השאירו את התחתונות שקופות עד כמה שניות (ובטאב ברקע —
+  // לעולם). זה תוכן שחייבים לראות.
   const review = useMemo(() => {
     if (!data) return []
     if (filter === 'all') return data.review
@@ -235,6 +243,14 @@ export default function PsyResults() {
               <IconRefresh /> לעשות את המבחן שוב
             </Link>
           )}
+          {wrongRefs.length > 0 && (
+            <Link
+              to={`/psy/quiz?refs=${wrongRefs.slice(0, 50).join(',')}`}
+              className="btn btn-primary"
+            >
+              <IconRefresh /> תרגול חוזר על {wrongRefs.length === 1 ? 'השאלה השגויה' : `${Math.min(wrongRefs.length, 50)} השאלות השגויות`}
+            </Link>
+          )}
           <Link to="/psy" className="btn btn-secondary">
             לכל המבחנים והנושאים
           </Link>
@@ -366,19 +382,11 @@ export default function PsyResults() {
                 : 'אין שאלות להצגה.'}
           </p>
         ) : (
-          <motion.ol
-            className="psy-review"
-            variants={staggerContainer}
-            initial="hidden"
-            animate="show"
-          >
-            <AnimatePresence>
+          <ol className="psy-review">
             {review.map((r) => (
-              <motion.li
+              <li
                 key={r.ref}
                 className={`psy-review-item${r.is_correct ? ' is-correct' : ' is-wrong'}`}
-                variants={fadeInUp}
-                layout
               >
                 <div className="psy-review-meta">
                   <span>{r.topic}</span>
@@ -447,10 +455,9 @@ export default function PsyResults() {
                     <MathText text={r.solution} />
                   </details>
                 )}
-              </motion.li>
+              </li>
             ))}
-            </AnimatePresence>
-          </motion.ol>
+          </ol>
         )}
       </motion.section>
     </div>
