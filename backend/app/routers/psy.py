@@ -316,7 +316,26 @@ def _sim_out(
         level=sim.level,
         total_minutes=sum(s.minutes for s in sim.sections),
         total_questions=sum(s.num_questions for s in sim.sections),
-        sections=[PsySimSectionInfo.model_validate(s) for s in sim.sections],
+        sections=[
+            PsySimSectionInfo(
+                order=section.order,
+                domain=section.domain,
+                title=section.title,
+                minutes=section.minutes,
+                num_questions=section.num_questions,
+                # Keep authored order while removing duplicates.  A mixed
+                # exam such as "בעיות מילוליות" can therefore appear under
+                # every topic it actually tests, including "תנועה".
+                topics=list(
+                    dict.fromkeys(
+                        row["topic"]
+                        for row in (section.blueprint or [])
+                        if row.get("topic")
+                    )
+                ),
+            )
+            for section in sim.sections
+        ],
         locked=locked,
         best_percent=max(totals) if totals else None,
         attempts_count=len(attempts),

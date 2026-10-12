@@ -2082,6 +2082,168 @@
   }
 }
 
+.psy-topic-library {
+  margin-top: 8px;
+  margin-bottom: 34px;
+}
+
+/* ---------- topic hub: learn / practise / test ---------- */
+.psy-crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.psy-crumbs a {
+  color: var(--accent);
+  font-weight: 700;
+}
+.psy-topic-hero {
+  grid-template-columns: minmax(0, 1fr);
+}
+.psy-topic-hero p {
+  max-width: 68ch;
+}
+.psy-topic-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.psy-topic-facts span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 4px 11px;
+  border: 1px solid var(--chalk-line);
+  border-radius: 999px;
+  color: var(--chalk);
+  font-weight: 700;
+  font-size: 0.84rem;
+}
+.psy-topic-actions {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 22px 0 0;
+  padding: 0;
+}
+.psy-topic-actions > li,
+.psy-topic-action-wrap {
+  display: flex;
+  min-width: 0;
+  height: 100%;
+}
+.psy-topic-action {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  min-height: 220px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-inline-start: 4px solid var(--lv, var(--accent));
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow);
+}
+.psy-topic-action:hover {
+  border-color: var(--lv, var(--accent));
+  color: var(--text);
+  text-decoration: none;
+}
+.psy-topic-action.is-disabled {
+  opacity: 0.72;
+}
+.psy-topic-action-number {
+  position: absolute;
+  inset-block-start: 16px;
+  inset-inline-end: 16px;
+  font-family: var(--font-display);
+  color: var(--muted);
+}
+.psy-topic-action-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: var(--lv-bg, var(--surface-2));
+  color: var(--lv, var(--accent));
+  font-size: 1.5rem;
+}
+.psy-topic-action-title {
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  line-height: 1.2;
+  color: var(--lv, var(--accent));
+}
+.psy-topic-action-copy {
+  flex: 1 1 auto;
+  color: var(--muted);
+  line-height: 1.65;
+}
+.psy-topic-action-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 44px;
+  color: var(--lv, var(--accent));
+  font-weight: 800;
+}
+.psy-topic-action-cta svg {
+  width: 18px;
+  height: 18px;
+}
+.psy-topic-exams {
+  scroll-margin-top: 24px;
+}
+.psy-topic-exam-state {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.psy-topic-no-exams {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-inline-start: 4px solid var(--accent);
+  background: var(--surface);
+}
+.psy-topic-no-exams > svg {
+  color: var(--accent-2);
+  font-size: 1.5rem;
+}
+.psy-topic-no-exams p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+@media (max-width: 760px) {
+  .psy-topic-actions {
+    grid-template-columns: 1fr;
+  }
+  .psy-topic-action {
+    min-height: 0;
+  }
+  .psy-topic-no-exams {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+  .psy-topic-no-exams .psy-btn {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+}
+
 /* ---------- רוחב הכרטיסים לפי מידת המסך ----------
    הבלוק הזה חייב לשבת בסוף הקובץ. כללי הבסיס של הרשימות מפוזרים למעלה, ומדיה-
    קוורי שיושב באמצע הקובץ מפסיד להם בסדר המקור — בדיוק מה שקרה קודם והשאיר חצי

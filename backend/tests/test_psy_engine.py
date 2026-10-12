@@ -192,6 +192,11 @@ check("overview 200", r.status_code == 200, r.text[:200])
 check("one recent attempt", len(ov["recent_attempts"]) == 1, str(len(ov["recent_attempts"])))
 check("weak topics computed", len(ov["weakest_topics"]) >= 1, str(ov["weakest_topics"]))
 check("no open attempt left", ov["open_attempt"] is None)
+check(
+    "overview exposes each simulation section's topics",
+    ov["simulations"][0]["sections"][0]["topics"] == ["אחוזים"],
+    str(ov["simulations"][0]["sections"][0]),
+)
 
 print("\n[13] two sections of the same domain never repeat a question")
 # The real mock has two quantitative sections. Drawn from a bank barely larger

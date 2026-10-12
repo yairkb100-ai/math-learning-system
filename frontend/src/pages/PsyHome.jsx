@@ -33,6 +33,10 @@ const DOMAIN_HE = {
   english: 'אנגלית',
   mechanical: 'כושר מכני',
 }
+const DOMAIN_LIBRARY_HE = {
+  quantitative: 'חשיבה כמותית',
+  verbal: 'חשיבה מילולית',
+}
 const DOMAIN_ORDER = ['verbal', 'quantitative', 'figural', 'logic', 'spatial', 'speed', 'mechanical', 'english']
 
 // כמותי ומילולי הם ליבת המבחן — הם מקבלים כותרת מלאה, שורת סיכום וכרטיסים
@@ -151,6 +155,9 @@ function mastery(t) {
 /** שורת נושא: עיגול-סטטוס, שם, מונים, ו-CTA בקצה. בלי מסגרת — קו שיער מפריד. */
 function TopicRow({ t }) {
   const m = mastery(t)
+  const topicLabel = t.chapter_title?.startsWith('בעיות ')
+    ? t.chapter_title.split(':')[0]
+    : t.topic
   // בדרגת free הכרטיס אומר גם כמה באמת פתוחות, ואותו כלל נשמר כאן.
   const open = t.open_count != null && t.open_count < t.count ? t.open_count : t.count
   return (
@@ -159,7 +166,7 @@ function TopicRow({ t }) {
         {m.key !== 'new' && <IconCheck />}
       </span>
       <span className="psy-trow-body">
-        <span className="psy-trow-name">{t.topic}</span>
+        <span className="psy-trow-name">{topicLabel}</span>
         <span className="psy-trow-meta">
           {open === t.count ? `${t.count} שאלות במאגר` : `${open} מתוך ${t.count} שאלות`}
           {' · '}
@@ -170,9 +177,9 @@ function TopicRow({ t }) {
       </span>
       <Link
         className="psy-trow-cta"
-        to={`/psy/drill?domain=${t.domain}&topic=${encodeURIComponent(t.topic)}`}
+        to={`/psy/topics/${encodeURIComponent(t.domain)}/${encodeURIComponent(t.topic)}`}
       >
-        {t.answered ? 'להמשיך לתרגל' : 'להתחיל לתרגל'}
+        כניסה לנושא
       </Link>
     </motion.li>
   )
@@ -414,7 +421,14 @@ export default function PsyHome() {
   const categories = [
     ...DOMAIN_ORDER.slice()
       .sort((a, b) => domainRank(a) - domainRank(b))
-      .map((d) => buildCat(d, DOMAIN_HE[d] || d, DOMAIN_RAMP[d] || '', CORE_DOMAINS.includes(d))),
+      .map((d) =>
+        buildCat(
+          d,
+          DOMAIN_LIBRARY_HE[d] || DOMAIN_HE[d] || d,
+          DOMAIN_RAMP[d] || '',
+          CORE_DOMAINS.includes(d),
+        ),
+      ),
     buildCat('full', 'סימולציות מלאות', ''),
     buildCat('other', 'שאר הקורסים', ''),
   ].filter(Boolean)
@@ -586,8 +600,10 @@ export default function PsyHome() {
         <motion.section className="psy-panel" variants={fadeInUp} initial="hidden" animate="show">
           <div className="psy-panel-head">
             <div>
-              <h2>בחרו תחום</h2>
-              <p className="psy-section-lead">בכל תחום מחכים קורסים, תרגול ממוקד ומבחנים.</p>
+              <h2>ספריית הנושאים</h2>
+              <p className="psy-section-lead">
+                בחרו תחום, אחר כך נושא, ובתוכו החליטו אם ללמוד, לתרגל או להיבחן.
+              </p>
             </div>
             <Link to="/psy/drill" className="psy-link">לכל התרגול</Link>
           </div>
@@ -631,12 +647,38 @@ export default function PsyHome() {
         animate="show"
       >
         <div className="psy-panel-head">
-          <h2 className="psy-cat-open-title">{openCat.title}</h2>
+          <h2 className="psy-cat-open-title">ספריית הנושאים · {openCat.title}</h2>
           <button type="button" className="psy-link psy-cat-back" onClick={() => setParams({})}>
             חזרה לכל הקטגוריות
           </button>
         </div>
-        {shownCourseGroups.length === 0 && shownLooseDomains.length === 0 ? (
+        {catTopics(openCat.key).length > 0 && (
+          <div className="psy-open-practice psy-topic-library">
+            <div className="psy-subsection-head">
+              <h3>הנושאים בתחום</h3>
+              <Link className="psy-link" to={`/psy/drill?domain=${openCat.key}`}>
+                לתרגול כללי בתחום
+              </Link>
+            </div>
+            <p className="psy-section-lead">
+              בכל נושא מחכים באותו מקום ההסבר, התרגול והמבחנים המתאימים לו.
+            </p>
+            <motion.ul
+              className="psy-trows"
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: '-20px' }}
+            >
+              {catTopics(openCat.key).map((t) => (
+                <TopicRow key={`${t.domain}-${t.topic}`} t={t} />
+              ))}
+            </motion.ul>
+          </div>
+        )}
+        {shownCourseGroups.length === 0 &&
+        shownLooseDomains.length === 0 &&
+        catTopics(openCat.key).length === 0 ? (
           <p className="psy-empty">
             קורסי התיאוריה נכתבים כעת. בינתיים אפשר להתחיל מהתרגול הממוקד ומהמיני-תרגולים.
           </p>
@@ -681,26 +723,6 @@ export default function PsyHome() {
           })
         )}
 
-        {catTopics(openCat.key).length > 0 && (
-          <div className="psy-open-practice">
-            <div className="psy-subsection-head">
-              <h3>תרגול לפי נושא</h3>
-              <Link className="psy-link" to={`/psy/drill?domain=${openCat.key}`}>לכל התרגול בתחום</Link>
-            </div>
-            <p className="psy-section-lead">בחרו נושא אחד ותרגלו אותו בקצב אישי.</p>
-            <motion.ul
-              className="psy-trows"
-              variants={staggerContainer}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, margin: '-20px' }}
-            >
-              {catTopics(openCat.key).map((t) => (
-                <TopicRow key={`${t.domain}-${t.topic}`} t={t} />
-              ))}
-            </motion.ul>
-          </div>
-        )}
       </motion.section>
 
       <motion.section

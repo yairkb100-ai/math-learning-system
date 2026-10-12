@@ -8,7 +8,7 @@ touch at once.
 from datetime import datetime
 from typing import Dict, List, Optional
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 
 # ---------------------------------------------------------------------------
@@ -90,6 +90,9 @@ class PsySimSectionInfo(BaseModel):
     title: str
     minutes: int
     num_questions: int
+    # Topics drawn by this section's blueprint.  The topic library uses this
+    # to show only the exams that genuinely cover the selected topic.
+    topics: List[str] = Field(default_factory=list)
 
     model_config = ConfigDict(from_attributes=True)
 

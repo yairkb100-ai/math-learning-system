@@ -38,6 +38,7 @@ import AdminLessons from './pages/AdminLessons.jsx'
 import ReferralPage from './pages/ReferralPage.jsx'
 import PsyHome from './pages/PsyHome.jsx'
 import PsyDrill from './pages/PsyDrill.jsx'
+import PsyTopic from './pages/PsyTopic.jsx'
 import PsySimPlayer from './pages/PsySimPlayer.jsx'
 import PsyResults from './pages/PsyResults.jsx'
 import MatricesPractice from './pages/MatricesPractice.jsx'
@@ -173,6 +174,14 @@ function AppRoutes() {
             element={
               <PrivateRoute>
                 <PsyDrill />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/psy/topics/:domain/:topic"
+            element={
+              <PrivateRoute>
+                <PsyTopic />
               </PrivateRoute>
             }
           />
