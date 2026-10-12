@@ -2115,3 +2115,183 @@
     max-width: none;
   }
 }
+
+/* ---------- סקירת תשובות עם איורים ----------
+   תשובה ציורית בסקירה הייתה שורה ברוחב מלא עם איור בגודל טבעי (~200px) והתג
+   "התשובה הנכונה" רחוק בקצה — ארבע תשובות תפסו כמה מסכים. כאן אפשרויות
+   שמכילות איור הופכות לאריחים קטנים בשורה אחת (2 במסך צר), האיור מוגבל
+   בגובה, והתג יושב מתחתיו. */
+.psy-review-options:has(svg),
+.psy-review-options:has(.art-row) {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+.psy-review-options:has(svg) .psy-review-option,
+.psy-review-options:has(.art-row) .psy-review-option {
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+  padding: 10px 8px;
+  text-align: center;
+}
+.psy-review-options:has(svg) .psy-review-option .art-fig,
+.psy-review-options:has(.art-row) .psy-review-option .art-fig {
+  order: 2;
+}
+.psy-review-options:has(svg) .psy-review-option .psy-tag,
+.psy-review-options:has(.art-row) .psy-review-option .psy-tag {
+  order: 3;
+  margin-inline-start: 0;
+  white-space: normal;
+  font-size: 0.74rem;
+  line-height: 1.2;
+}
+.psy-review-option svg {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 96px;
+}
+.psy-review-options:has(svg) .psy-review-option svg,
+.psy-review-options:has(.art-row) .psy-review-option svg {
+  max-width: 120px;
+}
+@media (max-width: 640px) {
+  .psy-review-options:has(svg),
+  .psy-review-options:has(.art-row) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+/* גם איור השאלה עצמה בסקירה לא צריך למלא מסך. */
+.psy-review-item .psy-figure svg {
+  max-height: 220px;
+  width: auto;
+}
+
+/* ---------- דף נושא: ללמוד / לתרגל / להיבחן ---------- */
+.psy-crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+.psy-crumbs a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+.psy-crumbs a:hover {
+  text-decoration: underline;
+}
+.psy-topic-head h1 {
+  font-family: var(--font-display);
+  margin: 0 0 6px;
+}
+.psy-topic-sub {
+  margin: 0 0 18px;
+  color: var(--muted);
+}
+.psy-three {
+  list-style: none;
+  margin: 0 0 22px;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+.psy-three-wrap {
+  height: 100%;
+}
+.psy-three-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 100%;
+  min-height: 190px;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-top: 4px solid var(--lv, var(--accent));
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--text);
+  text-decoration: none;
+}
+.psy-three-card.is-soon {
+  opacity: 0.7;
+}
+.psy-three-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--lv-bg, var(--surface-2));
+  color: var(--lv, var(--accent));
+}
+.psy-three-icon svg {
+  width: 24px;
+  height: 24px;
+}
+.psy-three-title {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+}
+.psy-three-desc {
+  color: var(--muted);
+  line-height: 1.55;
+  flex: 1;
+}
+.psy-three-cta {
+  font-weight: 700;
+  color: var(--lv, var(--accent));
+}
+@media (max-width: 760px) {
+  .psy-three {
+    grid-template-columns: 1fr;
+  }
+  .psy-three-card {
+    min-height: 0;
+  }
+}
+
+/* ---------- מבחן ללא זמן ---------- */
+.psy-quiz-progress {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  overflow: hidden;
+  margin: 0 0 14px;
+}
+.psy-quiz-progress-fill {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transform-origin: right center;
+  transition: transform 0.25s ease-out;
+}
+.psy-quiz-untimed {
+  margin-inline-start: 12px;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+.psy-quiz-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 16px 0;
+}
+.psy-quiz-actions .psy-btn {
+  text-decoration: none;
+  min-height: 44px;
+}
+.psy-review-options:has(svg) .psy-review-option,
+.psy-review-options:has(.art-row) .psy-review-option {
+  justify-self: stretch;
+  width: auto;
+  min-height: 96px;
+}

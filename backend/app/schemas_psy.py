@@ -90,6 +90,7 @@ class PsySimSectionInfo(BaseModel):
     title: str
     minutes: int
     num_questions: int
+    topics: List[str] = []
 
     model_config = ConfigDict(from_attributes=True)
 

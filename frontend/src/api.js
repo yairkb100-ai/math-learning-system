@@ -600,11 +600,12 @@ export const api = {
 
   psyTopics: (domain = null) =>
     request(`/psy/topics${domain ? `?domain=${encodeURIComponent(domain)}` : ''}`),
-  psyDrill: ({ domain, topic, difficulty, limit = 10 } = {}) => {
+  psyDrill: ({ domain, topic, difficulty, limit = 10, refs } = {}) => {
     const p = new URLSearchParams()
     if (domain) p.set('domain', domain)
     if (topic) p.set('topic', topic)
     if (difficulty) p.set('difficulty', difficulty)
+    if (refs && refs.length) p.set('refs', refs.join(','))
     p.set('limit', limit)
     return request(`/psy/drill?${p.toString()}`)
   },

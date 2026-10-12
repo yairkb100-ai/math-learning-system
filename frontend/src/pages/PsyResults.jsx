@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import api from '../api.js'
 import MathText, { isLatinText } from '../components/MathText.jsx'
 import { Loading, ErrorBox } from '../components/Status.jsx'
@@ -36,6 +36,9 @@ export default function PsyResults() {
     }
   }, [attemptId])
 
+  // הסקירה מרונדרת בלי stagger / layout / AnimatePresence: בסקירת "הכול" יש 100+
+  // שאלות, ומדרגות של 40ms לכל אחת השאירו את התחתונות שקופות עד כמה שניות (ובטאב
+  // ברקע — לעולם). זה תוכן שחייבים לראות.
   const review = useMemo(() => {
     if (!data) return []
     if (filter === 'all') return data.review
@@ -58,6 +61,7 @@ export default function PsyResults() {
     previous && data.score_percent != null && previous.score_percent != null
       ? data.score_percent - previous.score_percent
       : null
+  const wrongRefs = data.review.filter((r) => !r.is_correct).map((r) => r.ref)
   const totalCorrect = Object.values(data.domain_scores).reduce((a, d) => a + d.correct, 0)
   const totalAsked = Object.values(data.domain_scores).reduce((a, d) => a + d.total, 0)
 
@@ -121,6 +125,18 @@ export default function PsyResults() {
           })}
         </motion.div>
       </motion.section>
+
+      {wrongRefs.length > 0 && (
+        <div className="psy-quiz-actions">
+          <Link
+            className="psy-btn psy-btn-primary"
+            to={`/psy/quiz?refs=${wrongRefs.slice(0, 50).join(',')}`}
+          >
+            תרגול חוזר על {wrongRefs.length === 1 ? 'השאלה השגויה' : `${Math.min(wrongRefs.length, 50)} השאלות השגויות`}
+          </Link>
+          <Link className="psy-btn" to="/psy">לשאר התרגולים</Link>
+        </div>
+      )}
 
       <motion.p className="psy-disclaimer" variants={fadeIn} initial="hidden" animate="show">
         מכון קרני אינו מפרסם טבלת המרה לציון, וכל בית ספר קובע לעצמו את רף הקבלה. לכן מוצג כאן אחוז
@@ -244,19 +260,11 @@ export default function PsyResults() {
         {review.length === 0 ? (
           <p className="psy-empty">אין שאלות בקטגוריה הזו.</p>
         ) : (
-          <motion.ol
-            className="psy-review"
-            variants={staggerContainer}
-            initial="hidden"
-            animate="show"
-          >
-            <AnimatePresence>
+          <ol className="psy-review">
             {review.map((r) => (
-              <motion.li
+              <li
                 key={r.ref}
                 className={`psy-review-item${r.is_correct ? ' is-correct' : ' is-wrong'}`}
-                variants={fadeInUp}
-                layout
               >
                 <div className="psy-review-meta">
                   <span>{r.topic}</span>
@@ -281,7 +289,7 @@ export default function PsyResults() {
                     <MathText text={r.figure} />
                   </div>
                 )}
-                <ul className="psy-review-options">
+                <ul className={`psy-review-options${r.domain === 'figural' || r.domain === 'spatial' ? ' is-visual' : ''}`}>
                   {r.options.map((opt, i) => (
                     <li
                       key={i}
@@ -314,10 +322,9 @@ export default function PsyResults() {
                     <MathText text={r.solution} />
                   </details>
                 )}
-              </motion.li>
+              </li>
             ))}
-            </AnimatePresence>
-          </motion.ol>
+          </ol>
         )}
       </motion.section>
     </div>

@@ -170,9 +170,9 @@ function TopicRow({ t }) {
       </span>
       <Link
         className="psy-trow-cta"
-        to={`/psy/drill?domain=${t.domain}&topic=${encodeURIComponent(t.topic)}`}
+        to={`/psy/topic?domain=${t.domain}&topic=${encodeURIComponent(t.topic)}`}
       >
-        {t.answered ? 'להמשיך לתרגל' : 'להתחיל לתרגל'}
+        {t.answered ? 'להמשיך בנושא' : 'כניסה לנושא'}
       </Link>
     </motion.li>
   )
@@ -423,9 +423,17 @@ export default function PsyHome() {
   // ואחרת רק מה ששייך לקטגוריה.
   const shownCourseGroups = openCat ? catCourses(openCat.key) : []
   const shownLooseDomains = openCat ? looseDomains.filter((d) => d === openCat.key) : []
+  // מבחן של נושא בודד שקיים בנושאי התחום יושב בדף הנושא שלו (ללמוד/לתרגל/להיבחן),
+  // ולא ברשימה הכללית — אחרת הוא היה מופיע פעמיים.
+  const topicNames = new Set(catTopics(openCat?.key).map((t) => t.topic))
+  const isTopicSim = (x) =>
+    x.sections.length === 1 &&
+    x.sections[0].topics?.length === 1 &&
+    topicNames.has(x.sections[0].topics[0])
+  const mappedCourseIds = new Set(catTopics(openCat?.key).map((t) => t.course_id).filter((v) => v != null))
   const shownSimGroups = openCat
     ? simGroups
-        .map(([kind, list]) => [kind, list.filter((x) => simCat(x) === openCat.key)])
+        .map(([kind, list]) => [kind, list.filter((x) => simCat(x) === openCat.key && !isTopicSim(x))])
         .filter(([, list]) => list.length > 0)
     : []
 
@@ -631,17 +639,38 @@ export default function PsyHome() {
         animate="show"
       >
         <div className="psy-panel-head">
-          <h2 className="psy-cat-open-title">{openCat.title}</h2>
+          <h2 className="psy-cat-open-title">{openCat.title} · ספריית הנושאים</h2>
           <button type="button" className="psy-link psy-cat-back" onClick={() => setParams({})}>
             חזרה לכל הקטגוריות
           </button>
         </div>
-        {shownCourseGroups.length === 0 && shownLooseDomains.length === 0 ? (
+        {catTopics(openCat.key).length > 0 && (
+          <div className="psy-open-practice">
+            <p className="psy-section-lead">
+              בחרו נושא. בכל נושא שלוש דרכים לעבוד: ללמוד, לתרגל ולהיבחן.
+            </p>
+            <motion.ul
+              className="psy-trows"
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: '-20px' }}
+            >
+              {catTopics(openCat.key).map((t) => (
+                <TopicRow key={`${t.domain}-${t.topic}`} t={t} />
+              ))}
+            </motion.ul>
+          </div>
+        )}
+
+        {shownCourseGroups.length === 0 && shownLooseDomains.length === 0 && catTopics(openCat.key).length === 0 ? (
           <p className="psy-empty">
             קורסי התיאוריה נכתבים כעת. בינתיים אפשר להתחיל מהתרגול הממוקד ומהמיני-תרגולים.
           </p>
         ) : (
-          shownCourseGroups.map(({ title, list, domain: d, core }) => {
+          shownCourseGroups.map(({ title, list: fullList, domain: d, core }) => {
+            const list = fullList.filter((c) => !mappedCourseIds.has(c.id))
+            if (list.length === 0) return null
             const done = list.reduce((n, c) => n + c.completed_chapters, 0)
             const total = list.reduce((n, c) => n + c.chapters_count, 0)
             return (
@@ -681,36 +710,17 @@ export default function PsyHome() {
           })
         )}
 
-        {catTopics(openCat.key).length > 0 && (
-          <div className="psy-open-practice">
-            <div className="psy-subsection-head">
-              <h3>תרגול לפי נושא</h3>
-              <Link className="psy-link" to={`/psy/drill?domain=${openCat.key}`}>לכל התרגול בתחום</Link>
-            </div>
-            <p className="psy-section-lead">בחרו נושא אחד ותרגלו אותו בקצב אישי.</p>
-            <motion.ul
-              className="psy-trows"
-              variants={staggerContainer}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, margin: '-20px' }}
-            >
-              {catTopics(openCat.key).map((t) => (
-                <TopicRow key={`${t.domain}-${t.topic}`} t={t} />
-              ))}
-            </motion.ul>
-          </div>
-        )}
       </motion.section>
 
+      {shownSimGroups.length > 0 && (
       <motion.section
         className={`psy-panel ${openCat.ramp}`}
         variants={fadeInUp}
         initial="hidden"
         animate="show"
       >
-        <h2>מבחנים בתנאי אמת</h2>
-        <p className="psy-plan-sub">כשסיימתם נושא — כאן בודקים אותו על השעון.</p>
+        <h2>מבחנים כלליים בתחום</h2>
+        <p className="psy-plan-sub">מבחנים שחוצים כמה נושאים — בתנאי אמת, על השעון.</p>
         {shownSimGroups.map(([kind, list]) => (
           <div key={kind} className="psy-sim-kind">
             <h3 className="psy-sim-kind-title">{KIND_HE_TITLE[kind] || KIND_HE[kind] || kind}</h3>
@@ -768,6 +778,7 @@ export default function PsyHome() {
           </div>
         ))}
       </motion.section>
+      )}
         </>
       )}
 

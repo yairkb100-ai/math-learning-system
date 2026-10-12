@@ -890,6 +890,17 @@ class PsySimSection(Base):
 
     simulation = relationship("PsySimulation", back_populates="sections")
 
+    @property
+    def topics(self) -> list:
+        """Distinct topics named in the blueprint — lets the UI file a
+        single-topic test under its topic page without a schema change."""
+        seen: list = []
+        for row in self.blueprint or []:
+            t = row.get("topic") if isinstance(row, dict) else None
+            if t and t not in seen:
+                seen.append(t)
+        return seen
+
 
 class PsyAttempt(Base):
     """A student's run through a simulation.
