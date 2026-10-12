@@ -73,6 +73,7 @@ export default function PsyResults() {
     return data.review.filter((r) => !r.is_correct)
   }, [data, filter])
 
+  if (error && /no_active_subscription/.test(String(error.message))) return <Loading />
   if (error)
     return (
       <section dir="rtl" className="sa-page">
@@ -133,7 +134,7 @@ export default function PsyResults() {
         transition={{ duration: DURATION.long, ease: EASE_OUT }}
       >
         <div className="psy-score-main">
-          <div className="psy-score-label">אחוז הצלחה בסימולציה</div>
+          <div className="psy-score-label">אחוז ההצלחה במבחן</div>
           <motion.div
             className="psy-score-value"
             initial={{ opacity: 0, scale: 0.85 }}

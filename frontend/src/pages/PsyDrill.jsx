@@ -173,6 +173,7 @@ export default function PsyDrill() {
   const scopeOpen = scope.reduce((n, t) => n + (t.open_count != null ? t.open_count : t.count), 0)
   const limited = scopeTotal > 0 && scopeOpen < scopeTotal
 
+  if (error && /no_active_subscription/.test(String(error.message))) return <Loading />
   if (error)
     return (
       <section dir="rtl" className="sa-page">

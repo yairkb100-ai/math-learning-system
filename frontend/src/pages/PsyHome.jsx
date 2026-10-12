@@ -330,6 +330,9 @@ export default function PsyHome() {
     return null
   }, [data])
 
+  // 402 no_active_subscription: api.js כבר מעביר לעמוד המנוי; עד שהניווט קורה לא
+  // מציגים את קוד השגיאה הגולמי.
+  if (error && /no_active_subscription/.test(String(error.message))) return <Loading />
   if (error) return <ErrorBox error={error} />
   if (!data) return <Loading />
 

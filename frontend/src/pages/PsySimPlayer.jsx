@@ -366,6 +366,7 @@ export default function PsySimPlayer() {
         </div>
       </section>
     )
+  if (error && /no_active_subscription/.test(String(error.message))) return <Loading />
   if (error)
     return (
       <section dir="rtl" className="sa-page">
