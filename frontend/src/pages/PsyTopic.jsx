@@ -259,6 +259,23 @@ export default function PsyTopic() {
           </div>
         </div>
 
+        <ul className="psy-trows psy-topic-quiz-row">
+          <li className="psy-trow">
+            <span className="psy-trow-state psy-topic-exam-state" aria-hidden="true">
+              <IconCheck />
+            </span>
+            <span className="psy-trow-body">
+              <span className="psy-trow-name">מבחן ללא זמן</span>
+              <span className="psy-trow-meta">
+                10 שאלות · בלי שעון · נכון/לא נכון והסבר אחרי כל תשובה · בסוף אפשר לתרגל שוב את הטעויות
+              </span>
+            </span>
+            <Link className="psy-trow-cta" to={`/psy/quiz?domain=${encodeURIComponent(domain)}&topic=${encodeURIComponent(topic)}`}>
+              להתחיל
+            </Link>
+          </li>
+        </ul>
+
         {exams.length > 0 ? (
           <ul className="psy-trows">
             {exams.map((exam) => (

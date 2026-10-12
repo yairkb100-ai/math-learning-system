@@ -941,12 +941,18 @@ def drill_questions(
     qtype: Optional[str] = Query(None),
     difficulty: Optional[int] = Query(None, ge=1, le=5),
     limit: int = Query(10, ge=1, le=50),
+    # refs מופרדים בפסיקים — "תרגול חוזר" על שאלות מסוימות (למשל הטעויות
+    # במבחן). שאר המסננים ומנגנון הטעימה עדיין חלים.
+    refs: Optional[str] = Query(None, max_length=4000),
     db: Session = Depends(get_db),
     current_user: models.User = Depends(get_current_user),
 ) -> List[PsyItemOut]:
     q = _approved_shape_only(db.query(models.PsyItem)).filter(
         models.PsyItem.is_active.is_(True)
     )
+    if refs:
+        wanted = [r.strip() for r in refs.split(",") if r.strip()][:50]
+        q = q.filter(models.PsyItem.ref.in_(wanted))
     if domain:
         q = q.filter(models.PsyItem.domain == domain)
     if topic:
