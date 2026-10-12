@@ -752,6 +752,14 @@ body:has(.psy-player) .invite-fab-wrap {
   color: var(--accent);
   text-decoration-color: var(--accent);
 }
+@media (max-width: 640px) {
+  /* קישור שם הנושא הוא יעד מגע בפני עצמו: ≥44px */
+  .psy-topic-name a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
 .psy-review-locked {
   display: flex;
   flex-wrap: wrap;
