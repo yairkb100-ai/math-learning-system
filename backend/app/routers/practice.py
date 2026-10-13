@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session
 
 from app import models
 from app.access import TIER_FREE, unlocked_practice_ids
+from app.answers import answers_match
 from app.database import get_db
 from app.dependencies import get_current_user, user_content_access
 from app.achievements import evaluate_achievements
@@ -20,11 +21,6 @@ from app.schemas import (
 )
 
 router = APIRouter(prefix="/api/practice", tags=["practice"])
-
-
-def _normalize(value: str) -> str:
-    """Normalize an answer for lenient comparison (trim + case-fold)."""
-    return (value or "").strip().casefold()
 
 
 def _current_streak(attempts_desc: List[models.PracticeAttempt]) -> int:
@@ -87,7 +83,7 @@ def submit_attempt(
     ):
         raise HTTPException(status_code=402, detail="content_locked")
 
-    is_correct = _normalize(payload.answer) == _normalize(question.correct_answer)
+    is_correct = answers_match(payload.answer, question.correct_answer, question.type)
 
     attempt = models.PracticeAttempt(
         user_id=current_user.id,

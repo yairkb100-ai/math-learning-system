@@ -13,6 +13,7 @@ from sqlalchemy.orm import Session
 
 from app import models
 from app.access import TIER_FREE, unlocked_exam_ids
+from app.answers import answers_match
 from app.database import get_db
 from app.dependencies import get_current_user, user_content_access
 from app.achievements import evaluate_achievements
@@ -37,11 +38,6 @@ router = APIRouter(prefix="/api/exams", tags=["exams"])
 # ---------------------------------------------------------------------------
 
 DIFFICULTY_ORDER = ["easy", "medium", "hard"]
-
-
-def _normalize(value) -> str:
-    """Canonical form for answer comparison: strip + casefold."""
-    return str(value if value is not None else "").strip().casefold()
 
 
 def _clamp_index(i: int) -> int:
@@ -69,7 +65,7 @@ def _compute_next_difficulty(exam: models.Exam, history, db: Session) -> str:
         )
         if q is None:
             continue
-        correct = _normalize(item.user_answer) == _normalize(q.correct_answer)
+        correct = answers_match(item.user_answer, q.correct_answer, q.type)
         level = _step(level, correct)
     return level
 
@@ -351,7 +347,7 @@ def submit_exam(
         if q is None:
             # Skip an answer that references a question that no longer exists.
             continue
-        is_correct = _normalize(ans.user_answer) == _normalize(q.correct_answer)
+        is_correct = answers_match(ans.user_answer, q.correct_answer, q.type)
         if is_correct:
             correct_count += 1
         details.append(
