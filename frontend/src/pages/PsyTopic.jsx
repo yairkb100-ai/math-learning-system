@@ -125,7 +125,10 @@ export default function PsyTopic() {
       : `/courses/${course.id}`
     : null
   const practiceTo = `/psy/drill?domain=${encodeURIComponent(domain)}&topic=${encodeURIComponent(topic)}`
+  // סימולציות מלאות חוצות את כל התחומים ולא "שייכות" לנושא, ולכן הן לא מוצגות כאן
+  // (הן נשארות ב"מבחנים כלליים" בדף התחום).
   const exams = data.simulations.filter((exam) =>
+    exam.kind !== 'full' &&
     exam.sections.some(
       (section) => section.domain === domain && (section.topics || []).includes(topic),
     ),
