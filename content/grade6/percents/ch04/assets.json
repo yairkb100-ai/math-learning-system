@@ -211,7 +211,7 @@
       "title": "כשגם החלק עשרוני",
       "difficulty": "medium",
       "description": "מצאו את הכמות היסודית:\n\nא. 10% מהכמות הם 8.5\nב. 20% מהכמות הם 13\nג. 40% מהכמות הם 22\nד. 70% מהכמות הם 63",
-      "solution": "א. $100$\nב. $10\\%=6.5 \\Rightarrow 65$\nג. $10\\%=5.5 \\Rightarrow 55$\nד. $10\\%=9 \\Rightarrow 90$"
+      "solution": "א. $10\\%=8.5 \\Rightarrow 85$\nב. $10\\%=6.5 \\Rightarrow 65$\nג. $10\\%=5.5 \\Rightarrow 55$\nד. $10\\%=9 \\Rightarrow 90$"
     },
     {
       "title": "מלאי החנות",

@@ -225,4 +225,14 @@ check("no ref appears twice", len(all_refs) == len(set(all_refs)),
       f"{len(all_refs) - len(set(all_refs))} duplicate(s)")
 
 print("\n" + ("ALL PASSED" if not failures else f"{len(failures)} FAILED: {failures}"))
-sys.exit(1 if failures else 0)
+
+
+def test_psy_engine_guard():
+    """pytest entry point: the checks above run at import time."""
+    assert not failures, failures
+
+
+if __name__ == "__main__":
+    # A module-level sys.exit aborts pytest's whole collection (INTERNALERROR),
+    # so it only runs when the file is executed as a script.
+    sys.exit(1 if failures else 0)

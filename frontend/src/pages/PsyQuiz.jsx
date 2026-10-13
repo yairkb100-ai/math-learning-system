@@ -11,7 +11,7 @@ import '../styles/psy.css'
 // "תרגול חוזר" בסוף. הוא נשען על אותם קריאות כמו התרגול הממוקד (psyDrill +
 // psyDrillAnswer), ולכן התשובות נספרות בהתקדמות הנושא כמו כל תרגול אחר.
 
-const OPTION_LETTERS = ['א', 'ב', 'ג', 'ד', 'ה']
+const OPTION_LETTERS = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח']
 const QUIZ_SIZE = 10
 
 export default function PsyQuiz() {

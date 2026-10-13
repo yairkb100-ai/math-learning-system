@@ -125,4 +125,14 @@ check("attempt history repointed at the survivor",
 
 db.close()
 print("\n" + ("ALL PASSED" if not failures else f"{len(failures)} FAILED: {failures}"))
-sys.exit(1 if failures else 0)
+
+
+def test_practice_key_guard():
+    """pytest entry point: the checks above run at import time."""
+    assert not failures, failures
+
+
+if __name__ == "__main__":
+    # sys.exit at import time aborted pytest's whole collection ("INTERNALERROR:
+    # SystemExit"), so it only happens when the file is run as a script.
+    sys.exit(1 if failures else 0)

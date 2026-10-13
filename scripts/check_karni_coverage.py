@@ -90,12 +90,17 @@ def load_bank_topics():
 def load_sim_topics():
     """Read _PSY_SIMULATIONS out of seed.py without importing the whole app."""
     src = open(os.path.join(ROOT, "backend", "seed.py"), encoding="utf-8").read()
-    start = src.index("_PSY_SIMULATIONS = [")
-    end = src.index("\ndef ensure_psy_simulations", start)
-    block = src[start:end]
-    block = block[block.index("["):]
-    block = block[:block.rindex("]") + 1]
-    sims = ast.literal_eval(block)
+    # Find the assignment in the syntax tree. Slicing the text up to the next
+    # "def" broke whenever functions were added between the list and that def.
+    sims = None
+    for node in ast.parse(src).body:
+        if isinstance(node, ast.Assign) and any(
+            isinstance(t, ast.Name) and t.id == "_PSY_SIMULATIONS" for t in node.targets
+        ):
+            sims = ast.literal_eval(node.value)
+            break
+    if sims is None:
+        raise RuntimeError("_PSY_SIMULATIONS not found in backend/seed.py")
     counts = collections.Counter()
     for sim in sims:
         for section in sim["sections"]:

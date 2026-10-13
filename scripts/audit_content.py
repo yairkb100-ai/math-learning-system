@@ -65,6 +65,10 @@ def _to_python(expr):
     s = expr
     s = s.replace("\\left", "").replace("\\right", "")
     s = re.sub(r"\\[,;!: ]", " ", s)
+    # "5/8 \div 3/4" means 5/8 divided by the fraction 3/4. Read left to right
+    # it is ((5/8)/3)/4 and a correct line was reported as false, so a slash
+    # fraction right after a division sign is grouped as one fraction.
+    s = re.sub(r"(\\div|÷)\s*(\d+)\s*/\s*(\d+)", r"\1((\2)/(\3))", s)
     s = s.replace("\\times", "*").replace("\\cdot", "*").replace("\\div", "/")
     s = s.replace("\u00d7", "*").replace("\u00f7", "/").replace("\u2212", "-")
     # Mixed number: "2\frac{3}{4}" is 2+3/4. Without this every mixed number in
@@ -149,6 +153,10 @@ def check_equations(text, course, where):
         at = text.find(seg)
         if at != -1 and _deliberate(text, at):
             continue  # a counterexample the chapter goes on to refute
+        # "7{,}000" is the thousands separator: its comma must not look like the
+        # comma between two statements below (that cut "7{,}000 - 2{,}986 = …"
+        # into "}986 = 7{" and reported a correct subtraction as false).
+        seg = re.sub(r"(?<=\d)\{,\}(?=\d)", "", seg)
         if "=" not in seg:
             continue
         # skip inequalities/approximations — they are not equalities
