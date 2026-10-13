@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import katex from 'katex'
 import FractionArt, { isArtKind } from './FractionArt.jsx'
 import '../styles/lesson-prose.css'
@@ -495,6 +495,126 @@ function splitRow(line) {
   return line.trim().replace(/^\||\|$/g, '').split('|').map((c) => c.trim())
 }
 
+// ---- tables that fit a phone ------------------------------------------------
+// About a quarter of the lesson tables are wider than a 375px phone's lesson
+// card (301px), and a table you must scroll sideways is a table nobody reads.
+// The table is rendered normally first and MEASURED — KaTeX widths and Hebrew
+// wrapping make any character-count guess wrong — and only if it overflows its
+// wrapper does it change shape:
+//   transposed — few rows, many columns (a table of x and y values): the header
+//                row becomes the first column, so 10 columns become 10 short rows;
+//   stacked    — everything else: each row becomes a card of "label: value" lines.
+// When the viewport grows enough for the natural width again, it goes back.
+const useIsoLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect
+
+function transposeTable(header, rows) {
+  const at = (r, j) => (r[j] != null ? r[j] : '')
+  return {
+    header: [header[0], ...rows.map((r) => at(r, 0))],
+    rows: header.slice(1).map((h, j) => [h, ...rows.map((r) => at(r, j + 1))]),
+  }
+}
+
+// A table can "fit" and still be unreadable: three columns of Hebrew sentences
+// at 100px each wrap into ten-line cells. Cells with formulas are left out of
+// this estimate (they do not wrap, they overflow, and overflow is measured).
+const CRAMPED_LINES = 4
+const CELL_PADDING = 28 // .prose-table td: 14px each side
+const PX_PER_CHAR = 9 // Hebrew at body size, measured
+function longestTextCell(header, rows) {
+  let longest = 0
+  for (const cell of [...header, ...rows.flat()]) {
+    if (cell == null || String(cell).includes('$')) continue
+    longest = Math.max(longest, String(cell).replace(/\*\*/g, '').length)
+  }
+  return longest
+}
+
+function ProseTable({ header, rows, keyBase, opts }) {
+  const wrapRef = useRef(null)
+  const naturalWidth = useRef(0)
+  const [mode, setMode] = useState('table')
+  const longest = useMemo(() => longestTextCell(header, rows), [header, rows])
+
+  useIsoLayoutEffect(() => {
+    const wrap = wrapRef.current
+    if (!wrap) return undefined
+    const fit = () => {
+      const avail = wrap.clientWidth
+      if (!avail) return
+      const overflows = wrap.scrollWidth > avail + 1
+      const colWidth = avail / Math.max(1, header.length) - CELL_PADDING
+      const perLine = Math.max(4, Math.floor(colWidth / PX_PER_CHAR))
+      const cramped = header.length >= 2 && longest / perLine >= CRAMPED_LINES
+      if (mode === 'table') {
+        naturalWidth.current = wrap.scrollWidth
+        if (overflows) setMode(rows.length <= 3 && header.length >= 4 ? 'transposed' : 'stacked')
+        else if (cramped) setMode('stacked')
+      } else if (mode === 'transposed') {
+        if (overflows) setMode('stacked')
+        else if (naturalWidth.current && naturalWidth.current <= avail) setMode('table')
+      } else if (naturalWidth.current && naturalWidth.current <= avail && !cramped) {
+        setMode('table')
+      }
+    }
+    fit()
+    // Web fonts and KaTeX settle after the first paint and widen the table
+    // without resizing its wrapper, so the table itself is observed too.
+    let alive = true
+    if (typeof document !== 'undefined' && document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => alive && fit())
+    }
+    if (typeof ResizeObserver === 'undefined') return () => { alive = false }
+    const ro = new ResizeObserver(fit)
+    ro.observe(wrap)
+    if (wrap.firstElementChild) ro.observe(wrap.firstElementChild)
+    return () => {
+      alive = false
+      ro.disconnect()
+    }
+  }, [mode, header, rows, longest])
+
+  const shape = mode === 'transposed' ? transposeTable(header, rows) : { header, rows }
+  const stacked = mode === 'stacked'
+  return (
+    <div ref={wrapRef} className="prose-table-wrap">
+      <table className={`prose-table${stacked ? ' is-stacked' : ''}${mode === 'transposed' ? ' is-transposed' : ''}`}>
+        <thead aria-hidden={stacked ? 'true' : undefined}>
+          <tr>
+            {shape.header.map((c, j) => (
+              <th key={j}>{renderInline(c, `${keyBase}-h-${j}`, opts)}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {shape.rows.map((row, r) => (
+            <tr key={r}>
+              {row.map((c, j) => (
+                <td key={j} className={stacked && !shape.header[j] ? 'no-label' : undefined}>
+                  {stacked ? (
+                    <>
+                      {shape.header[j] ? (
+                        <span className="prose-cell-label">
+                          {renderInline(shape.header[j], `${keyBase}-l-${r}-${j}`, opts)}
+                        </span>
+                      ) : null}
+                      <span className="prose-cell-value">
+                        {renderInline(c, `${keyBase}-${r}-${j}`, opts)}
+                      </span>
+                    </>
+                  ) : (
+                    renderInline(c, `${keyBase}-${r}-${j}`, opts)
+                  )}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
 // `plain` is for compact surfaces — an answer button, a card label — where
 // the text is one short statement: paragraphs, illustrations, tables and
 // formulas still render, but nothing is promoted to a heading, list, step,
@@ -543,26 +663,7 @@ export default function MathText({ text, className, mathRuns, plain }) {
         }
         if (block.type === 'table') {
           return (
-            <div key={key} className="prose-table-wrap">
-              <table className="prose-table">
-                <thead>
-                  <tr>
-                    {block.header.map((c, j) => (
-                      <th key={j}>{renderInline(c, `${key}-h-${j}`, opts)}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {block.rows.map((row, r) => (
-                    <tr key={r}>
-                      {row.map((c, j) => (
-                        <td key={j}>{renderInline(c, `${key}-${r}-${j}`, opts)}</td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <ProseTable key={key} header={block.header} rows={block.rows} keyBase={key} opts={opts} />
           )
         }
         if (block.type === 'lettered') {
