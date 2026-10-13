@@ -444,11 +444,28 @@ export default function PsyHome() {
   const openCat = categories.find((c) => c.key === cat) || null
   // קבוצות שמוצגות כרגע: הכל כשאין קטגוריה פתוחה (לא קורה — אז מוצגת הרשת),
   // ואחרת רק מה ששייך לקטגוריה.
-  const shownCourseGroups = openCat ? catCourses(openCat.key) : []
+  // כל קורס ומבחן ששייכים לנושא נמצאים בעמוד הנושא שלו (ללמוד / לתרגל / להיבחן),
+  // ולא ברשימה שטוחה בדף התחום. כאן נשארים רק מה שאין לו נושא: קורסים כלליים
+  // ומבחנים שלא מתמפים לאף נושא (מיני-תרגולים, סימולציות מלאות).
+  const domainTopics = openCat ? catTopics(openCat.key) : []
+  const topicNames = new Set(domainTopics.map((t) => t.topic))
+  const mappedCourseIds = new Set(domainTopics.map((t) => t.course_id).filter((v) => v != null))
+  const isTopicSim = (x) =>
+    x.sections.some(
+      (sec) => sec.domain === openCat?.key && (sec.topics || []).some((tp) => topicNames.has(tp))
+    )
+  const shownCourseGroups = openCat
+    ? catCourses(openCat.key)
+        .map((g) => ({ ...g, list: g.list.filter((c) => !mappedCourseIds.has(c.id)) }))
+        .filter((g) => g.list.length > 0)
+    : []
   const shownLooseDomains = openCat ? looseDomains.filter((d) => d === openCat.key) : []
   const shownSimGroups = openCat
     ? simGroups
-        .map(([kind, list]) => [kind, list.filter((x) => simCat(x) === openCat.key)])
+        .map(([kind, list]) => [
+          kind,
+          list.filter((x) => simCat(x) === openCat.key && !isTopicSim(x)),
+        ])
         .filter(([, list]) => list.length > 0)
     : []
 
@@ -737,6 +754,9 @@ export default function PsyHome() {
             </motion.ul>
           </div>
         )}
+        {shownCourseGroups.length > 0 && (
+          <h3 className="psy-sim-kind-title">קורסי עיון נוספים בתחום</h3>
+        )}
         {shownCourseGroups.length === 0 &&
         shownLooseDomains.length === 0 &&
         catTopics(openCat.key).length === 0 ? (
@@ -795,10 +815,10 @@ export default function PsyHome() {
         initial="hidden"
         animate="show"
       >
-        <h2>מבחנים על השעון</h2>
+        <h2>מבחנים כלליים</h2>
         <p className="psy-plan-sub">
-          כשסיימתם נושא — כאן בודקים אותו על השעון. לפני כל מבחן יש מסך פתיחה, והשעון מתחיל
-          רק כשלוחצים ״התחלה״.
+          מבחנים שלא שייכים לנושא אחד. מבחנים לפי נושא נמצאים בתוך כל נושא למעלה. לפני כל
+          מבחן יש מסך פתיחה, והשעון מתחיל רק כשלוחצים ״התחלה״.
         </p>
         {shownSimGroups.map(([kind, list]) => (
           <div key={kind} className="psy-sim-kind">
