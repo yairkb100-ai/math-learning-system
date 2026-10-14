@@ -3377,6 +3377,78 @@ def _use_shape_source_in_simulations():
 _use_shape_source_in_simulations()
 
 
+def _add_topic_tests_for_uncovered_topics():
+    """Give every bank topic that has no timed test of its own one or two papers.
+
+    The topic pages promise "להיבחן" for every sub-topic, but the hand-written
+    forms above only cover some of them (logic, speed, english, mechanical and a
+    few quantitative/verbal topics had none). Questions come from the same bank
+    the topic's drill uses, so nothing new has to be authored. Figural and
+    spatial are skipped on purpose: their forms are gated to the approved
+    shape-source bank above.
+
+    Slugs hash the topic so they stay stable when topics are added; the family
+    name feeds assign_topic_test_forms(), which cuts disjoint fixed papers.
+    """
+    import hashlib
+    import math
+
+    # "Covered" means a focused (kind="section") paper already draws from the
+    # topic, single-topic or mixed like בעיות מילוליות. Topics that only appear
+    # inside full/mini simulations still have no test of their own.
+    covered = set()
+    for spec in _PSY_SIMULATIONS:
+        if spec.get("kind") != "section":
+            continue
+        for sec in spec["sections"]:
+            for row in sec.get("blueprint") or []:
+                if row.get("topic"):
+                    covered.add((sec["domain"], row["topic"]))
+    counts, seconds = {}, {}
+    for _passages, items in _load_psy_bank_files():
+        for it in items:
+            if not it.get("is_active", True) or not it.get("topic"):
+                continue
+            key = (it["domain"], it["topic"])
+            # Mirror psy._approved_shape_only: this topic is served only from
+            # the approved source bank, so only those items are really drawable.
+            if key == ("speed", "השוואה מהירה") and not str(it.get("source") or "").startswith(
+                "מבחני צורות — "
+            ):
+                continue
+            counts[key] = counts.get(key, 0) + 1
+            seconds[key] = seconds.get(key, 0) + it.get("target_seconds", 60)
+    order = 300
+    for (domain, topic), n in sorted(counts.items()):
+        if domain in ("figural", "spatial") or (domain, topic) in covered or n < 8:
+            continue
+        papers = 2 if n >= 20 else 1
+        per = min(10, n // papers)
+        minutes = max(2, math.ceil(per * (seconds[(domain, topic)] / n) / 60))
+        family = f"{domain}-{hashlib.md5(topic.encode('utf-8')).hexdigest()[:6]}"
+        for i in range(1, papers + 1):
+            order += 1
+            _PSY_SIMULATIONS.append({
+                "slug": f"karni-test-{family}-{i}",
+                "title": f"{topic} — מבחן {i}",
+                "description": (
+                    f"{per} שאלות ב-{minutes} דקות, בתנאי המבחן. "
+                    "השעון רץ בשרת ואי אפשר לעצור אותו."
+                ),
+                "kind": "section",
+                "order": order,
+                "free_preview": False,
+                "sections": [
+                    {"order": 0, "domain": domain, "title": topic,
+                     "minutes": minutes, "num_questions": per,
+                     "blueprint": [{"count": per, "topic": topic}]},
+                ],
+            })
+
+
+_add_topic_tests_for_uncovered_topics()
+
+
 def ensure_psy_simulations(db):
     """Upsert simulations and their sections, keyed by slug.
 
