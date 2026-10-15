@@ -25,6 +25,35 @@ jobs:
       - name: Install dependencies
         run: python -m pip install --upgrade pip && pip install -r backend/requirements.txt
 
+      # Course files (courses/assets/**) are uploaded to Cloudflare R2 by
+      # seed.ensure_course_assets, but only when the CLOUDFLARE_R2_* variables
+      # are set. This job used to pass only the retired Bunny ones, so the seed
+      # saw R2 as unconfigured: it updated each FileAsset.size from git and
+      # uploaded nothing, and regenerated worksheets kept being served from the
+      # old objects while the database looked up to date. The warning below
+      # makes a missing secret visible instead of silent.
+      - name: Check object storage is configured
+        env:
+          CLOUDFLARE_R2_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_R2_ACCOUNT_ID }}
+          CLOUDFLARE_R2_ACCESS_KEY_ID: ${{ secrets.CLOUDFLARE_R2_ACCESS_KEY_ID }}
+          CLOUDFLARE_R2_SECRET_ACCESS_KEY: ${{ secrets.CLOUDFLARE_R2_SECRET_ACCESS_KEY }}
+          CLOUDFLARE_R2_BUCKET: ${{ secrets.CLOUDFLARE_R2_BUCKET }}
+          CLOUDFLARE_R2_PUBLIC_URL: ${{ secrets.CLOUDFLARE_R2_PUBLIC_URL }}
+        run: |
+          # r2_storage.is_configured() needs the first four; the public URL is
+          # what the uploaded object is linked by.
+          missing=""
+          for v in CLOUDFLARE_R2_ACCOUNT_ID CLOUDFLARE_R2_ACCESS_KEY_ID CLOUDFLARE_R2_SECRET_ACCESS_KEY CLOUDFLARE_R2_BUCKET; do
+            [ -n "${!v}" ] || missing="$missing $v"
+          done
+          if [ -n "$missing" ]; then
+            echo "::warning title=R2 not configured for the seed::Missing secret(s):$missing. Course asset files will NOT be uploaded to object storage; regenerated PDFs will not reach students."
+          elif [ -z "$CLOUDFLARE_R2_PUBLIC_URL" ]; then
+            echo "::warning title=R2 public URL missing for the seed::CLOUDFLARE_R2_PUBLIC_URL is empty. Files will be uploaded but the database will not get a public link for them."
+          else
+            echo "R2 is configured: course assets will be refreshed from git."
+          fi
+
       - name: Run seed
         env:
           PYTHONIOENCODING: utf-8
@@ -35,4 +64,9 @@ jobs:
           BUNNY_STORAGE_ZONE: ${{ secrets.BUNNY_STORAGE_ZONE }}
           BUNNY_STORAGE_API_KEY: ${{ secrets.BUNNY_STORAGE_API_KEY }}
           BUNNY_PULL_ZONE_HOST: ${{ secrets.BUNNY_PULL_ZONE_HOST }}
+          CLOUDFLARE_R2_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_R2_ACCOUNT_ID }}
+          CLOUDFLARE_R2_ACCESS_KEY_ID: ${{ secrets.CLOUDFLARE_R2_ACCESS_KEY_ID }}
+          CLOUDFLARE_R2_SECRET_ACCESS_KEY: ${{ secrets.CLOUDFLARE_R2_SECRET_ACCESS_KEY }}
+          CLOUDFLARE_R2_BUCKET: ${{ secrets.CLOUDFLARE_R2_BUCKET }}
+          CLOUDFLARE_R2_PUBLIC_URL: ${{ secrets.CLOUDFLARE_R2_PUBLIC_URL }}
         run: python backend/seed.py
