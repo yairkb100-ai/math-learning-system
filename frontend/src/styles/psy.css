@@ -2367,3 +2367,22 @@
   width: auto;
   min-height: 96px;
 }
+
+/* ---------- קבוצות בספריית הנושאים: עיקר המבחן / העשרה ---------- */
+.psy-cat-group + .psy-cat-group {
+  margin-top: 28px;
+}
+.psy-cat-group .psy-subsection-head {
+  margin-bottom: 4px;
+}
+.psy-tag-enrich {
+  color: var(--muted);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+}
+/* ארבעה כרטיסי "עיקר המבחן": 2×2 במסך בינוני, כדי שכרטיס בודד לא יישאר לבד בשורה. */
+@media (max-width: 1080px) and (min-width: 521px) {
+  .psy-cat-group.is-core .psy-cats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
