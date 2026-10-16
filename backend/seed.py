@@ -1194,6 +1194,7 @@ def ensure_course_assets(db):
     added = 0
     restored = 0
     migrated = 0
+    served_static = 0
     for slug in sorted(os.listdir(assets_root)):
         slug_dir = os.path.join(assets_root, slug)
         if not os.path.isdir(slug_dir):
@@ -1212,9 +1213,20 @@ def ensure_course_assets(db):
             if not os.path.isfile(src):
                 continue
             # Everything under courses/assets/ is public course material, so
-            # route it all to R2 (videos, worksheets, question banks) instead
-            # of the small Railway disk volume.
-            use_r2 = r2_storage.is_configured()
+            # route it to R2 (videos) instead of the small Railway disk volume.
+            # PDFs (worksheets, question banks, practice sheets) are the
+            # exception: they are served from the static build copy.
+            #
+            # Why: this seed runs in GitHub Actions, where the R2 secrets are
+            # not set, so it never uploads — it only updates FileAsset.size
+            # from git. Every PDF row that already pointed at R2 therefore kept
+            # serving its old object (190 of 282 were out of date, 92 returned
+            # 502) while the database said the new size. The static copy under
+            # /course-assets/ is rebuilt from git on every deploy, so it cannot
+            # drift, and download_file already redirects there for a row with no
+            # external_url.
+            is_pdf = name.lower().endswith(".pdf")
+            use_r2 = r2_storage.is_configured() and not is_pdf
             exists = (
                 db.query(FileAsset)
                 .filter(FileAsset.course_id == course.id, FileAsset.original_name == name)
@@ -1222,6 +1234,15 @@ def ensure_course_assets(db):
             )
             if exists:
                 src_size = os.path.getsize(src)
+                if is_pdf and exists.external_url:
+                    # Keep a trail: the object stays in the bucket, and this
+                    # line says which one the row used to point at.
+                    print(
+                        f"  ~ {slug}/{name}: now served from the static build copy"
+                        f" (was R2 object {exists.stored_name})"
+                    )
+                    exists.external_url = None
+                    served_static += 1
                 if use_r2 and not exists.external_url:
                     # Legacy row pointing at local disk — migrate it to R2 so
                     # it stops eating the (tiny) Railway volume.
@@ -1341,6 +1362,8 @@ def ensure_course_assets(db):
         print(f"  + Restored {restored} missing asset file(s) to the upload dir")
     if migrated:
         print(f"  + Migrated {migrated} video(s) from local disk to R2")
+    if served_static:
+        print(f"  + {served_static} course PDF(s) switched from R2 to the static build copy")
 
 
 def cleanup_orphaned_uploads(db):
