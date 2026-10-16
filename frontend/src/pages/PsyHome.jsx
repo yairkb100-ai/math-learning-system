@@ -40,9 +40,9 @@ const DOMAIN_LIBRARY_HE = {
 }
 const DOMAIN_ORDER = ['verbal', 'quantitative', 'figural', 'logic', 'spatial', 'speed', 'mechanical', 'english']
 
-// כמותי ומילולי הם ליבת המבחן — הם מקבלים כותרת מלאה, שורת סיכום וכרטיסים
-// גדולים יותר, והם מוצגים ראשונים. שאר התחומים נשארים במשקל רגיל.
-const CORE_DOMAINS = ['quantitative', 'verbal']
+// צורני, כמותי ואנגלית (יחד עם הסימולציות המלאות) הם עיקר המבחן — הם מקבלים
+// תגית "עיקר המבחן", מוצגים ראשונים וביחד, ובסדר הזה. שאר התחומים הם העשרה.
+const CORE_DOMAINS = ['figural', 'quantitative', 'english']
 
 // זהות צבע לכל תחום — בלי להמציא גוון חדש. הרמפה הקיימת של שנות הלימוד
 // (‎--lv / --lv-bg שמוגדרים ב-.grade-5…‎.grade-hs ב-index.css) היא בדיוק
@@ -438,7 +438,7 @@ export default function PsyHome() {
           CORE_DOMAINS.includes(d),
         ),
       ),
-    buildCat('full', 'סימולציות מלאות', ''),
+    buildCat('full', 'סימולציות מלאות', '', true),
     buildCat('other', 'שאר הקורסים', ''),
   ].filter(Boolean)
   const openCat = categories.find((c) => c.key === cat) || null
@@ -685,21 +685,35 @@ export default function PsyHome() {
             </div>
             <Link to="/psy/drill" className="psy-link">לכל התרגול</Link>
           </div>
+          {[
+            ['core', 'עיקר המבחן', 'התחומים שמרכיבים את רוב המבחן, והסימולציות המלאות.', categories.filter((c) => c.core)],
+            ['enrich', 'העשרה', 'תחומים משלימים — כדאי לתרגל אחרי שהעיקר מסודר.', categories.filter((c) => !c.core)],
+          ].map(([group, groupTitle, groupLead, groupCats]) =>
+            groupCats.length === 0 ? null : (
+          <div key={group} className={`psy-cat-group is-${group}`}>
+          <div className="psy-subsection-head">
+            <h3>{groupTitle}</h3>
+          </div>
+          <p className="psy-section-lead">{groupLead}</p>
           <motion.ul
             className="psy-cats"
-            style={{ '--cat-cols': Math.min(5, Math.max(2, Math.ceil(categories.length / 2))) }}
+            style={{ '--cat-cols': Math.min(4, Math.max(2, group === 'core' ? groupCats.length : Math.ceil(groupCats.length / 2))) }}
             variants={staggerContainer}
             initial="hidden"
             animate="show"
           >
-            {categories.map((c) => (
+            {groupCats.map((c) => (
               <motion.li key={c.key} variants={fadeInUp}>
                 <motion.div {...hoverLift}>
                   <Link className={`psy-cat ${c.ramp}`} to={`/psy?cat=${c.key}`}>
                     {c.Icon && <span className="psy-cat-icon" aria-hidden="true"><c.Icon /></span>}
                     <span className="psy-cat-head">
                       <span className="psy-cat-name">{c.title}</span>
-                      {c.core && <span className="psy-domain-tag">עיקר המבחן</span>}
+                      {c.core ? (
+                        <span className="psy-domain-tag">עיקר המבחן</span>
+                      ) : (
+                        <span className="psy-domain-tag psy-tag-enrich">העשרה</span>
+                      )}
                     </span>
                     <span className="psy-cat-meta">{c.meta}</span>
                     <span className="psy-cat-foot">
@@ -713,6 +727,9 @@ export default function PsyHome() {
               </motion.li>
             ))}
           </motion.ul>
+          </div>
+            ),
+          )}
         </motion.section>
       )}
 
