@@ -40,9 +40,9 @@ const DOMAIN_LIBRARY_HE = {
 }
 const DOMAIN_ORDER = ['verbal', 'quantitative', 'figural', 'logic', 'spatial', 'speed', 'mechanical', 'english']
 
-// צורני, כמותי ואנגלית (יחד עם הסימולציות המלאות) הם עיקר המבחן — הם מקבלים
+// צורני, כמותי, מילולי ואנגלית (יחד עם הסימולציות המלאות) הם עיקר המבחן — הם מקבלים
 // תגית "עיקר המבחן", מוצגים ראשונים וביחד, ובסדר הזה. שאר התחומים הם העשרה.
-const CORE_DOMAINS = ['figural', 'quantitative', 'english']
+const CORE_DOMAINS = ['figural', 'quantitative', 'verbal', 'english']
 
 // זהות צבע לכל תחום — בלי להמציא גוון חדש. הרמפה הקיימת של שנות הלימוד
 // (‎--lv / --lv-bg שמוגדרים ב-.grade-5…‎.grade-hs ב-index.css) היא בדיוק
@@ -697,7 +697,7 @@ export default function PsyHome() {
           <p className="psy-section-lead">{groupLead}</p>
           <motion.ul
             className="psy-cats"
-            style={{ '--cat-cols': Math.min(4, Math.max(2, group === 'core' ? groupCats.length : Math.ceil(groupCats.length / 2))) }}
+            style={{ '--cat-cols': Math.min(4, Math.max(2, group === 'core' ? (groupCats.length > 4 ? 3 : groupCats.length) : Math.ceil(groupCats.length / 2))) }}
             variants={staggerContainer}
             initial="hidden"
             animate="show"
