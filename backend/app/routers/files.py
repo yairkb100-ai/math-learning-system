@@ -217,9 +217,12 @@ def download_file(
         )
         course = db.get(models.Course, asset.course_id) if asset.course_id else None
         if is_pdf and asset.kind == "resource" and course is not None:
-            base_slug = course.slug.split("--part-", 1)[0]
+            # The seed registers a file under the course whose slug equals the
+            # courses/assets/<slug>/ folder, and the build copies that folder
+            # to /course-assets/<slug>/ unchanged, so the full slug (including
+            # a "--part-N" suffix) is the right directory.
             static_url = (
-                f"/course-assets/{quote(base_slug, safe='')}/"
+                f"/course-assets/{quote(course.slug, safe='')}/"
                 f"{quote(asset.original_name, safe='')}"
             )
             return RedirectResponse(url=static_url, status_code=307)
