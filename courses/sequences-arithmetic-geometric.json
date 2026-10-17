@@ -2,6 +2,7 @@
   "course": {
     "metadata": {
       "slug": "sequences-arithmetic-geometric",
+      "track": "psy",
       "title": "סדרות חשבוניות והנדסיות",
       "description": "קורס תיכון בן חמישה פרקים: זיהוי סדרות, איבר כללי, סכומים ויישומים.",
       "level": "Advanced",

@@ -2,6 +2,7 @@
   "course": {
     "metadata": {
       "slug": "exponential-functions-logarithms",
+      "track": "psy",
       "title": "פונקציות מעריכיות ולוגריתמים",
       "description": "קורס תיכון בן חמישה פרקים: פונקציות מעריכיות, גדילה ודעיכה, משוואות ולוגריתמים.",
       "level": "Advanced",

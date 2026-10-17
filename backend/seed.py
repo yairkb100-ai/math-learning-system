@@ -1666,6 +1666,12 @@ _PSY_SECTIONS = [
             "karni-quant-word-problems",
             "karni-quant-geometry",
             "karni-quant-strategies",
+            "grade56-geometry-measurement",
+            "grade56-data-statistics-probability",
+            "circle-theorems",
+            "three-dimensional-solids",
+            "sequences-arithmetic-geometric",
+            "exponential-functions-logarithms",
         ],
     },
     {
