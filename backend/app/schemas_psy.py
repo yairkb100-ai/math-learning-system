@@ -105,6 +105,13 @@ class PsySimulationOut(BaseModel):
     # None for the standard forms, "advanced" for the harder tier. Drives the
     # badge on the catalog card.
     level: Optional[str] = None
+    # Generated per-topic papers: 1/2/3 (see app/psy_levels.py), else None.
+    topic_level: Optional[int] = None
+    topic_level_label: Optional[str] = None
+    # Set only when EVERY blueprint row of the whole paper is this one
+    # (domain, topic). Mixed papers (בעיות מילוליות, תרגילים, full sims…) leave
+    # it None, and so never appear on a topic page.
+    single_topic: Optional[str] = None
     total_minutes: int
     total_questions: int
     sections: List[PsySimSectionInfo]
@@ -137,6 +144,9 @@ class PsySectionState(BaseModel):
     # Authoritative remaining time, computed server-side. The browser counts
     # down from this rather than owning the clock.
     seconds_left: int
+    # True while the student has paused the clock. ``items`` is then empty on
+    # purpose — the paper is not shown (or sent) while the clock is stopped.
+    paused: bool = False
     items: List[PsyItemOut]
     # Answers already recorded for this section: {ref: chosen_index}
     saved: Dict[str, int] = {}
@@ -242,6 +252,15 @@ class PsyCourseCard(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 
+class PsyTopicLevel(BaseModel):
+    """One selectable level of a topic (רמה 1/2/3) with its item counts."""
+
+    level: int
+    label: str
+    count: int
+    open_count: Optional[int] = None
+
+
 class PsyTopicCard(BaseModel):
     """A topic as a browsable unit of study, not just a drill filter.
 
@@ -266,6 +285,8 @@ class PsyTopicCard(BaseModel):
     course_title: Optional[str] = None
     chapter_number: Optional[int] = None
     chapter_title: Optional[str] = None
+    # Levels the topic offers; empty unless it offers at least two.
+    levels: List[PsyTopicLevel] = Field(default_factory=list)
 
 
 class PsyOverview(BaseModel):

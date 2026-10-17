@@ -1500,6 +1500,10 @@ def run_light_migrations():
             with engine.begin() as conn:
                 conn.execute(text("ALTER TABLE psy_attempts ADD COLUMN domain_scores JSON"))
             print("  ~ Migrated: added psy_attempts.domain_scores")
+        if "paused_at" not in cols:
+            with engine.begin() as conn:
+                conn.execute(text("ALTER TABLE psy_attempts ADD COLUMN paused_at TIMESTAMP"))
+            print("  ~ Migrated: added psy_attempts.paused_at")
 
     if "psy_simulations" in inspector.get_table_names():
         cols = {c["name"] for c in inspector.get_columns("psy_simulations")}
@@ -1986,7 +1990,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-mechanical",
         "title": "כושר מכני — מבחן ממוקד",
-        "description": "12 שאלות ב-9 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "12 שאלות ב-9 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 161,
         "free_preview": False,
@@ -1998,7 +2002,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-logic",
         "title": "חשיבה לוגית — מבחן ממוקד",
-        "description": "12 שאלות ב-11 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "12 שאלות ב-11 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 171,
         "free_preview": False,
@@ -2067,7 +2071,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-fig-series-1",
         "title": "סדרות צורות — מבחן 1",
-        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 41,
         "free_preview": True,
@@ -2080,7 +2084,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-fig-series-2",
         "title": "סדרות צורות — מבחן 2",
-        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 42,
         "free_preview": False,
@@ -2093,7 +2097,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-fig-series-3",
         "title": "סדרות צורות — מבחן 3",
-        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 43,
         "free_preview": False,
@@ -2106,7 +2110,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-fig-series-4",
         "title": "סדרות צורות — מבחן 4",
-        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 44,
         "free_preview": False,
@@ -2119,7 +2123,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-fig-series-5",
         "title": "סדרות צורות — מבחן 5",
-        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 45,
         "free_preview": False,
@@ -2132,7 +2136,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-fig-matrix-1",
         "title": "מטריצות — מבחן 1",
-        "description": "רמת מתחילים · 17 שאלות ב-12 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "רמת מתחילים · 17 שאלות ב-12 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 51,
         "level": "beginner",
@@ -2146,7 +2150,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-fig-matrix-2",
         "title": "מטריצות — מבחן 2",
-        "description": "רמת מתחילים · 17 שאלות ב-12 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "רמת מתחילים · 17 שאלות ב-12 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 52,
         "level": "beginner",
@@ -2160,7 +2164,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-fig-matrix-3",
         "title": "מטריצות — מבחן 3",
-        "description": "רמת מתחילים · 16 שאלות ב-11 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "רמת מתחילים · 16 שאלות ב-11 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 53,
         "level": "beginner",
@@ -2174,7 +2178,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-fig-analogy-1",
         "title": "אנלוגיות צורניות — מבחן 1",
-        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 61,
         "free_preview": True,
@@ -2187,7 +2191,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-fig-analogy-2",
         "title": "אנלוגיות צורניות — מבחן 2",
-        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 62,
         "free_preview": False,
@@ -2200,7 +2204,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-fig-analogy-3",
         "title": "אנלוגיות צורניות — מבחן 3",
-        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 63,
         "free_preview": False,
@@ -2213,7 +2217,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-fig-analogy-4",
         "title": "אנלוגיות צורניות — מבחן 4",
-        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 64,
         "free_preview": False,
@@ -2226,7 +2230,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-fig-analogy-5",
         "title": "אנלוגיות צורניות — מבחן 5",
-        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 65,
         "free_preview": False,
@@ -2239,7 +2243,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-fig-odd-1",
         "title": "יוצא דופן צורני — מבחן 1",
-        "description": "10 שאלות ב-5 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-5 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 71,
         "free_preview": True,
@@ -2252,7 +2256,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-fig-odd-2",
         "title": "יוצא דופן צורני — מבחן 2",
-        "description": "10 שאלות ב-5 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-5 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 72,
         "free_preview": False,
@@ -2265,7 +2269,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-fig-odd-3",
         "title": "יוצא דופן צורני — מבחן 3",
-        "description": "10 שאלות ב-5 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-5 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 73,
         "free_preview": False,
@@ -2278,7 +2282,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-fig-odd-4",
         "title": "יוצא דופן צורני — מבחן 4",
-        "description": "10 שאלות ב-5 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-5 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 74,
         "free_preview": False,
@@ -2291,7 +2295,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-fig-odd-5",
         "title": "יוצא דופן צורני — מבחן 5",
-        "description": "10 שאלות ב-5 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-5 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 75,
         "free_preview": False,
@@ -2304,7 +2308,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-series-1",
         "title": "סדרות מספרים ואותיות — מבחן 1",
-        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 81,
         "free_preview": True,
@@ -2322,7 +2326,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-series-2",
         "title": "סדרות מספרים ואותיות — מבחן 2",
-        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 82,
         "free_preview": False,
@@ -2340,7 +2344,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-series-3",
         "title": "סדרות מספרים ואותיות — מבחן 3",
-        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 83,
         "free_preview": False,
@@ -2358,7 +2362,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-series-4",
         "title": "סדרות מספרים ואותיות — מבחן 4",
-        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 84,
         "free_preview": False,
@@ -2376,7 +2380,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-series-5",
         "title": "סדרות מספרים ואותיות — מבחן 5",
-        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 85,
         "free_preview": False,
@@ -2397,7 +2401,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-carpets-1",
         "title": "שטיחים ותבניות — מבחן 1",
-        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 76,
         "free_preview": False,
@@ -2410,7 +2414,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-carpets-2",
         "title": "שטיחים ותבניות — מבחן 2",
-        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 77,
         "free_preview": False,
@@ -2423,7 +2427,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-carpets-3",
         "title": "שטיחים ותבניות — מבחן 3",
-        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 78,
         "free_preview": False,
@@ -2436,7 +2440,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-carpets-4",
         "title": "שטיחים ותבניות — מבחן 4",
-        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 79,
         "free_preview": False,
@@ -2449,7 +2453,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-carpets-5",
         "title": "שטיחים ותבניות — מבחן 5",
-        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 80,
         "free_preview": False,
@@ -2463,7 +2467,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-fold-1",
         "title": "קיפולים וניקובים — מבחן 1",
-        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 91,
         "free_preview": False,
@@ -2476,7 +2480,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-fold-2",
         "title": "קיפולים וניקובים — מבחן 2",
-        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 92,
         "free_preview": False,
@@ -2489,7 +2493,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-fold-3",
         "title": "קיפולים וניקובים — מבחן 3",
-        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 93,
         "free_preview": False,
@@ -2502,7 +2506,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-fold-4",
         "title": "קיפולים וניקובים — מבחן 4",
-        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 94,
         "free_preview": False,
@@ -2515,7 +2519,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-fold-5",
         "title": "קיפולים וניקובים — מבחן 5",
-        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 95,
         "free_preview": False,
@@ -2529,7 +2533,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-vocab-1",
         "title": "אוצר מילים — מבחן 1",
-        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 101,
         "free_preview": False,
@@ -2542,7 +2546,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-vocab-2",
         "title": "אוצר מילים — מבחן 2",
-        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 102,
         "free_preview": False,
@@ -2555,7 +2559,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-vocab-3",
         "title": "אוצר מילים — מבחן 3",
-        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 103,
         "free_preview": False,
@@ -2568,7 +2572,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-vocab-4",
         "title": "אוצר מילים — מבחן 4",
-        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 104,
         "free_preview": False,
@@ -2581,7 +2585,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-vocab-5",
         "title": "אוצר מילים — מבחן 5",
-        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-6 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 105,
         "free_preview": False,
@@ -2596,7 +2600,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-vanalogy-1",
         "title": "הקבלות מילוליות — מבחן 1",
-        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 111,
         "free_preview": False,
@@ -2611,7 +2615,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-vanalogy-2",
         "title": "הקבלות מילוליות — מבחן 2",
-        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 112,
         "free_preview": False,
@@ -2626,7 +2630,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-vanalogy-3",
         "title": "הקבלות מילוליות — מבחן 3",
-        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 113,
         "free_preview": False,
@@ -2641,7 +2645,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-vanalogy-4",
         "title": "הקבלות מילוליות — מבחן 4",
-        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 114,
         "free_preview": False,
@@ -2656,7 +2660,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-vanalogy-5",
         "title": "הקבלות מילוליות — מבחן 5",
-        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "8 שאלות ב-6 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 115,
         "free_preview": False,
@@ -2672,7 +2676,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-vodd-1",
         "title": "יוצא דופן מילולי — מבחן 1",
-        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 121,
         "free_preview": False,
@@ -2687,7 +2691,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-vodd-2",
         "title": "יוצא דופן מילולי — מבחן 2",
-        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 122,
         "free_preview": False,
@@ -2702,7 +2706,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-vodd-3",
         "title": "יוצא דופן מילולי — מבחן 3",
-        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 123,
         "free_preview": False,
@@ -2717,7 +2721,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-vodd-4",
         "title": "יוצא דופן מילולי — מבחן 4",
-        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 124,
         "free_preview": False,
@@ -2732,7 +2736,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-vodd-5",
         "title": "יוצא דופן מילולי — מבחן 5",
-        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 125,
         "free_preview": False,
@@ -2748,7 +2752,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-vcomp-1",
         "title": "השלמת משפטים — מבחן 1",
-        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 131,
         "free_preview": False,
@@ -2763,7 +2767,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-vcomp-2",
         "title": "השלמת משפטים — מבחן 2",
-        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 132,
         "free_preview": False,
@@ -2778,7 +2782,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-vcomp-3",
         "title": "השלמת משפטים — מבחן 3",
-        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 133,
         "free_preview": False,
@@ -2793,7 +2797,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-vcomp-4",
         "title": "השלמת משפטים — מבחן 4",
-        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 134,
         "free_preview": False,
@@ -2808,7 +2812,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-vcomp-5",
         "title": "השלמת משפטים — מבחן 5",
-        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-7 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 135,
         "free_preview": False,
@@ -2826,7 +2830,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-wordprob-1",
         "title": "בעיות מילוליות — מבחן 1",
-        "description": "10 שאלות ב-9 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-9 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 141,
         "free_preview": False,
@@ -2845,7 +2849,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-wordprob-2",
         "title": "בעיות מילוליות — מבחן 2",
-        "description": "10 שאלות ב-9 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-9 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 142,
         "free_preview": False,
@@ -2864,7 +2868,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-wordprob-3",
         "title": "בעיות מילוליות — מבחן 3",
-        "description": "10 שאלות ב-9 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-9 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 143,
         "free_preview": False,
@@ -2883,7 +2887,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-wordprob-4",
         "title": "בעיות מילוליות — מבחן 4",
-        "description": "10 שאלות ב-9 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-9 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 144,
         "free_preview": False,
@@ -2902,7 +2906,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-wordprob-5",
         "title": "בעיות מילוליות — מבחן 5",
-        "description": "10 שאלות ב-9 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "10 שאלות ב-9 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 145,
         "free_preview": False,
@@ -2923,7 +2927,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-drill-1",
         "title": "תרגילים — מבחן 1",
-        "description": "12 שאלות ב-8 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "12 שאלות ב-8 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 151,
         "free_preview": False,
@@ -2941,7 +2945,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-drill-2",
         "title": "תרגילים — מבחן 2",
-        "description": "12 שאלות ב-8 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "12 שאלות ב-8 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 152,
         "free_preview": False,
@@ -2959,7 +2963,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-drill-3",
         "title": "תרגילים — מבחן 3",
-        "description": "12 שאלות ב-8 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "12 שאלות ב-8 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 153,
         "free_preview": False,
@@ -2977,7 +2981,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-drill-4",
         "title": "תרגילים — מבחן 4",
-        "description": "12 שאלות ב-8 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "12 שאלות ב-8 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 154,
         "free_preview": False,
@@ -2995,7 +2999,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-test-drill-5",
         "title": "תרגילים — מבחן 5",
-        "description": "12 שאלות ב-8 דקות, בתנאי המבחן. השעון רץ בשרת ואי אפשר לעצור אותו.",
+        "description": "12 שאלות ב-8 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
         "kind": "section",
         "order": 155,
         "free_preview": False,
@@ -3446,34 +3450,86 @@ def _use_shape_source_in_simulations():
 _use_shape_source_in_simulations()
 
 
+def _single_topic_key(spec):
+    """(domain, topic) when every blueprint row of a spec is that one topic."""
+    keys = set()
+    for sec in spec["sections"]:
+        rows = sec.get("blueprint") or []
+        if not rows:
+            return None
+        for row in rows:
+            if not row.get("topic"):
+                return None
+            keys.add((row.get("domain") or sec["domain"], row["topic"]))
+    return next(iter(keys)) if len(keys) == 1 else None
+
+
 def _add_topic_tests_for_uncovered_topics():
-    """Give every bank topic that has no timed test of its own one or two papers.
+    """Give every bank topic its own leveled, single-topic timed papers.
 
-    The topic pages promise "להיבחן" for every sub-topic, but the hand-written
-    forms above only cover some of them (logic, speed, english, mechanical and a
-    few quantitative/verbal topics had none). Questions come from the same bank
-    the topic's drill uses, so nothing new has to be authored. Figural and
-    spatial are skipped on purpose: their forms are gated to the approved
-    shape-source bank above.
+    A topic page lists ONLY papers whose every question is that topic, so a
+    topic that is reached only through a mixed paper (בעיות מילוליות, תרגילים)
+    has nothing to sit. Questions come from the same bank the topic's drill
+    uses, so nothing new has to be authored. Figural and spatial are skipped on
+    purpose: their forms are gated to the approved shape-source bank above.
 
-    Slugs hash the topic so they stay stable when topics are added; the family
-    name feeds assign_topic_test_forms(), which cuts disjoint fixed papers.
+    Levels (app/psy_levels.py): when a topic holds at least MIN_LEVEL_ITEMS
+    items in two or more levels, it gets papers per offered level
+    ("רמה 1/2/3", blueprint difficulty-bounded). A topic with fewer offered
+    levels keeps one un-levelled set of papers drawn from every difficulty.
+
+    Slugs: attempts cascade-delete with a retired simulation, so the slugs of
+    papers that already exist (the hand-written single-topic families such as
+    karni-test-vocab-N and the earlier generated karni-test-<domain>-<hash>-N)
+    are re-used, in order, for the new papers of the same topic, keeping their
+    `order` and `free_preview`. Only genuinely new papers get the
+    karni-test-<domain>-<hash>-L<level>-<n> scheme. The hash is of the topic so
+    slugs stay stable when topics are added.
     """
     import hashlib
     import math
+    import re as _re
 
-    # "Covered" means a focused (kind="section") paper already draws from the
-    # topic, single-topic or mixed like בעיות מילוליות. Topics that only appear
-    # inside full/mini simulations still have no test of their own.
-    covered = set()
+    from app import psy_levels as pl
+
+    shape_domains = ("figural", "spatial")
+
+    def family_of(domain, topic):
+        return f"{domain}-{hashlib.md5(topic.encode('utf-8')).hexdigest()[:6]}"
+
+    # The earlier generator treated a topic as "covered" by any hand-written
+    # focused paper; only uncovered topics ever got generated slugs.
+    old_covered = set()
     for spec in _PSY_SIMULATIONS:
         if spec.get("kind") != "section":
             continue
         for sec in spec["sections"]:
             for row in sec.get("blueprint") or []:
                 if row.get("topic"):
-                    covered.add((sec["domain"], row["topic"]))
-    counts, seconds = {}, {}
+                    old_covered.add((sec["domain"], row["topic"]))
+
+    # Hand-written single-topic papers are replaced by the leveled generation
+    # below; their slugs go into a per-topic pool so those sims survive.
+    pool = {}
+    for spec in list(_PSY_SIMULATIONS):
+        key = _single_topic_key(spec)
+        if (
+            key is None
+            or spec.get("kind") != "section"
+            or key[0] in shape_domains
+            or spec.get("level")
+            or not spec["slug"].startswith("karni-test-")
+        ):
+            continue
+        _PSY_SIMULATIONS.remove(spec)
+        pool.setdefault(key, []).append(
+            {"slug": spec["slug"], "order": spec.get("order"),
+             "free_preview": spec.get("free_preview", False)}
+        )
+    for entries in pool.values():
+        entries.sort(key=lambda e: int(_re.search(r"(\d+)$", e["slug"]).group(1)))
+
+    stats = {}
     for _passages, items in _load_psy_bank_files():
         for it in items:
             if not it.get("is_active", True) or not it.get("topic"):
@@ -3485,34 +3541,109 @@ def _add_topic_tests_for_uncovered_topics():
                 "מבחני צורות — "
             ):
                 continue
-            counts[key] = counts.get(key, 0) + 1
-            seconds[key] = seconds.get(key, 0) + it.get("target_seconds", 60)
+            st = stats.setdefault(
+                key, {"n": 0, "secs": 0, "lv": {l: [0, 0] for l in pl.LEVELS}}
+            )
+            sec = it.get("target_seconds", 60)
+            st["n"] += 1
+            st["secs"] += sec
+            lv = pl.level_of_difficulty(it.get("difficulty"))
+            if lv:
+                st["lv"][lv][0] += 1
+                st["lv"][lv][1] += sec
+
+    used = {spec["slug"] for spec in _PSY_SIMULATIONS}
     order = 300
-    for (domain, topic), n in sorted(counts.items()):
-        if domain in ("figural", "spatial") or (domain, topic) in covered or n < 8:
+    for (domain, topic) in sorted(stats):
+        st = stats[(domain, topic)]
+        n = st["n"]
+        if domain in shape_domains or n < pl.MIN_LEVEL_ITEMS:
             continue
-        papers = 2 if n >= 20 else 1
-        per = min(10, n // papers)
-        minutes = max(2, math.ceil(per * (seconds[(domain, topic)] / n) / 60))
-        family = f"{domain}-{hashlib.md5(topic.encode('utf-8')).hexdigest()[:6]}"
-        for i in range(1, papers + 1):
-            order += 1
+        family = family_of(domain, topic)
+        entries = list(pool.get((domain, topic), []))
+        if (domain, topic) not in old_covered:
+            legacy_papers = 2 if n >= 20 else 1
+            entries += [
+                {"slug": f"karni-test-{family}-{i}", "order": None, "free_preview": False}
+                for i in range(1, legacy_papers + 1)
+            ]
+        offered = pl.offered_levels({l: st["lv"][l][0] for l in pl.LEVELS})
+
+        if len(offered) >= 2:
+            plan = [(lv, st["lv"][lv][0], st["lv"][lv][1]) for lv in offered]
+        else:
+            plan = [(None, n, st["secs"])]
+
+        def add_paper(slug, lv, i, per, minutes, paper_order, free_preview, domain=domain, topic=topic):
+            used.add(slug)
+            row = {"count": per, "topic": topic}
+            if lv is not None:
+                lo, hi = pl.difficulty_range(lv)
+                row.update({"min_difficulty": lo, "max_difficulty": hi})
+            intro = f"{pl.level_label(lv)} · " if lv is not None else ""
             _PSY_SIMULATIONS.append({
-                "slug": f"karni-test-{family}-{i}",
-                "title": f"{topic} — מבחן {i}",
+                "slug": slug,
+                "title": (
+                    f"{topic} — {pl.level_label(lv)}, מבחן {i}"
+                    if lv is not None else f"{topic} — מבחן {i}"
+                ),
                 "description": (
-                    f"{per} שאלות ב-{minutes} דקות, בתנאי המבחן. "
-                    "השעון רץ בשרת ואי אפשר לעצור אותו."
+                    f"{intro}{per} שאלות ב-{minutes} דקות, בתנאי המבחן. "
+                    "אפשר להשהות את השעון בכפתור ״השהה״."
                 ),
                 "kind": "section",
-                "order": order,
-                "free_preview": False,
+                "level": pl.sim_level_code(lv) if lv is not None else None,
+                "order": paper_order,
+                "free_preview": free_preview,
                 "sections": [
                     {"order": 0, "domain": domain, "title": topic,
                      "minutes": minutes, "num_questions": per,
-                     "blueprint": [{"count": per, "topic": topic}]},
+                     "blueprint": [row]},
                 ],
             })
+
+        biggest = None  # (lv, papers, per, minutes) of the largest plan entry
+        for lv, n_l, secs_l in plan:
+            if lv is None:
+                papers = 2 if n_l >= 20 else 1
+                per = min(10, n_l // papers)
+            else:
+                per = min(10, n_l)
+                papers = max(1, min(3, n_l // per))
+            minutes = max(2, math.ceil(per * (secs_l / n_l) / 60))
+            if biggest is None or n_l > biggest[4]:
+                biggest = (lv, papers, per, minutes, n_l)
+            for i in range(1, papers + 1):
+                reuse = entries.pop(0) if entries else None
+                if reuse:
+                    slug = reuse["slug"]
+                elif lv is None:
+                    j = 1
+                    while f"karni-test-{family}-{j}" in used:
+                        j += 1
+                    slug = f"karni-test-{family}-{j}"
+                else:
+                    slug = f"karni-test-{family}-L{lv}-{i}"
+                if reuse and reuse["order"] is not None:
+                    paper_order = reuse["order"]
+                else:
+                    order += 1
+                    paper_order = order
+                add_paper(slug, lv, i, per, minutes, paper_order,
+                          reuse["free_preview"] if reuse else False)
+
+        # A legacy slug with no paper left to take it would be retired, and
+        # retiring cascade-deletes students' attempts. Keep it as one more
+        # paper in the topic's largest level instead.
+        extra = 0
+        while entries and biggest is not None:
+            reuse = entries.pop(0)
+            extra += 1
+            lv, papers, per, minutes, _n = biggest
+            order += 1
+            add_paper(reuse["slug"], lv, papers + extra, per, minutes,
+                      reuse["order"] if reuse["order"] is not None else order,
+                      reuse["free_preview"])
 
 
 _add_topic_tests_for_uncovered_topics()
@@ -3552,12 +3683,25 @@ def ensure_psy_simulations(db):
             if row is None:
                 row = PsySimSection(simulation_id=sim.id, order=order)
                 db.add(row)
+            # A topic paper's fixed refs are filled by assign_topic_test_forms
+            # after this runs. Wiping them here on every boot would leave a
+            # window where a student starting the paper gets a random,
+            # non-disjoint draw, so keep them while the paper's shape is the
+            # same (assign_topic_test_forms re-cuts them if the bank moved).
+            keep_refs = (
+                s.get("item_refs") is None
+                and row.item_refs
+                and row.domain == s["domain"]
+                and row.num_questions == s["num_questions"]
+                and row.blueprint == s.get("blueprint")
+            )
             row.domain = s["domain"]
             row.title = s["title"]
             row.minutes = s["minutes"]
             row.num_questions = s["num_questions"]
             row.is_pilot = s.get("is_pilot", False)
-            row.item_refs = s.get("item_refs")
+            if not keep_refs:
+                row.item_refs = s.get("item_refs")
             row.blueprint = s.get("blueprint")
         db.commit()
 
@@ -3596,62 +3740,66 @@ def assign_topic_test_forms(db):
     of having multiple papers. Once a topic holds enough items, the papers are
     instead cut from one deterministic ordering, so they share nothing.
 
+    Papers are grouped by what they draw from — (domain, topic, difficulty
+    bounds) — not by slug, because re-used legacy slugs carry no family. So the
+    level 1 papers of a topic are disjoint from each other, and the level 2
+    papers from each other; levels never share items anyway, since the bounds
+    do not overlap.
+
     Ordering is by ref, not random: re-running the seed must not reshuffle the
     papers under a student who is working through them. A live attempt is
     unaffected either way, since it freezes its own form at start.
     """
-    import re as _re
-
     changed = short = 0
     groups = {}
     for sim in (
         db.query(PsySimulation)
         .filter(PsySimulation.slug.like("karni-test-%"))
-        .order_by(PsySimulation.slug)
+        .order_by(PsySimulation.order, PsySimulation.slug)
         .all()
     ):
-        m = _re.match(r"karni-test-(.+)-(\d+)$", sim.slug)
-        if m:
-            groups.setdefault(m.group(1), []).append((int(m.group(2)), sim))
-
-    for family, sims in groups.items():
-        sims.sort()
-        sections = [sim.sections[0] for _, sim in sims if sim.sections]
-        if not sections:
+        if len(sim.sections) != 1:
             continue
-        blueprint = sections[0].blueprint or [{}]
+        section = sim.sections[0]
+        blueprint = section.blueprint or []
         topics = {row.get("topic") for row in blueprint}
-        topic = blueprint[0].get("topic")
-        per = sections[0].num_questions
-        if not topic:
+        bounds = {(row.get("min_difficulty"), row.get("max_difficulty")) for row in blueprint}
+        if len(topics) != 1 or None in topics or len(bounds) != 1:
+            # A deliberately mixed paper (בעיות מילוליות, תרגילים) or a
+            # domain-wide one. Cutting it from one topic's refs would silently
+            # drop the other rows, so leave it on the blueprint draw.
             continue
-        if len(topics) > 1:
-            # A deliberately mixed paper (בעיות מילוליות, תרגילים). Cutting it
-            # from one topic's refs would silently drop the other four, so leave
-            # it on the blueprint draw, which honours every row.
-            continue
+        key = (section.domain, next(iter(topics)), *next(iter(bounds)))
+        groups.setdefault(key, []).append(sim)
+
+    for (domain, topic, lo, hi), sims in groups.items():
+        sections = [sim.sections[0] for sim in sims]
+        need = sum(sec.num_questions for sec in sections)
         ref_query = db.query(PsyItem.ref).filter(
-            PsyItem.topic == topic, PsyItem.is_active.is_(True)
+            PsyItem.topic == topic,
+            PsyItem.domain == domain,
+            PsyItem.is_active.is_(True),
         )
-        if sections[0].domain in ("figural", "spatial"):
+        if lo:
+            ref_query = ref_query.filter(PsyItem.difficulty >= lo)
+        if hi:
+            ref_query = ref_query.filter(PsyItem.difficulty <= hi)
+        if domain in ("figural", "spatial") or (domain, topic) == ("speed", "השוואה מהירה"):
             ref_query = ref_query.filter(PsyItem.source.like("מבחני צורות — %"))
-        refs = [
-            r for (r,) in ref_query
-            .order_by(PsyItem.ref)
-            .all()
-        ]
-        if len(refs) < per * len(sims):
+        refs = [r for (r,) in ref_query.order_by(PsyItem.ref).all()]
+        if len(refs) < need:
             # Not enough yet — leave these papers on the random draw, which at
             # least fills them, and say so rather than shipping short papers.
             short += 1
             print(
-                f"  ! {topic}: {len(refs)} items, need {per * len(sims)} for "
+                f"  ! {topic}: {len(refs)} items, need {need} for "
                 f"{len(sims)} disjoint papers — still drawing at random"
             )
             continue
-        for i, (_, sim) in enumerate(sims):
-            slice_ = refs[i * per:(i + 1) * per]
-            section = sim.sections[0]
+        start = 0
+        for section in sections:
+            slice_ = refs[start:start + section.num_questions]
+            start += section.num_questions
             if section.item_refs != slice_:
                 section.item_refs = slice_
                 changed += 1

@@ -2386,3 +2386,162 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+/* ---------- השהיית שעון (pause) ---------- */
+.psy-clock-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.psy-pause-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 6px 14px;
+  border: 1px solid var(--chalk);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--chalk);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.psy-pause-btn:hover:not(:disabled) {
+  border-color: var(--marker);
+  color: var(--marker);
+}
+.psy-pause-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.psy-pause-btn svg {
+  width: 20px;
+  height: 20px;
+}
+@media (max-width: 520px) {
+  .psy-pause-label {
+    display: none;
+  }
+}
+.psy-paused {
+  text-align: center;
+}
+.psy-paused-clock {
+  font-family: var(--font-display);
+  font-size: 2.6rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+  margin: 0 0 12px;
+}
+.psy-paused .psy-btn {
+  min-height: 52px;
+  font-size: 1.1rem;
+}
+
+/* ---------- full end-of-exam review (score + every question) ---------- */
+.psy-score-fraction {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+.psy-score-jump {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: 6px;
+}
+.psy-review-toggle {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-bottom: 8px;
+  padding: 0;
+  background: none;
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+}
+.psy-review-verdict {
+  font-weight: 800;
+}
+.psy-review-verdict.is-ok {
+  color: var(--ok);
+}
+.psy-review-verdict.is-no {
+  color: var(--no);
+}
+.psy-review-item,
+.psy-review-option {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.psy-review-item .psy-solution summary {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+}
+.psy-round-review {
+  margin-top: 20px;
+  text-align: start;
+}
+.psy-round-review h3 {
+  margin: 0 0 12px;
+}
+@media (max-width: 640px) {
+  .psy-review-item {
+    padding: 12px;
+  }
+  .psy-review-option {
+    flex-wrap: wrap;
+  }
+}
+
+/* ---------- בחירת רמה (רמה 1/2/3) בעמוד נושא ובתרגול ----------
+   הרמות מוגדרות בשרת במקום אחד (backend/app/psy_levels.py). הצ'יפים משתמשים
+   ב-‎.psy-chip‎ הקיים; כאן רק הפריסה, וגובה מגע של 44px. */
+.psy-topic-levels {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  margin: 0 0 18px;
+}
+.psy-topic-levels-label {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: var(--text);
+}
+.psy-topic-levels .psy-chip,
+.psy-level-filter .psy-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+}
+.psy-level-filter {
+  margin-top: 4px;
+}
+.psy-topic-exam-group + .psy-topic-exam-group {
+  margin-top: 22px;
+}
+.psy-topic-exam-level {
+  margin: 0 0 8px;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.15rem;
+  color: var(--accent);
+}
+
+
+/* Jump target of "לסקירת כל השאלות": clear the sticky navbar. */
+#psy-review-all {
+  scroll-margin-top: 100px;
+}
+
+/* A level with no questions open to the free tier cannot be chosen. */
+.psy-chip:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}

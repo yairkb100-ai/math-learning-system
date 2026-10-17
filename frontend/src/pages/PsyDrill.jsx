@@ -5,6 +5,7 @@ import api from '../api.js'
 import MathText, { isLatinText } from '../components/MathText.jsx'
 import { Loading, ErrorBox } from '../components/Status.jsx'
 import { EmptyState } from '../components/StudentUi.jsx'
+import PsyReviewItem from '../components/PsyReviewItem.jsx'
 import {
   IconArrowStart,
   IconCheck,
@@ -42,6 +43,10 @@ export default function PsyDrill() {
   const [topics, setTopics] = useState([])
   const [domain, setDomain] = useState(params.get('domain') || 'quantitative')
   const [topic, setTopic] = useState(params.get('topic') || null)
+  // רמה 1/2/3 — רלוונטית רק לנושא שמציע לפחות שתי רמות (topics[].levels).
+  const [level, setLevel] = useState(
+    [1, 2, 3].includes(Number(params.get('level'))) ? Number(params.get('level')) : null,
+  )
   const [items, setItems] = useState([])
   const [index, setIndex] = useState(0)
   const [chosen, setChosen] = useState(null)
@@ -84,11 +89,11 @@ export default function PsyDrill() {
     }
   }, [])
 
-  const load = useCallback(async (d, t) => {
+  const load = useCallback(async (d, t, lv) => {
     const seq = ++round.current
     setLoading(true)
     try {
-      const rows = await api.psyDrill({ domain: d, topic: t || undefined, limit: 10 })
+      const rows = await api.psyDrill({ domain: d, topic: t || undefined, level: t ? lv || undefined : undefined, limit: 10 })
       if (seq !== round.current) return
       setItems(rows)
       setIndex(0)
@@ -110,13 +115,14 @@ export default function PsyDrill() {
   }, [])
 
   useEffect(() => {
-    load(domain, topic)
+    load(domain, topic, level)
     const next = { domain }
     if (topic) next.topic = topic
+    if (topic && level) next.level = String(level)
     setParams(next, { replace: true })
     // setParams is stable enough here; including it re-runs the effect forever.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [domain, topic, load])
+  }, [domain, topic, level, load])
 
   // Live stopwatch on the open question; frozen once it is answered.
   useEffect(() => {
@@ -139,7 +145,7 @@ export default function PsyDrill() {
       if (seq !== round.current) return
       setResult(res)
       setElapsed(seconds)
-      setRoundLog((log) => [...log, { correct: !!res.is_correct, seconds }])
+      setRoundLog((log) => [...log, { correct: !!res.is_correct, seconds, item: current, chosen: optionIndex, result: res }])
       setTally((t) => ({
         answered: t.answered + 1,
         correct: t.correct + (res.is_correct ? 1 : 0),
@@ -166,6 +172,7 @@ export default function PsyDrill() {
   }
 
   const domainTopics = topics.filter((t) => t.domain === domain)
+  const topicLevels = (topic && domainTopics.find((t) => t.topic === topic)?.levels) || []
   // דרגת free: ה-API מחזיר open_count קטן מ-count. המספרים האלה הם מה שבאמת
   // פתוח — לא מבטיחים כאן שום דבר מעבר להם.
   const scope = topic ? domainTopics.filter((t) => t.topic === topic) : domainTopics
@@ -242,6 +249,7 @@ export default function PsyDrill() {
               onClick={() => {
                 setDomain(key)
                 setTopic(null)
+                setLevel(null)
               }}
               {...tapScale}
             >
@@ -257,6 +265,7 @@ export default function PsyDrill() {
             aria-pressed={topic == null}
             onClick={() => {
               setTopic(null)
+              setLevel(null)
               setPickerOpen(false)
             }}
             {...tapScale}
@@ -271,6 +280,7 @@ export default function PsyDrill() {
               aria-pressed={topic === t.topic}
               onClick={() => {
                 setTopic(t.topic)
+                setLevel(null)
                 setPickerOpen(false)
               }}
               {...tapScale}
@@ -284,6 +294,38 @@ export default function PsyDrill() {
             </motion.button>
           ))}
         </div>
+
+        {topicLevels.length > 0 && (
+          <div className="psy-filter psy-level-filter" role="group" aria-label="רמה">
+            <motion.button
+              type="button"
+              className={`psy-chip${level == null ? ' is-on' : ''}`}
+              aria-pressed={level == null}
+              onClick={() => setLevel(null)}
+              {...tapScale}
+            >
+              כל הרמות
+            </motion.button>
+            {topicLevels.map((lv) => (
+              <motion.button
+                key={lv.level}
+                type="button"
+                className={`psy-chip${level === lv.level ? ' is-on' : ''}`}
+                aria-pressed={level === lv.level}
+                disabled={lv.open_count === 0}
+                onClick={() => setLevel(lv.level)}
+                {...tapScale}
+              >
+                {lv.label}{' '}
+                <span className="psy-chip-num">
+                  {lv.open_count != null && lv.open_count < lv.count
+                    ? `${lv.open_count}/${lv.count}`
+                    : lv.count}
+                </span>
+              </motion.button>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* אין כאן AnimatePresence בכוונה. השאלה היא התוכן הקריטי של המסך, ו-
@@ -347,11 +389,26 @@ export default function PsyDrill() {
               </li>
             ))}
           </ol>
+          <div className="psy-round-review">
+            <h3>סקירת כל השאלות, התשובות וההסברים</h3>
+            <ol className="psy-review">
+              {roundLog.map((r, i) => (
+                <PsyReviewItem
+                  key={r.item.ref ?? i}
+                  n={i + 1}
+                  item={r.item}
+                  chosen={r.chosen}
+                  result={r.result}
+                  seconds={r.seconds}
+                />
+              ))}
+            </ol>
+          </div>
           <div className="psy-round-actions">
             <motion.button
               type="button"
               className="btn btn-cta"
-              onClick={() => load(domain, topic)}
+              onClick={() => load(domain, topic, level)}
               {...tapScale}
             >
               <IconRefresh /> סבב נוסף {topic ? 'באותו נושא' : 'באותו תחום'}

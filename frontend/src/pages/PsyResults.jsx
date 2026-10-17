@@ -50,7 +50,7 @@ export default function PsyResults() {
   const { attemptId } = useParams()
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
-  const [filter, setFilter] = useState('wrong') // wrong | all | flagged-slow
+  const [filter, setFilter] = useState('all') // all | wrong | slow — ברירת המחדל: כל השאלות עם התשובה וההסבר
 
   useEffect(() => {
     let alive = true
@@ -142,17 +142,18 @@ export default function PsyResults() {
         transition={{ duration: DURATION.long, ease: EASE_OUT }}
       >
         <div className="psy-score-main">
-          <div className="psy-score-label">אחוז ההצלחה במבחן</div>
+          <div className="psy-score-label">הציון שלך</div>
           <motion.div
-            className="psy-score-value"
+            className="psy-score-value psy-score-fraction"
             initial={{ opacity: 0, scale: 0.85 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: DURATION.long, ease: EASE_OUT, delay: 0.1 }}
           >
-            {data.score_percent != null ? `${data.score_percent}%` : '—'}
+            <bdi>{totalCorrect}/{totalAsked}</bdi>
           </motion.div>
           <div className="psy-score-scale">
-            {totalCorrect} תשובות נכונות מתוך {totalAsked}
+            {data.score_percent != null ? `${data.score_percent}% הצלחה · ` : ''}
+            {totalCorrect === 1 ? 'תשובה נכונה אחת' : `${totalCorrect} תשובות נכונות`} מתוך {totalAsked}
           </div>
           <div className="psy-gauge" aria-hidden="true">
             <motion.div
@@ -163,6 +164,9 @@ export default function PsyResults() {
             />
           </div>
           {data.readiness && <div className="psy-readiness">{data.readiness.label}</div>}
+          <a className="psy-link psy-score-jump" href="#psy-review-all">
+            לסקירת כל השאלות, התשובות וההסברים
+          </a>
           {delta != null && (
             <div className={`psy-delta${delta >= 0 ? ' is-up' : ' is-down'}`}>
               {Math.round(delta * 10) / 10 === 0
@@ -346,18 +350,19 @@ export default function PsyResults() {
       )}
 
       <motion.section
+        id="psy-review-all"
         className="psy-panel"
         variants={fadeInUp}
         initial="hidden"
         animate="show"
       >
         <div className="psy-panel-head">
-          <h2>סקירת שאלות</h2>
+          <h2>סקירת כל השאלות, התשובות וההסברים</h2>
           <div className="psy-filter" role="group" aria-label="סינון שאלות">
             {[
+              ['all', 'הכול'],
               ['wrong', 'שגויות'],
               ['slow', 'נכונות אך איטיות'],
-              ['all', 'הכול'],
             ].map(([key, label]) => (
               <motion.button
                 key={key}
@@ -389,6 +394,9 @@ export default function PsyResults() {
                 className={`psy-review-item${r.is_correct ? ' is-correct' : ' is-wrong'}`}
               >
                 <div className="psy-review-meta">
+                  <strong className={`psy-review-verdict${r.is_correct ? ' is-ok' : ' is-no'}`}>
+                    {r.is_correct ? 'נכון' : r.chosen == null ? 'ללא תשובה' : 'לא נכון'}
+                  </strong>
                   <span>{r.topic}</span>
                   <span>רמת קושי {r.difficulty} מתוך 5</span>
                   <span className={r.seconds > r.target_seconds ? 'is-slow' : ''}>
@@ -432,7 +440,7 @@ export default function PsyResults() {
                     </li>
                   ))}
                 </ul>
-                {r.chosen == null && <div className="psy-note">לא נענתה</div>}
+                {r.chosen == null && <div className="psy-note">ללא תשובה</div>}
                 {/* דרגת free: השרת לא מחזיר את התשובה וההסבר לשאלה שמחוץ למכסה. */}
                 {r.correct_index == null && (
                   <div className="psy-review-locked">
@@ -450,7 +458,7 @@ export default function PsyResults() {
                   </div>
                 )}
                 {r.solution && (
-                  <details className="psy-solution">
+                  <details className="psy-solution" open>
                     <summary>איך חושבים על זה</summary>
                     <MathText text={r.solution} />
                   </details>

@@ -83,6 +83,11 @@ const KIND_HE = { mini: 'מבחן קצר', section: 'מבחן ממוקד', full:
 // בכלל, כדי ש"רמה מתקדמת" יבלוט במקום להיבלע ברעש. הגוון מגיע ממחלקת
 // הרמפה הקיימת (--lv / --lv-bg), בדיוק כמו DOMAIN_RAMP למעלה.
 const LEVEL_TAG = {
+  // מבחני נושא לפי רמה (topic_level 1/2/3, ראה backend/app/psy_levels.py) מקבלים
+  // את התווית "רמה N" מהשרת; אלה הגוונים הקיימים של הרמפה, מהקל אל הקשה.
+  topic1: { ramp: 'grade-5' },
+  topic2: { ramp: 'grade-7' },
+  topic3: { ramp: 'grade-9' },
   advanced: { label: 'רמה מתקדמת', ramp: 'grade-hs' },
   // סגול הוא הגוון הגבוה ברמפה הקיימת שעוד לא תפוס כאן, ולכן הוא מסמן את
   // הדרגה שמעל "מתקדמת" בלי להמציא צבע חדש.
@@ -206,6 +211,11 @@ function SimRow({ s }) {
       <span className="psy-trow-body">
         <span className="psy-trow-name">
           {s.title}
+          {s.topic_level_label && (
+            <span className={`psy-sim-tag ${LEVEL_TAG[`topic${s.topic_level}`]?.ramp || ''}`}>
+              {s.topic_level_label}
+            </span>
+          )}
           {LEVEL_TAG[s.level] && (
             <span className={`psy-sim-tag ${LEVEL_TAG[s.level].ramp}`}>
               {LEVEL_TAG[s.level].label}
@@ -450,10 +460,13 @@ export default function PsyHome() {
   const domainTopics = openCat ? catTopics(openCat.key) : []
   const topicNames = new Set(domainTopics.map((t) => t.topic))
   const mappedCourseIds = new Set(domainTopics.map((t) => t.course_id).filter((v) => v != null))
+  // רק מבחן שכל שאלותיו שייכות לנושא אחד (single_topic, מחושב בשרת) יושב בעמוד
+  // הנושא שלו. מבחן מעורב נשאר כאן, ב"מבחנים כלליים".
   const isTopicSim = (x) =>
-    x.sections.some(
-      (sec) => sec.domain === openCat?.key && (sec.topics || []).some((tp) => topicNames.has(tp))
-    )
+    x.single_topic != null &&
+    x.sections.length === 1 &&
+    x.sections[0].domain === openCat?.key &&
+    topicNames.has(x.single_topic)
   const shownCourseGroups = openCat
     ? catCourses(openCat.key)
         .map((g) => ({ ...g, list: g.list.filter((c) => !mappedCourseIds.has(c.id)) }))

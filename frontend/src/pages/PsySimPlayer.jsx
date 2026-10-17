@@ -11,6 +11,8 @@ import {
   IconClock,
   IconBulb,
   IconLock,
+  IconPause,
+  IconPlay,
   IconTrophy,
 } from '../components/icons.jsx'
 import { fadeInUp, staggerContainer, tapScale, overlayFade, DURATION, EASE_OUT } from '../lib/motion.js'
@@ -54,6 +56,12 @@ export default function PsySimPlayer() {
   // הפרק שהשעון שלו אזל בזמן שהתלמיד לא היה כאן. הוא לא מוגש בשקט אלא מחכה
   // לאישור מפורש — קודם הוא נסגר ונוקד תוך פחות משנייה מאחורי כפתור "התחל".
   const [expiredSection, setExpiredSection] = useState(false)
+  // השעון מושהה (בשרת). בזמן ההשהיה השאלות לא מוצגות והשרת גם לא שולח אותן.
+  const [paused, setPaused] = useState(false)
+  const [pauseBusy, setPauseBusy] = useState(false)
+  const [pauseError, setPauseError] = useState(false)
+  // /resume succeeded (the server clock runs) but the questions failed to load.
+  const [reloadError, setReloadError] = useState(false)
   // 'loading' → 'intro' → 'running'. השעון של השרת מתחיל ברגע ש-/start נקרא,
   // וקודם הוא נקרא בטעינת הדף — לפני שהנבחן ראה כמה שאלות וכמה זמן מחכים לו.
   // עכשיו /start נקרא רק בלחיצה על "התחלה" (או מיד, כשחוזרים למבחן פתוח
@@ -116,6 +124,7 @@ export default function PsySimPlayer() {
       setSection(s)
       sectionIndexRef.current = s.section_index
       syncClock(s.seconds_left)
+      setPaused(!!s.paused)
       setAnswers(s.saved || {})
       setIndex(0)
       timingsRef.current = {}
@@ -176,7 +185,8 @@ export default function PsySimPlayer() {
   // עליה בטאב ברקע כבר לא "חוסכת" זמן לתלמיד. הפעימה מהירה מ-1s כדי שהחזרה
   // לפוקוס תתעדכן מיד ולא עד שנייה שלמה אחריה.
   useEffect(() => {
-    if (!attemptId || deadlineRef.current == null || expiredSection) return
+    // מושהה: אין פעימה, ולכן גם אין הגשה אוטומטית ואין סחף שלילי.
+    if (!attemptId || deadlineRef.current == null || expiredSection || paused) return
     const tick = () => {
       const left = Math.max(0, Math.round((deadlineRef.current - Date.now()) / 1000))
       setSecondsLeft(left)
@@ -186,12 +196,12 @@ export default function PsySimPlayer() {
     const t = setInterval(tick, 250)
     return () => clearInterval(t)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [attemptId, section, expiredSection])
+  }, [attemptId, section, expiredSection, paused])
 
   // חזרה לפוקוס = הזדמנות לסנכרן. שמירה מחזירה את seconds_left האמיתי, ולכן
   // היא משמשת גם כשמירה וגם כתיקון שעון בבת אחת.
   useEffect(() => {
-    if (!attemptId || !section || expiredSection) return
+    if (!attemptId || !section || expiredSection || paused) return
     const onVisible = () => {
       if (document.visibilityState !== 'visible' || submittingRef.current) return
       api
@@ -209,7 +219,7 @@ export default function PsySimPlayer() {
     }
     document.addEventListener('visibilitychange', onVisible)
     return () => document.removeEventListener('visibilitychange', onVisible)
-  }, [attemptId, section, expiredSection, syncClock])
+  }, [attemptId, section, expiredSection, paused, syncClock])
 
   // ---- periodic autosave ---------------------------------------------------
   const savePayload = useCallback(
@@ -223,7 +233,7 @@ export default function PsySimPlayer() {
   )
 
   useEffect(() => {
-    if (!attemptId || !section || expiredSection) return
+    if (!attemptId || !section || expiredSection || paused) return
     const t = setInterval(() => {
       if (submittingRef.current) return
       const p = api
@@ -241,7 +251,63 @@ export default function PsySimPlayer() {
       })
     }, AUTOSAVE_MS)
     return () => clearInterval(t)
-  }, [attemptId, section, expiredSection, savePayload, syncClock])
+  }, [attemptId, section, expiredSection, paused, savePayload, syncClock])
+
+  // ---- השהיה / המשך ---------------------------------------------------------
+  // קודם שומרים את התשובות (בזמן ההשהיה השרת לא שולח שאלות, ובריענון הן נטענות
+  // מהשמירה), ואז מקפיאים את השעון בשרת. רק אחרי אישור השרת מסתירים את השאלות.
+  async function pauseClock() {
+    if (pauseBusy || paused || submittingRef.current || !attemptId) return
+    setPauseBusy(true)
+    setPauseError(false)
+    stampTime(current?.ref)
+    try {
+      if (autosaveRef.current) await autosaveRef.current.catch(() => {})
+      // A paused paper is not re-sent, so the answers must be on the server
+      // first. If the save fails twice, do not pause: surface the error.
+      try {
+        await api.psySaveSection(attemptId, savePayload())
+      } catch {
+        await api.psySaveSection(attemptId, savePayload())
+      }
+      const r = await api.psyPauseAttempt(attemptId, sectionIndexRef.current)
+      if (r?.stale) return // the section moved on; nothing was paused
+      syncClock(r?.seconds_left)
+      setPaused(true)
+    } catch {
+      setPauseError(true)
+    } finally {
+      setPauseBusy(false)
+    }
+  }
+
+  async function resumeClock() {
+    if (pauseBusy || !paused || !attemptId) return
+    setPauseBusy(true)
+    setPauseError(false)
+    try {
+      const r = await api.psyResumeAttempt(attemptId, sectionIndexRef.current)
+      if ((section?.items || []).length === 0) {
+        // נכנסנו מחדש בזמן השהיה: השאלות לא נטענו, צריך למשוך אותן.
+        try {
+          await loadSection(attemptId)
+        } catch {
+          // השעון בשרת כבר רץ: לא משאירים את המסך טוען "מושהה".
+          setPaused(false)
+          setReloadError(true)
+          return
+        }
+      } else {
+        shownAt.current = Date.now()
+        syncClock(r?.seconds_left)
+      }
+      setPaused(false)
+    } catch {
+      setPauseError(true)
+    } finally {
+      setPauseBusy(false)
+    }
+  }
 
   // ---- יציאה מהעמוד --------------------------------------------------------
   // הנגן מוצג בתוך הפריסה הרגילה עם Navbar, כך שכל קישור ניווט לחיץ באמצע
@@ -400,8 +466,9 @@ export default function PsySimPlayer() {
             <li>
               <IconClock />
               <span>
-                <b>{sim.total_minutes} דקות</b> — השעון מתחיל רק כשלוחצים על ״התחלה״, ומאותו רגע אי
-                אפשר לעצור אותו. הוא ממשיך לרוץ גם אם יוצאים מהעמוד
+                <b>{sim.total_minutes} דקות</b> — השעון מתחיל רק כשלוחצים על ״התחלה״. אפשר להשהות
+                אותו בכפתור ״השהה״ (בזמן ההשהיה השאלות מוסתרות). יציאה מהעמוד בלי להשהות
+                לא עוצרת את השעון
               </span>
             </li>
             {many && (
@@ -486,6 +553,38 @@ export default function PsySimPlayer() {
     )
   }
 
+  // שעון מושהה: כרטיס מלא במקום השאלה, כדי שאי אפשר יהיה לחשוב "בחינם".
+  if (paused) {
+    return (
+      <section className="psy-player" dir="rtl">
+        <div className="psy-expired psy-paused" role="region" aria-labelledby="psy-paused-title">
+          <h2 id="psy-paused-title">השעון מושהה</h2>
+          <p className="psy-paused-clock" dir="ltr" aria-label="הזמן שנותר בפרק">
+            {fmtTime(secondsLeft ?? 0)}
+          </p>
+          <p>
+            השאלות מוסתרות עד שממשיכים. כשממשיכים, השעון ימשיך בדיוק מהנקודה שבה הושהה.
+          </p>
+          {pauseError && (
+            <p className="psy-inline-error" role="alert">
+              לא הצלחנו להמשיך את המבחן. אפשר לנסות שוב.
+            </p>
+          )}
+          <motion.button
+            type="button"
+            className="psy-btn psy-btn-primary psy-btn-block"
+            onClick={resumeClock}
+            disabled={pauseBusy}
+            autoFocus
+            {...tapScale}
+          >
+            <IconPlay /> {pauseBusy ? 'ממשיך…' : 'המשך מבחן'}
+          </motion.button>
+        </div>
+      </section>
+    )
+  }
+
   const answeredCount = items.filter((it) => answers[it.ref] != null).length
   const lastSection = section.section_index >= section.sections_total - 1
   const unanswered = items.length - answeredCount
@@ -504,16 +603,53 @@ export default function PsySimPlayer() {
             פרק {section.section_index + 1} מתוך {section.sections_total}
           </span>
         </div>
-        <div
-          className={`psy-clock${secondsLeft != null && secondsLeft <= WARN_SECONDS ? ' is-low' : ''}`}
-          role="timer"
-          aria-live="off"
-          aria-label="הזמן שנותר בפרק"
-        >
-          <IconClock />
-          <span dir="ltr">{secondsLeft != null ? fmtTime(secondsLeft) : '--:--'}</span>
+        <div className="psy-clock-wrap">
+          <button
+            type="button"
+            className="psy-pause-btn"
+            onClick={pauseClock}
+            disabled={pauseBusy || busy || (secondsLeft != null && secondsLeft <= 0)}
+            aria-label="השהה את השעון"
+          >
+            <IconPause aria-hidden="true" />
+            <span className="psy-pause-label">{pauseBusy ? 'משהה…' : 'השהה'}</span>
+          </button>
+          <div
+            className={`psy-clock${secondsLeft != null && secondsLeft <= WARN_SECONDS ? ' is-low' : ''}`}
+            role="timer"
+            aria-live="off"
+            aria-label="הזמן שנותר בפרק"
+          >
+            <IconClock />
+            <span dir="ltr">{secondsLeft != null ? fmtTime(secondsLeft) : '--:--'}</span>
+          </div>
         </div>
       </header>
+      {pauseError && (
+        <p className="psy-inline-error" role="alert">
+          לא הצלחנו להשהות את השעון. אפשר לנסות שוב.
+        </p>
+      )}
+      {reloadError && (
+        <div className="psy-submit-error" role="alert">
+          <span>השעון כבר רץ, אבל לא הצלחנו לטעון את השאלות.</span>
+          <motion.button
+            type="button"
+            className="psy-btn psy-btn-primary"
+            onClick={async () => {
+              try {
+                await loadSection(attemptId)
+                setReloadError(false)
+              } catch {
+                /* the banner stays */
+              }
+            }}
+            {...tapScale}
+          >
+            נסה שוב
+          </motion.button>
+        </div>
+      )}
 
       {/* כישלון הגשה: באנר בתוך המבחן עם ניסיון חוזר. השעון בשרת ממשיך לרוץ,
           ולכן החלפת כל העמוד בהודעת שגיאה בלי כפתור גבתה מהתלמיד זמן אמיתי. */}
@@ -583,6 +719,7 @@ export default function PsySimPlayer() {
                             <motion.button
                               type="button"
                               className={`psy-option${answers[current.ref] === i ? ' is-chosen' : ''}`}
+                              disabled={pauseBusy}
                               onClick={() => choose(current.ref, i)}
                               whileTap={{ scale: 0.98 }}
                               transition={{ duration: DURATION.short, ease: EASE_OUT }}
@@ -769,7 +906,7 @@ export default function PsySimPlayer() {
               <>
                 <h2 id="psy-confirm-title">לצאת באמצע המבחן?</h2>
                 <p>
-                  התשובות שסימנת נשמרות, אבל <b>השעון ממשיך לרוץ גם כשיוצאים</b>. אפשר לחזור
+                  התשובות שסימנת נשמרות, אבל <b>השעון ממשיך לרוץ גם כשיוצאים</b> (אלא אם השעון הושהה). אפשר לחזור
                   ולהמשיך מאותה נקודה כל עוד נשאר זמן בפרק.
                 </p>
                 <p>

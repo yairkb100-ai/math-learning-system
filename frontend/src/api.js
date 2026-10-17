@@ -593,6 +593,16 @@ export const api = {
       method: 'POST',
       body: JSON.stringify(payload),
     }),
+  psyPauseAttempt: (attemptId, sectionIndex) =>
+    request(
+      `/psy/attempts/${attemptId}/pause${sectionIndex == null ? '' : `?section_index=${sectionIndex}`}`,
+      { method: 'POST' },
+    ),
+  psyResumeAttempt: (attemptId, sectionIndex) =>
+    request(
+      `/psy/attempts/${attemptId}/resume${sectionIndex == null ? '' : `?section_index=${sectionIndex}`}`,
+      { method: 'POST' },
+    ),
   psyFinishAttempt: (attemptId) =>
     request(`/psy/attempts/${attemptId}/finish`, { method: 'POST' }),
   psyResults: (attemptId) => request(`/psy/attempts/${attemptId}/results`),
@@ -600,11 +610,13 @@ export const api = {
 
   psyTopics: (domain = null) =>
     request(`/psy/topics${domain ? `?domain=${encodeURIComponent(domain)}` : ''}`),
-  psyDrill: ({ domain, topic, difficulty, limit = 10, refs } = {}) => {
+  psyDrill: ({ domain, topic, difficulty, level, limit = 10, refs } = {}) => {
     const p = new URLSearchParams()
     if (domain) p.set('domain', domain)
     if (topic) p.set('topic', topic)
     if (difficulty) p.set('difficulty', difficulty)
+    // רמה 1/2/3 (backend/app/psy_levels.py) — טווח קושי, לא קושי מדויק.
+    if (level) p.set('level', level)
     if (refs && refs.length) p.set('refs', refs.join(','))
     p.set('limit', limit)
     return request(`/psy/drill?${p.toString()}`)

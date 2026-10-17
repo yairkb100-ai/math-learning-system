@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import api from '../api.js'
 import { Loading, ErrorBox } from '../components/Status.jsx'
@@ -12,7 +12,7 @@ import {
   IconPencil,
   IconTarget,
 } from '../components/icons.jsx'
-import { fadeInUp, staggerContainer, hoverLift } from '../lib/motion.js'
+import { fadeInUp, staggerContainer, hoverLift, tapScale } from '../lib/motion.js'
 import '../styles/psy.css'
 
 const DOMAIN_HE = {
@@ -82,6 +82,14 @@ export default function PsyTopic() {
   const { domain, topic } = useParams()
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
+  // רמה 1/2/3 (backend/app/psy_levels.py). null = כל הרמות. הבחירה חלה על שלושת
+  // הפעולות יחד: התרגול, המבחן בלי זמן והמבחנים בזמן.
+  // The choice lives in ?level= so it survives the round trip to the quiz/drill.
+  const [searchParams, setSearchParams] = useSearchParams()
+  const levelParam = Number(searchParams.get('level'))
+  const level = [1, 2, 3].includes(levelParam) ? levelParam : null
+  const setLevel = (n) =>
+    setSearchParams(n ? { level: String(n) } : {}, { replace: true })
 
   useEffect(() => {
     let alive = true
@@ -124,15 +132,36 @@ export default function PsyTopic() {
       ? `/courses/${course.id}/chapters/${selected.chapter_number}`
       : `/courses/${course.id}`
     : null
-  const practiceTo = `/psy/drill?domain=${encodeURIComponent(domain)}&topic=${encodeURIComponent(topic)}`
-  // סימולציות מלאות חוצות את כל התחומים ולא "שייכות" לנושא, ולכן הן לא מוצגות כאן
-  // (הן נשארות ב"מבחנים כלליים" בדף התחום).
-  const exams = data.simulations.filter((exam) =>
-    exam.kind !== 'full' &&
-    exam.sections.some(
-      (section) => section.domain === domain && (section.topics || []).includes(topic),
-    ),
-  )
+  const levels = selected.levels || []
+  const levelQuery = level && levels.some((lv) => lv.level === level) ? `&level=${level}` : ''
+  const practiceTo = `/psy/drill?domain=${encodeURIComponent(domain)}&topic=${encodeURIComponent(topic)}${levelQuery}`
+  const quizTo = `/psy/quiz?domain=${encodeURIComponent(domain)}&topic=${encodeURIComponent(topic)}${levelQuery}`
+  // עמוד הנושא מציג רק מבחנים שכל שאלה בהם שייכת לנושא הזה בלבד
+  // (single_topic מחושב בשרת מתוך כל שורות ה-blueprint). מבחנים מעורבים —
+  // בעיות מילוליות, תרגילים, סימולציות מלאות — נשארים ב"מבחנים כלליים" בדף
+  // התחום, כדי שבנושא "אחוזים" לא תופיע שאלת תנועה.
+  const exams = data.simulations
+    .filter(
+      (exam) =>
+        exam.single_topic === topic &&
+        exam.sections.length === 1 &&
+        exam.sections[0].domain === domain,
+    )
+    .sort((a, b) => (a.topic_level || 0) - (b.topic_level || 0))
+  const levelExams = levelQuery ? exams.filter((exam) => exam.topic_level === level) : exams
+  // רמה שאין לה מבחן מתוזמן (למשל נושא צורני) לא משאירה רשימה ריקה.
+  const showAllForLevel = levelQuery && levelExams.length === 0 && exams.length > 0
+  const shownExams = showAllForLevel ? exams : levelExams
+  const examGroups = []
+  for (const exam of shownExams) {
+    const key = exam.topic_level || 0
+    let group = examGroups.find((g) => g.key === key)
+    if (!group) {
+      group = { key, label: exam.topic_level_label || null, items: [] }
+      examGroups.push(group)
+    }
+    group.items.push(exam)
+  }
   const title = topicTitle(selected)
   const domainLabel = DOMAIN_HE[domain] || domain
   const status = mastery(selected)
@@ -172,6 +201,48 @@ export default function PsyTopic() {
           </div>
         </div>
       </motion.header>
+
+      {levels.length > 0 && (
+        <motion.div
+          className="psy-topic-levels"
+          variants={fadeInUp}
+          initial="hidden"
+          animate="show"
+          role="group"
+          aria-label="בחירת רמה"
+        >
+          <span className="psy-topic-levels-label">רמה</span>
+          <div className="psy-filter">
+            <motion.button
+              type="button"
+              className={`psy-chip${levelQuery ? '' : ' is-on'}`}
+              aria-pressed={!levelQuery}
+              onClick={() => setLevel(null)}
+              {...tapScale}
+            >
+              כל הרמות
+            </motion.button>
+            {levels.map((lv) => (
+              <motion.button
+                key={lv.level}
+                type="button"
+                className={`psy-chip${level === lv.level ? ' is-on' : ''}`}
+                aria-pressed={level === lv.level}
+                disabled={lv.open_count === 0}
+                onClick={() => setLevel(lv.level)}
+                {...tapScale}
+              >
+                {lv.label}{' '}
+                <span className="psy-chip-num">
+                  {lv.open_count != null && lv.open_count < lv.count
+                    ? `${lv.open_count}/${lv.count} שאלות`
+                    : `${lv.count} שאלות`}
+                </span>
+              </motion.button>
+            ))}
+          </div>
+        </motion.div>
+      )}
 
       <motion.ol
         className="psy-topic-actions"
@@ -235,7 +306,7 @@ export default function PsyTopic() {
               </span>
               <span className="psy-topic-action-title">להיבחן</span>
               <span className="psy-topic-action-copy">
-                מבחנים שכוללים את הנושא, על השעון ובתנאים של מבחן קרני.
+                מבחנים בנושא הזה בלבד, על השעון ובתנאים של מבחן קרני.
               </span>
               <span className="psy-topic-action-cta">
                 למבחנים בנושא <IconArrowStart />
@@ -256,8 +327,10 @@ export default function PsyTopic() {
           <div>
             <h2>מבחנים בנושא {title}</h2>
             <p className="psy-section-lead">
-              אלה המבחנים שמכילים שאלות בנושא הזה. במבחן משולב יופיעו גם נושאים קרובים,
-              בדיוק כמו במבחן עצמו.
+              כל השאלות במבחנים האלה שייכות לנושא {title} בלבד. מבחנים שמשלבים כמה נושאים
+              נמצאים ב״מבחנים כלליים״ בדף התחום.{levels.length > 0
+                ? ' אפשר לבחור רמה למעלה — מבחנים שמחולקים לפי רמה יוצגו לפי הבחירה.'
+                : ''}
             </p>
           </div>
         </div>
@@ -270,21 +343,34 @@ export default function PsyTopic() {
             <span className="psy-trow-body">
               <span className="psy-trow-name">מבחן ללא זמן</span>
               <span className="psy-trow-meta">
-                10 שאלות · בלי שעון · נכון/לא נכון והסבר אחרי כל תשובה · בסוף אפשר לתרגל שוב את הטעויות
+                עד 10 שאלות · בלי שעון · נכון/לא נכון והסבר אחרי כל תשובה · בסוף אפשר לתרגל שוב את הטעויות
               </span>
             </span>
-            <Link className="psy-trow-cta" to={`/psy/quiz?domain=${encodeURIComponent(domain)}&topic=${encodeURIComponent(topic)}`}>
+            <Link className="psy-trow-cta" to={quizTo}>
               להתחיל
             </Link>
           </li>
         </ul>
 
+        {showAllForLevel && (
+          <p className="psy-section-lead">
+            עדיין אין מבחן בזמן לרמה {level} בנושא הזה. אלה המבחנים הזמינים.
+          </p>
+        )}
+
         {exams.length > 0 ? (
-          <ul className="psy-trows">
-            {exams.map((exam) => (
-              <ExamRow key={exam.slug} exam={exam} />
-            ))}
-          </ul>
+          examGroups.map((group) => (
+            <div key={group.key} className="psy-topic-exam-group">
+              {group.label && examGroups.length > 0 && (
+                <h3 className="psy-topic-exam-level">{group.label}</h3>
+              )}
+              <ul className="psy-trows">
+                {group.items.map((exam) => (
+                  <ExamRow key={exam.slug} exam={exam} />
+                ))}
+              </ul>
+            </div>
+          ))
         ) : (
           <div className="psy-topic-no-exams">
             <IconCheck aria-hidden="true" />

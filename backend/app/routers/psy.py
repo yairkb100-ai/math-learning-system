@@ -7,6 +7,11 @@ Design notes worth knowing before editing:
   seconds remain and counts down from that, but a submission arriving after the
   section deadline is truncated, not honoured. A mock whose timer can be paused
   with devtools is not a mock.
+* **Pausing is the server's too.** ``/pause`` stamps ``paused_at``; while it is
+  set the clock reads as frozen at that instant and ``get_section`` withholds
+  the questions (so the pause cannot be used to think for free). ``/resume``
+  moves ``section_started_at`` forward by the paused duration and clears it.
+  A section whose clock already hit zero cannot be paused.
 * **The form is frozen at start.** Drawing questions once and storing the refs
   on the attempt means editing the bank mid-attempt cannot change the paper the
   student is sitting.
@@ -22,7 +27,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy import and_, func, or_
 from sqlalchemy.orm import Session
 
-from app import models, psy_scoring
+from app import models, psy_levels, psy_scoring
 from app.database import get_db
 from app.dependencies import get_current_user, user_content_access
 from app.products import PRODUCT_KARNI
@@ -46,6 +51,7 @@ from app.schemas_psy import (
     PsySimSectionInfo,
     PsySimulationOut,
     PsyTopicCard,
+    PsyTopicLevel,
     PsyTopicStat,
 )
 
@@ -126,8 +132,9 @@ def _draw_section_items(
     """Pick the refs for one section: a fixed form if authored, else a draw.
 
     A blueprint row is ``{count, topic?, qtype?, domain?, difficulty?,
-    min_difficulty?}``. ``difficulty`` pins an exact level; ``min_difficulty``
-    sets a floor, which is what the advanced forms use — pinning an exact level
+    min_difficulty?, max_difficulty?}``. ``difficulty`` pins an exact level;
+    ``min_difficulty`` sets a floor and ``max_difficulty`` a ceiling (the
+    per-topic level papers use both, see app/psy_levels.py), which is what the advanced forms use — pinning an exact level
     would starve topics whose hard items sit at 3 and 4 alike. Rows
     are filled in order and already-picked refs are excluded, so a narrow row
     later in the list cannot silently duplicate an earlier pick.
@@ -185,6 +192,8 @@ def _draw_section_items(
             q = q.filter(models.PsyItem.difficulty == int(row["difficulty"]))
         if row.get("min_difficulty"):
             q = q.filter(models.PsyItem.difficulty >= int(row["min_difficulty"]))
+        if row.get("max_difficulty"):
+            q = q.filter(models.PsyItem.difficulty <= int(row["max_difficulty"]))
         if seen:
             q = q.filter(~models.PsyItem.ref.in_(seen))
 
@@ -236,6 +245,10 @@ def _draw_section_items(
                 cluster_q = cluster_q.filter(
                     models.PsyItem.difficulty >= int(row["min_difficulty"])
                 )
+            if row.get("max_difficulty"):
+                cluster_q = cluster_q.filter(
+                    models.PsyItem.difficulty <= int(row["max_difficulty"])
+                )
             cluster = cluster_q.order_by(
                 models.PsyItem.passage_order, models.PsyItem.id
             ).all()
@@ -271,11 +284,19 @@ def _draw_section_items(
     return picked
 
 
+def _clock_now(attempt: models.PsyAttempt) -> datetime:
+    """The instant the section clock reads: frozen at ``paused_at`` while paused."""
+    return attempt.paused_at or datetime.utcnow()
+
+
 def _seconds_left(attempt: models.PsyAttempt, section: models.PsySimSection) -> int:
     if attempt.section_started_at is None:
         return section.minutes * 60
-    elapsed = (datetime.utcnow() - attempt.section_started_at).total_seconds()
-    return max(0, int(section.minutes * 60 - elapsed))
+    total = section.minutes * 60
+    # Clock skew / a resume that nudged section_started_at forward must never
+    # read as more than the section's full allowance.
+    elapsed = max(0.0, (_clock_now(attempt) - attempt.section_started_at).total_seconds())
+    return max(0, min(total, int(total - elapsed)))
 
 
 def _get_attempt(db: Session, attempt_id: int, user: models.User) -> models.PsyAttempt:
@@ -290,6 +311,26 @@ def _get_attempt(db: Session, attempt_id: int, user: models.User) -> models.PsyA
     if attempt is None:
         raise HTTPException(status_code=404, detail="הסימולציה לא נמצאה")
     return attempt
+
+
+def _single_topic(sim: models.PsySimulation) -> Optional[str]:
+    """The topic a paper is *entirely* about, else None.
+
+    True only when every blueprint row of every section names the same topic in
+    the same domain. A topic page lists exactly these papers — a mixed paper
+    (בעיות מילוליות, תרגילים, a full simulation) would hand the student
+    questions from other topics, so it stays on the domain page.
+    """
+    seen = set()
+    for section in sim.sections:
+        rows = section.blueprint or []
+        if not rows:
+            return None
+        for row in rows:
+            if not row.get("topic"):
+                return None
+            seen.add((row.get("domain") or section.domain, row["topic"]))
+    return next(iter(seen))[1] if len(seen) == 1 else None
 
 
 def _sim_out(
@@ -308,12 +349,16 @@ def _sim_out(
         .all()
     )
     totals = [a.score_percent for a in attempts if a.score_percent is not None]
+    topic_level = psy_levels.parse_sim_level(sim.level)
     return PsySimulationOut(
         slug=sim.slug,
         title=sim.title,
         description=sim.description,
         kind=sim.kind,
         level=sim.level,
+        topic_level=topic_level,
+        topic_level_label=psy_levels.level_label(topic_level) if topic_level else None,
+        single_topic=_single_topic(sim),
         total_minutes=sum(s.minutes for s in sim.sections),
         total_questions=sum(s.num_questions for s in sim.sections),
         sections=[
@@ -526,7 +571,7 @@ def get_section(
 
     section = next((s for s in sections if s.order == attempt.current_section), None)
     if section is None:
-        raise HTTPException(status_code=409, detail="פרק לא נמצא")
+        raise HTTPException(status_code=409, detail="הפרק לא נמצא")
 
     form_row = next(
         (r for r in (attempt.form or []) if r.get("section_index") == section.order),
@@ -534,7 +579,10 @@ def get_section(
     )
     refs = list(form_row.get("item_refs") or [])
     by_ref = _items_by_ref(db, refs)
-    items = [_item_out(by_ref[r]) for r in refs if r in by_ref]
+    paused = attempt.paused_at is not None
+    # Anti-cheat: a paused paper is not sent at all, so the student cannot read
+    # the questions (e.g. via devtools) while the clock is stopped.
+    items = [] if paused else [_item_out(by_ref[r]) for r in refs if r in by_ref]
 
     saved = {
         ref: rec["chosen"]
@@ -551,6 +599,7 @@ def get_section(
         title=section.title,
         minutes=section.minutes,
         seconds_left=_seconds_left(attempt, section),
+        paused=paused,
         items=items,
         saved=saved,
     )
@@ -606,7 +655,14 @@ def autosave_section(
     # הפיל כאן 500, בזמן ש-get_section ו-submit_section מחזירים 409 מסודר.
     if section is None:
         return {"saved": True}
-    return {"saved": True, "seconds_left": _seconds_left(attempt, section)}
+    # While paused this is still allowed on purpose: the player flushes the
+    # student's answers just before pausing, and a pagehide beacon may land
+    # after it. The frozen clock makes seconds_left constant, so it is harmless.
+    return {
+        "saved": True,
+        "seconds_left": _seconds_left(attempt, section),
+        "paused": attempt.paused_at is not None,
+    }
 
 
 @router.post("/attempts/{attempt_id}/section", response_model=PsySectionSubmitResult)
@@ -618,20 +674,24 @@ def submit_section(
 ) -> PsySectionSubmitResult:
     """Score the current section and move on. There is no going back."""
     attempt = _get_attempt(db, attempt_id, current_user)
+    db.refresh(attempt)  # a concurrent /save or /pause must not be read stale
     if attempt.status != "in_progress":
         raise HTTPException(status_code=409, detail="הסימולציה כבר הוגשה")
 
     sections = attempt.simulation.sections
     section = next((s for s in sections if s.order == attempt.current_section), None)
     if section is None:
-        raise HTTPException(status_code=409, detail="פרק לא נמצא")
+        raise HTTPException(status_code=409, detail="הפרק לא נמצא")
     if payload.section_index != section.order:
         # A stale tab submitting an earlier section must not overwrite the
         # section the student has since moved on to.
         raise HTTPException(status_code=409, detail="הפרק כבר נסגר")
 
+    # A paused section is never late: the clock reads frozen at paused_at, and a
+    # section can only be paused with time left. Submitting while paused is
+    # allowed (the student may end the section without resuming).
     late = _seconds_left(attempt, section) <= 0 and (
-        datetime.utcnow() - (attempt.section_started_at or datetime.utcnow())
+        _clock_now(attempt) - (attempt.section_started_at or datetime.utcnow())
     ).total_seconds() > section.minutes * 60 + SUBMIT_GRACE_SECONDS
 
     form_row = next(
@@ -696,13 +756,75 @@ def submit_section(
     if following:
         attempt.current_section = following[0].order
         attempt.section_started_at = datetime.utcnow()
+        attempt.paused_at = None  # the next section always starts running
         db.commit()
         return PsySectionSubmitResult(
             status="in_progress", next_section=attempt.current_section, attempt_id=attempt.id
         )
 
+    attempt.paused_at = None
     _finalize(db, attempt)
     return PsySectionSubmitResult(status="completed", next_section=None, attempt_id=attempt.id)
+
+
+def _current_section(attempt: models.PsyAttempt) -> Optional[models.PsySimSection]:
+    return next(
+        (s for s in attempt.simulation.sections if s.order == attempt.current_section),
+        None,
+    )
+
+
+@router.post("/attempts/{attempt_id}/pause")
+def pause_attempt(
+    attempt_id: int,
+    section_index: Optional[int] = None,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user),
+) -> dict:
+    """Freeze the section clock. Idempotent; refused once the clock is at zero."""
+    attempt = _get_attempt(db, attempt_id, current_user)
+    db.refresh(attempt)
+    if attempt.status != "in_progress":
+        raise HTTPException(status_code=409, detail="הסימולציה כבר הוגשה")
+    section = _current_section(attempt)
+    if section is None:
+        raise HTTPException(status_code=409, detail="הפרק לא נמצא")
+    if section_index is not None and section_index != attempt.current_section:
+        # A late pause from a tab that is still on an earlier section must not
+        # freeze the section the student has since moved on to.
+        return {"paused": False, "stale": True}
+    if attempt.paused_at is None:
+        if _seconds_left(attempt, section) <= 0:
+            raise HTTPException(status_code=409, detail="הזמן של הפרק נגמר ואי אפשר להשהות את השעון")
+        attempt.paused_at = datetime.utcnow()
+        db.commit()
+    return {"paused": True, "seconds_left": _seconds_left(attempt, section)}
+
+
+@router.post("/attempts/{attempt_id}/resume")
+def resume_attempt(
+    attempt_id: int,
+    section_index: Optional[int] = None,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user),
+) -> dict:
+    """Restart a paused clock from the frozen value. Idempotent."""
+    attempt = _get_attempt(db, attempt_id, current_user)
+    db.refresh(attempt)
+    if attempt.status != "in_progress":
+        raise HTTPException(status_code=409, detail="הסימולציה כבר הוגשה")
+    section = _current_section(attempt)
+    if section is None:
+        raise HTTPException(status_code=409, detail="הפרק לא נמצא")
+    if section_index is not None and section_index != attempt.current_section:
+        return {"paused": False, "stale": True}
+    if attempt.paused_at is not None:
+        paused_for = datetime.utcnow() - attempt.paused_at
+        if attempt.section_started_at is not None:
+            attempt.section_started_at = attempt.section_started_at + paused_for
+        attempt.paused_at = None
+        db.commit()
+    return {"paused": False, "seconds_left": _seconds_left(attempt, section)}
 
 
 def _finalize(db: Session, attempt: models.PsyAttempt) -> None:
@@ -940,6 +1062,8 @@ def drill_questions(
     topic: Optional[str] = Query(None),
     qtype: Optional[str] = Query(None),
     difficulty: Optional[int] = Query(None, ge=1, le=5),
+    # רמה 1/2/3 (app/psy_levels.py) — טווח קושי, בניגוד ל-``difficulty`` המדויק.
+    level: Optional[int] = Query(None, ge=1, le=3),
     limit: int = Query(10, ge=1, le=50),
     # refs מופרדים בפסיקים — "תרגול חוזר" על שאלות מסוימות (למשל הטעויות
     # במבחן). שאר המסננים ומנגנון הטעימה עדיין חלים.
@@ -961,6 +1085,9 @@ def drill_questions(
         q = q.filter(models.PsyItem.qtype == qtype)
     if difficulty:
         q = q.filter(models.PsyItem.difficulty == difficulty)
+    if level:
+        lo, hi = psy_levels.difficulty_range(level)
+        q = q.filter(models.PsyItem.difficulty.between(lo, hi))
 
     # הטעימה במאגר נמדדת באותו אחוז שחל על הקורסים (ברירת מחדל 20% למי שקנה
     # רק את הלומדה, 30% למי שאין לו מנוי כלל) ולא בסף קושי קבוע — ראה
@@ -1031,6 +1158,60 @@ def drill_answer(
     )
 
 
+def _topic_levels(
+    db: Session,
+    open_ids: Optional[set],
+    domain: Optional[str] = None,
+) -> Dict[tuple, List[PsyTopicLevel]]:
+    """Levels each topic offers, ``{(domain, topic): [PsyTopicLevel, ...]}``.
+
+    Only topics offering at least two levels appear (see app/psy_levels.py);
+    anything else gets no chooser. ``open_ids`` (free tier) turns on the
+    per-level ``open_count``, counted exactly like the topic-wide one.
+    """
+    def _counts(restrict: Optional[set]) -> Dict[tuple, Dict[int, int]]:
+        q = _approved_shape_only(
+            db.query(
+                models.PsyItem.domain,
+                models.PsyItem.topic,
+                models.PsyItem.difficulty,
+                func.count(models.PsyItem.id),
+            )
+        ).filter(models.PsyItem.is_active.is_(True), models.PsyItem.topic.isnot(None))
+        if domain:
+            q = q.filter(models.PsyItem.domain == domain)
+        if restrict is not None:
+            q = q.filter(models.PsyItem.id.in_(restrict))
+        out: Dict[tuple, Dict[int, int]] = {}
+        for d, t, diff, n in q.group_by(
+            models.PsyItem.domain, models.PsyItem.topic, models.PsyItem.difficulty
+        ).all():
+            lv = psy_levels.level_of_difficulty(diff)
+            if lv is None:
+                continue
+            bucket = out.setdefault((d, t), {l: 0 for l in psy_levels.LEVELS})
+            bucket[lv] += n
+        return out
+
+    totals = _counts(None)
+    opens = _counts(open_ids) if open_ids is not None else {}
+    result: Dict[tuple, List[PsyTopicLevel]] = {}
+    for key, per_level in totals.items():
+        offered = psy_levels.offered_levels(per_level)
+        if len(offered) < 2:
+            continue
+        result[key] = [
+            PsyTopicLevel(
+                level=lv,
+                label=psy_levels.level_label(lv),
+                count=per_level[lv],
+                open_count=opens.get(key, {}).get(lv, 0) if open_ids is not None else None,
+            )
+            for lv in offered
+        ]
+    return result
+
+
 @router.get("/topics")
 def drill_topics(
     domain: Optional[str] = Query(None),
@@ -1072,12 +1253,14 @@ def drill_topics(
             (d, t): n
             for d, t, n in oq.group_by(models.PsyItem.domain, models.PsyItem.topic).all()
         }
+    levels = _topic_levels(db, open_ids, domain)
     return [
         {
             "domain": d,
             "topic": t,
             "count": c,
             "open_count": open_per_topic.get((d, t), 0) if open_ids is not None else None,
+            "levels": [lv.model_dump() for lv in levels.get((d, t), [])],
         }
         for d, t, c in sorted(rows, key=lambda r: (r[0], r[1]))
     ]
@@ -1103,7 +1286,9 @@ TOPIC_COURSE: Dict[tuple[str, str], tuple[str, Optional[int]]] = {
     ("quantitative", "הספק"): ("karni-quant-word-problems", 3),
     # מילולי
     ("verbal", "אנלוגיות"): ("karni-verbal-analogies", None),
-    ("verbal", "אוצר מילים וניבים"): ("karni-verbal-analogies", 2),
+    # היה ממופה לפרק 2 של karni-verbal-analogies ("מפת סוגי הקשרים") — תוכן של
+    # אנלוגיות, לא של אוצר מילים וניבים. הקורס הייעודי כבר קיים.
+    ("verbal", "אוצר מילים וניבים"): ("karni-verbal-vocabulary", None),
     ("verbal", "הבנה והסקה"): ("karni-verbal-reading", None),
     ("verbal", "השלמת משפטים"): ("karni-verbal-completion", 1),
     ("verbal", "יוצא דופן"): ("karni-verbal-odd-one-out", None),
@@ -1279,6 +1464,9 @@ def overview(
             .all()
         }
 
+    levels_by_topic = _topic_levels(
+        db, unlocked_psy_item_ids(db, karni_access.ratio) if free_tier else None
+    )
     topic_cards = []
     for domain, topic, count in bank_rows:
         seen = per_topic.get((domain, topic), {"answered": 0, "correct": 0})
@@ -1288,6 +1476,7 @@ def overview(
                 topic=topic,
                 count=count,
                 open_count=open_per_topic.get((domain, topic), 0) if free_tier else None,
+                levels=levels_by_topic.get((domain, topic), []),
                 answered=seen["answered"],
                 accuracy=round(seen["correct"] / seen["answered"], 3)
                 if seen["answered"]

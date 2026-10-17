@@ -124,6 +124,15 @@ export function IconBrand({ size = 30, ...rest }) {
   )
 }
 
+export function IconPause(props) {
+  return (
+    <svg {...base} {...props}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M10 9v6M14 9v6" />
+    </svg>
+  )
+}
+
 export function IconPlay(props) {
   return (
     <svg {...base} {...props}>

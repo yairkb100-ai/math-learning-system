@@ -909,6 +909,10 @@ class PsyAttempt(Base):
     # Index into the simulation's ordered sections. There is no going back.
     current_section = Column(Integer, nullable=False, default=0)
     section_started_at = Column(DateTime, nullable=True)
+    # Set while the student has paused the clock; the section's remaining time is
+    # frozen at (paused_at - section_started_at). Resume shifts section_started_at
+    # forward by the paused duration and clears this. NULL = clock running.
+    paused_at = Column(DateTime, nullable=True)
     started_at = Column(DateTime, default=datetime.utcnow, index=True)
     finished_at = Column(DateTime, nullable=True)
 

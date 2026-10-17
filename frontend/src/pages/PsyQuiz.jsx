@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import api from '../api.js'
 import MathText, { isLatinText } from '../components/MathText.jsx'
 import { Loading, ErrorBox } from '../components/Status.jsx'
+import PsyReviewItem from '../components/PsyReviewItem.jsx'
 import { fadeInUp, staggerContainer, tapScale, DURATION, EASE_OUT } from '../lib/motion.js'
 import '../styles/psy.css'
 
@@ -19,6 +20,9 @@ export default function PsyQuiz() {
   const navigate = useNavigate()
   const domain = params.get('domain')
   const topic = params.get('topic')
+  // רמה 1/2/3 (backend/app/psy_levels.py), נבחרת בעמוד הנושא.
+  const levelNum = Number(params.get('level'))
+  const level = [1, 2, 3].includes(levelNum) ? levelNum : undefined
   const refsParam = params.get('refs')
   const refs = useMemo(() => (refsParam ? refsParam.split(',').filter(Boolean) : null), [refsParam])
   // מצב חזרה: אותן שאלות שנענו לא נכון, ולא הגרלה חדשה.
@@ -32,12 +36,17 @@ export default function PsyQuiz() {
   const [log, setLog] = useState([]) // [{item, chosen, result}]
   const [answerError, setAnswerError] = useState(null)
   const [done, setDone] = useState(false)
+  const [reviewFilter, setReviewFilter] = useState('all') // all | wrong
+  const reviewRef = useRef(null)
   const shownAt = useRef(Date.now())
   const sending = useRef(false)
   // מונה סבבים — תשובה שחוזרת אחרי שהתלמיד כבר עבר למבחן אחר לא נוגעת במסך.
   const round = useRef(0)
 
-  const backTo = domain && topic ? `/psy/topics/${encodeURIComponent(domain)}/${encodeURIComponent(topic)}` : '/psy'
+  const backTo =
+    domain && topic
+      ? `/psy/topics/${encodeURIComponent(domain)}/${encodeURIComponent(topic)}${level ? `?level=${level}` : ''}`
+      : '/psy'
 
   const load = useCallback(async () => {
     const seq = ++round.current
@@ -47,11 +56,13 @@ export default function PsyQuiz() {
     setResult(null)
     setLog([])
     setDone(false)
+    setReviewFilter('all')
     setAnswerError(null)
     try {
       const rows = await api.psyDrill({
         domain: domain || undefined,
         topic: topic || undefined,
+        level,
         refs: refs || undefined,
         limit: refs ? Math.min(50, refs.length) : QUIZ_SIZE,
       })
@@ -61,7 +72,7 @@ export default function PsyQuiz() {
     } catch (e) {
       if (seq === round.current) setError(e)
     }
-  }, [domain, topic, refs])
+  }, [domain, topic, level, refs])
 
   useEffect(() => {
     load()
@@ -80,7 +91,7 @@ export default function PsyQuiz() {
       const res = await api.psyDrillAnswer(current.ref, optionIndex, seconds)
       if (seq !== round.current) return
       setResult(res)
-      setLog((l) => [...l, { item: current, chosen: optionIndex, result: res }])
+      setLog((l) => [...l, { item: current, chosen: optionIndex, result: res, seconds }])
     } catch (e) {
       if (seq !== round.current) return
       setAnswerError(e)
@@ -88,6 +99,16 @@ export default function PsyQuiz() {
     } finally {
       sending.current = false
     }
+  }
+
+  // פותח את כל הפתרונות המקופלים; אם הכול כבר פתוח — סוגר.
+  function toggleSolutions() {
+    const all = reviewRef.current?.querySelectorAll('details.psy-solution')
+    if (!all || all.length === 0) return
+    const open = Array.from(all).some((d) => !d.open)
+    all.forEach((d) => {
+      d.open = open
+    })
   }
 
   function next() {
@@ -122,11 +143,19 @@ export default function PsyQuiz() {
     const correct = log.filter((l) => l.result.is_correct).length
     const wrong = log.filter((l) => !l.result.is_correct)
     const percent = Math.round((correct / Math.max(1, log.length)) * 100)
+    const verdict =
+      correct === log.length
+        ? 'מושלם — כל התשובות נכונות'
+        : percent >= 70
+          ? 'תוצאה טובה'
+          : percent >= 40
+            ? 'יש על מה לעבוד — הסקירה למטה תעזור'
+            : 'מבחן קשה — עברו על ההסברים ונסו שוב'
+    const shown = reviewFilter === 'wrong' ? wrong : log
     return (
       <div className="psy-drill psy-quiz-done" dir="rtl">
         <header className="psy-results-head">
           <h1>{title}</h1>
-          <Link to={backTo} className="psy-link">חזרה לנושא</Link>
         </header>
 
         <motion.section
@@ -136,11 +165,14 @@ export default function PsyQuiz() {
           transition={{ duration: DURATION.long, ease: EASE_OUT }}
         >
           <div className="psy-score-main">
-            <div className="psy-score-label">התוצאה שלך</div>
-            <div className="psy-score-value">{percent}%</div>
-            <div className="psy-score-scale">
-              {correct} תשובות נכונות מתוך {log.length}
+            <div className="psy-score-label">הציון שלך</div>
+            <div className="psy-score-value psy-score-fraction">
+              <bdi>{correct}/{log.length}</bdi>
             </div>
+            <div className="psy-score-scale">
+              {percent}% · {correct === 1 ? 'תשובה נכונה אחת' : `${correct} תשובות נכונות`} מתוך {log.length}
+            </div>
+            <div className="psy-readiness">{verdict}</div>
           </div>
         </motion.section>
 
@@ -153,6 +185,7 @@ export default function PsyQuiz() {
                 const q = new URLSearchParams()
                 if (domain) q.set('domain', domain)
                 if (topic) q.set('topic', topic)
+                if (level) q.set('level', String(level))
                 q.set('refs', wrong.map((l) => l.item.ref).join(','))
                 navigate(`/psy/quiz?${q.toString()}`)
               }}
@@ -169,6 +202,7 @@ export default function PsyQuiz() {
                 const q = new URLSearchParams()
                 if (domain) q.set('domain', domain)
                 if (topic) q.set('topic', topic)
+                if (level) q.set('level', String(level))
                 navigate(`/psy/quiz?${q.toString()}`)
               } else {
                 load()
@@ -181,51 +215,47 @@ export default function PsyQuiz() {
           <Link className="psy-btn" to={backTo}>חזרה לנושא</Link>
         </div>
 
-        {wrong.length > 0 && (
-          <section className="psy-panel">
-            <h2>מה כדאי לחזק</h2>
-            <ol className="psy-review">
-              {wrong.map(({ item, chosen: ch, result: res }) => (
-                <li key={item.ref} className="psy-review-item is-wrong">
-                  <div className="psy-stem">
-                    <MathText text={item.stem} />
-                  </div>
-                  {item.figure && (
-                    <div className="psy-figure">
-                      <MathText text={item.figure} />
-                    </div>
-                  )}
-                  <ul className="psy-review-options">
-                    {item.options.map((opt, i) => (
-                      <li
-                        key={i}
-                        className={[
-                          'psy-review-option',
-                          i === res.correct_index ? 'is-key' : '',
-                          i === ch && i !== res.correct_index ? 'is-yours' : '',
-                        ]
-                          .filter(Boolean)
-                          .join(' ')}
-                      >
-                        <span className="psy-option-letter">{OPTION_LETTERS[i]}</span>
-                        <MathText text={opt} />
-                        {i === res.correct_index && <span className="psy-tag">נכונה</span>}
-                        {i === ch && i !== res.correct_index && (
-                          <span className="psy-tag psy-tag-bad">שלך</span>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                  {res.explanation && (
-                    <div className="psy-explanation">
-                      <MathText text={res.explanation} />
-                    </div>
-                  )}
-                </li>
+        <section className="psy-panel">
+          <div className="psy-panel-head">
+            <h2>סקירת כל השאלות, התשובות וההסברים</h2>
+            <div className="psy-filter" role="group" aria-label="סינון שאלות">
+              {[
+                ['all', 'הכול', log.length],
+                ['wrong', 'שגויות', wrong.length],
+              ].map(([key, label, num]) => (
+                <motion.button
+                  key={key}
+                  type="button"
+                  className={`psy-chip${reviewFilter === key ? ' is-on' : ''}`}
+                  aria-pressed={reviewFilter === key}
+                  onClick={() => setReviewFilter(key)}
+                  {...tapScale}
+                >
+                  {label} <span className="psy-chip-num">{num}</span>
+                </motion.button>
+              ))}
+            </div>
+          </div>
+          <button type="button" className="psy-link psy-review-toggle" onClick={toggleSolutions}>
+            פתיחה / סגירה של כל הפתרונות
+          </button>
+          {shown.length === 0 ? (
+            <p className="psy-empty">כל התשובות נכונות — אין מה לתקן.</p>
+          ) : (
+            <ol className="psy-review" ref={reviewRef}>
+              {shown.map((l) => (
+                <PsyReviewItem
+                  key={l.item.ref}
+                  n={log.indexOf(l) + 1}
+                  item={l.item}
+                  chosen={l.chosen}
+                  result={l.result}
+                  seconds={l.seconds}
+                />
               ))}
             </ol>
-          </section>
-        )}
+          )}
+        </section>
       </div>
     )
   }
@@ -302,7 +332,7 @@ export default function PsyQuiz() {
                     >
                       <span className="psy-option-letter">{OPTION_LETTERS[i]}</span>
                       <span className="psy-option-text">
-                        <MathText text={opt} />
+                        <MathText text={opt} plain />
                       </span>
                     </motion.button>
                   </motion.li>
