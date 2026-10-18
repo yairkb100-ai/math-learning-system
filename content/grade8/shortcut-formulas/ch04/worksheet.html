@@ -26,6 +26,15 @@
   .hard { background: #fadbdb; color: #8f2222; }
   ol.items { margin: 6px 0; padding-inline-start: 22px; }
   ol.items > li { margin-bottom: 13px; }
+  /* <ol type="a"> prints a. b. c., but every answer key says א. ב. ג. — one
+     list of items, two alphabets. Hebrew letters for the lettered lists. */
+  @counter-style heb-letters {
+    system: fixed;
+    symbols: "א" "ב" "ג" "ד" "ה" "ו" "ז" "ח" "ט" "י" "כ" "ל" "מ" "נ" "ס" "ע" "פ" "צ" "ק" "ר" "ש" "ת";
+    suffix: ". ";
+    fallback: decimal;
+  }
+  ol[type="a"] { list-style-type: heb-letters; }
   .fr { display: inline-flex; flex-direction: column; align-items: center;
         vertical-align: middle; margin: 0 3px; font-size: .95em; line-height: 1.15; }
   .fr b { border-bottom: 1.6px solid currentColor; padding: 0 4px; font-weight: 600; }
