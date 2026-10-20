@@ -822,6 +822,7 @@ COURSE_GRADES = {
     "powers-and-exponents": "7",
     "proportion-variation": "7",
     "geometry-angles-proofs": "7",
+    "karni-quant-geometry": "7",
     "functions": "8",
     "shortcut-formulas": "8",
     "two-equations-two-unknowns": "8",
@@ -961,7 +962,7 @@ def ensure_sections(db):
             "title": "גאומטריה: זוויות, צורות והוכחה",
             "description": "מיסודות השפה הגאומטרית וזוויות בין ישרים מקבילים, דרך משולשים ומרובעים, ועד כתיבת הוכחה קצרה, מדויקת ומנומקת",
             "order": 11,
-            "course_slugs": ["geometry-angles-proofs"],
+            "course_slugs": ["geometry-angles-proofs", "karni-quant-geometry"],
         },
         {
             "slug": "pythagoras-transformations",
@@ -1668,12 +1669,8 @@ _PSY_SECTIONS = [
             "karni-quant-arithmetic-fluency",
             "karni-quant-numbers",
             "karni-quant-word-problems",
-            "karni-quant-geometry",
             "karni-quant-strategies",
-            "grade56-geometry-measurement",
             "grade56-data-statistics-probability",
-            "circle-theorems",
-            "three-dimensional-solids",
             "sequences-arithmetic-geometric",
             "exponential-functions-logarithms",
         ],
@@ -2935,10 +2932,10 @@ _PSY_SIMULATIONS = [
             {"order": 0, "domain": "quantitative", "title": "תרגילים",
              "minutes": 8, "num_questions": 12,
              "blueprint": [
-                 {"count": 4, "topic": "מספרים וחזקות"},
                  {"count": 4, "topic": "שברים ועשרוניים"},
-                 {"count": 2, "topic": "אלגברה"},
-                 {"count": 2, "topic": "אחוזים"},
+                 {"count": 3, "topic": "אלגברה"},
+                 {"count": 3, "topic": "אחוזים"},
+                 {"count": 2, "topic": "יחס ופרופורציה"},
              ]},
         ],
     },
@@ -2953,10 +2950,10 @@ _PSY_SIMULATIONS = [
             {"order": 0, "domain": "quantitative", "title": "תרגילים",
              "minutes": 8, "num_questions": 12,
              "blueprint": [
-                 {"count": 4, "topic": "מספרים וחזקות"},
-                 {"count": 4, "topic": "שברים ועשרוניים"},
-                 {"count": 2, "topic": "אלגברה"},
+                 {"count": 5, "topic": "שברים ועשרוניים"},
+                 {"count": 3, "topic": "אלגברה"},
                  {"count": 2, "topic": "אחוזים"},
+                 {"count": 2, "topic": "יחס ופרופורציה"},
              ]},
         ],
     },
@@ -2971,10 +2968,10 @@ _PSY_SIMULATIONS = [
             {"order": 0, "domain": "quantitative", "title": "תרגילים",
              "minutes": 8, "num_questions": 12,
              "blueprint": [
-                 {"count": 4, "topic": "מספרים וחזקות"},
                  {"count": 4, "topic": "שברים ועשרוניים"},
-                 {"count": 2, "topic": "אלגברה"},
+                 {"count": 4, "topic": "אלגברה"},
                  {"count": 2, "topic": "אחוזים"},
+                 {"count": 2, "topic": "יחס ופרופורציה"},
              ]},
         ],
     },
@@ -2989,10 +2986,10 @@ _PSY_SIMULATIONS = [
             {"order": 0, "domain": "quantitative", "title": "תרגילים",
              "minutes": 8, "num_questions": 12,
              "blueprint": [
-                 {"count": 4, "topic": "מספרים וחזקות"},
-                 {"count": 4, "topic": "שברים ועשרוניים"},
+                 {"count": 5, "topic": "שברים ועשרוניים"},
                  {"count": 2, "topic": "אלגברה"},
-                 {"count": 2, "topic": "אחוזים"},
+                 {"count": 3, "topic": "אחוזים"},
+                 {"count": 2, "topic": "יחס ופרופורציה"},
              ]},
         ],
     },
@@ -3007,10 +3004,195 @@ _PSY_SIMULATIONS = [
             {"order": 0, "domain": "quantitative", "title": "תרגילים",
              "minutes": 8, "num_questions": 12,
              "blueprint": [
-                 {"count": 4, "topic": "מספרים וחזקות"},
                  {"count": 4, "topic": "שברים ועשרוניים"},
-                 {"count": 2, "topic": "אלגברה"},
+                 {"count": 3, "topic": "אלגברה"},
                  {"count": 2, "topic": "אחוזים"},
+                 {"count": 3, "topic": "יחס ופרופורציה"},
+             ]},
+        ],
+    },
+    {
+        "slug": "karni-test-wordprob-6",
+        "title": "בעיות מילוליות — מבחן 6",
+        "description": "10 שאלות ב-9 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
+        "kind": "section",
+        "order": 146,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "quantitative", "title": "בעיות מילוליות",
+             "minutes": 9, "num_questions": 10,
+             "blueprint": [
+                 {"count": 3, "topic": "תנועה"},
+                 {"count": 2, "topic": "הספק"},
+                 {"count": 2, "topic": "ממוצע"},
+                 {"count": 2, "topic": "אחוזים"},
+                 {"count": 1, "topic": "יחס ופרופורציה"},
+             ]},
+        ],
+    },
+    {
+        "slug": "karni-test-wordprob-7",
+        "title": "בעיות מילוליות — מבחן 7",
+        "description": "10 שאלות ב-9 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
+        "kind": "section",
+        "order": 147,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "quantitative", "title": "בעיות מילוליות",
+             "minutes": 9, "num_questions": 10,
+             "blueprint": [
+                 {"count": 2, "topic": "תנועה"},
+                 {"count": 3, "topic": "הספק"},
+                 {"count": 2, "topic": "ממוצע"},
+                 {"count": 2, "topic": "אחוזים"},
+                 {"count": 1, "topic": "יחס ופרופורציה"},
+             ]},
+        ],
+    },
+    {
+        "slug": "karni-test-wordprob-8",
+        "title": "בעיות מילוליות — מבחן 8",
+        "description": "10 שאלות ב-9 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
+        "kind": "section",
+        "order": 148,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "quantitative", "title": "בעיות מילוליות",
+             "minutes": 9, "num_questions": 10,
+             "blueprint": [
+                 {"count": 3, "topic": "תנועה"},
+                 {"count": 2, "topic": "הספק"},
+                 {"count": 2, "topic": "ממוצע"},
+                 {"count": 1, "topic": "אחוזים"},
+                 {"count": 2, "topic": "יחס ופרופורציה"},
+             ]},
+        ],
+    },
+    {
+        "slug": "karni-test-wordprob-9",
+        "title": "בעיות מילוליות — מבחן 9",
+        "description": "10 שאלות ב-9 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
+        "kind": "section",
+        "order": 149,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "quantitative", "title": "בעיות מילוליות",
+             "minutes": 9, "num_questions": 10,
+             "blueprint": [
+                 {"count": 2, "topic": "תנועה"},
+                 {"count": 2, "topic": "הספק"},
+                 {"count": 3, "topic": "ממוצע"},
+                 {"count": 2, "topic": "אחוזים"},
+                 {"count": 1, "topic": "יחס ופרופורציה"},
+             ]},
+        ],
+    },
+    {
+        "slug": "karni-test-wordprob-10",
+        "title": "בעיות מילוליות — מבחן 10",
+        "description": "10 שאלות ב-9 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
+        "kind": "section",
+        "order": 150,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "quantitative", "title": "בעיות מילוליות",
+             "minutes": 9, "num_questions": 10,
+             "blueprint": [
+                 {"count": 3, "topic": "תנועה"},
+                 {"count": 3, "topic": "הספק"},
+                 {"count": 1, "topic": "ממוצע"},
+                 {"count": 2, "topic": "אחוזים"},
+                 {"count": 1, "topic": "יחס ופרופורציה"},
+             ]},
+        ],
+    },
+    {
+        "slug": "karni-test-drill-6",
+        "title": "תרגילים — מבחן 6",
+        "description": "12 שאלות ב-8 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
+        "kind": "section",
+        "order": 156,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "quantitative", "title": "תרגילים",
+             "minutes": 8, "num_questions": 12,
+             "blueprint": [
+                 {"count": 4, "topic": "שברים ועשרוניים"},
+                 {"count": 3, "topic": "אלגברה"},
+                 {"count": 3, "topic": "אחוזים"},
+                 {"count": 2, "topic": "יחס ופרופורציה"},
+             ]},
+        ],
+    },
+    {
+        "slug": "karni-test-drill-7",
+        "title": "תרגילים — מבחן 7",
+        "description": "12 שאלות ב-8 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
+        "kind": "section",
+        "order": 157,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "quantitative", "title": "תרגילים",
+             "minutes": 8, "num_questions": 12,
+             "blueprint": [
+                 {"count": 4, "topic": "שברים ועשרוניים"},
+                 {"count": 4, "topic": "אלגברה"},
+                 {"count": 2, "topic": "אחוזים"},
+                 {"count": 2, "topic": "יחס ופרופורציה"},
+             ]},
+        ],
+    },
+    {
+        "slug": "karni-test-drill-8",
+        "title": "תרגילים — מבחן 8",
+        "description": "12 שאלות ב-8 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
+        "kind": "section",
+        "order": 158,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "quantitative", "title": "תרגילים",
+             "minutes": 8, "num_questions": 12,
+             "blueprint": [
+                 {"count": 5, "topic": "שברים ועשרוניים"},
+                 {"count": 3, "topic": "אלגברה"},
+                 {"count": 3, "topic": "אחוזים"},
+                 {"count": 1, "topic": "יחס ופרופורציה"},
+             ]},
+        ],
+    },
+    {
+        "slug": "karni-test-drill-9",
+        "title": "תרגילים — מבחן 9",
+        "description": "12 שאלות ב-8 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
+        "kind": "section",
+        "order": 159,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "quantitative", "title": "תרגילים",
+             "minutes": 8, "num_questions": 12,
+             "blueprint": [
+                 {"count": 4, "topic": "שברים ועשרוניים"},
+                 {"count": 3, "topic": "אלגברה"},
+                 {"count": 2, "topic": "אחוזים"},
+                 {"count": 3, "topic": "יחס ופרופורציה"},
+             ]},
+        ],
+    },
+    {
+        "slug": "karni-test-drill-10",
+        "title": "תרגילים — מבחן 10",
+        "description": "12 שאלות ב-8 דקות, בתנאי המבחן. אפשר להשהות את השעון בכפתור ״השהה״.",
+        "kind": "section",
+        "order": 160,
+        "free_preview": False,
+        "sections": [
+            {"order": 0, "domain": "quantitative", "title": "תרגילים",
+             "minutes": 8, "num_questions": 12,
+             "blueprint": [
+                 {"count": 5, "topic": "שברים ועשרוניים"},
+                 {"count": 2, "topic": "אלגברה"},
+                 {"count": 3, "topic": "אחוזים"},
+                 {"count": 2, "topic": "יחס ופרופורציה"},
              ]},
         ],
     },
@@ -3464,6 +3646,11 @@ def _single_topic_key(spec):
     return next(iter(keys)) if len(keys) == 1 else None
 
 
+# How many timed papers one topic level may have (10 questions each, disjoint).
+# Quantitative gets more: its levels are the ones students sit repeatedly.
+_MAX_PAPERS_PER_LEVEL = {"quantitative": 5}
+
+
 def _add_topic_tests_for_uncovered_topics():
     """Give every bank topic its own leveled, single-topic timed papers.
 
@@ -3609,7 +3796,7 @@ def _add_topic_tests_for_uncovered_topics():
                 per = min(10, n_l // papers)
             else:
                 per = min(10, n_l)
-                papers = max(1, min(3, n_l // per))
+                papers = max(1, min(_MAX_PAPERS_PER_LEVEL.get(domain, 3), n_l // per))
             minutes = max(2, math.ceil(per * (secs_l / n_l) / 60))
             if biggest is None or n_l > biggest[4]:
                 biggest = (lv, papers, per, minutes, n_l)

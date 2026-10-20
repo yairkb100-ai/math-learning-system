@@ -121,13 +121,13 @@ def test_slugs_are_unique_and_legacy_slugs_survive(db):
     # Slugs of already-published single-topic papers are re-used, not orphaned.
     for slug in ("karni-test-vocab-1", "karni-test-vcomp-5", "karni-test-vodd-1",
                  "karni-test-english-a4f117-1", "karni-test-logic-3a6539-1",
-                 "karni-test-quantitative-fbc07b-1"):
+                 "karni-test-quantitative-155398-L1-1"):
         assert slug in slugs, slug
 
 
 def test_description_mentions_pausing(db):
     sim = db.query(PsySimulation).filter(
-        PsySimulation.slug == "karni-test-quantitative-fbc07b-1"
+        PsySimulation.slug == "karni-test-quantitative-155398-L1-1"
     ).one()
     assert "אפשר להשהות את השעון" in sim.description
     assert "אי אפשר לעצור" not in sim.description

@@ -1271,12 +1271,9 @@ def drill_topics(
 # מתוחזקת ידנית: נושא חדש שנוסף למאגר ולא נרשם כאן פשוט נופל בשקט ל-None
 # ומוצג כמו קודם, בלי לשבור את העמוד.
 TOPIC_COURSE: Dict[tuple[str, str], tuple[str, Optional[int]]] = {
-    # כמותי
+    # כמותי. הנושאים צורות וגאומטריה, הסקה מתרשים, גאומטריה אנליטית ומספרים
+    # וחזקות הוצאו מקרני (2026-10-18) ועברו ללומדה הרגילה.
     ("quantitative", "סדרות מספרים ואותיות"): ("karni-series", None),
-    ("quantitative", "צורות וגאומטריה"): ("karni-quant-geometry", None),
-    ("quantitative", "גאומטריה אנליטית"): ("karni-quant-geometry", None),
-    ("quantitative", "הסקה מתרשים"): ("karni-quant-geometry", 5),
-    ("quantitative", "מספרים וחזקות"): ("karni-quant-numbers", 1),
     ("quantitative", "שברים ועשרוניים"): ("karni-quant-numbers", 2),
     ("quantitative", "אחוזים"): ("karni-quant-numbers", 3),
     ("quantitative", "יחס ופרופורציה"): ("karni-quant-numbers", 4),
