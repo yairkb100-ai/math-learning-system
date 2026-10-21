@@ -26,6 +26,7 @@ export const COURSE_GRADES = {
   'powers-and-exponents': '7',
   'proportion-variation': '7',
   'geometry-angles-proofs': '7',
+  'karni-quant-geometry': '7',
   functions: '8',
   'shortcut-formulas': '8',
   'two-equations-two-unknowns': '8',
@@ -193,7 +194,7 @@ export const SUBJECTS = [
     title: 'גאומטריה: זוויות, משולשים והוכחות',
     description:
       'עולם הגאומטריה לכיתה ז׳: מקריאת סימונים וסוגי זוויות, דרך ישרים מקבילים, משולשים ומרובעים, ועד תיכון, גובה, חוצה זווית, משפטי חפיפה והוכחות במשולש שווה־שוקיים.',
-    courseSlugs: ['geometry-angles-proofs'],
+    courseSlugs: ['geometry-angles-proofs', 'karni-quant-geometry'],
   },
   {
     slug: 'congruence-similarity',
@@ -269,7 +270,6 @@ export const KARNI_AREAS = [
     courseSlugs: [
       'karni-quant-arithmetic-fluency',
       'karni-quant-numbers',
-      'karni-quant-geometry',
       'karni-quant-word-problems',
       'karni-quant-strategies',
     ],
