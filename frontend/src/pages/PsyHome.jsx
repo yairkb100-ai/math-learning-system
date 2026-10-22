@@ -149,48 +149,6 @@ function pct(n) {
   return `${Math.round(n * 100)}%`
 }
 
-// שלוש רמות שליטה מתוך הדיוק בלבד — זה כל מה שה-API מחזיר לנושא
-// (count / answered / accuracy), ואין שדה קושי, אז אין מה להמציא.
-function mastery(t) {
-  if (!t.answered) return { key: 'new', label: 'טרם תורגל' }
-  if (t.accuracy >= 0.8) return { key: 'strong', label: 'שליטה טובה' }
-  if (t.accuracy >= 0.6) return { key: 'mid', label: 'בדרך לשם' }
-  return { key: 'weak', label: 'לחיזוק' }
-}
-
-/** שורת נושא: עיגול-סטטוס, שם, מונים, ו-CTA בקצה. בלי מסגרת — קו שיער מפריד. */
-function TopicRow({ t }) {
-  const m = mastery(t)
-  const topicLabel = t.chapter_title?.startsWith('בעיות ')
-    ? t.chapter_title.split(':')[0]
-    : t.topic
-  // בדרגת free הכרטיס אומר גם כמה באמת פתוחות, ואותו כלל נשמר כאן.
-  const open = t.open_count != null && t.open_count < t.count ? t.open_count : t.count
-  return (
-    <motion.li className={`psy-trow is-${m.key}`} variants={fadeInUp}>
-      <span className="psy-trow-state" aria-hidden="true">
-        {m.key !== 'new' && <IconCheck />}
-      </span>
-      <span className="psy-trow-body">
-        <span className="psy-trow-name">{topicLabel}</span>
-        <span className="psy-trow-meta">
-          {open === t.count ? `${t.count} שאלות במאגר` : `${open} מתוך ${t.count} שאלות פתוחות`}
-          {' · '}
-          <span className="psy-trow-mastery">
-            {t.answered ? `${pct(t.accuracy || 0)} דיוק · ${t.answered} נענו` : m.label}
-          </span>
-        </span>
-      </span>
-      <Link
-        className="psy-trow-cta"
-        to={`/psy/topics/${encodeURIComponent(t.domain)}/${encodeURIComponent(t.topic)}`}
-      >
-        כניסה לנושא
-      </Link>
-    </motion.li>
-  )
-}
-
 // מצב סימולציה, באותה לוגיקת שלוש-מדרגות של הנושאים אבל מהציון הטוב ביותר.
 // אין ציון = טרם נוסתה, ולא "חלשה" — הטבעת הריקה היא הזמנה, לא שיפוט.
 function simState(s) {
@@ -258,6 +216,168 @@ function DomainHead({ domain, title, lead, stats, core }) {
       {lead && <p className="psy-domain-lead">{lead}</p>}
       {stats && <p className="psy-domain-stats">{stats}</p>}
     </div>
+  )
+}
+
+/** תחנות הנושא: ללמוד, לתרגל, מבחן ללא זמן ומבחני הנושא על השעון — אותם יעדים כמו בדף הנושא. */
+function topicStations(t, courses, simulations) {
+  const course = courses.find((c) => c.id === t.course_id) || null
+  const learnTo = course
+    ? t.chapter_number != null
+      ? `/courses/${course.id}/chapters/${t.chapter_number}`
+      : `/courses/${course.id}`
+    : null
+  const open = t.open_count != null && t.open_count < t.count ? t.open_count : t.count
+  const q = `domain=${encodeURIComponent(t.domain)}&topic=${encodeURIComponent(t.topic)}`
+  const stations = []
+  if (learnTo) {
+    stations.push({
+      key: 'learn',
+      kind: 'ללמוד',
+      Icon: IconBook,
+      title: t.chapter_title || course.title,
+      meta: 'הסבר, שיטת פתרון ודוגמאות פתורות',
+      to: learnTo,
+      cta: 'לפרק הלימוד',
+    })
+  }
+  stations.push({
+    key: 'practice',
+    kind: 'לתרגל',
+    Icon: IconPencil,
+    title: 'תרגול ממוקד',
+    meta: `${open} שאלות · בקצב אישי`,
+    active: t.answered > 0,
+    to: `/psy/drill?${q}`,
+    cta: t.answered ? 'להמשיך לתרגל' : 'להתחיל לתרגל',
+  })
+  stations.push({
+    key: 'quiz',
+    kind: 'מבחן',
+    Icon: IconTarget,
+    title: 'מבחן ללא זמן',
+    meta: 'עד 10 שאלות · בלי שעון · הסבר אחרי כל תשובה',
+    to: `/psy/quiz?${q}`,
+    cta: 'להתחיל',
+  })
+  simulations
+    .filter(
+      (s) =>
+        s.single_topic === t.topic &&
+        s.sections.length === 1 &&
+        s.sections[0].domain === t.domain
+    )
+    .sort((a, b) => (a.topic_level || 0) - (b.topic_level || 0))
+    .forEach((s) =>
+      stations.push({
+        key: s.slug,
+        kind: s.topic_level_label ? `על השעון · ${s.topic_level_label}` : 'על השעון',
+        Icon: IconClock,
+        title: s.title,
+        meta: `${s.total_minutes} דקות · ${s.total_questions} שאלות`,
+        done: s.attempts_count > 0,
+        locked: s.locked,
+        to: `/psy/sim/${s.slug}`,
+        cta: s.attempts_count > 0 ? 'להיבחן שוב' : 'להתחיל מבחן',
+      })
+    )
+  return stations
+}
+
+/** תתי-נושאים כמחברת: כל נושא הוא עמוד עם מספר וטבעת התקדמות, ובפתיחה — מסלול תחנות. */
+const RING_R = 19
+const RING_C = 2 * Math.PI * RING_R
+
+function TopicNotebook({ list, courses, simulations }) {
+  const [openKey, setOpenKey] = useState(null)
+  return (
+    <ol className="psy-nb">
+      {list.map((t, i) => {
+        const key = `${t.domain}-${t.topic}`
+        const isOpen = openKey === key
+        const label = t.chapter_title?.startsWith('בעיות ') ? t.chapter_title.split(':')[0] : t.topic
+        const done = Math.min(t.answered, t.count)
+        const ratio = t.count ? done / t.count : 0
+        const stations = topicStations(t, courses, simulations)
+        return (
+          <li key={key} className={`psy-nb-item${isOpen ? ' is-open' : ''}`}>
+            <button
+              type="button"
+              className="psy-nb-head"
+              aria-expanded={isOpen}
+              onClick={() => setOpenKey(isOpen ? null : key)}
+            >
+              <span className="psy-nb-num" aria-hidden="true">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <span className="psy-nb-title">
+                <span className="psy-nb-name">{label}</span>
+                <span className="psy-nb-sub">
+                  {done ? `${done} מתוך ${t.count} שאלות תורגלו` : `${t.count} שאלות במאגר`}
+                  {' · '}
+                  {stations.length} תחנות
+                </span>
+              </span>
+              <span className="psy-nb-ring" role="img" aria-label={`${pct(ratio)} מהשאלות תורגלו`}>
+                <svg viewBox="0 0 48 48" aria-hidden="true">
+                  <circle className="psy-nb-ring-track" cx="24" cy="24" r={RING_R} />
+                  <circle
+                    className="psy-nb-ring-fill"
+                    cx="24"
+                    cy="24"
+                    r={RING_R}
+                    strokeDasharray={RING_C}
+                    strokeDashoffset={RING_C * (1 - ratio)}
+                  />
+                </svg>
+                <span className="psy-nb-ring-pct">{Math.round(ratio * 100)}</span>
+              </span>
+            </button>
+            {isOpen && (
+              <motion.ol
+                className="psy-path"
+                initial={{ opacity: 0, y: -6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: DURATION.short, ease: EASE_OUT }}
+              >
+                {stations.map((c, n) => (
+                  <li
+                    key={c.key}
+                    className={`psy-step${c.done ? ' is-done' : c.active ? ' is-active' : ''}${c.locked ? ' is-locked' : ''}`}
+                  >
+                    <span className="psy-step-node" aria-hidden="true">
+                      {c.done ? <IconCheck /> : <c.Icon />}
+                    </span>
+                    <span className="psy-step-kind">
+                      {n + 1}. {c.kind}
+                    </span>
+                    <span className="psy-step-title">{c.title}</span>
+                    <span className="psy-step-meta">{c.meta}</span>
+                    {c.locked ? (
+                      <span className="psy-trow-lock">
+                        <IconLock /> נדרש מנוי פעיל
+                      </span>
+                    ) : (
+                      <Link className="psy-step-go" to={c.to}>
+                        {c.cta} <span aria-hidden="true">←</span>
+                      </Link>
+                    )}
+                  </li>
+                ))}
+              </motion.ol>
+            )}
+            {isOpen && (
+              <Link
+                className="psy-nb-full"
+                to={`/psy/topics/${encodeURIComponent(t.domain)}/${encodeURIComponent(t.topic)}`}
+              >
+                לעמוד הנושא המלא (בחירת רמה ועוד) <span aria-hidden="true">←</span>
+              </Link>
+            )}
+          </li>
+        )
+      })}
+    </ol>
   )
 }
 
@@ -771,17 +891,11 @@ export default function PsyHome() {
             <p className="psy-section-lead">
               בכל נושא מחכים באותו מקום ההסבר, התרגול והמבחנים המתאימים לו.
             </p>
-            <motion.ul
-              className="psy-trows"
-              variants={staggerContainer}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, margin: '-20px' }}
-            >
-              {catTopics(openCat.key).map((t) => (
-                <TopicRow key={`${t.domain}-${t.topic}`} t={t} />
-              ))}
-            </motion.ul>
+            <TopicNotebook
+              list={catTopics(openCat.key)}
+              courses={courses}
+              simulations={simulations}
+            />
           </div>
         )}
         {shownCourseGroups.length > 0 && (
