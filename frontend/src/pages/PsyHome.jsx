@@ -219,93 +219,22 @@ function DomainHead({ domain, title, lead, stats, core }) {
   )
 }
 
-/** תחנות הנושא: ללמוד, לתרגל, מבחן ללא זמן ומבחני הנושא על השעון — אותם יעדים כמו בדף הנושא. */
-function topicStations(t, courses, simulations) {
-  const course = courses.find((c) => c.id === t.course_id) || null
-  const learnTo = course
-    ? t.chapter_number != null
-      ? `/courses/${course.id}/chapters/${t.chapter_number}`
-      : `/courses/${course.id}`
-    : null
-  const open = t.open_count != null && t.open_count < t.count ? t.open_count : t.count
-  const q = `domain=${encodeURIComponent(t.domain)}&topic=${encodeURIComponent(t.topic)}`
-  const stations = []
-  if (learnTo) {
-    stations.push({
-      key: 'learn',
-      kind: 'ללמוד',
-      Icon: IconBook,
-      title: t.chapter_title || course.title,
-      meta: 'הסבר, שיטת פתרון ודוגמאות פתורות',
-      to: learnTo,
-      cta: 'לפרק הלימוד',
-    })
-  }
-  stations.push({
-    key: 'practice',
-    kind: 'לתרגל',
-    Icon: IconPencil,
-    title: 'תרגול ממוקד',
-    meta: `${open} שאלות · בקצב אישי`,
-    active: t.answered > 0,
-    to: `/psy/drill?${q}`,
-    cta: t.answered ? 'להמשיך לתרגל' : 'להתחיל לתרגל',
-  })
-  stations.push({
-    key: 'quiz',
-    kind: 'מבחן',
-    Icon: IconTarget,
-    title: 'מבחן ללא זמן',
-    meta: 'עד 10 שאלות · בלי שעון · הסבר אחרי כל תשובה',
-    to: `/psy/quiz?${q}`,
-    cta: 'להתחיל',
-  })
-  simulations
-    .filter(
-      (s) =>
-        s.single_topic === t.topic &&
-        s.sections.length === 1 &&
-        s.sections[0].domain === t.domain
-    )
-    .sort((a, b) => (a.topic_level || 0) - (b.topic_level || 0))
-    .forEach((s) =>
-      stations.push({
-        key: s.slug,
-        kind: s.topic_level_label ? `על השעון · ${s.topic_level_label}` : 'על השעון',
-        Icon: IconClock,
-        title: s.title,
-        meta: `${s.total_minutes} דקות · ${s.total_questions} שאלות`,
-        done: s.attempts_count > 0,
-        locked: s.locked,
-        to: `/psy/sim/${s.slug}`,
-        cta: s.attempts_count > 0 ? 'להיבחן שוב' : 'להתחיל מבחן',
-      })
-    )
-  return stations
-}
-
-/** תתי-נושאים כמחברת: כל נושא הוא עמוד עם מספר וטבעת התקדמות, ובפתיחה — מסלול תחנות. */
+/** תתי-נושאים כמחברת: כל נושא הוא עמוד עם מספר וטבעת התקדמות; לחיצה פותחת את דף הנושא. */
 const RING_R = 19
 const RING_C = 2 * Math.PI * RING_R
 
-function TopicNotebook({ list, courses, simulations }) {
-  const [openKey, setOpenKey] = useState(null)
+function TopicNotebook({ list }) {
   return (
     <ol className="psy-nb">
       {list.map((t, i) => {
-        const key = `${t.domain}-${t.topic}`
-        const isOpen = openKey === key
         const label = t.chapter_title?.startsWith('בעיות ') ? t.chapter_title.split(':')[0] : t.topic
         const done = Math.min(t.answered, t.count)
         const ratio = t.count ? done / t.count : 0
-        const stations = topicStations(t, courses, simulations)
         return (
-          <li key={key} className={`psy-nb-item${isOpen ? ' is-open' : ''}`}>
-            <button
-              type="button"
+          <li key={`${t.domain}-${t.topic}`} className="psy-nb-item">
+            <Link
               className="psy-nb-head"
-              aria-expanded={isOpen}
-              onClick={() => setOpenKey(isOpen ? null : key)}
+              to={`/psy/topics/${encodeURIComponent(t.domain)}/${encodeURIComponent(t.topic)}`}
             >
               <span className="psy-nb-num" aria-hidden="true">
                 {String(i + 1).padStart(2, '0')}
@@ -314,8 +243,6 @@ function TopicNotebook({ list, courses, simulations }) {
                 <span className="psy-nb-name">{label}</span>
                 <span className="psy-nb-sub">
                   {done ? `${done} מתוך ${t.count} שאלות תורגלו` : `${t.count} שאלות במאגר`}
-                  {' · '}
-                  {stations.length} תחנות
                 </span>
               </span>
               <span className="psy-nb-ring" role="img" aria-label={`${pct(ratio)} מהשאלות תורגלו`}>
@@ -332,48 +259,8 @@ function TopicNotebook({ list, courses, simulations }) {
                 </svg>
                 <span className="psy-nb-ring-pct">{Math.round(ratio * 100)}</span>
               </span>
-            </button>
-            {isOpen && (
-              <motion.ol
-                className="psy-path"
-                initial={{ opacity: 0, y: -6 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: DURATION.short, ease: EASE_OUT }}
-              >
-                {stations.map((c, n) => (
-                  <li
-                    key={c.key}
-                    className={`psy-step${c.done ? ' is-done' : c.active ? ' is-active' : ''}${c.locked ? ' is-locked' : ''}`}
-                  >
-                    <span className="psy-step-node" aria-hidden="true">
-                      {c.done ? <IconCheck /> : <c.Icon />}
-                    </span>
-                    <span className="psy-step-kind">
-                      {n + 1}. {c.kind}
-                    </span>
-                    <span className="psy-step-title">{c.title}</span>
-                    <span className="psy-step-meta">{c.meta}</span>
-                    {c.locked ? (
-                      <span className="psy-trow-lock">
-                        <IconLock /> נדרש מנוי פעיל
-                      </span>
-                    ) : (
-                      <Link className="psy-step-go" to={c.to}>
-                        {c.cta} <span aria-hidden="true">←</span>
-                      </Link>
-                    )}
-                  </li>
-                ))}
-              </motion.ol>
-            )}
-            {isOpen && (
-              <Link
-                className="psy-nb-full"
-                to={`/psy/topics/${encodeURIComponent(t.domain)}/${encodeURIComponent(t.topic)}`}
-              >
-                לעמוד הנושא המלא (בחירת רמה ועוד) <span aria-hidden="true">←</span>
-              </Link>
-            )}
+              <span className="psy-nb-go" aria-hidden="true">←</span>
+            </Link>
           </li>
         )
       })}
@@ -891,11 +778,7 @@ export default function PsyHome() {
             <p className="psy-section-lead">
               בכל נושא מחכים באותו מקום ההסבר, התרגול והמבחנים המתאימים לו.
             </p>
-            <TopicNotebook
-              list={catTopics(openCat.key)}
-              courses={courses}
-              simulations={simulations}
-            />
+            <TopicNotebook list={catTopics(openCat.key)} />
           </div>
         )}
         {shownCourseGroups.length > 0 && (
