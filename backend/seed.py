@@ -1921,7 +1921,7 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-mini-figural",
         "title": "מיני-תרגול צורני",
-        "description": "עשר שאלות של חוקיות צורות — מטריצות, סדרות ויוצא דופן",
+        "description": "שש שאלות של חוקיות צורות — סדרות ויוצא דופן",
         "kind": "mini",
         "order": 2,
         "free_preview": True,
@@ -3630,6 +3630,58 @@ def _use_shape_source_in_simulations():
 
 
 _use_shape_source_in_simulations()
+
+
+def _drop_matrices_from_simulations():
+    """Take the retired matrices topic out of every simulation form.
+
+    The matrices questions were removed from the bank, so a blueprint row for
+    them would draw nothing. A figural section that mixes matrices with other
+    topics is shortened to what is left (minutes scale with the question
+    count); a section that was only matrices is dropped; a form with nothing
+    but matrices (the three "מטריצות — מבחן" papers) is unpublished rather than
+    deleted, so students' attempts on it are kept.
+    """
+    topic = "מטריצות"
+    for spec in _PSY_SIMULATIONS:
+        sections = spec["sections"]
+        if not any(
+            row.get("topic") == topic for sec in sections for row in sec.get("blueprint") or []
+        ):
+            continue
+        if all(
+            sec["domain"] == "figural"
+            and all(row.get("topic") == topic for row in sec.get("blueprint") or [])
+            for sec in sections
+        ):
+            spec["is_published"] = False
+            continue
+
+        kept = []
+        for sec in sections:
+            rows = sec.get("blueprint") or []
+            if not any(row.get("topic") == topic for row in rows):
+                kept.append(sec)
+                continue
+            left = [row for row in rows if row.get("topic") != topic]
+            if not left:
+                continue
+            before = sec["num_questions"]
+            sec["blueprint"] = left
+            sec["num_questions"] = sum(row["count"] for row in left)
+            sec["minutes"] = max(1, round(sec["minutes"] * sec["num_questions"] / before))
+            sec.pop("item_refs", None)
+            if sec["title"] == "מטריצות, סדרות צורות ויוצא דופן":
+                sec["title"] = "סדרות צורות ויוצא דופן"
+            elif topic in sec["title"]:
+                sec["title"] = "שטיחים וצורות ברצף"
+            kept.append(sec)
+        for order, sec in enumerate(kept):
+            sec["order"] = order
+        spec["sections"] = kept
+
+
+_drop_matrices_from_simulations()
 
 
 def _single_topic_key(spec):

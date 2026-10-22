@@ -1293,7 +1293,6 @@ TOPIC_COURSE: Dict[tuple[str, str], tuple[str, Optional[int]]] = {
     # צורני
     ("figural", "סדרות צורות"): ("karni-figural-series", None),
     ("figural", "אנלוגיות צורניות"): ("karni-figural-analogies", None),
-    ("figural", "מטריצות"): ("karni-figural-matrices", None),
     ("figural", "שטיחים ותבניות"): ("karni-carpets", None),
     ("figural", "יוצא דופן צורני"): ("karni-figural-basics", 3),
     # לוגי
