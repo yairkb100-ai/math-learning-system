@@ -27,6 +27,10 @@ export default function PsyQuiz() {
   const refs = useMemo(() => (refsParam ? refsParam.split(',').filter(Boolean) : null), [refsParam])
   // מצב חזרה: אותן שאלות שנענו לא נכון, ולא הגרלה חדשה.
   const isRetry = !!refs
+  // יחידה קבועה (ראה unit ב-/psy/drill): סט שאלות מסודר, לא הגרלה. השם בא מהכרטיס.
+  const unitParam = params.get('unit')
+  const unit = unitParam && /^[a-z0-9-]{1,24}$/.test(unitParam) ? unitParam : undefined
+  const unitName = params.get('name')
 
   const [items, setItems] = useState(null)
   const [error, setError] = useState(null)
@@ -64,7 +68,8 @@ export default function PsyQuiz() {
         topic: topic || undefined,
         level,
         refs: refs || undefined,
-        limit: refs ? Math.min(50, refs.length) : QUIZ_SIZE,
+        unit: unit && !refs ? unit : undefined,
+        limit: refs ? Math.min(50, refs.length) : unit ? 50 : QUIZ_SIZE,
       })
       if (seq !== round.current) return
       setItems(rows)
@@ -72,7 +77,7 @@ export default function PsyQuiz() {
     } catch (e) {
       if (seq === round.current) setError(e)
     }
-  }, [domain, topic, level, refs])
+  }, [domain, topic, level, refs, unit])
 
   useEffect(() => {
     load()
@@ -125,7 +130,13 @@ export default function PsyQuiz() {
   if (error) return <ErrorBox error={error} />
   if (!items) return <Loading />
 
-  const title = isRetry ? 'תרגול חוזר' : topic ? `מבחן ללא זמן · ${topic}` : 'מבחן ללא זמן'
+  const title = isRetry
+    ? 'תרגול חוזר'
+    : unit
+      ? unitName || 'יחידה ללא זמן'
+      : topic
+        ? `מבחן ללא זמן · ${topic}`
+        : 'מבחן ללא זמן'
 
   if (items.length === 0) {
     return (
@@ -210,7 +221,7 @@ export default function PsyQuiz() {
             }}
             {...tapScale}
           >
-            {isRetry ? 'מבחן חדש בנושא' : 'עוד מבחן בנושא'}
+            {isRetry ? 'מבחן חדש בנושא' : unit ? 'להתחיל את היחידה מחדש' : 'עוד מבחן בנושא'}
           </motion.button>
           <Link className="psy-btn" to={backTo}>חזרה לנושא</Link>
         </div>

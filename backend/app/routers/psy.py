@@ -1068,12 +1068,17 @@ def drill_questions(
     # refs מופרדים בפסיקים — "תרגול חוזר" על שאלות מסוימות (למשל הטעויות
     # במבחן). שאר המסננים ומנגנון הטעימה עדיין חלים.
     refs: Optional[str] = Query(None, max_length=4000),
+    # יחידה קבועה: כל הפריטים שה-ref שלהם מתחיל ב-"<unit>-" (למשל k-mu1),
+    # בסדר ה-ref ולא בהגרלה — היחידה היא סט שאלות קבוע שהמחבר סידר מהקל לקשה.
+    unit: Optional[str] = Query(None, pattern=r"^[a-z0-9-]{1,24}$"),
     db: Session = Depends(get_db),
     current_user: models.User = Depends(get_current_user),
 ) -> List[PsyItemOut]:
     q = _approved_shape_only(db.query(models.PsyItem)).filter(
         models.PsyItem.is_active.is_(True)
     )
+    if unit:
+        q = q.filter(models.PsyItem.ref.like(f"{unit}-%"))
     if refs:
         wanted = [r.strip() for r in refs.split(",") if r.strip()][:50]
         q = q.filter(models.PsyItem.ref.in_(wanted))
@@ -1096,7 +1101,7 @@ def drill_questions(
     if access.tier == TIER_FREE:
         q = q.filter(models.PsyItem.id.in_(unlocked_psy_item_ids(db, access.ratio)))
 
-    items = q.order_by(func.random()).limit(limit).all()
+    items = q.order_by(models.PsyItem.ref if unit else func.random()).limit(limit).all()
     # Keep a passage's questions together. Random order served p5, p2, p4, p6,
     # p4… — the student re-read the same 200-word text from scratch four times
     # in one drill. Standalone items keep their random position; the first time

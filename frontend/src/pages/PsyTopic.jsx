@@ -37,6 +37,15 @@ const DOMAIN_RAMP = {
   mechanical: 'lv-steel',
 }
 
+// יחידות קבועות ללא זמן (סט שאלות מסודר מהקל לקשה). `unit` הוא תחילית ה-ref של
+// הפריטים בבנק — ראה psy_bank_83_matrices_level1.json ו-unit ב-/psy/drill.
+const TOPIC_UNITS = {
+  'figural/מטריצות': [
+    { unit: 'k-mu1', title: 'מטריצות רמה 1 — יחידה 1' },
+    { unit: 'k-mu2', title: 'מטריצות רמה 1 — יחידה 2' },
+  ],
+}
+
 function topicTitle(topic) {
   const chapterTitle = topic.chapter_title || ''
   if (chapterTitle.startsWith('בעיות ')) return chapterTitle.split(':')[0]
@@ -168,6 +177,7 @@ export default function PsyTopic() {
   // רמה שאין לה מבחן מתוזמן (למשל נושא צורני) לא משאירה רשימה ריקה.
   const showAllForLevel = levelQuery && levelExams.length === 0 && exams.length > 0
   const shownExams = showAllForLevel ? exams : levelExams
+  const units = TOPIC_UNITS[`${domain}/${topic}`] || []
   const title = topicTitle(selected)
   const domainLabel = DOMAIN_HE[domain] || domain
   const status = mastery(selected)
@@ -356,6 +366,17 @@ export default function PsyTopic() {
             chips={['עד 10 שאלות', 'הסבר אחרי כל תשובה', 'תרגול חוזר על הטעויות']}
             cta="להתחיל"
           />
+          {units.map((u) => (
+            <ExamCard
+              key={u.unit}
+              to={`/psy/quiz?domain=${encodeURIComponent(domain)}&topic=${encodeURIComponent(topic)}&unit=${u.unit}&name=${encodeURIComponent(u.title)}`}
+              StripIcon={IconPencil}
+              strip="יחידה ללא זמן · רמה 1"
+              title={u.title}
+              chips={['ללא שעון', 'מהקל לקשה', 'הסבר אחרי כל תשובה']}
+              cta="להתחיל את היחידה"
+            />
+          ))}
           {shownExams.map((exam) => (
             <ExamCard
               key={exam.slug}

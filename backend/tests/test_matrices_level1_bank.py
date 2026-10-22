@@ -21,6 +21,14 @@ def test_bank_is_matrices_level_one_and_gate_visible():
     items = _items()
     assert len(items) == 95
     assert len({i["ref"] for i in items}) == len(items)
+    # Two fixed units: k-mu1-NN and k-mu2-NN, numbered easy to hard.
+    for unit, size in (("k-mu1", 48), ("k-mu2", 47)):
+        mine = [i for i in items if i["ref"].startswith(unit + "-")]
+        assert len(mine) == size, unit
+        assert [i["ref"] for i in mine] == [f"{unit}-{n:02d}" for n in range(1, size + 1)]
+        assert [i["difficulty"] for i in mine] == sorted(i["difficulty"] for i in mine)
+        # Every unit mixes all five source pages.
+        assert len({i["source"] for i in mine}) == 5, unit
     assert all(i["domain"] == "figural" and i["qtype"] == "matrix" for i in items)
     assert all(i["topic"] == "מטריצות" for i in items)
     # Without this prefix _approved_shape_only hides the item from every student path.
