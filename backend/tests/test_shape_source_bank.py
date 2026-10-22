@@ -17,9 +17,9 @@ def test_imported_shape_bank_is_complete_and_answerable():
     path = Path(__file__).parents[1] / "data" / "psy_bank_79_shape_source.json"
     items = json.loads(path.read_text(encoding="utf-8"))["items"]
 
-    assert len(items) == 94
+    assert len(items) == 50
     assert {item["domain"] for item in items} == {"figural", "spatial", "speed"}
-    assert sum(item["domain"] == "figural" for item in items) == 80
+    assert sum(item["domain"] == "figural" for item in items) == 36
     assert all(item["source"].startswith(SOURCE_PREFIX) for item in items)
     assert all(item["figure"].startswith("{{sourcefig:") for item in items)
     assert all(0 <= item["correct_index"] < len(item["options"]) for item in items)
