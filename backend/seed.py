@@ -3702,6 +3702,12 @@ def _single_topic_key(spec):
 # Quantitative gets more: its levels are the ones students sit repeatedly.
 _MAX_PAPERS_PER_LEVEL = {"quantitative": 5}
 
+# Hand-set paper shapes for (domain, topic, level): the questions per paper, in
+# order. A level listed here is cut into exactly these papers instead of the
+# default 10-question ones. תנועה רמה 2 is a 45-question bank sat as two long
+# papers (23 + 22), so no question is left out of a paper.
+_LEVEL_PAPER_SHAPE = {("quantitative", "תנועה", 2): [23, 22]}
+
 
 def _add_topic_tests_for_uncovered_topics():
     """Give every bank topic its own leveled, single-topic timed papers.
@@ -3843,16 +3849,25 @@ def _add_topic_tests_for_uncovered_topics():
 
         biggest = None  # (lv, papers, per, minutes) of the largest plan entry
         for lv, n_l, secs_l in plan:
-            if lv is None:
-                papers = 2 if n_l >= 20 else 1
-                per = min(10, n_l // papers)
+            shape = _LEVEL_PAPER_SHAPE.get((domain, topic, lv))
+            if shape and sum(shape) <= n_l:
+                per_paper = list(shape)
+                papers = len(per_paper)
+                per = max(per_paper)
             else:
-                per = min(10, n_l)
-                papers = max(1, min(_MAX_PAPERS_PER_LEVEL.get(domain, 3), n_l // per))
-            minutes = max(2, math.ceil(per * (secs_l / n_l) / 60))
+                if lv is None:
+                    papers = 2 if n_l >= 20 else 1
+                    per = min(10, n_l // papers)
+                else:
+                    per = min(10, n_l)
+                    papers = max(1, min(_MAX_PAPERS_PER_LEVEL.get(domain, 3), n_l // per))
+                per_paper = [per] * papers
+            avg_secs = secs_l / n_l
             if biggest is None or n_l > biggest[4]:
-                biggest = (lv, papers, per, minutes, n_l)
+                biggest = (lv, papers, per, max(2, math.ceil(per * avg_secs / 60)), n_l)
             for i in range(1, papers + 1):
+                per = per_paper[i - 1]
+                minutes = max(2, math.ceil(per * avg_secs / 60))
                 reuse = entries.pop(0) if entries else None
                 if reuse:
                     slug = reuse["slug"]
