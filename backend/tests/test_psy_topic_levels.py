@@ -140,7 +140,7 @@ class _User:
 
 def _drill(db, **kw):
     args = dict(domain=None, topic=None, qtype=None, difficulty=None, level=None,
-                limit=50, refs=None, db=db, current_user=_User())
+                limit=50, refs=None, unit=None, db=db, current_user=_User())
     args.update(kw)
     return psy_router.drill_questions(**args)
 
