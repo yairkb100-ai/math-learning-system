@@ -50,28 +50,34 @@ function mastery(topic) {
   return { key: 'weak', label: 'לחיזוק' }
 }
 
-function ExamRow({ exam }) {
-  const best = exam.best_percent == null ? null : `${Math.round(exam.best_percent)}%`
+/** כרטיס מבחן: פס לוח עם סוג המבחן, גוף עם כותרת ושבבי נתונים, וחותמת ציון. */
+function ExamCard({ exam }) {
+  const best = exam.best_percent == null ? null : Math.round(exam.best_percent)
 
   return (
-    <li className={`psy-trow${exam.locked ? ' is-locked' : ''}`}>
-      <span className="psy-trow-state psy-topic-exam-state" aria-hidden="true">
-        <IconClock />
+    <li className={`psy-exam${exam.locked ? ' is-locked' : ''}`}>
+      <span className="psy-exam-strip">
+        <IconClock /> מבחן על השעון
       </span>
-      <span className="psy-trow-body">
-        <span className="psy-trow-name">{exam.title}</span>
-        <span className="psy-trow-meta">
-          {exam.total_questions} שאלות · {exam.total_minutes} דקות · בתנאי זמן
-          {best ? ` · הציון הטוב ביותר: ${best}` : ''}
+      <span className="psy-exam-body">
+        <span className="psy-exam-title">{exam.title}</span>
+        <span className="psy-exam-chips">
+          <span>{exam.total_minutes} דקות</span>
+          <span>{exam.total_questions} שאלות</span>
         </span>
+        {best != null && (
+          <span className="psy-exam-stamp" title="הציון הטוב ביותר שלך">
+            {best}%
+          </span>
+        )}
       </span>
       {exam.locked ? (
-        <span className="psy-trow-lock">
+        <span className="psy-exam-foot psy-trow-lock">
           <IconLock /> נדרש מנוי פעיל
         </span>
       ) : (
-        <Link className="psy-trow-cta" to={`/psy/sim/${exam.slug}`}>
-          {exam.attempts_count ? 'להיבחן שוב' : 'להתחיל מבחן'}
+        <Link className="psy-exam-foot psy-exam-go" to={`/psy/sim/${exam.slug}`}>
+          {exam.attempts_count ? 'להיבחן שוב' : 'להתחיל מבחן'} <span aria-hidden="true">←</span>
         </Link>
       )}
     </li>
@@ -335,19 +341,21 @@ export default function PsyTopic() {
           </div>
         </div>
 
-        <ul className="psy-trows psy-topic-quiz-row">
-          <li className="psy-trow">
-            <span className="psy-trow-state psy-topic-exam-state" aria-hidden="true">
-              <IconCheck />
+        <ul className="psy-exam-grid">
+          <li className="psy-exam is-untimed">
+            <span className="psy-exam-strip">
+              <IconCheck /> מבחן ללא זמן
             </span>
-            <span className="psy-trow-body">
-              <span className="psy-trow-name">מבחן ללא זמן</span>
-              <span className="psy-trow-meta">
-                עד 10 שאלות · בלי שעון · נכון/לא נכון והסבר אחרי כל תשובה · בסוף אפשר לתרגל שוב את הטעויות
+            <span className="psy-exam-body">
+              <span className="psy-exam-title">בודקים את עצמנו בלי שעון</span>
+              <span className="psy-exam-chips">
+                <span>עד 10 שאלות</span>
+                <span>הסבר אחרי כל תשובה</span>
+                <span>תרגול חוזר על הטעויות</span>
               </span>
             </span>
-            <Link className="psy-trow-cta" to={quizTo}>
-              להתחיל
+            <Link className="psy-exam-foot psy-exam-go" to={quizTo}>
+              להתחיל <span aria-hidden="true">←</span>
             </Link>
           </li>
         </ul>
@@ -364,9 +372,9 @@ export default function PsyTopic() {
               {group.label && examGroups.length > 0 && (
                 <h3 className="psy-topic-exam-level">{group.label}</h3>
               )}
-              <ul className="psy-trows">
+              <ul className="psy-exam-grid">
                 {group.items.map((exam) => (
-                  <ExamRow key={exam.slug} exam={exam} />
+                  <ExamCard key={exam.slug} exam={exam} />
                 ))}
               </ul>
             </div>
