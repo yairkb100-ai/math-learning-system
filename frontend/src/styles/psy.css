@@ -2661,7 +2661,13 @@
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 16px;
 }
+.psy-exam-grid > li {
+  display: flex;
+}
 .psy-exam {
+  flex: 1;
+  color: var(--text);
+  text-decoration: none;
   display: flex;
   flex-direction: column;
   border: 2px solid var(--board);
@@ -2736,10 +2742,13 @@
   color: var(--text);
   text-decoration: none;
 }
-.psy-exam-go:hover {
+a.psy-exam:hover {
+  text-decoration: none;
+  box-shadow: var(--shadow);
+}
+a.psy-exam:hover .psy-exam-foot {
   background: var(--board);
   color: var(--chalk);
-  text-decoration: none;
 }
 .psy-exam.is-locked {
   border-style: dashed;

@@ -50,20 +50,19 @@ function mastery(topic) {
   return { key: 'weak', label: 'לחיזוק' }
 }
 
-/** כרטיס מבחן: פס לוח עם סוג המבחן, גוף עם כותרת ושבבי נתונים, וחותמת ציון. */
-function ExamCard({ exam }) {
-  const best = exam.best_percent == null ? null : Math.round(exam.best_percent)
-
-  return (
-    <li className={`psy-exam${exam.locked ? ' is-locked' : ''}`}>
+/** כרטיס מבחן: כל הכרטיס לחיץ. פס לוח עם סוג המבחן, גוף עם כותרת ושבבי נתונים, וחותמת ציון. */
+function ExamCard({ to, locked, strip, StripIcon, title, chips, best, cta }) {
+  const inner = (
+    <>
       <span className="psy-exam-strip">
-        <IconClock /> מבחן על השעון
+        <StripIcon /> {strip}
       </span>
       <span className="psy-exam-body">
-        <span className="psy-exam-title">{exam.title}</span>
+        <span className="psy-exam-title">{title}</span>
         <span className="psy-exam-chips">
-          <span>{exam.total_minutes} דקות</span>
-          <span>{exam.total_questions} שאלות</span>
+          {chips.map((c) => (
+            <span key={c}>{c}</span>
+          ))}
         </span>
         {best != null && (
           <span className="psy-exam-stamp" title="הציון הטוב ביותר שלך">
@@ -71,13 +70,24 @@ function ExamCard({ exam }) {
           </span>
         )}
       </span>
-      {exam.locked ? (
+      {locked ? (
         <span className="psy-exam-foot psy-trow-lock">
           <IconLock /> נדרש מנוי פעיל
         </span>
       ) : (
-        <Link className="psy-exam-foot psy-exam-go" to={`/psy/sim/${exam.slug}`}>
-          {exam.attempts_count ? 'להיבחן שוב' : 'להתחיל מבחן'} <span aria-hidden="true">←</span>
+        <span className="psy-exam-foot">
+          {cta} <span aria-hidden="true">←</span>
+        </span>
+      )}
+    </>
+  )
+  return (
+    <li>
+      {locked ? (
+        <div className="psy-exam is-locked">{inner}</div>
+      ) : (
+        <Link className="psy-exam" to={to}>
+          {inner}
         </Link>
       )}
     </li>
@@ -158,16 +168,6 @@ export default function PsyTopic() {
   // רמה שאין לה מבחן מתוזמן (למשל נושא צורני) לא משאירה רשימה ריקה.
   const showAllForLevel = levelQuery && levelExams.length === 0 && exams.length > 0
   const shownExams = showAllForLevel ? exams : levelExams
-  const examGroups = []
-  for (const exam of shownExams) {
-    const key = exam.topic_level || 0
-    let group = examGroups.find((g) => g.key === key)
-    if (!group) {
-      group = { key, label: exam.topic_level_label || null, items: [] }
-      examGroups.push(group)
-    }
-    group.items.push(exam)
-  }
   const title = topicTitle(selected)
   const domainLabel = DOMAIN_HE[domain] || domain
   const status = mastery(selected)
@@ -341,49 +341,41 @@ export default function PsyTopic() {
           </div>
         </div>
 
-        <ul className="psy-exam-grid">
-          <li className="psy-exam is-untimed">
-            <span className="psy-exam-strip">
-              <IconCheck /> מבחן ללא זמן
-            </span>
-            <span className="psy-exam-body">
-              <span className="psy-exam-title">בודקים את עצמנו בלי שעון</span>
-              <span className="psy-exam-chips">
-                <span>עד 10 שאלות</span>
-                <span>הסבר אחרי כל תשובה</span>
-                <span>תרגול חוזר על הטעויות</span>
-              </span>
-            </span>
-            <Link className="psy-exam-foot psy-exam-go" to={quizTo}>
-              להתחיל <span aria-hidden="true">←</span>
-            </Link>
-          </li>
-        </ul>
-
         {showAllForLevel && (
           <p className="psy-section-lead">
             עדיין אין מבחן בזמן לרמה {level} בנושא הזה. אלה המבחנים הזמינים.
           </p>
         )}
 
-        {exams.length > 0 ? (
-          examGroups.map((group) => (
-            <div key={group.key} className="psy-topic-exam-group">
-              {group.label && examGroups.length > 0 && (
-                <h3 className="psy-topic-exam-level">{group.label}</h3>
-              )}
-              <ul className="psy-exam-grid">
-                {group.items.map((exam) => (
-                  <ExamCard key={exam.slug} exam={exam} />
-                ))}
-              </ul>
-            </div>
-          ))
-        ) : (
+        <ul className="psy-exam-grid">
+          <ExamCard
+            to={quizTo}
+            StripIcon={IconCheck}
+            strip="מבחן ללא זמן"
+            title="בודקים את עצמנו בלי שעון"
+            chips={['עד 10 שאלות', 'הסבר אחרי כל תשובה', 'תרגול חוזר על הטעויות']}
+            cta="להתחיל"
+          />
+          {shownExams.map((exam) => (
+            <ExamCard
+              key={exam.slug}
+              to={`/psy/sim/${exam.slug}`}
+              locked={exam.locked}
+              StripIcon={IconClock}
+              strip={`מבחן מוגבל בזמן${exam.topic_level_label ? ` · ${exam.topic_level_label}` : ''}`}
+              title={exam.title}
+              chips={[`${exam.total_minutes} דקות`, `${exam.total_questions} שאלות`]}
+              best={exam.best_percent == null ? null : Math.round(exam.best_percent)}
+              cta={exam.attempts_count ? 'להיבחן שוב' : 'להתחיל מבחן'}
+            />
+          ))}
+        </ul>
+
+        {exams.length === 0 && (
           <div className="psy-topic-no-exams">
             <IconCheck aria-hidden="true" />
             <p>
-              עדיין אין מבחן נפרד לנושא הזה. אפשר להתחיל בתרגול הממוקד, והמבחן יופיע כאן
+              עדיין אין מבחן מוגבל בזמן לנושא הזה. אפשר להתחיל בתרגול הממוקד, והמבחן יופיע כאן
               כשיתווסף למאגר.
             </p>
             <Link className="psy-btn psy-btn-primary" to={practiceTo}>
