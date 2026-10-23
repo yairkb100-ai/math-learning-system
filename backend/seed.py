@@ -3705,8 +3705,12 @@ _MAX_PAPERS_PER_LEVEL = {"quantitative": 5}
 # Hand-set paper shapes for (domain, topic, level): the questions per paper, in
 # order. A level listed here is cut into exactly these papers instead of the
 # default 10-question ones. תנועה רמה 2 is a 45-question bank sat as two long
-# papers (23 + 22), so no question is left out of a paper.
-_LEVEL_PAPER_SHAPE = {("quantitative", "תנועה", 2): [23, 22]}
+# papers (23 + 22), and רמה 3 is a 30-question bank sat as two papers of 15,
+# so no question is left out of a paper.
+_LEVEL_PAPER_SHAPE = {
+    ("quantitative", "תנועה", 2): [23, 22],
+    ("quantitative", "תנועה", 3): [15, 15],
+}
 
 
 def _add_topic_tests_for_uncovered_topics():
