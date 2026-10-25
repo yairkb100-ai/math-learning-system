@@ -38,11 +38,12 @@ const DOMAIN_RAMP = {
 }
 
 // יחידות קבועות ללא זמן (סט שאלות מסודר מהקל לקשה). `unit` הוא תחילית ה-ref של
-// הפריטים בבנק — ראה psy_bank_83_matrices_level1.json ו-unit ב-/psy/drill.
+// הפריטים בבנק — ראה psy_bank_84_matrices_raven.json ו-unit ב-/psy/drill.
 const TOPIC_UNITS = {
   'figural/מטריצות': [
-    { unit: 'k-mu1', title: 'מטריצות רמה 1 — יחידה 1' },
-    { unit: 'k-mu2', title: 'מטריצות רמה 1 — יחידה 2' },
+    { unit: 'k-rv1', title: 'מטריצות רמה 1 — תרגול' },
+    { unit: 'k-rv2', title: 'מטריצות רמה 2 — תרגול' },
+    { unit: 'k-rv3', title: 'מטריצות רמה 3 — תרגול' },
   ],
 }
 
