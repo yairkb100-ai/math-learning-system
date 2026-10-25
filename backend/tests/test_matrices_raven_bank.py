@@ -19,10 +19,10 @@ def _svg(token: str) -> str:
 
 def test_bank_is_matrices_gate_visible_and_spans_levels():
     items = _items()
-    assert len(items) == 60
+    assert len(items) == 37
     assert len({i["ref"] for i in items}) == len(items)
     # Three fixed units k-rv1/2/3 (one per level), each numbered easy to hard.
-    for unit, size in (("k-rv1", 30), ("k-rv2", 18), ("k-rv3", 12)):
+    for unit, size in (("k-rv1", 11), ("k-rv2", 15), ("k-rv3", 11)):
         mine = [i for i in items if i["ref"].startswith(unit + "-")]
         assert [i["ref"] for i in mine] == [f"{unit}-{n:02d}" for n in range(1, size + 1)], unit
         assert [i["difficulty"] for i in mine] == sorted(i["difficulty"] for i in mine)
@@ -62,4 +62,4 @@ def test_every_figure_and_option_is_standalone_svg():
 
 def test_correct_answer_position_is_varied():
     items = _items()
-    assert len({i["correct_index"] for i in items}) == 4
+    assert len({i["correct_index"] for i in items}) >= 5
