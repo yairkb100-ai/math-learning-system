@@ -68,6 +68,7 @@ def predict(kind, m, a, b, c):
     elif kind == "tuple":
         check(lambda x, y: tuple(max(p, q) for p, q in zip(x, y)))
         check(lambda x, y: tuple(min(p, q) for p, q in zip(x, y)))
+        check(lambda x, y: tuple(min(p + q, 2) for p, q in zip(x, y)))
         for k in (1, 2):
             if rot_tuple(a0, k) == a1 and rot_tuple(a1, k) == a2 and rot_tuple(b0, k) == b1 \
                     and rot_tuple(b1, k) == b2 and rot_tuple(c0, k) == c1:
@@ -101,7 +102,7 @@ def distinct3(rng, pool):
 def gen_rows(rng, kind, m, rule):
     """-> list of 3 triples (rows) for the rule, or None."""
     if kind == "set":
-        pool = all_sets(m)
+        pool = [x for x in all_sets(m) if len(x) <= 2]
         if rule == "const":
             return [[s] * 3 for s in distinct3(rng, pool)] if rng.random() < 0.5 else [[rng.choice(pool)] * 3] * 3
         if rule in ("union", "xor", "diff", "inter"):
@@ -111,7 +112,7 @@ def gen_rows(rng, kind, m, rule):
             for _ in range(60):
                 x, y = rng.choice(pool), rng.choice(pool)
                 z = f(x, y)
-                if z and z != x and z != y and [x, y, z] not in rows:
+                if z and len(z) <= 3 and z != x and z != y and [x, y, z] not in rows:
                     rows.append([x, y, z])
                 if len(rows) == 3:
                     return rows
@@ -132,8 +133,8 @@ def gen_rows(rng, kind, m, rule):
         pool = list(itertools.product(range(3), repeat=3))
         if rule == "const":
             return [[t] * 3 for t in distinct3(rng, pool)] if rng.random() < 0.5 else [[rng.choice(pool)] * 3] * 3
-        if rule in ("max", "min"):
-            f = max if rule == "max" else min
+        if rule in ("max", "min", "sum"):
+            f = {"max": max, "min": min, "sum": lambda p, q: min(p + q, 2)}[rule]
             rows = []
             for _ in range(80):
                 x, y = rng.choice(pool), rng.choice(pool)
@@ -148,7 +149,8 @@ def gen_rows(rng, kind, m, rule):
             starts = [t for t in pool if len(set(t)) > 1]
             return [[t, rot_tuple(t, k), rot_tuple(t, 2 * k)] for t in rng.sample(starts, 3)]
         if rule == "dist":
-            a, b, c = distinct3(rng, [t for t in pool if len(set(t)) > 1])
+            base = rng.choice(list(itertools.permutations(range(3))))
+            a, b, c = base, rot_tuple(base, 1), rot_tuple(base, 2)
             return [[a, b, c], [b, c, a], [c, a, b]]
     if kind == "int":
         if rule == "const":
@@ -173,21 +175,20 @@ FAMILIES = {
     "L": {
         "slots": {"lines": ("set", 4), "quad": ("set", 4), "dots": ("set", 4)},
         "label": {"lines": "הקווים", "quad": "האזורים האפורים", "dots": "הנקודות"},
-        "rules": {"set": ["union", "xor", "diff", "inter", "rot1", "rot3", "dist", "const"]},
+        "rules": {"set": ["union", "xor", "rot1", "rot3"]},
         "name": "קווים, אזורים אפורים ונקודות",
     },
     "B": {
         "slots": {"bands": ("tuple", 3), "marks": ("set", 3)},
         "label": {"bands": "הפסים", "marks": "הנקודות"},
-        "rules_by_slot": {"bands": ["max", "min", "rot1", "rot2", "dist", "const"],
-                          "marks": ["union", "xor", "diff", "rot1", "rot2", "dist", "const"]},
+        "rules_by_slot": {"bands": ["max", "min", "sum", "rot1", "rot2", "dist"],
+                          "marks": ["union", "xor", "rot1", "rot2"]},
         "name": "פסים ונקודות",
     },
     "G": {
-        "slots": {"h": ("int", 4), "v": ("int", 4), "w": ("int", 3)},
-        "label": {"h": "מספר הקווים האופקיים", "v": "מספר הקווים האנכיים", "w": "עובי הקווים"},
-        "rules_by_slot": {"h": ["prog", "dist", "add", "sub", "const"], "v": ["prog", "dist", "add", "sub", "const"],
-                          "w": ["prog", "dist", "const"]},
+        "slots": {"h": ("int", 4), "v": ("int", 4)},
+        "label": {"h": "מספר הקווים האופקיים", "v": "מספר הקווים האנכיים"},
+        "rules_by_slot": {"h": ["prog", "dist", "add", "sub"], "v": ["prog", "dist", "add", "sub"]},
         "name": "רשת קווים",
     },
 }
@@ -223,10 +224,8 @@ def build(rng, fam, rules):
     for slot, (kind, m) in spec.items():
         rule = rules.get(slot)
         if rule is None:
-            g = gen_slot(rng, fam, slot, "const")
-            if g is None:
-                return None
-            g = [[g[0][0]] * 3 for _ in range(3)]
+            empty = frozenset() if kind == "set" else ((0, 0, 0) if kind == "tuple" else 2)
+            g = [[empty] * 3 for _ in range(3)]
             rule = "fixed"
         else:
             g = gen_slot(rng, fam, slot, rule)
@@ -235,7 +234,7 @@ def build(rng, fam, rules):
         if flip:
             g = transpose(g)
         if rule != "fixed":
-            if infer("int" if slot == "w" else kind, m, g) != {g[2][2]}:
+            if infer(kind, m, g) != {g[2][2]}:
                 return None
         grids[slot], used[slot] = g, rule
     cells = [[{s: grids[s][r][c] for s in spec} for c in range(3)] for r in range(3)]
@@ -312,7 +311,7 @@ def render_bands(cell, vertical):
 
 
 def render_grid(cell):
-    sw = {1: 1.6, 2: 3.4, 3: 6}[cell["w"]]
+    sw = 2.6
     out = [f'<rect x="6" y="6" width="88" height="88" fill="#fff" stroke="{INK}" stroke-width="1.2"/>']
     for k in range(cell["h"]):
         y = 6 + 88 * (k + 1) / (cell["h"] + 1)
@@ -381,7 +380,7 @@ def mutate(rng, fam, cell, slot):
             if tuple(t2) != cur:
                 return tuple(t2)
         return None
-    hi = 3 if slot == "w" else 4
+    hi = 4
     return rng.choice([v for v in range(1, hi + 1) if v != cur])
 
 
@@ -435,83 +434,162 @@ def make_options(rng, m, n_opts=6):
 
 
 # ---- Hebrew text --------------------------------------------------------------------------------
-def line_word(flip):
-    return "עמודה" if flip else "שורה"
+# The explanations follow the style of the reference solutions: name the rule, show one real
+# row (or column) as the example, build the missing cell, then say what is wrong in each option.
+QUAD_NAME = {0: "שמאל-עליון", 1: "ימין-עליון", 2: "ימין-תחתון", 3: "שמאל-תחתון"}
+LINE_NAME = {0: "קו אופקי", 1: "אלכסון יורד", 2: "קו אנכי", 3: "אלכסון עולה"}
+COLOUR = ["לבן", "אפור", "שחור"]
+LINE_ORD = ["הראשונה", "השנייה", "השלישית"]
+BINARY = ("union", "xor", "diff", "inter", "max", "min", "sum", "add", "sub")
 
 
-def describe(fam, slot, rule, m, cells):
-    f = FAMILIES[fam]
-    n = f["label"][slot]
-    w = line_word(m["flip"])
-    deg = 45 if (fam == "L" and slot == "lines") else 90
-    if rule == "fixed":
-        return None
-    if rule == "const":
-        return f"{n} נשארים זהים בתוך כל {w}" if fam != "G" else f"{n} זהה בתוך כל {w}"
-    if rule == "union":
-        return f"{n}: התא השלישי בכל {w} מכיל את כל מה שיש בשני הראשונים יחד (איחוד)"
-    if rule == "xor":
-        return f"{n}: התא השלישי בכל {w} מכיל רק מה שמופיע באחד משני הראשונים; מה שמשותף לשניהם נמחק"
-    if rule == "diff":
-        return f"{n}: התא השלישי בכל {w} מכיל מה שיש בראשון ואין בשני"
-    if rule == "inter":
-        return f"{n}: התא השלישי בכל {w} מכיל רק מה שמשותף לשני הראשונים"
-    if rule in ("rot1", "rot3") and fam == "L":
-        way = "בכיוון השעון" if rule == "rot1" else "נגד כיוון השעון"
-        return f"{n} מסתובבים {deg}° {way} מתא לתא בכל {w}"
-    if rule in ("rot1", "rot2") and fam == "B":
-        if slot == "bands":
-            return f"{n}: בכל {w} הצבעים מוזזים מקום אחד באותו כיוון מתא לתא (הפס שיוצא מהקצה חוזר מהצד השני)"
-        return f"{n}: בכל {w} הנקודות מוזזות מקום אחד באותו כיוון מתא לתא (הפס שיוצא מהקצה חוזר מהצד השני)"
-    if rule == "max":
-        return f"{n}: התא השלישי בכל {w} מקבל בכל פס את הצבע הכהה מבין שני הראשונים"
-    if rule == "min":
-        return f"{n}: התא השלישי בכל {w} מקבל בכל פס את הצבע הבהיר מבין שני הראשונים"
-    if rule == "dist":
-        return f"{n}: בכל {w} מופיעות שלוש גרסאות שונות פעם אחת כל אחת, ובסדר שונה מ{w} ל{w}"
-    if rule == "prog":
-        return f"{n}: משתנה בצעד קבוע בתוך כל {w}"
-    if rule == "add":
-        return f"{n}: התא השלישי בכל {w} הוא הסכום של שני הראשונים"
-    if rule == "sub":
-        return f"{n}: התא השלישי בכל {w} הוא ההפרש (הראשון פחות השני)"
-    return None
+def join_he(parts):
+    parts = list(parts)
+    if not parts:
+        return ""
+    if len(parts) == 1:
+        return parts[0]
+    return ", ".join(parts[:-1]) + " ו" + parts[-1]
 
 
-def show_value(fam, slot, v):
+def be(label):
+    """'ב' + label with the definite article folded in: הקווים -> בקווים."""
+    return "ב" + (label[1:] if label.startswith("ה") else label)
+
+
+def pos_names(vertical):
+    # band index order: left->right for vertical bands, top->bottom for horizontal bands
+    return ["השמאלי", "האמצעי", "הימני"] if vertical else ["העליון", "האמצעי", "התחתון"]
+
+
+def count_text(n):
+    return "קו אחד" if n == 1 else f"{n} קווים"
+
+
+def element_name(fam, slot, i, style):
     if fam == "L":
         if slot == "lines":
-            names = {0: "אופקי", 1: "אלכסון ירוד", 2: "אנכי", 3: "אלכסון עולה"}
-            return ", ".join(names[i] for i in sorted(v)) or "ללא"
-        quad = {0: "שמאל-עליון", 1: "ימין-עליון", 2: "ימין-תחתון", 3: "שמאל-תחתון"}
-        return ", ".join(quad[i] for i in sorted(v)) or "ללא"
-    if fam == "B":
-        if slot == "bands":
-            return ", ".join(["לבן", "אפור", "שחור"][i] for i in v)
-        return ", ".join(str(i + 1) for i in sorted(v)) or "ללא"
-    return str(v)
+            return LINE_NAME[i]
+        if slot == "quad":
+            return "רבע " + QUAD_NAME[i]
+        return "נקודה ב" + QUAD_NAME[i]
+    return "נקודה בפס " + pos_names(style)[i]
 
 
-def explain(m, order, ci, style):
-    fam, cells = m["fam"], m["cells"]
-    texts = [describe(fam, s, r, m, cells) for s, r in m["rules"].items()]
-    texts = [t for t in texts if t]
-    fixed = [FAMILIES[fam]["label"][s] for s, r in m["rules"].items() if r == "fixed"]
-    ans = cells[2][2]
-    explanation = ("החוקים: " + "; ".join(texts)
-                   + (f". {' ו'.join(fixed)} קבועים בכל התאים" if fixed else "")
-                   + f". לכן בתא החסר מתקבלת האפשרות {LETTERS[ci]}׳.")
-    bad = []
+def val_text(fam, slot, v, style=None):
+    if fam == "G":
+        return count_text(v)
+    if fam == "B" and slot == "bands":
+        return "פסים " + ("(משמאל לימין) " if style else "(מלמעלה למטה) ") + ", ".join(COLOUR[i] for i in v)
+    if not v:
+        return {"lines": "אין קווים", "quad": "אין אזור אפור", "dots": "אין נקודות", "marks": "אין נקודות"}[slot]
+    names = join_he(element_name(fam, slot, i, style) for i in sorted(v))
+    return ("אפור ב" + names) if (fam == "L" and slot == "quad") else names
+
+
+def line_cells(m, j):
+    """The j-th line (a row, or a column when the rules run along columns) as three cells."""
+    c = m["cells"]
+    return [c[k][j] for k in range(3)] if m["flip"] else [c[j][k] for k in range(3)]
+
+
+def rule_sentence(fam, slot, rule, m):
+    deg = 45 if (fam == "L" and slot == "lines") else 90
+    vertical = m["style"] if fam == "B" else None
+    if rule == "union":
+        return "התא השלישי הוא האיחוד של שני התאים שלפניו: כל מה שמופיע באחד מהם מופיע בו"
+    if rule == "xor":
+        return "מה שמופיע בשני התאים הראשונים נמחק, ורק מה שמופיע באחד מהם בלבד עובר לתא השלישי"
+    if rule in ("rot1", "rot3") and fam == "L":
+        return f"מתא לתא הכול מסתובב {deg}° " + ("עם כיוון השעון" if rule == "rot1" else "נגד כיוון השעון")
+    if rule in ("rot1", "rot2"):
+        way = ("ימינה" if rule == "rot1" else "שמאלה") if vertical else ("למטה" if rule == "rot1" else "למעלה")
+        return f"מתא לתא הכול זז מקום אחד {way}, והחלק שיוצא מהקצה חוזר מהצד השני"
+    if rule == "max":
+        return "בכל פס התא השלישי מקבל את הצבע הכהה מבין שני התאים הראשונים"
+    if rule == "min":
+        return "בכל פס התא השלישי מקבל את הצבע הבהיר מבין שני התאים הראשונים"
+    if rule == "sum":
+        return ("מניחים את שני התאים הראשונים זה על זה והצבעים מצטברים: לבן ועוד אפור הם אפור, "
+                "אפור ועוד אפור הם שחור, ושחור תמיד נשאר שחור")
+    if rule == "dist":
+        return "בכל קו של תאים מופיעות שלוש התצורות השונות, פעם אחת כל אחת, ובסדר שונה בכל קו"
+    if rule == "prog":
+        return "הערך משתנה בצעד קבוע מתא לתא"
+    if rule == "add":
+        return "התא השלישי הוא הסכום של שני התאים שלפניו"
+    if rule == "sub":
+        return "התא השלישי הוא ההפרש: הראשון פחות השני"
+    return "הערך זהה בכל התאים"
+
+
+def layer_text(m, slot, rule):
+    """One worked example line + what it means for the third line."""
+    fam, style = m["fam"], m["style"]
+    w = "עמודה" if m["flip"] else "שורה"
+
+    def vt(v):
+        return val_text(fam, slot, v, style)
+
+    a, b, c = (cell[slot] for cell in line_cells(m, 0))
+    x, y = (cell[slot] for cell in line_cells(m, 2)[:2])
+    ans = m["cells"][2][2][slot]
+    if rule == "sub":
+        return (f"למשל ב{w} הראשונה: {vt(a)} פחות {vt(b)} נותן {vt(c)}. "
+                f"ב{w} השלישית: {vt(x)} פחות {vt(y)} נותן {vt(ans)}.")
+    if rule in BINARY:
+        return (f"למשל ב{w} הראשונה: {vt(a)} ועוד {vt(b)} נותנים {vt(c)}. "
+                f"ב{w} השלישית: {vt(x)} ועוד {vt(y)} נותנים {vt(ans)}.")
+    if rule in ("rot1", "rot2", "rot3"):
+        return (f"למשל ב{w} הראשונה: {vt(a)}, ואחריו {vt(b)}, ואחריו {vt(c)}. "
+                f"ב{w} השלישית אחרי {vt(y)} מגיע {vt(ans)}.")
+    if rule == "dist":
+        return (f"ב{w} הראשונה מופיעים {vt(a)}; {vt(b)}; {vt(c)}. "
+                f"ב{w} השלישית כבר מופיעים {vt(x)} ו{vt(y)}, ולכן חסר {vt(ans)}.")
+    return f"בתא החסר: {vt(ans)}."
+
+
+def diff_text(fam, slot, opt, ans, style):
+    kind = FAMILIES[fam]["slots"][slot][0]
+    if kind == "set":
+        extra, missing = opt - ans, ans - opt
+        bits = []
+        if extra:
+            bits.append("מיותר: " + join_he(element_name(fam, slot, i, style) for i in sorted(extra)))
+        if missing:
+            bits.append("חסר: " + join_he(element_name(fam, slot, i, style) for i in sorted(missing)))
+        return ", ".join(bits)
+    if kind == "tuple":
+        bad = [f"הפס {pos_names(style)[i]} {COLOUR[opt[i]]} במקום {COLOUR[ans[i]]}" for i in range(3) if opt[i] != ans[i]]
+        return ", ".join(bad)
+    return f"{count_text(opt)} במקום {count_text(ans)}"
+
+
+def explain(m, order, ci):
+    fam = m["fam"]
+    lab = FAMILIES[fam]["label"]
+    along = "העמודות" if m["flip"] else "השורות"
+    ans = m["cells"][2][2]
+    out = [f"נבחן את המטריצה לפי {along}, כל שכבה בנפרד."]
+    for slot, rule in m["rules"].items():
+        if rule == "fixed":
+            continue
+        out.append(f"{lab[slot]}: {rule_sentence(fam, slot, rule, m)}. {layer_text(m, slot, rule)}")
+    out.append(f"התא החסר מקיים את כל החוקים, והוא אפשרות {LETTERS[ci]}׳.")
+    explanation = " ".join(out)
+
+    elim = []
     for i, o in enumerate(order):
         if i == ci:
             continue
-        diffs = [FAMILIES[fam]["label"][s] for s in ans if key(o[s]) != key(ans[s])]
-        bad.append(f"אפשרות {LETTERS[i]}׳ שוברת את החוק של " + " ו".join(diffs))
-    solution = ("מפרקים את הציור לשכבות — " + {"L": "קווים, אזורים אפורים ונקודות", "B": "צבעי הפסים ונקודות",
-                                                "G": "קווים אופקיים, קווים אנכיים ועובי"}[fam]
-                + " — ומחפשים לכל שכבה חוק משלה לאורך השורות והעמודות. אחרי שמצאתם חוק לכל שכבה, "
-                  "בונים את התא החסר שכבה אחר שכבה ופוסלים כל אפשרות שמפרה חוק אחד לפחות. "
-                + ". ".join(bad) + ". המלכודת: אפשרות שנראית נכונה בכל שכבה חוץ מאחת — בודקים את כל השכבות.")
+        why = [f"{be(lab[s])} {diff_text(fam, s, o[s], ans[s], m['style'])}" for s in ans if key(o[s]) != key(ans[s])]
+        elim.append(f"אפשרות {LETTERS[i]}׳ נפסלת: " + "; ".join(why))
+    solution = (
+        "מפרקים את הציור לשכבות, ובכל שכבה מחפשים חוק לפי שורות ולפי עמודות. כשהחוק ברור, בונים בראש את "
+        "התא החסר שכבה אחר שכבה ופוסלים כל אפשרות שמפרה חוק אחד לפחות. "
+        + ". ".join(elim)
+        + ". המלכודת: אפשרות שנראית נכונה בכל שכבה חוץ מאחת, ולכן בודקים את כל השכבות עד הסוף."
+    )
     return explanation, solution
 
 
@@ -522,16 +600,13 @@ def subtopic(m):
 # ---- plans --------------------------------------------------------------------------------------------
 def plan(rng, fam, diff):
     slots = list(FAMILIES[fam]["slots"])
-    if diff == 2:
-        act = rng.sample(slots, 2)
-    else:
-        act = rng.sample(slots, len(slots) if len(slots) == 3 else 2)
+    act = rng.sample(slots, 2) if diff < 4 else slots[:]
     rules = {}
-    hard = ("xor", "diff", "inter", "rot1", "rot3", "rot2", "max", "min")
+    hard = ("xor", "diff", "inter", "rot1", "rot3", "rot2", "max", "min", "sum")
     for s in act:
         pool = [r for r in rules_for(fam, s) if r != "const"]
         if diff == 2:
-            pool = [r for r in pool if r in ("union", "dist", "rot1", "rot3", "rot2", "max", "min", "prog", "add")]
+            pool = [r for r in pool if r in ("union", "dist", "max", "min", "prog")]
         rules[s] = rng.choice(pool)
     n_hard = sum(r in hard or r in ("sub", "add") for r in rules.values())
     if diff == 4 and n_hard < 2:
@@ -574,9 +649,9 @@ def to_item(rng, m, ci):
     ans, rest = m["opts"][0], m["opts"][1:]
     rng.shuffle(rest)
     order = rest[:ci] + [ans] + rest[ci:]
-    explanation, solution = explain(m, order, ci, m["style"])
+    explanation, solution = explain(m, order, ci)
     rulenames = {"union": "איחוד", "xor": "חיבור וחיסור", "diff": "חיסור", "inter": "חיתוך", "rot1": "סיבוב",
-                 "rot2": "הזזה", "rot3": "סיבוב", "dist": "שלושה ערכים", "max": "הכהה גובר", "min": "הבהיר גובר",
+                 "rot2": "הזזה", "rot3": "סיבוב", "dist": "שלושה ערכים", "max": "הכהה גובר", "min": "הבהיר גובר", "sum": "הצבעים מצטברים",
                  "prog": "התקדמות", "add": "חיבור", "sub": "חיסור", "const": "קבוע"}
     return {
         "domain": "figural", "qtype": "matrix", "topic": "מטריצות", "subtopic": subtopic(m),
