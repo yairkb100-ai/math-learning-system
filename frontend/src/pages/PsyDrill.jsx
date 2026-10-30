@@ -457,7 +457,7 @@ export default function PsyDrill() {
             <div className="psy-question-split">
               <div className="psy-question-content">
                 <div className="psy-stem">
-                  <MathText text={current.stem} />
+                  <MathText text={current.stem} mathRuns />
                 </div>
                 {current.figure && (
                   <div className="psy-figure">

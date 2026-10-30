@@ -1678,7 +1678,7 @@ _PSY_SECTIONS = [
     {
         "slug": "psy-series",
         "title": "סדרות מספרים ואותיות",
-        "description": "חוקיות של מספרים ושל אותיות: הפרש קבוע ועולה, כפל, סדרות משולבות לסירוגין, ריבועים, וקפיצות באלפבית — נושא שחוזר גם בפרק הכמותי וגם במילולי",
+        "description": "חוקיות של מספרים: הפרש קבוע ועולה, כפל, סדרות משולבות לסירוגין וריבועים — נושא שחוזר בפרק הכמותי",
         "order": 3,
         "course_slugs": ["karni-series"],
     },
@@ -1933,19 +1933,14 @@ _PSY_SIMULATIONS = [
     {
         "slug": "karni-mini-series",
         "title": "מיני-תרגול סדרות",
-        "description": "עשר סדרות עם טיימר — שמונה סדרות מספרים ושתי סדרות אותיות",
+        "description": "עשר סדרות מספרים עם טיימר",
         "kind": "mini",
         "order": 3,
         "free_preview": True,
         "sections": [
-            # שני פרקים כי סדרות מספרים שייכות לתחום הכמותי וסדרות אותיות למילולי,
-            # ולפרק יש תחום אחד. התלמיד חווה זאת כרצף אחד של עשר שאלות.
             {"order": 0, "domain": "quantitative", "title": "סדרות מספרים",
-             "minutes": 7, "num_questions": 8,
-             "blueprint": [{"count": 8, "topic": "סדרות מספרים ואותיות"}]},
-            {"order": 1, "domain": "verbal", "title": "סדרות אותיות",
-             "minutes": 3, "num_questions": 2,
-             "blueprint": [{"count": 2, "topic": "סדרות מספרים ואותיות"}]},
+             "minutes": 10, "num_questions": 10,
+             "blueprint": [{"count": 10, "topic": "סדרות מספרים ואותיות"}]},
         ],
     },
     {
@@ -2310,13 +2305,10 @@ _PSY_SIMULATIONS = [
         "order": 81,
         "free_preview": True,
         "sections": [
-            # Letter series are tagged verbal and number series quantitative,
-            # but they are one topic to a student — so the paper draws both.
             {"order": 0, "domain": "quantitative", "title": "סדרות מספרים ואותיות",
              "minutes": 7, "num_questions": 10,
              "blueprint": [
-                 {"count": 7, "topic": "סדרות מספרים ואותיות", "domain": "quantitative"},
-                 {"count": 3, "topic": "סדרות מספרים ואותיות", "domain": "verbal"},
+                 {"count": 10, "topic": "סדרות מספרים ואותיות", "domain": "quantitative"},
              ]},
         ],
     },
@@ -2328,13 +2320,10 @@ _PSY_SIMULATIONS = [
         "order": 82,
         "free_preview": False,
         "sections": [
-            # Letter series are tagged verbal and number series quantitative,
-            # but they are one topic to a student — so the paper draws both.
             {"order": 0, "domain": "quantitative", "title": "סדרות מספרים ואותיות",
              "minutes": 7, "num_questions": 10,
              "blueprint": [
-                 {"count": 7, "topic": "סדרות מספרים ואותיות", "domain": "quantitative"},
-                 {"count": 3, "topic": "סדרות מספרים ואותיות", "domain": "verbal"},
+                 {"count": 10, "topic": "סדרות מספרים ואותיות", "domain": "quantitative"},
              ]},
         ],
     },
@@ -2346,13 +2335,10 @@ _PSY_SIMULATIONS = [
         "order": 83,
         "free_preview": False,
         "sections": [
-            # Letter series are tagged verbal and number series quantitative,
-            # but they are one topic to a student — so the paper draws both.
             {"order": 0, "domain": "quantitative", "title": "סדרות מספרים ואותיות",
              "minutes": 7, "num_questions": 10,
              "blueprint": [
-                 {"count": 7, "topic": "סדרות מספרים ואותיות", "domain": "quantitative"},
-                 {"count": 3, "topic": "סדרות מספרים ואותיות", "domain": "verbal"},
+                 {"count": 10, "topic": "סדרות מספרים ואותיות", "domain": "quantitative"},
              ]},
         ],
     },
@@ -2364,13 +2350,10 @@ _PSY_SIMULATIONS = [
         "order": 84,
         "free_preview": False,
         "sections": [
-            # Letter series are tagged verbal and number series quantitative,
-            # but they are one topic to a student — so the paper draws both.
             {"order": 0, "domain": "quantitative", "title": "סדרות מספרים ואותיות",
              "minutes": 7, "num_questions": 10,
              "blueprint": [
-                 {"count": 7, "topic": "סדרות מספרים ואותיות", "domain": "quantitative"},
-                 {"count": 3, "topic": "סדרות מספרים ואותיות", "domain": "verbal"},
+                 {"count": 10, "topic": "סדרות מספרים ואותיות", "domain": "quantitative"},
              ]},
         ],
     },
@@ -2382,13 +2365,10 @@ _PSY_SIMULATIONS = [
         "order": 85,
         "free_preview": False,
         "sections": [
-            # Letter series are tagged verbal and number series quantitative,
-            # but they are one topic to a student — so the paper draws both.
             {"order": 0, "domain": "quantitative", "title": "סדרות מספרים ואותיות",
              "minutes": 7, "num_questions": 10,
              "blueprint": [
-                 {"count": 7, "topic": "סדרות מספרים ואותיות", "domain": "quantitative"},
-                 {"count": 3, "topic": "סדרות מספרים ואותיות", "domain": "verbal"},
+                 {"count": 10, "topic": "סדרות מספרים ואותיות", "domain": "quantitative"},
              ]},
         ],
     },
@@ -3238,12 +3218,11 @@ _PSY_SIMULATIONS = [
              "blueprint": [{"count": 9, "topic": "אוצר מילים"}]},
             {"order": 7, "domain": "quantitative", "title": "חשיבה כמותית — חלק ב",
              "minutes": 10, "num_questions": 11, "blueprint": [{"count": 11}]},
-            {"order": 8, "domain": "verbal", "title": "יוצא דופן, אוצר מילים וסדרות אותיות",
+            {"order": 8, "domain": "verbal", "title": "יוצא דופן ואוצר מילים",
              "minutes": 6, "num_questions": 10,
              "blueprint": [
-                 {"count": 4, "topic": "יוצא דופן"},
-                 {"count": 3, "topic": "אוצר מילים וניבים"},
-                 {"count": 3, "topic": "סדרות מספרים ואותיות"},
+                 {"count": 5, "topic": "יוצא דופן"},
+                 {"count": 5, "topic": "אוצר מילים וניבים"},
              ]},
             {"order": 9, "domain": "english", "title": "אנגלית — דקדוק והשלמת משפטים",
              "minutes": 6, "num_questions": 11,
@@ -3295,9 +3274,7 @@ _PSY_SIMULATIONS = [
             {"order": 4, "domain": "quantitative", "title": "סדרות מספרים ואותיות",
              "minutes": 6, "num_questions": 10,
              "blueprint": [
-                 {"count": 7, "topic": "סדרות מספרים ואותיות", "domain": "quantitative",
-                  "min_difficulty": 3},
-                 {"count": 3, "topic": "סדרות מספרים ואותיות", "domain": "verbal",
+                 {"count": 10, "topic": "סדרות מספרים ואותיות", "domain": "quantitative",
                   "min_difficulty": 3},
              ]},
             {"order": 5, "domain": "figural", "title": "אנלוגיות צורניות ויוצא דופן",
@@ -3385,9 +3362,7 @@ _PSY_SIMULATIONS = [
             {"order": 7, "domain": "quantitative", "title": "סדרות מספרים ואותיות",
              "minutes": 6, "num_questions": 10,
              "blueprint": [
-                 {"count": 7, "topic": "סדרות מספרים ואותיות", "domain": "quantitative",
-                  "min_difficulty": 3},
-                 {"count": 3, "topic": "סדרות מספרים ואותיות", "domain": "verbal",
+                 {"count": 10, "topic": "סדרות מספרים ואותיות", "domain": "quantitative",
                   "min_difficulty": 3},
              ]},
             {"order": 8, "domain": "figural", "title": "יוצא דופן ואנלוגיות צורניות",
@@ -3477,12 +3452,9 @@ _PSY_SIMULATIONS = [
             {"order": 9, "domain": "speed", "title": "זריזות ודיוק",
              "minutes": 4, "num_questions": 12,
              "blueprint": [{"count": 12, "min_difficulty": 3}]},
-            {"order": 10, "domain": "verbal", "title": "השלמת משפטים וסדרות אותיות",
+            {"order": 10, "domain": "verbal", "title": "השלמת משפטים",
              "minutes": 5, "num_questions": 5,
-             "blueprint": [
-                 {"count": 3, "topic": "השלמת משפטים", "min_difficulty": 4},
-                 {"count": 2, "topic": "סדרות מספרים ואותיות", "min_difficulty": 4},
-             ]},
+             "blueprint": [{"count": 5, "topic": "השלמת משפטים", "min_difficulty": 4}]},
             {"order": 11, "domain": "english", "title": "אנגלית",
              "minutes": 7, "num_questions": 10,
              "blueprint": [
@@ -3546,9 +3518,7 @@ _PSY_SIMULATIONS = [
             {"order": 8, "domain": "quantitative", "title": "סדרות מספרים ואותיות",
              "minutes": 4, "num_questions": 5,
              "blueprint": [
-                 {"count": 3, "topic": "סדרות מספרים ואותיות", "domain": "quantitative",
-                  "min_difficulty": 4},
-                 {"count": 2, "topic": "סדרות מספרים ואותיות", "domain": "verbal",
+                 {"count": 5, "topic": "סדרות מספרים ואותיות", "domain": "quantitative",
                   "min_difficulty": 4},
              ]},
             {"order": 9, "domain": "speed", "title": "זריזות ודיוק",

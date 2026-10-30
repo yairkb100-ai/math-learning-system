@@ -1117,6 +1117,12 @@ h4.prose-h {
   unicode-bidi: isolate;
 }
 
+/* סדרת מספרים בשאלה נקראת כשורה אחת משמאל לימין; שבירת שורה באמצע הופכת אותה
+   לשתי סדרות. */
+.nowrap-run {
+  white-space: nowrap;
+}
+
 /* examples */
 .example .example-head,
 .exercise .exercise-head {

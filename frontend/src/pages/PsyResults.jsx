@@ -412,7 +412,7 @@ export default function PsyResults() {
                   </details>
                 )}
                 <div className="psy-stem">
-                  <MathText text={r.stem} />
+                  <MathText text={r.stem} mathRuns />
                 </div>
                 {r.figure && (
                   <div className="psy-figure">
