@@ -30,7 +30,7 @@ export default function PsyReviewItem({ n, item, chosen, result, seconds }) {
         </details>
       )}
       <div className="psy-stem">
-        <MathText text={item.stem} />
+        <MathText text={item.stem} mathRuns />
       </div>
       {item.figure && (
         <div className="psy-figure">
@@ -50,7 +50,7 @@ export default function PsyReviewItem({ n, item, chosen, result, seconds }) {
               .join(' ')}
           >
             <span className="psy-option-letter">{OPTION_LETTERS[i]}</span>
-            <MathText text={opt} plain />
+            <MathText text={opt} plain mathRuns />
             {i === key && <span className="psy-tag">התשובה הנכונה</span>}
             {i === chosen && i !== key && <span className="psy-tag psy-tag-bad">התשובה שלך</span>}
           </li>
