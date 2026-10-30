@@ -354,7 +354,14 @@ const SEQUENCE_RE = new RegExp(
 // Hebrew letters is RTL already and only needs the no-break.
 const HAS_LTR = /[0-9A-Za-z]/
 
+// An answer that is itself a list of numbers ("9, 5" for two missing terms) has
+// only two atoms, so SEQUENCE_RE skips it — but it must still read left to right.
+const NUMBER_LIST = /^\s*-?\d+(?:\.\d+)?(?:\s*,\s*-?\d+(?:\.\d+)?)+\s*$/
+
 export function unbreakableRuns(src, keyPrefix = 'ub') {
+  if (NUMBER_LIST.test(src)) {
+    return <span key={`${keyPrefix}-n`} className="bidi-math nowrap-run">{src.trim()}</span>
+  }
   const nodes = []
   let last = 0
   let k = 0

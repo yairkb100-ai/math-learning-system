@@ -432,7 +432,7 @@ export default function PsyResults() {
                         .join(' ')}
                     >
                       <span className="psy-option-letter">{OPTION_LETTERS[i]}</span>
-                      <MathText text={opt} plain />
+                      <MathText text={opt} plain mathRuns />
                       {i === keyOf(r) && <span className="psy-tag">התשובה הנכונה</span>}
                       {i === r.chosen && i !== keyOf(r) && (
                         <span className="psy-tag psy-tag-bad">התשובה שלך</span>
