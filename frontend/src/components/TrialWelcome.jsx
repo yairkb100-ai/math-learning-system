@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useAuth } from '../context/AuthContext.jsx'
@@ -60,6 +60,15 @@ export default function TrialWelcome() {
   const [access, setAccess] = useState(null)
   const [showModal, setShowModal] = useState(false)
   const [left, setLeft] = useState(null) // שניות שנותרו, יורד בזמן אמת
+  // חלון "צריך לשלם" קופץ פעם אחת לכל טעינה גם למי שכבר סגר את חלון הברוכים־
+  // הבאים בעבר (welcome_seen / DISMISS_KEY) — החסימה לא יכולה להיות שקטה.
+  const blockedPopupShown = useRef(false)
+
+  function popBlockedNotice(a) {
+    if (a.has_access || blockedPopupShown.current) return
+    blockedPopupShown.current = true
+    setShowModal(true)
+  }
 
   const isStudent = Boolean(user) && user.role !== 'admin'
 
@@ -85,6 +94,7 @@ export default function TrialWelcome() {
         if (!a.welcome_seen && localStorage.getItem(DISMISS_KEY) !== '1') {
           setShowModal(true)
         }
+        popBlockedNotice(a)
         if (!a.has_access && location.pathname !== '/subscription') {
           navigate('/subscription', { replace: true })
         }
@@ -109,6 +119,7 @@ export default function TrialWelcome() {
           if (!a) return
           setAccess(a)
           setLeft(a.seconds_left)
+          popBlockedNotice(a)
           if (!a.has_access && location.pathname !== '/subscription') {
             navigate('/subscription')
           }
@@ -190,7 +201,7 @@ export default function TrialWelcome() {
             </h2>
             <p className="welcome-lead">
               {ended
-                ? 'תודה שהתנסית בלומדה! אני מקווה שנהנית והספקת ללמוד. הגישה לתוכן חסומה עכשיו — לחידוש הגישה צריך לפנות אליי.'
+                ? 'תודה שהתנסית בלומדה! הגישה לתוכן חסומה עכשיו — כדי להמשיך ללמוד צריך לשלם ולהפעיל מנוי.'
                 : 'כאן תמצא קורסים מלאים, סרטוני הסבר, תרגול, מבחנים ומעקב התקדמות אישי. קח את הזמן, תהנה מהדרך — ותפיק מהלומדה את המקסימום.'}
             </p>
 
@@ -234,10 +245,10 @@ export default function TrialWelcome() {
                   <IconClock /> הגישה לתוכן חסומה כעת
                 </div>
                 <p className="welcome-note">
-                  לחידוש הגישה שלח לי הודעה ונסדר את ההמשך.
+                  את המחירים ואפשרויות התשלום אפשר לראות בעמוד המנוי.
                 </p>
                 <Link to="/subscription" className="btn" onClick={dismiss}>
-                  לפרטים ולפנייה למנהל
+                  למחירים ולתשלום
                 </Link>
               </div>
             ) : (
