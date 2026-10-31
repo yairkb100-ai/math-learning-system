@@ -2284,12 +2284,14 @@
    שמכילות איור הופכות לאריחים קטנים בשורה אחת (2 במסך צר), האיור מוגבל
    בגובה, והתג יושב מתחתיו. */
 .psy-review-options:has(svg),
-.psy-review-options:has(.art-row) {
+.psy-review-options:has(.art-row),
+.psy-review-options:has(.source-figure-svg) {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 10px;
 }
 .psy-review-options:has(svg) .psy-review-option,
-.psy-review-options:has(.art-row) .psy-review-option {
+.psy-review-options:has(.art-row) .psy-review-option,
+.psy-review-options:has(.source-figure-svg) .psy-review-option {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
@@ -2298,11 +2300,13 @@
   text-align: center;
 }
 .psy-review-options:has(svg) .psy-review-option .art-fig,
-.psy-review-options:has(.art-row) .psy-review-option .art-fig {
+.psy-review-options:has(.art-row) .psy-review-option .art-fig,
+.psy-review-options:has(.source-figure-svg) .psy-review-option .art-fig {
   order: 2;
 }
 .psy-review-options:has(svg) .psy-review-option .psy-tag,
-.psy-review-options:has(.art-row) .psy-review-option .psy-tag {
+.psy-review-options:has(.art-row) .psy-review-option .psy-tag,
+.psy-review-options:has(.source-figure-svg) .psy-review-option .psy-tag {
   order: 3;
   margin-inline-start: 0;
   white-space: normal;
@@ -2316,12 +2320,14 @@
   max-height: 96px;
 }
 .psy-review-options:has(svg) .psy-review-option svg,
-.psy-review-options:has(.art-row) .psy-review-option svg {
+.psy-review-options:has(.art-row) .psy-review-option svg,
+.psy-review-options:has(.source-figure-svg) .psy-review-option svg {
   max-width: 120px;
 }
 @media (max-width: 640px) {
   .psy-review-options:has(svg),
-  .psy-review-options:has(.art-row) {
+  .psy-review-options:has(.art-row),
+  .psy-review-options:has(.source-figure-svg) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -2362,7 +2368,8 @@
   min-height: 44px;
 }
 .psy-review-options:has(svg) .psy-review-option,
-.psy-review-options:has(.art-row) .psy-review-option {
+.psy-review-options:has(.art-row) .psy-review-option,
+.psy-review-options:has(.source-figure-svg) .psy-review-option {
   justify-self: stretch;
   width: auto;
   min-height: 96px;

@@ -2372,9 +2372,15 @@ h4.prose-h {
   max-height: 24rem;
   object-fit: contain;
 }
-.psy-option .source-figure-svg {
+/* תשובה ציורית היא אריח קטן בכל מקום שבו היא מופיעה — תרגול, סקירה
+   ושאלון פרק. בלי ‎.psy-review-option‎ ו-‎.option‎ כאן, האיור בסקירה קיבל את
+   כל 34rem של האיור הכללי והתשובות נראו ענקיות לעומת השאלה. */
+.psy-option .source-figure-svg,
+.psy-review-option .source-figure-svg,
+.option .source-figure-svg {
   width: min(100%, 8rem);
   max-height: 8rem;
+  margin-inline: auto;
 }
 .art-caption {
   font-size: 13.5px;
