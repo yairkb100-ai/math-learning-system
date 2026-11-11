@@ -47,6 +47,12 @@ def check(chdir):
     problems = []
     f = chdir / "assets.json"
     if not f.exists():
+        # Sheets written by their own generator (content/karni/yeshiva-prep, see
+        # scripts/content/create_yeshiva_prep.py) ship a worksheet.html with its
+        # answer key built in and deliberately have no assets.json — adding an
+        # empty one would make publish_sheets.py regenerate blank PDFs over them.
+        if (chdir / "worksheet.html").exists() and (chdir / "chapter.json").exists():
+            return []
         return ["no assets.json"]
     assets = json.loads(f.read_text(encoding="utf-8"))
 
