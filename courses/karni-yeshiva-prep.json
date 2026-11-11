@@ -1,0 +1,3479 @@
+{
+  "course": {
+    "metadata": {
+      "slug": "karni-yeshiva-prep",
+      "track": "psy",
+      "title": "הכנה לישיבות",
+      "description": "דפי עבודה להכנה למבחן הקבלה לישיבה (ידע מוקדם במתמטיקה לכיתה ט׳): סדר פעולות חשבון, שברים פשוטים ועשרוניים, סוגריים וערך מוחלט; בעיות מילוליות — גילאים, קנייה ומכירה, אחוזים ותנועה; ופתרון משוואה בנעלם אחד עם סוגריים ומערכת משוואות עם שני נעלמים. בכל נושא 40 שאלות בשלוש רמות — מתחילים, מתקדמים וכיתה ח׳ מתקדמים — ללא הסברים, ועם תשובות בסוף.",
+      "level": "Beginner",
+      "language": "Hebrew",
+      "estimated_hours": 22,
+      "chapters": 11,
+      "word_count": 584
+    },
+    "learning_objectives": [
+      "לחשב ביטויים מספריים לפי סדר הפעולות הנכון",
+      "לחשב בארבע פעולות החשבון עם שברים פשוטים ומספרים מעורבים",
+      "לחשב בארבע פעולות החשבון עם שברים עשרוניים",
+      "לחשב ביטויים עם סוגריים עגולים ומרובעים, גם מקוננים",
+      "לחשב ביטויים עם ערך מוחלט ולפתור משוואות ערך מוחלט פשוטות",
+      "לפתור בעיות גילאים באמצעות משוואה",
+      "לפתור בעיות קנייה, מכירה, רווח והפסד",
+      "לפתור בעיות אחוזים: חלק מהשלם, שינוי באחוזים ומציאת השלם",
+      "לפתור בעיות תנועה: מהירות, זמן ומרחק, מפגש והשגה",
+      "לפתור משוואה בנעלם אחד עם סוגריים ועם נעלם בשני האגפים",
+      "לפתור מערכת של שתי משוואות עם שני נעלמים"
+    ],
+    "chapters": [
+      {
+        "number": 1,
+        "title": "סדר פעולות חשבון",
+        "learning_objectives": [
+          "לחשב ביטויים מספריים לפי סדר הפעולות הנכון"
+        ],
+        "content": "## סדר פעולות חשבון\n\nדף עבודה לתרגול עצמי, **ללא הסברים** — רק שאלות. התשובות מופיעות בסוף, בכל תרגיל תחת ״הצג פתרון״ ובדף העבודה להדפסה.\n\nהדף בנוי משלוש רמות: **רמה א׳** (מתחילים, 10 שאלות), **רמה ב׳** (מתקדמים, 15 שאלות) ו**רמה ג׳** (כיתה ח׳ מתקדמים, 15 שאלות). אפשר להשתמש במחשבון מדעי.\n\n**חשבו:**",
+        "examples": [],
+        "exercises": [
+          {
+            "number": 1,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$8 + 3 \\times 4$",
+            "difficulty": "easy",
+            "solution": "$20$",
+            "answer": "20"
+          },
+          {
+            "number": 2,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$20 - 12 \\div 4$",
+            "difficulty": "easy",
+            "solution": "$17$",
+            "answer": "17"
+          },
+          {
+            "number": 3,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$5 \\times 6 - 10$",
+            "difficulty": "easy",
+            "solution": "$20$",
+            "answer": "20"
+          },
+          {
+            "number": 4,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$36 \\div 6 + 7 \\times 2$",
+            "difficulty": "easy",
+            "solution": "$20$",
+            "answer": "20"
+          },
+          {
+            "number": 5,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$15 - 3 \\times 4 + 2$",
+            "difficulty": "easy",
+            "solution": "$5$",
+            "answer": "5"
+          },
+          {
+            "number": 6,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$24 \\div 4 \\div 2 + 9$",
+            "difficulty": "easy",
+            "solution": "$12$",
+            "answer": "12"
+          },
+          {
+            "number": 7,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$(7 + 5) \\times 3$",
+            "difficulty": "easy",
+            "solution": "$36$",
+            "answer": "36"
+          },
+          {
+            "number": 8,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$40 - (12 + 8)$",
+            "difficulty": "easy",
+            "solution": "$20$",
+            "answer": "20"
+          },
+          {
+            "number": 9,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$3 \\times (10 - 4) + 5$",
+            "difficulty": "easy",
+            "solution": "$23$",
+            "answer": "23"
+          },
+          {
+            "number": 10,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$48 \\div (2 + 4) - 3$",
+            "difficulty": "easy",
+            "solution": "$5$",
+            "answer": "5"
+          },
+          {
+            "number": 11,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$7 + 6 \\times 5 - 18 \\div 3$",
+            "difficulty": "medium",
+            "solution": "$31$",
+            "answer": "31"
+          },
+          {
+            "number": 12,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$100 - 4 \\times 15 + 12 \\div 4$",
+            "difficulty": "medium",
+            "solution": "$43$",
+            "answer": "43"
+          },
+          {
+            "number": 13,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$9 \\times 8 \\div 6 + 14$",
+            "difficulty": "medium",
+            "solution": "$26$",
+            "answer": "26"
+          },
+          {
+            "number": 14,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$56 \\div 7 \\times 3 - 5$",
+            "difficulty": "medium",
+            "solution": "$19$",
+            "answer": "19"
+          },
+          {
+            "number": 15,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$(18 - 6) \\times 4 \\div 3$",
+            "difficulty": "medium",
+            "solution": "$16$",
+            "answer": "16"
+          },
+          {
+            "number": 16,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$5 \\times (14 + 6) - 3 \\times 9$",
+            "difficulty": "medium",
+            "solution": "$73$",
+            "answer": "73"
+          },
+          {
+            "number": 17,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$72 \\div (3 + 5) + 6 \\times (7 - 2)$",
+            "difficulty": "medium",
+            "solution": "$39$",
+            "answer": "39"
+          },
+          {
+            "number": 18,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$5^{2} - 4 \\times 3$",
+            "difficulty": "medium",
+            "solution": "$13$",
+            "answer": "13"
+          },
+          {
+            "number": 19,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$3^{2} \\times 4 - 20$",
+            "difficulty": "medium",
+            "solution": "$16$",
+            "answer": "16"
+          },
+          {
+            "number": 20,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$100 - 6^{2} + 2 \\times 8$",
+            "difficulty": "medium",
+            "solution": "$80$",
+            "answer": "80"
+          },
+          {
+            "number": 21,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$(9 - 5)^{2} \\times 3 + 2$",
+            "difficulty": "medium",
+            "solution": "$50$",
+            "answer": "50"
+          },
+          {
+            "number": 22,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$90 \\div (4 + 5) + 7 \\times (8 - 3)$",
+            "difficulty": "medium",
+            "solution": "$45$",
+            "answer": "45"
+          },
+          {
+            "number": 23,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$15 + 3 \\times (20 - 8) \\div 4$",
+            "difficulty": "medium",
+            "solution": "$24$",
+            "answer": "24"
+          },
+          {
+            "number": 24,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$(6 + 4) \\times (9 - 3) - 7^{2}$",
+            "difficulty": "medium",
+            "solution": "$11$",
+            "answer": "11"
+          },
+          {
+            "number": 25,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$144 \\div (2 \\times 6) + 3^{2} \\times 2$",
+            "difficulty": "medium",
+            "solution": "$30$",
+            "answer": "30"
+          },
+          {
+            "number": 26,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$5 \\times [18 - 2 \\times (4 + 3)]$",
+            "difficulty": "hard",
+            "solution": "$20$",
+            "answer": "20"
+          },
+          {
+            "number": 27,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$100 - [6 + 4 \\times (9 - 5)]$",
+            "difficulty": "hard",
+            "solution": "$78$",
+            "answer": "78"
+          },
+          {
+            "number": 28,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$(45 - 3^{2}) \\div (2 \\times 3) + 14$",
+            "difficulty": "hard",
+            "solution": "$20$",
+            "answer": "20"
+          },
+          {
+            "number": 29,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$3 \\times [2 \\times (7 + 5) - 4^{2}]$",
+            "difficulty": "hard",
+            "solution": "$24$",
+            "answer": "24"
+          },
+          {
+            "number": 30,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$120 \\div [4 \\times (11 - 8)] + 7 \\times 2^{2}$",
+            "difficulty": "hard",
+            "solution": "$38$",
+            "answer": "38"
+          },
+          {
+            "number": 31,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$[(7 + 5)^{2} - 4 \\times 9] \\div 12$",
+            "difficulty": "hard",
+            "solution": "$9$",
+            "answer": "9"
+          },
+          {
+            "number": 32,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$(-3) \\times 8 + 5 \\times (-2)$",
+            "difficulty": "hard",
+            "solution": "$-34$",
+            "answer": "-34"
+          },
+          {
+            "number": 33,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$20 - (-4) \\times 3 + (-18) \\div 6$",
+            "difficulty": "hard",
+            "solution": "$29$",
+            "answer": "29"
+          },
+          {
+            "number": 34,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$(-5)^{2} - 4 \\times (3 - 9)$",
+            "difficulty": "hard",
+            "solution": "$49$",
+            "answer": "49"
+          },
+          {
+            "number": 35,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$7 - 3 \\times (2 - 8) + (-12) \\div 4$",
+            "difficulty": "hard",
+            "solution": "$22$",
+            "answer": "22"
+          },
+          {
+            "number": 36,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$(-4) \\times (-5) + (12 - 30) \\div 6$",
+            "difficulty": "hard",
+            "solution": "$17$",
+            "answer": "17"
+          },
+          {
+            "number": 37,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$-(3 + 5) \\times 2 + 20$",
+            "difficulty": "hard",
+            "solution": "$4$",
+            "answer": "4"
+          },
+          {
+            "number": 38,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$3 \\times [40 - 5 \\times (2 + 4) - 6]$",
+            "difficulty": "hard",
+            "solution": "$12$",
+            "answer": "12"
+          },
+          {
+            "number": 39,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$[(-2)^{2} + 6] \\times (9 - 12)$",
+            "difficulty": "hard",
+            "solution": "$-30$",
+            "answer": "-30"
+          },
+          {
+            "number": 40,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$200 \\div [5 \\times (7 - 3)] - 3^{2}$",
+            "difficulty": "hard",
+            "solution": "$1$",
+            "answer": "1"
+          }
+        ],
+        "quiz": []
+      },
+      {
+        "number": 2,
+        "title": "חישובים עם שברים פשוטים",
+        "learning_objectives": [
+          "לחשב בארבע פעולות החשבון עם שברים פשוטים ומספרים מעורבים"
+        ],
+        "content": "## חישובים עם שברים פשוטים\n\nדף עבודה לתרגול עצמי, **ללא הסברים** — רק שאלות. התשובות מופיעות בסוף, בכל תרגיל תחת ״הצג פתרון״ ובדף העבודה להדפסה.\n\nהדף בנוי משלוש רמות: **רמה א׳** (מתחילים, 10 שאלות), **רמה ב׳** (מתקדמים, 15 שאלות) ו**רמה ג׳** (כיתה ח׳ מתקדמים, 15 שאלות). אפשר להשתמש במחשבון מדעי.\n\n**חשבו (תשובה כשבר מצומצם):**",
+        "examples": [],
+        "exercises": [
+          {
+            "number": 1,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$\\frac{1}{2} + \\frac{1}{4}$",
+            "difficulty": "easy",
+            "solution": "$\\frac{3}{4}$",
+            "answer": "3/4"
+          },
+          {
+            "number": 2,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$\\frac{2}{3} + \\frac{1}{6}$",
+            "difficulty": "easy",
+            "solution": "$\\frac{5}{6}$",
+            "answer": "5/6"
+          },
+          {
+            "number": 3,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$\\frac{3}{5} + \\frac{1}{10}$",
+            "difficulty": "easy",
+            "solution": "$\\frac{7}{10}$",
+            "answer": "7/10"
+          },
+          {
+            "number": 4,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$\\frac{7}{8} - \\frac{3}{8}$",
+            "difficulty": "easy",
+            "solution": "$\\frac{1}{2}$",
+            "answer": "1/2"
+          },
+          {
+            "number": 5,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$\\frac{5}{6} - \\frac{1}{3}$",
+            "difficulty": "easy",
+            "solution": "$\\frac{1}{2}$",
+            "answer": "1/2"
+          },
+          {
+            "number": 6,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$\\frac{3}{4} \\times \\frac{2}{3}$",
+            "difficulty": "easy",
+            "solution": "$\\frac{1}{2}$",
+            "answer": "1/2"
+          },
+          {
+            "number": 7,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$\\frac{2}{5} \\times 10$",
+            "difficulty": "easy",
+            "solution": "$4$",
+            "answer": "4"
+          },
+          {
+            "number": 8,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$\\frac{3}{4} \\div \\frac{1}{2}$",
+            "difficulty": "easy",
+            "solution": "$\\frac{3}{2} = 1\\frac{1}{2}$",
+            "answer": "3/2"
+          },
+          {
+            "number": 9,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$6 \\div \\frac{3}{4}$",
+            "difficulty": "easy",
+            "solution": "$8$",
+            "answer": "8"
+          },
+          {
+            "number": 10,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$\\frac{1}{2} + \\frac{1}{3} + \\frac{1}{6}$",
+            "difficulty": "easy",
+            "solution": "$1$",
+            "answer": "1"
+          },
+          {
+            "number": 11,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$2\\frac{1}{2} + 1\\frac{1}{3}$",
+            "difficulty": "medium",
+            "solution": "$\\frac{23}{6} = 3\\frac{5}{6}$",
+            "answer": "23/6"
+          },
+          {
+            "number": 12,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$3\\frac{1}{4} - 1\\frac{3}{4}$",
+            "difficulty": "medium",
+            "solution": "$\\frac{3}{2} = 1\\frac{1}{2}$",
+            "answer": "3/2"
+          },
+          {
+            "number": 13,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$5 - 2\\frac{2}{3}$",
+            "difficulty": "medium",
+            "solution": "$\\frac{7}{3} = 2\\frac{1}{3}$",
+            "answer": "7/3"
+          },
+          {
+            "number": 14,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$2\\frac{1}{2} \\times 1\\frac{1}{5}$",
+            "difficulty": "medium",
+            "solution": "$3$",
+            "answer": "3"
+          },
+          {
+            "number": 15,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$3\\frac{1}{3} \\div 2$",
+            "difficulty": "medium",
+            "solution": "$\\frac{5}{3} = 1\\frac{2}{3}$",
+            "answer": "5/3"
+          },
+          {
+            "number": 16,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$\\frac{2}{3} \\times \\frac{9}{10} \\times \\frac{5}{6}$",
+            "difficulty": "medium",
+            "solution": "$\\frac{1}{2}$",
+            "answer": "1/2"
+          },
+          {
+            "number": 17,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$4\\frac{1}{2} \\div 1\\frac{1}{2}$",
+            "difficulty": "medium",
+            "solution": "$3$",
+            "answer": "3"
+          },
+          {
+            "number": 18,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$\\frac{1}{2} + \\frac{1}{3} \\times \\frac{3}{4}$",
+            "difficulty": "medium",
+            "solution": "$\\frac{3}{4}$",
+            "answer": "3/4"
+          },
+          {
+            "number": 19,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$\\frac{3}{4} - \\frac{1}{2} \\div 2$",
+            "difficulty": "medium",
+            "solution": "$\\frac{1}{2}$",
+            "answer": "1/2"
+          },
+          {
+            "number": 20,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$\\frac{5}{6} \\div \\frac{5}{12} + \\frac{1}{2}$",
+            "difficulty": "medium",
+            "solution": "$\\frac{5}{2} = 2\\frac{1}{2}$",
+            "answer": "5/2"
+          },
+          {
+            "number": 21,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$3 \\times \\frac{2}{9} + 1\\frac{1}{3}$",
+            "difficulty": "medium",
+            "solution": "$2$",
+            "answer": "2"
+          },
+          {
+            "number": 22,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$\\frac{7}{8} - \\frac{1}{4} \\times \\frac{3}{2}$",
+            "difficulty": "medium",
+            "solution": "$\\frac{1}{2}$",
+            "answer": "1/2"
+          },
+          {
+            "number": 23,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$1\\frac{1}{2} + 2\\frac{1}{4} - \\frac{3}{4}$",
+            "difficulty": "medium",
+            "solution": "$3$",
+            "answer": "3"
+          },
+          {
+            "number": 24,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$2\\frac{2}{5} \\div \\frac{4}{5} \\times \\frac{1}{3}$",
+            "difficulty": "medium",
+            "solution": "$1$",
+            "answer": "1"
+          },
+          {
+            "number": 25,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$\\left(\\frac{3}{4} - \\frac{1}{2}\\right) \\times 8 + \\frac{1}{2}$",
+            "difficulty": "medium",
+            "solution": "$\\frac{5}{2} = 2\\frac{1}{2}$",
+            "answer": "5/2"
+          },
+          {
+            "number": 26,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\left(\\frac{1}{2} + \\frac{1}{3}\\right) \\div \\left(\\frac{5}{6} - \\frac{1}{3}\\right)$",
+            "difficulty": "hard",
+            "solution": "$\\frac{5}{3} = 1\\frac{2}{3}$",
+            "answer": "5/3"
+          },
+          {
+            "number": 27,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\frac{\\frac{3}{4} + \\frac{1}{2}}{\\frac{5}{8}}$",
+            "difficulty": "hard",
+            "solution": "$2$",
+            "answer": "2"
+          },
+          {
+            "number": 28,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\left(2\\frac{1}{3} - 1\\frac{5}{6}\\right) \\times 12$",
+            "difficulty": "hard",
+            "solution": "$6$",
+            "answer": "6"
+          },
+          {
+            "number": 29,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\frac{5}{6} + \\left[\\frac{1}{2} - \\left(\\frac{1}{3} - \\frac{1}{6}\\right)\\right]$",
+            "difficulty": "hard",
+            "solution": "$\\frac{7}{6} = 1\\frac{1}{6}$",
+            "answer": "7/6"
+          },
+          {
+            "number": 30,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\left[\\frac{3}{4} + \\frac{1}{2} \\times \\left(\\frac{2}{3} + \\frac{1}{3}\\right)\\right] \\div 1\\frac{1}{4}$",
+            "difficulty": "hard",
+            "solution": "$1$",
+            "answer": "1"
+          },
+          {
+            "number": 31,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\left(\\frac{2}{3}\\right)^{2} + \\frac{1}{3} \\times \\frac{2}{3}$",
+            "difficulty": "hard",
+            "solution": "$\\frac{2}{3}$",
+            "answer": "2/3"
+          },
+          {
+            "number": 32,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\left(\\frac{1}{2}\\right)^{2} + \\left(\\frac{3}{4}\\right)^{2}$",
+            "difficulty": "hard",
+            "solution": "$\\frac{13}{16}$",
+            "answer": "13/16"
+          },
+          {
+            "number": 33,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\left(1\\frac{1}{2}\\right)^{2} - \\frac{1}{4}$",
+            "difficulty": "hard",
+            "solution": "$2$",
+            "answer": "2"
+          },
+          {
+            "number": 34,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$6 \\times \\left(\\frac{2}{3} - \\frac{1}{2}\\right) + 4\\frac{1}{2} \\div 3$",
+            "difficulty": "hard",
+            "solution": "$\\frac{5}{2} = 2\\frac{1}{2}$",
+            "answer": "5/2"
+          },
+          {
+            "number": 35,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\frac{2\\frac{1}{2}}{1 + \\frac{1}{4}}$",
+            "difficulty": "hard",
+            "solution": "$2$",
+            "answer": "2"
+          },
+          {
+            "number": 36,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\frac{3}{4} \\times \\left(4\\frac{2}{3} - 1\\frac{1}{3}\\right) \\div \\left(\\frac{1}{2}\\right)$",
+            "difficulty": "hard",
+            "solution": "$5$",
+            "answer": "5"
+          },
+          {
+            "number": 37,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$1 - \\left(\\frac{1}{2} + \\frac{1}{3} + \\frac{1}{12}\\right)$",
+            "difficulty": "hard",
+            "solution": "$\\frac{1}{12}$",
+            "answer": "1/12"
+          },
+          {
+            "number": 38,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\left(2\\frac{1}{4} + 1\\frac{3}{4}\\right) \\div \\left(\\frac{3}{5} \\times \\frac{5}{2}\\right)$",
+            "difficulty": "hard",
+            "solution": "$\\frac{8}{3} = 2\\frac{2}{3}$",
+            "answer": "8/3"
+          },
+          {
+            "number": 39,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\frac{\\frac{1}{2} + \\frac{1}{3}}{\\frac{1}{2} - \\frac{1}{3}}$",
+            "difficulty": "hard",
+            "solution": "$5$",
+            "answer": "5"
+          },
+          {
+            "number": 40,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\frac{\\frac{1}{2} - \\frac{1}{3}}{\\frac{1}{3} - \\frac{1}{4}} + \\frac{1}{2}$",
+            "difficulty": "hard",
+            "solution": "$\\frac{5}{2} = 2\\frac{1}{2}$",
+            "answer": "5/2"
+          }
+        ],
+        "quiz": []
+      },
+      {
+        "number": 3,
+        "title": "חישובים עם שברים עשרוניים",
+        "learning_objectives": [
+          "לחשב בארבע פעולות החשבון עם שברים עשרוניים"
+        ],
+        "content": "## חישובים עם שברים עשרוניים\n\nדף עבודה לתרגול עצמי, **ללא הסברים** — רק שאלות. התשובות מופיעות בסוף, בכל תרגיל תחת ״הצג פתרון״ ובדף העבודה להדפסה.\n\nהדף בנוי משלוש רמות: **רמה א׳** (מתחילים, 10 שאלות), **רמה ב׳** (מתקדמים, 15 שאלות) ו**רמה ג׳** (כיתה ח׳ מתקדמים, 15 שאלות). אפשר להשתמש במחשבון מדעי.\n\n**חשבו:**",
+        "examples": [],
+        "exercises": [
+          {
+            "number": 1,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$3.5 + 2.7$",
+            "difficulty": "easy",
+            "solution": "$6.2$",
+            "answer": "6.2"
+          },
+          {
+            "number": 2,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$12.4 + 5.85$",
+            "difficulty": "easy",
+            "solution": "$18.25$",
+            "answer": "18.25"
+          },
+          {
+            "number": 3,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$9.6 - 4.2$",
+            "difficulty": "easy",
+            "solution": "$5.4$",
+            "answer": "5.4"
+          },
+          {
+            "number": 4,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$10 - 3.7$",
+            "difficulty": "easy",
+            "solution": "$6.3$",
+            "answer": "6.3"
+          },
+          {
+            "number": 5,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$7.25 - 2.5$",
+            "difficulty": "easy",
+            "solution": "$4.75$",
+            "answer": "4.75"
+          },
+          {
+            "number": 6,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$0.6 \\times 4$",
+            "difficulty": "easy",
+            "solution": "$2.4$",
+            "answer": "2.4"
+          },
+          {
+            "number": 7,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$1.5 \\times 6$",
+            "difficulty": "easy",
+            "solution": "$9$",
+            "answer": "9"
+          },
+          {
+            "number": 8,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$0.3 \\times 0.2$",
+            "difficulty": "easy",
+            "solution": "$0.06$",
+            "answer": "0.06"
+          },
+          {
+            "number": 9,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$4.8 \\div 2$",
+            "difficulty": "easy",
+            "solution": "$2.4$",
+            "answer": "2.4"
+          },
+          {
+            "number": 10,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$7.2 \\div 0.9$",
+            "difficulty": "easy",
+            "solution": "$8$",
+            "answer": "8"
+          },
+          {
+            "number": 11,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$2.4 + 3.65 + 1.9$",
+            "difficulty": "medium",
+            "solution": "$7.95$",
+            "answer": "7.95"
+          },
+          {
+            "number": 12,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$15 - 4.35 - 2.8$",
+            "difficulty": "medium",
+            "solution": "$7.85$",
+            "answer": "7.85"
+          },
+          {
+            "number": 13,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$0.25 \\times 8$",
+            "difficulty": "medium",
+            "solution": "$2$",
+            "answer": "2"
+          },
+          {
+            "number": 14,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$3.2 \\times 1.5$",
+            "difficulty": "medium",
+            "solution": "$4.8$",
+            "answer": "4.8"
+          },
+          {
+            "number": 15,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$12.5 \\times 0.4$",
+            "difficulty": "medium",
+            "solution": "$5$",
+            "answer": "5"
+          },
+          {
+            "number": 16,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$6.4 \\div 0.8$",
+            "difficulty": "medium",
+            "solution": "$8$",
+            "answer": "8"
+          },
+          {
+            "number": 17,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$2.7 \\div 0.9$",
+            "difficulty": "medium",
+            "solution": "$3$",
+            "answer": "3"
+          },
+          {
+            "number": 18,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$3.7 \\times 100$",
+            "difficulty": "medium",
+            "solution": "$370$",
+            "answer": "370"
+          },
+          {
+            "number": 19,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$4.5 \\div 10$",
+            "difficulty": "medium",
+            "solution": "$0.45$",
+            "answer": "0.45"
+          },
+          {
+            "number": 20,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$2.5 \\times 4 + 1.8 \\times 5$",
+            "difficulty": "medium",
+            "solution": "$19$",
+            "answer": "19"
+          },
+          {
+            "number": 21,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$9 - 2.4 \\times 3$",
+            "difficulty": "medium",
+            "solution": "$1.8$",
+            "answer": "1.8"
+          },
+          {
+            "number": 22,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$7.5 \\div 2.5 + 3.2$",
+            "difficulty": "medium",
+            "solution": "$6.2$",
+            "answer": "6.2"
+          },
+          {
+            "number": 23,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$0.5 \\times 12.4 - 1.7$",
+            "difficulty": "medium",
+            "solution": "$4.5$",
+            "answer": "4.5"
+          },
+          {
+            "number": 24,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$(4.2 + 3.8) \\times 0.5$",
+            "difficulty": "medium",
+            "solution": "$4$",
+            "answer": "4"
+          },
+          {
+            "number": 25,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$18 \\div (2.5 - 1)$",
+            "difficulty": "medium",
+            "solution": "$12$",
+            "answer": "12"
+          },
+          {
+            "number": 26,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$4.5 \\div 0.15$",
+            "difficulty": "hard",
+            "solution": "$30$",
+            "answer": "30"
+          },
+          {
+            "number": 27,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$1.2 \\times 0.5 + 3.6 \\div 0.4$",
+            "difficulty": "hard",
+            "solution": "$9.6$",
+            "answer": "9.6"
+          },
+          {
+            "number": 28,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$(6.8 - 2.3) \\times 2 + 0.5^{2}$",
+            "difficulty": "hard",
+            "solution": "$9.25$",
+            "answer": "9.25"
+          },
+          {
+            "number": 29,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$0.3^{2} + 0.4^{2}$",
+            "difficulty": "hard",
+            "solution": "$0.25$",
+            "answer": "0.25"
+          },
+          {
+            "number": 30,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$10 - [3.5 + 2 \\times (1.2 + 0.3)]$",
+            "difficulty": "hard",
+            "solution": "$3.5$",
+            "answer": "3.5"
+          },
+          {
+            "number": 31,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$(2.4 + 1.6) \\times (5.5 - 3.5) \\div 0.4$",
+            "difficulty": "hard",
+            "solution": "$20$",
+            "answer": "20"
+          },
+          {
+            "number": 32,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$2.4 \\div 0.06 - 15$",
+            "difficulty": "hard",
+            "solution": "$25$",
+            "answer": "25"
+          },
+          {
+            "number": 33,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$12 - 0.5 \\times (4.8 \\div 0.6 + 2)$",
+            "difficulty": "hard",
+            "solution": "$7$",
+            "answer": "7"
+          },
+          {
+            "number": 34,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$1.5^{2} - 0.5 \\times 3.5$",
+            "difficulty": "hard",
+            "solution": "$0.5$",
+            "answer": "0.5"
+          },
+          {
+            "number": 35,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$(0.8 + 0.7)^{2} \\div 0.3$",
+            "difficulty": "hard",
+            "solution": "$7.5$",
+            "answer": "7.5"
+          },
+          {
+            "number": 36,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\frac{3.6 + 2.4}{1.5 \\times 2}$",
+            "difficulty": "hard",
+            "solution": "$2$",
+            "answer": "2"
+          },
+          {
+            "number": 37,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\frac{4.2 - 1.2}{0.5 + 0.25}$",
+            "difficulty": "hard",
+            "solution": "$4$",
+            "answer": "4"
+          },
+          {
+            "number": 38,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$0.2 \\times [15 - (4.5 + 3.5)] \\div 0.5$",
+            "difficulty": "hard",
+            "solution": "$2.8$",
+            "answer": "2.8"
+          },
+          {
+            "number": 39,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$3 \\times 0.4^{2} - 0.18$",
+            "difficulty": "hard",
+            "solution": "$0.3$",
+            "answer": "0.3"
+          },
+          {
+            "number": 40,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$(20 - 4.4) \\div 0.6 - 2.5 \\times 4$",
+            "difficulty": "hard",
+            "solution": "$16$",
+            "answer": "16"
+          }
+        ],
+        "quiz": []
+      },
+      {
+        "number": 4,
+        "title": "חישובים עם סוגריים",
+        "learning_objectives": [
+          "לחשב ביטויים עם סוגריים עגולים ומרובעים, גם מקוננים"
+        ],
+        "content": "## חישובים עם סוגריים\n\nדף עבודה לתרגול עצמי, **ללא הסברים** — רק שאלות. התשובות מופיעות בסוף, בכל תרגיל תחת ״הצג פתרון״ ובדף העבודה להדפסה.\n\nהדף בנוי משלוש רמות: **רמה א׳** (מתחילים, 10 שאלות), **רמה ב׳** (מתקדמים, 15 שאלות) ו**רמה ג׳** (כיתה ח׳ מתקדמים, 15 שאלות). אפשר להשתמש במחשבון מדעי.\n\n**חשבו (קודם הסוגריים הפנימיים):**",
+        "examples": [],
+        "exercises": [
+          {
+            "number": 1,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$20 - (7 + 5)$",
+            "difficulty": "easy",
+            "solution": "$8$",
+            "answer": "8"
+          },
+          {
+            "number": 2,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$3 \\times (8 + 4)$",
+            "difficulty": "easy",
+            "solution": "$36$",
+            "answer": "36"
+          },
+          {
+            "number": 3,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$(15 - 6) \\times 4$",
+            "difficulty": "easy",
+            "solution": "$36$",
+            "answer": "36"
+          },
+          {
+            "number": 4,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$50 - (18 - 6)$",
+            "difficulty": "easy",
+            "solution": "$38$",
+            "answer": "38"
+          },
+          {
+            "number": 5,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$100 - (45 + 25)$",
+            "difficulty": "easy",
+            "solution": "$30$",
+            "answer": "30"
+          },
+          {
+            "number": 6,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$4 \\times (12 - 7) + 9$",
+            "difficulty": "easy",
+            "solution": "$29$",
+            "answer": "29"
+          },
+          {
+            "number": 7,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$56 \\div (3 + 4) + 5$",
+            "difficulty": "easy",
+            "solution": "$13$",
+            "answer": "13"
+          },
+          {
+            "number": 8,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$(9 + 3) \\times (8 - 5)$",
+            "difficulty": "easy",
+            "solution": "$36$",
+            "answer": "36"
+          },
+          {
+            "number": 9,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$60 - 2 \\times (10 + 5)$",
+            "difficulty": "easy",
+            "solution": "$30$",
+            "answer": "30"
+          },
+          {
+            "number": 10,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$(6 + 4) \\times 5 - (20 - 8)$",
+            "difficulty": "easy",
+            "solution": "$38$",
+            "answer": "38"
+          },
+          {
+            "number": 11,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$4 \\times [20 - (6 + 5)]$",
+            "difficulty": "medium",
+            "solution": "$36$",
+            "answer": "36"
+          },
+          {
+            "number": 12,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$100 - [30 - (12 + 8)]$",
+            "difficulty": "medium",
+            "solution": "$90$",
+            "answer": "90"
+          },
+          {
+            "number": 13,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$[(9 + 7) \\div 4 + 6] \\times 3$",
+            "difficulty": "medium",
+            "solution": "$30$",
+            "answer": "30"
+          },
+          {
+            "number": 14,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$2 \\times [(15 - 3) \\times 2 - 10]$",
+            "difficulty": "medium",
+            "solution": "$28$",
+            "answer": "28"
+          },
+          {
+            "number": 15,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$90 \\div [(4 + 5) \\times 2] + 7$",
+            "difficulty": "medium",
+            "solution": "$12$",
+            "answer": "12"
+          },
+          {
+            "number": 16,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$7 + 3 \\times [(18 - 6) \\div 4 + 1]$",
+            "difficulty": "medium",
+            "solution": "$19$",
+            "answer": "19"
+          },
+          {
+            "number": 17,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$\\left(\\frac{2}{3} + \\frac{1}{6}\\right) \\times 6$",
+            "difficulty": "medium",
+            "solution": "$5$",
+            "answer": "5"
+          },
+          {
+            "number": 18,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$\\frac{5}{6} - \\left(\\frac{1}{2} - \\frac{1}{3}\\right)$",
+            "difficulty": "medium",
+            "solution": "$\\frac{2}{3}$",
+            "answer": "2/3"
+          },
+          {
+            "number": 19,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$3 - \\left(1\\frac{1}{2} + \\frac{3}{4}\\right)$",
+            "difficulty": "medium",
+            "solution": "$\\frac{3}{4}$",
+            "answer": "3/4"
+          },
+          {
+            "number": 20,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$\\left(\\frac{3}{4} + \\frac{1}{2}\\right) \\div \\frac{5}{8}$",
+            "difficulty": "medium",
+            "solution": "$2$",
+            "answer": "2"
+          },
+          {
+            "number": 21,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$(2.5 + 1.5) \\times 3.2$",
+            "difficulty": "medium",
+            "solution": "$12.8$",
+            "answer": "12.8"
+          },
+          {
+            "number": 22,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$10 - (4.2 + 2.8) \\times 0.5$",
+            "difficulty": "medium",
+            "solution": "$6.5$",
+            "answer": "6.5"
+          },
+          {
+            "number": 23,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$(7.5 - 2.5) \\times 0.6 + 1.2$",
+            "difficulty": "medium",
+            "solution": "$4.2$",
+            "answer": "4.2"
+          },
+          {
+            "number": 24,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$(9.6 - 1.6) \\div (0.5 \\times 4)$",
+            "difficulty": "medium",
+            "solution": "$4$",
+            "answer": "4"
+          },
+          {
+            "number": 25,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$2 \\times \\left(\\frac{1}{2} + 0.25\\right)$",
+            "difficulty": "medium",
+            "solution": "$1.5$",
+            "answer": "1.5"
+          },
+          {
+            "number": 26,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$3 \\times [5 + 2 \\times (9 - 4)] - 10$",
+            "difficulty": "hard",
+            "solution": "$35$",
+            "answer": "35"
+          },
+          {
+            "number": 27,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$80 - 2 \\times [18 - (4 + 2) \\times 2]$",
+            "difficulty": "hard",
+            "solution": "$68$",
+            "answer": "68"
+          },
+          {
+            "number": 28,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$[(-4) + 10] \\times [8 - (-2)]$",
+            "difficulty": "hard",
+            "solution": "$60$",
+            "answer": "60"
+          },
+          {
+            "number": 29,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$-(6 - 10) \\times 3 + 2 \\times (-5)$",
+            "difficulty": "hard",
+            "solution": "$2$",
+            "answer": "2"
+          },
+          {
+            "number": 30,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$7 - [(-3) \\times (4 - 6) - 2]$",
+            "difficulty": "hard",
+            "solution": "$3$",
+            "answer": "3"
+          },
+          {
+            "number": 31,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$[48 \\div (2 \\times 3) - 5] \\times [9 - (7 - 2)^{2} \\div 5]$",
+            "difficulty": "hard",
+            "solution": "$12$",
+            "answer": "12"
+          },
+          {
+            "number": 32,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\left[1\\frac{1}{2} - \\left(\\frac{2}{3} + \\frac{1}{6}\\right)\\right] \\times 12$",
+            "difficulty": "hard",
+            "solution": "$8$",
+            "answer": "8"
+          },
+          {
+            "number": 33,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\frac{2}{3} \\times \\left[3 - \\left(\\frac{1}{2} + \\frac{1}{4}\\right)\\right] \\div \\left(\\frac{3}{4}\\right)$",
+            "difficulty": "hard",
+            "solution": "$2$",
+            "answer": "2"
+          },
+          {
+            "number": 34,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\left[\\frac{1}{2} - \\left(\\frac{3}{4} - 1\\right)\\right] \\times 4$",
+            "difficulty": "hard",
+            "solution": "$3$",
+            "answer": "3"
+          },
+          {
+            "number": 35,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\left(1 - \\frac{2}{3}\\right) \\times \\left(1 + \\frac{1}{2}\\right) \\div \\left(\\frac{1}{4}\\right)$",
+            "difficulty": "hard",
+            "solution": "$2$",
+            "answer": "2"
+          },
+          {
+            "number": 36,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$[3.5 - (0.5 + 1.2)] \\times 5$",
+            "difficulty": "hard",
+            "solution": "$9$",
+            "answer": "9"
+          },
+          {
+            "number": 37,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$10 - 2 \\times [4.5 - (1.5 + 0.5) \\times 1.2]$",
+            "difficulty": "hard",
+            "solution": "$5.8$",
+            "answer": "5.8"
+          },
+          {
+            "number": 38,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$[2.4 + 3 \\times (1.5 - 0.5)] \\div 0.9$",
+            "difficulty": "hard",
+            "solution": "$6$",
+            "answer": "6"
+          },
+          {
+            "number": 39,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\left(\\frac{1}{2} + 0.75\\right) \\times \\left[4 - \\left(\\frac{2}{5} + 0.6\\right)\\right]$",
+            "difficulty": "hard",
+            "solution": "$3.75$",
+            "answer": "3.75"
+          },
+          {
+            "number": 40,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\left[3\\frac{1}{2} - \\left(1.5 + \\frac{1}{4}\\right)\\right] \\times 4$",
+            "difficulty": "hard",
+            "solution": "$7$",
+            "answer": "7"
+          }
+        ],
+        "quiz": []
+      },
+      {
+        "number": 5,
+        "title": "חישובים עם ערך מוחלט",
+        "learning_objectives": [
+          "לחשב ביטויים עם ערך מוחלט ולפתור משוואות ערך מוחלט פשוטות"
+        ],
+        "content": "## חישובים עם ערך מוחלט\n\nדף עבודה לתרגול עצמי, **ללא הסברים** — רק שאלות. התשובות מופיעות בסוף, בכל תרגיל תחת ״הצג פתרון״ ובדף העבודה להדפסה.\n\nהדף בנוי משלוש רמות: **רמה א׳** (מתחילים, 10 שאלות), **רמה ב׳** (מתקדמים, 15 שאלות) ו**רמה ג׳** (כיתה ח׳ מתקדמים, 15 שאלות). אפשר להשתמש במחשבון מדעי.\n\n**פתרו:**",
+        "examples": [],
+        "exercises": [
+          {
+            "number": 1,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$\\left|-7\\right|$",
+            "difficulty": "easy",
+            "solution": "$7$",
+            "answer": "7"
+          },
+          {
+            "number": 2,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$\\left|12\\right|$",
+            "difficulty": "easy",
+            "solution": "$12$",
+            "answer": "12"
+          },
+          {
+            "number": 3,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$\\left|-20\\right|$",
+            "difficulty": "easy",
+            "solution": "$20$",
+            "answer": "20"
+          },
+          {
+            "number": 4,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$-\\left|5\\right|$",
+            "difficulty": "easy",
+            "solution": "$-5$",
+            "answer": "-5"
+          },
+          {
+            "number": 5,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$\\left|-3\\right| + \\left|-4\\right|$",
+            "difficulty": "easy",
+            "solution": "$7$",
+            "answer": "7"
+          },
+          {
+            "number": 6,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$\\left|8\\right| - \\left|-5\\right|$",
+            "difficulty": "easy",
+            "solution": "$3$",
+            "answer": "3"
+          },
+          {
+            "number": 7,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$\\left|-6\\right| \\times \\left|2\\right|$",
+            "difficulty": "easy",
+            "solution": "$12$",
+            "answer": "12"
+          },
+          {
+            "number": 8,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$\\left|4 - 9\\right|$",
+            "difficulty": "easy",
+            "solution": "$5$",
+            "answer": "5"
+          },
+          {
+            "number": 9,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$\\left|10 - 3\\right|$",
+            "difficulty": "easy",
+            "solution": "$7$",
+            "answer": "7"
+          },
+          {
+            "number": 10,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$\\left|-2 - 5\\right|$",
+            "difficulty": "easy",
+            "solution": "$7$",
+            "answer": "7"
+          },
+          {
+            "number": 11,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$\\left|7 - 15\\right| + \\left|-3\\right|$",
+            "difficulty": "medium",
+            "solution": "$11$",
+            "answer": "11"
+          },
+          {
+            "number": 12,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$\\left|-8\\right| - \\left|3 - 9\\right|$",
+            "difficulty": "medium",
+            "solution": "$2$",
+            "answer": "2"
+          },
+          {
+            "number": 13,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$-\\left|-4\\right| + 10$",
+            "difficulty": "medium",
+            "solution": "$6$",
+            "answer": "6"
+          },
+          {
+            "number": 14,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$5 \\times \\left|-3\\right| - \\left|-8\\right|$",
+            "difficulty": "medium",
+            "solution": "$7$",
+            "answer": "7"
+          },
+          {
+            "number": 15,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$\\left|-12\\right| \\div \\left|-4\\right| + \\left|-1\\right|$",
+            "difficulty": "medium",
+            "solution": "$4$",
+            "answer": "4"
+          },
+          {
+            "number": 16,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$\\left|2 - 11\\right| \\times \\left|-2\\right|$",
+            "difficulty": "medium",
+            "solution": "$18$",
+            "answer": "18"
+          },
+          {
+            "number": 17,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$20 - \\left|-6\\right| \\times 3$",
+            "difficulty": "medium",
+            "solution": "$2$",
+            "answer": "2"
+          },
+          {
+            "number": 18,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$\\left|3 \\times (-4)\\right| - \\left|-5 + 1\\right|$",
+            "difficulty": "medium",
+            "solution": "$8$",
+            "answer": "8"
+          },
+          {
+            "number": 19,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$\\left|-15 \\div 3\\right| \\times \\left|1 - 4\\right|$",
+            "difficulty": "medium",
+            "solution": "$15$",
+            "answer": "15"
+          },
+          {
+            "number": 20,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$-\\left|6 - 10\\right| - \\left|-9\\right|$",
+            "difficulty": "medium",
+            "solution": "$-13$",
+            "answer": "-13"
+          },
+          {
+            "number": 21,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$\\left|-\\frac{1}{2}\\right| - \\left|-\\frac{1}{6}\\right|$",
+            "difficulty": "medium",
+            "solution": "$\\frac{1}{3}$",
+            "answer": "1/3"
+          },
+          {
+            "number": 22,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$\\left|-2.5\\right| + \\left|1.5\\right|$",
+            "difficulty": "medium",
+            "solution": "$4$",
+            "answer": "4"
+          },
+          {
+            "number": 23,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "מהו המרחק על ציר המספרים בין $-4$ ל-$7$?",
+            "difficulty": "medium",
+            "solution": "$11$",
+            "answer": "11"
+          },
+          {
+            "number": 24,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "מהו המרחק על ציר המספרים בין $-9$ ל-$-2$?",
+            "difficulty": "medium",
+            "solution": "$7$",
+            "answer": "7"
+          },
+          {
+            "number": 25,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "השלימו את הסימן ($<$, $>$ או $=$): $\\left|-9\\right| \\;\\square\\; \\left|5\\right|$",
+            "difficulty": "medium",
+            "solution": "$>$"
+          },
+          {
+            "number": 26,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\left|\\left|-5\\right| - 9\\right|$",
+            "difficulty": "hard",
+            "solution": "$4$",
+            "answer": "4"
+          },
+          {
+            "number": 27,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\left|-3\\right| \\times \\left|2 - 8\\right| - \\left|-4 \\times 5\\right|$",
+            "difficulty": "hard",
+            "solution": "$-2$",
+            "answer": "-2"
+          },
+          {
+            "number": 28,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\left|-4 - \\left|-6\\right|\\right|$",
+            "difficulty": "hard",
+            "solution": "$10$",
+            "answer": "10"
+          },
+          {
+            "number": 29,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\left|5 - 12\\right| \\times \\left|-3\\right| - 20 \\div \\left|-4\\right|$",
+            "difficulty": "hard",
+            "solution": "$16$",
+            "answer": "16"
+          },
+          {
+            "number": 30,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\left|-18 \\div 6\\right| + \\left|7 - 4^{2}\\right|$",
+            "difficulty": "hard",
+            "solution": "$12$",
+            "answer": "12"
+          },
+          {
+            "number": 31,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\left|-3\\right|^{2} - 2 \\times \\left|-4\\right|$",
+            "difficulty": "hard",
+            "solution": "$1$",
+            "answer": "1"
+          },
+          {
+            "number": 32,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$-\\left|2 - 9\\right| + \\left|\\left|-3\\right| - 8\\right|$",
+            "difficulty": "hard",
+            "solution": "$-2$",
+            "answer": "-2"
+          },
+          {
+            "number": 33,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$24 \\div \\left|-6\\right| - \\left|-5 + 2\\right| \\times 2$",
+            "difficulty": "hard",
+            "solution": "$-2$",
+            "answer": "-2"
+          },
+          {
+            "number": 34,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\left|-2\\right| \\times (\\left|-7\\right| - \\left|-3\\right|) - 6$",
+            "difficulty": "hard",
+            "solution": "$2$",
+            "answer": "2"
+          },
+          {
+            "number": 35,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\left|\\frac{1}{2} - \\frac{3}{4}\\right| \\times 8$",
+            "difficulty": "hard",
+            "solution": "$2$",
+            "answer": "2"
+          },
+          {
+            "number": 36,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\left|-3.5\\right| - \\left|1.5 - 4\\right|$",
+            "difficulty": "hard",
+            "solution": "$1$",
+            "answer": "1"
+          },
+          {
+            "number": 37,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\left|\\frac{2}{3} - 1\\right| + \\left|-\\frac{1}{3}\\right|$",
+            "difficulty": "hard",
+            "solution": "$\\frac{2}{3}$",
+            "answer": "2/3"
+          },
+          {
+            "number": 38,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "מצאו את כל המספרים $x$ המקיימים $\\left|x\\right| = 7$.",
+            "difficulty": "hard",
+            "solution": "$x = 7$ או $x = -7$"
+          },
+          {
+            "number": 39,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "מצאו את כל המספרים $x$ המקיימים $\\left|x - 3\\right| = 5$.",
+            "difficulty": "hard",
+            "solution": "$x = 8$ או $x = -2$"
+          },
+          {
+            "number": 40,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "מצאו את כל המספרים $x$ המקיימים $\\left|x + 4\\right| = 6$.",
+            "difficulty": "hard",
+            "solution": "$x = 2$ או $x = -10$"
+          }
+        ],
+        "quiz": []
+      },
+      {
+        "number": 6,
+        "title": "בעיות מילוליות — גילאים",
+        "learning_objectives": [
+          "לפתור בעיות גילאים באמצעות משוואה"
+        ],
+        "content": "## בעיות מילוליות — גילאים\n\nדף עבודה לתרגול עצמי, **ללא הסברים** — רק שאלות. התשובות מופיעות בסוף, בכל תרגיל תחת ״הצג פתרון״ ובדף העבודה להדפסה.\n\nהדף בנוי משלוש רמות: **רמה א׳** (מתחילים, 10 שאלות), **רמה ב׳** (מתקדמים, 15 שאלות) ו**רמה ג׳** (כיתה ח׳ מתקדמים, 15 שאלות). אפשר להשתמש במחשבון מדעי.\n\n**פתרו את הבעיות:**",
+        "examples": [],
+        "exercises": [
+          {
+            "number": 1,
+            "title": "רמה א׳ — מתחילים",
+            "description": "דני בן 12. אחיו הגדול ממנו ב-5 שנים. בן כמה אחיו?",
+            "difficulty": "easy",
+            "solution": "17"
+          },
+          {
+            "number": 2,
+            "title": "רמה א׳ — מתחילים",
+            "description": "בעוד 4 שנים תהיה רחל בת 15. בת כמה היא היום?",
+            "difficulty": "easy",
+            "solution": "11"
+          },
+          {
+            "number": 3,
+            "title": "רמה א׳ — מתחילים",
+            "description": "לפני 3 שנים היה יוסי בן 9. בן כמה הוא היום?",
+            "difficulty": "easy",
+            "solution": "12"
+          },
+          {
+            "number": 4,
+            "title": "רמה א׳ — מתחילים",
+            "description": "גילו של האב גדול פי 4 מגילו של בנו. הבן בן 9. בן כמה האב?",
+            "difficulty": "easy",
+            "solution": "36"
+          },
+          {
+            "number": 5,
+            "title": "רמה א׳ — מתחילים",
+            "description": "סכום גילאיהם של שני אחים הוא 25, והגדול מבין השניים מבוגר מהקטן ב-3 שנים. מצאו את גיל כל אחד.",
+            "difficulty": "easy",
+            "solution": "הגדול 14, הקטן 11"
+          },
+          {
+            "number": 6,
+            "title": "רמה א׳ — מתחילים",
+            "description": "משה בן 14 ואחותו בת 9. בן כמה יהיה משה כשאחותו תהיה בת 15?",
+            "difficulty": "easy",
+            "solution": "20"
+          },
+          {
+            "number": 7,
+            "title": "רמה א׳ — מתחילים",
+            "description": "הסבא בן 70 והנכד בן 12. בן כמה יהיה הסבא כשהנכד יהיה בן 20?",
+            "difficulty": "easy",
+            "solution": "78"
+          },
+          {
+            "number": 8,
+            "title": "רמה א׳ — מתחילים",
+            "description": "שלושה אחים בני 6, 9 ו-12. מה יהיה סכום גילאיהם בעוד 5 שנים?",
+            "difficulty": "easy",
+            "solution": "42"
+          },
+          {
+            "number": 9,
+            "title": "רמה א׳ — מתחילים",
+            "description": "אמא בת 36, והיא מבוגרת פי 3 מבתה. בת כמה הבת?",
+            "difficulty": "easy",
+            "solution": "12"
+          },
+          {
+            "number": 10,
+            "title": "רמה א׳ — מתחילים",
+            "description": "לפני 5 שנים היה אורי בן 8. בן כמה יהיה אורי בעוד 7 שנים?",
+            "difficulty": "easy",
+            "solution": "20"
+          },
+          {
+            "number": 11,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "גילו של האב גדול פי 4 מגילו של בנו, וסכום גילאיהם 50. מצאו את גיל האב ואת גיל הבן.",
+            "difficulty": "medium",
+            "solution": "האב 40, הבן 10"
+          },
+          {
+            "number": 12,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "האב מבוגר מבנו ב-28 שנים, וסכום גילאיהם 46. מצאו את גילאיהם.",
+            "difficulty": "medium",
+            "solution": "האב 37, הבן 9"
+          },
+          {
+            "number": 13,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "גיל האם פי 3 מגיל בתה. בעוד 6 שנים יהיה סכום גילאיהן 60. מצאו את גילאיהן כיום.",
+            "difficulty": "medium",
+            "solution": "האם 36, הבת 12"
+          },
+          {
+            "number": 14,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "לפני 4 שנים היה גילה של שרה פי 3 מגילה של אחותה. אחותה בת 7 כיום. בת כמה שרה כיום?",
+            "difficulty": "medium",
+            "solution": "13"
+          },
+          {
+            "number": 15,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "גילו של דן כפול מגיל אחיו. בעוד 5 שנים יהיה סכום גילאיהם 40. בן כמה כל אחד כיום?",
+            "difficulty": "medium",
+            "solution": "דן 20, אחיו 10"
+          },
+          {
+            "number": 16,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "בעוד 6 שנים יהיה גילו של האב פי 3 מגילו של בנו. כיום הבן בן 8. בן כמה האב היום?",
+            "difficulty": "medium",
+            "solution": "36"
+          },
+          {
+            "number": 17,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "שלושה אחים: הבכור מבוגר מהאמצעי ב-3 שנים, והאמצעי מבוגר מהצעיר ב-2 שנים. סכום גילאיהם 37. מצאו את גיל כל אחד.",
+            "difficulty": "medium",
+            "solution": "הבכור 15, האמצעי 12, הצעיר 10"
+          },
+          {
+            "number": 18,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "אם נוסיף 4 לגילו של יעקב ונכפיל את התוצאה ב-3, נקבל 54. בן כמה יעקב?",
+            "difficulty": "medium",
+            "solution": "14"
+          },
+          {
+            "number": 19,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "אבא בן 38 ובנו בן 11. בעוד כמה שנים יהיה גיל האב כפול מגיל הבן?",
+            "difficulty": "medium",
+            "solution": "בעוד 16 שנים"
+          },
+          {
+            "number": 20,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "מורה בת 45 ותלמידה בת 15. לפני כמה שנים היה גיל המורה פי 4 מגיל התלמידה?",
+            "difficulty": "medium",
+            "solution": "לפני 5 שנים"
+          },
+          {
+            "number": 21,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "סכום גילאיהם של שני חברים הוא 30. לפני 3 שנים היה גיל האחד כפול מגיל השני. מצאו את גילאיהם כיום.",
+            "difficulty": "medium",
+            "solution": "19 ו-11"
+          },
+          {
+            "number": 22,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "דן בן 12 ואחותו בת 8. בעוד כמה שנים יהיה סכום גילאיהם 36?",
+            "difficulty": "medium",
+            "solution": "בעוד 8 שנים"
+          },
+          {
+            "number": 23,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "גילו של הסבא גדול פי 5 מגיל נכדו. הפרש הגילים ביניהם 56 שנים. מצאו את גילאיהם.",
+            "difficulty": "medium",
+            "solution": "הסבא 70, הנכד 14"
+          },
+          {
+            "number": 24,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "האב בן 34 והבן בן 6. בעוד כמה שנים יהיה גיל האב פי 3 מגיל הבן?",
+            "difficulty": "medium",
+            "solution": "בעוד 8 שנים"
+          },
+          {
+            "number": 25,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "אברהם מבוגר מיצחק ב-6 שנים. לפני 4 שנים היה גילו של אברהם פי 2 מגילו של יצחק. בן כמה כל אחד כיום?",
+            "difficulty": "medium",
+            "solution": "אברהם 16, יצחק 10"
+          },
+          {
+            "number": 26,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "לפני 5 שנים היה גיל האב פי 7 מגיל הבן, ובעוד 5 שנים יהיה גיל האב פי 3 מגיל הבן. מצאו את גילאיהם כיום.",
+            "difficulty": "hard",
+            "solution": "האב 40, הבן 10"
+          },
+          {
+            "number": 27,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "סכום גילאי אב ובנו כיום הוא 52. בעוד 6 שנים יהיה גיל האב פי 3 מגיל הבן. מצאו את גילאיהם כיום.",
+            "difficulty": "hard",
+            "solution": "האב 42, הבן 10"
+          },
+          {
+            "number": 28,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "גילו של דוד כפול מגיל משה, וגיל משה גדול מגילו של אריאל ב-4 שנים. סכום גילאי השלושה הוא 52. מצאו את גיל כל אחד.",
+            "difficulty": "hard",
+            "solution": "דוד 28, משה 14, אריאל 10"
+          },
+          {
+            "number": 29,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "לפני 6 שנים היה סכום גילאי האב ובנו 40. כיום גיל האב פי 3 מגיל בנו. מצאו את גילאיהם כיום.",
+            "difficulty": "hard",
+            "solution": "האב 39, הבן 13"
+          },
+          {
+            "number": 30,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "אחות גדולה מאחיה פי 2. לפני 4 שנים היה סכום גילאיהם 22. בן כמה כל אחד כיום?",
+            "difficulty": "hard",
+            "solution": "האחות 20, האח 10"
+          },
+          {
+            "number": 31,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "כשנולד הבן היה האב בן 28. בן כמה יהיה הבן כשגיל האב יהיה פי 2 מגילו?",
+            "difficulty": "hard",
+            "solution": "28"
+          },
+          {
+            "number": 32,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "היחס בין גיל האב לגיל הבן כיום הוא 5:2. בעוד 12 שנים יהיה גיל האב פי 2 מגיל הבן. מצאו את גילאיהם כיום.",
+            "difficulty": "hard",
+            "solution": "האב 60, הבן 24"
+          },
+          {
+            "number": 33,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "גיל האם כיום פי 4 מגיל בתה. בעוד 6 שנים יהיה גיל האם פי 3 מגיל הבת. מצאו את גילאיהן כיום.",
+            "difficulty": "hard",
+            "solution": "האם 48, הבת 12"
+          },
+          {
+            "number": 34,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "סכום גילאי אב ושני ילדיו הוא 73. גיל האב פי 4 מגיל הבן הגדול, והבן הגדול מבוגר מהקטן ב-5 שנים. מצאו את גיל כל אחד.",
+            "difficulty": "hard",
+            "solution": "האב 52, הגדול 13, הקטן 8"
+          },
+          {
+            "number": 35,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "הפרש הגילים בין אב לבנו הוא 30 שנים. בעוד 5 שנים יהיה גיל האב פי 3 מגיל הבן. מצאו את גילאיהם כיום.",
+            "difficulty": "hard",
+            "solution": "האב 40, הבן 10"
+          },
+          {
+            "number": 36,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "בעוד 9 שנים יהיה סכום גילאיהם של שני אחים 46, ולפני 6 שנים היה גיל הגדול פי 3 מגיל הקטן. מצאו את גילאיהם כיום.",
+            "difficulty": "hard",
+            "solution": "הגדול 18, הקטן 10"
+          },
+          {
+            "number": 37,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "אסתר מבוגרת מרות ב-9 שנים. בעוד 3 שנים תהיה אסתר פי 2 מרות. בת כמה כל אחת כיום?",
+            "difficulty": "hard",
+            "solution": "אסתר 15, רות 6"
+          },
+          {
+            "number": 38,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "גילו של דני גדול פי 3 מגילה של אחותו. לפני 4 שנים היה סכום גילאיהם 28. בן כמה דני כיום?",
+            "difficulty": "hard",
+            "solution": "דני 27, אחותו 9"
+          },
+          {
+            "number": 39,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "אב בן 36 ובנו בן 6. בעוד כמה שנים יהיה גיל האב פי 3 מגיל בנו?",
+            "difficulty": "hard",
+            "solution": "בעוד 9 שנים"
+          },
+          {
+            "number": 40,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "סכום גילאיהם של אב ובנו הוא 64. לפני 5 שנים היה גיל האב פי 5 מגיל הבן. מצאו את גילאיהם כיום.",
+            "difficulty": "hard",
+            "solution": "האב 50, הבן 14"
+          }
+        ],
+        "quiz": []
+      },
+      {
+        "number": 7,
+        "title": "בעיות מילוליות — קנייה ומכירה",
+        "learning_objectives": [
+          "לפתור בעיות קנייה, מכירה, רווח והפסד"
+        ],
+        "content": "## בעיות מילוליות — קנייה ומכירה\n\nדף עבודה לתרגול עצמי, **ללא הסברים** — רק שאלות. התשובות מופיעות בסוף, בכל תרגיל תחת ״הצג פתרון״ ובדף העבודה להדפסה.\n\nהדף בנוי משלוש רמות: **רמה א׳** (מתחילים, 10 שאלות), **רמה ב׳** (מתקדמים, 15 שאלות) ו**רמה ג׳** (כיתה ח׳ מתקדמים, 15 שאלות). אפשר להשתמש במחשבון מדעי.\n\n**פתרו את הבעיות:**",
+        "examples": [],
+        "exercises": [
+          {
+            "number": 1,
+            "title": "רמה א׳ — מתחילים",
+            "description": "מחיר מחברת 6 ₪. כמה ישלמו על 8 מחברות?",
+            "difficulty": "easy",
+            "solution": "48 ₪"
+          },
+          {
+            "number": 2,
+            "title": "רמה א׳ — מתחילים",
+            "description": "קנו 5 עטים ב-35 ₪. מה מחיר עט אחד?",
+            "difficulty": "easy",
+            "solution": "7 ₪"
+          },
+          {
+            "number": 3,
+            "title": "רמה א׳ — מתחילים",
+            "description": "דוד שילם בשטר של 100 ₪ על קניות בסך 64 ₪. כמה עודף קיבל?",
+            "difficulty": "easy",
+            "solution": "36 ₪"
+          },
+          {
+            "number": 4,
+            "title": "רמה א׳ — מתחילים",
+            "description": "מחיר ק״ג תפוחים 12 ₪. כמה ישלמו על 2.5 ק״ג?",
+            "difficulty": "easy",
+            "solution": "30 ₪"
+          },
+          {
+            "number": 5,
+            "title": "רמה א׳ — מתחילים",
+            "description": "סוחר קנה חולצה ב-80 ₪ ומכר אותה ב-110 ₪. כמה הרוויח?",
+            "difficulty": "easy",
+            "solution": "30 ₪"
+          },
+          {
+            "number": 6,
+            "title": "רמה א׳ — מתחילים",
+            "description": "קנו מחברת ב-9 ₪, עט ב-6 ₪ וחוברת ב-15 ₪. כמה שילמו בסך הכול?",
+            "difficulty": "easy",
+            "solution": "30 ₪"
+          },
+          {
+            "number": 7,
+            "title": "רמה א׳ — מתחילים",
+            "description": "מחיר מוצר היה 250 ₪, ובמבצע הורידו ממנו 40 ₪. מהו המחיר החדש?",
+            "difficulty": "easy",
+            "solution": "210 ₪"
+          },
+          {
+            "number": 8,
+            "title": "רמה א׳ — מתחילים",
+            "description": "3 ספרים עולים 72 ₪. כמה עולים 5 ספרים באותו מחיר?",
+            "difficulty": "easy",
+            "solution": "120 ₪"
+          },
+          {
+            "number": 9,
+            "title": "רמה א׳ — מתחילים",
+            "description": "ליעקב היו 200 ₪. הוא קנה בגדים ב-135 ₪. כמה כסף נשאר לו?",
+            "difficulty": "easy",
+            "solution": "65 ₪"
+          },
+          {
+            "number": 10,
+            "title": "רמה א׳ — מתחילים",
+            "description": "חנות מכרה 20 כובעים, כל אחד ב-35 ₪. עלות הקנייה של כל הכובעים הייתה 560 ₪. מה הרווח של החנות?",
+            "difficulty": "easy",
+            "solution": "140 ₪"
+          },
+          {
+            "number": 11,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "קנו 4 מחברות ב-7 ₪ כל אחת ו-3 עטים ב-5 ₪ כל אחד. כמה שילמו בסך הכול?",
+            "difficulty": "medium",
+            "solution": "43 ₪"
+          },
+          {
+            "number": 12,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "מחיר 6 חולצות הוא 420 ₪. כמה ישלמו על 9 חולצות באותו מחיר?",
+            "difficulty": "medium",
+            "solution": "630 ₪"
+          },
+          {
+            "number": 13,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "סוחר קנה 15 חולצות ב-60 ₪ לחולצה ומכר את כולן ב-85 ₪ לחולצה. מה הרווח הכולל?",
+            "difficulty": "medium",
+            "solution": "375 ₪"
+          },
+          {
+            "number": 14,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "סוחר קנה 40 ספרים ב-1,200 ₪. באיזה מחיר צריך למכור כל ספר כדי להרוויח 400 ₪ בסך הכול?",
+            "difficulty": "medium",
+            "solution": "40 ₪"
+          },
+          {
+            "number": 15,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "משה קנה כמה עטים ב-6 ₪ כל אחד ושלוש מחברות ב-8 ₪ כל אחת, ושילם 54 ₪. כמה עטים קנה?",
+            "difficulty": "medium",
+            "solution": "5 עטים"
+          },
+          {
+            "number": 16,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "אחרי הנחה של 35 ₪ שילם אבי על מעיל 215 ₪. מה היה מחיר המעיל לפני ההנחה?",
+            "difficulty": "medium",
+            "solution": "250 ₪"
+          },
+          {
+            "number": 17,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "כרטיס כניסה למבוגר עולה 40 ₪ ולילד 25 ₪. משפחה קנתה 2 כרטיסי מבוגר ו-3 כרטיסי ילד. כמה שילמה?",
+            "difficulty": "medium",
+            "solution": "155 ₪"
+          },
+          {
+            "number": 18,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "ברכישה של 5 מחברות או יותר מחיר מחברת הוא 8 ₪ במקום 10 ₪. כמה חוסכים כשקונים 12 מחברות?",
+            "difficulty": "medium",
+            "solution": "24 ₪"
+          },
+          {
+            "number": 19,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "שילמתי בשטר של 200 ₪ על 7 חולצות באותו מחיר וקיבלתי עודף של 18 ₪. מה מחיר חולצה?",
+            "difficulty": "medium",
+            "solution": "26 ₪"
+          },
+          {
+            "number": 20,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "ליוסי ולדניאל יחד 160 ₪. ליוסי יש 20 ₪ יותר מאשר לדניאל. כמה כסף יש לכל אחד?",
+            "difficulty": "medium",
+            "solution": "ליוסי 90 ₪, לדניאל 70 ₪"
+          },
+          {
+            "number": 21,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "ביום ראשון מכרה חנות 18 פריטים, וביום שני פי 2 מכך. כל פריט עולה 25 ₪. מה הכנסת החנות בשני הימים?",
+            "difficulty": "medium",
+            "solution": "1,350 ₪"
+          },
+          {
+            "number": 22,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "סוחר קנה סחורה ב-800 ₪. שלושה רבעים ממנה מכר ב-720 ₪, ואת השאר ב-300 ₪. מה הרווח שלו?",
+            "difficulty": "medium",
+            "solution": "220 ₪"
+          },
+          {
+            "number": 23,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "מחיר 2 ק״ג ענבים ו-3 ק״ג תפוחים הוא 54 ₪, ומחיר ק״ג ענבים 15 ₪. מה מחיר ק״ג תפוחים?",
+            "difficulty": "medium",
+            "solution": "8 ₪"
+          },
+          {
+            "number": 24,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "בקיוסק שוקולד עולה 5 ₪ ועוגייה 3 ₪. קנו 10 פריטים ושילמו 38 ₪. כמה שוקולדים קנו?",
+            "difficulty": "medium",
+            "solution": "4 שוקולדים"
+          },
+          {
+            "number": 25,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "מחיר מכשיר 1,200 ₪. אפשר לשלם במזומן 1,080 ₪, או ב-6 תשלומים של 190 ₪. כמה יותר יעלה לשלם בתשלומים?",
+            "difficulty": "medium",
+            "solution": "60 ₪"
+          },
+          {
+            "number": 26,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "סוחר קנה מכשיר ב-400 ₪ ומכר אותו ברווח של $25\\%$. באיזה מחיר מכר?",
+            "difficulty": "hard",
+            "solution": "500 ₪"
+          },
+          {
+            "number": 27,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "סוחר מכר מוצר ב-690 ₪ ברווח של $15\\%$ על מחיר הקנייה. מה היה מחיר הקנייה?",
+            "difficulty": "hard",
+            "solution": "600 ₪"
+          },
+          {
+            "number": 28,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "סוחר מכר מוצר ב-360 ₪ בהפסד של $10\\%$ ממחיר הקנייה. מה היה מחיר הקנייה?",
+            "difficulty": "hard",
+            "solution": "400 ₪"
+          },
+          {
+            "number": 29,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "סוחר קנה מוצר ב-250 ₪ ומכר אותו ב-300 ₪. כמה אחוזים הרוויח ממחיר הקנייה?",
+            "difficulty": "hard",
+            "solution": "$20\\%$"
+          },
+          {
+            "number": 30,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "סוחר קנה מוצר ב-500 ₪ ומכר אותו ב-420 ₪. כמה אחוזים הפסיד ממחיר הקנייה?",
+            "difficulty": "hard",
+            "solution": "$16\\%$"
+          },
+          {
+            "number": 31,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "סוחר מכר שני מוצרים, כל אחד ב-240 ₪. באחד מהם הרוויח $20\\%$ ובשני הפסיד $20\\%$ (בכל מקרה ממחיר הקנייה של אותו מוצר). האם בסך הכול הרוויח או הפסיד, וכמה?",
+            "difficulty": "hard",
+            "solution": "הפסיד 20 ₪"
+          },
+          {
+            "number": 32,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "סוחר קנה 50 ק״ג תפוחים ב-6 ₪ לק״ג. 10 ק״ג מהם התקלקלו, ואת כל השאר מכר ב-9 ₪ לק״ג. מה הרווח שלו?",
+            "difficulty": "hard",
+            "solution": "60 ₪"
+          },
+          {
+            "number": 33,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "חנות קנתה 80 עטים ב-4 ₪ לעט. 60 מהם נמכרו ב-6 ₪ לעט, ואת השאר מכרה ב-3 ₪ לעט. מה הרווח הכולל של החנות?",
+            "difficulty": "hard",
+            "solution": "100 ₪"
+          },
+          {
+            "number": 34,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "אחרי הנחה של $30\\%$ משלמים על מוצר 280 ₪. מה היה מחירו לפני ההנחה?",
+            "difficulty": "hard",
+            "solution": "400 ₪"
+          },
+          {
+            "number": 35,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "סוחר קנה מוצר ב-150 ₪. באיזה מחיר עליו לסמן את המוצר בחנות, כדי שאחרי הנחה של 10 ₪ ללקוח ירוויח $40\\%$ ממחיר הקנייה?",
+            "difficulty": "hard",
+            "solution": "220 ₪"
+          },
+          {
+            "number": 36,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "מחברת נמכרת ב-12 ₪, והמחיר כולל רווח של $50\\%$ על מחיר הקנייה. מה מחיר הקנייה?",
+            "difficulty": "hard",
+            "solution": "8 ₪"
+          },
+          {
+            "number": 37,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "סוחר קנה שני מכשירים, כל אחד ב-300 ₪. את הראשון מכר ברווח של $30\\%$ ואת השני בהפסד של $10\\%$. מה הרווח הכולל שלו ובכמה אחוזים מסך הקנייה?",
+            "difficulty": "hard",
+            "solution": "60 ₪, $10\\%$"
+          },
+          {
+            "number": 38,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "סוחר קנה מוצר ב-80 ₪ ומכר אותו ב-100 ₪. כמה אחוזים הרווח ממחיר הקנייה, וכמה אחוזים הוא ממחיר המכירה?",
+            "difficulty": "hard",
+            "solution": "$25\\%$ וגם $20\\%$"
+          },
+          {
+            "number": 39,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "סוחר מכר מוצר ברווח של 80 ₪, שהם $25\\%$ ממחיר הקנייה. באיזה מחיר מכר את המוצר?",
+            "difficulty": "hard",
+            "solution": "400 ₪"
+          },
+          {
+            "number": 40,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "סוחר קנה 40 מחברות ב-5 ₪ למחברת. הוא מכר 30 מהן ברווח של $40\\%$ לכל מחברת, ואת השאר מכר במחיר הקנייה, ללא רווח. מה הרווח הכולל שלו?",
+            "difficulty": "hard",
+            "solution": "60 ₪"
+          }
+        ],
+        "quiz": []
+      },
+      {
+        "number": 8,
+        "title": "בעיות מילוליות — אחוזים",
+        "learning_objectives": [
+          "לפתור בעיות אחוזים: חלק מהשלם, שינוי באחוזים ומציאת השלם"
+        ],
+        "content": "## בעיות מילוליות — אחוזים\n\nדף עבודה לתרגול עצמי, **ללא הסברים** — רק שאלות. התשובות מופיעות בסוף, בכל תרגיל תחת ״הצג פתרון״ ובדף העבודה להדפסה.\n\nהדף בנוי משלוש רמות: **רמה א׳** (מתחילים, 10 שאלות), **רמה ב׳** (מתקדמים, 15 שאלות) ו**רמה ג׳** (כיתה ח׳ מתקדמים, 15 שאלות). אפשר להשתמש במחשבון מדעי.\n\n**פתרו את הבעיות:**",
+        "examples": [],
+        "exercises": [
+          {
+            "number": 1,
+            "title": "רמה א׳ — מתחילים",
+            "description": "חשבו: $20\\%$ מ-150.",
+            "difficulty": "easy",
+            "solution": "30"
+          },
+          {
+            "number": 2,
+            "title": "רמה א׳ — מתחילים",
+            "description": "חשבו: $50\\%$ מ-84.",
+            "difficulty": "easy",
+            "solution": "42"
+          },
+          {
+            "number": 3,
+            "title": "רמה א׳ — מתחילים",
+            "description": "חשבו: $10\\%$ מ-260.",
+            "difficulty": "easy",
+            "solution": "26"
+          },
+          {
+            "number": 4,
+            "title": "רמה א׳ — מתחילים",
+            "description": "חשבו: $25\\%$ מ-120.",
+            "difficulty": "easy",
+            "solution": "30"
+          },
+          {
+            "number": 5,
+            "title": "רמה א׳ — מתחילים",
+            "description": "בכיתה 30 תלמידים, $40\\%$ מהם בנות. כמה בנות יש בכיתה?",
+            "difficulty": "easy",
+            "solution": "12"
+          },
+          {
+            "number": 6,
+            "title": "רמה א׳ — מתחילים",
+            "description": "כמה אחוזים הם 15 מתוך 60?",
+            "difficulty": "easy",
+            "solution": "$25\\%$"
+          },
+          {
+            "number": 7,
+            "title": "רמה א׳ — מתחילים",
+            "description": "כתבו באחוזים: $\\frac{3}{4}$.",
+            "difficulty": "easy",
+            "solution": "$75\\%$"
+          },
+          {
+            "number": 8,
+            "title": "רמה א׳ — מתחילים",
+            "description": "מחיר חולצה 80 ₪ והיא הוזלה ב-$25\\%$. מהי ההנחה בשקלים?",
+            "difficulty": "easy",
+            "solution": "20 ₪"
+          },
+          {
+            "number": 9,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$30\\%$ ממספר מסוים הם 24. מהו המספר?",
+            "difficulty": "easy",
+            "solution": "80"
+          },
+          {
+            "number": 10,
+            "title": "רמה א׳ — מתחילים",
+            "description": "בחידון ענה דני נכון על 18 מתוך 24 שאלות. מה אחוז ההצלחה שלו?",
+            "difficulty": "easy",
+            "solution": "$75\\%$"
+          },
+          {
+            "number": 11,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "מחיר מכשיר 800 ₪, וההנחה היא $15\\%$. כמה משלמים על המכשיר?",
+            "difficulty": "medium",
+            "solution": "680 ₪"
+          },
+          {
+            "number": 12,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "אחרי העלאה של $20\\%$ מחיר מוצר הוא 360 ₪. מה היה מחירו לפני ההעלאה?",
+            "difficulty": "medium",
+            "solution": "300 ₪"
+          },
+          {
+            "number": 13,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "משכורת של 8,000 ₪ עלתה ב-$5\\%$. מהי המשכורת החדשה?",
+            "difficulty": "medium",
+            "solution": "8,400 ₪"
+          },
+          {
+            "number": 14,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "מחיר מוצר הוזל מ-250 ₪ ל-200 ₪. בכמה אחוזים הוזל?",
+            "difficulty": "medium",
+            "solution": "$20\\%$"
+          },
+          {
+            "number": 15,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "מספר התלמידים בבית הספר גדל מ-40 ל-50. בכמה אחוזים גדל?",
+            "difficulty": "medium",
+            "solution": "$25\\%$"
+          },
+          {
+            "number": 16,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "בבית ספר 400 תלמידים, $45\\%$ מהם בנים. כמה בנות יש בבית הספר?",
+            "difficulty": "medium",
+            "solution": "220"
+          },
+          {
+            "number": 17,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$12\\%$ ממספר מסוים הם 18. מהו המספר?",
+            "difficulty": "medium",
+            "solution": "150"
+          },
+          {
+            "number": 18,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "דני קרא $35\\%$ מהספר, ונשארו לו עוד 130 עמודים לקרוא. כמה עמודים יש בספר?",
+            "difficulty": "medium",
+            "solution": "200"
+          },
+          {
+            "number": 19,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "מחיר שמלה 300 ₪. היא הוזלה ב-$20\\%$, ואחר כך הוזלה שוב ב-$10\\%$ מהמחיר החדש. מה המחיר הסופי?",
+            "difficulty": "medium",
+            "solution": "216 ₪"
+          },
+          {
+            "number": 20,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "בבחינה קיבל אבי 42 נקודות מתוך 60. מה הציון שלו באחוזים?",
+            "difficulty": "medium",
+            "solution": "$70\\%$"
+          },
+          {
+            "number": 21,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "בקערה 50 פירות: $30\\%$ תפוחים, $20\\%$ בננות והשאר תפוזים. כמה תפוזים יש בקערה?",
+            "difficulty": "medium",
+            "solution": "25"
+          },
+          {
+            "number": 22,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "מספר המנויים לעיתון עלה ב-$30\\%$ ועומד על 260. כמה מנויים היו לפני העלייה?",
+            "difficulty": "medium",
+            "solution": "200"
+          },
+          {
+            "number": 23,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "מחיר מוצר בחנות א׳ הוא 400 ₪ ובחנות ב׳ 360 ₪. בכמה אחוזים המוצר זול יותר בחנות ב׳?",
+            "difficulty": "medium",
+            "solution": "$10\\%$"
+          },
+          {
+            "number": 24,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "בנק משלם ריבית פשוטה של $4\\%$ לשנה. כמה ריבית יצטברו על 5,000 ₪ אחרי 3 שנים?",
+            "difficulty": "medium",
+            "solution": "600 ₪"
+          },
+          {
+            "number": 25,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "בחוג 20 ילדים, ומתוכם $\\frac{2}{5}$ בנות. כמה אחוזים מהילדים הם בנים?",
+            "difficulty": "medium",
+            "solution": "$60\\%$"
+          },
+          {
+            "number": 26,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "מחיר מוצר עלה ב-$20\\%$, ואחר כך ירד ב-$20\\%$ מהמחיר החדש. האם המחיר הסופי שווה למחיר המקורי? אם לא, בכמה אחוזים הוא שונה ממנו?",
+            "difficulty": "hard",
+            "solution": "לא; המחיר הסופי נמוך ב-$4\\%$"
+          },
+          {
+            "number": 27,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "מוצר הוזל ב-$25\\%$, ואחר כך הוזל שוב ב-$20\\%$ מהמחיר החדש. אחרי שתי ההנחות מחירו 360 ₪. מה היה מחירו המקורי?",
+            "difficulty": "hard",
+            "solution": "600 ₪"
+          },
+          {
+            "number": 28,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "מחירו של מוצר הועלה ב-$25\\%$. בכמה אחוזים צריך להוריד את המחיר החדש כדי לחזור למחיר המקורי?",
+            "difficulty": "hard",
+            "solution": "$20\\%$"
+          },
+          {
+            "number": 29,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "לתמיסת מלח במשקל 200 גרם בריכוז של $15\\%$ מוסיפים 100 גרם מים. מהו הריכוז החדש?",
+            "difficulty": "hard",
+            "solution": "$10\\%$"
+          },
+          {
+            "number": 30,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "בכיתה 30 תלמידים, $60\\%$ מהם בנות. כמה בנים צריכים להצטרף לכיתה כדי שהבנות יהיו $45\\%$ מהתלמידים?",
+            "difficulty": "hard",
+            "solution": "10 בנים"
+          },
+          {
+            "number": 31,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "משכורת עלתה ב-$10\\%$ בינואר, ובחודש יולי עלתה שוב ב-$20\\%$ מהמשכורת החדשה. בכמה אחוזים עלתה המשכורת בסך הכול?",
+            "difficulty": "hard",
+            "solution": "$32\\%$"
+          },
+          {
+            "number": 32,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "אוכלוסיית עיר גדלה ב-$10\\%$ בשנה הראשונה, ובשנה השנייה שוב ב-$10\\%$, והגיעה ל-12,100 תושבים. כמה תושבים היו בעיר בהתחלה?",
+            "difficulty": "hard",
+            "solution": "10,000"
+          },
+          {
+            "number": 33,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "חשבון במסעדה כולל תוספת שירות של $12\\%$ והוא 336 ₪. מה היה החשבון לפני התוספת?",
+            "difficulty": "hard",
+            "solution": "300 ₪"
+          },
+          {
+            "number": 34,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "נתון: $30\\%$ ממספר א׳ שווים ל-$45\\%$ ממספר ב׳. אם א׳ הוא 150, מהו ב׳?",
+            "difficulty": "hard",
+            "solution": "100"
+          },
+          {
+            "number": 35,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "בבית ספר $55\\%$ מהתלמידים הם בנות. אם יש בו 180 בנים, כמה תלמידים לומדים בבית הספר?",
+            "difficulty": "hard",
+            "solution": "400"
+          },
+          {
+            "number": 36,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "ב-40 ליטר משקה יש $30\\%$ מיץ טהור. כמה ליטר מים צריך להוסיף כדי שהמשקה יכיל $20\\%$ מיץ טהור?",
+            "difficulty": "hard",
+            "solution": "20 ליטר"
+          },
+          {
+            "number": 37,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "חנות העלתה מחיר של מוצר ב-$20\\%$, ולאחר מכן נתנה הנחה של $10\\%$ על המחיר החדש. לקוח שילם 540 ₪. מה היה המחיר המקורי?",
+            "difficulty": "hard",
+            "solution": "500 ₪"
+          },
+          {
+            "number": 38,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "דני בזבז $40\\%$ מכספו על ספרים, ו-$25\\%$ מהכסף שנשאר לו על ממתקים. נשארו לו 90 ₪. כמה כסף היה לו בהתחלה?",
+            "difficulty": "hard",
+            "solution": "200 ₪"
+          },
+          {
+            "number": 39,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "ביום ראשון נמכרו $30\\%$ מהכרטיסים להצגה, וביום שני נמכרו $50\\%$ מהכרטיסים שנותרו. נותרו 70 כרטיסים. כמה כרטיסים היו בהתחלה?",
+            "difficulty": "hard",
+            "solution": "200"
+          },
+          {
+            "number": 40,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "הפקידו 4,000 ₪ בבנק בריבית של $10\\%$ לשנה, והריבית מצטרפת לקרן בסוף כל שנה (ריבית דריבית). כמה כסף יהיה בחשבון אחרי שנתיים?",
+            "difficulty": "hard",
+            "solution": "4,840 ₪"
+          }
+        ],
+        "quiz": []
+      },
+      {
+        "number": 9,
+        "title": "בעיות מילוליות — תנועה",
+        "learning_objectives": [
+          "לפתור בעיות תנועה: מהירות, זמן ומרחק, מפגש והשגה"
+        ],
+        "content": "## בעיות מילוליות — תנועה\n\nדף עבודה לתרגול עצמי, **ללא הסברים** — רק שאלות. התשובות מופיעות בסוף, בכל תרגיל תחת ״הצג פתרון״ ובדף העבודה להדפסה.\n\nהדף בנוי משלוש רמות: **רמה א׳** (מתחילים, 10 שאלות), **רמה ב׳** (מתקדמים, 15 שאלות) ו**רמה ג׳** (כיתה ח׳ מתקדמים, 15 שאלות). אפשר להשתמש במחשבון מדעי.\n\n**פתרו את הבעיות:**",
+        "examples": [],
+        "exercises": [
+          {
+            "number": 1,
+            "title": "רמה א׳ — מתחילים",
+            "description": "מכונית נוסעת במהירות 80 קמ״ש. איזה מרחק תעבור ב-3 שעות?",
+            "difficulty": "easy",
+            "solution": "240 ק״מ"
+          },
+          {
+            "number": 2,
+            "title": "רמה א׳ — מתחילים",
+            "description": "אופנוען עבר 150 ק״מ ב-3 שעות. מהי מהירותו הממוצעת?",
+            "difficulty": "easy",
+            "solution": "50 קמ״ש"
+          },
+          {
+            "number": 3,
+            "title": "רמה א׳ — מתחילים",
+            "description": "הולך רגל צועד במהירות 5 קמ״ש. כמה זמן ייקח לו לעבור 20 ק״מ?",
+            "difficulty": "easy",
+            "solution": "4 שעות"
+          },
+          {
+            "number": 4,
+            "title": "רמה א׳ — מתחילים",
+            "description": "רכבת נוסעת במהירות 90 קמ״ש במשך שעתיים וחצי. איזה מרחק היא עוברת?",
+            "difficulty": "easy",
+            "solution": "225 ק״מ"
+          },
+          {
+            "number": 5,
+            "title": "רמה א׳ — מתחילים",
+            "description": "רוכב אופניים נוסע במהירות 20 קמ״ש במשך 45 דקות. איזה מרחק הוא עובר?",
+            "difficulty": "easy",
+            "solution": "15 ק״מ"
+          },
+          {
+            "number": 6,
+            "title": "רמה א׳ — מתחילים",
+            "description": "המרחק בין שתי ערים הוא 180 ק״מ. כמה זמן נמשכת הנסיעה במהירות 60 קמ״ש?",
+            "difficulty": "easy",
+            "solution": "3 שעות"
+          },
+          {
+            "number": 7,
+            "title": "רמה א׳ — מתחילים",
+            "description": "אוטובוס נסע שעתיים במהירות 70 קמ״ש ועוד שעה במהירות 50 קמ״ש. מה המרחק הכולל שעבר?",
+            "difficulty": "easy",
+            "solution": "190 ק״מ"
+          },
+          {
+            "number": 8,
+            "title": "רמה א׳ — מתחילים",
+            "description": "נהג נסע 120 ק״מ בשעתיים וחצי. מהי מהירותו הממוצעת?",
+            "difficulty": "easy",
+            "solution": "48 קמ״ש"
+          },
+          {
+            "number": 9,
+            "title": "רמה א׳ — מתחילים",
+            "description": "ילד רץ במהירות 6 קמ״ש. איזה מרחק יעבור ב-10 דקות?",
+            "difficulty": "easy",
+            "solution": "1 ק״מ (1,000 מטר)"
+          },
+          {
+            "number": 10,
+            "title": "רמה א׳ — מתחילים",
+            "description": "משאית יצאה ב-8:00 והגיעה ב-11:30 ליעד במרחק 210 ק״מ. מהי מהירותה הממוצעת?",
+            "difficulty": "easy",
+            "solution": "60 קמ״ש"
+          },
+          {
+            "number": 11,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "שתי מכוניות יוצאות באותו זמן משתי ערים שהמרחק ביניהן 300 ק״מ, זו לקראת זו, במהירויות 70 קמ״ש ו-80 קמ״ש. אחרי כמה זמן ייפגשו?",
+            "difficulty": "medium",
+            "solution": "2 שעות"
+          },
+          {
+            "number": 12,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "שני אופנוענים יוצאים מאותה נקודה בכיוונים מנוגדים, במהירויות 40 קמ״ש ו-60 קמ״ש. מה המרחק ביניהם אחרי 3 שעות?",
+            "difficulty": "medium",
+            "solution": "300 ק״מ"
+          },
+          {
+            "number": 13,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "אחמד נסע 120 ק״מ במהירות 60 קמ״ש וחזר באותה דרך במהירות 40 קמ״ש. כמה זמן נמשכה הנסיעה בסך הכול?",
+            "difficulty": "medium",
+            "solution": "5 שעות"
+          },
+          {
+            "number": 14,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "מכונית יצאה ב-9:00 ונסעה במהירות 60 קמ״ש. איזה מרחק עברה עד 11:30?",
+            "difficulty": "medium",
+            "solution": "150 ק״מ"
+          },
+          {
+            "number": 15,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "במהירות 50 קמ״ש מגיעים ליעד אחרי 3 שעות. כמה זמן תימשך הנסיעה במהירות 75 קמ״ש?",
+            "difficulty": "medium",
+            "solution": "2 שעות"
+          },
+          {
+            "number": 16,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "רוכב נסע שעה אחת במהירות 24 קמ״ש ועוד שעתיים במהירות 15 קמ״ש. מהי מהירותו הממוצעת בכל הנסיעה?",
+            "difficulty": "medium",
+            "solution": "18 קמ״ש"
+          },
+          {
+            "number": 17,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "מכונית א׳ יצאה במהירות 60 קמ״ש. שעה אחריה יצאה מאותה נקודה ובאותו כיוון מכונית ב׳ במהירות 80 קמ״ש. כמה שעות אחרי יציאת מכונית ב׳ תשיג אותה?",
+            "difficulty": "medium",
+            "solution": "3 שעות"
+          },
+          {
+            "number": 18,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "שני חברים הולכים זה לקראת זה. המרחק ביניהם 18 ק״מ ומהירויותיהם 4 קמ״ש ו-5 קמ״ש. כמה ק״מ יעבור כל אחד עד שייפגשו?",
+            "difficulty": "medium",
+            "solution": "8 ק״מ ו-10 ק״מ"
+          },
+          {
+            "number": 19,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "מרחק של 240 ק״מ נסעו כך: את חציו הראשון במהירות 80 קמ״ש ואת חציו השני במהירות 60 קמ״ש. כמה זמן נמשכה הנסיעה?",
+            "difficulty": "medium",
+            "solution": "3 שעות ו-30 דקות"
+          },
+          {
+            "number": 20,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "רכבת נוסעת במהירות 90 קמ״ש. כמה דקות ייקח לה לעבור 135 ק״מ?",
+            "difficulty": "medium",
+            "solution": "90 דקות"
+          },
+          {
+            "number": 21,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "הולך רגל עבר 9 ק״מ בשעה וחצי. מהי מהירותו?",
+            "difficulty": "medium",
+            "solution": "6 קמ״ש"
+          },
+          {
+            "number": 22,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "מכונית נוסעת במהירות 72 קמ״ש. כמה מטרים היא עוברת בכל שנייה?",
+            "difficulty": "medium",
+            "solution": "20 מטר"
+          },
+          {
+            "number": 23,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "משה יצא לטיול ברגל במהירות 5 קמ״ש. חצי שעה אחריו יצא אחיו באופניים באותו כיוון במהירות 15 קמ״ש. כמה דקות אחרי יציאת האח ישיג את משה?",
+            "difficulty": "medium",
+            "solution": "15 דקות"
+          },
+          {
+            "number": 24,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "שתי רכבות נוסעות זו לקראת זו על פסים מקבילים במהירויות 90 קמ״ש ו-110 קמ״ש. המרחק ההתחלתי ביניהן 400 ק״מ. אחרי כמה זמן ייפגשו?",
+            "difficulty": "medium",
+            "solution": "2 שעות"
+          },
+          {
+            "number": 25,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "נהג נסע 3 שעות במהירות קבועה ועבר 195 ק״מ. כמה ק״מ יעבור ב-5 שעות באותה מהירות?",
+            "difficulty": "medium",
+            "solution": "325 ק״מ"
+          },
+          {
+            "number": 26,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "מעיר א׳ יצאה ב-8:00 מכונית במהירות 60 קמ״ש, ומעיר ב׳ יצאה ב-9:00 מכונית לקראתה במהירות 80 קמ״ש. המרחק בין הערים 340 ק״מ. באיזו שעה ייפגשו?",
+            "difficulty": "hard",
+            "solution": "ב-11:00"
+          },
+          {
+            "number": 27,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "משאית נוסעת במהירות 60 קמ״ש. שעתיים אחרי שיצאה, יצאה אחריה מאותה נקודה מכונית במהירות 90 קמ״ש. אחרי כמה זמן מיציאת המכונית תשיג את המשאית, ובאיזה מרחק מנקודת היציאה?",
+            "difficulty": "hard",
+            "solution": "אחרי 4 שעות, במרחק 360 ק״מ"
+          },
+          {
+            "number": 28,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "נסעתי לעבודה במהירות 60 קמ״ש וחזרתי באותה דרך במהירות 40 קמ״ש. מהי המהירות הממוצעת בכל הנסיעה?",
+            "difficulty": "hard",
+            "solution": "48 קמ״ש"
+          },
+          {
+            "number": 29,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "רכבת באורך 200 מטר עוברת גשר באורך 400 מטר ב-40 שניות, מרגע שהקטר נכנס לגשר ועד שהקרון האחרון יוצא ממנו. מהי מהירות הרכבת במטרים לשנייה ובקמ״ש?",
+            "difficulty": "hard",
+            "solution": "15 מטר לשנייה, כלומר 54 קמ״ש"
+          },
+          {
+            "number": 30,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "סירה שטה בנהר: עם הזרם במהירות 18 קמ״ש ונגד הזרם במהירות 12 קמ״ש. מהי מהירות הסירה במים שקטים, ומהי מהירות הזרם?",
+            "difficulty": "hard",
+            "solution": "מהירות הסירה 15 קמ״ש, מהירות הזרם 3 קמ״ש"
+          },
+          {
+            "number": 31,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "נסעו מעיר א׳ לעיר ב׳ במהירות 80 קמ״ש וחזרו באותה דרך במהירות 120 קמ״ש. כל הנסיעה הלוך וחזור נמשכה 5 שעות. מהו המרחק בין הערים?",
+            "difficulty": "hard",
+            "solution": "240 ק״מ"
+          },
+          {
+            "number": 32,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "מכונית נסעה שעתיים במהירות v קמ״ש ועוד שעה במהירות של v + 30 קמ״ש, וכך עברה 270 ק״מ. מהי v?",
+            "difficulty": "hard",
+            "solution": "80 קמ״ש"
+          },
+          {
+            "number": 33,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "שני אופנועים יצאו בו זמנית מעיר א׳ לעיר ב׳ שהמרחק ביניהן 180 ק״מ, במהירויות 60 קמ״ש ו-45 קמ״ש. כשהאופנוע המהיר הגיע לעיר ב׳, כמה ק״מ נותרו לאופנוע האיטי?",
+            "difficulty": "hard",
+            "solution": "45 ק״מ"
+          },
+          {
+            "number": 34,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "אם נהג ייסע במהירות 60 קמ״ש הוא יאחר ב-15 דקות, ואם ייסע במהירות 80 קמ״ש הוא יקדים ב-15 דקות. מהו המרחק לנסיעה?",
+            "difficulty": "hard",
+            "solution": "120 ק״מ"
+          },
+          {
+            "number": 35,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "שני רצים יוצאים מאותה נקודה על מסלול מעגלי באורך 400 מטר, בכיווני ריצה מנוגדים, במהירויות 3 מ׳/ש ו-5 מ׳/ש. אחרי כמה שניות ייפגשו לראשונה?",
+            "difficulty": "hard",
+            "solution": "50 שניות"
+          },
+          {
+            "number": 36,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "מכונית נסעה שליש מהדרך במהירות 60 קמ״ש ואת שאר הדרך במהירות 80 קמ״ש. אורך הדרך 240 ק״מ. כמה זמן נמשכה הנסיעה?",
+            "difficulty": "hard",
+            "solution": "3 שעות ו-20 דקות"
+          },
+          {
+            "number": 37,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "אבא יצא לעבודה במהירות 50 קמ״ש. 12 דקות אחריו יצא הבן באותה דרך במהירות 70 קמ״ש. כמה דקות אחרי יציאת הבן ישיג את אביו?",
+            "difficulty": "hard",
+            "solution": "30 דקות"
+          },
+          {
+            "number": 38,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "שני חברים גרים במרחק 15 ק״מ זה מזה ויוצאים בו בזמן זה לקראת זה: האחד באופניים במהירות 12 קמ״ש והשני הולך ברגל במהירות 3 קמ״ש. אחרי כמה זמן ייפגשו, ובאיזה מרחק מביתו של הרוכב?",
+            "difficulty": "hard",
+            "solution": "אחרי שעה אחת, במרחק 12 ק״מ מביתו של הרוכב"
+          },
+          {
+            "number": 39,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "מכונית נסעה מעיר א׳ לעיר ב׳ ב-3 שעות. בדרך חזרה הגדילה את מהירותה ב-20 קמ״ש, והנסיעה נמשכה שעתיים. מהי המהירות בדרך הלוך, ומהו המרחק בין הערים?",
+            "difficulty": "hard",
+            "solution": "מהירות 40 קמ״ש, מרחק 120 ק״מ"
+          },
+          {
+            "number": 40,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "שני הולכים יוצאים מאותה נקודה באותו כיוון: אחד במהירות 4 קמ״ש והשני במהירות 6 קמ״ש. אחרי כמה זמן יהיה המרחק ביניהם 5 ק״מ?",
+            "difficulty": "hard",
+            "solution": "אחרי 2.5 שעות"
+          }
+        ],
+        "quiz": []
+      },
+      {
+        "number": 10,
+        "title": "משוואה בנעלם אחד עם סוגריים",
+        "learning_objectives": [
+          "לפתור משוואה בנעלם אחד עם סוגריים ועם נעלם בשני האגפים"
+        ],
+        "content": "## משוואה בנעלם אחד עם סוגריים\n\nדף עבודה לתרגול עצמי, **ללא הסברים** — רק שאלות. התשובות מופיעות בסוף, בכל תרגיל תחת ״הצג פתרון״ ובדף העבודה להדפסה.\n\nהדף בנוי משלוש רמות: **רמה א׳** (מתחילים, 10 שאלות), **רמה ב׳** (מתקדמים, 15 שאלות) ו**רמה ג׳** (כיתה ח׳ מתקדמים, 15 שאלות). אפשר להשתמש במחשבון מדעי.\n\n**פתרו את המשוואות:**",
+        "examples": [],
+        "exercises": [
+          {
+            "number": 1,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$3(x + 4) = 27$",
+            "difficulty": "easy",
+            "solution": "$x = 5$",
+            "answer": "5"
+          },
+          {
+            "number": 2,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$2(x - 3) = 14$",
+            "difficulty": "easy",
+            "solution": "$x = 10$",
+            "answer": "10"
+          },
+          {
+            "number": 3,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$5(x + 2) = 35$",
+            "difficulty": "easy",
+            "solution": "$x = 5$",
+            "answer": "5"
+          },
+          {
+            "number": 4,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$4(x - 1) = 20$",
+            "difficulty": "easy",
+            "solution": "$x = 6$",
+            "answer": "6"
+          },
+          {
+            "number": 5,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$2(x + 5) + 3 = 19$",
+            "difficulty": "easy",
+            "solution": "$x = 3$",
+            "answer": "3"
+          },
+          {
+            "number": 6,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$3(x - 2) - 4 = 11$",
+            "difficulty": "easy",
+            "solution": "$x = 7$",
+            "answer": "7"
+          },
+          {
+            "number": 7,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$x + 2(x + 1) = 20$",
+            "difficulty": "easy",
+            "solution": "$x = 6$",
+            "answer": "6"
+          },
+          {
+            "number": 8,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$5x - 2(x + 3) = 9$",
+            "difficulty": "easy",
+            "solution": "$x = 5$",
+            "answer": "5"
+          },
+          {
+            "number": 9,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$14 = 2(x + 4)$",
+            "difficulty": "easy",
+            "solution": "$x = 3$",
+            "answer": "3"
+          },
+          {
+            "number": 10,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$2(x + 3) = x + 10$",
+            "difficulty": "easy",
+            "solution": "$x = 4$",
+            "answer": "4"
+          },
+          {
+            "number": 11,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$3(x + 2) = 2x + 11$",
+            "difficulty": "medium",
+            "solution": "$x = 5$",
+            "answer": "5"
+          },
+          {
+            "number": 12,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$5(x - 1) = 3x + 7$",
+            "difficulty": "medium",
+            "solution": "$x = 6$",
+            "answer": "6"
+          },
+          {
+            "number": 13,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$2(3x - 4) = 4x + 6$",
+            "difficulty": "medium",
+            "solution": "$x = 7$",
+            "answer": "7"
+          },
+          {
+            "number": 14,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$4(x + 3) - 2(x - 1) = 20$",
+            "difficulty": "medium",
+            "solution": "$x = 3$",
+            "answer": "3"
+          },
+          {
+            "number": 15,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$3(2x - 1) - 5 = 2(x + 4)$",
+            "difficulty": "medium",
+            "solution": "$x = 4$",
+            "answer": "4"
+          },
+          {
+            "number": 16,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$7x - 3(x - 2) = 22$",
+            "difficulty": "medium",
+            "solution": "$x = 4$",
+            "answer": "4"
+          },
+          {
+            "number": 17,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$2(x + 4) + 3(x - 2) = 27$",
+            "difficulty": "medium",
+            "solution": "$x = 5$",
+            "answer": "5"
+          },
+          {
+            "number": 18,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$5(x - 2) = 3(x + 2)$",
+            "difficulty": "medium",
+            "solution": "$x = 8$",
+            "answer": "8"
+          },
+          {
+            "number": 19,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$4(2x - 3) = 3(x + 6)$",
+            "difficulty": "medium",
+            "solution": "$x = 6$",
+            "answer": "6"
+          },
+          {
+            "number": 20,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$6 - 2(x - 1) = x - 4$",
+            "difficulty": "medium",
+            "solution": "$x = 4$",
+            "answer": "4"
+          },
+          {
+            "number": 21,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$3(x + 5) - (x - 3) = 30$",
+            "difficulty": "medium",
+            "solution": "$x = 6$",
+            "answer": "6"
+          },
+          {
+            "number": 22,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$8 - 3(x - 2) = 2(x - 3)$",
+            "difficulty": "medium",
+            "solution": "$x = 4$",
+            "answer": "4"
+          },
+          {
+            "number": 23,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$2(x - 5) + 3(x + 2) = x + 16$",
+            "difficulty": "medium",
+            "solution": "$x = 5$",
+            "answer": "5"
+          },
+          {
+            "number": 24,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$9x - 4(2x - 5) = 3(x - 2) + 14$",
+            "difficulty": "medium",
+            "solution": "$x = 6$",
+            "answer": "6"
+          },
+          {
+            "number": 25,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$5(x + 1) - 2(x + 4) = 4(x - 2)$",
+            "difficulty": "medium",
+            "solution": "$x = 5$",
+            "answer": "5"
+          },
+          {
+            "number": 26,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$2(3(x - 1) + 4) = 5x + 7$",
+            "difficulty": "hard",
+            "solution": "$x = 5$",
+            "answer": "5"
+          },
+          {
+            "number": 27,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$3(2(x + 1) - 5) = x + 16$",
+            "difficulty": "hard",
+            "solution": "$x = 5$",
+            "answer": "5"
+          },
+          {
+            "number": 28,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$4(x - 2) - 3(2x - 5) = x - 8$",
+            "difficulty": "hard",
+            "solution": "$x = 5$",
+            "answer": "5"
+          },
+          {
+            "number": 29,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$5 - 3(2 - x) = 4x - 7$",
+            "difficulty": "hard",
+            "solution": "$x = 6$",
+            "answer": "6"
+          },
+          {
+            "number": 30,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$7(x - 3) - 2(3x - 4) = -5$",
+            "difficulty": "hard",
+            "solution": "$x = 8$",
+            "answer": "8"
+          },
+          {
+            "number": 31,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$-2(x - 4) + 3(x + 1) = 10$",
+            "difficulty": "hard",
+            "solution": "$x = -1$",
+            "answer": "-1"
+          },
+          {
+            "number": 32,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\frac{x + 3}{2} = x - 4$",
+            "difficulty": "hard",
+            "solution": "$x = 11$",
+            "answer": "11"
+          },
+          {
+            "number": 33,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\frac{2x - 1}{3} = x - 3$",
+            "difficulty": "hard",
+            "solution": "$x = 8$",
+            "answer": "8"
+          },
+          {
+            "number": 34,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\frac{x}{2} + \\frac{x}{3} = 10$",
+            "difficulty": "hard",
+            "solution": "$x = 12$",
+            "answer": "12"
+          },
+          {
+            "number": 35,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\frac{x + 1}{2} + \\frac{x - 1}{3} = 6$",
+            "difficulty": "hard",
+            "solution": "$x = 7$",
+            "answer": "7"
+          },
+          {
+            "number": 36,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\frac{3(x - 1)}{4} = \\frac{x + 5}{2}$",
+            "difficulty": "hard",
+            "solution": "$x = 13$",
+            "answer": "13"
+          },
+          {
+            "number": 37,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$2(x - 3) + \\frac{x}{2} = 14$",
+            "difficulty": "hard",
+            "solution": "$x = 8$",
+            "answer": "8"
+          },
+          {
+            "number": 38,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$5(2x - 3) - 2(4x - 1) = 3(x - 6) + 7$",
+            "difficulty": "hard",
+            "solution": "$x = -2$",
+            "answer": "-2"
+          },
+          {
+            "number": 39,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$4(x - 1) - 2[3 - (x + 1)] = x + 12$",
+            "difficulty": "hard",
+            "solution": "$x = 4$",
+            "answer": "4"
+          },
+          {
+            "number": 40,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$3(x - 2) - 2(x + 1) = \\frac{x}{2} - 3$",
+            "difficulty": "hard",
+            "solution": "$x = 10$",
+            "answer": "10"
+          }
+        ],
+        "quiz": []
+      },
+      {
+        "number": 11,
+        "title": "מערכת משוואות עם שני נעלמים",
+        "learning_objectives": [
+          "לפתור מערכת של שתי משוואות עם שני נעלמים"
+        ],
+        "content": "## מערכת משוואות עם שני נעלמים\n\nדף עבודה לתרגול עצמי, **ללא הסברים** — רק שאלות. התשובות מופיעות בסוף, בכל תרגיל תחת ״הצג פתרון״ ובדף העבודה להדפסה.\n\nהדף בנוי משלוש רמות: **רמה א׳** (מתחילים, 10 שאלות), **רמה ב׳** (מתקדמים, 15 שאלות) ו**רמה ג׳** (כיתה ח׳ מתקדמים, 15 שאלות). אפשר להשתמש במחשבון מדעי.\n\n**פתרו את מערכות המשוואות (או את הבעיות):**",
+        "examples": [],
+        "exercises": [
+          {
+            "number": 1,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$\\begin{cases} x + y = 12 \\\\ x - y = 2 \\end{cases}$",
+            "difficulty": "easy",
+            "solution": "$x = 7,\\ y = 5$"
+          },
+          {
+            "number": 2,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$\\begin{cases} x + y = 15 \\\\ x - y = 5 \\end{cases}$",
+            "difficulty": "easy",
+            "solution": "$x = 10,\\ y = 5$"
+          },
+          {
+            "number": 3,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$\\begin{cases} x + y = 20 \\\\ x - y = 8 \\end{cases}$",
+            "difficulty": "easy",
+            "solution": "$x = 14,\\ y = 6$"
+          },
+          {
+            "number": 4,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$\\begin{cases} x + y = 9 \\\\ x = 2y \\end{cases}$",
+            "difficulty": "easy",
+            "solution": "$x = 6,\\ y = 3$"
+          },
+          {
+            "number": 5,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$\\begin{cases} y = x + 3 \\\\ x + y = 15 \\end{cases}$",
+            "difficulty": "easy",
+            "solution": "$x = 6,\\ y = 9$"
+          },
+          {
+            "number": 6,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$\\begin{cases} x = y + 4 \\\\ x + y = 24 \\end{cases}$",
+            "difficulty": "easy",
+            "solution": "$x = 14,\\ y = 10$"
+          },
+          {
+            "number": 7,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$\\begin{cases} y = 2x \\\\ x + y = 18 \\end{cases}$",
+            "difficulty": "easy",
+            "solution": "$x = 6,\\ y = 12$"
+          },
+          {
+            "number": 8,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$\\begin{cases} x + y = 14 \\\\ 2x + y = 20 \\end{cases}$",
+            "difficulty": "easy",
+            "solution": "$x = 6,\\ y = 8$"
+          },
+          {
+            "number": 9,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$\\begin{cases} x + y = 10 \\\\ x + 2y = 16 \\end{cases}$",
+            "difficulty": "easy",
+            "solution": "$x = 4,\\ y = 6$"
+          },
+          {
+            "number": 10,
+            "title": "רמה א׳ — מתחילים",
+            "description": "$\\begin{cases} x - y = 3 \\\\ 2x + y = 18 \\end{cases}$",
+            "difficulty": "easy",
+            "solution": "$x = 7,\\ y = 4$"
+          },
+          {
+            "number": 11,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$\\begin{cases} 2x + 3y = 11 \\\\ x - y = 3 \\end{cases}$",
+            "difficulty": "medium",
+            "solution": "$x = 4,\\ y = 1$"
+          },
+          {
+            "number": 12,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$\\begin{cases} 3x + 2y = 19 \\\\ x + y = 7 \\end{cases}$",
+            "difficulty": "medium",
+            "solution": "$x = 5,\\ y = 2$"
+          },
+          {
+            "number": 13,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$\\begin{cases} 2x + y = 10 \\\\ y - x = 1 \\end{cases}$",
+            "difficulty": "medium",
+            "solution": "$x = 3,\\ y = 4$"
+          },
+          {
+            "number": 14,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$\\begin{cases} 3x - 2y = 14 \\\\ x + 2y = 10 \\end{cases}$",
+            "difficulty": "medium",
+            "solution": "$x = 6,\\ y = 2$"
+          },
+          {
+            "number": 15,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$\\begin{cases} 4x + 3y = 23 \\\\ x + y = 7 \\end{cases}$",
+            "difficulty": "medium",
+            "solution": "$x = 2,\\ y = 5$"
+          },
+          {
+            "number": 16,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$\\begin{cases} 5x - 2y = 29 \\\\ x + 2y = 13 \\end{cases}$",
+            "difficulty": "medium",
+            "solution": "$x = 7,\\ y = 3$"
+          },
+          {
+            "number": 17,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$\\begin{cases} 2x + 3y = 17 \\\\ 3x - 2y = 6 \\end{cases}$",
+            "difficulty": "medium",
+            "solution": "$x = 4,\\ y = 3$"
+          },
+          {
+            "number": 18,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$\\begin{cases} 4x + 5y = 22 \\\\ 3x - 2y = 5 \\end{cases}$",
+            "difficulty": "medium",
+            "solution": "$x = 3,\\ y = 2$"
+          },
+          {
+            "number": 19,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$\\begin{cases} x + 4y = 9 \\\\ 2x - 3y = 7 \\end{cases}$",
+            "difficulty": "medium",
+            "solution": "$x = 5,\\ y = 1$"
+          },
+          {
+            "number": 20,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$\\begin{cases} 3x + y = 12 \\\\ 2x + 3y = 22 \\end{cases}$",
+            "difficulty": "medium",
+            "solution": "$x = 2,\\ y = 6$"
+          },
+          {
+            "number": 21,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$\\begin{cases} y = x - 6 \\\\ 2x + 3y = 22 \\end{cases}$",
+            "difficulty": "medium",
+            "solution": "$x = 8,\\ y = 2$"
+          },
+          {
+            "number": 22,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "$\\begin{cases} x = 2y + 1 \\\\ 3x - 2y = 19 \\end{cases}$",
+            "difficulty": "medium",
+            "solution": "$x = 9,\\ y = 4$"
+          },
+          {
+            "number": 23,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "סכום שני מספרים הוא 47 והפרשם 13. מצאו את שני המספרים.",
+            "difficulty": "medium",
+            "solution": "$30$ ו-$17$"
+          },
+          {
+            "number": 24,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "בחנות 3 מחברות ו-2 עטים עולים 29 ₪, ו-2 מחברות ו-3 עטים עולים 26 ₪. מה מחיר מחברת ומה מחיר עט?",
+            "difficulty": "medium",
+            "solution": "מחברת 7 ₪, עט 4 ₪"
+          },
+          {
+            "number": 25,
+            "title": "רמה ב׳ — מתקדמים",
+            "description": "בחווה יש תרנגולות וכבשים: בסך הכול 20 ראשים ו-56 רגליים. כמה תרנגולות וכמה כבשים יש בחווה?",
+            "difficulty": "medium",
+            "solution": "12 תרנגולות, 8 כבשים"
+          },
+          {
+            "number": 26,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\begin{cases} 2(x + y) = 18 \\\\ x - y = 3 \\end{cases}$",
+            "difficulty": "hard",
+            "solution": "$x = 6,\\ y = 3$"
+          },
+          {
+            "number": 27,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\begin{cases} 3(x - 1) = 2y \\\\ x + y = 11 \\end{cases}$",
+            "difficulty": "hard",
+            "solution": "$x = 5,\\ y = 6$"
+          },
+          {
+            "number": 28,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\begin{cases} \\frac{x + y}{2} = 6 \\\\ 2x - y = 3 \\end{cases}$",
+            "difficulty": "hard",
+            "solution": "$x = 5,\\ y = 7$"
+          },
+          {
+            "number": 29,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\begin{cases} \\frac{x}{2} + \\frac{y}{3} = 5 \\\\ x - y = 5 \\end{cases}$",
+            "difficulty": "hard",
+            "solution": "$x = 8,\\ y = 3$"
+          },
+          {
+            "number": 30,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\begin{cases} 2x - 3(y - 1) = 5 \\\\ x + y = 6 \\end{cases}$",
+            "difficulty": "hard",
+            "solution": "$x = 4,\\ y = 2$"
+          },
+          {
+            "number": 31,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\begin{cases} 4(x - 2) = 3(y + 1) \\\\ x + 2y = 11 \\end{cases}$",
+            "difficulty": "hard",
+            "solution": "$x = 5,\\ y = 3$"
+          },
+          {
+            "number": 32,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\begin{cases} \\frac{x - 1}{2} = \\frac{y + 1}{3} \\\\ x + y = 10 \\end{cases}$",
+            "difficulty": "hard",
+            "solution": "$x = 5,\\ y = 5$"
+          },
+          {
+            "number": 33,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\begin{cases} 5x - 2(y + 3) = 10 \\\\ 3x + y = 14 \\end{cases}$",
+            "difficulty": "hard",
+            "solution": "$x = 4,\\ y = 2$"
+          },
+          {
+            "number": 34,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\begin{cases} 2x + 3y = 1 \\\\ x - y = -2 \\end{cases}$",
+            "difficulty": "hard",
+            "solution": "$x = -1,\\ y = 1$"
+          },
+          {
+            "number": 35,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\begin{cases} \\frac{x + y}{3} = 4 \\\\ \\frac{x - y}{2} = 1 \\end{cases}$",
+            "difficulty": "hard",
+            "solution": "$x = 7,\\ y = 5$"
+          },
+          {
+            "number": 36,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "$\\begin{cases} 3(x + y) - 2(x - y) = 21 \\\\ x = 2y \\end{cases}$",
+            "difficulty": "hard",
+            "solution": "$x = 6,\\ y = 3$"
+          },
+          {
+            "number": 37,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "שלוש פעמים המספר הראשון ועוד המספר השני הם 45, והמספר הראשון גדול מהשני ב-7. מצאו את שני המספרים.",
+            "difficulty": "hard",
+            "solution": "$13$ ו-$6$"
+          },
+          {
+            "number": 38,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "בקופה 18 מטבעות של 5 ₪ ושל 10 ₪, בסך הכול 120 ₪. כמה מטבעות יש מכל סוג?",
+            "difficulty": "hard",
+            "solution": "12 של 5 ₪, 6 של 10 ₪"
+          },
+          {
+            "number": 39,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "סכום גילאי אב ובנו הוא 44. בעוד 4 שנים יהיה גיל האב פי 3 מגיל הבן. מצאו את גילאיהם כיום.",
+            "difficulty": "hard",
+            "solution": "האב 35, הבן 9"
+          },
+          {
+            "number": 40,
+            "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+            "description": "סכום ספרות של מספר דו-ספרתי הוא 11, והמספר גדול ב-27 מהמספר שמתקבל מהיפוך ספרותיו. מהו המספר?",
+            "difficulty": "hard",
+            "solution": "$74$",
+            "answer": "74"
+          }
+        ],
+        "quiz": []
+      }
+    ]
+  }
+}

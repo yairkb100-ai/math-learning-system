@@ -1,0 +1,293 @@
+{
+  "number": 11,
+  "title": "מערכת משוואות עם שני נעלמים",
+  "learning_objectives": [
+    "לפתור מערכת של שתי משוואות עם שני נעלמים"
+  ],
+  "content": "## מערכת משוואות עם שני נעלמים\n\nדף עבודה לתרגול עצמי, **ללא הסברים** — רק שאלות. התשובות מופיעות בסוף, בכל תרגיל תחת ״הצג פתרון״ ובדף העבודה להדפסה.\n\nהדף בנוי משלוש רמות: **רמה א׳** (מתחילים, 10 שאלות), **רמה ב׳** (מתקדמים, 15 שאלות) ו**רמה ג׳** (כיתה ח׳ מתקדמים, 15 שאלות). אפשר להשתמש במחשבון מדעי.\n\n**פתרו את מערכות המשוואות (או את הבעיות):**",
+  "examples": [],
+  "exercises": [
+    {
+      "number": 1,
+      "title": "רמה א׳ — מתחילים",
+      "description": "$\\begin{cases} x + y = 12 \\\\ x - y = 2 \\end{cases}$",
+      "difficulty": "easy",
+      "solution": "$x = 7,\\ y = 5$"
+    },
+    {
+      "number": 2,
+      "title": "רמה א׳ — מתחילים",
+      "description": "$\\begin{cases} x + y = 15 \\\\ x - y = 5 \\end{cases}$",
+      "difficulty": "easy",
+      "solution": "$x = 10,\\ y = 5$"
+    },
+    {
+      "number": 3,
+      "title": "רמה א׳ — מתחילים",
+      "description": "$\\begin{cases} x + y = 20 \\\\ x - y = 8 \\end{cases}$",
+      "difficulty": "easy",
+      "solution": "$x = 14,\\ y = 6$"
+    },
+    {
+      "number": 4,
+      "title": "רמה א׳ — מתחילים",
+      "description": "$\\begin{cases} x + y = 9 \\\\ x = 2y \\end{cases}$",
+      "difficulty": "easy",
+      "solution": "$x = 6,\\ y = 3$"
+    },
+    {
+      "number": 5,
+      "title": "רמה א׳ — מתחילים",
+      "description": "$\\begin{cases} y = x + 3 \\\\ x + y = 15 \\end{cases}$",
+      "difficulty": "easy",
+      "solution": "$x = 6,\\ y = 9$"
+    },
+    {
+      "number": 6,
+      "title": "רמה א׳ — מתחילים",
+      "description": "$\\begin{cases} x = y + 4 \\\\ x + y = 24 \\end{cases}$",
+      "difficulty": "easy",
+      "solution": "$x = 14,\\ y = 10$"
+    },
+    {
+      "number": 7,
+      "title": "רמה א׳ — מתחילים",
+      "description": "$\\begin{cases} y = 2x \\\\ x + y = 18 \\end{cases}$",
+      "difficulty": "easy",
+      "solution": "$x = 6,\\ y = 12$"
+    },
+    {
+      "number": 8,
+      "title": "רמה א׳ — מתחילים",
+      "description": "$\\begin{cases} x + y = 14 \\\\ 2x + y = 20 \\end{cases}$",
+      "difficulty": "easy",
+      "solution": "$x = 6,\\ y = 8$"
+    },
+    {
+      "number": 9,
+      "title": "רמה א׳ — מתחילים",
+      "description": "$\\begin{cases} x + y = 10 \\\\ x + 2y = 16 \\end{cases}$",
+      "difficulty": "easy",
+      "solution": "$x = 4,\\ y = 6$"
+    },
+    {
+      "number": 10,
+      "title": "רמה א׳ — מתחילים",
+      "description": "$\\begin{cases} x - y = 3 \\\\ 2x + y = 18 \\end{cases}$",
+      "difficulty": "easy",
+      "solution": "$x = 7,\\ y = 4$"
+    },
+    {
+      "number": 11,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$\\begin{cases} 2x + 3y = 11 \\\\ x - y = 3 \\end{cases}$",
+      "difficulty": "medium",
+      "solution": "$x = 4,\\ y = 1$"
+    },
+    {
+      "number": 12,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$\\begin{cases} 3x + 2y = 19 \\\\ x + y = 7 \\end{cases}$",
+      "difficulty": "medium",
+      "solution": "$x = 5,\\ y = 2$"
+    },
+    {
+      "number": 13,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$\\begin{cases} 2x + y = 10 \\\\ y - x = 1 \\end{cases}$",
+      "difficulty": "medium",
+      "solution": "$x = 3,\\ y = 4$"
+    },
+    {
+      "number": 14,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$\\begin{cases} 3x - 2y = 14 \\\\ x + 2y = 10 \\end{cases}$",
+      "difficulty": "medium",
+      "solution": "$x = 6,\\ y = 2$"
+    },
+    {
+      "number": 15,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$\\begin{cases} 4x + 3y = 23 \\\\ x + y = 7 \\end{cases}$",
+      "difficulty": "medium",
+      "solution": "$x = 2,\\ y = 5$"
+    },
+    {
+      "number": 16,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$\\begin{cases} 5x - 2y = 29 \\\\ x + 2y = 13 \\end{cases}$",
+      "difficulty": "medium",
+      "solution": "$x = 7,\\ y = 3$"
+    },
+    {
+      "number": 17,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$\\begin{cases} 2x + 3y = 17 \\\\ 3x - 2y = 6 \\end{cases}$",
+      "difficulty": "medium",
+      "solution": "$x = 4,\\ y = 3$"
+    },
+    {
+      "number": 18,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$\\begin{cases} 4x + 5y = 22 \\\\ 3x - 2y = 5 \\end{cases}$",
+      "difficulty": "medium",
+      "solution": "$x = 3,\\ y = 2$"
+    },
+    {
+      "number": 19,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$\\begin{cases} x + 4y = 9 \\\\ 2x - 3y = 7 \\end{cases}$",
+      "difficulty": "medium",
+      "solution": "$x = 5,\\ y = 1$"
+    },
+    {
+      "number": 20,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$\\begin{cases} 3x + y = 12 \\\\ 2x + 3y = 22 \\end{cases}$",
+      "difficulty": "medium",
+      "solution": "$x = 2,\\ y = 6$"
+    },
+    {
+      "number": 21,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$\\begin{cases} y = x - 6 \\\\ 2x + 3y = 22 \\end{cases}$",
+      "difficulty": "medium",
+      "solution": "$x = 8,\\ y = 2$"
+    },
+    {
+      "number": 22,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$\\begin{cases} x = 2y + 1 \\\\ 3x - 2y = 19 \\end{cases}$",
+      "difficulty": "medium",
+      "solution": "$x = 9,\\ y = 4$"
+    },
+    {
+      "number": 23,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "סכום שני מספרים הוא 47 והפרשם 13. מצאו את שני המספרים.",
+      "difficulty": "medium",
+      "solution": "$30$ ו-$17$"
+    },
+    {
+      "number": 24,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "בחנות 3 מחברות ו-2 עטים עולים 29 ₪, ו-2 מחברות ו-3 עטים עולים 26 ₪. מה מחיר מחברת ומה מחיר עט?",
+      "difficulty": "medium",
+      "solution": "מחברת 7 ₪, עט 4 ₪"
+    },
+    {
+      "number": 25,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "בחווה יש תרנגולות וכבשים: בסך הכול 20 ראשים ו-56 רגליים. כמה תרנגולות וכמה כבשים יש בחווה?",
+      "difficulty": "medium",
+      "solution": "12 תרנגולות, 8 כבשים"
+    },
+    {
+      "number": 26,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$\\begin{cases} 2(x + y) = 18 \\\\ x - y = 3 \\end{cases}$",
+      "difficulty": "hard",
+      "solution": "$x = 6,\\ y = 3$"
+    },
+    {
+      "number": 27,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$\\begin{cases} 3(x - 1) = 2y \\\\ x + y = 11 \\end{cases}$",
+      "difficulty": "hard",
+      "solution": "$x = 5,\\ y = 6$"
+    },
+    {
+      "number": 28,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$\\begin{cases} \\frac{x + y}{2} = 6 \\\\ 2x - y = 3 \\end{cases}$",
+      "difficulty": "hard",
+      "solution": "$x = 5,\\ y = 7$"
+    },
+    {
+      "number": 29,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$\\begin{cases} \\frac{x}{2} + \\frac{y}{3} = 5 \\\\ x - y = 5 \\end{cases}$",
+      "difficulty": "hard",
+      "solution": "$x = 8,\\ y = 3$"
+    },
+    {
+      "number": 30,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$\\begin{cases} 2x - 3(y - 1) = 5 \\\\ x + y = 6 \\end{cases}$",
+      "difficulty": "hard",
+      "solution": "$x = 4,\\ y = 2$"
+    },
+    {
+      "number": 31,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$\\begin{cases} 4(x - 2) = 3(y + 1) \\\\ x + 2y = 11 \\end{cases}$",
+      "difficulty": "hard",
+      "solution": "$x = 5,\\ y = 3$"
+    },
+    {
+      "number": 32,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$\\begin{cases} \\frac{x - 1}{2} = \\frac{y + 1}{3} \\\\ x + y = 10 \\end{cases}$",
+      "difficulty": "hard",
+      "solution": "$x = 5,\\ y = 5$"
+    },
+    {
+      "number": 33,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$\\begin{cases} 5x - 2(y + 3) = 10 \\\\ 3x + y = 14 \\end{cases}$",
+      "difficulty": "hard",
+      "solution": "$x = 4,\\ y = 2$"
+    },
+    {
+      "number": 34,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$\\begin{cases} 2x + 3y = 1 \\\\ x - y = -2 \\end{cases}$",
+      "difficulty": "hard",
+      "solution": "$x = -1,\\ y = 1$"
+    },
+    {
+      "number": 35,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$\\begin{cases} \\frac{x + y}{3} = 4 \\\\ \\frac{x - y}{2} = 1 \\end{cases}$",
+      "difficulty": "hard",
+      "solution": "$x = 7,\\ y = 5$"
+    },
+    {
+      "number": 36,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$\\begin{cases} 3(x + y) - 2(x - y) = 21 \\\\ x = 2y \\end{cases}$",
+      "difficulty": "hard",
+      "solution": "$x = 6,\\ y = 3$"
+    },
+    {
+      "number": 37,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "שלוש פעמים המספר הראשון ועוד המספר השני הם 45, והמספר הראשון גדול מהשני ב-7. מצאו את שני המספרים.",
+      "difficulty": "hard",
+      "solution": "$13$ ו-$6$"
+    },
+    {
+      "number": 38,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "בקופה 18 מטבעות של 5 ₪ ושל 10 ₪, בסך הכול 120 ₪. כמה מטבעות יש מכל סוג?",
+      "difficulty": "hard",
+      "solution": "12 של 5 ₪, 6 של 10 ₪"
+    },
+    {
+      "number": 39,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "סכום גילאי אב ובנו הוא 44. בעוד 4 שנים יהיה גיל האב פי 3 מגיל הבן. מצאו את גילאיהם כיום.",
+      "difficulty": "hard",
+      "solution": "האב 35, הבן 9"
+    },
+    {
+      "number": 40,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "סכום ספרות של מספר דו-ספרתי הוא 11, והמספר גדול ב-27 מהמספר שמתקבל מהיפוך ספרותיו. מהו המספר?",
+      "difficulty": "hard",
+      "solution": "$74$",
+      "answer": "74"
+    }
+  ],
+  "quiz": []
+}

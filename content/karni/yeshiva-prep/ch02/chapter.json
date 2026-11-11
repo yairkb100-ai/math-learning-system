@@ -1,0 +1,332 @@
+{
+  "number": 2,
+  "title": "חישובים עם שברים פשוטים",
+  "learning_objectives": [
+    "לחשב בארבע פעולות החשבון עם שברים פשוטים ומספרים מעורבים"
+  ],
+  "content": "## חישובים עם שברים פשוטים\n\nדף עבודה לתרגול עצמי, **ללא הסברים** — רק שאלות. התשובות מופיעות בסוף, בכל תרגיל תחת ״הצג פתרון״ ובדף העבודה להדפסה.\n\nהדף בנוי משלוש רמות: **רמה א׳** (מתחילים, 10 שאלות), **רמה ב׳** (מתקדמים, 15 שאלות) ו**רמה ג׳** (כיתה ח׳ מתקדמים, 15 שאלות). אפשר להשתמש במחשבון מדעי.\n\n**חשבו (תשובה כשבר מצומצם):**",
+  "examples": [],
+  "exercises": [
+    {
+      "number": 1,
+      "title": "רמה א׳ — מתחילים",
+      "description": "$\\frac{1}{2} + \\frac{1}{4}$",
+      "difficulty": "easy",
+      "solution": "$\\frac{3}{4}$",
+      "answer": "3/4"
+    },
+    {
+      "number": 2,
+      "title": "רמה א׳ — מתחילים",
+      "description": "$\\frac{2}{3} + \\frac{1}{6}$",
+      "difficulty": "easy",
+      "solution": "$\\frac{5}{6}$",
+      "answer": "5/6"
+    },
+    {
+      "number": 3,
+      "title": "רמה א׳ — מתחילים",
+      "description": "$\\frac{3}{5} + \\frac{1}{10}$",
+      "difficulty": "easy",
+      "solution": "$\\frac{7}{10}$",
+      "answer": "7/10"
+    },
+    {
+      "number": 4,
+      "title": "רמה א׳ — מתחילים",
+      "description": "$\\frac{7}{8} - \\frac{3}{8}$",
+      "difficulty": "easy",
+      "solution": "$\\frac{1}{2}$",
+      "answer": "1/2"
+    },
+    {
+      "number": 5,
+      "title": "רמה א׳ — מתחילים",
+      "description": "$\\frac{5}{6} - \\frac{1}{3}$",
+      "difficulty": "easy",
+      "solution": "$\\frac{1}{2}$",
+      "answer": "1/2"
+    },
+    {
+      "number": 6,
+      "title": "רמה א׳ — מתחילים",
+      "description": "$\\frac{3}{4} \\times \\frac{2}{3}$",
+      "difficulty": "easy",
+      "solution": "$\\frac{1}{2}$",
+      "answer": "1/2"
+    },
+    {
+      "number": 7,
+      "title": "רמה א׳ — מתחילים",
+      "description": "$\\frac{2}{5} \\times 10$",
+      "difficulty": "easy",
+      "solution": "$4$",
+      "answer": "4"
+    },
+    {
+      "number": 8,
+      "title": "רמה א׳ — מתחילים",
+      "description": "$\\frac{3}{4} \\div \\frac{1}{2}$",
+      "difficulty": "easy",
+      "solution": "$\\frac{3}{2} = 1\\frac{1}{2}$",
+      "answer": "3/2"
+    },
+    {
+      "number": 9,
+      "title": "רמה א׳ — מתחילים",
+      "description": "$6 \\div \\frac{3}{4}$",
+      "difficulty": "easy",
+      "solution": "$8$",
+      "answer": "8"
+    },
+    {
+      "number": 10,
+      "title": "רמה א׳ — מתחילים",
+      "description": "$\\frac{1}{2} + \\frac{1}{3} + \\frac{1}{6}$",
+      "difficulty": "easy",
+      "solution": "$1$",
+      "answer": "1"
+    },
+    {
+      "number": 11,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$2\\frac{1}{2} + 1\\frac{1}{3}$",
+      "difficulty": "medium",
+      "solution": "$\\frac{23}{6} = 3\\frac{5}{6}$",
+      "answer": "23/6"
+    },
+    {
+      "number": 12,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$3\\frac{1}{4} - 1\\frac{3}{4}$",
+      "difficulty": "medium",
+      "solution": "$\\frac{3}{2} = 1\\frac{1}{2}$",
+      "answer": "3/2"
+    },
+    {
+      "number": 13,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$5 - 2\\frac{2}{3}$",
+      "difficulty": "medium",
+      "solution": "$\\frac{7}{3} = 2\\frac{1}{3}$",
+      "answer": "7/3"
+    },
+    {
+      "number": 14,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$2\\frac{1}{2} \\times 1\\frac{1}{5}$",
+      "difficulty": "medium",
+      "solution": "$3$",
+      "answer": "3"
+    },
+    {
+      "number": 15,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$3\\frac{1}{3} \\div 2$",
+      "difficulty": "medium",
+      "solution": "$\\frac{5}{3} = 1\\frac{2}{3}$",
+      "answer": "5/3"
+    },
+    {
+      "number": 16,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$\\frac{2}{3} \\times \\frac{9}{10} \\times \\frac{5}{6}$",
+      "difficulty": "medium",
+      "solution": "$\\frac{1}{2}$",
+      "answer": "1/2"
+    },
+    {
+      "number": 17,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$4\\frac{1}{2} \\div 1\\frac{1}{2}$",
+      "difficulty": "medium",
+      "solution": "$3$",
+      "answer": "3"
+    },
+    {
+      "number": 18,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$\\frac{1}{2} + \\frac{1}{3} \\times \\frac{3}{4}$",
+      "difficulty": "medium",
+      "solution": "$\\frac{3}{4}$",
+      "answer": "3/4"
+    },
+    {
+      "number": 19,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$\\frac{3}{4} - \\frac{1}{2} \\div 2$",
+      "difficulty": "medium",
+      "solution": "$\\frac{1}{2}$",
+      "answer": "1/2"
+    },
+    {
+      "number": 20,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$\\frac{5}{6} \\div \\frac{5}{12} + \\frac{1}{2}$",
+      "difficulty": "medium",
+      "solution": "$\\frac{5}{2} = 2\\frac{1}{2}$",
+      "answer": "5/2"
+    },
+    {
+      "number": 21,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$3 \\times \\frac{2}{9} + 1\\frac{1}{3}$",
+      "difficulty": "medium",
+      "solution": "$2$",
+      "answer": "2"
+    },
+    {
+      "number": 22,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$\\frac{7}{8} - \\frac{1}{4} \\times \\frac{3}{2}$",
+      "difficulty": "medium",
+      "solution": "$\\frac{1}{2}$",
+      "answer": "1/2"
+    },
+    {
+      "number": 23,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$1\\frac{1}{2} + 2\\frac{1}{4} - \\frac{3}{4}$",
+      "difficulty": "medium",
+      "solution": "$3$",
+      "answer": "3"
+    },
+    {
+      "number": 24,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$2\\frac{2}{5} \\div \\frac{4}{5} \\times \\frac{1}{3}$",
+      "difficulty": "medium",
+      "solution": "$1$",
+      "answer": "1"
+    },
+    {
+      "number": 25,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$\\left(\\frac{3}{4} - \\frac{1}{2}\\right) \\times 8 + \\frac{1}{2}$",
+      "difficulty": "medium",
+      "solution": "$\\frac{5}{2} = 2\\frac{1}{2}$",
+      "answer": "5/2"
+    },
+    {
+      "number": 26,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$\\left(\\frac{1}{2} + \\frac{1}{3}\\right) \\div \\left(\\frac{5}{6} - \\frac{1}{3}\\right)$",
+      "difficulty": "hard",
+      "solution": "$\\frac{5}{3} = 1\\frac{2}{3}$",
+      "answer": "5/3"
+    },
+    {
+      "number": 27,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$\\frac{\\frac{3}{4} + \\frac{1}{2}}{\\frac{5}{8}}$",
+      "difficulty": "hard",
+      "solution": "$2$",
+      "answer": "2"
+    },
+    {
+      "number": 28,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$\\left(2\\frac{1}{3} - 1\\frac{5}{6}\\right) \\times 12$",
+      "difficulty": "hard",
+      "solution": "$6$",
+      "answer": "6"
+    },
+    {
+      "number": 29,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$\\frac{5}{6} + \\left[\\frac{1}{2} - \\left(\\frac{1}{3} - \\frac{1}{6}\\right)\\right]$",
+      "difficulty": "hard",
+      "solution": "$\\frac{7}{6} = 1\\frac{1}{6}$",
+      "answer": "7/6"
+    },
+    {
+      "number": 30,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$\\left[\\frac{3}{4} + \\frac{1}{2} \\times \\left(\\frac{2}{3} + \\frac{1}{3}\\right)\\right] \\div 1\\frac{1}{4}$",
+      "difficulty": "hard",
+      "solution": "$1$",
+      "answer": "1"
+    },
+    {
+      "number": 31,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$\\left(\\frac{2}{3}\\right)^{2} + \\frac{1}{3} \\times \\frac{2}{3}$",
+      "difficulty": "hard",
+      "solution": "$\\frac{2}{3}$",
+      "answer": "2/3"
+    },
+    {
+      "number": 32,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$\\left(\\frac{1}{2}\\right)^{2} + \\left(\\frac{3}{4}\\right)^{2}$",
+      "difficulty": "hard",
+      "solution": "$\\frac{13}{16}$",
+      "answer": "13/16"
+    },
+    {
+      "number": 33,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$\\left(1\\frac{1}{2}\\right)^{2} - \\frac{1}{4}$",
+      "difficulty": "hard",
+      "solution": "$2$",
+      "answer": "2"
+    },
+    {
+      "number": 34,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$6 \\times \\left(\\frac{2}{3} - \\frac{1}{2}\\right) + 4\\frac{1}{2} \\div 3$",
+      "difficulty": "hard",
+      "solution": "$\\frac{5}{2} = 2\\frac{1}{2}$",
+      "answer": "5/2"
+    },
+    {
+      "number": 35,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$\\frac{2\\frac{1}{2}}{1 + \\frac{1}{4}}$",
+      "difficulty": "hard",
+      "solution": "$2$",
+      "answer": "2"
+    },
+    {
+      "number": 36,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$\\frac{3}{4} \\times \\left(4\\frac{2}{3} - 1\\frac{1}{3}\\right) \\div \\left(\\frac{1}{2}\\right)$",
+      "difficulty": "hard",
+      "solution": "$5$",
+      "answer": "5"
+    },
+    {
+      "number": 37,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$1 - \\left(\\frac{1}{2} + \\frac{1}{3} + \\frac{1}{12}\\right)$",
+      "difficulty": "hard",
+      "solution": "$\\frac{1}{12}$",
+      "answer": "1/12"
+    },
+    {
+      "number": 38,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$\\left(2\\frac{1}{4} + 1\\frac{3}{4}\\right) \\div \\left(\\frac{3}{5} \\times \\frac{5}{2}\\right)$",
+      "difficulty": "hard",
+      "solution": "$\\frac{8}{3} = 2\\frac{2}{3}$",
+      "answer": "8/3"
+    },
+    {
+      "number": 39,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$\\frac{\\frac{1}{2} + \\frac{1}{3}}{\\frac{1}{2} - \\frac{1}{3}}$",
+      "difficulty": "hard",
+      "solution": "$5$",
+      "answer": "5"
+    },
+    {
+      "number": 40,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$\\frac{\\frac{1}{2} - \\frac{1}{3}}{\\frac{1}{3} - \\frac{1}{4}} + \\frac{1}{2}$",
+      "difficulty": "hard",
+      "solution": "$\\frac{5}{2} = 2\\frac{1}{2}$",
+      "answer": "5/2"
+    }
+  ],
+  "quiz": []
+}
