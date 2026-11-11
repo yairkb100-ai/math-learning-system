@@ -299,4 +299,11 @@ export const KARNI_AREAS = [
       'אוצר מילים ודקדוק באנגלית לרמת המבחן, ופרק הזריזות והדיוק שבו הזמן הוא האתגר האמיתי.',
     courseSlugs: ['karni-english-vocabulary', 'karni-english-grammar', 'karni-speed-accuracy'],
   },
+  {
+    slug: 'yeshiva',
+    title: 'הכנה לישיבות',
+    description:
+      'דפי עבודה ללא הסברים להכנה למבחני קבלה לישיבות: חשבון, שברים, סוגריים וערך מוחלט, בעיות מילוליות ומשוואות — בשלוש רמות ועם תשובות בסוף.',
+    courseSlugs: ['karni-yeshiva-prep'],
+  },
 ]

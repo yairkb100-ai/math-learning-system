@@ -1,0 +1,332 @@
+{
+  "number": 1,
+  "title": "סדר פעולות חשבון",
+  "learning_objectives": [
+    "לחשב ביטויים מספריים לפי סדר הפעולות הנכון"
+  ],
+  "content": "## סדר פעולות חשבון\n\nדף עבודה לתרגול עצמי, **ללא הסברים** — רק שאלות. התשובות מופיעות בסוף, בכל תרגיל תחת ״הצג פתרון״ ובדף העבודה להדפסה.\n\nהדף בנוי משלוש רמות: **רמה א׳** (מתחילים, 10 שאלות), **רמה ב׳** (מתקדמים, 15 שאלות) ו**רמה ג׳** (כיתה ח׳ מתקדמים, 15 שאלות). אפשר להשתמש במחשבון מדעי.\n\n**חשבו:**",
+  "examples": [],
+  "exercises": [
+    {
+      "number": 1,
+      "title": "רמה א׳ — מתחילים",
+      "description": "$8 + 3 \\times 4$",
+      "difficulty": "easy",
+      "solution": "$20$",
+      "answer": "20"
+    },
+    {
+      "number": 2,
+      "title": "רמה א׳ — מתחילים",
+      "description": "$20 - 12 \\div 4$",
+      "difficulty": "easy",
+      "solution": "$17$",
+      "answer": "17"
+    },
+    {
+      "number": 3,
+      "title": "רמה א׳ — מתחילים",
+      "description": "$5 \\times 6 - 10$",
+      "difficulty": "easy",
+      "solution": "$20$",
+      "answer": "20"
+    },
+    {
+      "number": 4,
+      "title": "רמה א׳ — מתחילים",
+      "description": "$36 \\div 6 + 7 \\times 2$",
+      "difficulty": "easy",
+      "solution": "$20$",
+      "answer": "20"
+    },
+    {
+      "number": 5,
+      "title": "רמה א׳ — מתחילים",
+      "description": "$15 - 3 \\times 4 + 2$",
+      "difficulty": "easy",
+      "solution": "$5$",
+      "answer": "5"
+    },
+    {
+      "number": 6,
+      "title": "רמה א׳ — מתחילים",
+      "description": "$24 \\div 4 \\div 2 + 9$",
+      "difficulty": "easy",
+      "solution": "$12$",
+      "answer": "12"
+    },
+    {
+      "number": 7,
+      "title": "רמה א׳ — מתחילים",
+      "description": "$(7 + 5) \\times 3$",
+      "difficulty": "easy",
+      "solution": "$36$",
+      "answer": "36"
+    },
+    {
+      "number": 8,
+      "title": "רמה א׳ — מתחילים",
+      "description": "$40 - (12 + 8)$",
+      "difficulty": "easy",
+      "solution": "$20$",
+      "answer": "20"
+    },
+    {
+      "number": 9,
+      "title": "רמה א׳ — מתחילים",
+      "description": "$3 \\times (10 - 4) + 5$",
+      "difficulty": "easy",
+      "solution": "$23$",
+      "answer": "23"
+    },
+    {
+      "number": 10,
+      "title": "רמה א׳ — מתחילים",
+      "description": "$48 \\div (2 + 4) - 3$",
+      "difficulty": "easy",
+      "solution": "$5$",
+      "answer": "5"
+    },
+    {
+      "number": 11,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$7 + 6 \\times 5 - 18 \\div 3$",
+      "difficulty": "medium",
+      "solution": "$31$",
+      "answer": "31"
+    },
+    {
+      "number": 12,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$100 - 4 \\times 15 + 12 \\div 4$",
+      "difficulty": "medium",
+      "solution": "$43$",
+      "answer": "43"
+    },
+    {
+      "number": 13,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$9 \\times 8 \\div 6 + 14$",
+      "difficulty": "medium",
+      "solution": "$26$",
+      "answer": "26"
+    },
+    {
+      "number": 14,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$56 \\div 7 \\times 3 - 5$",
+      "difficulty": "medium",
+      "solution": "$19$",
+      "answer": "19"
+    },
+    {
+      "number": 15,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$(18 - 6) \\times 4 \\div 3$",
+      "difficulty": "medium",
+      "solution": "$16$",
+      "answer": "16"
+    },
+    {
+      "number": 16,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$5 \\times (14 + 6) - 3 \\times 9$",
+      "difficulty": "medium",
+      "solution": "$73$",
+      "answer": "73"
+    },
+    {
+      "number": 17,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$72 \\div (3 + 5) + 6 \\times (7 - 2)$",
+      "difficulty": "medium",
+      "solution": "$39$",
+      "answer": "39"
+    },
+    {
+      "number": 18,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$5^{2} - 4 \\times 3$",
+      "difficulty": "medium",
+      "solution": "$13$",
+      "answer": "13"
+    },
+    {
+      "number": 19,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$3^{2} \\times 4 - 20$",
+      "difficulty": "medium",
+      "solution": "$16$",
+      "answer": "16"
+    },
+    {
+      "number": 20,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$100 - 6^{2} + 2 \\times 8$",
+      "difficulty": "medium",
+      "solution": "$80$",
+      "answer": "80"
+    },
+    {
+      "number": 21,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$(9 - 5)^{2} \\times 3 + 2$",
+      "difficulty": "medium",
+      "solution": "$50$",
+      "answer": "50"
+    },
+    {
+      "number": 22,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$90 \\div (4 + 5) + 7 \\times (8 - 3)$",
+      "difficulty": "medium",
+      "solution": "$45$",
+      "answer": "45"
+    },
+    {
+      "number": 23,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$15 + 3 \\times (20 - 8) \\div 4$",
+      "difficulty": "medium",
+      "solution": "$24$",
+      "answer": "24"
+    },
+    {
+      "number": 24,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$(6 + 4) \\times (9 - 3) - 7^{2}$",
+      "difficulty": "medium",
+      "solution": "$11$",
+      "answer": "11"
+    },
+    {
+      "number": 25,
+      "title": "רמה ב׳ — מתקדמים",
+      "description": "$144 \\div (2 \\times 6) + 3^{2} \\times 2$",
+      "difficulty": "medium",
+      "solution": "$30$",
+      "answer": "30"
+    },
+    {
+      "number": 26,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$5 \\times [18 - 2 \\times (4 + 3)]$",
+      "difficulty": "hard",
+      "solution": "$20$",
+      "answer": "20"
+    },
+    {
+      "number": 27,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$100 - [6 + 4 \\times (9 - 5)]$",
+      "difficulty": "hard",
+      "solution": "$78$",
+      "answer": "78"
+    },
+    {
+      "number": 28,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$(45 - 3^{2}) \\div (2 \\times 3) + 14$",
+      "difficulty": "hard",
+      "solution": "$20$",
+      "answer": "20"
+    },
+    {
+      "number": 29,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$3 \\times [2 \\times (7 + 5) - 4^{2}]$",
+      "difficulty": "hard",
+      "solution": "$24$",
+      "answer": "24"
+    },
+    {
+      "number": 30,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$120 \\div [4 \\times (11 - 8)] + 7 \\times 2^{2}$",
+      "difficulty": "hard",
+      "solution": "$38$",
+      "answer": "38"
+    },
+    {
+      "number": 31,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$[(7 + 5)^{2} - 4 \\times 9] \\div 12$",
+      "difficulty": "hard",
+      "solution": "$9$",
+      "answer": "9"
+    },
+    {
+      "number": 32,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$(-3) \\times 8 + 5 \\times (-2)$",
+      "difficulty": "hard",
+      "solution": "$-34$",
+      "answer": "-34"
+    },
+    {
+      "number": 33,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$20 - (-4) \\times 3 + (-18) \\div 6$",
+      "difficulty": "hard",
+      "solution": "$29$",
+      "answer": "29"
+    },
+    {
+      "number": 34,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$(-5)^{2} - 4 \\times (3 - 9)$",
+      "difficulty": "hard",
+      "solution": "$49$",
+      "answer": "49"
+    },
+    {
+      "number": 35,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$7 - 3 \\times (2 - 8) + (-12) \\div 4$",
+      "difficulty": "hard",
+      "solution": "$22$",
+      "answer": "22"
+    },
+    {
+      "number": 36,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$(-4) \\times (-5) + (12 - 30) \\div 6$",
+      "difficulty": "hard",
+      "solution": "$17$",
+      "answer": "17"
+    },
+    {
+      "number": 37,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$-(3 + 5) \\times 2 + 20$",
+      "difficulty": "hard",
+      "solution": "$4$",
+      "answer": "4"
+    },
+    {
+      "number": 38,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$3 \\times [40 - 5 \\times (2 + 4) - 6]$",
+      "difficulty": "hard",
+      "solution": "$12$",
+      "answer": "12"
+    },
+    {
+      "number": 39,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$[(-2)^{2} + 6] \\times (9 - 12)$",
+      "difficulty": "hard",
+      "solution": "$-30$",
+      "answer": "-30"
+    },
+    {
+      "number": 40,
+      "title": "רמה ג׳ — כיתה ח׳ מתקדמים",
+      "description": "$200 \\div [5 \\times (7 - 3)] - 3^{2}$",
+      "difficulty": "hard",
+      "solution": "$1$",
+      "answer": "1"
+    }
+  ],
+  "quiz": []
+}

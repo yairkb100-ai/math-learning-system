@@ -1723,6 +1723,13 @@ _PSY_SECTIONS = [
         "order": 8,
         "course_slugs": ["karni-speed-accuracy"],
     },
+    {
+        "slug": "psy-yeshiva",
+        "title": "הכנה לישיבות",
+        "description": "דפי עבודה ללא הסברים, מרמת המתחיל ועד כיתה ח׳ מתקדמים: סדר פעולות, שברים, סוגריים וערך מוחלט, בעיות מילוליות (גילאים, קנייה ומכירה, אחוזים, תנועה) ומשוואות — עם תשובות בסוף",
+        "order": 9,
+        "course_slugs": ["karni-yeshiva-prep"],
+    },
 ]
 
 
