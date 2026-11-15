@@ -72,8 +72,11 @@
   .noprint button { background: #1f7a8c; color:#fff; border:0; padding:10px 26px;
                     border-radius:6px; font-size:15px; cursor:pointer; font-family:inherit; }
 
-  .guide h2.q { margin: 16px 0 8px; font-size: 16px; }
-  .guide p, .guide li { font-size: 14px; line-height: 1.65; }
+  h2.q, p.instr { break-after: avoid; page-break-after: avoid; }
+  table.gt, .exbox { break-inside: avoid; }
+  .guide h2.q { margin: 12px 0 6px; font-size: 15.5px; }
+  .guide p, .guide li { font-size: 13.5px; line-height: 1.55; }
+  .guide header { margin-bottom: 10px; }
   ol.gl, ul.gl { margin: 4px 0 8px; padding-inline-start: 24px; }
   ol.gl > li, ul.gl > li { margin-bottom: 5px; }
   table.gt { border-collapse: collapse; margin: 8px auto 12px; min-width: 70%; }
@@ -103,7 +106,7 @@
     <div class="sub">חשבון · דף עבודה · 40 שאלות בשלוש רמות · בסוף: תשובות, והסבר עם טיפים</div>
     <div class="namebar"><span>שם: </span><span>כיתה: </span><span>תאריך: </span></div>
   </header>
-  <h2 class="q">רמה א׳ — מתחילים <span class="tag easy">שאלות 1–10</span></h2>
+  <h2 class="q">רמה א׳ — מתחילים <span class="tag easy">שאלות <bdi dir="ltr">1–10</bdi></span></h2>
 <p class="instr">פתרו:</p>
 <ol class="items cols2" start="1">
 <li><span class="eq">|-7|</span></li>
@@ -117,7 +120,7 @@
 <li><span class="eq">|10 - 3|</span></li>
 <li><span class="eq">|-2 - 5|</span></li>
 </ol>
-<h2 class="q">רמה ב׳ — מתקדמים <span class="tag med">שאלות 11–25</span></h2>
+<h2 class="q">רמה ב׳ — מתקדמים <span class="tag med">שאלות <bdi dir="ltr">11–25</bdi></span></h2>
 <p class="instr">פתרו:</p>
 <ol class="items cols2" start="11">
 <li><span class="eq">|7 - 15| + |-3|</span></li>
@@ -136,7 +139,7 @@
 <li>מהו המרחק על ציר המספרים בין <span class="eq">-9</span> ל-<span class="eq">-2</span>?</li>
 <li>השלימו את הסימן (<span class="eq">&lt;</span>, <span class="eq">&gt;</span> או <span class="eq">=</span>): <span class="eq">|-9|  □  |5|</span></li>
 </ol>
-<h2 class="q">רמה ג׳ — כיתה ח׳ מתקדמים <span class="tag hard">שאלות 26–40</span></h2>
+<h2 class="q">רמה ג׳ — כיתה ח׳ מתקדמים <span class="tag hard">שאלות <bdi dir="ltr">26–40</bdi></span></h2>
 <p class="instr">פתרו:</p>
 <ol class="items cols2" start="26">
 <li><span class="eq">| |-5| - 9|</span></li>
@@ -160,7 +163,7 @@
 
 <div class="sheet key pagebreak">
   <header>
-    <h1>🔑 תשובות — חישובים עם ערך מוחלט</h1>
+    <h1>תשובות — חישובים עם ערך מוחלט</h1>
     <div class="sub">לבדיקה עצמית, אחרי שפתרתם</div>
   </header>
   <h2 class="q">רמה א׳ — מתחילים</h2>
@@ -211,18 +214,18 @@
 
 <div class="sheet guide pagebreak">
   <header>
-    <h1>💡 הסבר, שיטת פתרון וטיפים — חישובים עם ערך מוחלט</h1>
-    <div class="sub">חשבון · לקריאה לפני התרגול או אחרי בדיקת התשובות</div>
+    <h1>הסבר, שיטת פתרון וטיפים</h1>
+    <div class="sub">חישובים עם ערך מוחלט · חשבון · לקריאה לפני התרגול או אחרי בדיקת התשובות</div>
   </header>
   <h2 class="q">מה צריך לדעת</h2>
-<ul class="gl"><li><b>ערך מוחלט</b> של מספר הוא המרחק שלו מ<b>אפס</b> על ציר המספרים, ולכן הוא אף פעם לא שלילי: <span class="eq">|5| = 5</span>, <span class="eq">|-5| = 5</span>, <span class="eq">|0| = 0</span>.</li><li>ערך מוחלט פועל כמו סוגריים: קודם מחשבים מה שבתוכו, ורק אז מוציאים את הסימן: <span class="eq">|3 - 8| = |-5| = 5</span>.</li><li>מינוס <b>מחוץ</b> לערך המוחלט נשאר: <span class="eq">-|-4| = -4</span>.</li><li><b>מרחק</b> בין שני מספרים <span class="eq">a</span> ו-<span class="eq">b</span> על ציר המספרים הוא <span class="eq">|a - b|</span>.</li><li><b>משוואה</b> <span class="eq">|x| = k</span> (כש-<span class="eq">k &gt; 0</span>) יש לה שני פתרונות: <span class="eq">x = k</span> או <span class="eq">x = -k</span>. במשוואה <span class="eq">|x - c| = k</span> מקבלים <span class="eq">x - c = k</span> או <span class="eq">x - c = -k</span>.</li></ul>
+<ul class="gl"><li><b>ערך מוחלט</b> של מספר הוא המרחק שלו מ<b>אפס</b> על ציר המספרים, ולכן הוא אף פעם לא שלילי: <span class="eq">|5| = 5</span>, <span class="eq">|-5| = 5</span>, <span class="eq">|0| = 0</span>.</li><li>ערך מוחלט פועל כמו סוגריים: קודם מחשבים מה שבתוכו, ורק אז מוציאים את הסימן: <span class="eq">|3 - 8| = |-5| = 5</span>.</li><li>מינוס <b>מחוץ</b> לערך המוחלט נשאר: <span class="eq">-|-4| = -4</span>.</li><li><b>המרחק</b> בין שני מספרים <span class="eq">a</span> ו-<span class="eq">b</span> על ציר המספרים הוא <span class="eq">|a - b|</span>.</li><li>למשוואה <span class="eq">|x| = k</span>, כאשר <span class="eq">k &gt; 0</span>, יש שני פתרונות: <span class="eq">x = k</span> או <span class="eq">x = -k</span>. במשוואה <span class="eq">|x - c| = k</span> מקבלים <span class="eq">x - c = k</span> או <span class="eq">x - c = -k</span>.</li></ul>
 <h2 class="q">דוגמאות פתורות</h2>
 <div class="exbox"><p class="exq">חשבו: <span class="eq">|3 - 8| - |-2| × 3</span></p><ol class="gl"><li>מחשבים את מה שבתוך כל ערך מוחלט: <span class="eq">|3 - 8| = |-5| = 5</span> ו-<span class="eq">|-2| = 2</span>.</li><li>הביטוי הוא <span class="eq">5 - 2 × 3</span>. קודם כפל: <span class="eq">2 × 3 = 6</span>.</li><li>חיסור: <span class="eq">5 - 6 = -1</span>.</li></ol><p class="exa"><b>תשובה:</b> <span class="eq">-1</span></p></div>
 <div class="exbox"><p class="exq">פתרו: <span class="eq">|x + 1| = 4</span></p><ol class="gl"><li>שתי אפשרויות: <span class="eq">x + 1 = 4</span> או <span class="eq">x + 1 = -4</span>.</li><li>מקבלים <span class="eq">x = 3</span> או <span class="eq">x = -5</span>.</li><li>בדיקה: <span class="eq">|3 + 1| = 4</span> ו-<span class="eq">|-5 + 1| = |-4| = 4</span>.</li></ol><p class="exa"><b>תשובה:</b> <span class="eq">x = 3</span> או <span class="eq">x = -5</span></p></div>
 <h2 class="q">טיפים וטעויות נפוצות</h2>
-<ul class="gl"><li>ערך מוחלט הוא תמיד אפס או חיובי. אם קיבלתם מינוס, כנראה שכחתם להוציא את הסימן.</li><li>למשוואה <span class="eq">|x| = -3</span> אין פתרון, כי ערך מוחלט לא יכול להיות שלילי.</li><li>כשיש ערכים מוחלטים מקוננים, מתחילים מהפנימי.</li><li><span class="eq">|a - b| = |b - a|</span>: כשמדובר במרחק, כיוון החיסור לא משנה.</li></ul>
+<ul class="gl"><li>הערך המוחלט עצמו אינו שלילי לעולם: <span class="eq">|-5| = 5</span> ולא <span class="eq">-5</span>. ביטוי שבו הערך המוחלט הוא רק חלק יכול כן להיות שלילי, למשל <span class="eq">5 - |-6| = -1</span>. אם יצא מינוס בתוך הערך המוחלט, זכרו להוציא את הסימן.</li><li>למשוואה <span class="eq">|x| = -3</span> אין פתרון, כי ערך מוחלט לא יכול להיות שלילי.</li><li>כשיש ערכים מוחלטים מקוננים, מתחילים מהפנימי.</li><li><span class="eq">|a - b| = |b - a|</span>: כשמדובר במרחק, כיוון החיסור לא משנה.</li></ul>
   <h2 class="q">נושא א׳ — חשבון: טיפים כלליים</h2>
-  <ul class="gl"><li>כתבו כל שלב בשורה נפרדת ואל תחשבו הכול בראש. רוב הטעויות בחשבון הן טעויות של שורה שדילגו עליה.</li><li>קודם דיוק, אחר כך מהירות. מהירות באה מתרגול, לא מדילוג על שלבים.</li><li>בסוף כל תרגיל עשו אומדן: האם התוצאה בערך בסדר הגודל הנכון?</li><li>מותר להשתמש במחשבון מדעי, אבל כדאי לדעת לחשב גם בלעדיו. המחשבון לא יתקן ביטוי שהקלדתם לא נכון.</li></ul>
+  <ul class="gl"><li>כתבו כל שלב בשורה נפרדת ואל תחשבו הכול בראש. רוב הטעויות בחשבון נובעות משורה שדילגתם עליה.</li><li>קודם דיוק, אחר כך מהירות. מהירות באה מתרגול, ולא מדילוג על שלבים.</li><li>בסוף כל תרגיל עשו אומדן: האם התוצאה בערך בסדר הגודל הנכון?</li><li>מותר להשתמש במחשבון מדעי, אבל כדאי לדעת לחשב גם בלעדיו. המחשבון לא יתקן ביטוי שהקלדתם בצורה שגויה.</li></ul>
   <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
 </div>
 </body>

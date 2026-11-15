@@ -277,7 +277,7 @@ def worksheet_html(num, key, title, instr, part, lv):
             n += 1
             items.append(f"<li>{gca.macros(sheet_math(q))}</li>")
         blocks.append(
-            f'<h2 class="q">{label} <span class="tag {"med" if diff == "medium" else diff}">שאלות {start}–{n}</span></h2>\n'
+            f'<h2 class="q">{label} <span class="tag {"med" if diff == "medium" else diff}">שאלות <bdi dir="ltr">{start}–{n}</bdi></span></h2>\n'
             f'<p class="instr">{instr}</p>\n'
             f'<ol class="items {cls}" start="{start}">\n' + "\n".join(items) + "\n</ol>")
     n = 0
@@ -291,8 +291,11 @@ def worksheet_html(num, key, title, instr, part, lv):
         keys.append(f'<h2 class="q">{label}</h2>\n<div class="anscols">' + "\n".join(cells) + "</div>")
     guide, (ptitle, ptips) = guide_blocks(key, part)
     extra_css = """
-  .guide h2.q { margin: 16px 0 8px; font-size: 16px; }
-  .guide p, .guide li { font-size: 14px; line-height: 1.65; }
+  h2.q, p.instr { break-after: avoid; page-break-after: avoid; }
+  table.gt, .exbox { break-inside: avoid; }
+  .guide h2.q { margin: 12px 0 6px; font-size: 15.5px; }
+  .guide p, .guide li { font-size: 13.5px; line-height: 1.55; }
+  .guide header { margin-bottom: 10px; }
   ol.gl, ul.gl { margin: 4px 0 8px; padding-inline-start: 24px; }
   ol.gl > li, ul.gl > li { margin-bottom: 5px; }
   table.gt { border-collapse: collapse; margin: 8px auto 12px; min-width: 70%; }
@@ -326,7 +329,7 @@ def worksheet_html(num, key, title, instr, part, lv):
 
 <div class="sheet key pagebreak">
   <header>
-    <h1>🔑 תשובות — {title}</h1>
+    <h1>תשובות — {title}</h1>
     <div class="sub">לבדיקה עצמית, אחרי שפתרתם</div>
   </header>
   {chr(10).join(keys)}
@@ -335,8 +338,8 @@ def worksheet_html(num, key, title, instr, part, lv):
 
 <div class="sheet guide pagebreak">
   <header>
-    <h1>💡 הסבר, שיטת פתרון וטיפים — {title}</h1>
-    <div class="sub">{part} · לקריאה לפני התרגול או אחרי בדיקת התשובות</div>
+    <h1>הסבר, שיטת פתרון וטיפים</h1>
+    <div class="sub">{title} · {part} · לקריאה לפני התרגול או אחרי בדיקת התשובות</div>
   </header>
   {blocks_html(guide)}
   <h2 class="q">{ptitle}</h2>
@@ -346,6 +349,8 @@ def worksheet_html(num, key, title, instr, part, lv):
     style = gca.css("#1f7a8c", "#14465a", "#e6f3f6") + extra_css.replace(
         "ANSCOLS", "2" if cls == "words" else "3")
     html = gca.page(f"דף עבודה — {title}", style, body)
+    # keep a number and its shekel sign on one line
+    html = re.sub(r"(?<=\d) ₪", "\u00a0₪", html)
     # nested absolute-value bars: "||x|" is unreadable, "| |x|" is not
     return html.replace("||", "| |")
 

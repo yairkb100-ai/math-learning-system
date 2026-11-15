@@ -72,8 +72,11 @@
   .noprint button { background: #1f7a8c; color:#fff; border:0; padding:10px 26px;
                     border-radius:6px; font-size:15px; cursor:pointer; font-family:inherit; }
 
-  .guide h2.q { margin: 16px 0 8px; font-size: 16px; }
-  .guide p, .guide li { font-size: 14px; line-height: 1.65; }
+  h2.q, p.instr { break-after: avoid; page-break-after: avoid; }
+  table.gt, .exbox { break-inside: avoid; }
+  .guide h2.q { margin: 12px 0 6px; font-size: 15.5px; }
+  .guide p, .guide li { font-size: 13.5px; line-height: 1.55; }
+  .guide header { margin-bottom: 10px; }
   ol.gl, ul.gl { margin: 4px 0 8px; padding-inline-start: 24px; }
   ol.gl > li, ul.gl > li { margin-bottom: 5px; }
   table.gt { border-collapse: collapse; margin: 8px auto 12px; min-width: 70%; }
@@ -103,7 +106,7 @@
     <div class="sub">בעיות מילוליות · דף עבודה · 40 שאלות בשלוש רמות · בסוף: תשובות, והסבר עם טיפים</div>
     <div class="namebar"><span>שם: </span><span>כיתה: </span><span>תאריך: </span></div>
   </header>
-  <h2 class="q">רמה א׳ — מתחילים <span class="tag easy">שאלות 1–10</span></h2>
+  <h2 class="q">רמה א׳ — מתחילים <span class="tag easy">שאלות <bdi dir="ltr">1–10</bdi></span></h2>
 <p class="instr">פתרו את הבעיות:</p>
 <ol class="items words" start="1">
 <li>מכונית נוסעת במהירות 80 קמ״ש. איזה מרחק תעבור ב-3 שעות?</li>
@@ -117,7 +120,7 @@
 <li>ילד רץ במהירות 6 קמ״ש. איזה מרחק יעבור ב-10 דקות?</li>
 <li>משאית יצאה ב-8:00 והגיעה ב-11:30 ליעד במרחק 210 ק״מ. מהי מהירותה הממוצעת?</li>
 </ol>
-<h2 class="q">רמה ב׳ — מתקדמים <span class="tag med">שאלות 11–25</span></h2>
+<h2 class="q">רמה ב׳ — מתקדמים <span class="tag med">שאלות <bdi dir="ltr">11–25</bdi></span></h2>
 <p class="instr">פתרו את הבעיות:</p>
 <ol class="items words" start="11">
 <li>שתי מכוניות יוצאות באותו זמן משתי ערים שהמרחק ביניהן 300 ק״מ, זו לקראת זו, במהירויות 70 קמ״ש ו-80 קמ״ש. אחרי כמה זמן ייפגשו?</li>
@@ -136,7 +139,7 @@
 <li>שתי רכבות נוסעות זו לקראת זו על פסים מקבילים במהירויות 90 קמ״ש ו-110 קמ״ש. המרחק ההתחלתי ביניהן 400 ק״מ. אחרי כמה זמן ייפגשו?</li>
 <li>נהג נסע 3 שעות במהירות קבועה ועבר 195 ק״מ. כמה ק״מ יעבור ב-5 שעות באותה מהירות?</li>
 </ol>
-<h2 class="q">רמה ג׳ — כיתה ח׳ מתקדמים <span class="tag hard">שאלות 26–40</span></h2>
+<h2 class="q">רמה ג׳ — כיתה ח׳ מתקדמים <span class="tag hard">שאלות <bdi dir="ltr">26–40</bdi></span></h2>
 <p class="instr">פתרו את הבעיות:</p>
 <ol class="items words" start="26">
 <li>מעיר א׳ יצאה ב-8:00 מכונית במהירות 60 קמ״ש, ומעיר ב׳ יצאה ב-9:00 מכונית לקראתה במהירות 80 קמ״ש. המרחק בין הערים 340 ק״מ. באיזו שעה ייפגשו?</li>
@@ -160,7 +163,7 @@
 
 <div class="sheet key pagebreak">
   <header>
-    <h1>🔑 תשובות — בעיות מילוליות — תנועה</h1>
+    <h1>תשובות — בעיות מילוליות — תנועה</h1>
     <div class="sub">לבדיקה עצמית, אחרי שפתרתם</div>
   </header>
   <h2 class="q">רמה א׳ — מתחילים</h2>
@@ -211,19 +214,19 @@
 
 <div class="sheet guide pagebreak">
   <header>
-    <h1>💡 הסבר, שיטת פתרון וטיפים — בעיות מילוליות — תנועה</h1>
-    <div class="sub">בעיות מילוליות · לקריאה לפני התרגול או אחרי בדיקת התשובות</div>
+    <h1>הסבר, שיטת פתרון וטיפים</h1>
+    <div class="sub">בעיות מילוליות — תנועה · בעיות מילוליות · לקריאה לפני התרגול או אחרי בדיקת התשובות</div>
   </header>
   <h2 class="q">הרעיון המרכזי</h2>
 <p><b>דרך = מהירות × זמן</b>. מכאן: מהירות = דרך ÷ זמן, וזמן = דרך ÷ מהירות. בטבלה לכל גוף שורה משלו:</p>
 <table class="gt"><thead><tr><th></th><th>מהירות (קמ״ש)</th><th>זמן (שעות)</th><th>דרך (ק״מ)</th></tr></thead><tbody><tr><td>רכב א׳</td><td><span class="eq">v<sub>1</sub></span></td><td><span class="eq">t<sub>1</sub></span></td><td><span class="eq">v<sub>1</sub> · t<sub>1</sub></span></td></tr><tr><td>רכב ב׳</td><td><span class="eq">v<sub>2</sub></span></td><td><span class="eq">t<sub>2</sub></span></td><td><span class="eq">v<sub>2</sub> · t<sub>2</sub></span></td></tr></tbody></table>
-<ul class="gl"><li><b>יחידות</b>: מהירות בקמ״ש, זמן בשעות, דרך בק״מ. דקות מתרגמים לשעות: <span class="eq">15</span> דקות הן <span class="eq">0.25</span> שעה, <span class="eq">30</span> דקות הן <span class="eq">0.5</span> שעה, <span class="eq">45</span> דקות הן <span class="eq">0.75</span> שעה.</li><li><b>זה לקראת זה</b>: סכום הדרכים שווה למרחק ההתחלתי.</li><li><b>משיגים</b>: ברגע ההשגה הדרכים שעברו שווות, או שההפרש בין הדרכים שווה לפער ההתחלתי.</li><li><b>מי שיצא קודם</b> נוסע יותר זמן: אם <span class="eq">t</span> הוא זמן הנסיעה של היוצא האחרון, זמן הנסיעה של היוצא הראשון הוא <span class="eq">t</span> ועוד מספר השעות שעברו בין שתי היציאות.</li><li><b>מהירות ממוצעת</b> היא סך כל הדרך חלקי סך כל הזמן, ולא ממוצע של המהירויות.</li></ul>
+<ul class="gl"><li><b>יחידות</b>: מהירות בקמ״ש, זמן בשעות, דרך בק״מ. דקות מתרגמים לשעות: <span class="eq">15</span> דקות הן <span class="eq">0.25</span> שעה, <span class="eq">30</span> דקות הן <span class="eq">0.5</span> שעה, <span class="eq">45</span> דקות הן <span class="eq">0.75</span> שעה.</li><li><b>זה לקראת זה</b>: ברגע המפגש סכום הדרכים שווה למרחק ההתחלתי.</li><li><b>משיגים</b>: ברגע ההשגה הדרכים שעברו שווות, או שהדרך של הרודף פחות הדרך של הנרדף שווה לפער ההתחלתי.</li><li><b>מי שיצא קודם</b> נוסע יותר זמן: אם <span class="eq">t</span> הוא זמן הנסיעה של היוצא האחרון, זמן הנסיעה של היוצא הראשון הוא <span class="eq">t</span> ועוד מספר השעות שעברו בין שתי היציאות.</li><li><b>מהירות ממוצעת</b> היא סך כל הדרך חלקי סך כל הזמן, ולא ממוצע של המהירויות.</li></ul>
 <h2 class="q">דוגמה פתורה</h2>
-<div class="exbox"><p class="exq">אופנוען יצא בשעה 8:00 במהירות <span class="eq">40</span> קמ״ש. שעה אחריו יצאה מאותה נקודה מכונית באותו כיוון, במהירות <span class="eq">60</span> קמ״ש. באיזו שעה תשיג המכונית את האופנוען?</p><table class="gt"><thead><tr><th></th><th>מהירות</th><th>זמן</th><th>דרך</th></tr></thead><tbody><tr><td>אופנוען</td><td><span class="eq">40</span></td><td><span class="eq">t + 1</span></td><td><span class="eq">40(t + 1)</span></td></tr><tr><td>מכונית</td><td><span class="eq">60</span></td><td><span class="eq">t</span></td><td><span class="eq">60t</span></td></tr></tbody></table><ol class="gl"><li>נסמן ב-<span class="eq">t</span> את זמן הנסיעה של המכונית. האופנוען נסע שעה יותר, כלומר <span class="eq">t + 1</span>.</li><li>בטבלה: אופנוען, מהירות <span class="eq">40</span>, זמן <span class="eq">t + 1</span>, דרך <span class="eq">40(t + 1)</span>. מכונית, מהירות <span class="eq">60</span>, זמן <span class="eq">t</span>, דרך <span class="eq">60t</span>.</li><li>ברגע ההשגה הדרכים שוות: <span class="eq">40(t + 1) = 60t</span>, כלומר <span class="eq">40t + 40 = 60t</span>, ולכן <span class="eq">t = 2</span>.</li><li>המכונית יצאה ב-9:00 ונסעה שעתיים, ולכן השיגה אותו ב-11:00.</li><li>בדיקה: האופנוען נסע <span class="eq">3</span> שעות ועבר <span class="eq">120</span> ק״מ, והמכונית נסעה שעתיים ועברה <span class="eq">120</span> ק״מ.</li></ol><p class="exa"><b>תשובה:</b> ב-11:00</p></div>
+<div class="exbox"><p class="exq">אופנוען יצא בשעה 8:00 במהירות <span class="eq">40</span> קמ״ש. חצי שעה אחריו יצאה מאותה נקודה מכונית באותו כיוון, במהירות <span class="eq">60</span> קמ״ש. באיזו שעה תשיג המכונית את האופנוען?</p><table class="gt"><thead><tr><th></th><th>מהירות</th><th>זמן</th><th>דרך</th></tr></thead><tbody><tr><td>אופנוען</td><td><span class="eq">40</span></td><td><span class="eq">t + 0.5</span></td><td><span class="eq">40(t + 0.5)</span></td></tr><tr><td>מכונית</td><td><span class="eq">60</span></td><td><span class="eq">t</span></td><td><span class="eq">60t</span></td></tr></tbody></table><ol class="gl"><li>נסמן ב-<span class="eq">t</span> את זמן הנסיעה של המכונית בשעות. האופנוען נסע חצי שעה יותר (<span class="eq">30</span> דקות הן <span class="eq">0.5</span> שעה), כלומר <span class="eq">t + 0.5</span> שעות.</li><li>בטבלה: אופנוען, מהירות <span class="eq">40</span>, זמן <span class="eq">t + 0.5</span>, דרך <span class="eq">40(t + 0.5)</span>. מכונית, מהירות <span class="eq">60</span>, זמן <span class="eq">t</span>, דרך <span class="eq">60t</span>.</li><li>ברגע ההשגה הדרכים שוות: <span class="eq">40(t + 0.5) = 60t</span>, כלומר <span class="eq">40t + 20 = 60t</span>, ולכן <span class="eq">t = 1</span>.</li><li>המכונית יצאה ב-8:30 ונסעה שעה, ולכן השיגה אותו ב-9:30.</li><li>בדיקה: האופנוען נסע שעה וחצי ועבר <span class="eq">60</span> ק״מ, והמכונית נסעה שעה ועברה <span class="eq">60</span> ק״מ.</li></ol><p class="exa"><b>תשובה:</b> ב-9:30</p></div>
 <h2 class="q">טיפים וטעויות נפוצות</h2>
-<ul class="gl"><li>ציירו ציר: נקודת היציאה, הכיוונים, ומתי כל אחד יוצא.</li><li>בנסיעה הלוך וחזור, הדרך זהה בשני הכיוונים. זה מה שיוצר את המשוואה.</li><li>מהירות ממוצעת: אם נוסעים <span class="eq">60</span> ק״מ בשעה אחת הלוך ו-<span class="eq">60</span> ק״מ בשעתיים חזור, הדרך <span class="eq">120</span> ק״מ בשלוש שעות, ולכן <span class="eq">40</span> קמ״ש. הממוצע של המהירויות (<span class="eq">60</span> ו-<span class="eq">30</span>) הוא <span class="eq">45</span>, וזה לא הנכון.</li><li>בדקו שהתשובה ביחידות הנכונות ושהיא הגיונית: מכונית לא נוסעת <span class="eq">500</span> קמ״ש.</li></ul>
+<ul class="gl"><li>ציירו תרשים: נקודת היציאה, הכיוונים, ומתי כל אחד יוצא.</li><li>בנסיעה הלוך וחזור, הדרך זהה בשני הכיוונים, ומכאן מקבלים את המשוואה.</li><li>מהירות ממוצעת: אם נוסעים <span class="eq">60</span> ק״מ בשעה אחת הלוך ו-<span class="eq">60</span> ק״מ בשעתיים חזור, הדרך הכוללת היא <span class="eq">120</span> ק״מ בשלוש שעות, ולכן המהירות הממוצעת היא <span class="eq">40</span> קמ״ש. הממוצע של המהירויות (<span class="eq">60</span> ו-<span class="eq">30</span>) הוא <span class="eq">45</span>, וזו תשובה שגויה.</li><li>בדקו שהתשובה ביחידות הנכונות ושהיא הגיונית: מכונית לא נוסעת <span class="eq">500</span> קמ״ש.</li></ul>
   <h2 class="q">נושא ב׳ — בעיות מילוליות: חמישה שלבים</h2>
-  <ol class="gl"><li><b>קוראים פעמיים</b> ומסמנים: מה נתון, ומה שואלים.</li><li><b>מגדירים נעלם</b> וכותבים במילים מה הוא מייצג: ״נסמן ב-<span class="eq">x</span> את גיל הבן היום״.</li><li><b>מארגנים בטבלה או בציור</b> ומבטאים את שאר הנתונים באמצעות הנעלם.</li><li><b>בונים משוואה</b> מהקשר שבשאלה, ופותרים.</li><li><b>בודקים ועונים</b>: מציבים בנתוני השאלה, מוודאים שהתשובה הגיונית (גיל חיובי, מחיר חיובי, מהירות סבירה), וכותבים תשובה מלאה עם יחידות.</li></ol>
+  <ol class="gl"><li><b>קוראים פעמיים</b> ומסמנים: מה נתון, ומה שואלים.</li><li><b>מגדירים נעלם</b> וכותבים במילים מה הוא מייצג: ״נסמן ב-<span class="eq">x</span> את מחיר המחברת״.</li><li><b>מארגנים בטבלה או בציור</b> ומבטאים את שאר הנתונים באמצעות הנעלם.</li><li><b>בונים משוואה</b> מהקשר שבשאלה, ופותרים.</li><li><b>בודקים ועונים</b>: מציבים בנתוני השאלה, מוודאים שהתשובה הגיונית (גיל חיובי, מחיר חיובי, מהירות סבירה), וכותבים תשובה מלאה עם יחידות.</li></ol>
 <p>הטבלה לא פותרת בשבילכם, אבל היא מסדרת את הנתונים ומונעת טעויות.</p>
   <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
 </div>

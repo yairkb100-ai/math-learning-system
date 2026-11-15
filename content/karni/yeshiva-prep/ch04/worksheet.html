@@ -72,8 +72,11 @@
   .noprint button { background: #1f7a8c; color:#fff; border:0; padding:10px 26px;
                     border-radius:6px; font-size:15px; cursor:pointer; font-family:inherit; }
 
-  .guide h2.q { margin: 16px 0 8px; font-size: 16px; }
-  .guide p, .guide li { font-size: 14px; line-height: 1.65; }
+  h2.q, p.instr { break-after: avoid; page-break-after: avoid; }
+  table.gt, .exbox { break-inside: avoid; }
+  .guide h2.q { margin: 12px 0 6px; font-size: 15.5px; }
+  .guide p, .guide li { font-size: 13.5px; line-height: 1.55; }
+  .guide header { margin-bottom: 10px; }
   ol.gl, ul.gl { margin: 4px 0 8px; padding-inline-start: 24px; }
   ol.gl > li, ul.gl > li { margin-bottom: 5px; }
   table.gt { border-collapse: collapse; margin: 8px auto 12px; min-width: 70%; }
@@ -103,7 +106,7 @@
     <div class="sub">חשבון · דף עבודה · 40 שאלות בשלוש רמות · בסוף: תשובות, והסבר עם טיפים</div>
     <div class="namebar"><span>שם: </span><span>כיתה: </span><span>תאריך: </span></div>
   </header>
-  <h2 class="q">רמה א׳ — מתחילים <span class="tag easy">שאלות 1–10</span></h2>
+  <h2 class="q">רמה א׳ — מתחילים <span class="tag easy">שאלות <bdi dir="ltr">1–10</bdi></span></h2>
 <p class="instr">חשבו (קודם הסוגריים הפנימיים):</p>
 <ol class="items cols2" start="1">
 <li><span class="eq">20 - (7 + 5)</span></li>
@@ -117,7 +120,7 @@
 <li><span class="eq">60 - 2 × (10 + 5)</span></li>
 <li><span class="eq">(6 + 4) × 5 - (20 - 8)</span></li>
 </ol>
-<h2 class="q">רמה ב׳ — מתקדמים <span class="tag med">שאלות 11–25</span></h2>
+<h2 class="q">רמה ב׳ — מתקדמים <span class="tag med">שאלות <bdi dir="ltr">11–25</bdi></span></h2>
 <p class="instr">חשבו (קודם הסוגריים הפנימיים):</p>
 <ol class="items cols2" start="11">
 <li><span class="eq">4 × [20 - (6 + 5)]</span></li>
@@ -136,7 +139,7 @@
 <li><span class="eq">(9.6 - 1.6) ÷ (0.5 × 4)</span></li>
 <li><span class="eq">2 × (<span class="fr"><b>1</b><i>2</i></span> + 0.25)</span></li>
 </ol>
-<h2 class="q">רמה ג׳ — כיתה ח׳ מתקדמים <span class="tag hard">שאלות 26–40</span></h2>
+<h2 class="q">רמה ג׳ — כיתה ח׳ מתקדמים <span class="tag hard">שאלות <bdi dir="ltr">26–40</bdi></span></h2>
 <p class="instr">חשבו (קודם הסוגריים הפנימיים):</p>
 <ol class="items cols2" start="26">
 <li><span class="eq">3 × [5 + 2 × (9 - 4)] - 10</span></li>
@@ -160,7 +163,7 @@
 
 <div class="sheet key pagebreak">
   <header>
-    <h1>🔑 תשובות — חישובים עם סוגריים</h1>
+    <h1>תשובות — חישובים עם סוגריים</h1>
     <div class="sub">לבדיקה עצמית, אחרי שפתרתם</div>
   </header>
   <h2 class="q">רמה א׳ — מתחילים</h2>
@@ -211,17 +214,17 @@
 
 <div class="sheet guide pagebreak">
   <header>
-    <h1>💡 הסבר, שיטת פתרון וטיפים — חישובים עם סוגריים</h1>
-    <div class="sub">חשבון · לקריאה לפני התרגול או אחרי בדיקת התשובות</div>
+    <h1>הסבר, שיטת פתרון וטיפים</h1>
+    <div class="sub">חישובים עם סוגריים · חשבון · לקריאה לפני התרגול או אחרי בדיקת התשובות</div>
   </header>
   <h2 class="q">מה צריך לדעת</h2>
-<ul class="gl"><li>פותרים תמיד <b>מהסוגריים הפנימיים אל החיצוניים</b>. סוגריים מרובעים [ ] משמשים להבדיל בין שכבות, והם פועלים בדיוק כמו סוגריים עגולים.</li><li>בתוך כל זוג סוגריים פועל אותו סדר פעולות: חזקות, כפל וחילוק, חיבור וחיסור.</li><li>מספר שעומד <b>צמוד</b> לסוגריים כופל אותם: <span class="eq">3(4 + 5) = 3 × 9 = 27</span>. זה חוק הפילוג: <span class="eq">3(4 + 5) = 3 · 4 + 3 · 5</span>.</li><li>מינוס לפני סוגריים: קודם מחשבים את מה שבסוגריים, ואז מחסרים את התוצאה כולה.</li></ul>
+<ul class="gl"><li>פותרים תמיד <b>מהסוגריים הפנימיים אל החיצוניים</b>. סוגריים מרובעים [ ] משמשים כדי להבדיל בין שכבות, והם פועלים בדיוק כמו סוגריים עגולים.</li><li>בתוך כל זוג סוגריים פועל אותו סדר פעולות: חזקות, כפל וחילוק, חיבור וחיסור.</li><li>מספר שעומד <b>צמוד</b> לסוגריים כופל את כל מה שבתוכם: <span class="eq">3(4 + 5) = 3 × 9 = 27</span>. זה חוק הפילוג: <span class="eq">3(4 + 5) = 3 · 4 + 3 · 5</span>.</li><li>מינוס לפני סוגריים: קודם מחשבים את מה שבסוגריים, ואז מחסרים את התוצאה כולה.</li></ul>
 <h2 class="q">דוגמה פתורה</h2>
 <div class="exbox"><p class="exq">חשבו: <span class="eq">3 × [30 - (4 + 8) ÷ 2]</span></p><ol class="gl"><li>הסוגריים הפנימיים: <span class="eq">4 + 8 = 12</span>, והביטוי הוא <span class="eq">3 × [30 - 12 ÷ 2]</span>.</li><li>בתוך הסוגריים המרובעים קודם חילוק: <span class="eq">12 ÷ 2 = 6</span>, ואחר כך <span class="eq">30 - 6 = 24</span>. הביטוי הוא <span class="eq">3 × 24</span>.</li><li>כפל: <span class="eq">3 × 24 = 72</span>.</li></ol><p class="exa"><b>תשובה:</b> <span class="eq">72</span></p></div>
 <h2 class="q">טיפים וטעויות נפוצות</h2>
-<ul class="gl"><li>לפני שמתחילים, סמנו בעיפרון את זוגות הסוגריים.</li><li>אחרי כל שלב כתבו מחדש את הביטוי כולו. אל תדלגו על שורות.</li><li>בביטוי עם שברים ועשרוניים הפכו הכול לאותו סוג, מה שנוח יותר: <span class="eq">0.75 = <span class="fr"><b>3</b><i>4</i></span></span> או <span class="eq"><span class="fr"><b>1</b><i>2</i></span> = 0.5</span>.</li><li>מספר שלילי בתוך חישוב כותבים בסוגריים: <span class="eq">5 × (-2)</span>, ולא <span class="eq">5 × -2</span>.</li><li>אם יצאה תוצאה מוזרה, בדקו שוב את הסימנים, במיוחד מינוס לפני סוגריים.</li></ul>
+<ul class="gl"><li>לפני שמתחילים, סמנו בעיפרון את זוגות הסוגריים.</li><li>אחרי כל שלב כתבו מחדש את הביטוי כולו. אל תדלגו על שורות.</li><li>בביטוי שיש בו גם שברים פשוטים וגם שברים עשרוניים, הפכו הכול לאותו סוג כדי שהחישוב יהיה נוח: <span class="eq">0.75 = <span class="fr"><b>3</b><i>4</i></span></span> או <span class="eq"><span class="fr"><b>1</b><i>2</i></span> = 0.5</span>. אם יש שבר כמו <span class="eq"><span class="fr"><b>1</b><i>3</i></span></span>, עדיף לעבוד עם שברים פשוטים.</li><li>מספר שלילי בתוך חישוב כותבים בסוגריים: <span class="eq">5 × (-2)</span>, ולא <span class="eq">5 × -2</span>.</li><li>אם יצאה תוצאה מוזרה, בדקו שוב את הסימנים, במיוחד מינוס לפני סוגריים.</li></ul>
   <h2 class="q">נושא א׳ — חשבון: טיפים כלליים</h2>
-  <ul class="gl"><li>כתבו כל שלב בשורה נפרדת ואל תחשבו הכול בראש. רוב הטעויות בחשבון הן טעויות של שורה שדילגו עליה.</li><li>קודם דיוק, אחר כך מהירות. מהירות באה מתרגול, לא מדילוג על שלבים.</li><li>בסוף כל תרגיל עשו אומדן: האם התוצאה בערך בסדר הגודל הנכון?</li><li>מותר להשתמש במחשבון מדעי, אבל כדאי לדעת לחשב גם בלעדיו. המחשבון לא יתקן ביטוי שהקלדתם לא נכון.</li></ul>
+  <ul class="gl"><li>כתבו כל שלב בשורה נפרדת ואל תחשבו הכול בראש. רוב הטעויות בחשבון נובעות משורה שדילגתם עליה.</li><li>קודם דיוק, אחר כך מהירות. מהירות באה מתרגול, ולא מדילוג על שלבים.</li><li>בסוף כל תרגיל עשו אומדן: האם התוצאה בערך בסדר הגודל הנכון?</li><li>מותר להשתמש במחשבון מדעי, אבל כדאי לדעת לחשב גם בלעדיו. המחשבון לא יתקן ביטוי שהקלדתם בצורה שגויה.</li></ul>
   <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
 </div>
 </body>

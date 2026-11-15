@@ -72,8 +72,11 @@
   .noprint button { background: #1f7a8c; color:#fff; border:0; padding:10px 26px;
                     border-radius:6px; font-size:15px; cursor:pointer; font-family:inherit; }
 
-  .guide h2.q { margin: 16px 0 8px; font-size: 16px; }
-  .guide p, .guide li { font-size: 14px; line-height: 1.65; }
+  h2.q, p.instr { break-after: avoid; page-break-after: avoid; }
+  table.gt, .exbox { break-inside: avoid; }
+  .guide h2.q { margin: 12px 0 6px; font-size: 15.5px; }
+  .guide p, .guide li { font-size: 13.5px; line-height: 1.55; }
+  .guide header { margin-bottom: 10px; }
   ol.gl, ul.gl { margin: 4px 0 8px; padding-inline-start: 24px; }
   ol.gl > li, ul.gl > li { margin-bottom: 5px; }
   table.gt { border-collapse: collapse; margin: 8px auto 12px; min-width: 70%; }
@@ -103,7 +106,7 @@
     <div class="sub">משוואות · דף עבודה · 40 שאלות בשלוש רמות · בסוף: תשובות, והסבר עם טיפים</div>
     <div class="namebar"><span>שם: </span><span>כיתה: </span><span>תאריך: </span></div>
   </header>
-  <h2 class="q">רמה א׳ — מתחילים <span class="tag easy">שאלות 1–10</span></h2>
+  <h2 class="q">רמה א׳ — מתחילים <span class="tag easy">שאלות <bdi dir="ltr">1–10</bdi></span></h2>
 <p class="instr">פתרו את מערכות המשוואות (או את הבעיות):</p>
 <ol class="items cols2" start="1">
 <li><span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>x + y = 12</span><span>x - y = 2</span></span></span></li>
@@ -117,7 +120,7 @@
 <li><span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>x + y = 10</span><span>x + 2y = 16</span></span></span></li>
 <li><span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>x - y = 3</span><span>2x + y = 18</span></span></span></li>
 </ol>
-<h2 class="q">רמה ב׳ — מתקדמים <span class="tag med">שאלות 11–25</span></h2>
+<h2 class="q">רמה ב׳ — מתקדמים <span class="tag med">שאלות <bdi dir="ltr">11–25</bdi></span></h2>
 <p class="instr">פתרו את מערכות המשוואות (או את הבעיות):</p>
 <ol class="items cols2" start="11">
 <li><span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>2x + 3y = 11</span><span>x - y = 3</span></span></span></li>
@@ -133,10 +136,10 @@
 <li><span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>y = x - 6</span><span>2x + 3y = 22</span></span></span></li>
 <li><span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>x = 2y + 1</span><span>3x - 2y = 19</span></span></span></li>
 <li>סכום שני מספרים הוא 47 והפרשם 13. מצאו את שני המספרים.</li>
-<li>בחנות 3 מחברות ו-2 עטים עולים 29 ₪, ו-2 מחברות ו-3 עטים עולים 26 ₪. מה מחיר מחברת ומה מחיר עט?</li>
+<li>בחנות 3 מחברות ו-2 עטים עולים 29 ₪, ו-2 מחברות ו-3 עטים עולים 26 ₪. מה מחיר מחברת ומה מחיר עט?</li>
 <li>בחווה יש תרנגולות וכבשים: בסך הכול 20 ראשים ו-56 רגליים. כמה תרנגולות וכמה כבשים יש בחווה?</li>
 </ol>
-<h2 class="q">רמה ג׳ — כיתה ח׳ מתקדמים <span class="tag hard">שאלות 26–40</span></h2>
+<h2 class="q">רמה ג׳ — כיתה ח׳ מתקדמים <span class="tag hard">שאלות <bdi dir="ltr">26–40</bdi></span></h2>
 <p class="instr">פתרו את מערכות המשוואות (או את הבעיות):</p>
 <ol class="items cols2" start="26">
 <li><span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>2(x + y) = 18</span><span>x - y = 3</span></span></span></li>
@@ -151,7 +154,7 @@
 <li><span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>\frac{x + y}{3} = 4</span><span>\frac{x - y}{2} = 1</span></span></span></li>
 <li><span class="sys"><span class="sysbrace">{</span><span class="syseq"><span>3(x + y) - 2(x - y) = 21</span><span>x = 2y</span></span></span></li>
 <li>שלוש פעמים המספר הראשון ועוד המספר השני הם 45, והמספר הראשון גדול מהשני ב-7. מצאו את שני המספרים.</li>
-<li>בקופה 18 מטבעות של 5 ₪ ושל 10 ₪, בסך הכול 120 ₪. כמה מטבעות יש מכל סוג?</li>
+<li>בקופה 18 מטבעות של 5 ₪ ושל 10 ₪, בסך הכול 120 ₪. כמה מטבעות יש מכל סוג?</li>
 <li>סכום גילאי אב ובנו הוא 44. בעוד 4 שנים יהיה גיל האב פי 3 מגיל הבן. מצאו את גילאיהם כיום.</li>
 <li>סכום ספרות של מספר דו-ספרתי הוא 11, והמספר גדול ב-27 מהמספר שמתקבל מהיפוך ספרותיו. מהו המספר?</li>
 </ol>
@@ -160,7 +163,7 @@
 
 <div class="sheet key pagebreak">
   <header>
-    <h1>🔑 תשובות — מערכת משוואות עם שני נעלמים</h1>
+    <h1>תשובות — מערכת משוואות עם שני נעלמים</h1>
     <div class="sub">לבדיקה עצמית, אחרי שפתרתם</div>
   </header>
   <h2 class="q">רמה א׳ — מתחילים</h2>
@@ -188,7 +191,7 @@
 <div class="ans"><strong>21.</strong> <span class="eq">x = 8, y = 2</span></div>
 <div class="ans"><strong>22.</strong> <span class="eq">x = 9, y = 4</span></div>
 <div class="ans"><strong>23.</strong> <span class="eq">30</span> ו-<span class="eq">17</span></div>
-<div class="ans"><strong>24.</strong> מחברת 7 ₪, עט 4 ₪</div>
+<div class="ans"><strong>24.</strong> מחברת 7 ₪, עט 4 ₪</div>
 <div class="ans"><strong>25.</strong> 12 תרנגולות, 8 כבשים</div></div>
 <h2 class="q">רמה ג׳ — כיתה ח׳ מתקדמים</h2>
 <div class="anscols"><div class="ans"><strong>26.</strong> <span class="eq">x = 6, y = 3</span></div>
@@ -203,7 +206,7 @@
 <div class="ans"><strong>35.</strong> <span class="eq">x = 7, y = 5</span></div>
 <div class="ans"><strong>36.</strong> <span class="eq">x = 6, y = 3</span></div>
 <div class="ans"><strong>37.</strong> <span class="eq">13</span> ו-<span class="eq">6</span></div>
-<div class="ans"><strong>38.</strong> 12 של 5 ₪, 6 של 10 ₪</div>
+<div class="ans"><strong>38.</strong> 12 של 5 ₪, 6 של 10 ₪</div>
 <div class="ans"><strong>39.</strong> האב 35, הבן 9</div>
 <div class="ans"><strong>40.</strong> <span class="eq">74</span></div></div>
   <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
@@ -211,19 +214,21 @@
 
 <div class="sheet guide pagebreak">
   <header>
-    <h1>💡 הסבר, שיטת פתרון וטיפים — מערכת משוואות עם שני נעלמים</h1>
-    <div class="sub">משוואות · לקריאה לפני התרגול או אחרי בדיקת התשובות</div>
+    <h1>הסבר, שיטת פתרון וטיפים</h1>
+    <div class="sub">מערכת משוואות עם שני נעלמים · משוואות · לקריאה לפני התרגול או אחרי בדיקת התשובות</div>
   </header>
   <h2 class="q">מה צריך לדעת</h2>
 <p>בפתרון מערכת של שתי משוואות עם שני נעלמים מחפשים זוג <span class="eq">(x, y)</span> שמקיים <b>את שתי המשוואות</b>. יש שתי שיטות:</p>
-<ul class="gl"><li><b>הצבה</b>: מבודדים נעלם אחד באחת המשוואות ומציבים בשנייה. נוחה כשאחד הנעלמים כבר מבודד, או שהמקדם שלו <span class="eq">1</span>.</li><li><b>חיבור או חיסור משוואות</b>: מכפילים משוואה (או שתיים) כך שמקדמי אחד הנעלמים יהיו נגדיים (או שווים), ואז מחברים (או מחסרים) כדי לחסל אותו.</li></ul>
+<ul class="gl"><li><b>הצבה</b>: מבודדים נעלם אחד באחת המשוואות ומציבים בשנייה. נוחה כשאחד הנעלמים כבר מבודד, או כשהמקדם שלו הוא <span class="eq">1</span>.</li><li><b>חיבור או חיסור משוואות</b>: כופלים משוואה (או שתיים) כך שמקדמי אחד הנעלמים יהיו נגדיים (או שווים), ואז מחברים (או מחסרים) כדי לחסל אותו.</li></ul>
 <h2 class="q">דוגמאות פתורות</h2>
-<div class="exbox"><p class="exq">פתרו בהצבה: <span class="eq">2x + 3y = 14</span> ו-<span class="eq">x - y = 2</span></p><ol class="gl"><li>מבודדים את <span class="eq">x</span> מהמשוואה השנייה: <span class="eq">x = y + 2</span>.</li><li>מציבים בראשונה: <span class="eq">2(y + 2) + 3y = 14</span>, כלומר <span class="eq">5y + 4 = 14</span>, ולכן <span class="eq">y = 2</span>.</li><li><span class="eq">x = 2 + 2 = 4</span>.</li><li>בדיקה בשתי המשוואות: <span class="eq">2 · 4 + 3 · 2 = 14</span> ו-<span class="eq">4 - 2 = 2</span>.</li></ol><p class="exa"><b>תשובה:</b> <span class="eq">x = 4, y = 2</span></p></div>
-<div class="exbox"><p class="exq">פתרו בחיבור: <span class="eq">3x + 2y = 22</span> ו-<span class="eq">2x - 2y = 8</span></p><ol class="gl"><li>מקדמי <span class="eq">y</span> נגדיים (<span class="eq">+2</span> ו-<span class="eq">-2</span>), ולכן מחברים את המשוואות: <span class="eq">5x = 30</span>, כלומר <span class="eq">x = 6</span>.</li><li>מציבים באחת המשוואות: <span class="eq">2 · 6 - 2y = 8</span>, ולכן <span class="eq">y = 2</span>.</li><li>בדיקה: <span class="eq">3 · 6 + 2 · 2 = 22</span> ו-<span class="eq">2 · 6 - 2 · 2 = 8</span>.</li></ol><p class="exa"><b>תשובה:</b> <span class="eq">x = 6, y = 2</span></p></div>
+<div class="exbox"><p class="exq">פתרו בשיטת ההצבה: <span class="eq">2x + 3y = 14</span> ו-<span class="eq">x - y = 2</span></p><ol class="gl"><li>מבודדים את <span class="eq">x</span> מהמשוואה השנייה: <span class="eq">x = y + 2</span>.</li><li>מציבים בראשונה: <span class="eq">2(y + 2) + 3y = 14</span>, כלומר <span class="eq">5y + 4 = 14</span>, ולכן <span class="eq">y = 2</span>.</li><li><span class="eq">x = 2 + 2 = 4</span>.</li><li>בדיקה בשתי המשוואות: <span class="eq">2 · 4 + 3 · 2 = 14</span> ו-<span class="eq">4 - 2 = 2</span>.</li></ol><p class="exa"><b>תשובה:</b> <span class="eq">x = 4, y = 2</span></p></div>
+<div class="exbox"><p class="exq">פתרו בשיטת החיבור: <span class="eq">3x + 2y = 22</span> ו-<span class="eq">2x - 2y = 8</span></p><ol class="gl"><li>מקדמי <span class="eq">y</span> נגדיים (<span class="eq">+2</span> ו-<span class="eq">-2</span>), ולכן מחברים את המשוואות: <span class="eq">5x = 30</span>, כלומר <span class="eq">x = 6</span>.</li><li>מציבים באחת המשוואות: <span class="eq">2 · 6 - 2y = 8</span>, ולכן <span class="eq">y = 2</span>.</li><li>בדיקה: <span class="eq">3 · 6 + 2 · 2 = 22</span> ו-<span class="eq">2 · 6 - 2 · 2 = 8</span>.</li></ol><p class="exa"><b>תשובה:</b> <span class="eq">x = 6, y = 2</span></p></div>
+<div class="exbox"><p class="exq">פתרו בשיטת החיבור עם כפל: <span class="eq">2x + 3y = 13</span> ו-<span class="eq">3x - y = 3</span></p><ol class="gl"><li>כופלים את המשוואה השנייה ב-<span class="eq">3</span>, כדי שמקדמי <span class="eq">y</span> יהיו נגדיים: <span class="eq">9x - 3y = 9</span>.</li><li>מחברים אותה לראשונה: <span class="eq">11x = 22</span>, ולכן <span class="eq">x = 2</span>.</li><li>מציבים בשנייה: <span class="eq">3 · 2 - y = 3</span>, ולכן <span class="eq">y = 3</span>.</li><li>בדיקה: <span class="eq">2 · 2 + 3 · 3 = 13</span> ו-<span class="eq">3 · 2 - 3 = 3</span>.</li></ol><p class="exa"><b>תשובה:</b> <span class="eq">x = 2, y = 3</span></p></div>
 <h2 class="q">מערכת מילולית</h2>
-<p>מגדירים <b>שני</b> נעלמים (״<span class="eq">x</span> מחיר מחברת, <span class="eq">y</span> מחיר עט״) וכותבים <b>שתי</b> משוואות, אחת לכל נתון בשאלה (למשל סכום ופרש, או שני סכומי קנייה).</p>
+<p>מגדירים <b>שני</b> נעלמים (״נסמן ב-<span class="eq">x</span> את מחיר המחברת וב-<span class="eq">y</span> את מחיר העט״) וכותבים <b>שתי</b> משוואות, אחת לכל נתון בשאלה (למשל סכום והפרש, או שני סכומי קנייה).</p>
+<div class="exbox"><p class="exq">סכום שני מספרים הוא <span class="eq">30</span>, וההפרש ביניהם הוא <span class="eq">6</span>. מצאו את המספרים.</p><ol class="gl"><li>נסמן ב-<span class="eq">x</span> את המספר הגדול וב-<span class="eq">y</span> את הקטן. המשוואות: <span class="eq">x + y = 30</span> ו-<span class="eq">x - y = 6</span>.</li><li>מחברים: <span class="eq">2x = 36</span>, ולכן <span class="eq">x = 18</span>. מציבים: <span class="eq">y = 30 - 18 = 12</span>.</li><li>בדיקה: <span class="eq">18 + 12 = 30</span> ו-<span class="eq">18 - 12 = 6</span>.</li></ol><p class="exa"><b>תשובה:</b> <span class="eq">18</span> ו-<span class="eq">12</span></p></div>
 <h2 class="q">טיפים וטעויות נפוצות</h2>
-<ul class="gl"><li>בדקו את הפתרון בשתי המשוואות המקוריות.</li><li>בשיטת החיבור מכפילים את <b>כל</b> המשוואה, גם את האגף הימני.</li><li>אם יש סוגריים או מכנים, קודם מפשטים כל משוואה לצורה <span class="eq">ax + by = c</span>.</li><li>בבעיה מילולית ענו על מה ששאלו, ועם יחידות. לא תמיד שואלים על <span class="eq">x</span>.</li></ul>
+<ul class="gl"><li>בדקו את הפתרון בשתי המשוואות המקוריות.</li><li>בשיטת החיבור מכפילים את <b>כל</b> המשוואה, גם את האגף הימני.</li><li>אם יש סוגריים או מכנים, קודם מפשטים כל משוואה לצורה <span class="eq">ax + by = c</span>.</li><li>בבעיה מילולית ענו על מה ששואלים, וכתבו יחידות. לא תמיד שואלים על <span class="eq">x</span>.</li></ul>
   <h2 class="q">נושא ג׳ — משוואות: טיפים כלליים</h2>
   <ul class="gl"><li>משוואה היא כמו מאזניים: כל מה שעושים לאגף אחד, עושים גם לשני.</li><li>כתבו כל שלב בשורה חדשה, וסימני ה״שווה״ אחד מתחת לשני.</li><li>תמיד בדקו בהצבה במשוואה <b>המקורית</b>. בדיקה לוקחת חצי דקה ותופסת כמעט כל טעות.</li></ul>
   <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>

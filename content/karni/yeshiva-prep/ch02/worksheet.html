@@ -72,8 +72,11 @@
   .noprint button { background: #1f7a8c; color:#fff; border:0; padding:10px 26px;
                     border-radius:6px; font-size:15px; cursor:pointer; font-family:inherit; }
 
-  .guide h2.q { margin: 16px 0 8px; font-size: 16px; }
-  .guide p, .guide li { font-size: 14px; line-height: 1.65; }
+  h2.q, p.instr { break-after: avoid; page-break-after: avoid; }
+  table.gt, .exbox { break-inside: avoid; }
+  .guide h2.q { margin: 12px 0 6px; font-size: 15.5px; }
+  .guide p, .guide li { font-size: 13.5px; line-height: 1.55; }
+  .guide header { margin-bottom: 10px; }
   ol.gl, ul.gl { margin: 4px 0 8px; padding-inline-start: 24px; }
   ol.gl > li, ul.gl > li { margin-bottom: 5px; }
   table.gt { border-collapse: collapse; margin: 8px auto 12px; min-width: 70%; }
@@ -103,7 +106,7 @@
     <div class="sub">חשבון · דף עבודה · 40 שאלות בשלוש רמות · בסוף: תשובות, והסבר עם טיפים</div>
     <div class="namebar"><span>שם: </span><span>כיתה: </span><span>תאריך: </span></div>
   </header>
-  <h2 class="q">רמה א׳ — מתחילים <span class="tag easy">שאלות 1–10</span></h2>
+  <h2 class="q">רמה א׳ — מתחילים <span class="tag easy">שאלות <bdi dir="ltr">1–10</bdi></span></h2>
 <p class="instr">חשבו (תשובה כשבר מצומצם):</p>
 <ol class="items cols2" start="1">
 <li><span class="eq"><span class="fr"><b>1</b><i>2</i></span> + <span class="fr"><b>1</b><i>4</i></span></span></li>
@@ -117,7 +120,7 @@
 <li><span class="eq">6 ÷ <span class="fr"><b>3</b><i>4</i></span></span></li>
 <li><span class="eq"><span class="fr"><b>1</b><i>2</i></span> + <span class="fr"><b>1</b><i>3</i></span> + <span class="fr"><b>1</b><i>6</i></span></span></li>
 </ol>
-<h2 class="q">רמה ב׳ — מתקדמים <span class="tag med">שאלות 11–25</span></h2>
+<h2 class="q">רמה ב׳ — מתקדמים <span class="tag med">שאלות <bdi dir="ltr">11–25</bdi></span></h2>
 <p class="instr">חשבו (תשובה כשבר מצומצם):</p>
 <ol class="items cols2" start="11">
 <li><span class="eq">2<span class="fr"><b>1</b><i>2</i></span> + 1<span class="fr"><b>1</b><i>3</i></span></span></li>
@@ -136,7 +139,7 @@
 <li><span class="eq">2<span class="fr"><b>2</b><i>5</i></span> ÷ <span class="fr"><b>4</b><i>5</i></span> × <span class="fr"><b>1</b><i>3</i></span></span></li>
 <li><span class="eq">(<span class="fr"><b>3</b><i>4</i></span> - <span class="fr"><b>1</b><i>2</i></span>) × 8 + <span class="fr"><b>1</b><i>2</i></span></span></li>
 </ol>
-<h2 class="q">רמה ג׳ — כיתה ח׳ מתקדמים <span class="tag hard">שאלות 26–40</span></h2>
+<h2 class="q">רמה ג׳ — כיתה ח׳ מתקדמים <span class="tag hard">שאלות <bdi dir="ltr">26–40</bdi></span></h2>
 <p class="instr">חשבו (תשובה כשבר מצומצם):</p>
 <ol class="items cols2" start="26">
 <li><span class="eq">(<span class="fr"><b>1</b><i>2</i></span> + <span class="fr"><b>1</b><i>3</i></span>) ÷ (<span class="fr"><b>5</b><i>6</i></span> - <span class="fr"><b>1</b><i>3</i></span>)</span></li>
@@ -160,7 +163,7 @@
 
 <div class="sheet key pagebreak">
   <header>
-    <h1>🔑 תשובות — חישובים עם שברים פשוטים</h1>
+    <h1>תשובות — חישובים עם שברים פשוטים</h1>
     <div class="sub">לבדיקה עצמית, אחרי שפתרתם</div>
   </header>
   <h2 class="q">רמה א׳ — מתחילים</h2>
@@ -211,18 +214,18 @@
 
 <div class="sheet guide pagebreak">
   <header>
-    <h1>💡 הסבר, שיטת פתרון וטיפים — חישובים עם שברים פשוטים</h1>
-    <div class="sub">חשבון · לקריאה לפני התרגול או אחרי בדיקת התשובות</div>
+    <h1>הסבר, שיטת פתרון וטיפים</h1>
+    <div class="sub">חישובים עם שברים פשוטים · חשבון · לקריאה לפני התרגול או אחרי בדיקת התשובות</div>
   </header>
   <h2 class="q">מה צריך לדעת</h2>
-<ul class="gl"><li><b>חיבור וחיסור</b>: מוצאים מכנה משותף, ואז מחברים או מחסרים רק את המונים.</li><li><b>כפל</b>: מונה במונה ומכנה במכנה, <span class="eq"><span class="fr"><b>a</b><i>b</i></span> × <span class="fr"><b>c</b><i>d</i></span> = <span class="fr"><b>a · c</b><i>b · d</i></span></span>. כדאי לצמצם <b>לפני</b> הכפל.</li><li><b>חילוק</b>: הופכים את המחלק וכופלים, <span class="eq"><span class="fr"><b>a</b><i>b</i></span> ÷ <span class="fr"><b>c</b><i>d</i></span> = <span class="fr"><b>a</b><i>b</i></span> × <span class="fr"><b>d</b><i>c</i></span></span>.</li><li><b>מספר מעורב</b>: הופכים לשבר מדומה. כופלים את השלם במכנה ומוסיפים את המונה: <span class="eq">2<span class="fr"><b>1</b><i>3</i></span> = <span class="fr"><b>7</b><i>3</i></span></span>.</li><li><b>שבר מורכב</b> (שבר שבתוכו שברים): קו השבר הראשי הוא פעולת חילוק. מחשבים בנפרד את המונה ואת המכנה, ואז מחלקים.</li><li>בסוף מצמצמים, ואם צריך מחזירים למספר מעורב.</li></ul>
+<ul class="gl"><li><b>חיבור וחיסור</b>: מוצאים מכנה משותף, ואז מחברים או מחסרים רק את המונים.</li><li><b>כפל</b>: מונה במונה ומכנה במכנה, <span class="eq"><span class="fr"><b>a</b><i>b</i></span> × <span class="fr"><b>c</b><i>d</i></span> = <span class="fr"><b>a · c</b><i>b · d</i></span></span>. כדאי לצמצם <b>לפני</b> הכפל.</li><li><b>חילוק</b>: הופכים את המחלק וכופלים, <span class="eq"><span class="fr"><b>a</b><i>b</i></span> ÷ <span class="fr"><b>c</b><i>d</i></span> = <span class="fr"><b>a</b><i>b</i></span> × <span class="fr"><b>d</b><i>c</i></span></span>.</li><li><b>מספר מעורב</b>: הופכים לשבר מדומה. כופלים את השלם במכנה ומוסיפים את המונה: <span class="eq">2<span class="fr"><b>1</b><i>3</i></span> = <span class="fr"><b>7</b><i>3</i></span></span>.</li><li><b>שבר מורכב</b> (שבר שהמונה או המכנה שלו הם שברים): קו השבר הראשי הוא פעולת חילוק. מחשבים בנפרד את המונה ואת המכנה, ואז מחלקים.</li><li>בסוף מצמצמים, ואם צריך מחזירים למספר מעורב.</li></ul>
 <h2 class="q">דוגמאות פתורות</h2>
 <div class="exbox"><p class="exq">חשבו: <span class="eq"><span class="fr"><b>3</b><i>4</i></span> + <span class="fr"><b>5</b><i>6</i></span></span></p><ol class="gl"><li>מכנה משותף <span class="eq">12</span>: <span class="eq"><span class="fr"><b>3</b><i>4</i></span> = <span class="fr"><b>9</b><i>12</i></span></span> ו-<span class="eq"><span class="fr"><b>5</b><i>6</i></span> = <span class="fr"><b>10</b><i>12</i></span></span>.</li><li>מחברים מונים: <span class="eq"><span class="fr"><b>9</b><i>12</i></span> + <span class="fr"><b>10</b><i>12</i></span> = <span class="fr"><b>19</b><i>12</i></span></span>.</li><li>מחזירים למספר מעורב: <span class="eq"><span class="fr"><b>19</b><i>12</i></span> = 1<span class="fr"><b>7</b><i>12</i></span></span>.</li></ol><p class="exa"><b>תשובה:</b> <span class="eq">1<span class="fr"><b>7</b><i>12</i></span></span></p></div>
-<div class="exbox"><p class="exq">חשבו: <span class="eq">1<span class="fr"><b>2</b><i>3</i></span> ÷ <span class="fr"><b>5</b><i>6</i></span></span></p><ol class="gl"><li>הופכים את המספר המעורב לשבר: <span class="eq">1<span class="fr"><b>2</b><i>3</i></span> = <span class="fr"><b>5</b><i>3</i></span></span>.</li><li>הופכים את המחלק וכופלים: <span class="eq"><span class="fr"><b>5</b><i>3</i></span> × <span class="fr"><b>6</b><i>5</i></span></span>.</li><li>מצמצמים <span class="eq">5</span> עם <span class="eq">5</span> ו-<span class="eq">6</span> עם <span class="eq">3</span>: <span class="eq"><span class="fr"><b>1</b><i>1</i></span> × <span class="fr"><b>2</b><i>1</i></span> = 2</span>.</li></ol><p class="exa"><b>תשובה:</b> <span class="eq">2</span></p></div>
+<div class="exbox"><p class="exq">חשבו: <span class="eq">1<span class="fr"><b>2</b><i>3</i></span> ÷ <span class="fr"><b>5</b><i>6</i></span></span></p><ol class="gl"><li>הופכים את המספר המעורב לשבר מדומה: <span class="eq">1<span class="fr"><b>2</b><i>3</i></span> = <span class="fr"><b>5</b><i>3</i></span></span>.</li><li>הופכים את המחלק וכופלים: <span class="eq"><span class="fr"><b>5</b><i>3</i></span> × <span class="fr"><b>6</b><i>5</i></span></span>.</li><li>מצמצמים <span class="eq">5</span> עם <span class="eq">5</span> ו-<span class="eq">6</span> עם <span class="eq">3</span>: <span class="eq"><span class="fr"><b>1</b><i>1</i></span> × <span class="fr"><b>2</b><i>1</i></span> = 2</span>.</li></ol><p class="exa"><b>תשובה:</b> <span class="eq">2</span></p></div>
 <h2 class="q">טיפים וטעויות נפוצות</h2>
-<ul class="gl"><li>אסור לחבר מכנים: <span class="eq"><span class="fr"><b>1</b><i>2</i></span> + <span class="fr"><b>1</b><i>3</i></span> = <span class="fr"><b>3</b><i>6</i></span> + <span class="fr"><b>2</b><i>6</i></span> = <span class="fr"><b>5</b><i>6</i></span></span>, ולא <span class="eq"><span class="fr"><b>2</b><i>5</i></span></span>.</li><li>במספר מעורב לא כופלים רק את השלם: <span class="eq">2<span class="fr"><b>1</b><i>2</i></span> × 3 = <span class="fr"><b>5</b><i>2</i></span> × 3 = <span class="fr"><b>15</b><i>2</i></span> = 7<span class="fr"><b>1</b><i>2</i></span></span>.</li><li>מספר שלם הוא שבר שמכנהו <span class="eq">1</span>: <span class="eq">6 ÷ <span class="fr"><b>3</b><i>4</i></span> = <span class="fr"><b>6</b><i>1</i></span> × <span class="fr"><b>4</b><i>3</i></span> = 8</span>.</li><li>״שבר של מספר״ פירושו כפל: <span class="eq"><span class="fr"><b>3</b><i>5</i></span></span> של <span class="eq">20</span> הוא <span class="eq"><span class="fr"><b>3</b><i>5</i></span> × 20 = 12</span>.</li><li>בדיקת סבירות: חילוק בשבר שקטן מ-<span class="eq">1</span> מגדיל את התוצאה, וכפל בשבר שקטן מ-<span class="eq">1</span> מקטין אותה.</li></ul>
+<ul class="gl"><li>אסור לחבר מכנים: <span class="eq"><span class="fr"><b>1</b><i>4</i></span> + <span class="fr"><b>1</b><i>5</i></span> = <span class="fr"><b>5</b><i>20</i></span> + <span class="fr"><b>4</b><i>20</i></span> = <span class="fr"><b>9</b><i>20</i></span></span>, ולא <span class="eq"><span class="fr"><b>2</b><i>9</i></span></span>.</li><li>במספר מעורב לא כופלים רק את השלם: <span class="eq">2<span class="fr"><b>1</b><i>2</i></span> × 3 = <span class="fr"><b>5</b><i>2</i></span> × 3 = <span class="fr"><b>15</b><i>2</i></span> = 7<span class="fr"><b>1</b><i>2</i></span></span>.</li><li>מספר שלם הוא שבר שמכנהו <span class="eq">1</span>: <span class="eq">6 ÷ <span class="fr"><b>3</b><i>4</i></span> = <span class="fr"><b>6</b><i>1</i></span> × <span class="fr"><b>4</b><i>3</i></span> = 8</span>.</li><li>״שבר של מספר״ פירושו כפל: <span class="eq"><span class="fr"><b>3</b><i>5</i></span></span> של <span class="eq">20</span> הוא <span class="eq"><span class="fr"><b>3</b><i>5</i></span> × 20 = 12</span>.</li><li>בדיקת סבירות: חילוק בשבר שקטן מ-<span class="eq">1</span> מגדיל את התוצאה, וכפל בשבר שקטן מ-<span class="eq">1</span> מקטין אותה.</li></ul>
   <h2 class="q">נושא א׳ — חשבון: טיפים כלליים</h2>
-  <ul class="gl"><li>כתבו כל שלב בשורה נפרדת ואל תחשבו הכול בראש. רוב הטעויות בחשבון הן טעויות של שורה שדילגו עליה.</li><li>קודם דיוק, אחר כך מהירות. מהירות באה מתרגול, לא מדילוג על שלבים.</li><li>בסוף כל תרגיל עשו אומדן: האם התוצאה בערך בסדר הגודל הנכון?</li><li>מותר להשתמש במחשבון מדעי, אבל כדאי לדעת לחשב גם בלעדיו. המחשבון לא יתקן ביטוי שהקלדתם לא נכון.</li></ul>
+  <ul class="gl"><li>כתבו כל שלב בשורה נפרדת ואל תחשבו הכול בראש. רוב הטעויות בחשבון נובעות משורה שדילגתם עליה.</li><li>קודם דיוק, אחר כך מהירות. מהירות באה מתרגול, ולא מדילוג על שלבים.</li><li>בסוף כל תרגיל עשו אומדן: האם התוצאה בערך בסדר הגודל הנכון?</li><li>מותר להשתמש במחשבון מדעי, אבל כדאי לדעת לחשב גם בלעדיו. המחשבון לא יתקן ביטוי שהקלדתם בצורה שגויה.</li></ul>
   <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
 </div>
 </body>
