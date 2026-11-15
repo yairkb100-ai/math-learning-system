@@ -72,6 +72,16 @@
   .noprint button { background: #1f7a8c; color:#fff; border:0; padding:10px 26px;
                     border-radius:6px; font-size:15px; cursor:pointer; font-family:inherit; }
 
+  .guide h2.q { margin: 16px 0 8px; font-size: 16px; }
+  .guide p, .guide li { font-size: 14px; line-height: 1.65; }
+  ol.gl, ul.gl { margin: 4px 0 8px; padding-inline-start: 24px; }
+  ol.gl > li, ul.gl > li { margin-bottom: 5px; }
+  table.gt { border-collapse: collapse; margin: 8px auto 12px; min-width: 70%; }
+  table.gt th, table.gt td { border: 1.5px solid #8fb7c0; padding: 6px 14px; text-align: center; }
+  table.gt th { background: #e6f3f6; color: #14465a; }
+  .exbox { border: 1.5px solid #cfe3e8; background: #f7fbfc; border-radius: 8px; padding: 6px 14px; margin: 8px 0 12px; break-inside: avoid; }
+  .exq { font-weight: 700; margin: 6px 0; }
+  .exa { margin: 6px 0; color: #14465a; }
   p.instr { margin: 4px 0 8px; font-weight: 700; color: #1d3b34; }
   .anscols { column-count: 3; column-gap: 12px; }
   .anscols .ans { break-inside: avoid; margin-bottom: 5px !important; padding: 4px 9px !important; font-size: 13.5px !important; }
@@ -90,7 +100,7 @@
 <div class="sheet">
   <header>
     <h1>הכנה לישיבות · פרק 11: מערכת משוואות עם שני נעלמים</h1>
-    <div class="sub">משוואות · דף עבודה · 40 שאלות בשלוש רמות · ללא הסברים · התשובות בעמוד האחרון</div>
+    <div class="sub">משוואות · דף עבודה · 40 שאלות בשלוש רמות · בסוף: תשובות, והסבר עם טיפים</div>
     <div class="namebar"><span>שם: </span><span>כיתה: </span><span>תאריך: </span></div>
   </header>
   <h2 class="q">רמה א׳ — מתחילים <span class="tag easy">שאלות 1–10</span></h2>
@@ -196,6 +206,26 @@
 <div class="ans"><strong>38.</strong> 12 של 5 ₪, 6 של 10 ₪</div>
 <div class="ans"><strong>39.</strong> האב 35, הבן 9</div>
 <div class="ans"><strong>40.</strong> <span class="eq">74</span></div></div>
+  <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
+</div>
+
+<div class="sheet guide pagebreak">
+  <header>
+    <h1>💡 הסבר, שיטת פתרון וטיפים — מערכת משוואות עם שני נעלמים</h1>
+    <div class="sub">משוואות · לקריאה לפני התרגול או אחרי בדיקת התשובות</div>
+  </header>
+  <h2 class="q">מה צריך לדעת</h2>
+<p>בפתרון מערכת של שתי משוואות עם שני נעלמים מחפשים זוג <span class="eq">(x, y)</span> שמקיים <b>את שתי המשוואות</b>. יש שתי שיטות:</p>
+<ul class="gl"><li><b>הצבה</b>: מבודדים נעלם אחד באחת המשוואות ומציבים בשנייה. נוחה כשאחד הנעלמים כבר מבודד, או שהמקדם שלו <span class="eq">1</span>.</li><li><b>חיבור או חיסור משוואות</b>: מכפילים משוואה (או שתיים) כך שמקדמי אחד הנעלמים יהיו נגדיים (או שווים), ואז מחברים (או מחסרים) כדי לחסל אותו.</li></ul>
+<h2 class="q">דוגמאות פתורות</h2>
+<div class="exbox"><p class="exq">פתרו בהצבה: <span class="eq">2x + 3y = 14</span> ו-<span class="eq">x - y = 2</span></p><ol class="gl"><li>מבודדים את <span class="eq">x</span> מהמשוואה השנייה: <span class="eq">x = y + 2</span>.</li><li>מציבים בראשונה: <span class="eq">2(y + 2) + 3y = 14</span>, כלומר <span class="eq">5y + 4 = 14</span>, ולכן <span class="eq">y = 2</span>.</li><li><span class="eq">x = 2 + 2 = 4</span>.</li><li>בדיקה בשתי המשוואות: <span class="eq">2 · 4 + 3 · 2 = 14</span> ו-<span class="eq">4 - 2 = 2</span>.</li></ol><p class="exa"><b>תשובה:</b> <span class="eq">x = 4, y = 2</span></p></div>
+<div class="exbox"><p class="exq">פתרו בחיבור: <span class="eq">3x + 2y = 22</span> ו-<span class="eq">2x - 2y = 8</span></p><ol class="gl"><li>מקדמי <span class="eq">y</span> נגדיים (<span class="eq">+2</span> ו-<span class="eq">-2</span>), ולכן מחברים את המשוואות: <span class="eq">5x = 30</span>, כלומר <span class="eq">x = 6</span>.</li><li>מציבים באחת המשוואות: <span class="eq">2 · 6 - 2y = 8</span>, ולכן <span class="eq">y = 2</span>.</li><li>בדיקה: <span class="eq">3 · 6 + 2 · 2 = 22</span> ו-<span class="eq">2 · 6 - 2 · 2 = 8</span>.</li></ol><p class="exa"><b>תשובה:</b> <span class="eq">x = 6, y = 2</span></p></div>
+<h2 class="q">מערכת מילולית</h2>
+<p>מגדירים <b>שני</b> נעלמים (״<span class="eq">x</span> מחיר מחברת, <span class="eq">y</span> מחיר עט״) וכותבים <b>שתי</b> משוואות, אחת לכל נתון בשאלה (למשל סכום ופרש, או שני סכומי קנייה).</p>
+<h2 class="q">טיפים וטעויות נפוצות</h2>
+<ul class="gl"><li>בדקו את הפתרון בשתי המשוואות המקוריות.</li><li>בשיטת החיבור מכפילים את <b>כל</b> המשוואה, גם את האגף הימני.</li><li>אם יש סוגריים או מכנים, קודם מפשטים כל משוואה לצורה <span class="eq">ax + by = c</span>.</li><li>בבעיה מילולית ענו על מה ששאלו, ועם יחידות. לא תמיד שואלים על <span class="eq">x</span>.</li></ul>
+  <h2 class="q">נושא ג׳ — משוואות: טיפים כלליים</h2>
+  <ul class="gl"><li>משוואה היא כמו מאזניים: כל מה שעושים לאגף אחד, עושים גם לשני.</li><li>כתבו כל שלב בשורה חדשה, וסימני ה״שווה״ אחד מתחת לשני.</li><li>תמיד בדקו בהצבה במשוואה <b>המקורית</b>. בדיקה לוקחת חצי דקה ותופסת כמעט כל טעות.</li></ul>
   <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
 </div>
 </body>
