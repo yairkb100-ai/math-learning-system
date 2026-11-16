@@ -26,6 +26,7 @@ sys.path.insert(0, str(HERE.parent))
 
 import yeshiva_algebra  # noqa: E402
 import yeshiva_calc  # noqa: E402
+import yeshiva_guides  # noqa: E402
 import yeshiva_words  # noqa: E402
 import gen_chapter_assets as gca  # noqa: E402
 
@@ -94,11 +95,80 @@ def collect():
     return out
 
 
+# ------------------------------------------------------------- guides -------
+def guide_blocks(key, part):
+    """The sub-topic guide followed by the part's general tips."""
+    title, tips = yeshiva_guides.PART_GUIDES[part]
+    return yeshiva_guides.GUIDES[key], (title, tips)
+
+
+def _md_table(head, rows):
+    out = ["| " + " | ".join(head) + " |", "|" + "|".join(["---"] * len(head)) + "|"]
+    out += ["| " + " | ".join(r) + " |" for r in rows]
+    return "\n".join(out)
+
+
+def blocks_md(blocks):
+    out = []
+    for b in blocks:
+        k = b[0]
+        if k == "h":
+            out.append(f"## {b[1]}")
+        elif k == "p":
+            out.append(b[1])
+        elif k == "ul":
+            out.append("\n".join(f"- {t}" for t in b[1]))
+        elif k == "ol":
+            out.append("\n".join(f"{i}. {t}" for i, t in enumerate(b[1], 1)))
+        elif k == "table":
+            out.append(_md_table(b[1], b[2]))
+        elif k == "ex":
+            steps = "\n".join(f"{i}. {t}" for i, t in enumerate(b[2], 1))
+            tbl = ("\n\n" + _md_table(*b[4])) if len(b) > 4 and b[4] else ""
+            out.append(f"**{b[1]}**{tbl}\n\n{steps}\n\n**תשובה:** {b[3]}")
+    return "\n\n".join(out)
+
+
+def _inline_html(t):
+    h = gca.macros(sheet_math(t))
+    return re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", h)
+
+
+def _html_table(head, rows):
+    h = "".join(f"<th>{_inline_html(c)}</th>" for c in head)
+    r = "".join("<tr>" + "".join(f"<td>{_inline_html(c)}</td>" for c in row) + "</tr>" for row in rows)
+    return f'<table class="gt"><thead><tr>{h}</tr></thead><tbody>{r}</tbody></table>'
+
+
+def blocks_html(blocks):
+    out = []
+    for b in blocks:
+        k = b[0]
+        if k == "h":
+            out.append(f'<h2 class="q">{b[1]}</h2>')
+        elif k == "p":
+            out.append(f"<p>{_inline_html(b[1])}</p>")
+        elif k in ("ul", "ol"):
+            items = "".join(f"<li>{_inline_html(t)}</li>" for t in b[1])
+            out.append(f'<{k} class="gl">{items}</{k}>')
+        elif k == "table":
+            out.append(_html_table(b[1], b[2]))
+        elif k == "ex":
+            steps = "".join(f"<li>{_inline_html(t)}</li>" for t in b[2])
+            tbl = ""
+            if len(b) > 4 and b[4]:
+                head, rows = b[4]
+                tbl = _html_table(head, rows)
+            out.append(f'<div class="exbox"><p class="exq">{_inline_html(b[1])}</p>{tbl}'
+                       f'<ol class="gl">{steps}</ol><p class="exa"><b>תשובה:</b> {_inline_html(b[3])}</p></div>')
+    return "\n".join(out)
+
+
 # -------------------------------------------------------- course JSON -------
 INTRO = ("40 שאלות לתרגול עצמי, בשלוש רמות: **רמה א׳** — מתחילים (10 שאלות), "
          "**רמה ב׳** — מתקדמים (15 שאלות), **רמה ג׳** — כיתה ח׳ מתקדמים (15 שאלות). "
-         "את התשובות בודקים אחרי הפתרון: בכל תרגיל תחת ״הצג פתרון״, ובסוף דף העבודה להדפסה. "
-         "מותר להשתמש במחשבון מדעי.")
+         "לפני התרגול מופיעים הסבר קצר, דוגמה פתורה וטיפים. את התשובות בודקים אחרי הפתרון: "
+         "בכל תרגיל תחת ״הצג פתרון״, ובסוף דף העבודה להדפסה. מותר להשתמש במחשבון מדעי.")
 
 OBJECTIVES = {
     "order": "לחשב ביטויים מספריים לפי סדר הפעולות הנכון",
@@ -113,6 +183,13 @@ OBJECTIVES = {
     "equations": "לפתור משוואה בנעלם אחד עם סוגריים ועם נעלם בשני האגפים",
     "systems": "לפתור מערכת של שתי משוואות עם שני נעלמים",
 }
+
+
+def chapter_content(key, title, instr, part):
+    guide, (ptitle, ptips) = guide_blocks(key, part)
+    return (f"## {title}\n\n{INTRO}\n\n" + blocks_md(guide)
+            + f"\n\n## {ptitle}\n\n" + blocks_md(ptips)
+            + f"\n\n**בתרגילים הבאים:** {instr}")
 
 
 def build_chapter(num, key, title, short, instr, part, lv):
@@ -136,7 +213,7 @@ def build_chapter(num, key, title, short, instr, part, lv):
         "number": num,
         "title": title,
         "learning_objectives": [OBJECTIVES[key]],
-        "content": f"## {title}\n\n{INTRO}\n\n**{instr}**",
+        "content": chapter_content(key, title, instr, part),
         "examples": [],
         "exercises": exercises,
         "quiz": [],
@@ -188,7 +265,7 @@ def sheet_math(s):
     return s
 
 
-def worksheet_html(num, title, instr, part, lv):
+def worksheet_html(num, key, title, instr, part, lv):
     n = 0
     blocks = []
     cls = "words" if part == "בעיות מילוליות" else "cols2"
@@ -200,7 +277,7 @@ def worksheet_html(num, title, instr, part, lv):
             n += 1
             items.append(f"<li>{gca.macros(sheet_math(q))}</li>")
         blocks.append(
-            f'<h2 class="q">{label} <span class="tag {"med" if diff == "medium" else diff}">שאלות {start}–{n}</span></h2>\n'
+            f'<h2 class="q">{label} <span class="tag {"med" if diff == "medium" else diff}">שאלות <bdi dir="ltr">{start}–{n}</bdi></span></h2>\n'
             f'<p class="instr">{instr}</p>\n'
             f'<ol class="items {cls}" start="{start}">\n' + "\n".join(items) + "\n</ol>")
     n = 0
@@ -212,7 +289,21 @@ def worksheet_html(num, title, instr, part, lv):
             n += 1
             cells.append(f'<div class="ans"><strong>{n}.</strong> {gca.macros(sheet_math(commas(a)))}</div>')
         keys.append(f'<h2 class="q">{label}</h2>\n<div class="anscols">' + "\n".join(cells) + "</div>")
+    guide, (ptitle, ptips) = guide_blocks(key, part)
     extra_css = """
+  h2.q, p.instr { break-after: avoid; page-break-after: avoid; }
+  table.gt, .exbox { break-inside: avoid; }
+  .guide h2.q { margin: 12px 0 6px; font-size: 15.5px; }
+  .guide p, .guide li { font-size: 13.5px; line-height: 1.55; }
+  .guide header { margin-bottom: 10px; }
+  ol.gl, ul.gl { margin: 4px 0 8px; padding-inline-start: 24px; }
+  ol.gl > li, ul.gl > li { margin-bottom: 5px; }
+  table.gt { border-collapse: collapse; margin: 8px auto 12px; min-width: 70%; }
+  table.gt th, table.gt td { border: 1.5px solid #8fb7c0; padding: 6px 14px; text-align: center; }
+  table.gt th { background: #e6f3f6; color: #14465a; }
+  .exbox { border: 1.5px solid #cfe3e8; background: #f7fbfc; border-radius: 8px; padding: 6px 14px; margin: 8px 0 12px; break-inside: avoid; }
+  .exq { font-weight: 700; margin: 6px 0; }
+  .exa { margin: 6px 0; color: #14465a; }
   p.instr { margin: 4px 0 8px; font-weight: 700; color: #1d3b34; }
   .anscols { column-count: ANSCOLS; column-gap: 12px; }
   .anscols .ans { break-inside: avoid; margin-bottom: 5px !important; padding: 4px 9px !important; font-size: 13.5px !important; }
@@ -229,7 +320,7 @@ def worksheet_html(num, title, instr, part, lv):
 <div class="sheet">
   <header>
     <h1>הכנה לישיבות · פרק {num}: {title}</h1>
-    <div class="sub">{part} · דף עבודה · 40 שאלות בשלוש רמות · ללא הסברים · התשובות בעמוד האחרון</div>
+    <div class="sub">{part} · דף עבודה · 40 שאלות בשלוש רמות · בסוף: תשובות, והסבר עם טיפים</div>
     <div class="namebar"><span>שם: </span><span>כיתה: </span><span>תאריך: </span></div>
   </header>
   {chr(10).join(blocks)}
@@ -238,22 +329,35 @@ def worksheet_html(num, title, instr, part, lv):
 
 <div class="sheet key pagebreak">
   <header>
-    <h1>🔑 תשובות — {title}</h1>
+    <h1>תשובות — {title}</h1>
     <div class="sub">לבדיקה עצמית, אחרי שפתרתם</div>
   </header>
   {chr(10).join(keys)}
+  <div class="credit">{CR}</div>
+</div>
+
+<div class="sheet guide pagebreak">
+  <header>
+    <h1>הסבר, שיטת פתרון וטיפים</h1>
+    <div class="sub">{title} · {part} · לקריאה לפני התרגול או אחרי בדיקת התשובות</div>
+  </header>
+  {blocks_html(guide)}
+  <h2 class="q">{ptitle}</h2>
+  {blocks_html(ptips)}
   <div class="credit">{CR}</div>
 </div>"""
     style = gca.css("#1f7a8c", "#14465a", "#e6f3f6") + extra_css.replace(
         "ANSCOLS", "2" if cls == "words" else "3")
     html = gca.page(f"דף עבודה — {title}", style, body)
+    # keep a number and its shekel sign on one line
+    html = re.sub(r"(?<=\d) ₪", "\u00a0₪", html)
     # nested absolute-value bars: "||x|" is unreadable, "| |x|" is not
     return html.replace("||", "| |")
 
 
 def write_sheets(data):
     for (num, key, title, short, instr, part, lv) in data:
-        html = worksheet_html(num, title, instr, part, lv)
+        html = worksheet_html(num, key, title, instr, part, lv)
         gca._write_text(CONTENT / f"ch{num:02d}" / "worksheet.html", html)
     print(f"  + wrote {len(data)} worksheet.html files")
 

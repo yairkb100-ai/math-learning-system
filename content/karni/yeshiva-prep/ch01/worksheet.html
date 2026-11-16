@@ -72,6 +72,19 @@
   .noprint button { background: #1f7a8c; color:#fff; border:0; padding:10px 26px;
                     border-radius:6px; font-size:15px; cursor:pointer; font-family:inherit; }
 
+  h2.q, p.instr { break-after: avoid; page-break-after: avoid; }
+  table.gt, .exbox { break-inside: avoid; }
+  .guide h2.q { margin: 12px 0 6px; font-size: 15.5px; }
+  .guide p, .guide li { font-size: 13.5px; line-height: 1.55; }
+  .guide header { margin-bottom: 10px; }
+  ol.gl, ul.gl { margin: 4px 0 8px; padding-inline-start: 24px; }
+  ol.gl > li, ul.gl > li { margin-bottom: 5px; }
+  table.gt { border-collapse: collapse; margin: 8px auto 12px; min-width: 70%; }
+  table.gt th, table.gt td { border: 1.5px solid #8fb7c0; padding: 6px 14px; text-align: center; }
+  table.gt th { background: #e6f3f6; color: #14465a; }
+  .exbox { border: 1.5px solid #cfe3e8; background: #f7fbfc; border-radius: 8px; padding: 6px 14px; margin: 8px 0 12px; break-inside: avoid; }
+  .exq { font-weight: 700; margin: 6px 0; }
+  .exa { margin: 6px 0; color: #14465a; }
   p.instr { margin: 4px 0 8px; font-weight: 700; color: #1d3b34; }
   .anscols { column-count: 3; column-gap: 12px; }
   .anscols .ans { break-inside: avoid; margin-bottom: 5px !important; padding: 4px 9px !important; font-size: 13.5px !important; }
@@ -90,10 +103,10 @@
 <div class="sheet">
   <header>
     <h1>הכנה לישיבות · פרק 1: סדר פעולות חשבון</h1>
-    <div class="sub">חשבון · דף עבודה · 40 שאלות בשלוש רמות · ללא הסברים · התשובות בעמוד האחרון</div>
+    <div class="sub">חשבון · דף עבודה · 40 שאלות בשלוש רמות · בסוף: תשובות, והסבר עם טיפים</div>
     <div class="namebar"><span>שם: </span><span>כיתה: </span><span>תאריך: </span></div>
   </header>
-  <h2 class="q">רמה א׳ — מתחילים <span class="tag easy">שאלות 1–10</span></h2>
+  <h2 class="q">רמה א׳ — מתחילים <span class="tag easy">שאלות <bdi dir="ltr">1–10</bdi></span></h2>
 <p class="instr">חשבו:</p>
 <ol class="items cols2" start="1">
 <li><span class="eq">8 + 3 × 4</span></li>
@@ -107,7 +120,7 @@
 <li><span class="eq">3 × (10 - 4) + 5</span></li>
 <li><span class="eq">48 ÷ (2 + 4) - 3</span></li>
 </ol>
-<h2 class="q">רמה ב׳ — מתקדמים <span class="tag med">שאלות 11–25</span></h2>
+<h2 class="q">רמה ב׳ — מתקדמים <span class="tag med">שאלות <bdi dir="ltr">11–25</bdi></span></h2>
 <p class="instr">חשבו:</p>
 <ol class="items cols2" start="11">
 <li><span class="eq">7 + 6 × 5 - 18 ÷ 3</span></li>
@@ -126,7 +139,7 @@
 <li><span class="eq">(6 + 4) × (9 - 3) - 7<sup>2</sup></span></li>
 <li><span class="eq">144 ÷ (2 × 6) + 3<sup>2</sup> × 2</span></li>
 </ol>
-<h2 class="q">רמה ג׳ — כיתה ח׳ מתקדמים <span class="tag hard">שאלות 26–40</span></h2>
+<h2 class="q">רמה ג׳ — כיתה ח׳ מתקדמים <span class="tag hard">שאלות <bdi dir="ltr">26–40</bdi></span></h2>
 <p class="instr">חשבו:</p>
 <ol class="items cols2" start="26">
 <li><span class="eq">5 × [18 - 2 × (4 + 3)]</span></li>
@@ -150,7 +163,7 @@
 
 <div class="sheet key pagebreak">
   <header>
-    <h1>🔑 תשובות — סדר פעולות חשבון</h1>
+    <h1>תשובות — סדר פעולות חשבון</h1>
     <div class="sub">לבדיקה עצמית, אחרי שפתרתם</div>
   </header>
   <h2 class="q">רמה א׳ — מתחילים</h2>
@@ -196,6 +209,23 @@
 <div class="ans"><strong>38.</strong> <span class="eq">12</span></div>
 <div class="ans"><strong>39.</strong> <span class="eq">-30</span></div>
 <div class="ans"><strong>40.</strong> <span class="eq">1</span></div></div>
+  <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
+</div>
+
+<div class="sheet guide pagebreak">
+  <header>
+    <h1>הסבר, שיטת פתרון וטיפים</h1>
+    <div class="sub">סדר פעולות חשבון · חשבון · לקריאה לפני התרגול או אחרי בדיקת התשובות</div>
+  </header>
+  <h2 class="q">מה צריך לדעת</h2>
+<p>בביטוי עם כמה פעולות לא תמיד מחשבים משמאל לימין, אלא לפי <b>סדר קבוע</b>:</p>
+<ol class="gl"><li><b>סוגריים</b>: קודם מחשבים מה שבתוכם, מהפנימיים אל החיצוניים.</li><li><b>חזקות</b>: למשל <span class="eq">5<sup>2</sup> = 25</span>.</li><li><b>כפל וחילוק</b>: באותה דרגה, <b>משמאל לימין</b> לפי סדר ההופעה.</li><li><b>חיבור וחיסור</b>: באותה דרגה, <b>משמאל לימין</b> לפי סדר ההופעה.</li></ol>
+<h2 class="q">דוגמה פתורה</h2>
+<div class="exbox"><p class="exq">חשבו: <span class="eq">30 - 4 × (3 + 2) ÷ 5</span></p><ol class="gl"><li>סוגריים: <span class="eq">3 + 2 = 5</span>, והביטוי הוא <span class="eq">30 - 4 × 5 ÷ 5</span>.</li><li>כפל וחילוק משמאל לימין: <span class="eq">4 × 5 = 20</span>, ואחר כך <span class="eq">20 ÷ 5 = 4</span>. הביטוי הוא <span class="eq">30 - 4</span>.</li><li>חיסור: <span class="eq">30 - 4 = 26</span>.</li></ol><p class="exa"><b>תשובה:</b> <span class="eq">26</span></p></div>
+<h2 class="q">טיפים וטעויות נפוצות</h2>
+<ul class="gl"><li>כפל וחילוק באותה דרגה, ולכן לא תמיד הכפל קודם: <span class="eq">24 ÷ 4 × 2 = 6 × 2 = 12</span>, ולא <span class="eq">24 ÷ 8 = 3</span>.</li><li>אותו דבר בחיבור וחיסור: <span class="eq">10 - 3 + 2 = 7 + 2 = 9</span>.</li><li>מינוס לפני סוגריים חל על <b>כל</b> מה שבתוכם: <span class="eq">10 - (3 + 2) = 10 - 5 = 5</span>, ולא <span class="eq">10 - 3 + 2 = 9</span>.</li><li>כשמעלים בריבוע מספר שלילי חייבים לכתוב אותו בסוגריים: <span class="eq">(-3)<sup>2</sup> = 9</span>. בלי סוגריים, <span class="eq">-3<sup>2</sup> = -9</span>.</li><li>אחרי כל שלב כתבו מחדש את הביטוי כולו. כך קל לגלות איפה נפלה טעות.</li></ul>
+  <h2 class="q">נושא א׳ — חשבון: טיפים כלליים</h2>
+  <ul class="gl"><li>כתבו כל שלב בשורה נפרדת ואל תחשבו הכול בראש. רוב הטעויות בחשבון נובעות משורה שדילגתם עליה.</li><li>קודם דיוק, אחר כך מהירות. מהירות באה מתרגול, ולא מדילוג על שלבים.</li><li>בסוף כל תרגיל עשו אומדן: האם התוצאה בערך בסדר הגודל הנכון?</li><li>מותר להשתמש במחשבון מדעי, אבל כדאי לדעת לחשב גם בלעדיו. המחשבון לא יתקן ביטוי שהקלדתם בצורה שגויה.</li></ul>
   <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>
 </div>
 </body>
