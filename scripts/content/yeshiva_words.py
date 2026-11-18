@@ -7,6 +7,8 @@ brute-force search (exactly one admissible solution) before its answer is printe
 from itertools import product
 from fractions import Fraction as Fr
 
+from yeshiva_solutions import AGES, SHOPPING, attach
+
 LEVEL_COUNTS = (10, 15, 15)
 
 
@@ -139,7 +141,7 @@ def ch_ages(rng=None):
     add3("סכום גילאיהם של אב ובנו הוא 64. לפני 5 שנים היה גיל האב פי 5 מגיל הבן. מצאו את גילאיהם כיום.",
          A3(), lambda f, s: f + s == 64 and s > 5 and f - 5 == 5 * (s - 5), lambda f, s: "האב %d, הבן %d" % (f, s))
     assert len(L3) == 15, len(L3)
-    return _levels(L1, L2, L3)
+    return _levels(attach(AGES, 1, L1), attach(AGES, 2, L2), attach(AGES, 3, L3))
 
 
 # ====================================================== 7. קנייה ומכירה =====
@@ -241,7 +243,7 @@ def ch_shopping(rng=None):
     L3.append(("סוחר קנה 15 מנורות באותו מחיר. 5 מהן מכר בהפסד של %s והשאר ברווח של %s. בסך הכול הרוויח 300 ₪. "
                "מה היה מחיר הקנייה של מנורה אחת?" % (P(20), P(30)), M(pr)))
     assert len(L3) == 15, len(L3)
-    return _levels(L1, L2, L3)
+    return _levels(attach(SHOPPING, 1, L1), attach(SHOPPING, 2, L2), attach(SHOPPING, 3, L3))
 
 
 # ============================================================ 8. אחוזים =====
