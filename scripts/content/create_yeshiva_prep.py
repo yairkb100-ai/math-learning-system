@@ -328,8 +328,8 @@ def worksheet_html(num, key, title, instr, part, lv):
   .anscols { column-count: ANSCOLS; column-gap: 12px; }
   .anscols .ans { break-inside: avoid; margin-bottom: 5px !important; padding: 4px 9px !important; font-size: 13.5px !important; }
   .key h2.q { margin: 14px 0 8px; }
-  .solcols { column-count: 2; column-gap: 14px; }
-  .sol { break-inside: avoid; border: 1px solid #eadfb8; border-radius: 6px; background: #fff; padding: 6px 11px; margin-bottom: 8px; font-size: 12.8px; line-height: 1.5; }
+  .solcols { column-count: 1; }
+  .sol { break-inside: avoid; border: 1px solid #eadfb8; border-radius: 6px; background: #fff; padding: 7px 14px; margin-bottom: 9px; font-size: 13.5px; line-height: 1.55; }
   .sol .solh { font-weight: 700; color: #8a5b06; margin-bottom: 2px; }
   .sol ol.gl { margin: 2px 0 4px; padding-inline-start: 20px; }
   .sol ol.gl > li { margin-bottom: 3px; }
@@ -377,6 +377,11 @@ def worksheet_html(num, key, title, instr, part, lv):
     html = gca.page(f"דף עבודה — {title}", style, body)
     # keep a number and its shekel sign on one line
     html = re.sub(r"(?<=\d) ₪", "\u00a0₪", html)
+    # never leave a Hebrew prefix ("ו-", "ב-"), a shekel sign or closing punctuation
+    # stranded at a line edge away from the math island it belongs to
+    html = html.replace('-<span class="eq">', '-\u2060<span class="eq">')
+    html = re.sub(r"</span> ₪", "</span>\u00a0₪", html)
+    html = re.sub(r"</span>([.,:;])", "</span>\u2060\\1", html)
     # nested absolute-value bars: "||x|" is unreadable, "| |x|" is not
     return html.replace("||", "| |")
 
