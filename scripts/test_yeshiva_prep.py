@@ -27,7 +27,8 @@ def main():
     for num, key, title, short, instr, part, lv in data:
         assert [len(lv[k]) for k in (1, 2, 3)] == [10, 15, 15], (key, lv)
         for k in (1, 2, 3):
-            for q, a in lv[k]:
+            for it in lv[k]:
+                q, a = it[0], it[1]
                 assert q.strip() and a.strip(), (key, q, a)
                 assert "None" not in q + a and "[[" not in q + a, (key, q, a)
                 assert q.count("$") % 2 == 0 and a.count("$") % 2 == 0, (key, q, a)

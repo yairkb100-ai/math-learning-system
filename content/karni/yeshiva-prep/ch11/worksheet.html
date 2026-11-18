@@ -89,6 +89,12 @@
   .anscols { column-count: 3; column-gap: 12px; }
   .anscols .ans { break-inside: avoid; margin-bottom: 5px !important; padding: 4px 9px !important; font-size: 13.5px !important; }
   .key h2.q { margin: 14px 0 8px; }
+  .solcols { column-count: 1; }
+  .sol { break-inside: avoid; border: 1px solid #eadfb8; border-radius: 6px; background: #fff; padding: 7px 14px; margin-bottom: 9px; font-size: 13.5px; line-height: 1.55; }
+  .sol .solh { font-weight: 700; color: #8a5b06; margin-bottom: 2px; }
+  .sol ol.gl { margin: 2px 0 4px; padding-inline-start: 20px; }
+  .sol ol.gl > li { margin-bottom: 3px; }
+  .sol .solans { margin: 2px 0 0; color: #14465a; }
   ol.items { padding-inline-start: 36px; }
   ol.items > li { break-inside: avoid; }
   ol.cols2 { column-count: 2; column-gap: 36px; }
@@ -190,7 +196,7 @@
 <div class="ans"><strong>20.</strong> <span class="eq">x = 2, y = 6</span></div>
 <div class="ans"><strong>21.</strong> <span class="eq">x = 8, y = 2</span></div>
 <div class="ans"><strong>22.</strong> <span class="eq">x = 9, y = 4</span></div>
-<div class="ans"><strong>23.</strong> <span class="eq">30</span> ו-<span class="eq">17</span></div>
+<div class="ans"><strong>23.</strong> <span class="eq">30</span> ו-⁠<span class="eq">17</span></div>
 <div class="ans"><strong>24.</strong> מחברת 7 ₪, עט 4 ₪</div>
 <div class="ans"><strong>25.</strong> 12 תרנגולות, 8 כבשים</div></div>
 <h2 class="q">רמה ג׳ — כיתה ח׳ מתקדמים</h2>
@@ -205,7 +211,7 @@
 <div class="ans"><strong>34.</strong> <span class="eq">x = -1, y = 1</span></div>
 <div class="ans"><strong>35.</strong> <span class="eq">x = 7, y = 5</span></div>
 <div class="ans"><strong>36.</strong> <span class="eq">x = 6, y = 3</span></div>
-<div class="ans"><strong>37.</strong> <span class="eq">13</span> ו-<span class="eq">6</span></div>
+<div class="ans"><strong>37.</strong> <span class="eq">13</span> ו-⁠<span class="eq">6</span></div>
 <div class="ans"><strong>38.</strong> 12 של 5 ₪, 6 של 10 ₪</div>
 <div class="ans"><strong>39.</strong> האב 35, הבן 9</div>
 <div class="ans"><strong>40.</strong> <span class="eq">74</span></div></div>
@@ -219,16 +225,16 @@
   </header>
   <h2 class="q">מה צריך לדעת</h2>
 <p>בפתרון מערכת של שתי משוואות עם שני נעלמים מחפשים זוג <span class="eq">(x, y)</span> שמקיים <b>את שתי המשוואות</b>. יש שתי שיטות:</p>
-<ul class="gl"><li><b>הצבה</b>: מבודדים נעלם אחד באחת המשוואות ומציבים בשנייה. נוחה כשאחד הנעלמים כבר מבודד, או כשהמקדם שלו הוא <span class="eq">1</span>.</li><li><b>חיבור או חיסור משוואות</b>: כופלים משוואה (או שתיים) כך שמקדמי אחד הנעלמים יהיו נגדיים (או שווים), ואז מחברים (או מחסרים) כדי לחסל אותו.</li></ul>
+<ul class="gl"><li><b>הצבה</b>: מבודדים נעלם אחד באחת המשוואות ומציבים בשנייה. נוחה כשאחד הנעלמים כבר מבודד, או כשהמקדם שלו הוא <span class="eq">1</span>⁠.</li><li><b>חיבור או חיסור משוואות</b>: כופלים משוואה (או שתיים) כך שמקדמי אחד הנעלמים יהיו נגדיים (או שווים), ואז מחברים (או מחסרים) כדי לחסל אותו.</li></ul>
 <h2 class="q">דוגמאות פתורות</h2>
-<div class="exbox"><p class="exq">פתרו בשיטת ההצבה: <span class="eq">2x + 3y = 14</span> ו-<span class="eq">x - y = 2</span></p><ol class="gl"><li>מבודדים את <span class="eq">x</span> מהמשוואה השנייה: <span class="eq">x = y + 2</span>.</li><li>מציבים בראשונה: <span class="eq">2(y + 2) + 3y = 14</span>, כלומר <span class="eq">5y + 4 = 14</span>, ולכן <span class="eq">y = 2</span>.</li><li><span class="eq">x = 2 + 2 = 4</span>.</li><li>בדיקה בשתי המשוואות: <span class="eq">2 · 4 + 3 · 2 = 14</span> ו-<span class="eq">4 - 2 = 2</span>.</li></ol><p class="exa"><b>תשובה:</b> <span class="eq">x = 4, y = 2</span></p></div>
-<div class="exbox"><p class="exq">פתרו בשיטת החיבור: <span class="eq">3x + 2y = 22</span> ו-<span class="eq">2x - 2y = 8</span></p><ol class="gl"><li>מקדמי <span class="eq">y</span> נגדיים (<span class="eq">+2</span> ו-<span class="eq">-2</span>), ולכן מחברים את המשוואות: <span class="eq">5x = 30</span>, כלומר <span class="eq">x = 6</span>.</li><li>מציבים באחת המשוואות: <span class="eq">2 · 6 - 2y = 8</span>, ולכן <span class="eq">y = 2</span>.</li><li>בדיקה: <span class="eq">3 · 6 + 2 · 2 = 22</span> ו-<span class="eq">2 · 6 - 2 · 2 = 8</span>.</li></ol><p class="exa"><b>תשובה:</b> <span class="eq">x = 6, y = 2</span></p></div>
-<div class="exbox"><p class="exq">פתרו בשיטת החיבור עם כפל: <span class="eq">2x + 3y = 13</span> ו-<span class="eq">3x - y = 3</span></p><ol class="gl"><li>כופלים את המשוואה השנייה ב-<span class="eq">3</span>, כדי שמקדמי <span class="eq">y</span> יהיו נגדיים: <span class="eq">9x - 3y = 9</span>.</li><li>מחברים אותה לראשונה: <span class="eq">11x = 22</span>, ולכן <span class="eq">x = 2</span>.</li><li>מציבים בשנייה: <span class="eq">3 · 2 - y = 3</span>, ולכן <span class="eq">y = 3</span>.</li><li>בדיקה: <span class="eq">2 · 2 + 3 · 3 = 13</span> ו-<span class="eq">3 · 2 - 3 = 3</span>.</li></ol><p class="exa"><b>תשובה:</b> <span class="eq">x = 2, y = 3</span></p></div>
+<div class="exbox"><p class="exq">פתרו בשיטת ההצבה: <span class="eq">2x + 3y = 14</span> ו-⁠<span class="eq">x - y = 2</span></p><ol class="gl"><li>מבודדים את <span class="eq">x</span> מהמשוואה השנייה: <span class="eq">x = y + 2</span>⁠.</li><li>מציבים בראשונה: <span class="eq">2(y + 2) + 3y = 14</span>⁠, כלומר <span class="eq">5y + 4 = 14</span>⁠, ולכן <span class="eq">y = 2</span>⁠.</li><li><span class="eq">x = 2 + 2 = 4</span>⁠.</li><li>בדיקה בשתי המשוואות: <span class="eq">2 · 4 + 3 · 2 = 14</span> ו-⁠<span class="eq">4 - 2 = 2</span>⁠.</li></ol><p class="exa"><b>תשובה:</b> <span class="eq">x = 4, y = 2</span></p></div>
+<div class="exbox"><p class="exq">פתרו בשיטת החיבור: <span class="eq">3x + 2y = 22</span> ו-⁠<span class="eq">2x - 2y = 8</span></p><ol class="gl"><li>מקדמי <span class="eq">y</span> נגדיים (<span class="eq">+2</span> ו-⁠<span class="eq">-2</span>), ולכן מחברים את המשוואות: <span class="eq">5x = 30</span>⁠, כלומר <span class="eq">x = 6</span>⁠.</li><li>מציבים באחת המשוואות: <span class="eq">2 · 6 - 2y = 8</span>⁠, ולכן <span class="eq">y = 2</span>⁠.</li><li>בדיקה: <span class="eq">3 · 6 + 2 · 2 = 22</span> ו-⁠<span class="eq">2 · 6 - 2 · 2 = 8</span>⁠.</li></ol><p class="exa"><b>תשובה:</b> <span class="eq">x = 6, y = 2</span></p></div>
+<div class="exbox"><p class="exq">פתרו בשיטת החיבור עם כפל: <span class="eq">2x + 3y = 13</span> ו-⁠<span class="eq">3x - y = 3</span></p><ol class="gl"><li>כופלים את המשוואה השנייה ב-⁠<span class="eq">3</span>⁠, כדי שמקדמי <span class="eq">y</span> יהיו נגדיים: <span class="eq">9x - 3y = 9</span>⁠.</li><li>מחברים אותה לראשונה: <span class="eq">11x = 22</span>⁠, ולכן <span class="eq">x = 2</span>⁠.</li><li>מציבים בשנייה: <span class="eq">3 · 2 - y = 3</span>⁠, ולכן <span class="eq">y = 3</span>⁠.</li><li>בדיקה: <span class="eq">2 · 2 + 3 · 3 = 13</span> ו-⁠<span class="eq">3 · 2 - 3 = 3</span>⁠.</li></ol><p class="exa"><b>תשובה:</b> <span class="eq">x = 2, y = 3</span></p></div>
 <h2 class="q">מערכת מילולית</h2>
-<p>מגדירים <b>שני</b> נעלמים (״נסמן ב-<span class="eq">x</span> את מחיר המחברת וב-<span class="eq">y</span> את מחיר העט״) וכותבים <b>שתי</b> משוואות, אחת לכל נתון בשאלה (למשל סכום והפרש, או שני סכומי קנייה).</p>
-<div class="exbox"><p class="exq">סכום שני מספרים הוא <span class="eq">30</span>, וההפרש ביניהם הוא <span class="eq">6</span>. מצאו את המספרים.</p><ol class="gl"><li>נסמן ב-<span class="eq">x</span> את המספר הגדול וב-<span class="eq">y</span> את הקטן. המשוואות: <span class="eq">x + y = 30</span> ו-<span class="eq">x - y = 6</span>.</li><li>מחברים: <span class="eq">2x = 36</span>, ולכן <span class="eq">x = 18</span>. מציבים: <span class="eq">y = 30 - 18 = 12</span>.</li><li>בדיקה: <span class="eq">18 + 12 = 30</span> ו-<span class="eq">18 - 12 = 6</span>.</li></ol><p class="exa"><b>תשובה:</b> <span class="eq">18</span> ו-<span class="eq">12</span></p></div>
+<p>מגדירים <b>שני</b> נעלמים (״נסמן ב-⁠<span class="eq">x</span> את מחיר המחברת וב-⁠<span class="eq">y</span> את מחיר העט״) וכותבים <b>שתי</b> משוואות, אחת לכל נתון בשאלה (למשל סכום והפרש, או שני סכומי קנייה).</p>
+<div class="exbox"><p class="exq">סכום שני מספרים הוא <span class="eq">30</span>⁠, וההפרש ביניהם הוא <span class="eq">6</span>⁠. מצאו את המספרים.</p><ol class="gl"><li>נסמן ב-⁠<span class="eq">x</span> את המספר הגדול וב-⁠<span class="eq">y</span> את הקטן. המשוואות: <span class="eq">x + y = 30</span> ו-⁠<span class="eq">x - y = 6</span>⁠.</li><li>מחברים: <span class="eq">2x = 36</span>⁠, ולכן <span class="eq">x = 18</span>⁠. מציבים: <span class="eq">y = 30 - 18 = 12</span>⁠.</li><li>בדיקה: <span class="eq">18 + 12 = 30</span> ו-⁠<span class="eq">18 - 12 = 6</span>⁠.</li></ol><p class="exa"><b>תשובה:</b> <span class="eq">18</span> ו-⁠<span class="eq">12</span></p></div>
 <h2 class="q">טיפים וטעויות נפוצות</h2>
-<ul class="gl"><li>בדקו את הפתרון בשתי המשוואות המקוריות.</li><li>בשיטת החיבור מכפילים את <b>כל</b> המשוואה, גם את האגף הימני.</li><li>אם יש סוגריים או מכנים, קודם מפשטים כל משוואה לצורה <span class="eq">ax + by = c</span>.</li><li>בבעיה מילולית ענו על מה ששואלים, וכתבו יחידות. לא תמיד שואלים על <span class="eq">x</span>.</li></ul>
+<ul class="gl"><li>בדקו את הפתרון בשתי המשוואות המקוריות.</li><li>בשיטת החיבור מכפילים את <b>כל</b> המשוואה, גם את האגף הימני.</li><li>אם יש סוגריים או מכנים, קודם מפשטים כל משוואה לצורה <span class="eq">ax + by = c</span>⁠.</li><li>בבעיה מילולית ענו על מה ששואלים, וכתבו יחידות. לא תמיד שואלים על <span class="eq">x</span>⁠.</li></ul>
   <h2 class="q">נושא ג׳ — משוואות: טיפים כלליים</h2>
   <ul class="gl"><li>משוואה היא כמו מאזניים: כל מה שעושים לאגף אחד, עושים גם לשני.</li><li>כתבו כל שלב בשורה חדשה, וסימני ה״שווה״ אחד מתחת לשני.</li><li>תמיד בדקו בהצבה במשוואה <b>המקורית</b>. בדיקה לוקחת חצי דקה ותופסת כמעט כל טעות.</li></ul>
   <div class="credit">© כל הזכויות שמורות ליאיר כהנא</div>

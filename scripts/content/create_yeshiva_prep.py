@@ -89,7 +89,7 @@ def collect():
         lv = fn()
         for k, n in COUNTS.items():
             assert len(lv[k]) == n, (key, k, len(lv[k]))
-        qs = [q for k in (1, 2, 3) for q, _ in lv[k]]
+        qs = [it[0] for k in (1, 2, 3) for it in lv[k]]
         assert len(set(qs)) == len(qs), f"duplicate question in {key}"
         out.append((i, key, title, short, instr, part, lv))
     return out
@@ -192,18 +192,28 @@ def chapter_content(key, title, instr, part):
             + f"\n\n**בתרגילים הבאים:** {instr}")
 
 
+def full_solution(steps, a):
+    """Markdown for the app's "show solution": numbered steps, then the answer."""
+    if not steps:
+        return commas(a)
+    lines = "\n".join(f"{i}. {t}" for i, t in enumerate(steps, 1))
+    return f"**פתרון:**\n\n{lines}\n\n**תשובה:** {commas(a)}"
+
+
 def build_chapter(num, key, title, short, instr, part, lv):
     exercises, n = [], 0
     for k in (1, 2, 3):
         label, diff, _ = LEVELS[k]
-        for q, a in lv[k]:
+        for it in lv[k]:
+            q, a = it[0], it[1]
+            steps = it[2] if len(it) > 2 else None
             n += 1
             ex = {
                 "number": n,
                 "title": label,
                 "description": q if q.startswith("$") and "\\begin" not in q else q,
                 "difficulty": diff,
-                "solution": commas(a),
+                "solution": full_solution(steps, a),
             }
             pa = plain_answer(a)
             if pa:
@@ -273,7 +283,8 @@ def worksheet_html(num, key, title, instr, part, lv):
         label, diff, tag = LEVELS[k]
         start = n + 1
         items = []
-        for q, _ in lv[k]:
+        for it in lv[k]:
+            q = it[0]
             n += 1
             items.append(f"<li>{gca.macros(sheet_math(q))}</li>")
         blocks.append(
@@ -282,13 +293,22 @@ def worksheet_html(num, key, title, instr, part, lv):
             f'<ol class="items {cls}" start="{start}">\n' + "\n".join(items) + "\n</ol>")
     n = 0
     keys = []
+    detailed = len(lv[1][0]) > 2
     for k in (1, 2, 3):
         label, _, _ = LEVELS[k]
         cells = []
-        for _, a in lv[k]:
+        for it in lv[k]:
+            a = it[1]
             n += 1
-            cells.append(f'<div class="ans"><strong>{n}.</strong> {gca.macros(sheet_math(commas(a)))}</div>')
-        keys.append(f'<h2 class="q">{label}</h2>\n<div class="anscols">' + "\n".join(cells) + "</div>")
+            if detailed:
+                steps = "".join(f"<li>{_inline_html(t)}</li>" for t in it[2])
+                cells.append(f'<div class="sol"><div class="solh">שאלה {n}</div>'
+                             f'<ol class="gl">{steps}</ol>'
+                             f'<p class="solans"><b>תשובה:</b> {_inline_html(commas(a))}</p></div>')
+            else:
+                cells.append(f'<div class="ans"><strong>{n}.</strong> {gca.macros(sheet_math(commas(a)))}</div>')
+        box = "solcols" if detailed else "anscols"
+        keys.append(f'<h2 class="q">{label}</h2>\n<div class="{box}">' + "\n".join(cells) + "</div>")
     guide, (ptitle, ptips) = guide_blocks(key, part)
     extra_css = """
   h2.q, p.instr { break-after: avoid; page-break-after: avoid; }
@@ -308,6 +328,12 @@ def worksheet_html(num, key, title, instr, part, lv):
   .anscols { column-count: ANSCOLS; column-gap: 12px; }
   .anscols .ans { break-inside: avoid; margin-bottom: 5px !important; padding: 4px 9px !important; font-size: 13.5px !important; }
   .key h2.q { margin: 14px 0 8px; }
+  .solcols { column-count: 1; }
+  .sol { break-inside: avoid; border: 1px solid #eadfb8; border-radius: 6px; background: #fff; padding: 7px 14px; margin-bottom: 9px; font-size: 13.5px; line-height: 1.55; }
+  .sol .solh { font-weight: 700; color: #8a5b06; margin-bottom: 2px; }
+  .sol ol.gl { margin: 2px 0 4px; padding-inline-start: 20px; }
+  .sol ol.gl > li { margin-bottom: 3px; }
+  .sol .solans { margin: 2px 0 0; color: #14465a; }
   ol.items { padding-inline-start: 36px; }
   ol.items > li { break-inside: avoid; }
   ol.cols2 { column-count: 2; column-gap: 36px; }
@@ -320,7 +346,7 @@ def worksheet_html(num, key, title, instr, part, lv):
 <div class="sheet">
   <header>
     <h1>הכנה לישיבות · פרק {num}: {title}</h1>
-    <div class="sub">{part} · דף עבודה · 40 שאלות בשלוש רמות · בסוף: תשובות, והסבר עם טיפים</div>
+    <div class="sub">{part} · דף עבודה · 40 שאלות בשלוש רמות · בסוף: {"פתרונות מלאים" if detailed else "תשובות"}, והסבר עם טיפים</div>
     <div class="namebar"><span>שם: </span><span>כיתה: </span><span>תאריך: </span></div>
   </header>
   {chr(10).join(blocks)}
@@ -329,8 +355,8 @@ def worksheet_html(num, key, title, instr, part, lv):
 
 <div class="sheet key pagebreak">
   <header>
-    <h1>תשובות — {title}</h1>
-    <div class="sub">לבדיקה עצמית, אחרי שפתרתם</div>
+    <h1>{"פתרונות מלאים" if detailed else "תשובות"} — {title}</h1>
+    <div class="sub">{"פתרון מפורט לכל שאלה, " if detailed else ""}לבדיקה עצמית, אחרי שפתרתם</div>
   </header>
   {chr(10).join(keys)}
   <div class="credit">{CR}</div>
@@ -351,6 +377,11 @@ def worksheet_html(num, key, title, instr, part, lv):
     html = gca.page(f"דף עבודה — {title}", style, body)
     # keep a number and its shekel sign on one line
     html = re.sub(r"(?<=\d) ₪", "\u00a0₪", html)
+    # never leave a Hebrew prefix ("ו-", "ב-"), a shekel sign or closing punctuation
+    # stranded at a line edge away from the math island it belongs to
+    html = html.replace('-<span class="eq">', '-\u2060<span class="eq">')
+    html = re.sub(r"</span> ₪", "</span>\u00a0₪", html)
+    html = re.sub(r"</span>([.,:;])", "</span>\u2060\\1", html)
     # nested absolute-value bars: "||x|" is unreadable, "| |x|" is not
     return html.replace("||", "| |")
 
